@@ -9,27 +9,29 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.entity.physics_entity
 {
+    public enum CollisionGroup
+    {
+        LAYER = 0,
+        AGENT = 1
+    }
+
     public class PhysicsEntity : Entity
     {
         protected Body body;
 
-        public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, float density) : base (pos, size, center)
+        public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
         {
-            Initialize(w, pos, size, center, density);
+            Initialize(w, pos, size, center, solid);
         }
 
-        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, float density)
+        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            setupBody(w, pos, size, center, density);
+            setupBody(w, pos, size, center, solid);
         }
 
-        protected virtual void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, float density)
+        protected virtual void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             body = BodyFactory.CreateBody(w, pos);
-            FixtureFactory.AttachRectangle(size.X, size.Y, density, center, body);
-            body.FixedRotation = true;
-            body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Dynamic;
         }
 
         public override void Update(GameTime gameTime)

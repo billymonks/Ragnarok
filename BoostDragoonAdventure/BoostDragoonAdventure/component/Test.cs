@@ -13,13 +13,14 @@ using wickedcrush.map;
 using wickedcrush.controls;
 using wickedcrush.entity.physics_entity.agent.player;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 
 namespace wickedcrush.component
 {
     public class Test : Microsoft.Xna.Framework.GameComponent
     {
-        List<Entity> playerList;
+        List<Entity> entityList;
         Map testMap;
         SpriteFont testFont;
 
@@ -48,14 +49,9 @@ namespace wickedcrush.component
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
 
-            testMap = new Map(640, 480, "Test Map");
-            bool[,] testData = new bool[3,3];
-            //testData[0, 0] = true;
-            testData[1 , 1] = true;
-            testData[2, 2] = true;
-            testMap.addLayer(testData, LayerType.WALL);
+            testMap = new Map("I66", w);
 
-            playerList = new List<Entity>();
+            entityList = new List<Entity>();
         }
 
         private void initializeWhiteTexture(GraphicsDevice gd)
@@ -73,7 +69,7 @@ namespace wickedcrush.component
 
         private void addPlayer(Controls controls)
         {
-            playerList.Add(new PlayerAgent(w, new Vector2(100, 100), new Vector2(60, 60), new Vector2(30, 30), 1f, controls));
+            entityList.Add(new PlayerAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, controls));
         }
 
         private void LoadContent(Game game)
@@ -115,8 +111,8 @@ namespace wickedcrush.component
 
         private void UpdatePlayers(GameTime gameTime)
         {
-            List<Entity> newTempList = new List<Entity>(playerList);
-            foreach (PlayerAgent p in playerList)
+            List<Entity> newTempList = new List<Entity>(entityList);
+            foreach (PlayerAgent p in entityList)
             {
 
                 newTempList.Remove(p);
@@ -126,7 +122,7 @@ namespace wickedcrush.component
 
         private void CheckCollisions(GameTime gameTime)
         {
-            foreach (PlayerAgent p in playerList)
+            foreach (PlayerAgent p in entityList)
             {
                 p.Update(gameTime);
             }
@@ -134,7 +130,7 @@ namespace wickedcrush.component
 
         private void DebugDraw(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (PlayerAgent p in playerList)
+            foreach (PlayerAgent p in entityList)
             {
                 p.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
             }

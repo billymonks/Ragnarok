@@ -29,5 +29,10 @@ namespace wickedcrush.helper
                 return (float)Math.Floor(f);
             }
         }
+
+        public static int roundUpDivision(int a, int b) // a/b
+        {
+            return (a / b + (a % b > 0 ? 1 : 0));
+        }
     }
 }

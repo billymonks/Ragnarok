@@ -136,6 +136,10 @@ namespace wickedcrush.controls
         {
             if (Math.Abs(padState.ThumbSticks.Left.X) < 0.2f)
                 return 0f;
+            else if (padState.ThumbSticks.Left.X < -0.75f)
+                return -1f;
+            else if (padState.ThumbSticks.Left.X > 0.75f)
+                return 1f;
             else
                 return padState.ThumbSticks.Left.X;
         }
@@ -144,6 +148,10 @@ namespace wickedcrush.controls
         {
             if (Math.Abs(padState.ThumbSticks.Left.Y) < 0.2f)
                 return 0f;
+            else if (padState.ThumbSticks.Left.Y < -0.75f)
+                return 1f;
+            else if (padState.ThumbSticks.Left.Y > 0.75f)
+                return -1f;
             else
                 return -padState.ThumbSticks.Left.Y;
         }
@@ -152,6 +160,10 @@ namespace wickedcrush.controls
         {
             if (Math.Abs(padState.ThumbSticks.Right.X) < 0.2f)
                 return 0f;
+            else if (padState.ThumbSticks.Right.X < -0.75f)
+                return -1f;
+            else if (padState.ThumbSticks.Right.X > 0.75f)
+                return 1f;
             else
                 return padState.ThumbSticks.Right.X;
         }
@@ -160,6 +172,10 @@ namespace wickedcrush.controls
         {
             if (Math.Abs(padState.ThumbSticks.Right.Y) < 0.2f)
                 return 0f;
+            else if (padState.ThumbSticks.Right.Y < -0.75f)
+                return -1f;
+            else if (padState.ThumbSticks.Right.Y > 0.75f)
+                return 1f;
             else
                 return padState.ThumbSticks.Right.Y;
         }

@@ -157,7 +157,7 @@ namespace wickedcrush.controls
 
             if (keyState.IsKeyDown(walkKey))
             {
-                value *= 0.5f;
+                value *= 0.3f;
             }
 
             return value;
@@ -179,7 +179,7 @@ namespace wickedcrush.controls
 
             if (keyState.IsKeyDown(walkKey))
             {
-                value *= 0.5f;
+                value *= 0.3f;
             }
 
             return value;

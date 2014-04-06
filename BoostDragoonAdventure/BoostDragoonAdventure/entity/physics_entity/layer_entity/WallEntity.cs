@@ -11,24 +11,23 @@ using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
-    public class PlayerAgent : PhysicsEntity
+    public class WallEntity : PhysicsEntity
     {
         #region Variables
-        protected Controls controls;
+
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls) : base (w, pos, size, center, solid)
+        public WallEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+            : base(w, pos, size, center, solid)
         {
-            Initialize(w, pos, size, center, solid, controls);
+            Initialize(w, pos, size, center, solid);
         }
 
-        private void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
+        private void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            
-            this.controls = controls;
 
-            this.name = "Player";
+            this.name = "Wall";
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -37,8 +36,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
             body.FixedRotation = true;
             body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Dynamic;
-            body.CollisionGroup = (short)CollisionGroup.AGENT;
+            body.BodyType = BodyType.Static;
+            body.CollisionGroup = (short)CollisionGroup.LAYER;
 
             if (!solid)
                 body.IsSensor = true;
@@ -50,14 +49,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            UpdateMovement();
-        }
-
-        protected void UpdateMovement()
-        {
-            body.LinearVelocity = new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f);
-            
-            
         }
 
         //public override void DebugDraw(GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)

@@ -5,6 +5,8 @@ using System.Text;
 using wickedcrush.map.layer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using FarseerPhysics.Dynamics;
+using System.Xml.Linq;
 
 namespace wickedcrush.map
 {
@@ -24,53 +26,26 @@ namespace wickedcrush.map
             layerList = new Dictionary<LayerType, Layer>();
         }
 
-        public void addLayer(Boolean[,] data, LayerType layerType)
+        public Map(String MAP_NAME, World w)
         {
-            layerList.Add(layerType, new Layer(data));
+            layerList = new Dictionary<LayerType, Layer>();
+
+            loadMap(MAP_NAME, w);
+        }
+
+        public void addLayer(World w, Boolean[,] data, LayerType layerType)
+        {
+            if(layerType == LayerType.WALL)
+                layerList.Add(layerType, new Layer(data, w, width, height, true));
+            else
+                layerList.Add(layerType, new Layer(data, w, width, height, false));
+            
+            //generateWalls(w);
         }
 
         public Layer getLayer(LayerType layerType)
         {
             return layerList[layerType];
-        }
-
-        public Boolean predictedLayerCollision(Rectangle r, LayerType layerType, Vector2 v)
-        {
-            Rectangle testRect = r;
-
-            testRect.X += (int)roundTowardZero(v.X);
-            testRect.Y += (int)roundTowardZero(v.Y);
-
-            return layerCollision(testRect, layerType);
-        }
-
-        protected float roundTowardZero(float f)
-        {
-            if (f < 0)
-            {
-                return (float)Math.Ceiling(f);
-            }
-            else
-            {
-                return (float)Math.Floor(f);
-            }
-        }
-
-        public Boolean layerCollision(Rectangle r, LayerType layerType)
-        {
-            Layer layer = getLayer(layerType);
-            return layer.collision(
-                new Rectangle( //grid coordinates, rectangle represents the coordinates that r is in, width is not really width, they are the right/bottom bounds
-                    r.X / (width / layer.getWidth()), 
-                    (r.Y / (height /layer.getHeight())), 
-                    (r.X + r.Width) / (width / layer.getWidth()),
-                    (r.Y + r.Height)/( height / layer.getHeight()))
-                );
-        }
-
-        private int roundUpDivision(int a, int b) // a/b
-        {
-            return (a / b + (a % b > 0 ? 1 : 0));
         }
 
         public void drawMap(GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
@@ -80,25 +55,58 @@ namespace wickedcrush.map
             data[0] = Color.White;
             whiteTexture.SetData(data);
 
-            Color color = new Color(0, 0, 0);
+            //Color color = new Color(0, 0, 0);
 
-            foreach(var pair in layerList)
+            foreach(Body b in getLayer(LayerType.WALL).bodyList)
             {
-                color.R += 50;
-                color.G += 50;
-                color.B += 50;
-
-                for (int i = 0; i < pair.Value.getWidth(); i++)
-                {
-                    for (int j = 0; j < pair.Value.getHeight(); j++)
-                    {
-                        if (pair.Value.getCoordinate(i, j))
-                        {
-                            spriteBatch.Draw(whiteTexture, pair.Value.getRectangle(width, height, i, j), color);
-                        }
-                    }
-                }
+                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Black, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WALL).data.GetLength(0), height / getLayer(LayerType.WALL).data.GetLength(1)), SpriteEffects.None, 0f);
             }
+
+            foreach (Body b in getLayer(LayerType.DEATH_SOUP).bodyList)
+            {
+                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).data.GetLength(0), height / getLayer(LayerType.DEATH_SOUP).data.GetLength(1)), SpriteEffects.None, 0f);
+            }
+        }
+
+        private void loadMap(String MAP_NAME, World w)
+        {
+            XDocument doc = XDocument.Load("maps/" + MAP_NAME + ".xml");
+
+            XElement rootElement = new XElement(doc.Element("level"));
+            XElement walls = rootElement.Element("WALLS");
+            XElement deathSoup = rootElement.Element("DEATHSOUP");
+
+            this.name = MAP_NAME;
+            this.width = int.Parse(rootElement.Attribute("width").Value);
+            this.height = int.Parse(rootElement.Attribute("height").Value);
+
+
+            bool[,] data = getLayerData(walls.Value);
+            addLayer(w, data, LayerType.WALL);
+
+            data = getLayerData(deathSoup.Value);
+            addLayer(w, data, LayerType.DEATH_SOUP);
+            
+        }
+
+        private bool[,] getLayerData(String s)
+        {
+            char[] separator = new char[1];
+            separator[0] = '\n';
+            String[] splitString = s.Split(separator);
+
+            bool[,] data = new bool[splitString[0].Length, splitString.GetLength(0)];
+
+            for (int i = 0; i < data.GetLength(0); i++)
+                for (int j = 0; j < data.GetLength(1); j++)
+                    data[i, j] = CharToBool(splitString[j].ToArray()[i]);
+
+            return data;
+        }
+
+        private bool CharToBool(Char c)
+        {
+            return (c == '1');
         }
     }
 }
