@@ -107,12 +107,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="component\World.cs" />
     <Compile Include="component\Test.cs" />
     <Compile Include="controls\Controls.cs" />
     <Compile Include="controls\KeyboardControls.cs" />
     <Compile Include="controls\GamepadControls.cs" />
-    <Compile Include="entity\player\Player.cs" />
+    <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
+    <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />
+    <Compile Include="helper\Helper.cs" />
     <Compile Include="manager\controls\ControlsManager.cs" />
     <Compile Include="map\layer\Layer.cs" />
     <Compile Include="map\Map.cs" />
@@ -130,6 +131,10 @@
       <Name>BoostDragoonAdventureContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{197AF7BA-EB2B-4D46-9163-D46E64072721}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj">
+      <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
+      <Name>Farseer Physics XNA</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +164,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

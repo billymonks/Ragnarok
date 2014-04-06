@@ -11,7 +11,8 @@ using Microsoft.Xna.Framework.Media;
 using wickedcrush.entity;
 using wickedcrush.map;
 using wickedcrush.controls;
-using wickedcrush.entity.player;
+using wickedcrush.entity.physics_entity.agent.player;
+using FarseerPhysics.Dynamics;
 
 
 namespace wickedcrush.component
@@ -24,6 +25,10 @@ namespace wickedcrush.component
 
         Game game;
 
+        World w;
+
+        private Texture2D whiteTexture;
+
         public Test(Game game)
             : base(game)
         {
@@ -33,12 +38,15 @@ namespace wickedcrush.component
             
             Initialize();
 
-            
+            initializeWhiteTexture(game.GraphicsDevice);
         }
 
         public override void Initialize()
         {
             base.Initialize();
+
+            w = new World(Vector2.Zero);
+            w.Gravity = Vector2.Zero;
 
             testMap = new Map(640, 480, "Test Map");
             bool[,] testData = new bool[3,3];
@@ -50,6 +58,14 @@ namespace wickedcrush.component
             playerList = new List<Entity>();
         }
 
+        private void initializeWhiteTexture(GraphicsDevice gd)
+        {
+            whiteTexture = new Texture2D(gd, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            whiteTexture.SetData(data);
+        }
+
         private void checkAndAdd()
         {
             game.controlsManager.checkAndAddGamepads();
@@ -57,7 +73,7 @@ namespace wickedcrush.component
 
         private void addPlayer(Controls controls)
         {
-            playerList.Add(new Player(new Vector2(100, 100), new Vector2(60, 60), new Vector2(30, 30), true, controls));
+            playerList.Add(new PlayerAgent(w, new Vector2(100, 100), new Vector2(60, 60), new Vector2(30, 30), 1f, controls));
         }
 
         private void LoadContent(Game game)
@@ -67,6 +83,10 @@ namespace wickedcrush.component
 
         public override void Update(GameTime gameTime)
         {
+            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+
+            game.diag = "";
+
             game.controlsManager.Update(gameTime);
             UpdatePlayers(gameTime);
 
@@ -86,48 +106,51 @@ namespace wickedcrush.component
 
         public void Draw(GraphicsDevice gd, SpriteBatch sb)
         {
-            testMap.drawMap(gd, sb, testFont);
-            DrawPlayers(gd, sb);
             
-
+            testMap.drawMap(gd, sb, testFont);
+            DebugDraw(gd, sb);
             DrawDiag(gd, sb);
+            
         }
 
         private void UpdatePlayers(GameTime gameTime)
         {
             List<Entity> newTempList = new List<Entity>(playerList);
-            foreach (Player p in playerList)
+            foreach (PlayerAgent p in playerList)
             {
 
                 newTempList.Remove(p);
-                p.CheckCollisions(gameTime, testMap, newTempList);
                 p.Update(gameTime);
             }
         }
 
         private void CheckCollisions(GameTime gameTime)
         {
-            foreach (Player p in playerList)
+            foreach (PlayerAgent p in playerList)
             {
-                if (!testMap.predictedLayerCollision(p.body, LayerType.WALL, p.velocity))
-                    p.Update(gameTime);
+                p.Update(gameTime);
             }
         }
 
-        private void DrawPlayers(GraphicsDevice gd, SpriteBatch sb)
+        private void DebugDraw(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (Player p in playerList)
+            foreach (PlayerAgent p in playerList)
             {
-                p.DrawBody(gd, sb, testFont, Color.Green);
+                p.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
             }
         }
 
         private void DrawDiag(GraphicsDevice gd, SpriteBatch sb)
         {
-            sb.DrawString(testFont, game.diag, new Vector2(3, 0), Color.Black);
-            sb.DrawString(testFont, game.diag, new Vector2(4, 2), Color.Black);
-            sb.DrawString(testFont, game.diag, new Vector2(5, 1), Color.White);
-            game.diag = "";
+            sb.DrawString(testFont, game.diag, new Vector2(2, 1), Color.Black);
+            sb.DrawString(testFont, game.diag, new Vector2(2, 3), Color.Black);
+            sb.DrawString(testFont, game.diag, new Vector2(3, 1), Color.Black);
+            sb.DrawString(testFont, game.diag, new Vector2(3, 3), Color.Black);
+            sb.DrawString(testFont, game.diag, new Vector2(4, 1), Color.Black);
+            sb.DrawString(testFont, game.diag, new Vector2(4, 3), Color.Black);
+            
+            
+            sb.DrawString(testFont, game.diag, new Vector2(3, 2), Color.White);
         }
     }
 }

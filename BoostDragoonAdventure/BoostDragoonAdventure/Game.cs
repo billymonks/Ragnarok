@@ -90,7 +90,7 @@ namespace wickedcrush
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.LightCyan);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, RasterizerState.CullNone, null, spriteScale);
             test.Draw(GraphicsDevice, spriteBatch);
