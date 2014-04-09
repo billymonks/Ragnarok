@@ -11,7 +11,7 @@ using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
-    public class PlayerAgent : PhysicsEntity
+    public class PlayerAgent : Agent
     {
         #region Variables
         protected Controls controls;
@@ -55,8 +55,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateMovement()
         {
-            body.LinearVelocity = new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f);
-            
+            if (!(controls.LStickXAxis() == 0f) || !(controls.LStickYAxis() == 0f))
+                body.LinearVelocity = new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f);
+            else
+                body.LinearVelocity /= 2f;
+            //body.ApplyLinearImpulse(new Vector2(controls.LStickXAxis() * 950f, controls.LStickYAxis() * 950f));
+            //body.ApplyForce(new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f));
             
         }
 
