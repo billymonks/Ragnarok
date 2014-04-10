@@ -97,7 +97,8 @@ namespace wickedcrush.map.path
                 new Point(x, y),
                 new Vector2(
                     (map.width / pathNodeGrid.GetLength(0)) * x,
-                    (map.height / pathNodeGrid.GetLength(1)) * y));
+                    (map.height / pathNodeGrid.GetLength(1)) * y),
+                    map.width / pathNodeGrid.GetLength(0));
         }
 
         

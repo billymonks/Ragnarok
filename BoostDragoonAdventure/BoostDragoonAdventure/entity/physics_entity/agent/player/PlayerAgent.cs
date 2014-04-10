@@ -63,12 +63,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
             //body.ApplyForce(new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f));
             
         }
-
-        //public override void DebugDraw(GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
-        //{
-            //base.DebugDraw(gd, spriteBatch, f, c);
-
-        //}
         #endregion
 
         

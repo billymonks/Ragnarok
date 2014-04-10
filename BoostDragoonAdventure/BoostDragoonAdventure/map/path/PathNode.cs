@@ -12,12 +12,18 @@ namespace wickedcrush.map.path
         public Point gridPos;
         public PathNode prev;
 
-        public int f, g, h;
+        public int f, g, h, gridSize;
 
-        public PathNode(Point gridPos, Vector2 pos)
+        public Rectangle box;
+
+        public PathNode(Point gridPos, Vector2 pos, int gridSize)
         {
             this.gridPos = gridPos;
             this.pos = pos;
+
+            this.gridSize = gridSize;
+
+            box = new Rectangle((int)pos.X, (int)pos.Y, gridSize, gridSize);
 
             prev = null;
         }
