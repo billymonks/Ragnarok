@@ -16,7 +16,6 @@ namespace wickedcrush.map
 
         public int width, height;
         public Dictionary<LayerType, Layer> layerList;
-        public PathNode[,] pathNodeGrid;
         public String name;
 
         public Map(String MAP_NAME, World w)
@@ -59,10 +58,6 @@ namespace wickedcrush.map
 
             data = getLayerData(deathSoup.Value);
             addLayer(w, data, LayerType.DEATH_SOUP);
-
-
-
-            loadPathNodeGrid();
         }
 
         private bool[,] getLayerData(String s)
@@ -85,33 +80,6 @@ namespace wickedcrush.map
             return (c == '1');
         }
 
-        private void loadPathNodeGrid()
-        {
-            Layer l = getLayer(LayerType.WALL);
-            Layer ds = getLayer(LayerType.DEATH_SOUP);
-
-            pathNodeGrid = new PathNode[l.getWidth() * 2, l.getHeight() * 2];
-
-            for(int i = 0; i < l.getWidth(); i++) {
-                for(int j = 0; j < l.getHeight(); j++) {
-                    if (!l.getCoordinate(i, j) && !ds.getCoordinate(i, j)) {
-                        pathNodeGrid[i * 2, j * 2] = getNodeFromCoordinate(i * 2, j * 2);
-                        pathNodeGrid[i * 2 + 1, j * 2] = getNodeFromCoordinate(i * 2 + 1, j * 2);
-                        pathNodeGrid[i * 2, j * 2 + 1] = getNodeFromCoordinate(i * 2, j * 2 + 1);
-                        pathNodeGrid[i * 2 + 1, j * 2 + 1] = getNodeFromCoordinate(i * 2 + 1, j * 2 + 1);
-                    }
-                }
-            }
-        }
-
-        private PathNode getNodeFromCoordinate(int x, int y)
-        {
-            return new PathNode(
-                new Vector2(
-                    (width / pathNodeGrid.GetLength(0)) * x,
-                    (height / pathNodeGrid.GetLength(1)) * y));
-        }
-
         public void drawMap(GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
         {
             Texture2D whiteTexture = new Texture2D(gd, 1, 1);
@@ -128,25 +96,6 @@ namespace wickedcrush.map
             {
                 spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).getWidth(), height / getLayer(LayerType.DEATH_SOUP).getHeight()), SpriteEffects.None, 0f);
             }
-
-            /*for (int i = 0; i < pathNodeGrid.GetLength(0); i++)
-            {
-                for (int j = 0; j < pathNodeGrid.GetLength(1); j++)
-                {
-                    if (pathNodeGrid[i, j] != null)
-                    {
-                        spriteBatch.Draw(whiteTexture,
-                            new Vector2(i * (width / pathNodeGrid.GetLength(0)), j * (height / pathNodeGrid.GetLength(1))),
-                            null,
-                            Color.Green,
-                            0f,
-                            Vector2.Zero,
-                            new Vector2(width / pathNodeGrid.GetLength(0), height / pathNodeGrid.GetLength(1)),
-                            SpriteEffects.None,
-                            0f);
-                    }
-                }
-            }*/
         }
     }
 }
