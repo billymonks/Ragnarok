@@ -14,6 +14,7 @@ using wickedcrush.controls;
 using wickedcrush.entity.physics_entity.agent.player;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using wickedcrush.entity.physics_entity.agent;
 
 
 namespace wickedcrush.component
@@ -70,6 +71,10 @@ namespace wickedcrush.component
         private void addPlayer(Controls controls)
         {
             entityList.Add(new PlayerAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, controls));
+            Agent f = new Agent(w, new Vector2(610, 150), new Vector2(24, 24), new Vector2(12, 12), true);
+            f.activateNavigator(testMap);
+            f.setTarget(entityList[0]);
+            entityList.Add(f);
         }
 
         private void LoadContent(Game game)
@@ -112,7 +117,7 @@ namespace wickedcrush.component
         private void UpdatePlayers(GameTime gameTime)
         {
             List<Entity> newTempList = new List<Entity>(entityList);
-            foreach (PlayerAgent p in entityList)
+            foreach (Agent p in entityList)
             {
 
                 newTempList.Remove(p);
@@ -130,7 +135,7 @@ namespace wickedcrush.component
 
         private void DebugDraw(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (PlayerAgent p in entityList)
+            foreach (Agent p in entityList)
             {
                 p.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
             }

@@ -15,6 +15,7 @@ namespace wickedcrush.map.path
         public Navigator(Map m)
         {
             map = m;
+            loadPathNodeGrid();
         }
 
         private void loadPathNodeGrid()
@@ -80,7 +81,7 @@ namespace wickedcrush.map.path
 
         private void addNodeToOpenList(int x, int y, Point start, Point goal, PathNode curr, List<PathNode> openList, List<PathNode> closedList)
         {
-            if (x < 0 || y < 0 || x > pathNodeGrid.GetLength(0) || y > pathNodeGrid.GetLength(1) || pathNodeGrid[x, y] == null)
+            if (x < 0 || y < 0 || x >= pathNodeGrid.GetLength(0) || y >= pathNodeGrid.GetLength(1) || pathNodeGrid[x, y] == null)
                 return;
 
             if (!openList.Contains(pathNodeGrid[x, y])

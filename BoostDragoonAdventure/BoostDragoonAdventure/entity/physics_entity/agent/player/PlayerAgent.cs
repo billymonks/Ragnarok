@@ -31,19 +31,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.name = "Player";
         }
 
-        protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
-        {
-            base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
-            body.FixedRotation = true;
-            body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Dynamic;
-            body.CollisionGroup = (short)CollisionGroup.AGENT;
-
-            if (!solid)
-                body.IsSensor = true;
-
-        }
+        
         #endregion
 
         #region Update
