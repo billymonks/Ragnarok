@@ -50,7 +50,7 @@ namespace wickedcrush.component
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
 
-            testMap = new Map("I66", w);
+            testMap = new Map("Temple Halls V4", w);
 
             entityList = new List<Entity>();
         }

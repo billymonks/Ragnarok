@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.map.layer;
+using wickedcrush.helper;
 
 namespace wickedcrush.map.path
 {
@@ -12,18 +13,21 @@ namespace wickedcrush.map.path
         private Map map;
         private PathNode[,] pathNodeGrid;
         
-        public Navigator(Map m)
+        public Navigator(Map m, int agentSize)
         {
             map = m;
-            loadPathNodeGrid();
+            loadPathNodeGrid(agentSize);
         }
 
-        private void loadPathNodeGrid()
+        private void loadPathNodeGrid(int agentSize)
         {
             Layer l = map.getLayer(LayerType.WALL);
             Layer ds = map.getLayer(LayerType.DEATH_SOUP);
+            int size;
 
             pathNodeGrid = new PathNode[l.getWidth() * 2, l.getHeight() * 2];
+
+            size = Helper.roundUpDivision(agentSize, (map.width / pathNodeGrid.GetLength(0)));
 
             for (int i = 0; i < l.getWidth(); i++)
             {
@@ -38,6 +42,36 @@ namespace wickedcrush.map.path
                     }
                 }
             }
+
+            pruneNodes(size);
+        }
+
+        private void pruneNodes(int size)
+        {
+            for (int i = 0; i < pathNodeGrid.GetLength(0); i++)
+            {
+                for (int j = 0; j < pathNodeGrid.GetLength(1); j++)
+                {
+                    if (!nodeFits(i, j, size))
+                        pathNodeGrid[i, j] = null;
+                }
+            }
+        }
+
+        private bool nodeFits(int x, int y, int size)
+        {
+            //bool fits = true;
+            for (int i = x; i < x + size; i++)
+            {
+                for (int j = y; j < y + size; j++)
+                {
+                    if (i < 0 || j < 0 || i >= pathNodeGrid.GetLength(0) || j >= pathNodeGrid.GetLength(1) || pathNodeGrid[i, j] == null)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public Stack<PathNode> getPath(Point start, Point goal) // Crappy A*
@@ -71,6 +105,7 @@ namespace wickedcrush.map.path
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
 
                 //sort openList
+                openList.Sort(); //just use quicksort
 
                 openList.Remove(curr);
                 closedList.Add(curr);

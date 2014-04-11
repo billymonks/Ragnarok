@@ -42,7 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public void activateNavigator(Map m)
         {
-            navigator = new Navigator(m);
+            navigator = new Navigator(m, (int)size.X);
         }
 
         #region Update
@@ -78,7 +78,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public void setTarget(Entity target) //public for testing
         {
             Point start = new Point((int)(pos.X / 10), (int)pos.Y / 10); //convert pos to gridPos for start
-            Point goal = new Point((int)(target.pos.X / 10), (int)target.pos.Y / 10); //convert target pos to gridPos for goal
+            Point goal = new Point((int)(target.pos.X / 10), (int)target.pos.Y / 10); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
             path = navigator.getPath(start, goal);
         }
     }
