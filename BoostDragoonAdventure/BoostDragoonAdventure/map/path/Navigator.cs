@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.map.layer;
 using wickedcrush.helper;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.map.path
 {
@@ -52,7 +53,7 @@ namespace wickedcrush.map.path
             {
                 for (int j = 0; j < pathNodeGrid.GetLength(1); j++)
                 {
-                    if (!nodeFits(i, j, size))
+                    if (!nodeFits(i, j, size+1))
                         pathNodeGrid[i, j] = null;
                 }
             }
@@ -104,11 +105,13 @@ namespace wickedcrush.map.path
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
 
-                //sort openList
-                openList.Sort(); //just use quicksort
 
                 openList.Remove(curr);
                 closedList.Add(curr);
+                
+                //sort openList
+                openList.Sort(); //just use quicksort
+
             }
 
             return null;
@@ -132,11 +135,19 @@ namespace wickedcrush.map.path
             return new PathNode(
                 new Point(x, y),
                 new Vector2(
-                    (map.width / pathNodeGrid.GetLength(0)) * x,
-                    (map.height / pathNodeGrid.GetLength(1)) * y),
+                    (map.width / pathNodeGrid.GetLength(0)) * x + 5,
+                    (map.height / pathNodeGrid.GetLength(1)) * y + 5),
                     map.width / pathNodeGrid.GetLength(0));
         }
 
-        
+        public virtual void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        {
+            foreach (PathNode n in pathNodeGrid)
+                if(n!=null)
+            {
+                spriteBatch.Draw(tex, new Rectangle((int)n.box.X, (int)n.box.Y, n.box.Width, n.box.Height), Color.GreenYellow);
+                //spriteBatch.DrawString(f, name, pos, Color.Black);
+            }
+        }
     }
 }

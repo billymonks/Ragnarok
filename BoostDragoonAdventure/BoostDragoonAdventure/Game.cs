@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using wickedcrush.entity;
 using wickedcrush.component;
 using wickedcrush.manager.controls;
+using wickedcrush.manager.player;
 
 namespace wickedcrush
 {
@@ -24,6 +25,7 @@ namespace wickedcrush
     {
         public GraphicsDeviceManager graphics;
         public ControlsManager controlsManager;
+        public PlayerManager playerManager;
 
         SpriteBatch spriteBatch;
 
@@ -39,13 +41,14 @@ namespace wickedcrush
         {
             graphics = new GraphicsDeviceManager(this);
             controlsManager = new ControlsManager(this);
+            playerManager = new PlayerManager(this);
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
-            IsFixedTimeStep = true;
+            IsFixedTimeStep = false;
             graphics.ApplyChanges();
             
         }

@@ -8,6 +8,8 @@ using wickedcrush.controls;
 using wickedcrush.helper;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using wickedcrush.stats;
+using wickedcrush.entity.physics_entity.agent.attack;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -27,7 +29,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             
             this.controls = controls;
-
+            stats = new PersistedStats(5, 5, 5);
             this.name = "Player";
         }
 
@@ -43,12 +45,24 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateMovement()
         {
-            if (!(controls.LStickXAxis() == 0f) || !(controls.LStickYAxis() == 0f))
-                body.LinearVelocity = new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f);
-            else
-                body.LinearVelocity /= 2f;
-            //body.ApplyLinearImpulse(new Vector2(controls.LStickXAxis() * 950f, controls.LStickYAxis() * 950f));
-            //body.ApplyForce(new Vector2(controls.LStickXAxis() * 150f, controls.LStickYAxis() * 150f));
+            Vector2 v = body.LinearVelocity;
+
+            v.X /= 1.1f;
+            v.Y /= 1.1f;
+
+            if (!(controls.LStickXAxis() == 0f))
+                v.X += controls.LStickXAxis() * 150f;
+            if (!(controls.LStickYAxis() == 0f))
+                v.Y += controls.LStickYAxis() * 150f;
+
+            body.LinearVelocity = v;
+
+            if (controls.ActionPressed())
+            {
+                Attack a = new Attack(_w, new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X/2, size.Y/2));
+                a.parent = this;
+                subEntityList.Add(a);
+            }
             
         }
         #endregion

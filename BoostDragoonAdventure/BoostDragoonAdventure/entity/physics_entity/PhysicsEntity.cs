@@ -17,10 +17,12 @@ namespace wickedcrush.entity.physics_entity
 
     public class PhysicsEntity : Entity
     {
-        protected Body body;
+        protected World _w;
+        protected Body body, hotSpot;
 
         public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
         {
+            _w = w;
             Initialize(w, pos, size, center, solid);
         }
 
@@ -32,6 +34,8 @@ namespace wickedcrush.entity.physics_entity
         protected virtual void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             body = BodyFactory.CreateBody(w, pos);
+            hotSpot = BodyFactory.CreateBody(w, pos+center);
+            hotSpot.IsSensor = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -48,14 +52,23 @@ namespace wickedcrush.entity.physics_entity
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            //spriteBatch.Draw(tex, new Rectangle((int)_rectangle.Position.X, (int)_rectangle.Position.Y, (int)size.X, (int)size.Y), c);
             spriteBatch.Draw(tex, body.Position, null, c, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(f, name, pos, Color.Black);
+            
+            foreach (Entity e in subEntityList)
+                e.DebugDraw(tex, gd, spriteBatch, f, c);
+
         }
 
         protected void setLocalCenter()
         {
             body.LocalCenter = center;
+        }
+
+        public void removeBody(World w)
+        {
+            w.RemoveBody(body);
         }
     }
 }

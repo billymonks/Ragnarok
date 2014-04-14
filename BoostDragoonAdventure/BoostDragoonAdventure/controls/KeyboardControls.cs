@@ -46,8 +46,11 @@ namespace wickedcrush.controls
 
         public override bool ActionPressed()
         {
-            if ((keyState.IsKeyDown(actionKey) && prevKeyState.IsKeyUp(actionKey))
-                || (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released))
+            if (
+                (keyState.IsKeyDown(actionKey) && prevKeyState.IsKeyUp(actionKey))
+                || 
+                (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+               )
                 return true;
             else
                 return false;

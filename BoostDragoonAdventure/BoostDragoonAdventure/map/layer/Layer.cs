@@ -14,6 +14,7 @@ namespace wickedcrush.map.layer
     {
         public bool[,] data;
         public List<Body> bodyList;
+        public LayerType layerType;
 
         public Layer(int width, int height) // Empty Layer
         {
@@ -21,10 +22,11 @@ namespace wickedcrush.map.layer
             bodyList = new List<Body>();
         }
 
-        public Layer(bool[,] data, World w, int width, int height, bool solid)
+        public Layer(bool[,] data, World w, int width, int height, bool solid, LayerType layerType)
         {
             this.data = data;
             bodyList = new List<Body>();
+            this.layerType = layerType;
             generateBodies(w, width, height, solid);
         }
 
@@ -89,6 +91,8 @@ namespace wickedcrush.map.layer
 
             body.CollisionGroup = (short)CollisionGroup.LAYER;
             body.BodyType = BodyType.Static;
+
+            body.UserData = layerType;
 
             if (!solid)
                 body.IsSensor = true;

@@ -20,6 +20,8 @@ namespace wickedcrush.manager.controls
 
         public Boolean joinAllowed;
 
+        public DebugControls debugControls;
+
         public ControlsManager(Game game)
             : base(game)
         {
@@ -30,13 +32,13 @@ namespace wickedcrush.manager.controls
         {
             joinAllowed = true;
 
+            debugControls = new DebugControls();
+
             base.Initialize();
         }
 
         public override void Update(GameTime gameTime)
         {
-            performRemoval();
-
             updateControls();
 
             base.Update(gameTime);
@@ -47,8 +49,12 @@ namespace wickedcrush.manager.controls
             foreach (Controls c in controlsList)
             {
                 c.Update();
+
+                if (c.remove)
+                    removeList.Add(c);
             }
 
+            debugControls.Update();
             
             performRemoval();
         }

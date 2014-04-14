@@ -23,7 +23,7 @@ namespace wickedcrush.map.path
 
             this.gridSize = gridSize;
 
-            box = new Rectangle((int)pos.X, (int)pos.Y, gridSize/2, gridSize/2);
+            box = new Rectangle((int)pos.X, (int)pos.Y, gridSize, gridSize);
 
             prev = null;
         }

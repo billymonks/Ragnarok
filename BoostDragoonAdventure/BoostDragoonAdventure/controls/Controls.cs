@@ -7,6 +7,8 @@ namespace wickedcrush.controls
 {
     public abstract class Controls
     {
+        public bool remove = false;
+
         public abstract void Update();
         
         public abstract float LStickXAxis();

@@ -15,13 +15,15 @@ using wickedcrush.entity.physics_entity.agent.player;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.entity.physics_entity.agent;
+using wickedcrush.player;
 
 
 namespace wickedcrush.component
 {
     public class Test : Microsoft.Xna.Framework.GameComponent
     {
-        List<Entity> entityList;
+        List<Entity> entityList; //not including players
+        List<Entity> removeList;
         Map testMap;
         SpriteFont testFont;
 
@@ -53,6 +55,7 @@ namespace wickedcrush.component
             testMap = new Map("Temple Halls V4", w);
 
             entityList = new List<Entity>();
+            removeList = new List<Entity>();
         }
 
         private void initializeWhiteTexture(GraphicsDevice gd)
@@ -68,14 +71,7 @@ namespace wickedcrush.component
             game.controlsManager.checkAndAddGamepads();
         }
 
-        private void addPlayer(Controls controls)
-        {
-            entityList.Add(new PlayerAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, controls));
-            Agent f = new Agent(w, new Vector2(610, 150), new Vector2(24, 24), new Vector2(12, 12), true);
-            f.activateNavigator(testMap);
-            f.setTarget(entityList[0]);
-            entityList.Add(f);
-        }
+        
 
         private void LoadContent(Game game)
         {
@@ -88,20 +84,15 @@ namespace wickedcrush.component
 
             game.diag = "";
 
+            
+            game.playerManager.Update(gameTime, w);
+            
+            UpdateEntities(gameTime);
+
             game.controlsManager.Update(gameTime);
-            UpdatePlayers(gameTime);
 
-            if (game.controlsManager.gamepadPressed())
-            {
-                addPlayer(game.controlsManager.checkAndAddGamepads());
-            }
+            DebugControls();
 
-            if (game.controlsManager.keyboardPressed())
-            {
-                addPlayer(game.controlsManager.addKeyboard());
-            }
-
-            game.diag += game.controlsManager.getDiag();
             base.Update(gameTime);
         }
 
@@ -110,35 +101,44 @@ namespace wickedcrush.component
             
             testMap.drawMap(gd, sb, testFont);
             DebugDraw(gd, sb);
-            DrawDiag(gd, sb);
+            DrawPlayerHud(gd, sb);
             
         }
 
-        private void UpdatePlayers(GameTime gameTime)
+        private void UpdateEntities(GameTime gameTime) // move to player manager
         {
-            List<Entity> newTempList = new List<Entity>(entityList);
-            foreach (Agent p in entityList)
+            foreach (Agent a in entityList)
             {
-
-                newTempList.Remove(p);
-                p.Update(gameTime);
+                a.Update(gameTime);
+                
+                if (a.remove)
+                    removeList.Add(a);
             }
+            
+            performRemoval();
         }
 
-        private void CheckCollisions(GameTime gameTime)
+        private void performRemoval()
         {
-            foreach (PlayerAgent p in entityList)
+            if (removeList.Count > 0)
             {
-                p.Update(gameTime);
+                foreach (Agent a in removeList)
+                {
+                    entityList.Remove(a);
+                }
+
+                removeList.Clear();
             }
         }
 
         private void DebugDraw(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (Agent p in entityList)
+            foreach (Entity e in entityList)
             {
-                p.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
+                e.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
             }
+
+            game.playerManager.DebugDraw(gd, sb, whiteTexture, testFont);
         }
 
         private void DrawDiag(GraphicsDevice gd, SpriteBatch sb)
@@ -152,6 +152,35 @@ namespace wickedcrush.component
             
             
             sb.DrawString(testFont, game.diag, new Vector2(3, 2), Color.White);
+        }
+
+        private void DrawPlayerHud(GraphicsDevice gd, SpriteBatch sb)
+        {
+            foreach (Player p in game.playerManager.getPlayerList())
+            {
+                sb.DrawString(testFont, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
+            }
+        }
+
+        private void DebugControls()
+        {
+            if (game.controlsManager.debugControls.KeyPressed(Keys.P))
+            {
+                Agent f = new Agent(w, new Vector2(600, 130), new Vector2(24, 24), new Vector2(12, 12), true);
+                f.activateNavigator(testMap);
+                if (game.playerManager.getPlayerList().Count > 0)
+                    f.setTarget(game.playerManager.getPlayerList()[0].getAgent());
+                entityList.Add(f);
+            }
+
+            if (game.controlsManager.debugControls.KeyPressed(Keys.O))
+            {
+                Agent f = new Agent(w, new Vector2(600, 130), new Vector2(8, 8), new Vector2(4f, 4f), true);
+                f.activateNavigator(testMap);
+                if (game.playerManager.getPlayerList().Count > 0)
+                    f.setTarget(game.playerManager.getPlayerList()[0].getAgent());
+                entityList.Add(f);
+            }
         }
     }
 }

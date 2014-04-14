@@ -109,22 +109,27 @@
   <ItemGroup>
     <Compile Include="component\Test.cs" />
     <Compile Include="controls\Controls.cs" />
+    <Compile Include="controls\DebugControls.cs" />
     <Compile Include="controls\KeyboardControls.cs" />
     <Compile Include="controls\GamepadControls.cs" />
     <Compile Include="entity\physics_entity\agent\Agent.cs" />
+    <Compile Include="entity\physics_entity\agent\attack\Attack.cs" />
     <Compile Include="entity\physics_entity\layer_entity\WallEntity.cs" />
     <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
     <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />
     <Compile Include="helper\Helper.cs" />
     <Compile Include="manager\controls\ControlsManager.cs" />
+    <Compile Include="manager\player\PlayerManager.cs" />
     <Compile Include="map\layer\Layer.cs" />
     <Compile Include="map\Map.cs" />
     <Compile Include="entity\Entity.cs" />
     <Compile Include="map\path\Navigator.cs" />
     <Compile Include="map\path\PathNode.cs" />
+    <Compile Include="player\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="stats\PersistedStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -169,7 +174,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="player\" />
+    <Folder Include="entity\physics_entity\agent\attack\projectile\" />
+    <Folder Include="entity\physics_entity\agent\enemy\" />
+    <Folder Include="entity\physics_entity\agent\inanimate\" />
+    <Folder Include="entity\physics_entity\agent\npc\" />
+    <Folder Include="entity\physics_entity\agent\trap\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\I66.xml">

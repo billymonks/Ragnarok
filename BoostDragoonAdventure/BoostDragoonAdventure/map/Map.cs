@@ -28,9 +28,9 @@ namespace wickedcrush.map
         public void addLayer(World w, Boolean[,] data, LayerType layerType)
         {
             if(layerType == LayerType.WALL)
-                layerList.Add(layerType, new Layer(data, w, width, height, true));
+                layerList.Add(layerType, new Layer(data, w, width, height, true, LayerType.WALL));
             else
-                layerList.Add(layerType, new Layer(data, w, width, height, false));
+                layerList.Add(layerType, new Layer(data, w, width, height, false, layerType));
             
             //generateWalls(w);
         }
