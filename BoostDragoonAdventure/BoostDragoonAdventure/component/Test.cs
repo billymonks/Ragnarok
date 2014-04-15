@@ -16,14 +16,23 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.entity.physics_entity.agent;
 using wickedcrush.player;
+using wickedcrush.factory.entity;
+using wickedcrush.stats;
+using wickedcrush.manager.controls;
+using wickedcrush.manager.player;
+using wickedcrush.manager.entity;
 
 
 namespace wickedcrush.component
 {
     public class Test : Microsoft.Xna.Framework.GameComponent
     {
-        List<Entity> entityList; //not including players
-        List<Entity> removeList;
+        public ControlsManager controlsManager;
+        public PlayerManager playerManager;
+        public EntityManager entityManager;
+
+        public EntityFactory factory;
+        
         Map testMap;
         SpriteFont testFont;
 
@@ -36,6 +45,15 @@ namespace wickedcrush.component
         public Test(Game game)
             : base(game)
         {
+            w = new World(Vector2.Zero);
+            w.Gravity = Vector2.Zero;
+
+            controlsManager = new ControlsManager(game);
+            playerManager = new PlayerManager(game, controlsManager);
+            entityManager = new EntityManager(game);
+
+            factory = new EntityFactory(entityManager, playerManager, controlsManager, w);
+
             LoadContent(game);
 
             this.game = game;
@@ -49,13 +67,12 @@ namespace wickedcrush.component
         {
             base.Initialize();
 
-            w = new World(Vector2.Zero);
-            w.Gravity = Vector2.Zero;
+            
 
-            testMap = new Map("Temple Halls V4", w);
-
-            entityList = new List<Entity>();
-            removeList = new List<Entity>();
+            testMap = new Map("I66", w);
+            
+            //factory = new EntityFactory(game.entityManager, game.playerManager, w);
+            factory.setMap(testMap);
         }
 
         private void initializeWhiteTexture(GraphicsDevice gd)
@@ -68,7 +85,7 @@ namespace wickedcrush.component
 
         private void checkAndAdd()
         {
-            game.controlsManager.checkAndAddGamepads();
+            controlsManager.checkAndAddGamepads();
         }
 
         
@@ -84,12 +101,13 @@ namespace wickedcrush.component
 
             game.diag = "";
 
+            playerManager.Update(gameTime);
+            entityManager.Update(gameTime);
             
-            game.playerManager.Update(gameTime, w);
-            
-            UpdateEntities(gameTime);
 
-            game.controlsManager.Update(gameTime);
+            factory.Update(); //player creation, needs to be replaced
+
+            controlsManager.Update(gameTime);
 
             DebugControls();
 
@@ -105,40 +123,11 @@ namespace wickedcrush.component
             
         }
 
-        private void UpdateEntities(GameTime gameTime) // move to player manager
-        {
-            foreach (Agent a in entityList)
-            {
-                a.Update(gameTime);
-                
-                if (a.remove)
-                    removeList.Add(a);
-            }
-            
-            performRemoval();
-        }
-
-        private void performRemoval()
-        {
-            if (removeList.Count > 0)
-            {
-                foreach (Agent a in removeList)
-                {
-                    entityList.Remove(a);
-                }
-
-                removeList.Clear();
-            }
-        }
-
         private void DebugDraw(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (Entity e in entityList)
-            {
-                e.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
-            }
+            entityManager.DebugDraw(gd, sb, whiteTexture, testFont);
 
-            game.playerManager.DebugDraw(gd, sb, whiteTexture, testFont);
+            playerManager.DebugDraw(gd, sb, whiteTexture, testFont);
         }
 
         private void DrawDiag(GraphicsDevice gd, SpriteBatch sb)
@@ -156,7 +145,7 @@ namespace wickedcrush.component
 
         private void DrawPlayerHud(GraphicsDevice gd, SpriteBatch sb)
         {
-            foreach (Player p in game.playerManager.getPlayerList())
+            foreach (Player p in playerManager.getPlayerList())
             {
                 sb.DrawString(testFont, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
@@ -164,22 +153,14 @@ namespace wickedcrush.component
 
         private void DebugControls()
         {
-            if (game.controlsManager.debugControls.KeyPressed(Keys.P))
+            if (controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                Agent f = new Agent(w, new Vector2(600, 130), new Vector2(24, 24), new Vector2(12, 12), true);
-                f.activateNavigator(testMap);
-                if (game.playerManager.getPlayerList().Count > 0)
-                    f.setTarget(game.playerManager.getPlayerList()[0].getAgent());
-                entityList.Add(f);
+                factory.addAgent(new Vector2(600, 130), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(5,5,5));
             }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.O))
+            if (controlsManager.debugControls.KeyPressed(Keys.O))
             {
-                Agent f = new Agent(w, new Vector2(600, 130), new Vector2(8, 8), new Vector2(4f, 4f), true);
-                f.activateNavigator(testMap);
-                if (game.playerManager.getPlayerList().Count > 0)
-                    f.setTarget(game.playerManager.getPlayerList()[0].getAgent());
-                entityList.Add(f);
+                factory.addAgent(new Vector2(600, 130), new Vector2(8, 8), new Vector2(4, 4), true, new PersistedStats(5, 5, 5));
             }
         }
     }

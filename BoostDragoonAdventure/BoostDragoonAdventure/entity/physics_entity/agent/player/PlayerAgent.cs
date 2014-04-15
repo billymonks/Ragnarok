@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.stats;
 using wickedcrush.entity.physics_entity.agent.attack;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -17,17 +18,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
     {
         #region Variables
         protected Controls controls;
+
+        private EntityFactory factory;
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls) : base (w, pos, size, center, solid)
+        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, EntityFactory factory)
+            : base(w, pos, size, center, solid)
         {
-            Initialize(w, pos, size, center, solid, controls);
+            Initialize(pos, size, center, solid, controls);
+
+            this.factory = factory;
         }
 
-        private void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
+        private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
         {
-            
             this.controls = controls;
             stats = new PersistedStats(5, 5, 5);
             this.name = "Player";
@@ -59,9 +64,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             if (controls.ActionPressed())
             {
-                Attack a = new Attack(_w, new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X/2, size.Y/2));
-                a.parent = this;
-                subEntityList.Add(a);
+                factory.addAttack(new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X / 2, size.Y / 2), this);
+                //Attack a = new Attack(_w, new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X/2, size.Y/2));
+                //a.parent = this;
+                //subEntityList.Add(a);
             }
             
         }

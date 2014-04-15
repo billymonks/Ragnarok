@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.entity.physics_entity;
 using FarseerPhysics.Dynamics;
 using wickedcrush.controls;
+using wickedcrush.factory.entity;
+using wickedcrush.manager.controls;
 
 namespace wickedcrush.manager.player
 {
@@ -18,10 +20,15 @@ namespace wickedcrush.manager.player
         private List<Player> playerList = new List<Player>();
         private List<Player> removeList = new List<Player>();
 
-        public PlayerManager(Game game)
+        private ControlsManager _cm;
+
+        public PlayerManager(Game game, ControlsManager cm)
             : base(game)
         {
             g = game;
+
+            _cm = cm;
+
             Initialize();
         }
 
@@ -30,11 +37,10 @@ namespace wickedcrush.manager.player
             base.Initialize();
         }
 
-        public void Update(GameTime gameTime, World w)
+        public void Update(GameTime gameTime)
         {
             updatePlayers(gameTime);
-            respawnPlayer(w);
-            checkForNewPlayers(w);
+            
 
             base.Update(gameTime);
         }
@@ -45,44 +51,12 @@ namespace wickedcrush.manager.player
             {
                 p.Update(gameTime);
 
-                if (p.remove)
+                if (p.readyForRemoval())
                     removeList.Add(p);
             }
 
 
             performRemoval();
-        }
-
-        private void checkForNewPlayers(World w)
-        {
-            if (g.controlsManager.gamepadPressed())
-            {
-                addPlayer(g.controlsManager.checkAndAddGamepads(), w);
-            }
-
-            if (g.controlsManager.keyboardPressed())
-            {
-                addPlayer(g.controlsManager.addKeyboard(), w);
-            }
-        }
-
-        private void addPlayer(Controls controls, World w)
-        {
-            Player p = new Player("bunz", getPlayerList().Count, controls);
-            p.GenerateAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true);
-            addPlayer(p);
-
-        }
-
-        private void respawnPlayer(World w)
-        {
-            foreach (Player p in playerList)
-            {
-                if (p.getAgent() == null && p.c.StartPressed())
-                {
-                    p.GenerateAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true);
-                }
-            }
         }
 
         private void performRemoval()

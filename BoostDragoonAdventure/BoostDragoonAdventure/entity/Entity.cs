@@ -19,7 +19,7 @@ namespace wickedcrush.entity
         public List<Entity> subEntityList;
         public List<Entity> removeList;
 
-        public bool remove = false;
+        private bool remove = false;
         public bool dead = false;
         public bool immortal = false;
         #endregion
@@ -64,6 +64,20 @@ namespace wickedcrush.entity
         #region CollisionChecks
         
         #endregion
+
+        protected virtual void Remove()
+        {
+            foreach (Entity e in subEntityList)
+            {
+                e.Remove();
+            }
+            remove = true;
+        }
+
+        public bool readyForRemoval()
+        {
+            return remove;
+        }
 
         public virtual void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {

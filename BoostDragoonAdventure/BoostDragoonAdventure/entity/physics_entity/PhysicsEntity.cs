@@ -50,6 +50,14 @@ namespace wickedcrush.entity.physics_entity
             pos.Y = body.Position.Y;
         }
 
+        protected override void Remove()
+        {
+            base.Remove();
+
+            _w.RemoveBody(body);
+            _w.RemoveBody(hotSpot);
+        }
+
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             spriteBatch.Draw(tex, body.Position, null, c, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);

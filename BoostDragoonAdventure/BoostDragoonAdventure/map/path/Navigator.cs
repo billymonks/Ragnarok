@@ -135,8 +135,8 @@ namespace wickedcrush.map.path
             return new PathNode(
                 new Point(x, y),
                 new Vector2(
-                    (map.width / pathNodeGrid.GetLength(0)) * x + 5,
-                    (map.height / pathNodeGrid.GetLength(1)) * y + 5),
+                    (map.width / pathNodeGrid.GetLength(0)) * x + 4,
+                    (map.height / pathNodeGrid.GetLength(1)) * y + 4),
                     map.width / pathNodeGrid.GetLength(0));
         }
 

@@ -7,6 +7,7 @@ using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.stats;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.player
 {
@@ -19,14 +20,16 @@ namespace wickedcrush.player
         public String name;
         public int playerNumber;
 
-        public bool remove;
+        private bool remove;
 
-        public Player(String name, int playerNumber, Controls c, PersistedStats stats)
+        public Player(String name, int playerNumber, Controls c, PersistedStats stats, EntityFactory factory)
         {
             this.name = name;
             this.c = c;
             this.stats = stats;
             this.playerNumber = getPlayerNumber();
+
+            //this.factory = factory;
         }
 
         public Player(String name, int playerNumber, Controls c)
@@ -56,16 +59,21 @@ namespace wickedcrush.player
             return agent;
         }
 
-        public void GenerateAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        public void GenerateAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
-            agent = new PlayerAgent(w, pos, size, center, solid, c);
+            agent = new PlayerAgent(w, pos, size, center, solid, c, factory);
             stats = agent.stats;
         }
 
-        public void RemovePlayer(World w)
+        public void Remove(World w)
         {
             agent.removeBody(w);
             remove = true;
+        }
+
+        public bool readyForRemoval()
+        {
+            return remove;
         }
 
         public void setStats(PersistedStats stats)
@@ -86,7 +94,7 @@ namespace wickedcrush.player
             {
                 agent.Update(gameTime);
 
-                if (agent.remove)
+                if (agent.readyForRemoval())
                     agent = null;
             }
         }

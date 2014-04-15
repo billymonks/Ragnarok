@@ -12,6 +12,8 @@ using wickedcrush.entity;
 using wickedcrush.component;
 using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
+using wickedcrush.manager.entity;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush
 {
@@ -24,8 +26,6 @@ namespace wickedcrush
     public class Game : Microsoft.Xna.Framework.Game
     {
         public GraphicsDeviceManager graphics;
-        public ControlsManager controlsManager;
-        public PlayerManager playerManager;
 
         SpriteBatch spriteBatch;
 
@@ -40,8 +40,6 @@ namespace wickedcrush
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            controlsManager = new ControlsManager(this);
-            playerManager = new PlayerManager(this);
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

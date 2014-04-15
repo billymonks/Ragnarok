@@ -117,8 +117,10 @@
     <Compile Include="entity\physics_entity\layer_entity\WallEntity.cs" />
     <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
     <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />
+    <Compile Include="factory\entity\EntityFactory.cs" />
     <Compile Include="helper\Helper.cs" />
     <Compile Include="manager\controls\ControlsManager.cs" />
+    <Compile Include="manager\entity\EntityManager.cs" />
     <Compile Include="manager\player\PlayerManager.cs" />
     <Compile Include="map\layer\Layer.cs" />
     <Compile Include="map\Map.cs" />
@@ -174,6 +176,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\attack\projectile\" />
     <Folder Include="entity\physics_entity\agent\enemy\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />

@@ -13,9 +13,18 @@ namespace wickedcrush.entity.physics_entity.agent.attack
     {
         int damage;
 
+        bool deployed = false;
+
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
             : base(w, pos, size, center, false)
         {
+            Initialize(w, pos, size, center);
+        }
+
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+            : base(w, pos, size, center, false)
+        {
+            this.parent = parent;
             Initialize(w, pos, size, center);
         }
 
@@ -30,7 +39,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack
         {
             base.Update(gameTime);
 
-            Remove();
+            if (deployed)
+                Remove();
+            else
+                deployed = true;
         }
 
         protected override void HandleCollisions()
@@ -38,7 +50,9 @@ namespace wickedcrush.entity.physics_entity.agent.attack
             var c = body.ContactList;
             while (c != null)
             {
-                if (c.Contact.IsTouching && c.Other.UserData is Agent && !c.Other.UserData.Equals(this.parent))
+                if (c.Contact.IsTouching 
+                    && c.Other.UserData is Agent 
+                    && !c.Other.UserData.Equals(this.parent))
                     ((Agent)c.Other.UserData).stats.hp -= damage;
 
                 c = c.Next;

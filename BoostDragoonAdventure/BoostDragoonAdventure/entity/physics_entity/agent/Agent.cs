@@ -86,12 +86,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 Remove();
         }
 
-        protected void Remove()
-        {
-            _w.RemoveBody(body);
-            _w.RemoveBody(hotSpot);
-            remove = true;
-        }
+        
 
         protected void FollowPath()
         {
