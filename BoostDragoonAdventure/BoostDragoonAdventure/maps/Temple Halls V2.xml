@@ -74,8 +74,8 @@
   <OBJECTS>
     <CHEST id="1" x="390" y="380" />
     <TURRET id="0" x="220" y="150" angle="0" />
-    <TURRET id="2" x="420" y="330" angle="3.141593" />
+    <TURRET id="2" x="420" y="330" angle="180" />
     <TURRET id="3" x="570" y="30" angle="0" />
-    <TURRET id="4" x="470" y="450" angle="3.141593" />
+    <TURRET id="4" x="470" y="450" angle="180" />
   </OBJECTS>
 </level>
