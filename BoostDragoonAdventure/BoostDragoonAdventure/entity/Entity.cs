@@ -9,6 +9,18 @@ using FarseerPhysics.Dynamics;
 
 namespace wickedcrush.entity
 {
+    public enum Direction
+    {
+        South = 0,
+        SouthWest = 45,
+        West = 90,
+        NorthWest = 135,
+        North = 180,
+        NorthEast = 225,
+        East = 270,
+        SouthEast = 315
+    }
+
     public class Entity
     {
         #region Variables
@@ -22,6 +34,8 @@ namespace wickedcrush.entity
         private bool remove = false;
         public bool dead = false;
         public bool immortal = false;
+
+        public Nullable<Direction> facing = null;
         #endregion
 
         #region Initialization

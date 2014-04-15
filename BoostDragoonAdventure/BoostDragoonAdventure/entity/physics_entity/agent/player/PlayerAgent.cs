@@ -36,6 +36,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.controls = controls;
             stats = new PersistedStats(5, 5, 5);
             this.name = "Player";
+
+            this.facing = Direction.East;
         }
 
         
@@ -50,24 +52,49 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateMovement()
         {
+            Direction movement = (Direction)facing;
             Vector2 v = body.LinearVelocity;
+            Vector2 unitVector;
 
-            v.X /= 1.1f;
-            v.Y /= 1.1f;
+            float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
-            if (!(controls.LStickXAxis() == 0f))
-                v.X += controls.LStickXAxis() * 150f;
-            if (!(controls.LStickYAxis() == 0f))
-                v.Y += controls.LStickYAxis() * 150f;
+            //v.X /= 1.1f;
+            //v.Y /= 1.1f;
+
+            unitVector = new Vector2(
+                (float)Math.Cos(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())) * magnitude,
+                (float)Math.Sin(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())) * magnitude
+            );
+
+            if (Math.Abs(unitVector.X) > Math.Abs(unitVector.Y))
+            {
+                if (unitVector.X < 0f)
+                    facing = Direction.West;
+                else
+                    facing = Direction.East;
+            }
+            else if (Math.Abs(unitVector.X) < Math.Abs(unitVector.Y))
+            {
+                if (v.Y < 0f)
+                    facing = Direction.North;
+                else
+                    facing = Direction.South;
+            }
+
+            v += unitVector * magnitude * 150f;
 
             body.LinearVelocity = v;
 
             if (controls.ActionPressed())
             {
-                factory.addAttack(new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X / 2, size.Y / 2), this);
-                //Attack a = new Attack(_w, new Vector2(pos.X + size.X, pos.Y), size, new Vector2(size.X/2, size.Y/2));
-                //a.parent = this;
-                //subEntityList.Add(a);
+                factory.addAttack(
+                    new Vector2(
+                        (float)(pos.X - size.X * Math.Sin(MathHelper.ToRadians((float)facing))), //x component of pos
+                        (float)(pos.Y + size.Y * Math.Cos(MathHelper.ToRadians((float)facing)))), //y component of pos
+                    size,
+                    new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
+                    this); //set parent to self, don't hurt self
+
             }
             
         }

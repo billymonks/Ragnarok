@@ -72,11 +72,11 @@ namespace wickedcrush.entity.physics_entity.agent
             base.Update(gameTime);
 
             //createPathToTarget();
+
+            body.LinearVelocity /= 1.1f; //friction
             
             if(path != null && path.Count > 0)
                 FollowPath();
-            else
-                body.LinearVelocity /= 2f;
 
             HandleCollisions();
 
