@@ -114,6 +114,7 @@
     <Compile Include="controls\GamepadControls.cs" />
     <Compile Include="entity\physics_entity\agent\Agent.cs" />
     <Compile Include="entity\physics_entity\agent\attack\Attack.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\Turret.cs" />
     <Compile Include="entity\physics_entity\layer_entity\WallEntity.cs" />
     <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
     <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />
@@ -181,7 +182,6 @@
     <Folder Include="entity\physics_entity\agent\enemy\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />
-    <Folder Include="entity\physics_entity\agent\trap\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\I66.xml">

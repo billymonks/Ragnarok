@@ -52,34 +52,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateMovement()
         {
-            Direction movement = (Direction)facing;
             Vector2 v = body.LinearVelocity;
-            Vector2 unitVector;
-
+            
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
-            //v.X /= 1.1f;
-            //v.Y /= 1.1f;
-
-            unitVector = new Vector2(
-                (float)Math.Cos(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())) * magnitude,
-                (float)Math.Sin(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())) * magnitude
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())),
+                (float)Math.Sin(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()))
             );
 
-            if (Math.Abs(unitVector.X) > Math.Abs(unitVector.Y))
-            {
-                if (unitVector.X < 0f)
-                    facing = Direction.West;
-                else
-                    facing = Direction.East;
-            }
-            else if (Math.Abs(unitVector.X) < Math.Abs(unitVector.Y))
-            {
-                if (v.Y < 0f)
-                    facing = Direction.North;
-                else
-                    facing = Direction.South;
-            }
+            if(magnitude != 0f)
+                facing = (Direction)
+                    Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
             v += unitVector * magnitude * 150f;
 

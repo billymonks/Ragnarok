@@ -16,6 +16,7 @@ using wickedcrush.map;
 using wickedcrush.manager.player;
 using wickedcrush.manager.controls;
 using wickedcrush.player;
+using wickedcrush.entity.physics_entity.agent.trap;
 
 namespace wickedcrush.factory.entity
 {
@@ -68,6 +69,12 @@ namespace wickedcrush.factory.entity
                     a.setTarget(pm.getPlayerList()[0].getAgent());
             }
             em.addEntity(a);
+        }
+
+        public void addTurret(World w, Vector2 pos, Direction facing)
+        {
+            Turret t = new Turret(w, pos, this, facing);
+            em.addEntity(t);
         }
 
         public void addAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent)

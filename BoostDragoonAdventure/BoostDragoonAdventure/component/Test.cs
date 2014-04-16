@@ -69,7 +69,7 @@ namespace wickedcrush.component
 
             
 
-            testMap = new Map("I66", w);
+            testMap = new Map("Temple Halls V4", w, factory);
             
             //factory = new EntityFactory(game.entityManager, game.playerManager, w);
             factory.setMap(testMap);

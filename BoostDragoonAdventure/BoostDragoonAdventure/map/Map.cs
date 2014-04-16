@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics.Dynamics;
 using System.Xml.Linq;
 using wickedcrush.map.path;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.map
 {
@@ -18,7 +19,7 @@ namespace wickedcrush.map
         public Dictionary<LayerType, Layer> layerList;
         public String name;
 
-        public Map(String MAP_NAME, World w)
+        public Map(String MAP_NAME, World w, EntityFactory factory)
         {
             layerList = new Dictionary<LayerType, Layer>();
 
