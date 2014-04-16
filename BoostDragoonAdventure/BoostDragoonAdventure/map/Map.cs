@@ -9,6 +9,7 @@ using FarseerPhysics.Dynamics;
 using System.Xml.Linq;
 using wickedcrush.map.path;
 using wickedcrush.factory.entity;
+using wickedcrush.entity;
 
 namespace wickedcrush.map
 {
@@ -19,21 +20,21 @@ namespace wickedcrush.map
         public Dictionary<LayerType, Layer> layerList;
         public String name;
 
+        private EntityFactory factory;
+
         public Map(String MAP_NAME, World w, EntityFactory factory)
         {
             layerList = new Dictionary<LayerType, Layer>();
-
+            this.factory = factory;
             loadMap(MAP_NAME, w);
         }
 
-        public void addLayer(World w, Boolean[,] data, LayerType layerType)
+        public void addLayer(World w, Boolean[,] data, LayerType layerType) // need map factory for this?
         {
             if(layerType == LayerType.WALL)
                 layerList.Add(layerType, new Layer(data, w, width, height, true, LayerType.WALL));
             else
                 layerList.Add(layerType, new Layer(data, w, width, height, false, layerType));
-            
-            //generateWalls(w);
         }
 
         public Layer getLayer(LayerType layerType)
@@ -48,6 +49,7 @@ namespace wickedcrush.map
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
             XElement deathSoup = rootElement.Element("DEATHSOUP");
+            XElement objects = rootElement.Element("OBJECTS");
 
             this.name = MAP_NAME;
             this.width = int.Parse(rootElement.Attribute("width").Value);
@@ -59,6 +61,13 @@ namespace wickedcrush.map
 
             data = getLayerData(deathSoup.Value);
             addLayer(w, data, LayerType.DEATH_SOUP);
+
+            foreach (XElement e in objects.Elements("TURRET"))
+            {
+                factory.addTurret(
+                    new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                    (Direction)int.Parse(e.Attribute("angle").Value));
+            }
         }
 
         private bool[,] getLayerData(String s)

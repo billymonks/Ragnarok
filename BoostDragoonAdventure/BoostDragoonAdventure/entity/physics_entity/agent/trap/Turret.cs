@@ -6,6 +6,7 @@ using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using wickedcrush.stats;
+using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.trap
 {
@@ -32,6 +33,27 @@ namespace wickedcrush.entity.physics_entity.agent.trap
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+        }
+
+        protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        {
+            base.setupBody(w, pos, size, center, solid);
+            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
+            body.FixedRotation = true;
+            body.LinearVelocity = Vector2.Zero;
+            body.BodyType = BodyType.Static;
+            body.CollisionGroup = (short)CollisionGroup.AGENT;
+
+            body.UserData = this;
+
+            if (!solid)
+                body.IsSensor = true;
+
+            FixtureFactory.AttachRectangle(1f, 1f, 1f, center, hotSpot);
+            hotSpot.FixedRotation = true;
+            hotSpot.LinearVelocity = Vector2.Zero;
+            hotSpot.BodyType = BodyType.Static;
+
         }
     }
 }

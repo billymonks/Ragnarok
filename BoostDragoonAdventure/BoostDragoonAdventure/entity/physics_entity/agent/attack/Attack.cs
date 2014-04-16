@@ -18,17 +18,17 @@ namespace wickedcrush.entity.physics_entity.agent.attack
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
             : base(w, pos, size, center, false)
         {
-            Initialize(w, pos, size, center);
+            Initialize();
         }
 
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
             : base(w, pos, size, center, false)
         {
             this.parent = parent;
-            Initialize(w, pos, size, center);
+            Initialize();
         }
 
-        private void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center)
+        private void Initialize()
         {
             immortal = true;
             damage = 5;

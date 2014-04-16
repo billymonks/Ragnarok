@@ -76,7 +76,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         (float)(pos.X - size.X * Math.Sin(MathHelper.ToRadians((float)facing))), //x component of pos
                         (float)(pos.Y + size.Y * Math.Cos(MathHelper.ToRadians((float)facing)))), //y component of pos
                     size,
-                    new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
+                    Vector2.Zero,
+                    //new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
                     this); //set parent to self, don't hurt self
 
             }

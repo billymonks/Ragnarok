@@ -71,7 +71,7 @@ namespace wickedcrush.factory.entity
             em.addEntity(a);
         }
 
-        public void addTurret(World w, Vector2 pos, Direction facing)
+        public void addTurret(Vector2 pos, Direction facing)
         {
             Turret t = new Turret(w, pos, this, facing);
             em.addEntity(t);

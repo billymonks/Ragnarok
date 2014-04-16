@@ -33,8 +33,8 @@ namespace wickedcrush.entity.physics_entity
 
         protected virtual void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            body = BodyFactory.CreateBody(w, pos);
-            hotSpot = BodyFactory.CreateBody(w, pos+center);
+            body = BodyFactory.CreateBody(w, pos - center);
+            hotSpot = BodyFactory.CreateBody(w, pos);
             hotSpot.IsSensor = true;
         }
 

@@ -155,12 +155,12 @@ namespace wickedcrush.component
         {
             if (controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                factory.addAgent(new Vector2(600, 130), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(5,5,5));
+                factory.addAgent(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(5,5,5));
             }
 
             if (controlsManager.debugControls.KeyPressed(Keys.O))
             {
-                factory.addAgent(new Vector2(600, 130), new Vector2(8, 8), new Vector2(4, 4), true, new PersistedStats(5, 5, 5));
+                factory.addAgent(new Vector2(600, 160), new Vector2(8, 8), new Vector2(4, 4), true, new PersistedStats(5, 5, 5));
             }
         }
     }
