@@ -78,11 +78,13 @@ namespace wickedcrush.entity.physics_entity.agent
             if(path != null && path.Count > 0)
                 FollowPath();
 
-            hotSpot.Position = body.Position + center;
+            
 
             HandleCollisions();
 
-            if (stats.hp <= 0)
+            hotSpot.Position = body.WorldCenter;
+
+            if (stats.hp <= 0 && immortal == false)
                 Remove();
         }
 

@@ -32,7 +32,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             this.facing = facing;
 
-            timer = new Timer(1000);
+            timer = new Timer(1600);
             timer.start();
 
         }

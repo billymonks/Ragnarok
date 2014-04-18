@@ -107,6 +107,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="behavior\StateMachine.cs" />
+    <Compile Include="behavior\state\State.cs" />
     <Compile Include="component\Test.cs" />
     <Compile Include="controls\Controls.cs" />
     <Compile Include="controls\DebugControls.cs" />

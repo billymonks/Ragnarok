@@ -66,8 +66,10 @@ namespace wickedcrush.entity.physics_entity
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             spriteBatch.Draw(tex, body.Position, null, c, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            
             spriteBatch.DrawString(f, name, pos, Color.Black);
+
+            spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
                 e.DebugDraw(tex, gd, spriteBatch, f, c);
