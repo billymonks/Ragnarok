@@ -4,23 +4,22 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using wickedcrush.stats;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace wickedcrush.entity.physics_entity.agent.attack
+namespace wickedcrush.entity.physics_entity.agent.attack.melee
 {
-    public abstract class Attack : Agent
+    public class MeleeAttack : Attack
     {
-        protected int damage;
+        private bool deployed = false;
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
-            : base(w, pos, size, center, false)
+        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center)
+            : base(w, pos, size, center)
         {
             Initialize();
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
-            : base(w, pos, size, center, false)
+        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+            : base(w, pos, size, center)
         {
             this.parent = parent;
             Initialize();
@@ -30,17 +29,18 @@ namespace wickedcrush.entity.physics_entity.agent.attack
         {
             immortal = true;
             damage = 5;
-            this.name = "Attack";
+            this.name = "Melee";
+            facing = parent.facing;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            //if (deployed)
-                //Remove();
-            //else
-                //deployed = true;
+            if (deployed)
+                Remove();
+            else
+                deployed = true;
         }
 
         protected override void HandleCollisions()

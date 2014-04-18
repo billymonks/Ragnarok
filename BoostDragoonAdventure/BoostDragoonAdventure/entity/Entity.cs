@@ -11,14 +11,14 @@ namespace wickedcrush.entity
 {
     public enum Direction
     {
-        South = 0,
-        SouthWest = 45,
-        West = 90,
-        NorthWest = 135,
-        North = 180,
-        NorthEast = 225,
-        East = 270,
-        SouthEast = 315
+        East = 0,
+        SouthEast = 45,
+        South = 90,
+        SouthWest = 135,
+        West = 180,
+        NorthWest = 225,
+        North = 270,
+        NorthEast = 315
     }
 
     public class Entity
@@ -31,7 +31,7 @@ namespace wickedcrush.entity
         public List<Entity> subEntityList;
         public List<Entity> removeList;
 
-        private bool remove = false;
+        protected bool remove = false;
         public bool dead = false;
         public bool immortal = false;
 
@@ -81,11 +81,14 @@ namespace wickedcrush.entity
 
         protected virtual void Remove()
         {
-            foreach (Entity e in subEntityList)
+            if (remove == false)
             {
-                e.Remove();
+                foreach (Entity e in subEntityList)
+                {
+                    e.Remove();
+                }
+                remove = true;
             }
-            remove = true;
         }
 
         public bool readyForRemoval()

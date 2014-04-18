@@ -4,23 +4,23 @@ using System.Linq;
 using System.Text;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using wickedcrush.stats;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.stats;
 
-namespace wickedcrush.entity.physics_entity.agent.attack
+namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
-    public abstract class Attack : Agent
+    public class Bolt : Attack
     {
-        protected int damage;
+        private float speed = 150f;
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
-            : base(w, pos, size, center, false)
+        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center)
+            : base(w, pos, size, center)
         {
             Initialize();
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
-            : base(w, pos, size, center, false)
+        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+            : base(w, pos, size, center)
         {
             this.parent = parent;
             Initialize();
@@ -28,19 +28,25 @@ namespace wickedcrush.entity.physics_entity.agent.attack
 
         private void Initialize()
         {
-            immortal = true;
-            damage = 5;
-            this.name = "Attack";
+            stats = new PersistedStats(1, 1, 0);
+            facing = parent.facing;
+            immortal = false;
+            damage = 1;
+            this.name = "Bolt";
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            moveForward(speed);
+        }
 
-            //if (deployed)
-                //Remove();
-            //else
-                //deployed = true;
+        protected void moveForward(float speed)
+        {
+            Vector2 v = body.LinearVelocity;
+            v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
+            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
+            body.LinearVelocity = v;
         }
 
         protected override void HandleCollisions()
@@ -48,10 +54,14 @@ namespace wickedcrush.entity.physics_entity.agent.attack
             var c = body.ContactList;
             while (c != null)
             {
-                if (c.Contact.IsTouching 
-                    && c.Other.UserData is Agent 
+                if (c.Contact.IsTouching
+                    && c.Other.UserData != null
                     && !c.Other.UserData.Equals(this.parent))
-                    ((Agent)c.Other.UserData).stats.hp -= damage;
+                {
+                    if(c.Other.UserData is Agent)
+                        ((Agent)c.Other.UserData).stats.hp -= damage;
+                    Remove();
+                }
 
                 c = c.Next;
             }

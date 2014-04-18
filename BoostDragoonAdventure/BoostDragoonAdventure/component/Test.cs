@@ -97,7 +97,7 @@ namespace wickedcrush.component
 
         public override void Update(GameTime gameTime)
         {
-            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+            
 
             game.diag = "";
 
@@ -111,7 +111,10 @@ namespace wickedcrush.component
 
             DebugControls();
 
+            
+
             base.Update(gameTime);
+            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
         }
 
         public void Draw(GraphicsDevice gd, SpriteBatch sb)

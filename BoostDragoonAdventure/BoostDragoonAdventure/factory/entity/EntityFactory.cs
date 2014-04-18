@@ -17,6 +17,8 @@ using wickedcrush.manager.player;
 using wickedcrush.manager.controls;
 using wickedcrush.player;
 using wickedcrush.entity.physics_entity.agent.trap;
+using wickedcrush.entity.physics_entity.agent.attack.projectile;
+using wickedcrush.entity.physics_entity.agent.attack.melee;
 
 namespace wickedcrush.factory.entity
 {
@@ -77,9 +79,15 @@ namespace wickedcrush.factory.entity
             em.addEntity(t);
         }
 
-        public void addAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+        public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent)
         {
-            Attack a = new Attack(w, pos, size, center, parent);
+            Bolt b = new Bolt(w, pos, size, center, parent);
+            em.addEntity(b);
+        }
+
+        public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+        {
+            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent);
             em.addEntity(a);
         }
 

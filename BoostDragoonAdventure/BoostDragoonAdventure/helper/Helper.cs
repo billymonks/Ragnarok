@@ -36,9 +36,9 @@ namespace wickedcrush.helper
             return (a / b + (a % b > 0 ? 1 : 0));
         }
 
-        public static int degreeConversion(float a) // converts normal degrees to weird ones where south = 0 and 45 degree intervals
+        public static int degreeConversion(float radians) // makes radian angle positive and converts to decimals in 45 degree intervals, for 8 directional things
         {
-            return(((((int)MathHelper.ToDegrees(a) + 270) % 360) / 45) * 45);
+            return(((((int)MathHelper.ToDegrees(radians) + 360) % 360) / 45) * 45);
         }
     }
 }

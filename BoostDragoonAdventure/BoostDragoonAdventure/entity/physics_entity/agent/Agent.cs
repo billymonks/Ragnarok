@@ -54,7 +54,7 @@ namespace wickedcrush.entity.physics_entity.agent
             if (!solid)
                 body.IsSensor = true;
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, center, hotSpot);
+            FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, hotSpot);
             hotSpot.FixedRotation = true;
             hotSpot.LinearVelocity = Vector2.Zero;
             hotSpot.BodyType = BodyType.Dynamic;
@@ -73,14 +73,14 @@ namespace wickedcrush.entity.physics_entity.agent
 
             //createPathToTarget();
 
-            body.LinearVelocity /= 1.1f; //friction
+            body.LinearVelocity /= (1f+stoppingFriction); //stopping friction
             
             if(path != null && path.Count > 0)
                 FollowPath();
 
-            HandleCollisions();
+            hotSpot.Position = body.Position + center;
 
-            hotSpot.Position = body.Position;
+            HandleCollisions();
 
             if (stats.hp <= 0)
                 Remove();
@@ -99,8 +99,8 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 Vector2 v = body.LinearVelocity;
 
-                v.X /= 1.1f;
-                v.Y /= 1.1f;
+                v.X /= (1f + stoppingFriction);
+                v.Y /= (1f + stoppingFriction);
 
                 if (path.Peek().pos.X + path.Peek().gridSize <= pos.X)
                     v.X += -50f;

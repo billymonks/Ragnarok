@@ -73,7 +73,7 @@
 11111111111111111111111111111111</WALLS>
   <OBJECTS>
     <CHEST id="0" x="70" y="60" />
-    <TURRET id="1" x="310" y="290" angle="90" />
-    <TURRET id="2" x="330" y="190" angle="270" />
+    <TURRET id="1" x="310" y="290" angle="180" />
+    <TURRET id="2" x="330" y="190" angle="0" />
   </OBJECTS>
 </level>

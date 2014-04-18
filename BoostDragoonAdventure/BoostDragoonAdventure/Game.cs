@@ -46,7 +46,7 @@ namespace wickedcrush
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
             graphics.ApplyChanges();
             
         }

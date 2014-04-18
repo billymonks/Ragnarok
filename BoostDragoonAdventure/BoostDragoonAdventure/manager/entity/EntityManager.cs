@@ -16,6 +16,7 @@ namespace wickedcrush.manager.entity
         Game g;
 
         private List<Entity> entityList = new List<Entity>();
+        private List<Entity> addList = new List<Entity>();
         private List<Entity> removeList = new List<Entity>();
 
         public EntityManager(Game game)
@@ -48,6 +49,20 @@ namespace wickedcrush.manager.entity
             }
 
             performRemoval();
+            performAdd();
+        }
+
+        private void performAdd()
+        {
+            if (addList.Count > 0)
+            {
+                foreach (Entity e in addList)
+                {
+                    entityList.Add(e);
+                }
+
+                addList.Clear();
+            }
         }
 
         private void performRemoval()
@@ -65,17 +80,17 @@ namespace wickedcrush.manager.entity
 
         public void addEntity(Entity e)
         {
-            entityList.Add(e);
+            addList.Add(e);
         }
 
         public void addEntity(PhysicsEntity e)
         {
-            entityList.Add(e);
+            addList.Add(e);
         }
 
         public void addEntity(Agent e)
         {
-            entityList.Add(e);
+            addList.Add(e);
         }
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont testFont)

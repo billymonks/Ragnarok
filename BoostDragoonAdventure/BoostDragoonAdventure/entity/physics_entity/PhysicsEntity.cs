@@ -20,6 +20,9 @@ namespace wickedcrush.entity.physics_entity
         protected World _w;
         protected Body body, hotSpot;
 
+        public float startingFriction = 1f;
+        public float stoppingFriction = 0.1f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
+
         public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
         {
             _w = w;
@@ -52,10 +55,12 @@ namespace wickedcrush.entity.physics_entity
 
         protected override void Remove()
         {
-            base.Remove();
-
-            _w.RemoveBody(body);
-            _w.RemoveBody(hotSpot);
+            if (remove == false)
+            {
+                base.Remove();
+                _w.RemoveBody(body);
+                _w.RemoveBody(hotSpot);
+            }
         }
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
