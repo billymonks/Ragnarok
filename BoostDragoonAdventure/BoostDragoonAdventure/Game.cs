@@ -14,6 +14,7 @@ using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
 using wickedcrush.factory.entity;
+using wickedcrush.map;
 
 namespace wickedcrush
 {
@@ -32,6 +33,8 @@ namespace wickedcrush
         BasicEffect e;
         float xscale, yscale;
         Matrix spriteScale;
+
+        public Map testMap;
 
         Test test;
 

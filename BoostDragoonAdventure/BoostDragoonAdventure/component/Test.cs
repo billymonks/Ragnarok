@@ -33,7 +33,6 @@ namespace wickedcrush.component
 
         public EntityFactory factory;
         
-        Map testMap;
         SpriteFont testFont;
 
         Game game;
@@ -69,10 +68,10 @@ namespace wickedcrush.component
 
             
 
-            testMap = new Map("Temple Halls V4", w, factory);
+            game.testMap = new Map("Temple Halls V4", w, factory);
             
             //factory = new EntityFactory(game.entityManager, game.playerManager, w);
-            factory.setMap(testMap);
+            factory.setMap(game.testMap);
         }
 
         private void initializeWhiteTexture(GraphicsDevice gd)
@@ -120,7 +119,7 @@ namespace wickedcrush.component
         public void Draw(GraphicsDevice gd, SpriteBatch sb)
         {
             
-            testMap.drawMap(gd, sb, testFont);
+            game.testMap.drawMap(gd, sb, testFont);
             DebugDraw(gd, sb);
             DrawPlayerHud(gd, sb);
             
