@@ -15,7 +15,6 @@ namespace wickedcrush.entity.physics_entity.agent.trap
     public class Turret : Agent
     {
         private EntityFactory factory;
-        private Timer timer;
 
         public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true)
@@ -32,20 +31,19 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             this.facing = facing;
 
-            timer = new Timer(1600);
-            timer.start();
+            timers.Add("shot", new Timer(1600));
+            timers["shot"].start();
 
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            timer.Update(gameTime);
 
-            if (timer.isDone())
+            if (timers["shot"].isDone())
             {
                 fireShot();
-                timer.resetAndStart();
+                timers["shot"].resetAndStart();
             }
         }
 

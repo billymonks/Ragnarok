@@ -13,8 +13,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     public class Murderer : Agent
     {
         private EntityFactory factory;
-        private Timer navTimer;
-        private Timer timer;
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
             : base(w, pos, size, center, solid)
@@ -25,31 +23,22 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         private void Initialize()
         {
-            stats = new PersistedStats(15, 15, 5);
+            stats = new PersistedStats(10, 10, 5);
             this.name = "Murderer";
 
-            timer = new Timer();
-            navTimer = new Timer(500);
-            navTimer.start();
-            //timer.start();
+            timers.Add("navigation", new Timer(500));
+            timers["navigation"].start();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            timer.Update(gameTime);
-            navTimer.Update(gameTime);
 
-            if (navTimer.isDone())
+            if (timers["navigation"].isDone())
             {
                 createPathToTarget();
-                navTimer.resetAndStart();
+                timers["navigation"].resetAndStart();
             }
-            
-            //if (timer.isDone())
-            //{
-                //timer.resetAndStart();
-            //}
         }
     }
 }

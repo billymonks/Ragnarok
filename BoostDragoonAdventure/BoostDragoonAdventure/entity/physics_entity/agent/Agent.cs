@@ -11,6 +11,7 @@ using wickedcrush.stats;
 using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.helper;
+using wickedcrush.utility;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -18,6 +19,7 @@ namespace wickedcrush.entity.physics_entity.agent
     {
         Navigator navigator;
         Stack<PathNode> path;
+        protected Dictionary<String, Timer> timers;
         Entity target;
 
         public PersistedStats stats;
@@ -25,6 +27,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
             : base(w, pos, size, center, solid)
         {
+            timers = new Dictionary<String, Timer>();
             Initialize(w, pos, size, center, solid);
         }
 
@@ -72,14 +75,12 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             base.Update(gameTime);
 
-            //createPathToTarget();
+            UpdateTimers(gameTime);
 
-            body.LinearVelocity /= (1f+stoppingFriction); //stopping friction
+            ApplyStoppingFriction(gameTime);
             
             if(path != null && path.Count > 0)
                 FollowPath();
-
-            
 
             HandleCollisions();
 
@@ -89,6 +90,18 @@ namespace wickedcrush.entity.physics_entity.agent
                 Remove();
         }
 
+        private void UpdateTimers(GameTime gameTime)
+        {
+            foreach (KeyValuePair<String, Timer> t in timers)
+            {
+                t.Value.Update(gameTime);
+            }
+        }
+
+        private void ApplyStoppingFriction(GameTime gameTime)
+        {
+            body.LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f);
+        }
         
 
         protected void FollowPath()
@@ -165,10 +178,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            if (navigator != null)
-            {
-                navigator.DebugDraw(tex, gd, spriteBatch, f);
-            }
+            //if (navigator != null)
+            //{
+                //navigator.DebugDraw(tex, gd, spriteBatch, f);
+            //}
 
             base.DebugDraw(tex, gd, spriteBatch, f, c);
         }

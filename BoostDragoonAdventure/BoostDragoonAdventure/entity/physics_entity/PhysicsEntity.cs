@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity
         protected World _w;
         protected Body body, hotSpot;
 
-        public float startingFriction = 1f;
+        public float startingFriction = 0.1f;
         public float stoppingFriction = 0.1f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
 
         public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
@@ -69,7 +69,7 @@ namespace wickedcrush.entity.physics_entity
             
             spriteBatch.DrawString(f, name, pos, Color.Black);
 
-            spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, body.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
                 e.DebugDraw(tex, gd, spriteBatch, f, c);

@@ -51,12 +51,13 @@ namespace wickedcrush
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 768;
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
             IsFixedTimeStep = true;
+            //SetFrameRate(120);
             graphics.ApplyChanges();
         }
 
