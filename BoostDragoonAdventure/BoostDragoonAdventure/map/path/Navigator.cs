@@ -53,7 +53,7 @@ namespace wickedcrush.map.path
             {
                 for (int j = 0; j < pathNodeGrid.GetLength(1); j++)
                 {
-                    if (!nodeFits(i, j, size+1))
+                    if (!nodeFits(i, j, size))
                         pathNodeGrid[i, j] = null;
                 }
             }
@@ -135,8 +135,8 @@ namespace wickedcrush.map.path
             return new PathNode(
                 new Point(x, y),
                 new Vector2(
-                    (map.width / pathNodeGrid.GetLength(0)) * x + 4,
-                    (map.height / pathNodeGrid.GetLength(1)) * y + 4),
+                    (map.width / pathNodeGrid.GetLength(0)) * x,
+                    (map.height / pathNodeGrid.GetLength(1)) * y),
                     map.width / pathNodeGrid.GetLength(0));
         }
 

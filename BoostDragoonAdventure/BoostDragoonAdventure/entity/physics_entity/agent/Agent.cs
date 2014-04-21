@@ -92,7 +92,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void FollowPath()
         {
-            if (path.Peek().box.Contains(new Point((int)(pos.X), (int)(pos.Y))))
+            if (path.Peek().box.Contains(new Point((int)(pos.X+1), (int)(pos.Y+1))))
             {
                 path.Pop();
             }
