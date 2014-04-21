@@ -13,6 +13,12 @@ namespace wickedcrush.utility
         private bool active = false;
         private bool done = false;
 
+        public Timer()
+        {
+            interval = TimeSpan.FromMilliseconds(0);
+            reset();
+        }
+
         public Timer(double milliseconds)
         {
             interval = TimeSpan.FromMilliseconds(milliseconds);

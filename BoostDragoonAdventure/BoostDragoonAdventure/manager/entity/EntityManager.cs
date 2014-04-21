@@ -8,6 +8,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.entity.physics_entity;
 using wickedcrush.entity.physics_entity.agent;
+using wickedcrush.entity.physics_entity.agent.enemy;
 
 namespace wickedcrush.manager.entity
 {
@@ -89,6 +90,11 @@ namespace wickedcrush.manager.entity
         }
 
         public void addEntity(Agent e)
+        {
+            addList.Add(e);
+        }
+
+        public void addEntity(Murderer e)
         {
             addList.Add(e);
         }

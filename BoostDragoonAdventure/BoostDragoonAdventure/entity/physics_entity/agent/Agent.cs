@@ -10,6 +10,7 @@ using FarseerPhysics.Factories;
 using wickedcrush.stats;
 using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.helper;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -131,8 +132,8 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             if (target != null)
             {
-                Point start = new Point((int)((pos.X - center.X) / 10), (int)(pos.Y - center.Y) / 10); //convert pos to gridPos for start
-                Point goal = new Point((int)((target.pos.X) / 10), (int)(target.pos.Y) / 10); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
+                Point start = new Point((int)Math.Floor((pos.X + 1) / 10f), (int)Math.Floor((pos.Y + 1) / 10f)); //convert pos to gridPos for start
+                Point goal = new Point((int)((target.pos.X+1) / 10), (int)(target.pos.Y+1) / 10); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
                 path = navigator.getPath(start, goal);
             }
         }
@@ -164,10 +165,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            //if (navigator != null)
-            //{
-                //navigator.DebugDraw(tex, gd, spriteBatch, f);
-            //}
+            if (navigator != null)
+            {
+                navigator.DebugDraw(tex, gd, spriteBatch, f);
+            }
 
             base.DebugDraw(tex, gd, spriteBatch, f, c);
         }

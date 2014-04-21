@@ -151,7 +151,7 @@ namespace wickedcrush.screen
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))
             {
-                factory.addAgent(new Vector2(600, 160), new Vector2(8, 8), new Vector2(4, 4), true, new PersistedStats(5, 5, 5));
+                factory.addAgent(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5, 5));
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))

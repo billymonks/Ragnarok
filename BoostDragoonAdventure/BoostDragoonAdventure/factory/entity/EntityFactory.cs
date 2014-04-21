@@ -19,6 +19,7 @@ using wickedcrush.player;
 using wickedcrush.entity.physics_entity.agent.trap;
 using wickedcrush.entity.physics_entity.agent.attack.projectile;
 using wickedcrush.entity.physics_entity.agent.attack.melee;
+using wickedcrush.entity.physics_entity.agent.enemy;
 
 namespace wickedcrush.factory.entity
 {
@@ -63,7 +64,7 @@ namespace wickedcrush.factory.entity
 
         public void addAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
-            Agent a = new Agent(w, pos, size, center, solid, stats);
+            Murderer a = new Murderer(w, pos, size, center, solid);
             if (map != null)
             {
                 a.activateNavigator(map);

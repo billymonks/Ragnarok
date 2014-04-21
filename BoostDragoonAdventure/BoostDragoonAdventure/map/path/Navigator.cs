@@ -13,10 +13,12 @@ namespace wickedcrush.map.path
     {
         private Map map;
         private PathNode[,] pathNodeGrid;
+        private int agentSize;
         
         public Navigator(Map m, int agentSize)
         {
             map = m;
+            this.agentSize = agentSize;
             loadPathNodeGrid(agentSize);
         }
 
@@ -77,6 +79,8 @@ namespace wickedcrush.map.path
 
         public Stack<PathNode> getPath(Point start, Point goal) // Crappy A*
         {
+            //loadPathNodeGrid(agentSize);
+
             List<PathNode> openList = new List<PathNode>();
             List<PathNode> closedList = new List<PathNode>();
             Stack<PathNode> path = new Stack<PathNode>();
