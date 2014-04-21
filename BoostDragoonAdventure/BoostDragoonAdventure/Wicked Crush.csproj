@@ -109,7 +109,9 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
-    <Compile Include="component\Test.cs" />
+    <Compile Include="screen\GameScreen.cs" />
+    <Compile Include="screen\MapSelector.cs" />
+    <Compile Include="screen\Gameplay.cs" />
     <Compile Include="controls\Controls.cs" />
     <Compile Include="controls\DebugControls.cs" />
     <Compile Include="controls\KeyboardControls.cs" />

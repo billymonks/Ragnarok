@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using wickedcrush.entity;
-using wickedcrush.component;
+using wickedcrush.screen;
 using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
@@ -27,18 +27,25 @@ namespace wickedcrush
     public class Game : Microsoft.Xna.Framework.Game
     {
         public GraphicsDeviceManager graphics;
+        public ControlsManager controlsManager;
 
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         BasicEffect e;
         float xscale, yscale;
         Matrix spriteScale;
 
-        public Map testMap;
+        public Stack<GameScreen> screenStack;
 
-        Test test;
+        public Map testMap;
+        public String mapName = "";
+
+        //Test test;
 
         public String diag = "";
+
+        public Texture2D whiteTexture;
+        public SpriteFont testFont;
 
         public Game()
         {
@@ -51,14 +58,11 @@ namespace wickedcrush
             graphics.SynchronizeWithVerticalRetrace = true;
             IsFixedTimeStep = true;
             graphics.ApplyChanges();
-            
         }
 
         protected override void Initialize()
         {
             base.Initialize();
-
-            SetFrameRate(60); //internal frame rate
 
             e = new BasicEffect(GraphicsDevice);
 
@@ -66,13 +70,17 @@ namespace wickedcrush
             yscale = (float)GraphicsDevice.Viewport.Height / 480f;
             spriteScale = Matrix.CreateScale(yscale, yscale, 1);
 
-            test = new Test(this);
+            screenStack = new Stack<GameScreen>();
+            //componentStack.Push(new Test(this));
+            screenStack.Push(new MapSelector(this));
             
         }
 
         protected override void LoadContent()
         {
+            testFont = Content.Load<SpriteFont>("Fonts/TestFont");
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            initializeWhiteTexture(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -84,10 +92,16 @@ namespace wickedcrush
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (screenStack.Count == 0)
+            {
                 this.Exit();
+                return;
+            }
 
-            test.Update(gameTime);
+            
+            screenStack.Peek().Update(gameTime);
+
+            controlsManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -97,7 +111,8 @@ namespace wickedcrush
             GraphicsDevice.Clear(Color.LightCyan);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, RasterizerState.CullNone, null, spriteScale);
-            test.Draw(GraphicsDevice, spriteBatch);
+            if(screenStack.Count>0)
+                screenStack.Peek().Draw();
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -107,6 +122,14 @@ namespace wickedcrush
         {
             this.TargetElapsedTime = TimeSpan.FromSeconds(1.0f / frames);
             graphics.ApplyChanges();
+        }
+
+        private void initializeWhiteTexture(GraphicsDevice gd)
+        {
+            whiteTexture = new Texture2D(gd, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            whiteTexture.SetData(data);
         }
     }
 }

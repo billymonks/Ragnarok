@@ -44,7 +44,7 @@ namespace wickedcrush.map
 
         private void loadMap(String MAP_NAME, World w)
         {
-            XDocument doc = XDocument.Load("maps/" + MAP_NAME + ".xml");
+            XDocument doc = XDocument.Load(MAP_NAME);
 
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
@@ -62,12 +62,13 @@ namespace wickedcrush.map
             data = getLayerData(deathSoup.Value);
             addLayer(w, data, LayerType.DEATH_SOUP);
 
-            foreach (XElement e in objects.Elements("TURRET"))
-            {
-                factory.addTurret(
-                    new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                    (Direction)int.Parse(e.Attribute("angle").Value));
-            }
+            if(objects!=null)
+                foreach (XElement e in objects.Elements("TURRET"))
+                {
+                    factory.addTurret(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        (Direction)int.Parse(e.Attribute("angle").Value));
+                }
         }
 
         private bool[,] getLayerData(String s)
