@@ -153,14 +153,14 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void createPathToLocation(Point goal)
         {
-            Point start = new Point((int)(pos.X / 10), (int)pos.Y / 10); //convert pos to gridPos for start
+            Point start = new Point((int)(pos.X / 10f), (int)(pos.Y / 10f)); //convert pos to gridPos for start
             path = navigator.getPath(start, goal);
         }
 
         protected void createPathToLocation(Vector2 loc)
         {
-            Point start = new Point((int)(pos.X / 10), (int)pos.Y / 10); //convert pos to gridPos for start
-            Point goal = new Point((int)(loc.X / 10), (int)loc.Y / 10); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
+            Point start = new Point((int)(pos.X / 10f), (int)(pos.Y / 10f)); //convert pos to gridPos for start
+            Point goal = new Point((int)(loc.X / 10f), (int)(loc.Y / 10f)); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
             path = navigator.getPath(start, goal);
         }
 

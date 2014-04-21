@@ -36,11 +36,6 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-            if (deployed)
-                Remove();
-            else
-                deployed = true;
         }
 
         protected override void HandleCollisions()
@@ -55,12 +50,13 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
 
                 c = c.Next;
             }
+
+            Remove();
         }
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             spriteBatch.Draw(tex, body.Position, null, Color.Salmon, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(f, name, pos, Color.Black);
         }
     }
