@@ -12,6 +12,7 @@ using FarseerPhysics.Dynamics.Contacts;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.helper;
 using wickedcrush.utility;
+using wickedcrush.behavior;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -20,6 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent
         Navigator navigator;
         Stack<PathNode> path;
         protected Dictionary<String, Timer> timers;
+        protected StateMachine sm;
         Entity target;
 
         public PersistedStats stats;
@@ -78,10 +80,12 @@ namespace wickedcrush.entity.physics_entity.agent
             UpdateTimers(gameTime);
 
             ApplyStoppingFriction(gameTime);
-            
-            if(path != null && path.Count > 0)
-                FollowPath();
 
+            if (sm != null)
+            {
+                sm.Update(gameTime, this);
+            }
+            
             HandleCollisions();
 
             hotSpot.Position = body.WorldCenter;
@@ -106,6 +110,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void FollowPath()
         {
+            if (path == null || path.Count == 0)
+                return;
+
             if (path.Peek().box.Contains(new Point((int)(pos.X+1), (int)(pos.Y+1))))
             {
                 path.Pop();
@@ -139,6 +146,20 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             this.target = target;
             createPathToTarget();
+        }
+
+        public int distanceToTarget()
+        {
+            if (target == null)
+                return -1;
+
+            return (int)(
+                Math.Min(
+                    Math.Abs(this.pos.X - target.pos.X), 
+                    Math.Abs(this.pos.X + this.size.X - target.pos.X)) 
+                + Math.Min(
+                    Math.Abs(this.pos.Y - target.pos.Y),
+                    Math.Abs(this.pos.Y + this.size.Y - target.pos.Y)));
         }
 
         protected void createPathToTarget()
