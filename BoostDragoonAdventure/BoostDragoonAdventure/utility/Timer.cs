@@ -61,6 +61,11 @@ namespace wickedcrush.utility
             active = true;
         }
 
+        public bool isActive()
+        {
+            return active;
+        }
+
         public void deactivate()
         {
             active = false;
@@ -80,7 +85,6 @@ namespace wickedcrush.utility
         {
             if (currentTime > interval)
             {
-                active = false;
                 done = true;
             }
         }

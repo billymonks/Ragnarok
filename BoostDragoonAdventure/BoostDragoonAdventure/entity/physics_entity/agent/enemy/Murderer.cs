@@ -15,11 +15,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 {
     public class Murderer : Agent
     {
-        private EntityFactory factory;
         private Color testColor = Color.Green;
 
-        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
-            : base(w, pos, size, center, solid)
+        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
+            : base(w, pos, size, center, solid, factory)
         {
             Initialize();
             this.stats = stats;
@@ -33,6 +32,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             timers.Add("navigation", new Timer(500));
             timers["navigation"].start();
 
+            timers.Add("attack_tell", new Timer(1000));
+            timers.Add("post_attack", new Timer(1000));
+
             SetupStateMachine();
             
         }
@@ -40,6 +42,31 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private void SetupStateMachine()
         {
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
+            ctrl.Add("post_attack",
+                new State("post_attack",
+                    c => ((Murderer)c).timers["post_attack"].isActive(),
+                    c =>
+                    {
+                        testColor = Color.Violet;
+                        if (timers["post_attack"].isDone())
+                        {
+                            timers["post_attack"].reset();
+                        }
+                    }));
+            ctrl.Add("attack_tell",
+                new State("attack_tell",
+                    c => ((Murderer)c).timers["attack_tell"].isActive(),
+                    c =>
+                    {
+                        testColor = Color.Yellow;
+                        if(timers["attack_tell"].isDone())
+                        {
+                            attackForward();
+                            testColor = Color.Red;
+                            timers["post_attack"].resetAndStart();
+                            timers["attack_tell"].reset();
+                        }
+                    }));
             ctrl.Add("chase",
                 new State("chase",
                     c => distanceToTarget() > 40,
@@ -60,7 +87,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => true,
                     c =>
                     {
-                        testColor = Color.Yellow;
+                        if(distanceToTarget() < 40)
+                            timers["attack_tell"].resetAndStart();
+                        
                     }));
             sm = new StateMachine(ctrl);
         }

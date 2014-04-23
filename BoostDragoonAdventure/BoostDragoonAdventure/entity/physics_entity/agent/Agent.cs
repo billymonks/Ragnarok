@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.helper;
 using wickedcrush.utility;
 using wickedcrush.behavior;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -22,13 +23,15 @@ namespace wickedcrush.entity.physics_entity.agent
         Stack<PathNode> path;
         protected Dictionary<String, Timer> timers;
         protected StateMachine sm;
+        protected EntityFactory factory;
         Entity target;
 
         public PersistedStats stats;
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid)
         {
+            this.factory = factory;
             timers = new Dictionary<String, Timer>();
             Initialize(w, pos, size, center, solid);
         }
@@ -135,6 +138,9 @@ namespace wickedcrush.entity.physics_entity.agent
                 else if (path.Peek().pos.Y + path.Peek().gridSize <= pos.Y)
                     v.Y += -50f;
 
+                facing = (Direction)
+                    Helper.degreeConversion((float)Math.Atan2(v.Y, v.X));
+
                 body.LinearVelocity = v;
             }
 
@@ -183,6 +189,17 @@ namespace wickedcrush.entity.physics_entity.agent
             Point start = new Point((int)(pos.X / 10f), (int)(pos.Y / 10f)); //convert pos to gridPos for start
             Point goal = new Point((int)(loc.X / 10f), (int)(loc.Y / 10f)); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
             path = navigator.getPath(start, goal);
+        }
+
+        protected void attackForward()
+        {
+            factory.addMeleeAttack(
+                    new Vector2(
+                        (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
+                        (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
+                    size,
+                    new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
+                    this); //set parent to self, don't hurt self
         }
 
         protected virtual void HandleCollisions()

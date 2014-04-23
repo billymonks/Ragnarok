@@ -19,16 +19,16 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #region Variables
         protected Controls controls;
 
-        private EntityFactory factory;
+        
         #endregion
 
         #region Initialization
         public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, EntityFactory factory)
-            : base(w, pos, size, center, solid)
+            : base(w, pos, size, center, solid, factory)
         {
             Initialize(pos, size, center, solid, controls);
 
-            this.factory = factory;
+            
         }
 
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
@@ -71,14 +71,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             if (controls.ActionPressed())
             {
-                factory.addMeleeAttack(
-                    new Vector2(
-                        (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
-                        (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
-                    size,
-                    new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
-                    this); //set parent to self, don't hurt self
-
+                attackForward();
             }
             
         }

@@ -17,7 +17,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
         private EntityFactory factory;
 
         public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
         {
             Initialize(pos, size, center, facing);
 

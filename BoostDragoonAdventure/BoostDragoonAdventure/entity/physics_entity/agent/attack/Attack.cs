@@ -6,6 +6,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using wickedcrush.stats;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.entity.physics_entity.agent.attack
 {
@@ -14,13 +15,13 @@ namespace wickedcrush.entity.physics_entity.agent.attack
         protected int damage;
 
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
-            : base(w, pos, size, center, false)
+            : base(w, pos, size, center, false, (EntityFactory)null)
         {
             Initialize();
         }
 
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
-            : base(w, pos, size, center, false)
+            : base(w, pos, size, center, false, (EntityFactory)null)
         {
             this.parent = parent;
             Initialize();
