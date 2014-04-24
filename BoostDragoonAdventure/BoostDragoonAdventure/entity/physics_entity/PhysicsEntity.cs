@@ -66,14 +66,23 @@ namespace wickedcrush.entity.physics_entity
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             spriteBatch.Draw(tex, bodies["body"].Position, null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            
-            spriteBatch.DrawString(f, name, pos, Color.Black);
+
+            DrawName(spriteBatch, f);
 
             spriteBatch.Draw(tex, bodies["body"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
                 e.DebugDraw(tex, gd, spriteBatch, f, c);
 
+        }
+
+        protected void DrawName(SpriteBatch spriteBatch, SpriteFont f)
+        {
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 11), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 9), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(1, 10), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 10), Color.White);
         }
 
         protected void setLocalCenter()

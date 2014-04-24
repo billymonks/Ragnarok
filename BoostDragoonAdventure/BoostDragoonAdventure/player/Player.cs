@@ -67,7 +67,7 @@ namespace wickedcrush.player
 
         protected void Remove()
         {
-            
+            remove = true;
         }
 
         public bool readyForRemoval()

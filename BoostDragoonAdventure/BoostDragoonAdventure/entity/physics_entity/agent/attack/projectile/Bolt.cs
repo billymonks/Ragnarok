@@ -75,7 +75,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         {
             spriteBatch.Draw(tex, bodies["body"].Position, null, Color.Salmon, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
             spriteBatch.Draw(tex, bodies["hotspot"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
-            spriteBatch.DrawString(f, name, pos, Color.Black);
+            DrawName(spriteBatch, f);
         }
     }
 }

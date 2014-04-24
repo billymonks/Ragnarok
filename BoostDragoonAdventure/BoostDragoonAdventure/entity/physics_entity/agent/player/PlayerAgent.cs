@@ -18,7 +18,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
     {
         #region Variables
         protected Controls controls;
-
+        private float speed = 150f;
         
         #endregion
 
@@ -65,7 +65,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 facing = (Direction)
                     Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
-            v += unitVector * magnitude * 150f * startingFriction;
+            v += unitVector * magnitude * speed * startingFriction;
 
             bodies["body"].LinearVelocity = v;
 
