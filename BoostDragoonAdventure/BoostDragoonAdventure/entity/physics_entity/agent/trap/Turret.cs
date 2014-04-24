@@ -50,21 +50,21 @@ namespace wickedcrush.entity.physics_entity.agent.trap
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
-            body.FixedRotation = true;
-            body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Static;
-            body.CollisionGroup = (short)CollisionGroup.AGENT;
+            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
+            bodies["body"].FixedRotation = true;
+            bodies["body"].LinearVelocity = Vector2.Zero;
+            bodies["body"].BodyType = BodyType.Static;
+            bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
 
-            body.UserData = this;
+            bodies["body"].UserData = this;
 
             if (!solid)
-                body.IsSensor = true;
+                bodies["body"].IsSensor = true;
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, center, hotSpot);
-            hotSpot.FixedRotation = true;
-            hotSpot.LinearVelocity = Vector2.Zero;
-            hotSpot.BodyType = BodyType.Static;
+            FixtureFactory.AttachRectangle(1f, 1f, 1f, center, bodies["hotspot"]);
+            bodies["hotspot"].FixedRotation = true;
+            bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            bodies["hotspot"].BodyType = BodyType.Static;
 
         }
 

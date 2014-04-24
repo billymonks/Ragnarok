@@ -52,7 +52,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateMovement()
         {
-            Vector2 v = body.LinearVelocity;
+            Vector2 v = bodies["body"].LinearVelocity;
             
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
@@ -67,7 +67,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             v += unitVector * magnitude * 150f * startingFriction;
 
-            body.LinearVelocity = v;
+            bodies["body"].LinearVelocity = v;
 
             if (controls.ActionPressed())
             {

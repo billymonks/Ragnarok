@@ -101,7 +101,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            spriteBatch.Draw(tex, body.Position, null, testColor, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, bodies["body"].Position, null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
             //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(f, name, pos, Color.Black);
         }

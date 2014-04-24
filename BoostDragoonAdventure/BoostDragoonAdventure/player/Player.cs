@@ -20,7 +20,7 @@ namespace wickedcrush.player
         public String name;
         public int playerNumber;
 
-        private bool remove;
+        private bool remove = false;
 
         public Player(String name, int playerNumber, Controls c, PersistedStats stats, EntityFactory factory)
         {
@@ -65,10 +65,9 @@ namespace wickedcrush.player
             stats = agent.stats;
         }
 
-        public void Remove(World w)
+        protected void Remove()
         {
-            agent.removeBody(w);
-            remove = true;
+            
         }
 
         public bool readyForRemoval()

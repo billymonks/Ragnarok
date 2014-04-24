@@ -43,15 +43,15 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
         protected void moveForward(float speed)
         {
-            Vector2 v = body.LinearVelocity;
+            Vector2 v = bodies["body"].LinearVelocity;
             v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
             v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
-            body.LinearVelocity = v;
+            bodies["body"].LinearVelocity = v;
         }
 
         protected override void HandleCollisions()
         {
-            var c = body.ContactList;
+            var c = bodies["body"].ContactList;
             while (c != null)
             {
                 if (c.Contact.IsTouching
@@ -73,8 +73,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            spriteBatch.Draw(tex, body.Position, null, Color.Salmon, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, bodies["body"].Position, null, Color.Salmon, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, bodies["hotspot"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             spriteBatch.DrawString(f, name, pos, Color.Black);
         }
     }

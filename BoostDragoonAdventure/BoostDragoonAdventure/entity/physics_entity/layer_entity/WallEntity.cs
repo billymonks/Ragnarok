@@ -33,14 +33,14 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
-            body.FixedRotation = true;
-            body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Static;
-            body.CollisionGroup = (short)CollisionGroup.LAYER;
+            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
+            bodies["body"].FixedRotation = true;
+            bodies["body"].LinearVelocity = Vector2.Zero;
+            bodies["body"].BodyType = BodyType.Static;
+            bodies["body"].CollisionGroup = (short)CollisionGroup.LAYER;
 
             if (!solid)
-                body.IsSensor = true;
+                bodies["body"].IsSensor = true;
 
         }
         #endregion

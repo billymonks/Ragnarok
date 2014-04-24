@@ -18,7 +18,7 @@ namespace wickedcrush.entity.physics_entity
     public class PhysicsEntity : Entity
     {
         protected World _w;
-        protected Body body, hotSpot;
+        protected Dictionary<String, Body> bodies;
 
         public float startingFriction = 0.1f;
         public float stoppingFriction = 0.1f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
@@ -36,9 +36,10 @@ namespace wickedcrush.entity.physics_entity
 
         protected virtual void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            body = BodyFactory.CreateBody(w, pos - center);
-            hotSpot = BodyFactory.CreateBody(w, pos);
-            hotSpot.IsSensor = true;
+            bodies = new Dictionary<String, Body>();
+            bodies.Add("body", BodyFactory.CreateBody(w, pos - center));
+            bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
+            bodies["hotspot"].IsSensor = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -49,8 +50,8 @@ namespace wickedcrush.entity.physics_entity
 
         private void UpdatePos()
         {
-            pos.X = body.Position.X;
-            pos.Y = body.Position.Y;
+            pos.X = bodies["body"].Position.X;
+            pos.Y = bodies["body"].Position.Y;
         }
 
         protected override void Remove()
@@ -58,18 +59,17 @@ namespace wickedcrush.entity.physics_entity
             if (remove == false)
             {
                 base.Remove();
-                _w.RemoveBody(body);
-                _w.RemoveBody(hotSpot);
+                removeBodies();
             }
         }
 
         public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            spriteBatch.Draw(tex, body.Position, null, c, body.Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, bodies["body"].Position, null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
             
             spriteBatch.DrawString(f, name, pos, Color.Black);
 
-            spriteBatch.Draw(tex, body.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex, bodies["body"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
                 e.DebugDraw(tex, gd, spriteBatch, f, c);
@@ -78,12 +78,15 @@ namespace wickedcrush.entity.physics_entity
 
         protected void setLocalCenter()
         {
-            body.LocalCenter = center;
+            bodies["body"].LocalCenter = center;
         }
 
-        public void removeBody(World w)
+        public void removeBodies()
         {
-            w.RemoveBody(body);
+            foreach (KeyValuePair<String, Body> pair in bodies)
+            {
+                _w.RemoveBody(pair.Value);
+            }
         }
     }
 }

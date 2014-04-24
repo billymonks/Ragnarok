@@ -52,21 +52,21 @@ namespace wickedcrush.entity.physics_entity.agent
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, body);
-            body.FixedRotation = true;
-            body.LinearVelocity = Vector2.Zero;
-            body.BodyType = BodyType.Dynamic;
-            body.CollisionGroup = (short)CollisionGroup.AGENT;
+            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
+            bodies["body"].FixedRotation = true;
+            bodies["body"].LinearVelocity = Vector2.Zero;
+            bodies["body"].BodyType = BodyType.Dynamic;
+            bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
 
-            body.UserData = this;
+            bodies["body"].UserData = this;
 
             if (!solid)
-                body.IsSensor = true;
+                bodies["body"].IsSensor = true;
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, hotSpot);
-            hotSpot.FixedRotation = true;
-            hotSpot.LinearVelocity = Vector2.Zero;
-            hotSpot.BodyType = BodyType.Dynamic;
+            FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
+            bodies["hotspot"].FixedRotation = true;
+            bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            bodies["hotspot"].BodyType = BodyType.Dynamic;
 
         }
 
@@ -91,7 +91,7 @@ namespace wickedcrush.entity.physics_entity.agent
             
             HandleCollisions();
 
-            hotSpot.Position = body.WorldCenter;
+            bodies["hotspot"].Position = bodies["body"].WorldCenter;
 
             if (stats.hp <= 0 && immortal == false)
                 Remove();
@@ -107,7 +107,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         private void ApplyStoppingFriction(GameTime gameTime)
         {
-            body.LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f);
+            bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f);
         }
         
 
@@ -123,7 +123,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             if (path.Count > 0)
             {
-                Vector2 v = body.LinearVelocity;
+                Vector2 v = bodies["body"].LinearVelocity;
 
                 v.X /= (1f + stoppingFriction);
                 v.Y /= (1f + stoppingFriction);
@@ -141,7 +141,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 facing = (Direction)
                     Helper.degreeConversion((float)Math.Atan2(v.Y, v.X));
 
-                body.LinearVelocity = v;
+                bodies["body"].LinearVelocity = v;
             }
 
             
@@ -204,7 +204,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void HandleCollisions()
         {
-            var c = hotSpot.ContactList;
+            var c = bodies["hotspot"].ContactList;
             while(c != null)
             {
                 if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP))
