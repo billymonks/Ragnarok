@@ -11,6 +11,8 @@ using FarseerPhysics.Factories;
 using wickedcrush.stats;
 using wickedcrush.entity.physics_entity.agent.attack;
 using wickedcrush.factory.entity;
+using wickedcrush.behavior.state;
+using wickedcrush.behavior;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -18,7 +20,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
     {
         #region Variables
         protected Controls controls;
-        private float speed = 150f;
+        
+        
+        private float boostSpeed = 100f;
+
         
         #endregion
 
@@ -38,6 +43,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.name = "Player";
 
             this.facing = Direction.East;
+            movementDirection = facing;
+
+            SetupStateMachine();
         }
 
         
@@ -47,33 +55,86 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            UpdateMovement();
+            WalkForward();
         }
 
-        protected void UpdateMovement()
+        private void SetupStateMachine()
+        {
+            Dictionary<String, State> ctrl = new Dictionary<String, State>();
+            ctrl.Add("boosting",
+                new State("boosting",
+                    c => ((PlayerAgent)c).controls.BoostHeld(),
+                    c =>
+                    {
+                        UpdateDirection();
+                        BoostForward();
+
+                        if (controls.ActionPressed())
+                        {
+                            attackForward();
+                        }
+                    }));
+            ctrl.Add("default",
+                new State("default",
+                    c => true,
+                    c =>
+                    {
+                        UpdateDirection();
+                        WalkForward();
+
+                        if (controls.ActionPressed())
+                        {
+                            attackForward();
+                        }
+                    }));
+
+            sm = new StateMachine(ctrl);
+        }
+
+        protected void UpdateDirection()
+        {
+            float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
+
+            if (magnitude == 0f)
+                return;
+
+            Direction temp = (Direction)
+                        Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
+
+            if (!strafe)
+                facing = temp;
+
+            movementDirection = temp;
+        }
+
+        protected void WalkForward()
         {
             Vector2 v = bodies["body"].LinearVelocity;
             
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
             Vector2 unitVector = new Vector2(
-                (float)Math.Cos(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis())),
-                (float)Math.Sin(Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()))
+                (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
+                (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
             );
-
-            if(magnitude != 0f)
-                facing = (Direction)
-                    Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
             v += unitVector * magnitude * speed * startingFriction;
 
             bodies["body"].LinearVelocity = v;
+        }
 
-            if (controls.ActionPressed())
-            {
-                attackForward();
-            }
-            
+        protected void BoostForward()
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
+                (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
+            );
+
+            v += unitVector * boostSpeed;
+
+            bodies["body"].LinearVelocity = v;
         }
         #endregion
 

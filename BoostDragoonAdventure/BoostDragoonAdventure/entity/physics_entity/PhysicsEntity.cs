@@ -20,8 +20,8 @@ namespace wickedcrush.entity.physics_entity
         protected World _w;
         protected Dictionary<String, Body> bodies;
 
-        public float startingFriction = 0.1f;
-        public float stoppingFriction = 0.1f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
+        public float startingFriction = 0.5f;
+        public float stoppingFriction = 0.4f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
 
         public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
         {

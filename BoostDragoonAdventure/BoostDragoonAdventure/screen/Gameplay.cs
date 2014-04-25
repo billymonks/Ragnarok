@@ -21,6 +21,7 @@ using wickedcrush.stats;
 using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
+using FarseerPhysics;
 
 
 namespace wickedcrush.screen

@@ -28,6 +28,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public PersistedStats stats;
 
+        protected float speed = 50f;
+        protected bool strafe = false;
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid)
         {
@@ -107,7 +110,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         private void ApplyStoppingFriction(GameTime gameTime)
         {
-            bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f);
+            bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f); //is this ok???
         }
         
 
@@ -125,21 +128,19 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 Vector2 v = bodies["body"].LinearVelocity;
 
-                v.X /= (1f + stoppingFriction);
-                v.Y /= (1f + stoppingFriction);
-
                 if (path.Peek().pos.X + path.Peek().gridSize <= pos.X)
-                    v.X += -50f;
+                    v.X += -speed;
                 else if (pos.X < path.Peek().pos.X)
-                    v.X += 50f;
+                    v.X += speed;
 
                 if (pos.Y < path.Peek().pos.Y)
-                    v.Y += 50f;
+                    v.Y += speed;
                 else if (path.Peek().pos.Y + path.Peek().gridSize <= pos.Y)
-                    v.Y += -50f;
+                    v.Y += -speed;
 
-                facing = (Direction)
-                    Helper.degreeConversion((float)Math.Atan2(v.Y, v.X));
+                if(!strafe)
+                    facing = (Direction)
+                        Helper.degreeConversion((float)Math.Atan2(v.Y, v.X));
 
                 bodies["body"].LinearVelocity = v;
             }

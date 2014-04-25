@@ -36,6 +36,7 @@ namespace wickedcrush.entity
         public bool immortal = false;
 
         public Direction facing;
+        public Direction movementDirection;
         #endregion
 
         #region Initialization
