@@ -101,6 +101,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             Direction temp = (Direction)
                         Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
+            strafe = controls.StrafeHeld();
+
             if (!strafe)
                 facing = temp;
 

@@ -12,8 +12,8 @@ namespace wickedcrush.controls
         private KeyboardState keyState, prevKeyState;
         private MouseState mouseState, prevMouseState;
 
-        private Keys actionKey = Keys.Z, blockKey = Keys.Space, boostKey = Keys.X,
-            downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
+        private Keys actionKey = Keys.Z, blockKey = Keys.X, boostKey = Keys.Space,
+            strafeKey = Keys.LeftControl, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
             altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
             startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
 
@@ -89,7 +89,7 @@ namespace wickedcrush.controls
 
         public override bool BoostHeld()
         {
-            if (keyState.IsKeyDown(boostKey) || mouseState.RightButton == ButtonState.Pressed)
+            if (keyState.IsKeyDown(boostKey))
                 return true;
             else
                 return false;
@@ -97,8 +97,7 @@ namespace wickedcrush.controls
 
         public override bool BoostPressed()
         {
-            if ((keyState.IsKeyDown(boostKey) && prevKeyState.IsKeyUp(boostKey))
-                || (mouseState.RightButton == ButtonState.Pressed || mouseState.RightButton == ButtonState.Released))
+            if(keyState.IsKeyDown(boostKey) && prevKeyState.IsKeyUp(boostKey))
                 return true;
             else
                 return false;
@@ -107,6 +106,14 @@ namespace wickedcrush.controls
         public override bool BoostReleased()
         {
             if (keyState.IsKeyUp(boostKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool StrafeHeld()
+        {
+            if (keyState.IsKeyDown(strafeKey) || mouseState.RightButton == ButtonState.Pressed)
                 return true;
             else
                 return false;

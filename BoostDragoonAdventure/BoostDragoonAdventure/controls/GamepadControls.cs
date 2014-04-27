@@ -13,7 +13,7 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons actionButton = Buttons.X, blockButton = Buttons.B, boostButton = Buttons.A;
+        private Buttons actionButton = Buttons.X, blockButton = Buttons.B, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
 
         public GamepadControls(PlayerIndex playerIndex)
         {
@@ -95,6 +95,14 @@ namespace wickedcrush.controls
         public override bool BoostReleased()
         {
             if (padState.IsButtonUp(boostButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool StrafeHeld()
+        {
+            if (padState.IsButtonDown(strafeButton))
                 return true;
             else
                 return false;
