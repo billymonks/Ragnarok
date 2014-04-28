@@ -83,10 +83,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-
-            //game.testMap.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
             DebugDraw();
-
         }
 
         private void DebugDraw()

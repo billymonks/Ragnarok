@@ -59,9 +59,9 @@ namespace wickedcrush.player
             return agent;
         }
 
-        public void GenerateAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
+        public void GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
-            agent = new PlayerAgent(w, pos, size, center, solid, c, factory);
+            agent = factory.addPlayerAgent(pos, size, center, solid, c);
             stats = agent.stats;
         }
 
@@ -89,13 +89,13 @@ namespace wickedcrush.player
         {
             c.Update();
 
-            if (agent != null)
-            {
-                agent.Update(gameTime);
+            //if (agent != null)
+            //{
+                //agent.Update(gameTime);
 
-                if (agent.readyForRemoval())
-                    agent = null;
-            }
+                //if (agent.readyForRemoval())
+                    //agent = null;
+            //}
         }
     }
 }

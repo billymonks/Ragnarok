@@ -39,7 +39,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
         {
             this.controls = controls;
-            stats = new PersistedStats(5, 5, 5);
+            stats = new PersistedStats(15, 15, 5);
             this.name = "Player";
 
             this.facing = Direction.East;
@@ -55,7 +55,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            WalkForward();
+            //WalkForward();
         }
 
         private void SetupStateMachine()
@@ -71,7 +71,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward();
+                            attackForward(new Vector2(36, 36));
                         }
                     }));
             ctrl.Add("default",
@@ -84,7 +84,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward();
+                            attackForward(new Vector2(36, 36));
                         }
                     }));
 
@@ -119,7 +119,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
                 (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
             );
-
+            speed = 75f;
             v += unitVector * magnitude * speed * startingFriction;
 
             bodies["body"].LinearVelocity = v;

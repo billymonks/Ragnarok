@@ -28,8 +28,6 @@ namespace wickedcrush.screen
 {
     public class Gameplay : GameScreen
     {
-        
-        public PlayerManager playerManager;
         public EntityManager entityManager;
 
         public EntityFactory factory;
@@ -45,11 +43,9 @@ namespace wickedcrush.screen
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
 
-            game.controlsManager = new ControlsManager(game);
-            playerManager = new PlayerManager(game, game.controlsManager);
             entityManager = new EntityManager(game);
 
-            factory = new EntityFactory(entityManager, playerManager, game.controlsManager, w);
+            factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, w);
 
             LoadContent(game);
 
@@ -92,7 +88,7 @@ namespace wickedcrush.screen
 
             game.diag = "";
 
-            playerManager.Update(gameTime);
+            //playerManager.Update(gameTime);
             entityManager.Update(gameTime);
             
 
@@ -119,7 +115,7 @@ namespace wickedcrush.screen
         {
             entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
 
-            playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
+            //game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
         }
 
         private void DrawDiag()
@@ -137,7 +133,7 @@ namespace wickedcrush.screen
 
         private void DrawPlayerHud()
         {
-            foreach (Player p in playerManager.getPlayerList())
+            foreach (Player p in game.playerManager.getPlayerList())
             {
                 game.spriteBatch.DrawString(game.testFont, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
@@ -147,7 +143,7 @@ namespace wickedcrush.screen
         {
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                factory.addAgent(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(5,5,5));
+                factory.addAgent(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30,30,5));
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))
@@ -164,7 +160,6 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
-            playerManager.Dispose();
             entityManager.Dispose();
         }
     }

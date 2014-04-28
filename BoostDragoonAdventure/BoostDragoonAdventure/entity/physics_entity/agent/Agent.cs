@@ -34,21 +34,21 @@ namespace wickedcrush.entity.physics_entity.agent
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid)
         {
-            this.factory = factory;
-            timers = new Dictionary<String, Timer>();
-            Initialize(w, pos, size, center, solid);
+            
+            Initialize(w, pos, size, center, solid, new PersistedStats(5, 5, 5), factory);
         }
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
+        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
             : base(w, pos, size, center, solid)
         {
-            Initialize(w, pos, size, center, solid);
-            this.stats = stats;
+            Initialize(w, pos, size, center, solid, stats, factory);
         }
 
-        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats, EntityFactory factory)
         {
-            stats = new PersistedStats(5, 5, 5);
+            this.factory = factory;
+            this.stats = stats;
+            timers = new Dictionary<String, Timer>();
             this.name = "Agent";
         }
 
@@ -160,13 +160,15 @@ namespace wickedcrush.entity.physics_entity.agent
             if (target == null)
                 return -1;
 
-            return (int)(
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (target.pos.X + target.center.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (target.pos.Y + target.center.Y), 2));
+            /*return (int)(
                 Math.Min(
                     Math.Abs(this.pos.X - target.pos.X), 
                     Math.Abs(this.pos.X + this.size.X - target.pos.X)) 
                 + Math.Min(
                     Math.Abs(this.pos.Y - target.pos.Y),
-                    Math.Abs(this.pos.Y + this.size.Y - target.pos.Y)));
+                    Math.Abs(this.pos.Y + this.size.Y - target.pos.Y)));*/
         }
 
         protected void createPathToTarget()
@@ -192,14 +194,14 @@ namespace wickedcrush.entity.physics_entity.agent
             path = navigator.getPath(start, goal);
         }
 
-        protected void attackForward()
+        protected void attackForward(Vector2 attackSize)
         {
             factory.addMeleeAttack(
                     new Vector2(
                         (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
                         (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
-                    size,
-                    new Vector2(size.X / 2, size.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
+                    attackSize,
+                    new Vector2(attackSize.X / 2, attackSize.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
                     this); //set parent to self, don't hurt self
         }
 

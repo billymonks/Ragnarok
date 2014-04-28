@@ -62,9 +62,17 @@ namespace wickedcrush.factory.entity
             em.addEntity(e);
         }
 
+        public PlayerAgent addPlayerAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c)
+        {
+            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, this);
+            em.addEntity(agent);
+            
+            return agent;
+        }
+
         public void addAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
-            Murderer a = new Murderer(w, pos, size, center, solid, this);
+            Murderer a = new Murderer(w, pos, size, center, solid, this, stats);
             if (map != null)
             {
                 a.activateNavigator(map);
@@ -108,7 +116,7 @@ namespace wickedcrush.factory.entity
         private void addPlayer(Controls controls) //needs a new home
         {
             Player p = new Player("bunz", pm.getPlayerList().Count, controls);
-            p.GenerateAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
+            p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
             pm.addPlayer(p);
 
         }
@@ -119,7 +127,7 @@ namespace wickedcrush.factory.entity
             {
                 if (p.getAgent() == null && p.c.StartPressed())
                 {
-                    p.GenerateAgent(w, new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
                 }
             }
         }

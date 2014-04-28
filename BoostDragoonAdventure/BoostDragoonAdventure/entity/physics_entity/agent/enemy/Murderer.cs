@@ -17,8 +17,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
-            : base(w, pos, size, center, solid, factory)
+        private const int attackTellLength = 750, postAttackLength = 1200, navigationResetLength = 500;
+
+        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
+            : base(w, pos, size, center, solid, factory, stats)
         {
             Initialize();
             this.stats = stats;
@@ -26,14 +28,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         private void Initialize()
         {
-            stats = new PersistedStats(10, 10, 5);
+            //stats = new PersistedStats(10, 10, 5);
             this.name = "Murderer";
 
-            timers.Add("navigation", new Timer(500));
+            timers.Add("navigation", new Timer(navigationResetLength));
             timers["navigation"].start();
 
-            timers.Add("attack_tell", new Timer(1000));
-            timers.Add("post_attack", new Timer(1000));
+            timers.Add("attack_tell", new Timer(attackTellLength));
+            timers.Add("post_attack", new Timer(postAttackLength));
 
             SetupStateMachine();
             
@@ -61,7 +63,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         testColor = Color.Yellow;
                         if(timers["attack_tell"].isDone())
                         {
-                            attackForward();
+                            attackForward(new Vector2(48, 48));
                             testColor = Color.Red;
                             timers["post_attack"].resetAndStart();
                             timers["attack_tell"].reset();

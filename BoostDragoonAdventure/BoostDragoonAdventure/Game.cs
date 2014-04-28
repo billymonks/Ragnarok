@@ -28,6 +28,7 @@ namespace wickedcrush
     {
         public GraphicsDeviceManager graphics;
         public ControlsManager controlsManager;
+        public PlayerManager playerManager;
 
         public SpriteBatch spriteBatch;
 
@@ -72,6 +73,11 @@ namespace wickedcrush
             spriteScale = Matrix.CreateScale(yscale, yscale, 1);
 
             screenStack = new Stack<GameScreen>();
+
+            controlsManager = new ControlsManager(this);
+            playerManager = new PlayerManager(this, controlsManager);
+
+
             //componentStack.Push(new Test(this));
             screenStack.Push(new MapSelector(this));
             
@@ -99,6 +105,8 @@ namespace wickedcrush
                 return;
             }
 
+            
+            playerManager.Update(gameTime);
             
             screenStack.Peek().Update(gameTime);
 

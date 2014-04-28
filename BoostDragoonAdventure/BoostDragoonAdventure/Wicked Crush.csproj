@@ -139,6 +139,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="screen\PlayerSelect.cs" />
     <Compile Include="stats\PersistedStats.cs" />
     <Compile Include="utility\Timer.cs" />
   </ItemGroup>
