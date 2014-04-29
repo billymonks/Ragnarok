@@ -54,7 +54,7 @@ namespace wickedcrush.entity.physics_entity
             pos.Y = bodies["body"].Position.Y;
         }
 
-        protected override void Remove()
+        public override void Remove()
         {
             if (remove == false)
             {

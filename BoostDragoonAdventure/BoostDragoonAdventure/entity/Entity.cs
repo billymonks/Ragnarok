@@ -80,7 +80,7 @@ namespace wickedcrush.entity
         
         #endregion
 
-        protected virtual void Remove()
+        public virtual void Remove()
         {
             if (remove == false)
             {
@@ -105,6 +105,13 @@ namespace wickedcrush.entity
 
             foreach (Entity e in subEntityList)
                 e.DebugDraw(tex, gd, spriteBatch, f, c);
+        }
+
+        protected Vector2 vectorToEntity(Entity e)
+        {
+            return new Vector2(
+                (this.pos.X + this.center.X) - (e.pos.X + e.center.X),
+                -(this.pos.Y + this.center.Y) + (e.pos.Y + e.center.Y));
         }
 
         

@@ -55,7 +55,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            //WalkForward();
         }
 
         private void SetupStateMachine()

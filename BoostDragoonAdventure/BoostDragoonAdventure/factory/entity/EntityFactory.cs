@@ -125,7 +125,7 @@ namespace wickedcrush.factory.entity
         {
             foreach (Player p in pm.getPlayerList())
             {
-                if (p.getAgent() == null && p.c.StartPressed())
+                if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
                     p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
                 }

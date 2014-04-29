@@ -106,5 +106,21 @@ namespace wickedcrush.manager.entity
                 e.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
             }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            foreach (Entity e in entityList)
+            {
+                e.Remove();
+            }
+
+            entityList.Clear();
+
+            entityList = null;
+            addList = null;
+            removeList = null;
+        }
     }
 }
