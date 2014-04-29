@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using wickedcrush.behavior;
 using wickedcrush.behavior.state;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.helper;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -60,6 +61,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Murderer)c).timers["attack_tell"].isActive(),
                     c =>
                     {
+                        if (!sm.previousControlState.name.Equals("attack_tell"))
+                        {
+                            faceTarget();
+                        }
+
                         testColor = Color.Yellow;
                         if(timers["attack_tell"].isDone())
                         {

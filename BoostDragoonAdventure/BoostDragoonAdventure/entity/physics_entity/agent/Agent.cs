@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected Dictionary<String, Timer> timers;
         protected StateMachine sm;
         protected EntityFactory factory;
-        Entity target;
+        protected Entity target;
 
         public PersistedStats stats;
 
@@ -225,6 +225,11 @@ namespace wickedcrush.entity.physics_entity.agent
             //}
 
             base.DebugDraw(tex, gd, spriteBatch, f, c);
+        }
+
+        protected void faceTarget()
+        {
+            facing = (Direction)Helper.degreeConversion(angleToEntity(target));
         }
 
         private void drawPath()

@@ -111,7 +111,17 @@ namespace wickedcrush.entity
         {
             return new Vector2(
                 (this.pos.X + this.center.X) - (e.pos.X + e.center.X),
-                -(this.pos.Y + this.center.Y) + (e.pos.Y + e.center.Y));
+                (this.pos.Y + this.center.Y) - (e.pos.Y + e.center.Y));
+        }
+
+        protected float directionVectorToAngle(Vector2 v)
+        {
+            return (float)Math.Atan2(-v.Y, -v.X);
+        }
+
+        protected float angleToEntity(Entity e)
+        {
+            return directionVectorToAngle(vectorToEntity(e));
         }
 
         
