@@ -66,6 +66,8 @@ namespace wickedcrush.screen
             
             //factory = new EntityFactory(game.entityManager, game.playerManager, w);
             factory.setMap(game.testMap);
+
+            factory.spawnPlayers();
         }
 
         
@@ -107,14 +109,14 @@ namespace wickedcrush.screen
 
             game.testMap.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
             DebugDraw();
-            DrawPlayerHud();
+            //DrawPlayerHud();
             
         }
 
         private void DebugDraw()
         {
             entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
-
+            game.playerManager.DrawPlayerHud(game.spriteBatch, game.testFont);
             //game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
         }
 
@@ -131,13 +133,7 @@ namespace wickedcrush.screen
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
         }
 
-        private void DrawPlayerHud()
-        {
-            foreach (Player p in game.playerManager.getPlayerList())
-            {
-                game.spriteBatch.DrawString(game.testFont, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
-            }
-        }
+        
 
         private void DebugControls()
         {
@@ -155,6 +151,16 @@ namespace wickedcrush.screen
             {
                 Dispose();
                 game.screenStack.Pop();
+            }
+            
+            foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
+            {
+                if (p.c.SelectPressed())
+                {
+                    Dispose();
+                    game.screenStack.Pop();
+                    return;
+                }
             }
         }
 

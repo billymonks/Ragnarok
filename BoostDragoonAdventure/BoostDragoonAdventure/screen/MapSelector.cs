@@ -7,6 +7,8 @@ using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.controls;
 using Microsoft.Xna.Framework.Input;
+using wickedcrush.utility;
+using wickedcrush.player;
 
 namespace wickedcrush.screen
 {
@@ -14,6 +16,8 @@ namespace wickedcrush.screen
     {
         List<String> mapList;
         int selectionIndex;
+
+        Timer readyTimer;
 
 
         public MapSelector(Game game)
@@ -26,7 +30,9 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
-            game.controlsManager = new ControlsManager(g);
+            readyTimer = new Timer(20);
+            readyTimer.start();
+            //game.controlsManager = new ControlsManager(g);
 
 
             LoadMapList();
@@ -36,6 +42,11 @@ namespace wickedcrush.screen
 
         public override void Update(GameTime gameTime)
         {
+            readyTimer.Update(gameTime);
+
+            if (!readyTimer.isDone())
+                return;
+
             DebugControls();
             game.diag = "";
         }
@@ -55,29 +66,34 @@ namespace wickedcrush.screen
 
         private void DebugControls()
         {
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Up))
+            foreach (Player p in game.playerManager.getPlayerList())
             {
-                selectionIndex--;
-                if (selectionIndex < 0)
-                    selectionIndex = mapList.Count - 1;
-            }
+                if (p.c.UpPressed())
+                {
+                    selectionIndex--;
+                    if (selectionIndex < 0)
+                        selectionIndex = mapList.Count - 1;
+                }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Down))
-            {
-                selectionIndex++;
-                if (selectionIndex > mapList.Count - 1)
-                    selectionIndex = 0;
-            }
+                if (p.c.DownPressed())
+                {
+                    selectionIndex++;
+                    if (selectionIndex > mapList.Count - 1)
+                        selectionIndex = 0;
+                }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Enter))
-            {
-                game.mapName = mapList[selectionIndex];
-                game.screenStack.Push(new Gameplay(game));
-            }
+                if (p.c.StartPressed())
+                {
+                    game.mapName = mapList[selectionIndex];
+                    game.screenStack.Push(new Gameplay(game));
+                    return;
+                }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))
-            {
-                game.screenStack.Pop();
+                if (p.c.SelectPressed())
+                {
+                    game.screenStack.Pop();
+                    return;
+                }
             }
         }
 

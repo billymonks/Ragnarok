@@ -74,15 +74,38 @@ namespace wickedcrush.manager.player
 
         public void addPlayer(Player p)
         {
+            foreach (Player player in playerList)
+            {
+                if (p.c.Equals(player.c))
+                {
+                    return;
+                }
+            }
             playerList.Add(p);
         }
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont f)
         {
-            foreach (Player p in playerList)
+            //foreach (Player p in playerList)
+            //{
+                //if(p.getAgent()!=null)
+                    //p.getAgent().DebugDraw(whiteTexture, gd, sb, f, Color.Green);
+            //}
+        }
+
+        public void DrawPlayerHud(SpriteBatch sb, SpriteFont f)
+        {
+            foreach (Player p in getPlayerList())
             {
-                if(p.getAgent()!=null)
-                    p.getAgent().DebugDraw(whiteTexture, gd, sb, f, Color.Green);
+                sb.DrawString(f, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
+            }
+        }
+
+        public void DrawPlayerSelect(SpriteBatch sb, SpriteFont f)
+        {
+            foreach (Player p in getPlayerList())
+            {
+                sb.DrawString(f, p.name, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
         }
 

@@ -100,25 +100,12 @@ namespace wickedcrush.factory.entity
             em.addEntity(a);
         }
 
-        private void checkForNewPlayers() //needs a new home
+        public void spawnPlayers()
         {
-            if (cm.gamepadPressed())
+            foreach (Player p in pm.getPlayerList())
             {
-                addPlayer(cm.checkAndAddGamepads());
+                p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
             }
-
-            if (cm.keyboardPressed())
-            {
-                addPlayer(cm.addKeyboard());
-            }
-        }
-
-        private void addPlayer(Controls controls) //needs a new home
-        {
-            Player p = new Player("bunz", pm.getPlayerList().Count, controls);
-            p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
-            pm.addPlayer(p);
-
         }
 
         private void respawnPlayer() //needs a new home
@@ -135,7 +122,7 @@ namespace wickedcrush.factory.entity
         public void Update() //debug,something else should have this loop
         {
             respawnPlayer();
-            checkForNewPlayers();
+            
         }
     }
 }

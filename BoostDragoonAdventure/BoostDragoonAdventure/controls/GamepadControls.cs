@@ -110,7 +110,8 @@ namespace wickedcrush.controls
 
         public override bool DownPressed()
         {
-            if (padState.ThumbSticks.Left.Y < -0.2f && !(prevPadState.ThumbSticks.Left.Y < -0.2f))
+            //if (padState.ThumbSticks.Left.Y < -0.2f && !(prevPadState.ThumbSticks.Left.Y < -0.2f))
+            if(padState.IsButtonDown(Buttons.DPadDown) && prevPadState.IsButtonUp(Buttons.DPadDown))
                 return true;
             else
                 return false;
@@ -118,7 +119,8 @@ namespace wickedcrush.controls
 
         public override bool LeftPressed()
         {
-            if (padState.ThumbSticks.Left.X < 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            //if (padState.ThumbSticks.Left.X < 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            if (padState.IsButtonDown(Buttons.DPadLeft) && prevPadState.IsButtonUp(Buttons.DPadLeft))
                 return true;
             else
                 return false;
@@ -126,7 +128,8 @@ namespace wickedcrush.controls
 
         public override bool RightPressed()
         {
-            if (padState.ThumbSticks.Left.X > 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            //if (padState.ThumbSticks.Left.X > 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            if (padState.IsButtonDown(Buttons.DPadRight) && prevPadState.IsButtonUp(Buttons.DPadRight))
                 return true;
             else
                 return false;
@@ -134,7 +137,8 @@ namespace wickedcrush.controls
 
         public override bool UpPressed()
         {
-            if (padState.ThumbSticks.Left.Y > 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            //if (padState.ThumbSticks.Left.Y > 0.2f && !(prevPadState.ThumbSticks.Left.Y > 0.2f))
+            if (padState.IsButtonDown(Buttons.DPadUp) && prevPadState.IsButtonUp(Buttons.DPadUp))
                 return true;
             else
                 return false;

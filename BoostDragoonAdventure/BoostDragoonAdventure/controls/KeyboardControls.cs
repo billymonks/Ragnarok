@@ -121,7 +121,7 @@ namespace wickedcrush.controls
 
         public override bool DownPressed()
         {
-            if (keyState.IsKeyDown(downKey) && prevKeyState.IsKeyUp(downKey))
+            if (keyState.IsKeyDown(altDownKey) && prevKeyState.IsKeyUp(altDownKey))
                 return true;
             else
                 return false;
@@ -129,7 +129,7 @@ namespace wickedcrush.controls
 
         public override bool LeftPressed()
         {
-            if (keyState.IsKeyDown(leftKey) && prevKeyState.IsKeyUp(leftKey))
+            if (keyState.IsKeyDown(altLeftKey) && prevKeyState.IsKeyUp(altLeftKey))
                 return true;
             else
                 return false;
@@ -137,7 +137,7 @@ namespace wickedcrush.controls
 
         public override bool RightPressed()
         {
-            if (keyState.IsKeyDown(rightKey) && prevKeyState.IsKeyUp(rightKey))
+            if (keyState.IsKeyDown(altRightKey) && prevKeyState.IsKeyUp(altRightKey))
                 return true;
             else
                 return false;
@@ -145,7 +145,7 @@ namespace wickedcrush.controls
 
         public override bool UpPressed()
         {
-            if (keyState.IsKeyDown(upKey) && prevKeyState.IsKeyUp(upKey))
+            if (keyState.IsKeyDown(altUpKey) && prevKeyState.IsKeyUp(altUpKey))
                 return true;
             else
                 return false;

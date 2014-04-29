@@ -79,7 +79,7 @@ namespace wickedcrush
 
 
             //componentStack.Push(new Test(this));
-            screenStack.Push(new MapSelector(this));
+            screenStack.Push(new PlayerSelect(this));
             
         }
 
