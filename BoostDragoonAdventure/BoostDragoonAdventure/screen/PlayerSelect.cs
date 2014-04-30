@@ -66,14 +66,6 @@ namespace wickedcrush.screen
 
         }
 
-        private void DrawPlayerHud()
-        {
-            foreach (Player p in game.playerManager.getPlayerList())
-            {
-                game.spriteBatch.DrawString(game.testFont, p.name + "\nHP: " + p.getStats().hp + "/" + p.getStats().maxHP, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
-            }
-        }
-
         private void checkForNewPlayers() //needs a new home
         {
             if (game.controlsManager.gamepadPressed())

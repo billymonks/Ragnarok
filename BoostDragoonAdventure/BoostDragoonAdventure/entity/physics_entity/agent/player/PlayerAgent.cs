@@ -70,7 +70,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward(new Vector2(36, 36));
+                            attackForward(new Vector2(36, 36), 2, 1);
                         }
                     }));
             ctrl.Add("default",
@@ -83,7 +83,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward(new Vector2(36, 36));
+                            attackForward(new Vector2(36, 36), 1, 1);
                         }
                     }));
 
@@ -122,6 +122,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             v += unitVector * magnitude * speed * startingFriction;
 
             bodies["body"].LinearVelocity = v;
+
+            airborne = false;
         }
 
         protected void BoostForward()
@@ -136,6 +138,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             v += unitVector * boostSpeed;
 
             bodies["body"].LinearVelocity = v;
+
+            airborne = true;
         }
         #endregion
 

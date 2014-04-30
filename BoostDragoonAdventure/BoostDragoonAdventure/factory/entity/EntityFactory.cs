@@ -88,15 +88,15 @@ namespace wickedcrush.factory.entity
             em.addEntity(t);
         }
 
-        public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+        public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            Bolt b = new Bolt(w, pos, size, center, parent);
+            Bolt b = new Bolt(w, pos, size, center, parent, damage, force);
             em.addEntity(b);
         }
 
-        public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+        public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent);
+            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force);
             em.addEntity(a);
         }
 

@@ -12,23 +12,23 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
     {
         private bool deployed = false;
 
-        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center)
-            : base(w, pos, size, center)
+        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force)
+            : base(w, pos, size, center, damage, force)
         {
-            Initialize();
+            Initialize(damage, force);
         }
 
-        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
-            : base(w, pos, size, center)
+        public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
+            : base(w, pos, size, center, parent, damage, force)
         {
-            this.parent = parent;
-            Initialize();
+            Initialize(damage, force);
         }
 
-        private void Initialize()
+        private void Initialize(int damage, int force)
         {
             immortal = true;
-            damage = 5;
+            this.damage = damage;
+            this.force = force;
             this.name = "Melee";
             facing = parent.facing;
         }

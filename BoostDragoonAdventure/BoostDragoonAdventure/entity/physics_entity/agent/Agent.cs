@@ -194,7 +194,7 @@ namespace wickedcrush.entity.physics_entity.agent
             path = navigator.getPath(start, goal);
         }
 
-        protected void attackForward(Vector2 attackSize)
+        protected void attackForward(Vector2 attackSize, int damage, int force)
         {
             factory.addMeleeAttack(
                     new Vector2(
@@ -202,7 +202,9 @@ namespace wickedcrush.entity.physics_entity.agent
                         (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
                     attackSize,
                     new Vector2(attackSize.X / 2, attackSize.Y / 2), //center point, useless i think, idk why i bother setting it here, Vector2.Zero could be memory saving
-                    this); //set parent to self, don't hurt self
+                    this,
+                    damage,
+                    force); //set parent to self, don't hurt self
         }
 
         protected virtual void HandleCollisions()
@@ -210,7 +212,7 @@ namespace wickedcrush.entity.physics_entity.agent
             var c = bodies["hotspot"].ContactList;
             while(c != null)
             {
-                if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP))
+                if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP) && !airborne)
                     stats.hp = 0;
 
                 c = c.Next;

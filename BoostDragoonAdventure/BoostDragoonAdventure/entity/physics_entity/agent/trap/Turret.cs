@@ -79,7 +79,9 @@ namespace wickedcrush.entity.physics_entity.agent.trap
                         (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
                 new Vector2(10f, 10f),
                 new Vector2(5f, 5f),
-                this);
+                this,
+                1,
+                1);
 
             //timer = new Timer(600);
 

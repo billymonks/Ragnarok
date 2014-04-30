@@ -12,25 +12,26 @@ namespace wickedcrush.entity.physics_entity.agent.attack
 {
     public abstract class Attack : Agent
     {
-        protected int damage;
+        protected int damage, force; // migrate to attackstats class?
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force)
             : base(w, pos, size, center, false, (EntityFactory)null)
         {
-            Initialize();
+            Initialize(damage, force);
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
             : base(w, pos, size, center, false, (EntityFactory)null)
         {
             this.parent = parent;
-            Initialize();
+            Initialize(damage, force);
         }
 
-        private void Initialize()
+        private void Initialize(int damage, int force)
         {
             immortal = true;
-            damage = 5;
+            this.damage = damage;
+            this.force = force;
             this.name = "Attack";
         }
 

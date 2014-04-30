@@ -45,7 +45,7 @@ namespace wickedcrush
 
         public String diag = "";
 
-        public Texture2D whiteTexture;
+        public Texture2D whiteTexture, arrowTexture;
         public SpriteFont testFont;
 
         public Game()
@@ -86,6 +86,7 @@ namespace wickedcrush
         protected override void LoadContent()
         {
             testFont = Content.Load<SpriteFont>("Fonts/TestFont");
+            arrowTexture = Content.Load<Texture2D>("debug/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
         }
