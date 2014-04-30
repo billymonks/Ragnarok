@@ -63,16 +63,17 @@ namespace wickedcrush.entity.physics_entity
             }
         }
 
-        public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            spriteBatch.Draw(tex, bodies["body"].Position, null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].Position, null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, bodies["body"].Position+center, null, c, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
 
             DrawName(spriteBatch, f);
 
-            spriteBatch.Draw(tex, bodies["body"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
-                e.DebugDraw(tex, gd, spriteBatch, f, c);
+                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
 
         }
 

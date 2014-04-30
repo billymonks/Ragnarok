@@ -115,7 +115,7 @@ namespace wickedcrush.screen
 
         private void DebugDraw()
         {
-            entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
+            entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont);
             game.playerManager.DrawPlayerHud(game.spriteBatch, game.testFont);
             //game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
         }

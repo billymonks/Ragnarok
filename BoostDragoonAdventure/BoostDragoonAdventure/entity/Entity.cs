@@ -98,14 +98,14 @@ namespace wickedcrush.entity
             return remove;
         }
 
-        public virtual void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             //spriteBatch.Draw(whiteTexture, body, c);
-            spriteBatch.Draw(tex, new Rectangle((int)pos.X - 1, (int)pos.Y - 1, 2, 2), c); 
+            spriteBatch.Draw(wTex, new Rectangle((int)pos.X - 1, (int)pos.Y - 1, 2, 2), c); 
             spriteBatch.DrawString(f, name, pos, Color.Black);
 
             foreach (Entity e in subEntityList)
-                e.DebugDraw(tex, gd, spriteBatch, f, c);
+                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
         }
 
         protected Vector2 vectorToEntity(Entity e)

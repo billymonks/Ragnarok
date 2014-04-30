@@ -99,11 +99,11 @@ namespace wickedcrush.manager.entity
             addList.Add(e);
         }
 
-        public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont testFont)
+        public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont)
         {
             foreach (Entity e in entityList)
             {
-                e.DebugDraw(whiteTexture, gd, sb, testFont, Color.Green);
+                e.DebugDraw(wTex, aTex, gd, sb, testFont, Color.Green);
             }
         }
 

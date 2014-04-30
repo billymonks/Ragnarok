@@ -59,6 +59,7 @@ namespace wickedcrush.screen
         {
             game.GraphicsDevice.Clear(Color.Black);
             game.playerManager.DrawPlayerSelect(game.spriteBatch, game.testFont);
+            game.spriteBatch.DrawString(game.testFont, "Press Start / Enter!", new Vector2(260, 460), Color.White);
         }
 
         public override void Dispose()

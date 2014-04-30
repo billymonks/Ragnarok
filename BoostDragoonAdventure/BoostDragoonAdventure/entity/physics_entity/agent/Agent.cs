@@ -55,7 +55,9 @@ namespace wickedcrush.entity.physics_entity.agent
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
+            //FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
+            //FixtureFactory.AttachEllipse(size.X/2, size.Y/2, 10, 1f, bodies["body"]);
+            FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
             bodies["body"].FixedRotation = true;
             bodies["body"].LinearVelocity = Vector2.Zero;
             bodies["body"].BodyType = BodyType.Dynamic;
@@ -219,14 +221,14 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             //if (navigator != null)
             //{
                 //navigator.DebugDraw(tex, gd, spriteBatch, f);
             //}
 
-            base.DebugDraw(tex, gd, spriteBatch, f, c);
+            base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
         }
 
         protected void faceTarget()

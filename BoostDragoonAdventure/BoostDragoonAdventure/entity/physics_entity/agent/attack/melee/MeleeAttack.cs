@@ -54,9 +54,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
             Remove();
         }
 
-        public override void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
-            spriteBatch.Draw(tex, bodies["body"].Position, null, Color.Salmon, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].Position, null, Color.Salmon, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, bodies["body"].Position + center, null, Color.Salmon, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
             DrawName(spriteBatch, f);
         }
     }
