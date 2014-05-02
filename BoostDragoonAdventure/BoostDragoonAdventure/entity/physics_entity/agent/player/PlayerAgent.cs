@@ -23,6 +23,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         
         
         private float boostSpeed = 100f;
+        private bool overheating = false;
 
         
         #endregion
@@ -48,6 +49,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             SetupStateMachine();
         }
 
+        private void applyStats()
+        {
+            boostSpeed = 100f * (1 + (float)stats.getNumber("boostSpeedMod") * (0.01f));
+        }
+
         
         #endregion
 
@@ -55,6 +61,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (stats.getNumber("boost") < stats.getNumber("maxBoost"))
+                stats.addToNumber("boost", stats.getNumber("fillSpeed"));
+
+            if (stats.getNumber("boost") >= stats.getNumber("maxBoost"))
+            {
+                overheating = false;
+                stats.setNumber("boost", stats.getNumber("maxBoost"));
+            }
+
+            if (stats.getNumber("boost") <= 0)
+            {
+                overheating = true;
+                stats.setNumber("boost", 0);
+            }
         }
 
         private void SetupStateMachine()
@@ -62,11 +83,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("boosting",
                 new State("boosting",
-                    c => ((PlayerAgent)c).controls.BoostHeld(),
+                    c => ((PlayerAgent)c).controls.BoostHeld()
+                    && !((PlayerAgent)c).overheating,
                     c =>
                     {
                         UpdateDirection();
                         BoostForward();
+                        stats.addToNumber("boost", -stats.getNumber("useSpeed"));
 
                         if (controls.ActionPressed())
                         {

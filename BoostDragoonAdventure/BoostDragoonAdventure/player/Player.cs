@@ -61,8 +61,19 @@ namespace wickedcrush.player
 
         public void GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
+            initializeAgentStats();
+
             agent = factory.addPlayerAgent(pos, size, center, solid, c, stats);
             stats = agent.stats;
+        }
+
+        private void initializeAgentStats()
+        {
+            stats.setNumber("maxBoost", 1000);
+            stats.setNumber("boost", 1000);
+            stats.setNumber("fillSpeed", 3);
+            stats.setNumber("useSpeed", 8);
+            stats.setNumber("boostSpeedMod", 0);
         }
 
         protected void Remove()
