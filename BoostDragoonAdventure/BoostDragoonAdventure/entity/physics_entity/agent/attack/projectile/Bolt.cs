@@ -60,7 +60,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
                     && (c.Other.UserData is Agent)
                     && !c.Other.UserData.Equals(this.parent))
                 {
-                    ((Agent)c.Other.UserData).stats.hp -= damage;
+                    ((Agent)c.Other.UserData).stats.addToNumber("hp", -damage);
                     Remove();
                 } else if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {

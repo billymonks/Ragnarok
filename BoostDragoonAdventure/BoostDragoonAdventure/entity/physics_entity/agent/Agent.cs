@@ -98,7 +98,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             bodies["hotspot"].Position = bodies["body"].WorldCenter;
 
-            if (stats.hp <= 0 && immortal == false)
+            if (stats.getNumber("hp") <= 0 && immortal == false)
                 Remove();
         }
 
@@ -215,7 +215,7 @@ namespace wickedcrush.entity.physics_entity.agent
             while(c != null)
             {
                 if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP) && !airborne)
-                    stats.hp = 0;
+                    stats.setNumber("hp", 0);
 
                 c = c.Next;
             }

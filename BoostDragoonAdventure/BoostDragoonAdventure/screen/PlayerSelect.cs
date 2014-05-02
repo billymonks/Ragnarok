@@ -8,6 +8,7 @@ using wickedcrush.manager.player;
 using wickedcrush.player;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Input;
+using wickedcrush.stats;
 
 namespace wickedcrush.screen
 {
@@ -82,7 +83,7 @@ namespace wickedcrush.screen
 
         private void addPlayer(String name, Controls controls) //needs a new home
         {
-            Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, game.playerManager.getPlayerList().Count, controls);
+            Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, game.playerManager.getPlayerList().Count, controls, new PersistedStats(15, 15, 5));
             //p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
             game.playerManager.addPlayer(p);
 

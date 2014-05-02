@@ -62,9 +62,9 @@ namespace wickedcrush.factory.entity
             em.addEntity(e);
         }
 
-        public PlayerAgent addPlayerAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c)
+        public PlayerAgent addPlayerAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
         {
-            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, this);
+            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this);
             em.addEntity(agent);
             
             return agent;
@@ -114,6 +114,7 @@ namespace wickedcrush.factory.entity
             {
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
+                    p.getStats().setNumber("hp", p.getStats().getNumber("maxHP"));
                     p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
                 }
             }

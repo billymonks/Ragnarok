@@ -22,7 +22,7 @@ namespace wickedcrush.player
 
         private bool remove = false;
 
-        public Player(String name, int playerNumber, Controls c, PersistedStats stats, EntityFactory factory)
+        public Player(String name, int playerNumber, Controls c, PersistedStats stats)
         {
             this.name = name;
             this.c = c;
@@ -51,7 +51,7 @@ namespace wickedcrush.player
         public void setAgent(PlayerAgent agent)
         {
             this.agent = agent;
-            stats = agent.stats;
+            //stats = agent.stats;
         }
 
         public PlayerAgent getAgent()
@@ -61,7 +61,7 @@ namespace wickedcrush.player
 
         public void GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
-            agent = factory.addPlayerAgent(pos, size, center, solid, c);
+            agent = factory.addPlayerAgent(pos, size, center, solid, c, stats);
             stats = agent.stats;
         }
 

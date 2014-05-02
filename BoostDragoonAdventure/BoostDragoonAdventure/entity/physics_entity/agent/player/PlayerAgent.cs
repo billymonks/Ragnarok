@@ -28,8 +28,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, EntityFactory factory)
-            : base(w, pos, size, center, solid, factory)
+        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory)
+            : base(w, pos, size, center, solid, factory, stats)
         {
             Initialize(pos, size, center, solid, controls);
 
@@ -39,7 +39,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
         {
             this.controls = controls;
-            stats = new PersistedStats(15, 15, 5);
+            //stats = new PersistedStats(15, 15, 5);
             this.name = "Player";
 
             this.facing = Direction.East;
