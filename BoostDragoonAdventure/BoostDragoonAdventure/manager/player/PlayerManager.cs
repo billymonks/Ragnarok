@@ -98,8 +98,8 @@ namespace wickedcrush.manager.player
             foreach (Player p in getPlayerList())
             {
                 sb.DrawString(f, 
-                    p.name + "\nHP: " + p.getStats().getNumber("hp") + "/" + p.getStats().getNumber("maxHP")
-                    + "\nEngine: " + p.getStats().getNumber("boost") + "/" + p.getStats().getNumber("maxBoost"), 
+                    p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
+                    + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost"), 
                     new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
         }

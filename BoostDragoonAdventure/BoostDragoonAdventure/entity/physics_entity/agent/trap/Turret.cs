@@ -26,7 +26,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, Direction facing)
         {
-            stats = new PersistedStats(5, 5, 5);
+            stats = new PersistedStats(5, 5);
             this.name = "Turret";
 
             this.facing = facing;

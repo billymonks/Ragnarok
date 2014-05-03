@@ -69,11 +69,11 @@ namespace wickedcrush.player
 
         private void initializeAgentStats()
         {
-            stats.setNumber("maxBoost", 1000);
-            stats.setNumber("boost", 1000);
-            stats.setNumber("fillSpeed", 3);
-            stats.setNumber("useSpeed", 8);
-            stats.setNumber("boostSpeedMod", 0);
+            stats.set("maxBoost", 1000);
+            stats.set("boost", 1000);
+            stats.set("fillSpeed", 3);
+            stats.set("useSpeed", 8);
+            stats.set("boostSpeedMod", 0);
         }
 
         protected void Remove()

@@ -9,23 +9,22 @@ namespace wickedcrush.stats
     public class PersistedStats //totally could have been struct
     {
         private Dictionary<String, int> numbers;
-        private Dictionary<String, String> strings;
+        //private Dictionary<String, String> strings;
 
         public PersistedStats()
         {
             numbers = new Dictionary<String, int>();
         }
 
-        public PersistedStats(int maxHP, int currentHP, int maxCharge)
+        public PersistedStats(int maxHP, int currentHP)
         {
             numbers = new Dictionary<String, int>();
 
             numbers.Add("maxHP", maxHP);
             numbers.Add("hp", currentHP);
-            numbers.Add("maxCharge", maxHP);
         }
 
-        public int getNumber(String key)
+        public int get(String key)
         {
             if(numbers.ContainsKey(key))
                 return numbers[key];
@@ -33,7 +32,7 @@ namespace wickedcrush.stats
             throw new InvalidOperationException("That number... " + key + "... does not exist!!! I cannot return it! Sorry.");
         }
 
-        public void setNumber(String key, int value)
+        public void set(String key, int value)
         {
             if (numbers.ContainsKey(key))
             {
@@ -45,7 +44,7 @@ namespace wickedcrush.stats
             }
         }
 
-        public String getString(String key)
+        /*public String getString(String key)
         {
             if(strings.ContainsKey(key))
                 return strings[key];
@@ -63,17 +62,39 @@ namespace wickedcrush.stats
             {
                 strings.Add(key, value);
             }
+        }*/
+
+        public void addTo(String key, int number)
+        {
+            checkExists(key);
+
+            numbers[key] += number;
         }
 
-        public void addToNumber(String key, int number)
+        // -1: number smaller than value, 0: number equal to value, 1: number greater than value
+        public int compare(String key, int value) 
         {
-            if (!numbers.ContainsKey(key))
+            checkExists(key);
+
+            return get(key).CompareTo(value);
+        }
+
+        // -1: first smaller than second, 0: first equal to second, 1: first greater than second
+        public int compare(String key, String otherKey)
+        {
+            checkExists(key);
+
+            return get(key).CompareTo(get(otherKey));
+        }
+
+        private void checkExists(String key)
+        {
+            if (numbers.ContainsKey(key))
             {
-                Debug.Print("That number... " + key + "... does not exist!!! I cannot add " + number + " to it! Sorry.");
                 return;
             }
 
-            numbers[key] += number;
+            throw new InvalidOperationException("That number... " + key + "... does not exist!!! Sorry.");
         }
     }
 }

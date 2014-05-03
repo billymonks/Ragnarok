@@ -114,7 +114,7 @@ namespace wickedcrush.factory.entity
             {
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
-                    p.getStats().setNumber("hp", p.getStats().getNumber("maxHP"));
+                    p.getStats().set("hp", p.getStats().get("maxHP"));
                     p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
                 }
             }

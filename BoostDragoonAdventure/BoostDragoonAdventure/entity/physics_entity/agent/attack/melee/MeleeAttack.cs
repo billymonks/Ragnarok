@@ -10,7 +10,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
 {
     public class MeleeAttack : Attack
     {
-        private bool deployed = false;
+        //private bool deployed = false;
 
         public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force)
             : base(w, pos, size, center, damage, force)
@@ -46,7 +46,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
                 if (c.Contact.IsTouching 
                     && c.Other.UserData is Agent 
                     && !c.Other.UserData.Equals(this.parent))
-                    ((Agent)c.Other.UserData).stats.addToNumber("hp", -damage);
+                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
 
                 c = c.Next;
             }

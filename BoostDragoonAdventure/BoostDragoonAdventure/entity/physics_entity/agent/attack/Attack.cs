@@ -53,7 +53,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack
                 if (c.Contact.IsTouching 
                     && c.Other.UserData is Agent 
                     && !c.Other.UserData.Equals(this.parent))
-                    ((Agent)c.Other.UserData).stats.addToNumber("hp", -damage);
+                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
 
                 c = c.Next;
             }

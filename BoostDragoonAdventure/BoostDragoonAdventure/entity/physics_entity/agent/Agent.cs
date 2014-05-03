@@ -35,7 +35,7 @@ namespace wickedcrush.entity.physics_entity.agent
             : base(w, pos, size, center, solid)
         {
             
-            Initialize(w, pos, size, center, solid, new PersistedStats(5, 5, 5), factory);
+            Initialize(w, pos, size, center, solid, new PersistedStats(5, 5), factory);
         }
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
@@ -55,8 +55,6 @@ namespace wickedcrush.entity.physics_entity.agent
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            //FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
-            //FixtureFactory.AttachEllipse(size.X/2, size.Y/2, 10, 1f, bodies["body"]);
             FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
             bodies["body"].FixedRotation = true;
             bodies["body"].LinearVelocity = Vector2.Zero;
@@ -98,7 +96,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             bodies["hotspot"].Position = bodies["body"].WorldCenter;
 
-            if (stats.getNumber("hp") <= 0 && immortal == false)
+            if (stats.get("hp") <= 0 && immortal == false)
                 Remove();
         }
 
@@ -215,7 +213,7 @@ namespace wickedcrush.entity.physics_entity.agent
             while(c != null)
             {
                 if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP) && !airborne)
-                    stats.setNumber("hp", 0);
+                    stats.set("hp", 0);
 
                 c = c.Next;
             }

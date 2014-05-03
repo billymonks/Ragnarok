@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
         private void Initialize(int damage, int force)
         {
-            stats = new PersistedStats(1, 1, 0);
+            stats = new PersistedStats(1, 1);
             facing = parent.facing;
             immortal = false;
             this.damage = damage;
@@ -60,7 +60,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
                     && (c.Other.UserData is Agent)
                     && !c.Other.UserData.Equals(this.parent))
                 {
-                    ((Agent)c.Other.UserData).stats.addToNumber("hp", -damage);
+                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
                     Remove();
                 } else if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {

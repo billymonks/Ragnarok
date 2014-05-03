@@ -51,7 +51,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void applyStats()
         {
-            boostSpeed = 100f * (1 + (float)stats.getNumber("boostSpeedMod") * (0.01f));
+            boostSpeed = 100f * (1 + (float)stats.get("boostSpeedMod") * (0.01f));
         }
 
         
@@ -62,19 +62,19 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             base.Update(gameTime);
 
-            if (stats.getNumber("boost") < stats.getNumber("maxBoost"))
-                stats.addToNumber("boost", stats.getNumber("fillSpeed"));
+            if (stats.compare("boost", "maxBoost") == -1)
+                stats.addTo("boost", stats.get("fillSpeed"));
 
-            if (stats.getNumber("boost") >= stats.getNumber("maxBoost"))
+            if (stats.compare("boost", "maxBoost") >= 0)
             {
                 overheating = false;
-                stats.setNumber("boost", stats.getNumber("maxBoost"));
+                stats.set("boost", stats.get("maxBoost"));
             }
 
-            if (stats.getNumber("boost") <= 0)
+            if (stats.get("boost") <= 0)
             {
                 overheating = true;
-                stats.setNumber("boost", 0);
+                stats.set("boost", 0);
             }
         }
 
@@ -89,7 +89,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     {
                         UpdateDirection();
                         BoostForward();
-                        stats.addToNumber("boost", -stats.getNumber("useSpeed"));
+                        stats.addTo("boost", -stats.get("useSpeed"));
 
                         if (controls.ActionPressed())
                         {
