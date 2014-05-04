@@ -95,7 +95,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => true,
                     c =>
                     {
-                        if(distanceToTarget() < 40)
+                        if(target==null)
+                            setTargetToPlayer();
+                        else if(distanceToTarget() < 40)
                             timers["attack_tell"].resetAndStart();
                         
                     }));
@@ -109,6 +111,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
+            //if (navigator != null)
+            //{
+                //navigator.DebugDraw(wTex, gd, spriteBatch, f);
+            //}
+
             spriteBatch.Draw(wTex, bodies["body"].Position, null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
             spriteBatch.Draw(aTex, pos+center, null, testColor, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
             //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);

@@ -14,16 +14,19 @@ using wickedcrush.helper;
 using wickedcrush.utility;
 using wickedcrush.behavior;
 using wickedcrush.factory.entity;
+using wickedcrush.entity.physics_entity.agent.player;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
     public class Agent : PhysicsEntity
     {
-        Navigator navigator;
+        protected Navigator navigator;
         Stack<PathNode> path;
         protected Dictionary<String, Timer> timers;
         protected StateMachine sm;
         protected EntityFactory factory;
+
+        protected List<Entity> proximity;
         protected Entity target;
 
         public PersistedStats stats;
@@ -49,6 +52,7 @@ namespace wickedcrush.entity.physics_entity.agent
             this.factory = factory;
             this.stats = stats;
             timers = new Dictionary<String, Timer>();
+            proximity = new List<Entity>();
             this.name = "Agent";
         }
 
@@ -70,6 +74,12 @@ namespace wickedcrush.entity.physics_entity.agent
             bodies["hotspot"].FixedRotation = true;
             bodies["hotspot"].LinearVelocity = Vector2.Zero;
             bodies["hotspot"].BodyType = BodyType.Dynamic;
+
+            bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
+            FixtureFactory.AttachCircle(600f, 1f, bodies["activeArea"], center);
+            bodies["activeArea"].IsSensor = true;
+            bodies["activeArea"].BodyType = BodyType.Dynamic;
+            bodies["activeArea"].LinearVelocity = Vector2.Zero;
 
         }
 
@@ -93,8 +103,10 @@ namespace wickedcrush.entity.physics_entity.agent
             }
             
             HandleCollisions();
+            CheckProximity();
 
             bodies["hotspot"].Position = bodies["body"].WorldCenter;
+            bodies["activeArea"].Position = bodies["body"].WorldCenter;
 
             if (stats.get("hp") <= 0 && immortal == false)
                 Remove();
@@ -219,11 +231,27 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
+        protected virtual void CheckProximity()
+        {
+            var c = bodies["activeArea"].ContactList;
+            proximity.Clear();
+
+            while(c != null)
+            {
+                if (c.Contact.IsTouching && c.Other.UserData is Entity && !c.Other.UserData.Equals(this))
+                {
+                    proximity.Add((Entity)c.Other.UserData);
+                }
+
+                c = c.Next;
+            }
+        }
+
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             //if (navigator != null)
             //{
-                //navigator.DebugDraw(tex, gd, spriteBatch, f);
+                //navigator.DebugDraw(wTex, gd, spriteBatch, f);
             //}
 
             base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
@@ -232,6 +260,29 @@ namespace wickedcrush.entity.physics_entity.agent
         protected void faceTarget()
         {
             facing = (Direction)Helper.degreeConversion(angleToEntity(target));
+        }
+
+        protected bool hasLineOfSightToAgent(Agent a)
+        {
+            bool sight = true;
+            List<Fixture> fList = _w.RayCast(pos + center, a.pos + a.center);
+
+            foreach (Fixture f in fList)
+            {
+                if (f.Body.UserData.Equals(LayerType.WALL))
+                    sight = false;
+            }
+
+            return sight;
+        }
+
+        protected void setTargetToPlayer()
+        {
+            foreach (Entity e in proximity)
+            {
+                if (e is PlayerAgent)
+                    target = e;
+            }
         }
 
         private void drawPath()

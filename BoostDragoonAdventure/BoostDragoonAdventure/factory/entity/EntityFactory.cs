@@ -76,8 +76,8 @@ namespace wickedcrush.factory.entity
             if (map != null)
             {
                 a.activateNavigator(map);
-                if(pm.getPlayerList().Count > 0)
-                    a.setTarget(pm.getPlayerList()[0].getAgent());
+                //if(pm.getPlayerList().Count > 0)
+                    //a.setTarget(pm.getPlayerList()[0].getAgent());
             }
             em.addEntity(a);
         }
