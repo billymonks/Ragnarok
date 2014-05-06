@@ -96,7 +96,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         if(target==null)
-                            setTargetToPlayer();
+                            setTargetToClosestPlayer();
                         else if(distanceToTarget() < 40)
                             timers["attack_tell"].resetAndStart();
                         

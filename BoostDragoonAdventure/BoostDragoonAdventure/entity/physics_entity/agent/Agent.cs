@@ -131,7 +131,7 @@ namespace wickedcrush.entity.physics_entity.agent
             if (path == null || path.Count == 0)
                 return;
 
-            if (path.Peek().box.Contains(new Point((int)(pos.X+1), (int)(pos.Y+1))))
+            if (path.Peek().box.Contains(new Point((int)(pos.X), (int)(pos.Y))))
             {
                 path.Pop();
             }
@@ -165,6 +165,12 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             this.target = target;
             createPathToTarget();
+        }
+
+        public int distanceToEntity(Entity e)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (e.pos.X + e.center.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (e.pos.Y + e.center.Y), 2));
         }
 
         public int distanceToTarget()
@@ -282,6 +288,35 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 if (e is PlayerAgent)
                     target = e;
+            }
+        }
+
+        protected void setTargetToClosestPlayer()
+        {
+            List<PlayerAgent> players = new List<PlayerAgent>();
+            int lowestDistance;
+
+            foreach (Entity e in proximity)
+            {
+                if (e is PlayerAgent)
+                    players.Add((PlayerAgent)e);
+            }
+
+            if (players.Count == 0)
+                return;
+
+            lowestDistance = distanceToEntity(players[0]);
+
+            foreach (PlayerAgent p in players)
+            {
+                if (lowestDistance > this.distanceToEntity(p))
+                    lowestDistance = this.distanceToEntity(p);
+            }
+
+            foreach (PlayerAgent p in players)
+            {
+                if (lowestDistance == this.distanceToEntity(p))
+                    target = p;
             }
         }
 
