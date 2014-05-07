@@ -143,6 +143,8 @@
     <Compile Include="screen\PlayerSelect.cs" />
     <Compile Include="stats\PersistedStats.cs" />
     <Compile Include="utility\Timer.cs" />
+    <Compile Include="utility\trigger\TimedTrigger.cs" />
+    <Compile Include="utility\trigger\Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework;
 using wickedcrush.stats;
 using FarseerPhysics.Factories;
 using wickedcrush.utility;
+using wickedcrush.utility.trigger;
 
 
 namespace wickedcrush.entity.physics_entity.agent.trap
 {
-    public class Turret : Agent
+    public class Turret : Agent, ITriggerable
     {
         private EntityFactory factory;
 
@@ -31,20 +32,9 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             this.facing = facing;
 
-            timers.Add("shot", new Timer(1600));
-            timers["shot"].start();
+            triggers.Add("TurretTrigger", new TimedTrigger(this, this, new Timer(1600)));
+            triggers["TurretTrigger"].repeat = true;
 
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (timers["shot"].isDone())
-            {
-                fireShot();
-                timers["shot"].resetAndStart();
-            }
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -85,6 +75,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             //timer = new Timer(600);
 
+        }
+
+        public void activate()
+        {
+            fireShot();
         }
     }
 }

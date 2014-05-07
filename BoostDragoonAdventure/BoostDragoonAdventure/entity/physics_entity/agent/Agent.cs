@@ -15,14 +15,21 @@ using wickedcrush.utility;
 using wickedcrush.behavior;
 using wickedcrush.factory.entity;
 using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.utility.trigger;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
+    public interface ITriggerable
+    {
+        void activate();
+    }
+
     public class Agent : PhysicsEntity
     {
         protected Navigator navigator;
-        Stack<PathNode> path;
+        protected Stack<PathNode> path;
         protected Dictionary<String, Timer> timers;
+        protected Dictionary<String, Trigger> triggers;
         protected StateMachine sm;
         protected EntityFactory factory;
 
@@ -52,6 +59,7 @@ namespace wickedcrush.entity.physics_entity.agent
             this.factory = factory;
             this.stats = stats;
             timers = new Dictionary<String, Timer>();
+            triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
             this.name = "Agent";
         }
@@ -94,6 +102,7 @@ namespace wickedcrush.entity.physics_entity.agent
             base.Update(gameTime);
 
             UpdateTimers(gameTime);
+            UpdateTriggers(gameTime);
 
             ApplyStoppingFriction(gameTime);
 
@@ -115,6 +124,14 @@ namespace wickedcrush.entity.physics_entity.agent
         private void UpdateTimers(GameTime gameTime)
         {
             foreach (KeyValuePair<String, Timer> t in timers)
+            {
+                t.Value.Update(gameTime);
+            }
+        }
+
+        private void UpdateTriggers(GameTime gameTime)
+        {
+            foreach (KeyValuePair<String, Trigger> t in triggers)
             {
                 t.Value.Update(gameTime);
             }
