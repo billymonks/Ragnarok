@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using wickedcrush.inventory;
 
 namespace wickedcrush.stats
 {
@@ -10,6 +11,9 @@ namespace wickedcrush.stats
     {
         private Dictionary<String, int> numbers;
         //private Dictionary<String, String> strings;
+
+        private Dictionary<Item, int> inventory;
+        private int currency;
 
         public PersistedStats()
         {

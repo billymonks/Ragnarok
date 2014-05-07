@@ -110,6 +110,7 @@
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="inventory\Item.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
     <Compile Include="screen\Gameplay.cs" />
