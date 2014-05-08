@@ -11,6 +11,7 @@ using wickedcrush.behavior;
 using wickedcrush.behavior.state;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.helper;
+using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -40,6 +41,17 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
             
+        }
+
+        protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        {
+            base.setupBody(w, pos, size, center, solid);
+
+            bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
+            FixtureFactory.AttachCircle(600f, 1f, bodies["activeArea"], center);
+            bodies["activeArea"].IsSensor = true;
+            bodies["activeArea"].BodyType = BodyType.Dynamic;
+            bodies["activeArea"].LinearVelocity = Vector2.Zero;
         }
 
         private void SetupStateMachine()

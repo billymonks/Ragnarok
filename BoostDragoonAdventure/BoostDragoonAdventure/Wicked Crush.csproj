@@ -109,7 +109,9 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\turret\TimedTurret.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
@@ -122,7 +124,7 @@
     <Compile Include="entity\physics_entity\agent\attack\Attack.cs" />
     <Compile Include="entity\physics_entity\agent\attack\melee\MeleeAttack.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Bolt.cs" />
-    <Compile Include="entity\physics_entity\agent\trap\Turret.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\turret\Turret.cs" />
     <Compile Include="entity\physics_entity\layer_entity\WallEntity.cs" />
     <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
     <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />
@@ -192,6 +194,7 @@
     <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />
+    <Folder Include="entity\physics_entity\agent\trap\trigger\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\I66.xml">

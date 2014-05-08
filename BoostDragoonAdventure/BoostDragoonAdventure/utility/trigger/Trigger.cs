@@ -74,7 +74,7 @@ namespace wickedcrush.utility.trigger
         protected void activate()
         {
             foreach (ITriggerable target in targets)
-                target.activate();
+                target.activate(); //switch to action delegate? prolly not, keep it simple
         }
     }
 }

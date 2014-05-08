@@ -11,7 +11,7 @@ using wickedcrush.utility;
 using wickedcrush.utility.trigger;
 
 
-namespace wickedcrush.entity.physics_entity.agent.trap
+namespace wickedcrush.entity.physics_entity.agent.trap.turret
 {
     public class Turret : Agent, ITriggerable
     {
@@ -25,15 +25,12 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             this.factory = factory;
         }
 
-        private void Initialize(Vector2 pos, Vector2 size, Vector2 center, Direction facing)
+        protected virtual void Initialize(Vector2 pos, Vector2 size, Vector2 center, Direction facing)
         {
             stats = new PersistedStats(5, 5);
             this.name = "Turret";
 
             this.facing = facing;
-
-            triggers.Add("TurretTrigger", new TimedTrigger(this, this, new Timer(1600)));
-            triggers["TurretTrigger"].repeat = true;
 
         }
 
@@ -60,7 +57,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
 
         //private void fireShot(object source, ElapsedEventArgs e)
-        private void fireShot()
+        protected void fireShot()
         {
 
             factory.addBolt(

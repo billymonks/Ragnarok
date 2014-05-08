@@ -16,10 +16,10 @@ using wickedcrush.map;
 using wickedcrush.manager.player;
 using wickedcrush.manager.controls;
 using wickedcrush.player;
-using wickedcrush.entity.physics_entity.agent.trap;
 using wickedcrush.entity.physics_entity.agent.attack.projectile;
 using wickedcrush.entity.physics_entity.agent.attack.melee;
 using wickedcrush.entity.physics_entity.agent.enemy;
+using wickedcrush.entity.physics_entity.agent.trap.turret;
 
 namespace wickedcrush.factory.entity
 {
@@ -84,7 +84,7 @@ namespace wickedcrush.factory.entity
 
         public void addTurret(Vector2 pos, Direction facing)
         {
-            Turret t = new Turret(w, pos, this, facing);
+            TimedTurret t = new TimedTurret(w, pos, this, facing);
             em.addEntity(t);
         }
 

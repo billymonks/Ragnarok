@@ -83,11 +83,7 @@ namespace wickedcrush.entity.physics_entity.agent
             bodies["hotspot"].LinearVelocity = Vector2.Zero;
             bodies["hotspot"].BodyType = BodyType.Dynamic;
 
-            bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
-            FixtureFactory.AttachCircle(600f, 1f, bodies["activeArea"], center);
-            bodies["activeArea"].IsSensor = true;
-            bodies["activeArea"].BodyType = BodyType.Dynamic;
-            bodies["activeArea"].LinearVelocity = Vector2.Zero;
+            
 
         }
 
@@ -114,8 +110,11 @@ namespace wickedcrush.entity.physics_entity.agent
             HandleCollisions();
             CheckProximity();
 
-            bodies["hotspot"].Position = bodies["body"].WorldCenter;
-            bodies["activeArea"].Position = bodies["body"].WorldCenter;
+            if(bodies.ContainsKey("hotspot"))
+                bodies["hotspot"].Position = bodies["body"].WorldCenter;
+
+            if(bodies.ContainsKey("activeArea"))
+                bodies["activeArea"].Position = bodies["body"].WorldCenter;
 
             if (stats.get("hp") <= 0 && immortal == false)
                 Remove();
@@ -256,6 +255,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void CheckProximity()
         {
+            if (!bodies.ContainsKey("activeArea"))
+                return;
+
             var c = bodies["activeArea"].ContactList;
             proximity.Clear();
 
