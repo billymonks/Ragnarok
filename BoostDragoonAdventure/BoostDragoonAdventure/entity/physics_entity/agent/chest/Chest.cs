@@ -9,6 +9,8 @@ using FarseerPhysics.Factories;
 using wickedcrush.behavior.state;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.inventory;
+using wickedcrush.behavior;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.entity.physics_entity.agent.chest
 {
@@ -21,8 +23,8 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private List<Item> contents;
         private int currency;
 
-        public Chest(World w, Vector2 pos, Vector2 size, Vector2 center, EntityFactory factory)
-            : base(w, pos, size, center, true, factory)
+        public Chest(World w, Vector2 pos, EntityFactory factory)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
         {
             Initialize();
         }
@@ -30,7 +32,9 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private void Initialize()
         {
             this.name = "Chest";
+            immortal = true;
             SetupStateMachine();
+            
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -76,6 +80,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     c =>
                     {
                         testColor = Color.Green;
+                        CheckForOpen();
                     }));
             ctrl.Add("opened",
                 new State("opened",
@@ -84,6 +89,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     {
                         testColor = Color.Blue;
                     }));
+            sm = new StateMachine(ctrl);
         }
 
         private void CheckForOpen()
@@ -94,11 +100,24 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                 {
                     if(((PlayerAgent)e).InteractPressed())
                     {
-                        //((PlayerAgent)e).stats
+                        //((PlayerAgent)e).stats //place loot in player inventory
                         opened = true;
                     }
                 }
             }
+        }
+
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        {
+            //if (navigator != null)
+            //{
+            //navigator.DebugDraw(wTex, gd, spriteBatch, f);
+            //}
+
+            spriteBatch.Draw(wTex, bodies["body"].Position, null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, pos + center, null, testColor, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
+            //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            DrawName(spriteBatch, f);
         }
     }
 }

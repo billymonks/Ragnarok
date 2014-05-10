@@ -62,13 +62,22 @@ namespace wickedcrush.map
             data = getLayerData(deathSoup.Value);
             addLayer(w, data, LayerType.DEATH_SOUP);
 
-            if(objects!=null)
+            if (objects != null)
+            {
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
                     factory.addTurret(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value));
                 }
+
+                foreach (XElement e in objects.Elements("CHEST"))
+                {
+                    factory.addChest(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
+            }
         }
 
         private bool[,] getLayerData(String s)
