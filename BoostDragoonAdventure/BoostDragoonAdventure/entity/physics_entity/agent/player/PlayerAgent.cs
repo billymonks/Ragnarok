@@ -166,6 +166,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
         }
         #endregion
 
+        public bool InteractPressed()
+        {
+            return controls.InteractPressed();
+        }
         
     }
         

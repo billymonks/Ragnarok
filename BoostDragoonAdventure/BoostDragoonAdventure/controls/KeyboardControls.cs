@@ -12,7 +12,7 @@ namespace wickedcrush.controls
         private KeyboardState keyState, prevKeyState;
         private MouseState mouseState, prevMouseState;
 
-        private Keys actionKey = Keys.Z, blockKey = Keys.X, boostKey = Keys.Space,
+        private Keys interactKey = Keys.C, actionKey = Keys.Z, blockKey = Keys.X, boostKey = Keys.Space,
             strafeKey = Keys.LeftControl, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
             altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
             startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
@@ -34,6 +34,33 @@ namespace wickedcrush.controls
 
             prevMouseState = mouseState;
             mouseState = Mouse.GetState();
+        }
+
+        public override bool InteractHeld()
+        {
+            if (keyState.IsKeyDown(interactKey) || mouseState.LeftButton == ButtonState.Pressed)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool InteractPressed()
+        {
+            if (
+                (keyState.IsKeyDown(interactKey) && prevKeyState.IsKeyUp(interactKey))
+                ||
+                (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+               )
+                return true;
+            else
+                return false;
+        }
+        public override bool InteractReleased()
+        {
+            if (keyState.IsKeyUp(interactKey) || mouseState.LeftButton == ButtonState.Pressed)
+                return true;
+            else
+                return false;
         }
 
         public override bool ActionHeld()

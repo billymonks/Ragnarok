@@ -21,6 +21,10 @@ namespace wickedcrush.controls
         public abstract bool LeftPressed();
         public abstract bool RightPressed();
 
+        public abstract bool InteractHeld();
+        public abstract bool InteractPressed();
+        public abstract bool InteractReleased();
+
         public abstract bool ActionHeld();
         public abstract bool ActionPressed();
         public abstract bool ActionReleased();

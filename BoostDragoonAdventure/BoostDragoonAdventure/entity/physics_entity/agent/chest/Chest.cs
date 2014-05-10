@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using wickedcrush.behavior.state;
+using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent.chest
 {
@@ -14,6 +17,9 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private Color testColor = Color.Green;
 
         private bool opened = false;
+
+        private List<Item> contents;
+        private int currency;
 
         public Chest(World w, Vector2 pos, Vector2 size, Vector2 center, EntityFactory factory)
             : base(w, pos, size, center, true, factory)
@@ -24,6 +30,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private void Initialize()
         {
             this.name = "Chest";
+            SetupStateMachine();
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -58,6 +65,40 @@ namespace wickedcrush.entity.physics_entity.agent.chest
             //bodies["hotspot"].IsSensor = true;
 
 
+        }
+
+        private void SetupStateMachine()
+        {
+            Dictionary<String, State> ctrl = new Dictionary<String, State>();
+            ctrl.Add("closed",
+                new State("closed",
+                    c => !((Chest)c).opened,
+                    c =>
+                    {
+                        testColor = Color.Green;
+                    }));
+            ctrl.Add("opened",
+                new State("opened",
+                    c => true,
+                    c =>
+                    {
+                        testColor = Color.Blue;
+                    }));
+        }
+
+        private void CheckForOpen()
+        {
+            foreach (Entity e in proximity)
+            {
+                if (e is PlayerAgent)
+                {
+                    if(((PlayerAgent)e).InteractPressed())
+                    {
+                        //((PlayerAgent)e).stats
+                        opened = true;
+                    }
+                }
+            }
         }
     }
 }
