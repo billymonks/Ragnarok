@@ -16,6 +16,7 @@ using wickedcrush.behavior;
 using wickedcrush.factory.entity;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.utility.trigger;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -337,6 +338,11 @@ namespace wickedcrush.entity.physics_entity.agent
                 if (lowestDistance == this.distanceToEntity(p))
                     target = p;
             }
+        }
+
+        public void useItem(Item i)
+        {
+            stats.inventory.useItem(i, this);
         }
 
         private void drawPath()

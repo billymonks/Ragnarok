@@ -21,7 +21,8 @@ namespace wickedcrush
     public enum LayerType
     {
         WALL = 0,
-        DEATH_SOUP = 1
+        DEATH_SOUP = 1,
+        WIRING = 2
     };
 
     public class Game : Microsoft.Xna.Framework.Game

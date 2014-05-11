@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using wickedcrush.inventory;
+using wickedcrush.entity.physics_entity.agent;
 
 namespace wickedcrush.stats
 {
@@ -12,8 +13,7 @@ namespace wickedcrush.stats
         private Dictionary<String, int> numbers;
         //private Dictionary<String, String> strings;
 
-        private Dictionary<Item, int> inventory;
-        private int currency;
+        public Inventory inventory;
 
         public PersistedStats()
         {
@@ -47,27 +47,7 @@ namespace wickedcrush.stats
                 numbers.Add(key, value);
             }
         }
-
-        /*public String getString(String key)
-        {
-            if(strings.ContainsKey(key))
-                return strings[key];
-
-            throw new InvalidOperationException("That string... " + key + "... does not exist!!! I cannot return it! Sorry.");
-        }
-
-        public void setString(String key, String value)
-        {
-            if (strings.ContainsKey(key))
-            {
-                strings[key] = value;
-            }
-            else
-            {
-                strings.Add(key, value);
-            }
-        }*/
-
+        
         public void addTo(String key, int number)
         {
             checkExists(key);

@@ -49,6 +49,7 @@ namespace wickedcrush.map
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
             XElement deathSoup = rootElement.Element("DEATHSOUP");
+            XElement wiring = rootElement.Element("WIRING");
             XElement objects = rootElement.Element("OBJECTS");
 
             this.name = MAP_NAME;
@@ -56,11 +57,25 @@ namespace wickedcrush.map
             this.height = int.Parse(rootElement.Attribute("height").Value);
 
 
-            bool[,] data = getLayerData(walls.Value);
-            addLayer(w, data, LayerType.WALL);
+            bool[,] data;
 
-            data = getLayerData(deathSoup.Value);
-            addLayer(w, data, LayerType.DEATH_SOUP);
+            if (walls != null)
+            {
+                data = getLayerData(walls.Value);
+                addLayer(w, data, LayerType.WALL);
+            }
+
+            if (deathSoup != null)
+            {
+                data = getLayerData(deathSoup.Value);
+                addLayer(w, data, LayerType.DEATH_SOUP);
+            }
+
+            if (wiring != null)
+            {
+                data = getLayerData(wiring.Value);
+                addLayer(w, data, LayerType.WIRING);
+            }
 
             if (objects != null)
             {

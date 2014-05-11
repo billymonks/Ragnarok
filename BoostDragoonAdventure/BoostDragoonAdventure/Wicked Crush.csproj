@@ -112,6 +112,7 @@
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
     <Compile Include="entity\physics_entity\agent\trap\turret\TimedTurret.cs" />
+    <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
