@@ -116,11 +116,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             sm = new StateMachine(ctrl);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-        }
-
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             //if (navigator != null)

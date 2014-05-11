@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using wickedcrush.entity.physics_entity.agent;
 using Microsoft.Xna.Framework;
+using wickedcrush.entity.physics_entity.agent.trap.trigger;
+using wickedcrush.entity.physics_entity.agent;
 
 namespace wickedcrush.utility.trigger
 {
-    public delegate bool ConditionDelegate(Agent a);
+    public delegate bool ConditionDelegate(TriggerBase a);
 
     public class Trigger
     {
-        public Agent parent;
+        public TriggerBase parent;
 
         public List<ITriggerable> targets { get; set; }
         public ConditionDelegate condition;
         public bool repeat, done;
 
-        public Trigger(Agent parent, ITriggerable target, ConditionDelegate condition)
+        public Trigger(TriggerBase parent, ITriggerable target, ConditionDelegate condition)
         {
             this.parent = parent;
 
@@ -30,7 +31,7 @@ namespace wickedcrush.utility.trigger
             done = false;
         }
 
-        public Trigger(Agent parent, List<ITriggerable> targets, ConditionDelegate condition)
+        public Trigger(TriggerBase parent, List<ITriggerable> targets, ConditionDelegate condition)
         {
             this.parent = parent;
             this.targets = targets;

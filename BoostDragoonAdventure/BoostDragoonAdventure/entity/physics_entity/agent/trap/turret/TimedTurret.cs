@@ -30,8 +30,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.turret
 
             this.facing = facing;
 
-            triggers.Add("TurretTrigger", new TimedTrigger(this, this, new Timer(1600)));
-            triggers["TurretTrigger"].repeat = true;
+            //triggers.Add("TurretTrigger", new TimedTrigger(this, this, new Timer(1600)));
+            //triggers["TurretTrigger"].repeat = true;
 
         }
     }

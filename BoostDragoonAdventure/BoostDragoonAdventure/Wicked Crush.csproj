@@ -111,6 +111,8 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
     <Compile Include="entity\physics_entity\agent\trap\turret\TimedTurret.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
@@ -195,7 +197,6 @@
     <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />
-    <Folder Include="entity\physics_entity\agent\trap\trigger\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="maps\I66.xml">

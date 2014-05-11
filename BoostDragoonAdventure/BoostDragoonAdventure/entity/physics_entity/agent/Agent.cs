@@ -25,6 +25,11 @@ namespace wickedcrush.entity.physics_entity.agent
         void activate();
     }
 
+    public interface ITrigger
+    {
+        void setTriggerTarget(ITriggerable t);
+    }
+
     public class Agent : PhysicsEntity
     {
         protected Navigator navigator;
@@ -340,7 +345,7 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        public void useItem(Item i)
+        protected void useItem(Item i)
         {
             stats.inventory.useItem(i, this);
         }
