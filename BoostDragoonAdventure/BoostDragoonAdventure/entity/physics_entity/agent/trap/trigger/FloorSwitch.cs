@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using wickedcrush.utility.trigger;
 using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -27,5 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         {
             throw new NotImplementedException();
         }
+
+
     }
 }
