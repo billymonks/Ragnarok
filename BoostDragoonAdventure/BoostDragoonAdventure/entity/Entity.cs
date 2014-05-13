@@ -46,7 +46,7 @@ namespace wickedcrush.entity
             Initialize(pos, size, center);
         }
         
-        protected void Initialize(Vector2 pos, Vector2 size, Vector2 center)
+        private void Initialize(Vector2 pos, Vector2 size, Vector2 center)
         {
             this.pos = pos;
             this.size = size;

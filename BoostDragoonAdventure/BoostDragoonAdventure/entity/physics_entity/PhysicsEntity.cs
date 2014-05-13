@@ -29,7 +29,7 @@ namespace wickedcrush.entity.physics_entity
             Initialize(w, pos, size, center, solid);
         }
 
-        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        private void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             setupBody(w, pos, size, center, solid);
         }

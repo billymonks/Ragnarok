@@ -51,19 +51,20 @@ namespace wickedcrush.entity.physics_entity.agent
             : base(w, pos, size, center, solid)
         {
             
-            Initialize(w, pos, size, center, solid, new PersistedStats(5, 5), factory);
+            Initialize(new PersistedStats(5, 5), factory);
         }
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
             : base(w, pos, size, center, solid)
         {
-            Initialize(w, pos, size, center, solid, stats, factory);
+            Initialize(stats, factory);
         }
 
-        protected virtual void Initialize(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats, EntityFactory factory)
+        private void Initialize(PersistedStats stats, EntityFactory factory)
         {
             this.factory = factory;
             this.stats = stats;
+
             timers = new Dictionary<String, Timer>();
             triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
