@@ -61,10 +61,23 @@ namespace wickedcrush.utility.trigger
                 targets.Add(target);
         }
 
+        public void addTargets(List<ITriggerable> targets)
+        {
+            foreach (ITriggerable t in targets)
+            {
+                addTarget(t);
+            }
+        }
+
         public void removeTarget(ITriggerable target)
         {
             if (targets.Contains(target))
                 targets.Remove(target);
+        }
+
+        public void clearTargets()
+        {
+            targets.Clear();
         }
 
         protected bool testCondition()

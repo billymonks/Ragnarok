@@ -21,6 +21,7 @@ using wickedcrush.entity.physics_entity.agent.attack.melee;
 using wickedcrush.entity.physics_entity.agent.enemy;
 using wickedcrush.entity.physics_entity.agent.trap.turret;
 using wickedcrush.entity.physics_entity.agent.chest;
+using wickedcrush.entity.physics_entity.agent.trap.trigger;
 
 namespace wickedcrush.factory.entity
 {
@@ -85,7 +86,7 @@ namespace wickedcrush.factory.entity
 
         public void addTurret(Vector2 pos, Direction facing)
         {
-            TimedTurret t = new TimedTurret(w, pos, this, facing);
+            Turret t = new Turret(w, pos, this, facing);
             em.addEntity(t);
         }
 
@@ -99,6 +100,12 @@ namespace wickedcrush.factory.entity
         {
             Bolt b = new Bolt(w, pos, size, center, parent, damage, force);
             em.addEntity(b);
+        }
+
+        public void addFloorSwitch(Vector2 pos)
+        {
+            FloorSwitch f = new FloorSwitch(w, pos, this);
+            em.addEntity(f);
         }
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)

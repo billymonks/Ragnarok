@@ -78,10 +78,10 @@
     <TURRET id="3" x="490" y="400" angle="270" />
     <TURRET id="4" x="510" y="110" angle="180" />
     <TURRET id="5" x="50" y="70" angle="0" />
-    <TIMER id="6" x="500" y="80" />
-    <TIMER id="7" x="40" y="40" />
-    <FLOOR_SWITCH id="8" x="260" y="340" />
-    <TIMER id="9" x="460" y="420" />
+    <TIMER id="6" x="510" y="90" />
+    <TIMER id="7" x="50" y="50" />
+    <FLOOR_SWITCH id="8" x="270" y="350" />
+    <TIMER id="9" x="470" y="430" />
     <TURRET id="11" x="470" y="400" angle="270" />
     <TURRET id="13" x="450" y="400" angle="270" />
   </OBJECTS>

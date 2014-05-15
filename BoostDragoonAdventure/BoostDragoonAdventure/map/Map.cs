@@ -37,6 +37,14 @@ namespace wickedcrush.map
                 layerList.Add(layerType, new Layer(data, w, width, height, false, layerType));
         }
 
+        public void addEmptyLayer(World w, LayerType layerType)
+        {
+            Boolean[,] emptyData = new Boolean[1, 1];
+            emptyData[0, 0] = false;
+
+            layerList.Add(layerType, new Layer(emptyData, w, width, height, false, layerType));
+        }
+
         public Layer getLayer(LayerType layerType)
         {
             return layerList[layerType];
@@ -64,17 +72,29 @@ namespace wickedcrush.map
                 data = getLayerData(walls.Value);
                 addLayer(w, data, LayerType.WALL);
             }
+            else
+            {
+                addEmptyLayer(w, LayerType.WALL);
+            }
 
             if (deathSoup != null)
             {
                 data = getLayerData(deathSoup.Value);
                 addLayer(w, data, LayerType.DEATH_SOUP);
             }
+            else
+            {
+                addEmptyLayer(w, LayerType.DEATH_SOUP);
+            }
 
             if (wiring != null)
             {
                 data = getLayerData(wiring.Value);
                 addLayer(w, data, LayerType.WIRING);
+            }
+            else
+            {
+                addEmptyLayer(w, LayerType.WIRING);
             }
 
             if (objects != null)
@@ -92,6 +112,11 @@ namespace wickedcrush.map
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
+                foreach (XElement e in objects.Elements("FLOOR_SWITCH"))
+                {
+                    factory.addFloorSwitch(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
             }
         }
 
@@ -130,6 +155,11 @@ namespace wickedcrush.map
             foreach (Body b in getLayer(LayerType.DEATH_SOUP).bodyList)
             {
                 spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).getWidth(), height / getLayer(LayerType.DEATH_SOUP).getHeight()), SpriteEffects.None, 0f);
+            }
+
+            foreach (Body b in getLayer(LayerType.WIRING).bodyList)
+            {
+                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Purple, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), SpriteEffects.None, 0f);
             }
         }
     }

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.entity.physics_entity;
 using wickedcrush.entity.physics_entity.agent;
 using wickedcrush.entity.physics_entity.agent.enemy;
+using wickedcrush.entity.physics_entity.agent.trap.trigger;
 
 namespace wickedcrush.manager.entity
 {
@@ -44,6 +45,9 @@ namespace wickedcrush.manager.entity
             foreach (Entity e in entityList)
             {
                 e.Update(gameTime);
+
+                if ((e is ITriggerable || e is TriggerBase) && !e.isInitialized())
+                    connectWiring();
 
                 if (e.readyForRemoval())
                     removeList.Add(e);
@@ -97,6 +101,18 @@ namespace wickedcrush.manager.entity
         public void addEntity(Murderer e)
         {
             addList.Add(e);
+        }
+
+        public void connectWiring()
+        {
+            foreach (Entity e in entityList)
+            {
+                if (e is TriggerBase)
+                {
+                    ((TriggerBase)e).clearWiring();
+                    ((TriggerBase)e).connectWiring();
+                }
+            }
         }
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont)

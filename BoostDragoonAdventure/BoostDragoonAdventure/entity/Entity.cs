@@ -32,6 +32,7 @@ namespace wickedcrush.entity
         public List<Entity> removeList;
 
         protected bool remove = false;
+        protected bool initialized = false;
         public bool dead = false;
         public bool immortal = false;
         public bool airborne = false;
@@ -96,6 +97,17 @@ namespace wickedcrush.entity
         public bool readyForRemoval()
         {
             return remove;
+        }
+
+        public bool isInitialized()
+        {
+            if (!initialized)
+            {
+                initialized = true;
+                return false;
+            }
+
+            return true;
         }
 
         public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)

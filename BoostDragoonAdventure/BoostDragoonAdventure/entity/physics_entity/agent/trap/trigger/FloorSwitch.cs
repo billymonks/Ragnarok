@@ -14,7 +14,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
     {
         private bool triggered = false, ready = true, pressed = false;
 
-        public FloorSwitch(World w, Vector2 pos, EntityFactory factory, ITriggerable target)
+        public FloorSwitch(World w, Vector2 pos, EntityFactory factory)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), false, factory)
         {
             Initialize();
@@ -57,6 +57,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 
             if (pressed && ready)
                 triggered = true;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
     }
 }
