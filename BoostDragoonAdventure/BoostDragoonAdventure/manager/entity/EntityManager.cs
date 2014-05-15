@@ -10,6 +10,7 @@ using wickedcrush.entity.physics_entity;
 using wickedcrush.entity.physics_entity.agent;
 using wickedcrush.entity.physics_entity.agent.enemy;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
+using wickedcrush.map.layer;
 
 namespace wickedcrush.manager.entity
 {
@@ -46,8 +47,8 @@ namespace wickedcrush.manager.entity
             {
                 e.Update(gameTime);
 
-                if ((e is ITriggerable || e is TriggerBase) && !e.isInitialized())
-                    connectWiring();
+                //if ((e is ITriggerable || e is TriggerBase) && !e.isInitialized())
+                    //connectWiring();
 
                 if (e.readyForRemoval())
                     removeList.Add(e);
@@ -103,14 +104,14 @@ namespace wickedcrush.manager.entity
             addList.Add(e);
         }
 
-        public void connectWiring()
-        {
+        public void connectWiring(Layer wiring)
+        {   
             foreach (Entity e in entityList)
             {
                 if (e is TriggerBase)
                 {
                     ((TriggerBase)e).clearWiring();
-                    ((TriggerBase)e).connectWiring();
+                    //((TriggerBase)e).connectWiring();
                 }
             }
         }

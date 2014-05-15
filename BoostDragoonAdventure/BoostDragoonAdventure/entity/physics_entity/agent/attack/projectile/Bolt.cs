@@ -31,6 +31,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             stats = new PersistedStats(1, 1);
             facing = parent.facing;
             immortal = false;
+
             this.damage = damage;
             this.force = force;
             this.name = "Bolt";
@@ -57,7 +58,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             {
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
-                    && (c.Other.UserData is Agent)
+                    && c.Other.UserData is Agent
+                    && !((Agent)c.Other.UserData).noCollision
                     && !c.Other.UserData.Equals(this.parent))
                 {
                     ((Agent)c.Other.UserData).stats.addTo("hp", -damage);

@@ -13,19 +13,19 @@ namespace wickedcrush.map.layer
     public class Layer
     {
         public bool[,] data;
-        public List<Body> bodyList;
+        public Body[,] bodyList;
         public LayerType layerType;
 
         public Layer(int width, int height) // Empty Layer
         {
             data = new bool[width, height]; //x, y
-            bodyList = new List<Body>();
+            bodyList = new Body[width, height];
         }
 
         public Layer(bool[,] data, World w, int width, int height, bool solid, LayerType layerType)
         {
             this.data = data;
-            bodyList = new List<Body>();
+            bodyList = new Body[width, height];
             this.layerType = layerType;
             generateBodies(w, width, height, solid);
         }
@@ -89,8 +89,21 @@ namespace wickedcrush.map.layer
             Body body = new Body(w, new Vector2(x * gridWidth, y * gridHeight));
             FixtureFactory.AttachRectangle(gridWidth, gridHeight, 1f, new Vector2(gridWidth * 0.5f, gridHeight * 0.5f), body);
 
+            body.FixedRotation = true;
+            body.LinearVelocity = Vector2.Zero;
+
             body.CollisionGroup = (short)CollisionGroup.LAYER;
-            body.BodyType = BodyType.Static;
+
+            if (layerType == LayerType.WALL)
+            {
+                body.BodyType = BodyType.Static;
+            }
+            else
+            {
+                body.BodyType = BodyType.Dynamic;
+                body.IsSensor = true;
+            }
+            
 
             body.UserData = layerType;
 
@@ -106,7 +119,7 @@ namespace wickedcrush.map.layer
             for (int i = 0; i < data.GetLength(0); i++)
                 for (int j = 0; j < data.GetLength(1); j++)
                     if (getCoordinate(i, j))
-                        bodyList.Add(createBodyFromLayerCoordinate(w, width, height, i, j, solid));
+                        bodyList[i, j] = createBodyFromLayerCoordinate(w, width, height, i, j, solid);
         }
 
         public void removeBodies(World w)

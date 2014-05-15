@@ -22,6 +22,7 @@ using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
 using FarseerPhysics;
+using wickedcrush.map.layer;
 
 
 namespace wickedcrush.screen
@@ -63,6 +64,10 @@ namespace wickedcrush.screen
             
 
             game.testMap = new Map(game.mapName, w, factory);
+
+            //connectWiring(game.testMap);
+
+            
             
             //factory = new EntityFactory(game.entityManager, game.playerManager, w);
             factory.setMap(game.testMap);
@@ -70,7 +75,12 @@ namespace wickedcrush.screen
             factory.spawnPlayers();
         }
 
-        
+        private void connectWiring(Map map)
+        {
+            Layer wiring = map.getLayer(LayerType.WIRING);
+
+            entityManager.connectWiring(wiring);
+        }
 
         private void checkAndAdd()
         {
@@ -97,6 +107,8 @@ namespace wickedcrush.screen
             factory.Update(); //player creation, needs to be replaced
 
             DebugControls();
+
+            game.testMap.connectTriggers();
 
             
 

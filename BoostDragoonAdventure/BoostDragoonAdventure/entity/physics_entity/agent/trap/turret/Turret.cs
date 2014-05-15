@@ -20,38 +20,46 @@ namespace wickedcrush.entity.physics_entity.agent.trap.turret
         public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
         {
-            Initialize(pos, size, center, facing);
+            Initialize(facing);
 
             this.factory = factory;
         }
 
-        protected virtual void Initialize(Vector2 pos, Vector2 size, Vector2 center, Direction facing)
+        private void Initialize(Direction facing)
         {
             stats = new PersistedStats(5, 5);
             this.name = "Turret";
 
             this.facing = facing;
-
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
-            bodies["body"].FixedRotation = true;
-            bodies["body"].LinearVelocity = Vector2.Zero;
+            //FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
+            //bodies["body"].FixedRotation = true;
+            //bodies["body"].LinearVelocity = Vector2.Zero;
             bodies["body"].BodyType = BodyType.Static;
-            bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
+            //bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
 
-            bodies["body"].UserData = this;
+            //bodies["body"].UserData = this;
+            /*bodies.Add("collision", BodyFactory.CreateBody(w, pos - center));
+            FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
+            FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["collision"]);
+            bodies["collision"].FixedRotation = true;
+            bodies["collision"].LinearVelocity = Vector2.Zero;
+            bodies["collision"].BodyType = BodyType.Static;
+            bodies["collision"].IsSensor = false;
 
-            if (!solid)
-                bodies["body"].IsSensor = true;
+            bodies["body"].IsSensor = true;
+            bodies["hotspot"].IsSensor = true;*/
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, center, bodies["hotspot"]);
-            bodies["hotspot"].FixedRotation = true;
-            bodies["hotspot"].LinearVelocity = Vector2.Zero;
-            bodies["hotspot"].BodyType = BodyType.Static;
+            //FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
+            //bodies["hotspot"].FixedRotation = true;
+            //bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            //bodies["hotspot"].BodyType = BodyType.Static;
+
+
 
         }
 

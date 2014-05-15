@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using wickedcrush.map.path;
 using wickedcrush.factory.entity;
 using wickedcrush.entity;
+using wickedcrush.map.circuit;
 
 namespace wickedcrush.map
 {
@@ -18,6 +19,7 @@ namespace wickedcrush.map
 
         public int width, height;
         public Dictionary<LayerType, Layer> layerList;
+        public List<Circuit> circuitList;
         public String name;
 
         private EntityFactory factory;
@@ -117,8 +119,79 @@ namespace wickedcrush.map
                     factory.addFloorSwitch(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
+
+                makeCircuits();
             }
         }
+
+        //perverse circuit logic starts here. beware. move to somewhere smarter someday.
+        public void connectTriggers()
+        {
+            foreach(Circuit c in circuitList)
+                c.connectTriggers();
+        }
+
+        private void makeCircuits()
+        {
+            circuitList = new List<Circuit>();
+
+            Layer wiringLayer = getLayer(LayerType.WIRING);
+
+            for (int i = 0; i < wiringLayer.bodyList.GetLength(0); i++)
+                for (int j = 0; j < wiringLayer.bodyList.GetLength(1); j++)
+                {
+                    getConnections(wiringLayer, i, j);
+                }
+        }
+
+        private void getConnections(Layer wiring, int x, int y)
+        {
+            List<Body> openList = new List<Body>();
+            List<Body> closedList = new List<Body>();
+
+            if (wiring.getCoordinate(x, y) && !inCircuit(wiring.bodyList[x, y]))
+            {
+                addCircuit(wiring, x, y);
+            }
+        }
+
+        private void addCircuit(Layer wiring, int x, int y)
+        {
+            Circuit c = new Circuit();
+
+            addConnectionsToCircuit(c, wiring, x, y);
+
+            circuitList.Add(c);
+        }
+
+        private void addConnectionsToCircuit(Circuit c, Layer wiring, int x, int y)
+        {
+            if (x >= 0 && x < wiring.getWidth() && y >= 0 && y < wiring.getHeight() && wiring.getCoordinate(x, y) && !c.contains(wiring.bodyList[x, y]))
+            {
+                c.addWiring(wiring.bodyList[x, y]);
+
+                addConnectionsToCircuit(c, wiring, x - 1, y);
+                addConnectionsToCircuit(c, wiring, x + 1, y);
+                addConnectionsToCircuit(c, wiring, x, y - 1);
+                addConnectionsToCircuit(c, wiring, x, y + 1);
+            }
+        }
+
+        private bool inCircuit(Body wire)
+        {
+            if (circuitList == null)
+                return false;
+
+            foreach (Circuit c in circuitList)
+            {
+                if (c.contains(wire))
+                    return true;
+            }
+
+            return false;
+        }
+
+        //perverse circuit logic ends here
 
         private bool[,] getLayerData(String s)
         {
@@ -149,17 +222,20 @@ namespace wickedcrush.map
 
             foreach (Body b in getLayer(LayerType.WALL).bodyList)
             {
-                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Black, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), SpriteEffects.None, 0f);
+                if(b!=null)
+                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Black, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), SpriteEffects.None, 0f);
             }
 
             foreach (Body b in getLayer(LayerType.DEATH_SOUP).bodyList)
             {
-                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).getWidth(), height / getLayer(LayerType.DEATH_SOUP).getHeight()), SpriteEffects.None, 0f);
+                if (b != null)
+                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).getWidth(), height / getLayer(LayerType.DEATH_SOUP).getHeight()), SpriteEffects.None, 0f);
             }
 
             foreach (Body b in getLayer(LayerType.WIRING).bodyList)
             {
-                spriteBatch.Draw(whiteTexture, b.Position, null, Color.Purple, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), SpriteEffects.None, 0f);
+                if (b != null)
+                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Purple, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), SpriteEffects.None, 0f);
             }
         }
     }

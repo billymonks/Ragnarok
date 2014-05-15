@@ -23,7 +23,9 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         private void Initialize()
         {
             immortal = true;
+            noCollision = true;
             this.name = "FloorSwitch";
+            trigger.repeat = true;
         }
 
         public override bool isTriggered()
@@ -41,15 +43,16 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             pressed = false;
             triggered = false;
 
-            var c = bodies["body"].ContactList;
+            var c = bodies["hotspot"].ContactList;
             while (c != null)
             {
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
                     && (c.Other.UserData is Agent)
-                    && !c.Other.UserData.Equals(this.parent))
+                    && !c.Other.UserData.Equals(this))
                 {
-                    pressed = true;
+                    if(!((Agent)c.Other.UserData).airborne)
+                        pressed = true;
                 }
 
                 c = c.Next;

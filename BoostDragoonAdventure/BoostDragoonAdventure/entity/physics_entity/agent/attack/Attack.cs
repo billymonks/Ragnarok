@@ -29,6 +29,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack
 
         private void Initialize(int damage, int force)
         {
+            airborne = true;
             immortal = true;
             this.damage = damage;
             this.force = force;
