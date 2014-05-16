@@ -47,9 +47,6 @@ namespace wickedcrush.manager.entity
             {
                 e.Update(gameTime);
 
-                //if ((e is ITriggerable || e is TriggerBase) && !e.isInitialized())
-                    //connectWiring();
-
                 if (e.readyForRemoval())
                     removeList.Add(e);
             }
@@ -78,6 +75,7 @@ namespace wickedcrush.manager.entity
                 foreach (Entity e in removeList)
                 {
                     entityList.Remove(e);
+                    
                 }
 
                 removeList.Clear();

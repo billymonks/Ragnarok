@@ -56,6 +56,7 @@ namespace wickedcrush.entity.physics_entity
 
         public override void Remove()
         {
+            dead = true;
             if (remove == false)
             {
                 base.Remove();

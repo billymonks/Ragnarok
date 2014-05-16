@@ -19,7 +19,7 @@ using wickedcrush.player;
 using wickedcrush.entity.physics_entity.agent.attack.projectile;
 using wickedcrush.entity.physics_entity.agent.attack.melee;
 using wickedcrush.entity.physics_entity.agent.enemy;
-using wickedcrush.entity.physics_entity.agent.trap.turret;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable.turret;
 using wickedcrush.entity.physics_entity.agent.chest;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 
@@ -78,8 +78,6 @@ namespace wickedcrush.factory.entity
             if (map != null)
             {
                 a.activateNavigator(map);
-                //if(pm.getPlayerList().Count > 0)
-                    //a.setTarget(pm.getPlayerList()[0].getAgent());
             }
             em.addEntity(a);
         }
@@ -106,6 +104,12 @@ namespace wickedcrush.factory.entity
         {
             FloorSwitch f = new FloorSwitch(w, pos, this);
             em.addEntity(f);
+        }
+
+        public void addTimerTrigger(Vector2 pos)
+        {
+            TimerTrigger t = new TimerTrigger(w, pos, this);
+            em.addEntity(t);
         }
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
@@ -137,7 +141,12 @@ namespace wickedcrush.factory.entity
         public void Update() //debug,something else should have this loop
         {
             respawnPlayer();
-            
+        }
+
+        public void processWorldChanges()
+        {
+            w.Step(0f);
+            //w.ProcessChanges();
         }
     }
 }

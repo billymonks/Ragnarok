@@ -5,7 +5,8 @@ using System.Text;
 using FarseerPhysics.Dynamics;
 using wickedcrush.entity.physics_entity.agent;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
-using wickedcrush.entity.physics_entity.agent.trap.turret;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable.turret;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 
 namespace wickedcrush.map.circuit
 {
@@ -13,7 +14,7 @@ namespace wickedcrush.map.circuit
     {
         List<Body> wiring;
 
-        List<ITriggerable> triggerables = new List<ITriggerable>();
+        List<Triggerable> triggerables = new List<Triggerable>();
         List<TriggerBase> triggers = new List<TriggerBase>();
 
         public Circuit()
@@ -45,10 +46,10 @@ namespace wickedcrush.map.circuit
                         && c.Other.UserData != null
                         && !c.Other.UserData.Equals(this))
                     {
-                        if (c.Other.UserData is ITriggerable)
+                        if (c.Other.UserData is Triggerable)
                         {
                             if (!triggerables.Contains(c.Other.UserData))
-                                triggerables.Add((ITriggerable)c.Other.UserData);
+                                triggerables.Add((Triggerable)c.Other.UserData);
                         }
                         else if (c.Other.UserData is TriggerBase)
                         {

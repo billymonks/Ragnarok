@@ -28,6 +28,14 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             trigger.repeat = true;
         }
 
+        protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        {
+            base.setupBody(w, pos, size, center, solid);
+
+            //bodies["body"].BodyType = BodyType.Static;
+            bodies["body"].IsSensor = true;
+        }
+
         public override bool isTriggered()
         {
             return triggered;

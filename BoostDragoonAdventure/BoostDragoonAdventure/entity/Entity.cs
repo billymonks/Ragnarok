@@ -137,8 +137,6 @@ namespace wickedcrush.entity
         {
             return directionVectorToAngle(vectorToEntity(e));
         }
-
-        
     }
         
 }

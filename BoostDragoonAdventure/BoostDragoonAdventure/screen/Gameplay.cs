@@ -66,8 +66,6 @@ namespace wickedcrush.screen
             game.testMap = new Map(game.mapName, w, factory);
 
             //connectWiring(game.testMap);
-
-            
             
             //factory = new EntityFactory(game.entityManager, game.playerManager, w);
             factory.setMap(game.testMap);
@@ -96,8 +94,6 @@ namespace wickedcrush.screen
 
         public override void Update(GameTime gameTime)
         {
-            
-
             game.diag = "";
 
             //playerManager.Update(gameTime);
@@ -108,12 +104,14 @@ namespace wickedcrush.screen
 
             DebugControls();
 
-            game.testMap.connectTriggers();
+            //game.testMap.connectTriggers();
 
             
 
             //base.Update(gameTime);
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+
+            //factory.initializeMap();
         }
 
         public override void Draw()

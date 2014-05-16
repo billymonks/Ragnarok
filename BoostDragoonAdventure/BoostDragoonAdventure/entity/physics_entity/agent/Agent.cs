@@ -20,15 +20,6 @@ using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
-    public interface ITriggerable
-    {
-        void activate();
-    }
-
-    public interface ITrigger
-    {
-        void setTriggerTarget(ITriggerable t);
-    }
 
     public class Agent : PhysicsEntity
     {

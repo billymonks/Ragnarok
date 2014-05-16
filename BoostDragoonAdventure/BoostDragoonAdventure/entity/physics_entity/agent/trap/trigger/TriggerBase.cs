@@ -6,6 +6,7 @@ using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using wickedcrush.utility.trigger;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -16,7 +17,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         public TriggerBase(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid, factory)
         {
-            trigger = new Trigger(this, new List<ITriggerable>(), c => c.isTriggered());
+            trigger = new Trigger(this, new List<Triggerable>(), c => c.isTriggered());
         }
 
         public override void Update(GameTime gameTime)

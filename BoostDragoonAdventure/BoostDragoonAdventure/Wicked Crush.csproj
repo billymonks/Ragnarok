@@ -111,7 +111,9 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\triggerable\Triggerable.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\trigger\TimerTrigger.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
@@ -127,7 +129,7 @@
     <Compile Include="entity\physics_entity\agent\attack\Attack.cs" />
     <Compile Include="entity\physics_entity\agent\attack\melee\MeleeAttack.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Bolt.cs" />
-    <Compile Include="entity\physics_entity\agent\trap\turret\Turret.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\triggerable\turret\Turret.cs" />
     <Compile Include="entity\physics_entity\layer_entity\WallEntity.cs" />
     <Compile Include="entity\physics_entity\PhysicsEntity.cs" />
     <Compile Include="entity\physics_entity\agent\player\PlayerAgent.cs" />

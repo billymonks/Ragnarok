@@ -120,7 +120,17 @@ namespace wickedcrush.map
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
+                foreach (XElement e in objects.Elements("TIMER"))
+                {
+                    factory.addTimerTrigger(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
                 makeCircuits();
+
+                factory.processWorldChanges();
+
+                connectTriggers();
             }
         }
 

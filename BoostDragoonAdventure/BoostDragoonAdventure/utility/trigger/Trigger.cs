@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.entity.physics_entity.agent;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 
 namespace wickedcrush.utility.trigger
 {
@@ -14,15 +15,15 @@ namespace wickedcrush.utility.trigger
     {
         public TriggerBase parent;
 
-        public List<ITriggerable> targets { get; set; }
+        public List<Triggerable> targets { get; set; }
         public ConditionDelegate condition;
         public bool repeat, done;
 
-        public Trigger(TriggerBase parent, ITriggerable target, ConditionDelegate condition)
+        public Trigger(TriggerBase parent, Triggerable target, ConditionDelegate condition)
         {
             this.parent = parent;
 
-            targets = new List<ITriggerable>();
+            targets = new List<Triggerable>();
             targets.Add(target);
 
             this.condition = condition;
@@ -31,7 +32,7 @@ namespace wickedcrush.utility.trigger
             done = false;
         }
 
-        public Trigger(TriggerBase parent, List<ITriggerable> targets, ConditionDelegate condition)
+        public Trigger(TriggerBase parent, List<Triggerable> targets, ConditionDelegate condition)
         {
             this.parent = parent;
             this.targets = targets;
@@ -55,21 +56,21 @@ namespace wickedcrush.utility.trigger
             }
         }
 
-        public void addTarget(ITriggerable target)
+        public void addTarget(Triggerable target)
         {
             if (!targets.Contains(target))
                 targets.Add(target);
         }
 
-        public void addTargets(List<ITriggerable> targets)
+        public void addTargets(List<Triggerable> targets)
         {
-            foreach (ITriggerable t in targets)
+            foreach (Triggerable t in targets)
             {
                 addTarget(t);
             }
         }
 
-        public void removeTarget(ITriggerable target)
+        public void removeTarget(Triggerable target)
         {
             if (targets.Contains(target))
                 targets.Remove(target);
@@ -87,7 +88,7 @@ namespace wickedcrush.utility.trigger
 
         protected void activate()
         {
-            foreach (ITriggerable target in targets)
+            foreach (Triggerable target in targets)
                 target.activate(); //switch to action delegate? prolly not, keep it simple
         }
     }
