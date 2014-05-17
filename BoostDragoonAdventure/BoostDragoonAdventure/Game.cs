@@ -33,21 +33,23 @@ namespace wickedcrush
 
         public SpriteBatch spriteBatch;
 
-        BasicEffect e;
-        float xscale, yscale;
-        Matrix spriteScale;
-
         public Stack<GameScreen> screenStack;
 
         public Map testMap;
         public String mapName = "";
 
-        //Test test;
-
         public String diag = "";
 
         public Texture2D whiteTexture, arrowTexture;
         public SpriteFont testFont;
+
+        public bool transitionFinished;
+
+        private BasicEffect e;
+        private float debugxscale, debugyscale, xscale, yscale;
+        private Matrix debugSpriteScale, spriteScale, fullSpriteScale;
+
+        
 
         public Game()
         {
@@ -69,9 +71,14 @@ namespace wickedcrush
 
             e = new BasicEffect(GraphicsDevice);
 
-            xscale = (float)GraphicsDevice.Viewport.Width / 640f;
-            yscale = (float)GraphicsDevice.Viewport.Height / 480f;
+            debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
+            debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
+            debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1);
+            
+            xscale = (float)GraphicsDevice.Viewport.Width / 1440f;
+            yscale = (float)GraphicsDevice.Viewport.Height / 1080f;
             spriteScale = Matrix.CreateScale(yscale, yscale, 1);
+            fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1);
 
             screenStack = new Stack<GameScreen>();
 
@@ -121,7 +128,7 @@ namespace wickedcrush
         {
             GraphicsDevice.Clear(Color.LightCyan);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, RasterizerState.CullNone, null, spriteScale);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
             if(screenStack.Count>0)
                 screenStack.Peek().Draw();
             spriteBatch.End();

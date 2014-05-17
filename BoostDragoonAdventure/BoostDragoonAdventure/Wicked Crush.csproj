@@ -118,6 +118,7 @@
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
+    <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
     <Compile Include="screen\Gameplay.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="screen\PlayerSelect.cs" />
+    <Compile Include="screen\transition\FadeOutIn.cs" />
+    <Compile Include="screen\transition\Transition.cs" />
     <Compile Include="stats\PersistedStats.cs" />
     <Compile Include="utility\Timer.cs" />
     <Compile Include="utility\trigger\TimedTrigger.cs" />
