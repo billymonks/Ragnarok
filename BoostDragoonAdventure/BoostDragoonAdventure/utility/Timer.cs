@@ -81,6 +81,11 @@ namespace wickedcrush.utility
             interval = TimeSpan.FromMilliseconds(milliseconds);
         }
 
+        public float getPercent()
+        {
+            return ((float)currentTime.Milliseconds) / ((float)interval.Milliseconds);
+        }
+
         private void checkIfDone()
         {
             if (currentTime > interval)
