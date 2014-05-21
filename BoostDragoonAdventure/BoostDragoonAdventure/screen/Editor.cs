@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework;
 using wickedcrush.entity;
 using wickedcrush.map.layer;
 using wickedcrush.map;
+using wickedcrush.editor;
 
 namespace wickedcrush.screen
 {
     public class Editor : GameScreen
     {
-        public Dictionary<LayerType, Layer> layerList;
-        public List<Entity> entityList;
+        public EditorMap map;
 
         public Editor(Game game)
         {
@@ -24,8 +24,6 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
-
-            game.testMap = new Map(game.mapName, w, factory);
         }
 
         public override void Update(GameTime gameTime)
