@@ -13,13 +13,13 @@ namespace wickedcrush.editor
         public bool canRotate;
         public Direction angle = Direction.East;
 
-        public EditorEntity(String code, String name, int x, int y, bool canRotate)
+        public EditorEntity(String code, String name, int x, int y, Direction angle)
         {
             this.code = code;
             this.name = name;
             this.x = x;
             this.y = y;
-            this.canRotate = canRotate;
+            this.angle = angle;
         }
 
         public void rotateCW()

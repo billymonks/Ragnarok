@@ -24,6 +24,7 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
+            map = new EditorMap(game.mapName);
         }
 
         public override void Update(GameTime gameTime)
@@ -33,7 +34,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            game.testMap.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
+            //map.drawMap
         }
 
         public override void Dispose()

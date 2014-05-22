@@ -244,7 +244,7 @@ namespace wickedcrush.entity.physics_entity.agent
             var c = bodies["hotspot"].ContactList;
             while(c != null)
             {
-                if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATH_SOUP) && !airborne)
+                if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATHSOUP) && !airborne)
                     stats.set("hp", 0);
 
                 c = c.Next;

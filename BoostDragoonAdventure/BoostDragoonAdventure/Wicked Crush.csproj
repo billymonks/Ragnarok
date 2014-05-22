@@ -206,58 +206,58 @@
     <Folder Include="entity\physics_entity\agent\npc\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="maps\I66.xml">
+    <Content Include="maps\small\I66.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="maps\A Few Rooms.xml">
+    <Content Include="maps\small\A Few Rooms.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Death Maze.xml">
+    <Content Include="maps\small\Death Maze.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Island.xml">
+    <Content Include="maps\small\Island.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Mostly Harmless Water V2.xml">
+    <Content Include="maps\small\Mostly Harmless Water V2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Mostly Harmless Water.xml">
+    <Content Include="maps\small\Mostly Harmless Water.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Symmetry.xml">
+    <Content Include="maps\small\Symmetry.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Template.xml">
+    <Content Include="maps\small\Template.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Temple Halls V2.xml">
+    <Content Include="maps\small\Temple Halls V2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="maps\Temple Halls V3.xml">
+    <Content Include="maps\small\Temple Halls V3.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Temple Halls V4.xml">
+    <Content Include="maps\small\Temple Halls V4.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Temple Halls.xml">
+    <Content Include="maps\small\Temple Halls.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Test 1.xml">
+    <Content Include="maps\small\Test 1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Test 2.xml">
+    <Content Include="maps\small\Test 2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\The Serpents Bend.xml">
+    <Content Include="maps\small\The Serpents Bend.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Twisty Turny Get Losty V2.xml">
+    <Content Include="maps\small\Twisty Turny Get Losty V2.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="maps\Twisty Turny Get Losty.xml">
+    <Content Include="maps\small\Twisty Turny Get Losty.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

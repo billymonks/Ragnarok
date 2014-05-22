@@ -25,7 +25,7 @@ namespace wickedcrush.map.path
         private void loadPathNodeGrid(int agentSize)
         {
             Layer l = map.getLayer(LayerType.WALL);
-            Layer ds = map.getLayer(LayerType.DEATH_SOUP);
+            Layer ds = map.getLayer(LayerType.DEATHSOUP);
             int size;
 
             pathNodeGrid = new PathNode[l.getWidth() * 2, l.getHeight() * 2];

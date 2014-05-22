@@ -82,11 +82,11 @@ namespace wickedcrush.map
             if (deathSoup != null)
             {
                 data = getLayerData(deathSoup.Value);
-                addLayer(w, data, LayerType.DEATH_SOUP);
+                addLayer(w, data, LayerType.DEATHSOUP);
             }
             else
             {
-                addEmptyLayer(w, LayerType.DEATH_SOUP);
+                addEmptyLayer(w, LayerType.DEATHSOUP);
             }
 
             if (wiring != null)
@@ -236,10 +236,10 @@ namespace wickedcrush.map
                     spriteBatch.Draw(whiteTexture, b.Position, null, Color.Black, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), SpriteEffects.None, 0f);
             }
 
-            foreach (Body b in getLayer(LayerType.DEATH_SOUP).bodyList)
+            foreach (Body b in getLayer(LayerType.DEATHSOUP).bodyList)
             {
                 if (b != null)
-                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATH_SOUP).getWidth(), height / getLayer(LayerType.DEATH_SOUP).getHeight()), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATHSOUP).getWidth(), height / getLayer(LayerType.DEATHSOUP).getHeight()), SpriteEffects.None, 0f);
             }
 
             foreach (Body b in getLayer(LayerType.WIRING).bodyList)

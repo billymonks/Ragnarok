@@ -55,7 +55,7 @@ namespace wickedcrush.screen
         {
             mapList = new List<String>();
 
-            string[] files = System.IO.Directory.GetFiles(@"maps", "*.xml", SearchOption.TopDirectoryOnly);
+            string[] files = System.IO.Directory.GetFiles(@"maps\small", "*.xml", SearchOption.TopDirectoryOnly);
             selectionIndex = 0;
 
             for (int i = 0; i < files.Length; i++)
@@ -86,6 +86,13 @@ namespace wickedcrush.screen
                 {
                     game.mapName = mapList[selectionIndex];
                     game.screenStack.Push(new Gameplay(game));
+                    return;
+                }
+
+                if (p.c.BlockPressed())
+                {
+                    game.mapName = mapList[selectionIndex];
+                    game.screenStack.Push(new Editor(game));
                     return;
                 }
 
