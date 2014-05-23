@@ -55,8 +55,8 @@ namespace wickedcrush
         {
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
@@ -73,11 +73,13 @@ namespace wickedcrush
 
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
             debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
-            debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1);
+            debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1) 
+                * Matrix.CreateTranslation((debugxscale - debugyscale) * (float)GraphicsDevice.Viewport.Width / 4f, 0f, 0f);
             
             xscale = (float)GraphicsDevice.Viewport.Width / 1440f;
             yscale = (float)GraphicsDevice.Viewport.Height / 1080f;
-            spriteScale = Matrix.CreateScale(yscale, yscale, 1);
+            spriteScale = Matrix.CreateScale(yscale, yscale, 1)
+                * Matrix.CreateTranslation((xscale - yscale) * (float)GraphicsDevice.Viewport.Width / 4f, 0f, 0f);
             fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1);
 
             screenStack = new Stack<GameScreen>();
