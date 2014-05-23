@@ -34,7 +34,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            //map.drawMap
+            map.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
         }
 
         public override void Dispose()

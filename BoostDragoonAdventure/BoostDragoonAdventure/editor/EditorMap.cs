@@ -5,6 +5,7 @@ using System.Text;
 using wickedcrush.map.layer;
 using System.Xml.Linq;
 using wickedcrush.entity;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.editor
 {
@@ -24,7 +25,7 @@ namespace wickedcrush.editor
 
             layerList = new Dictionary<LayerType, int[,]>();
             entityList = new List<EditorEntity>();
-            rehydrateLayerList();
+            createEmptyLayers();
         }
 
         public EditorMap(String MAP_NAME)
@@ -34,7 +35,12 @@ namespace wickedcrush.editor
             loadMap(MAP_NAME);
         }
 
-        private void rehydrateLayerList()
+        public void drawMap(GraphicsDevice gd, SpriteBatch sb, SpriteFont f)
+        {
+
+        }
+
+        private void createEmptyLayers()
         {
             layerList.Add(LayerType.WALL, getEmptyLayer(20));
             layerList.Add(LayerType.DEATHSOUP, getEmptyLayer(20));
