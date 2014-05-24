@@ -55,7 +55,7 @@ namespace wickedcrush.screen
         {
             mapList = new List<String>();
 
-            string[] files = System.IO.Directory.GetFiles(@"maps\small", "*.xml", SearchOption.TopDirectoryOnly);
+            string[] files = System.IO.Directory.GetFiles(@"Content\maps\small", "*.xml", SearchOption.TopDirectoryOnly);
             selectionIndex = 0;
 
             for (int i = 0; i < files.Length; i++)
@@ -106,10 +106,10 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            DebugDraw();
+            //DebugDraw();
         }
 
-        private void DebugDraw()
+        public override void DebugDraw()
         {
             game.GraphicsDevice.Clear(Color.Black);
 

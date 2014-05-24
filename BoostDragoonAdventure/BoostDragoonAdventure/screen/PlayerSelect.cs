@@ -53,10 +53,10 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            DebugDraw();
+            //DebugDraw();
         }
 
-        private void DebugDraw()
+        public override void DebugDraw()
         {
             game.GraphicsDevice.Clear(Color.Black);
             game.playerManager.DrawPlayerSelect(game.spriteBatch, game.testFont);

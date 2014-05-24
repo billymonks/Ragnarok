@@ -6,6 +6,7 @@ using wickedcrush.map.layer;
 using System.Xml.Linq;
 using wickedcrush.entity;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace wickedcrush.editor
 {
@@ -35,9 +36,25 @@ namespace wickedcrush.editor
             loadMap(MAP_NAME);
         }
 
-        public void drawMap(GraphicsDevice gd, SpriteBatch sb, SpriteFont f)
+        public void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
         {
+            debugDrawLayer(tex, sb, LayerType.WALL, Color.Black, offset, 20);
+            debugDrawLayer(tex, sb, LayerType.DEATHSOUP, Color.Red, offset, 20);
+            debugDrawLayer(tex, sb, LayerType.WIRING, Color.Purple, offset, 10);
+        }
 
+        private void debugDrawLayer(Texture2D tex, SpriteBatch sb, LayerType t, Color c, Point offset, int gridSize)
+        {
+            if (!layerList.ContainsKey(t))
+                return;
+                
+            int[,] data = layerList[t];
+            for (int i = 0; i < data.GetLength(0); i++) {
+                for (int j = 0; j < data.GetLength(1); j++) {
+                    if (data[i, j] == 1)
+                        sb.Draw(tex, new Rectangle(i * gridSize + offset.X, j * gridSize + offset.Y, gridSize, gridSize), c);
+                }
+            }
         }
 
         private void createEmptyLayers()

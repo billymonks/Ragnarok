@@ -223,13 +223,8 @@ namespace wickedcrush.map
             return (c == '1');
         }
 
-        public void drawMap(GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        public void DebugDraw(Texture2D whiteTexture, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
         {
-            Texture2D whiteTexture = new Texture2D(gd, 1, 1);
-            Color[] data = new Color[1];
-            data[0] = Color.White;
-            whiteTexture.SetData(data);
-
             foreach (Body b in getLayer(LayerType.WALL).bodyList)
             {
                 if(b!=null)

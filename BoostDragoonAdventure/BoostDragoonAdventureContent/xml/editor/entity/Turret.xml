@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<EditorEntity name="Turret" code="TURRET" width="20" height="20" originX="10" originY="10" canRotate="true" rotationIncrement="90" texture=""></EditorEntity>

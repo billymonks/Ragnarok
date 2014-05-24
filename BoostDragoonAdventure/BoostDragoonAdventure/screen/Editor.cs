@@ -7,12 +7,14 @@ using wickedcrush.entity;
 using wickedcrush.map.layer;
 using wickedcrush.map;
 using wickedcrush.editor;
+using wickedcrush.player;
 
 namespace wickedcrush.screen
 {
     public class Editor : GameScreen
     {
         public EditorMap map;
+        public Point mapOffset;
 
         public Editor(Game game)
         {
@@ -25,21 +27,37 @@ namespace wickedcrush.screen
         {
             base.Initialize(g);
             map = new EditorMap(game.mapName);
+            mapOffset = new Point(0, 0);
         }
 
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+
+            DebugControls();
         }
 
-        public override void Draw()
+        public override void DebugDraw()
         {
-            map.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
+            map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
         }
 
         public override void Dispose()
         {
 
+        }
+
+        private void DebugControls()
+        {
+            foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
+            {
+                if (p.c.SelectPressed())
+                {
+                    Dispose();
+                    game.screenStack.Pop();
+                    return;
+                }
+            }
         }
     }
 }

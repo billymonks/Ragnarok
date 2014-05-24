@@ -49,10 +49,12 @@ namespace wickedcrush
         private float debugxscale, debugyscale, xscale, yscale;
         private Matrix debugSpriteScale, spriteScale, fullSpriteScale;
 
-        
+        public bool debugMode;
 
         public Game()
         {
+            debugMode = true;
+
             graphics = new GraphicsDeviceManager(this);
 
             graphics.PreferredBackBufferWidth = 1280;
@@ -80,7 +82,8 @@ namespace wickedcrush
             yscale = (float)GraphicsDevice.Viewport.Height / 1080f;
             spriteScale = Matrix.CreateScale(yscale, yscale, 1)
                 * Matrix.CreateTranslation((xscale - yscale) * (float)GraphicsDevice.Viewport.Width / 4f, 0f, 0f);
-            fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1);
+
+            fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1); //for effects that should be stretched across whole screen (possible examples: transitions, edge darkening, etc.)
 
             screenStack = new Stack<GameScreen>();
 
@@ -95,7 +98,7 @@ namespace wickedcrush
 
         protected override void LoadContent()
         {
-            testFont = Content.Load<SpriteFont>("Fonts/TestFont");
+            testFont = Content.Load<SpriteFont>("fonts/TestFont");
             arrowTexture = Content.Load<Texture2D>("debug/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
@@ -130,10 +133,28 @@ namespace wickedcrush
         {
             GraphicsDevice.Clear(Color.LightCyan);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
-            if(screenStack.Count>0)
-                screenStack.Peek().Draw();
+            if (debugMode)
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
+                if (screenStack.Count > 0)
+                    screenStack.Peek().DebugDraw();
+                spriteBatch.End();
+            }
+            else
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
+                if (screenStack.Count > 0)
+                    screenStack.Peek().Draw();
+                spriteBatch.End();
+            }
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
+            if (screenStack.Count > 0)
+                screenStack.Peek().FullScreenDraw();
             spriteBatch.End();
+
+            if (screenStack.Count > 0)
+                screenStack.Peek().FreeDraw();
 
             base.Draw(gameTime);
         }

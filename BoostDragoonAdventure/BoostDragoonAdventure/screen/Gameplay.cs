@@ -117,17 +117,23 @@ namespace wickedcrush.screen
         public override void Draw()
         {
 
-            game.testMap.drawMap(game.GraphicsDevice, game.spriteBatch, game.testFont);
-            DebugDraw();
-            //DrawPlayerHud();
+            //game.testMap.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.testFont);
             
         }
 
-        private void DebugDraw()
+        public override void DebugDraw()
         {
+            game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont);
+
             entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont);
+
+            DrawHud();
+        }
+
+        private void DrawHud()
+        {
+            
             game.playerManager.DrawPlayerHud(game.spriteBatch, game.testFont);
-            //game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
         }
 
         private void DrawDiag()

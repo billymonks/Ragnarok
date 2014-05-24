@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using wickedcrush.entity;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.editor
 {
@@ -12,6 +13,8 @@ namespace wickedcrush.editor
         public int x, y;
         public bool canRotate;
         public Direction angle = Direction.East;
+
+        public Texture2D texture;
 
         public EditorEntity(String code, String name, int x, int y, Direction angle)
         {
