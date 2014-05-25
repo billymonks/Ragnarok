@@ -159,30 +159,30 @@
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
-    <Compile Include="xml\editor\entity\Chest.xml">
+    <Content Include="xml\editor\entity\Chest.xml">
       <Name>Chest</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="xml\editor\entity\Turret.xml">
+    </Content>
+    <Content Include="xml\editor\entity\Turret.xml">
       <Name>Turret</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="xml\editor\entity\FloorSwitch.xml">
+    </Content>
+    <Content Include="xml\editor\entity\FloorSwitch.xml">
       <Name>FloorSwitch</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="xml\editor\entity\Timer.xml">
+    </Content>
+    <Content Include="xml\editor\entity\Timer.xml">
       <Name>Timer</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
