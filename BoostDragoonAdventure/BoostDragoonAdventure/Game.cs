@@ -46,7 +46,7 @@ namespace wickedcrush
         public bool transitionFinished;
 
         private BasicEffect e;
-        private float debugxscale, debugyscale, xscale, yscale;
+        public float debugxscale, debugyscale, xscale, yscale, debugxtranslate, xtranslate;
         private Matrix debugSpriteScale, spriteScale, fullSpriteScale;
 
         public bool debugMode;
@@ -57,8 +57,8 @@ namespace wickedcrush
 
             graphics = new GraphicsDeviceManager(this);
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1000;
+            graphics.PreferredBackBufferHeight = 528;
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
@@ -75,13 +75,15 @@ namespace wickedcrush
 
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
             debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
+            debugxtranslate = (debugxscale - debugyscale) * (float)GraphicsDevice.Viewport.Width / 4f;
             debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1) 
-                * Matrix.CreateTranslation((debugxscale - debugyscale) * (float)GraphicsDevice.Viewport.Width / 4f, 0f, 0f);
+                * Matrix.CreateTranslation(debugxtranslate, 0f, 0f);
             
             xscale = (float)GraphicsDevice.Viewport.Width / 1440f;
             yscale = (float)GraphicsDevice.Viewport.Height / 1080f;
+            xtranslate = (xscale - yscale) * (float)GraphicsDevice.Viewport.Width / 4f;
             spriteScale = Matrix.CreateScale(yscale, yscale, 1)
-                * Matrix.CreateTranslation((xscale - yscale) * (float)GraphicsDevice.Viewport.Width / 4f, 0f, 0f);
+                * Matrix.CreateTranslation(xtranslate, 0f, 0f);
 
             fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1); //for effects that should be stretched across whole screen (possible examples: transitions, edge darkening, etc.)
 

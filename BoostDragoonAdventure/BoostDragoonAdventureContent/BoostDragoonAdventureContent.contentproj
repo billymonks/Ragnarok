@@ -56,6 +56,41 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="debug\img\ass_cursor.png">
+      <Name>ass_cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\mini_cursor.png">
+      <Name>mini_cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\mini_cursor_heart.png">
+      <Name>mini_cursor_heart</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\mini_cursor_minus.png">
+      <Name>mini_cursor_minus</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\mini_cursor_plus.png">
+      <Name>mini_cursor_plus</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\happy_cursor.png">
+      <Name>happy_cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debug\img\nice_cursor.png">
+      <Name>nice_cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="maps\small\A Few Rooms.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>A Few Rooms</Name>

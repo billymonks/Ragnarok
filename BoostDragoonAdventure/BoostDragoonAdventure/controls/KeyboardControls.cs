@@ -271,6 +271,11 @@ namespace wickedcrush.controls
             else
                 return false;
         }
+
+        public Point mousePosition()
+        {
+            return new Point(mouseState.X, mouseState.Y);
+        }
         
     }
 }
