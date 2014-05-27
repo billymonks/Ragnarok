@@ -85,7 +85,7 @@ namespace wickedcrush.screen
                     cursorPosition.X = ((KeyboardControls)p.c).mousePosition().X;
                     cursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y;
 
-                    scaledCursorPosition.X = ((KeyboardControls)p.c).mousePosition().X * (1 / game.yscale) - game.debugxtranslate;
+                    scaledCursorPosition.X = ((KeyboardControls)p.c).mousePosition().X * (1 / game.yscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1/game.yscale) - 720);
                     scaledCursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y * (1 / game.yscale);
 
                     game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
