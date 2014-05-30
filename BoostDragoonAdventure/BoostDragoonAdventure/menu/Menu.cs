@@ -8,10 +8,11 @@ namespace wickedcrush.menu
     public class Menu
     {
         MenuElement current;
+        List<MenuElement> elements;
 
         public Menu()
         {
-
+            elements = new List<MenuElement>();
         }
     }
 }

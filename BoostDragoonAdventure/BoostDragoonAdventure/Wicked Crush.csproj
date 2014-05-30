@@ -121,6 +121,8 @@
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
+    <Compile Include="menu\Menu.cs" />
+    <Compile Include="menu\MenuElement.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
