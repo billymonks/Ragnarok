@@ -120,20 +120,40 @@ namespace wickedcrush.factory.entity
 
         public void spawnPlayers()
         {
+            LinkedList<Vector2> positions = new LinkedList<Vector2>();
+            positions.AddLast(new Vector2(3, 315));
+            positions.AddLast(new Vector2(3, 340));
+            positions.AddLast(new Vector2(28, 315));
+            positions.AddLast(new Vector2(28, 340));
+            positions.AddLast(new Vector2(53, 326));
+            LinkedListNode<Vector2> current = positions.First;
+            
+            
             foreach (Player p in pm.getPlayerList())
             {
-                p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
+                p.GenerateAgent(current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                current = current.Next;
             }
         }
 
         private void respawnPlayer() //needs a new home
         {
+            LinkedList<Vector2> positions = new LinkedList<Vector2>();
+            positions.AddLast(new Vector2(3, 315));
+            positions.AddLast(new Vector2(3, 340));
+            positions.AddLast(new Vector2(28, 315));
+            positions.AddLast(new Vector2(28, 340));
+            positions.AddLast(new Vector2(53, 326));
+            LinkedListNode<Vector2> current = positions.First;
+
+
             foreach (Player p in pm.getPlayerList())
             {
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
                     p.getStats().set("hp", p.getStats().get("maxHP"));
-                    p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    p.GenerateAgent(current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    current = current.Next;
                 }
             }
         }
