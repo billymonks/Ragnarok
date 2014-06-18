@@ -23,6 +23,8 @@ namespace wickedcrush.screen
 
         private Texture2D cursorTexture;
 
+        private PlacerTool tool;
+
         public Editor(Game game)
         {
             this.game = game;
@@ -38,6 +40,8 @@ namespace wickedcrush.screen
 
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
+
+            tool = new PlacerTool();
 
             cursorTexture = game.Content.Load<Texture2D>("debug/img/nice_cursor");
         }
@@ -85,11 +89,21 @@ namespace wickedcrush.screen
                     cursorPosition.X = ((KeyboardControls)p.c).mousePosition().X;
                     cursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y;
 
-                    scaledCursorPosition.X = ((KeyboardControls)p.c).mousePosition().X * (1 / game.yscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1/game.yscale) - 720);
-                    scaledCursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y * (1 / game.yscale);
+                    scaledCursorPosition.X = ((KeyboardControls)p.c).mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
+                    scaledCursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y * (1 / game.debugyscale);
 
                     game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
                     game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+
+                    if (((KeyboardControls)p.c).ActionHeld()) //lmb
+                    {
+                        tool.Place(scaledCursorPosition, map);
+                    }
+
+                    if (((KeyboardControls)p.c).StrafeHeld()) //rmb
+                    {
+                        tool.Erase(scaledCursorPosition, map);
+                    }
                 }
             }
         }
