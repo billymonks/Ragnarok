@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace wickedcrush.editor
+namespace wickedcrush.editor.tool
 {
     public enum EditorMode
     {
@@ -12,12 +12,8 @@ namespace wickedcrush.editor
         Entity
     }
 
-    public class PlacerTool
+    public class PlacerTool : EditorTool
     {
-        EditorMode mode;
-        LayerType layerType;
-        EditorEntity entity;
-
         public PlacerTool()
         {
             mode = EditorMode.Layer;
@@ -25,7 +21,17 @@ namespace wickedcrush.editor
             entity = null;
         }
 
-        public void Place(Vector2 pos, EditorMap map)
+        public override void primaryAction(Vector2 pos, EditorMap map)
+        {
+            Place(pos, map);
+        }
+
+        public override void secondaryAction(Vector2 pos, EditorMap map)
+        {
+            Erase(pos, map);
+        }
+
+        private void Place(Vector2 pos, EditorMap map)
         {
             Point coordinate = convertPositionToCoordinate(pos, map);
 
@@ -33,7 +39,7 @@ namespace wickedcrush.editor
                 map.layerList[layerType][coordinate.X, coordinate.Y] = 1;
         }
 
-        public void Erase(Vector2 pos, EditorMap map)
+        private void Erase(Vector2 pos, EditorMap map)
         {
             Point coordinate = convertPositionToCoordinate(pos, map);
 

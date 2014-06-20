@@ -10,6 +10,7 @@ using wickedcrush.editor;
 using wickedcrush.player;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.editor.tool;
 
 namespace wickedcrush.screen
 {
@@ -23,7 +24,7 @@ namespace wickedcrush.screen
 
         private Texture2D cursorTexture;
 
-        private PlacerTool tool;
+        private EditorTool tool;
 
         public Editor(Game game)
         {
@@ -97,12 +98,12 @@ namespace wickedcrush.screen
 
                     if (((KeyboardControls)p.c).ActionHeld()) //lmb
                     {
-                        tool.Place(scaledCursorPosition, map);
+                        tool.primaryAction(scaledCursorPosition, map);
                     }
 
                     if (((KeyboardControls)p.c).StrafeHeld()) //rmb
                     {
-                        tool.Erase(scaledCursorPosition, map);
+                        tool.secondaryAction(scaledCursorPosition, map);
                     }
                 }
             }

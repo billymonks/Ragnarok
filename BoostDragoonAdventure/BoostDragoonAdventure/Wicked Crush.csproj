@@ -111,7 +111,8 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="editor\EditorEntity.cs" />
     <Compile Include="editor\EditorMap.cs" />
-    <Compile Include="editor\PlacerTool.cs" />
+    <Compile Include="editor\tool\EditorTool.cs" />
+    <Compile Include="editor\tool\PlacerTool.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
     <Compile Include="entity\physics_entity\agent\trap\triggerable\Triggerable.cs" />
