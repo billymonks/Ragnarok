@@ -6,13 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace wickedcrush.menu
 {
-    public class MenuElement
+    public class MenuElement : MenuNode
     {
-        public Vector2 pos, size;
-        public float zoom = 1f;
-        public String text;
         public Object value;
-        public Menu subMenu = null;
 
         public MenuElement()
         {
