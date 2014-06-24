@@ -11,6 +11,7 @@ using wickedcrush.player;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.editor.tool;
+using wickedcrush.menu;
 
 namespace wickedcrush.screen
 {
@@ -25,6 +26,8 @@ namespace wickedcrush.screen
         private Texture2D cursorTexture;
 
         private EditorTool tool;
+
+        private EditorMenu menu;
 
         public Editor(Game game)
         {
@@ -127,6 +130,11 @@ namespace wickedcrush.screen
         private void DrawCursor()
         {
             game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
+        }
+
+        private void DrawMenu()
+        {
+            menu.DebugDraw(game.spriteBatch, game.testFont);
         }
     }
 }

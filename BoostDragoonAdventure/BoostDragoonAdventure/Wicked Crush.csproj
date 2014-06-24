@@ -124,6 +124,8 @@
     <Compile Include="map\circuit\Circuit.cs" />
     <Compile Include="menu\Menu.cs" />
     <Compile Include="menu\MenuElement.cs" />
+    <Compile Include="menu\MenuNode.cs" />
+    <Compile Include="menu\SubMenu.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
