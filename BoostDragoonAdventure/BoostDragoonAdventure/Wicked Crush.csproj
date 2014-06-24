@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="display\sprite\BaseSprite.cs" />
+    <Compile Include="display\sprite\TextureSprite.cs" />
     <Compile Include="editor\EditorEntity.cs" />
     <Compile Include="editor\EditorMap.cs" />
     <Compile Include="editor\tool\EditorTool.cs" />
@@ -122,10 +124,10 @@
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
-    <Compile Include="menu\Menu.cs" />
-    <Compile Include="menu\MenuElement.cs" />
-    <Compile Include="menu\MenuNode.cs" />
-    <Compile Include="menu\SubMenu.cs" />
+    <Compile Include="menu\editor\EditorMenu.cs" />
+    <Compile Include="menu\editor\MenuElement.cs" />
+    <Compile Include="menu\editor\MenuNode.cs" />
+    <Compile Include="menu\editor\SubMenu.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
@@ -207,9 +209,11 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="display\3d\" />
     <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />
+    <Folder Include="manager\sprite\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

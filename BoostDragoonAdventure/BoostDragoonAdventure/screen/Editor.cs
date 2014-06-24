@@ -11,7 +11,7 @@ using wickedcrush.player;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.editor.tool;
-using wickedcrush.menu;
+using wickedcrush.menu.editor;
 
 namespace wickedcrush.screen
 {
@@ -46,6 +46,8 @@ namespace wickedcrush.screen
             scaledCursorPosition = new Vector2();
 
             tool = new PlacerTool();
+
+            menu = new EditorMenu();
 
             cursorTexture = game.Content.Load<Texture2D>("debug/img/nice_cursor");
         }
