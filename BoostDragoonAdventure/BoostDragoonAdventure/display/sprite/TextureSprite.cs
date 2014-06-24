@@ -10,16 +10,44 @@ namespace wickedcrush.display.sprite
     public class TextureSprite : BaseSprite
     {
         public Texture2D texture;
+        public Vector2 size;
+
+        private Rectangle rectangle = new Rectangle();
 
         TextureSprite(Vector2 pos, Texture2D texture)
             : base(pos)
         {
             this.texture = texture;
+            this.size = new Vector2(texture.Width, texture.Height);
+
+            UpdateRectangle();
         }
 
-        TextureSprite(Vector2 pos, Texture2D texture, float alpha, float rotation) : base(pos, alpha, rotation)
+        TextureSprite(Vector2 pos, Texture2D texture, Vector2 origin, Vector2 size, Color color, float rotation)
+            : base(pos, origin, color, rotation)
         {
             this.texture = texture;
+            this.size = size;
+
+            UpdateRectangle();
+        }
+
+        public override void Update()
+        {
+            UpdateRectangle();
+        }
+
+        public override void DebugDraw(SpriteBatch sb)
+        {
+            sb.Draw(texture, rectangle, null, color, rotation, origin, spriteEffects, 0f);
+        }
+
+        private void UpdateRectangle()
+        {
+            rectangle.X = (int)pos.X;
+            rectangle.Y = (int)pos.Y;
+            rectangle.Width = (int)size.X;
+            rectangle.Height = (int)size.Y;
         }
     }
 }

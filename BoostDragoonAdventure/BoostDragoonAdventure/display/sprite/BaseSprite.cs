@@ -6,23 +6,31 @@ using Microsoft.Xna.Framework;
 
 namespace wickedcrush.display.sprite
 {
-    public class BaseSprite
+    public abstract class BaseSprite
     {
-        Vector2 pos;
-        float alpha, rotation;
+        public Vector2 pos, origin;
+        public float rotation;
+        public Color color;
+        public SpriteEffects spriteEffects = SpriteEffects.None;
 
         public BaseSprite(Vector2 pos)
         {
             this.pos = pos;
-            alpha = 1f;
+            this.origin = new Vector2(0f, 0f);
+            color = Color.White;
             rotation = 0f;
         }
 
-        public BaseSprite(Vector2 pos, float alpha, float rotation)
+        public BaseSprite(Vector2 pos, Vector2 origin, Color color, float rotation)
         {
             this.pos = pos;
-            this.alpha = alpha;
+            this.origin = origin;
+            this.color = color;
             this.rotation = rotation;
         }
+
+        public abstract void Update();
+
+        public abstract void DebugDraw();
     }
 }
