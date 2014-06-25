@@ -21,7 +21,7 @@ namespace wickedcrush.display.sprite
             this.scale = scale;
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
 
         }

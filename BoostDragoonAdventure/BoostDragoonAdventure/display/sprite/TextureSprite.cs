@@ -14,7 +14,7 @@ namespace wickedcrush.display.sprite
 
         private Rectangle rectangle = new Rectangle();
 
-        TextureSprite(Vector2 pos, Texture2D texture)
+        public TextureSprite(Vector2 pos, Texture2D texture)
             : base(pos)
         {
             this.texture = texture;
@@ -23,7 +23,7 @@ namespace wickedcrush.display.sprite
             UpdateRectangle();
         }
 
-        TextureSprite(Vector2 pos, Texture2D texture, Vector2 origin, Vector2 size, Color color, float rotation)
+        public TextureSprite(Vector2 pos, Texture2D texture, Vector2 origin, Vector2 size, Color color, float rotation)
             : base(pos, origin, color, rotation)
         {
             this.texture = texture;
@@ -32,7 +32,7 @@ namespace wickedcrush.display.sprite
             UpdateRectangle();
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             UpdateRectangle();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.display.sprite
 {
@@ -12,6 +13,8 @@ namespace wickedcrush.display.sprite
         public float rotation;
         public Color color;
         public SpriteEffects spriteEffects = SpriteEffects.None;
+
+        protected bool remove = false;
 
         public BaseSprite(Vector2 pos)
         {
@@ -29,8 +32,17 @@ namespace wickedcrush.display.sprite
             this.rotation = rotation;
         }
 
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
+        public abstract void DebugDraw(SpriteBatch sb);
 
-        public abstract void DebugDraw();
+        public virtual void Remove()
+        {
+            remove = true;
+        }
+
+        public bool readyForRemoval()
+        {
+            return remove;
+        }
     }
 }
