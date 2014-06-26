@@ -26,7 +26,7 @@ namespace wickedcrush.display.sprite
 
         }
 
-        public override void DebugDraw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
             sb.DrawString(font, text, pos, color, rotation, origin, scale, spriteEffects, 0f);
         }

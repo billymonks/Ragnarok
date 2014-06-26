@@ -9,7 +9,7 @@ namespace wickedcrush.display.sprite
 {
     public abstract class BaseSprite
     {
-        public Vector2 pos, origin;
+        public Vector2 pos, origin; //origin is pre-scale/resize
         public float rotation;
         public Color color;
         public SpriteEffects spriteEffects = SpriteEffects.None;
@@ -33,7 +33,7 @@ namespace wickedcrush.display.sprite
         }
 
         public abstract void Update(GameTime gameTime);
-        public abstract void DebugDraw(SpriteBatch sb);
+        public abstract void Draw(SpriteBatch sb);
 
         public virtual void Remove()
         {

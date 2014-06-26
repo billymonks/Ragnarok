@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.editor.tool;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.display.sprite;
 
 namespace wickedcrush.menu.editor
 {
@@ -12,7 +13,7 @@ namespace wickedcrush.menu.editor
     {
         public EditorTool tool;
 
-        public MenuElement(String text, Texture2D image, EditorTool tool) :
+        public MenuElement(TextSprite text, TextureSprite image, EditorTool tool) :
             base(text, image)
         {
             this.tool = tool;

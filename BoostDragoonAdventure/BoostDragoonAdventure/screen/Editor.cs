@@ -12,11 +12,15 @@ using wickedcrush.controls;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.editor.tool;
 using wickedcrush.menu.editor;
+using wickedcrush.display.sprite;
+using wickedcrush.factory.sprite;
 
 namespace wickedcrush.screen
 {
     public class Editor : GameScreen
     {
+        SpriteFactory sf;
+
         public EditorMap map;
         public Point mapOffset;
 
@@ -29,6 +33,8 @@ namespace wickedcrush.screen
 
         private EditorMenu menu;
 
+        private Dictionary<String, BaseSprite> hud = new Dictionary<String, BaseSprite>();
+
         public Editor(Game game)
         {
             this.game = game;
@@ -39,6 +45,9 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
+
+            sf = new SpriteFactory(g.Content);
+
             map = new EditorMap(game.mapName);
             mapOffset = new Point(0, 0);
 
@@ -47,15 +56,44 @@ namespace wickedcrush.screen
 
             tool = new PlacerTool();
 
-            menu = new EditorMenu();
+            InitializeEditorMenu();
 
             cursorTexture = game.Content.Load<Texture2D>("debug/img/nice_cursor");
+
+
+        }
+
+        private void InitializeEditorMenu()
+        {
+            MenuElement node = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                new PlacerTool());
+
+            MenuElement node2 = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                new PlacerTool());
+
+            node.next = node2;
+            node2.prev = node;
+
+            SubMenu root = new SubMenu(
+                sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                node);
+
+
+            menu = new EditorMenu(root);
+
+            menu.nodes.Add(node);
+
         }
 
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
-
+            menu.Update(gameTime);
             DebugControls();
         }
 
@@ -70,6 +108,11 @@ namespace wickedcrush.screen
             
             DrawDiag();
             DrawCursor();
+
+            foreach (KeyValuePair<String, BaseSprite> s in hud)
+                s.Value.Draw(game.spriteBatch);
+
+            DrawMenu();
 
             game.spriteBatch.End();
         }
@@ -136,7 +179,7 @@ namespace wickedcrush.screen
 
         private void DrawMenu()
         {
-            menu.DebugDraw(game.spriteBatch, game.testFont);
+            menu.DebugDraw(game.spriteBatch);
         }
     }
 }

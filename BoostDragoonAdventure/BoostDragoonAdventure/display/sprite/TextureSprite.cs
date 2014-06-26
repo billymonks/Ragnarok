@@ -37,7 +37,7 @@ namespace wickedcrush.display.sprite
             UpdateRectangle();
         }
 
-        public override void DebugDraw(SpriteBatch sb)
+        public override void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, rectangle, null, color, rotation, origin, spriteEffects, 0f);
         }

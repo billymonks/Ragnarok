@@ -9,7 +9,7 @@ namespace wickedcrush.menu.editor
 {
     public class EditorMenu
     {
-        public List<MenuNode> nodes;
+        public List<MenuNode> nodes = new List<MenuNode>();
 
 
         public EditorMenu()
@@ -22,7 +22,26 @@ namespace wickedcrush.menu.editor
             nodes.Add(node);
         }
 
-        public void DebugDraw(SpriteBatch sb, SpriteFont f)
+        public void Update(GameTime gameTime)
+        {
+            MenuNode pointer;
+            int j;
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                pointer = nodes[i];
+
+                j = 0;
+                while (pointer != null)
+                {
+                    pointer.Update(gameTime);
+                    pointer = pointer.next;
+                    j++;
+                }
+            }
+        }
+
+        public void DebugDraw(SpriteBatch sb)
         {
             MenuNode pointer;
             int j;
@@ -35,7 +54,9 @@ namespace wickedcrush.menu.editor
 
                 while (pointer != null)
                 {
-                    sb.Draw(pointer.image, new Vector2(10 + i * 12, 10 + j * 12), Color.Green);
+                    pointer.image.pos.X = 100 + i * 52;
+                    pointer.image.pos.Y = 100 + j * 52;
+                    pointer.image.Draw(sb);
                     pointer = pointer.next;
                     j++;
                 }
