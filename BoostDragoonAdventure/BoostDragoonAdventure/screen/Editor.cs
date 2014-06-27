@@ -106,13 +106,12 @@ namespace wickedcrush.screen
         {
             game.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
             
-            DrawDiag();
-            DrawCursor();
-
             foreach (KeyValuePair<String, BaseSprite> s in hud)
                 s.Value.Draw(game.spriteBatch);
 
             DrawMenu();
+            DrawDiag();
+            DrawCursor();
 
             game.spriteBatch.End();
         }

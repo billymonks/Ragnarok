@@ -12,7 +12,7 @@ namespace wickedcrush.menu.editor
     {
         public TextSprite text;
         public TextureSprite image;
-        public MenuNode next, prev;
+        public MenuNode parent, next, prev;
 
         public MenuNode(TextSprite text, TextureSprite image)
         {

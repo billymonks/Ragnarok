@@ -44,10 +44,16 @@ namespace wickedcrush.display.sprite
 
         private void UpdateRectangle()
         {
-            rectangle.X = (int)pos.X;
-            rectangle.Y = (int)pos.Y;
+            rectangle.X = (int)getPos().X;
+            rectangle.Y = (int)getPos().Y;
             rectangle.Width = (int)size.X;
             rectangle.Height = (int)size.Y;
+        }
+
+        public override void setPos(float x, float y)
+        {
+            base.setPos(x, y);
+            UpdateRectangle();
         }
     }
 }

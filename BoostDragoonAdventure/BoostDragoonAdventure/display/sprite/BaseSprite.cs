@@ -9,7 +9,9 @@ namespace wickedcrush.display.sprite
 {
     public abstract class BaseSprite
     {
-        public Vector2 pos, origin; //origin is pre-scale/resize
+        private Vector2 pos;
+
+        public Vector2 origin; //origin is pre-scale/resize
         public float rotation;
         public Color color;
         public SpriteEffects spriteEffects = SpriteEffects.None;
@@ -43,6 +45,17 @@ namespace wickedcrush.display.sprite
         public bool readyForRemoval()
         {
             return remove;
+        }
+
+        public Vector2 getPos()
+        {
+            return pos;
+        }
+
+        public virtual void setPos(float x, float y)
+        {
+            pos.X = x;
+            pos.Y = y;
         }
     }
 }

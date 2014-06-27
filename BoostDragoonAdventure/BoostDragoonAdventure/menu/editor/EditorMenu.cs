@@ -24,21 +24,7 @@ namespace wickedcrush.menu.editor
 
         public void Update(GameTime gameTime)
         {
-            MenuNode pointer;
-            int j;
-
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                pointer = nodes[i];
-
-                j = 0;
-                while (pointer != null)
-                {
-                    pointer.Update(gameTime);
-                    pointer = pointer.next;
-                    j++;
-                }
-            }
+            
         }
 
         public void DebugDraw(SpriteBatch sb)
@@ -54,8 +40,7 @@ namespace wickedcrush.menu.editor
 
                 while (pointer != null)
                 {
-                    pointer.image.pos.X = 100 + i * 52;
-                    pointer.image.pos.Y = 100 + j * 52;
+                    pointer.image.setPos(100 + i * 52, 100 + j * 52);
                     pointer.image.Draw(sb);
                     pointer = pointer.next;
                     j++;
