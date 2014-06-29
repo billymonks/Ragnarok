@@ -47,10 +47,5 @@ namespace wickedcrush.menu.editor
                 }
             }
         }
-
-        private void CreateStandardMenu()
-        {
-            
-        }
     }
 }
