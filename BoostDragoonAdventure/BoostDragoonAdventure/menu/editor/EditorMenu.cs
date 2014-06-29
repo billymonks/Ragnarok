@@ -14,7 +14,7 @@ namespace wickedcrush.menu.editor
 
         public EditorMenu()
         {
-            CreateStandardMenu();
+            
         }
 
         public EditorMenu(MenuNode node)
@@ -45,6 +45,18 @@ namespace wickedcrush.menu.editor
                     pointer = pointer.next;
                     j++;
                 }
+
+                pointer = nodes[i].prev;
+                j = 1;
+
+                while (pointer != null)
+                {
+                    pointer.image.setPos(100 + i * 52, 100 - j * 52);
+                    pointer.image.Draw(sb);
+                    pointer = pointer.prev;
+                    j++;
+                }
+
             }
         }
     }
