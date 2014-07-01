@@ -11,8 +11,8 @@ namespace wickedcrush.menu.editor
     {
         public MenuNode current;
 
-        public SubMenu(TextSprite text, TextureSprite image, MenuNode current) 
-            : base(text, image)
+        public SubMenu(TextSprite text, TextureSprite image, MenuNode current, EditorMenu root) 
+            : base(text, image, root)
         {
             this.current = current;
             this.current.parent = this;

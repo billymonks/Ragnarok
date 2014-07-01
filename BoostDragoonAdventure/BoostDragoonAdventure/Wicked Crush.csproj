@@ -122,6 +122,7 @@
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TimerTrigger.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
+    <Compile Include="factory\menu\editor\NodeFactory.cs" />
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />

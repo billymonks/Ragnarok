@@ -13,8 +13,8 @@ namespace wickedcrush.menu.editor
     {
         public EditorTool tool;
 
-        public MenuElement(TextSprite text, TextureSprite image, EditorTool tool) :
-            base(text, image)
+        public MenuElement(TextSprite text, TextureSprite image, EditorTool tool, EditorMenu root) :
+            base(text, image, root)
         {
             this.tool = tool;
         }

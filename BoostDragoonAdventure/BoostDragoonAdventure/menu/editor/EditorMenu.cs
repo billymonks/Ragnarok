@@ -10,6 +10,7 @@ namespace wickedcrush.menu.editor
     public class EditorMenu
     {
         public List<MenuNode> nodes = new List<MenuNode>();
+        bool isClicked = false;
 
 
         public EditorMenu()
@@ -24,7 +25,7 @@ namespace wickedcrush.menu.editor
 
         public void Update(GameTime gameTime)
         {
-            
+            isClicked = false;
         }
 
         public void DebugDraw(SpriteBatch sb)

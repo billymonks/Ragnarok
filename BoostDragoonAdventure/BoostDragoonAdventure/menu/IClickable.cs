@@ -7,7 +7,7 @@ namespace wickedcrush.menu
 {
     public interface IClickable
     {
-        public void isClicked();
-        public void isHovered();
+        //public void isClicked();
+        //public void isHovered();
     }
 }
