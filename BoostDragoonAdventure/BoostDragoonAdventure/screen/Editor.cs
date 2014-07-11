@@ -83,10 +83,13 @@ namespace wickedcrush.screen
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
                 node);
 
+            node.parent = root;
+            node2.parent = root;
+
 
             menu = new EditorMenu(root);
 
-            menu.nodes.Add(node);
+            //menu.current = (node);
 
         }
 

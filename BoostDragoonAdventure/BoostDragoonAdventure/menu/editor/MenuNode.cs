@@ -13,17 +13,11 @@ namespace wickedcrush.menu.editor
         public TextSprite text;
         public TextureSprite image;
         public MenuNode parent, next, prev;
-        public EditorMenu root;
-        
-        private Rectangle hitBox;
 
-        public MenuNode(TextSprite text, TextureSprite image, Nullable<Rectangle> hitBox, EditorMenu root)
+        public MenuNode(TextSprite text, TextureSprite image)
         {
             this.text = text;
             this.image = image;
-            if (hitBox != null)
-                this.hitBox = hitBox.Value;
-            this.root = root;
         }
 
         public void Update(GameTime gameTime)

@@ -9,7 +9,9 @@ namespace wickedcrush.menu.editor
 {
     public class EditorMenu
     {
-        public List<MenuNode> nodes = new List<MenuNode>();
+        public MenuNode current;
+        public Vector2 pos = new Vector2(100, 300);
+
         bool isClicked = false;
 
 
@@ -20,7 +22,7 @@ namespace wickedcrush.menu.editor
 
         public EditorMenu(MenuNode node)
         {
-            nodes.Add(node);
+            current = node;
         }
 
         public void Update(GameTime gameTime)
@@ -31,33 +33,57 @@ namespace wickedcrush.menu.editor
         public void DebugDraw(SpriteBatch sb)
         {
             MenuNode pointer;
-            int j;
 
-            for (int i = 0; i < nodes.Count; i++)
+            //draw current
+            pointer = current;
+
+            DrawStem(sb, pointer, 0);
+
+            //draw children if submenu
+            if (current is SubMenu)
             {
-                pointer = nodes[i];
+                pointer = ((SubMenu)pointer).current;
 
-                j = 0;
+                DrawStem(sb, pointer, 1);
+            }
 
-                while (pointer != null)
-                {
-                    pointer.image.setPos(100 + i * 52, 100 + j * 52);
-                    pointer.image.Draw(sb);
-                    pointer = pointer.next;
-                    j++;
-                }
+            //draw parents
+            pointer = current;
 
-                pointer = nodes[i].prev;
-                j = 1;
+            while (pointer.parent != null)
+            {
+                pointer = current.parent;
 
-                while (pointer != null)
-                {
-                    pointer.image.setPos(100 + i * 52, 100 - j * 52);
-                    pointer.image.Draw(sb);
-                    pointer = pointer.prev;
-                    j++;
-                }
+                DrawStem(sb, pointer, -1);
+            }
+        }
 
+        private void DrawStem(SpriteBatch sb, MenuNode pointer, int i)
+        {
+            int j = 0;
+            MenuNode memory = pointer;
+
+            //next
+            while (pointer != null)
+            {
+                pointer.image.setPos(pos.X + i * 52, pos.Y + j * 52);
+                pointer.image.Draw(sb);
+
+                pointer = pointer.next;
+                j++;
+            }
+
+            pointer = memory.prev;
+            j = -1;
+
+            //prev
+            while (pointer != null)
+            {
+                pointer.image.setPos(pos.X + i * 52, pos.Y + j * 52);
+                pointer.image.Draw(sb);
+
+                pointer = pointer.prev;
+                j--;
             }
         }
     }
