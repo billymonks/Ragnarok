@@ -75,8 +75,22 @@ namespace wickedcrush.screen
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
                 new PlacerTool());
 
+            MenuElement node4 = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                new PlacerTool());
+
+            SubMenu node3 = new SubMenu(
+                sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                node4);
+
+            
+
             node.next = node2;
             node2.prev = node;
+            node2.next = node3;
+            node3.prev = node2;
 
             SubMenu root = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -85,9 +99,10 @@ namespace wickedcrush.screen
 
             node.parent = root;
             node2.parent = root;
+            node3.parent = root;
+            node4.parent = node3;
 
-
-            menu = new EditorMenu(root);
+            menu = new EditorMenu(node3);
 
             //menu.current = (node);
 
