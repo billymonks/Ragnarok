@@ -111,7 +111,7 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
-            menu.Update(gameTime);
+            menu.Update(gameTime, cursorPosition);
             DebugControls();
         }
 
@@ -160,6 +160,11 @@ namespace wickedcrush.screen
 
                     game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
                     game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+
+                    if (((KeyboardControls)p.c).ActionPressed())
+                    {
+                        //menu.checkClick(cursorPosition);
+                    }
 
                     if (((KeyboardControls)p.c).ActionHeld()) //lmb
                     {

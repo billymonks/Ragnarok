@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using wickedcrush.editor.tool;
 
 namespace wickedcrush.menu.editor
 {
@@ -11,6 +12,12 @@ namespace wickedcrush.menu.editor
     {
         public MenuNode current;
         public Vector2 pos = new Vector2(100, 300);
+
+        private Vector2 cursorPosition;
+
+        public MenuNode highlighted;
+
+        public EditorTool tool;
 
         bool isClicked = false;
 
@@ -25,27 +32,28 @@ namespace wickedcrush.menu.editor
             current = node;
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, Vector2 cursor)
         {
-            isClicked = false;
-            UpdateVisible();
+            cursorPosition = cursor;
+
+            UpdateVisible(gameTime);
         }
 
-        private void UpdateVisible()
+        private void UpdateVisible(GameTime gameTime)
         {
             MenuNode pointer;
 
             //draw current
             pointer = current;
 
-            UpdateStem(pointer, 0);
+            UpdateStem(gameTime, pointer, 0);
 
             //draw children if submenu
             if (current is SubMenu)
             {
                 pointer = ((SubMenu)pointer).current;
 
-                UpdateStem(pointer, 1);
+                UpdateStem(gameTime, pointer, 1);
             }
 
             //draw parents
@@ -55,7 +63,7 @@ namespace wickedcrush.menu.editor
             {
                 pointer = current.parent;
 
-                UpdateStem(pointer, -1);
+                UpdateStem(gameTime, pointer, -1);
             }
         }
 
@@ -114,7 +122,7 @@ namespace wickedcrush.menu.editor
             }
         }
 
-        private void UpdateStem(MenuNode pointer, int i)
+        private void UpdateStem(GameTime gameTime, MenuNode pointer, int i)
         {
             int j = 0;
             MenuNode memory = pointer;
@@ -122,8 +130,7 @@ namespace wickedcrush.menu.editor
             //next
             while (pointer != null)
             {
-                pointer.image.setPos(pos.X + i * 52, pos.Y + j * 52);
-                pointer.image.color = generateColor(i, j);
+                UpdateNode(gameTime, pointer, i, j);
 
                 pointer = pointer.next;
                 j++;
@@ -135,15 +142,26 @@ namespace wickedcrush.menu.editor
             //prev
             while (pointer != null)
             {
-                pointer.image.setPos(pos.X + i * 52, pos.Y + j * 52);
-                pointer.image.color = generateColor(i, j);
+                UpdateNode(gameTime, pointer, i, j);
 
                 pointer = pointer.prev;
                 j--;
             }
         }
 
-        private Color generateColor(int i, int j)
+        private void UpdateNode(GameTime gameTime, MenuNode node, int i, int j)
+        {
+            node.pos.X = (int)pos.X + i * 52;
+            node.pos.Y = (int)pos.Y + j * 52;
+            node.image.color = generateColor(i, j, node.Equals(highlighted));
+
+            node.Update(gameTime);
+
+            if (node.hitbox.Contains((int)cursorPosition.X, (int)cursorPosition.Y))
+                highlighted = node;
+        }
+
+        private Color generateColor(int i, int j, bool highlighted)
         {
             i = Math.Abs(i);
             j = Math.Abs(j);
@@ -151,6 +169,9 @@ namespace wickedcrush.menu.editor
             float a = 3f, b = 3f;
 
             Color c = new Color( a / (i + j + b), a / (i + j + b), a / (i + j + b));
+
+            if (highlighted)
+                c.G += 30;
 
             return c;
         }
