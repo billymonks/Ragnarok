@@ -11,15 +11,13 @@ namespace wickedcrush.menu.editor
     public class EditorMenu
     {
         public MenuNode current;
-        public Vector2 pos = new Vector2(100, 300);
+        public Vector2 pos = new Vector2(50, 300);
 
         private Vector2 cursorPosition;
 
         public MenuNode highlighted;
 
         public EditorTool tool;
-
-        bool isClicked = false;
 
 
         public EditorMenu()
@@ -36,7 +34,14 @@ namespace wickedcrush.menu.editor
         {
             cursorPosition = cursor;
 
+            highlighted = null;
+
             UpdateVisible(gameTime);
+        }
+
+        public void Click()
+        {
+            current = highlighted;
         }
 
         private void UpdateVisible(GameTime gameTime)
@@ -59,7 +64,7 @@ namespace wickedcrush.menu.editor
             //draw parents
             pointer = current;
 
-            while (pointer.parent != null)
+            if (pointer != null && pointer.parent != null)
             {
                 pointer = current.parent;
 
@@ -87,7 +92,7 @@ namespace wickedcrush.menu.editor
             //draw parents
             pointer = current;
 
-            while (pointer.parent != null)
+            if (pointer != null && pointer.parent != null)
             {
                 pointer = current.parent;
 
@@ -97,6 +102,9 @@ namespace wickedcrush.menu.editor
 
         private void DrawStem(SpriteBatch sb, MenuNode pointer, int i)
         {
+            if (pointer == null)
+                return;
+
             int j = 0;
             MenuNode memory = pointer;
 
@@ -124,6 +132,9 @@ namespace wickedcrush.menu.editor
 
         private void UpdateStem(GameTime gameTime, MenuNode pointer, int i)
         {
+            if (pointer == null)
+                return;
+
             int j = 0;
             MenuNode memory = pointer;
 
@@ -153,12 +164,13 @@ namespace wickedcrush.menu.editor
         {
             node.pos.X = (int)pos.X + i * 52;
             node.pos.Y = (int)pos.Y + j * 52;
-            node.image.color = generateColor(i, j, node.Equals(highlighted));
-
+            
             node.Update(gameTime);
 
             if (node.hitbox.Contains((int)cursorPosition.X, (int)cursorPosition.Y))
                 highlighted = node;
+
+            node.image.color = generateColor(i, j, node.Equals(highlighted));
         }
 
         private Color generateColor(int i, int j, bool highlighted)
@@ -166,7 +178,7 @@ namespace wickedcrush.menu.editor
             i = Math.Abs(i);
             j = Math.Abs(j);
 
-            float a = 3f, b = 3f;
+            float a = 2f, b = 3f;
 
             Color c = new Color( a / (i + j + b), a / (i + j + b), a / (i + j + b));
 

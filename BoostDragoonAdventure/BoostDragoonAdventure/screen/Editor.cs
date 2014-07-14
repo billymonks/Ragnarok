@@ -163,17 +163,19 @@ namespace wickedcrush.screen
 
                     if (((KeyboardControls)p.c).ActionPressed())
                     {
-                        //menu.checkClick(cursorPosition);
+                        menu.Click();
                     }
 
                     if (((KeyboardControls)p.c).ActionHeld()) //lmb
                     {
-                        tool.primaryAction(scaledCursorPosition, map);
+                        if(menu.highlighted==null)
+                            tool.primaryAction(scaledCursorPosition, map);
                     }
 
                     if (((KeyboardControls)p.c).StrafeHeld()) //rmb
                     {
-                        tool.secondaryAction(scaledCursorPosition, map);
+                        if (menu.highlighted == null)
+                            tool.secondaryAction(scaledCursorPosition, map);
                     }
                 }
             }
