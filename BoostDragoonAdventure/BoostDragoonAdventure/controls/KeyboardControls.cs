@@ -57,7 +57,7 @@ namespace wickedcrush.controls
         }
         public override bool InteractReleased()
         {
-            if (keyState.IsKeyUp(interactKey) || mouseState.LeftButton == ButtonState.Pressed)
+            if (keyState.IsKeyUp(interactKey) && mouseState.LeftButton == ButtonState.Released)
                 return true;
             else
                 return false;
@@ -84,7 +84,7 @@ namespace wickedcrush.controls
         }
         public override bool ActionReleased()
         {
-            if (keyState.IsKeyUp(actionKey) || mouseState.LeftButton == ButtonState.Pressed)
+            if (keyState.IsKeyUp(actionKey) && mouseState.LeftButton == ButtonState.Released)
                 return true;
             else
                 return false;

@@ -41,7 +41,16 @@ namespace wickedcrush.menu.editor
 
         public void Click()
         {
-            current = highlighted;
+            if(highlighted!=null)
+                current = highlighted;
+        }
+
+        public EditorTool currentTool()
+        {
+            if (current is MenuElement)
+                return ((MenuElement)current).tool;
+
+            else return null;
         }
 
         private void UpdateVisible(GameTime gameTime)

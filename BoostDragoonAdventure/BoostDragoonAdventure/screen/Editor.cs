@@ -33,6 +33,8 @@ namespace wickedcrush.screen
 
         private EditorMenu menu;
 
+        private bool toolReady = false;
+
         private Dictionary<String, BaseSprite> hud = new Dictionary<String, BaseSprite>();
 
         public Editor(Game game)
@@ -54,7 +56,7 @@ namespace wickedcrush.screen
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
 
-            tool = new PlacerTool();
+            tool = new WallTool();
 
             InitializeEditorMenu();
 
@@ -68,17 +70,17 @@ namespace wickedcrush.screen
             MenuElement node = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new PlacerTool());
+                new WallTool());
 
             MenuElement node2 = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new PlacerTool());
+                new DeathSoupTool());
 
             MenuElement node4 = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new PlacerTool());
+                new WallTool());
 
             SubMenu node3 = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -161,22 +163,35 @@ namespace wickedcrush.screen
                     game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
                     game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
 
+                    if (((KeyboardControls)p.c).ActionReleased())
+                    {
+                        toolReady = true;
+                    }
+
+                    if (menu.highlighted != null)
+                    {
+                        toolReady = false;
+                    }
+
                     if (((KeyboardControls)p.c).ActionPressed())
                     {
                         menu.Click();
+                        tool = menu.currentTool();
                     }
 
                     if (((KeyboardControls)p.c).ActionHeld()) //lmb
                     {
-                        if(menu.highlighted==null)
+                        if(toolReady && tool != null)
                             tool.primaryAction(scaledCursorPosition, map);
                     }
 
                     if (((KeyboardControls)p.c).StrafeHeld()) //rmb
                     {
-                        if (menu.highlighted == null)
+                        if (toolReady && tool != null)
                             tool.secondaryAction(scaledCursorPosition, map);
                     }
+
+                    
                 }
             }
         }
