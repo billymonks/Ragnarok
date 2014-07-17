@@ -56,7 +56,7 @@ namespace wickedcrush.screen
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
 
-            tool = new WallTool();
+            tool = new TerrainTool(LayerType.WALL);
 
             InitializeEditorMenu();
 
@@ -67,44 +67,47 @@ namespace wickedcrush.screen
 
         private void InitializeEditorMenu()
         {
-            MenuElement node = new MenuElement(
-                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+            MenuElement wallNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new WallTool());
+                new TerrainTool(LayerType.WALL));
 
-            MenuElement node2 = new MenuElement(
-                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+            MenuElement deathSoupNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Death Soup", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new DeathSoupTool());
+                new TerrainTool(LayerType.DEATHSOUP));
 
-            MenuElement node4 = new MenuElement(
-                sf.createText(new Vector2(0f, 0f), "Placer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                new WallTool());
 
-            SubMenu node3 = new SubMenu(
-                sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+            MenuElement wiringNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Wiring", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                node4);
+                new TerrainTool(LayerType.WIRING));
 
             
 
-            node.next = node2;
-            node2.prev = node;
-            node2.next = node3;
-            node3.prev = node2;
+            wallNode.next = deathSoupNode;
+            deathSoupNode.prev = wallNode;
+            deathSoupNode.next = wiringNode;
+            wiringNode.prev = deathSoupNode;
 
-            SubMenu root = new SubMenu(
-                sf.createText(new Vector2(0f, 0f), "Tools", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+            SubMenu terrainMenuNode = new SubMenu(
+                sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
-                node);
+                wallNode);
 
-            node.parent = root;
-            node2.parent = root;
-            node3.parent = root;
-            node4.parent = node3;
+            wallNode.parent = terrainMenuNode;
+            deathSoupNode.parent = terrainMenuNode;
+            wiringNode.parent = terrainMenuNode;
 
-            menu = new EditorMenu(node3);
+            SubMenu entityMenuNode = new SubMenu(
+                sf.createText(new Vector2(0f, 0f), "Entities", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                null);
+
+            terrainMenuNode.next = entityMenuNode;
+            entityMenuNode.prev = terrainMenuNode;
+
+            menu = new EditorMenu(terrainMenuNode);
 
             //menu.current = (node);
 

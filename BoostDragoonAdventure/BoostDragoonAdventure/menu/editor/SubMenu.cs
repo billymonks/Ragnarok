@@ -15,7 +15,9 @@ namespace wickedcrush.menu.editor
             : base(text, image)
         {
             this.current = current;
-            this.current.parent = this;
+            
+            if(current!=null)
+                this.current.parent = this;
         }
     }
 }
