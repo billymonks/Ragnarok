@@ -15,6 +15,7 @@ using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
 using wickedcrush.factory.entity;
 using wickedcrush.map;
+using wickedcrush.display.primitives;
 
 namespace wickedcrush
 {
@@ -32,6 +33,7 @@ namespace wickedcrush
         public PlayerManager playerManager;
 
         public SpriteBatch spriteBatch;
+
 
         public Stack<GameScreen> screenStack;
 
@@ -92,7 +94,6 @@ namespace wickedcrush
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this, controlsManager);
 
-
             //componentStack.Push(new Test(this));
             screenStack.Push(new PlayerSelect(this));
             
@@ -104,6 +105,8 @@ namespace wickedcrush
             arrowTexture = Content.Load<Texture2D>("debug/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
+
+            PrimitiveDrawer.LoadContent(whiteTexture);
         }
 
         protected override void UnloadContent()

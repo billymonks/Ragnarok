@@ -109,6 +109,8 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="display\animation\Tween.cs" />
+    <Compile Include="display\primitives\PrimitiveDrawer.cs" />
     <Compile Include="display\sprite\BaseSprite.cs" />
     <Compile Include="display\sprite\TextSprite.cs" />
     <Compile Include="display\sprite\TextureSprite.cs" />

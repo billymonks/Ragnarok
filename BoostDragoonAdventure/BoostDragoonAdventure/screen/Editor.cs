@@ -14,6 +14,7 @@ using wickedcrush.editor.tool;
 using wickedcrush.menu.editor;
 using wickedcrush.display.sprite;
 using wickedcrush.factory.sprite;
+using wickedcrush.display.primitives;
 
 namespace wickedcrush.screen
 {
@@ -217,11 +218,22 @@ namespace wickedcrush.screen
         private void DrawCursor()
         {
             game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
+            //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
         }
 
         private void DrawMenu()
         {
             menu.DebugDraw(game.spriteBatch);
+        }
+
+        private void DrawCircleTrail()
+        {
+
+        }
+
+        private void DrawExpandingCircle()
+        {
+
         }
     }
 }
