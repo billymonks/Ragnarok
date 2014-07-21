@@ -120,7 +120,7 @@ namespace wickedcrush.menu.editor
             //next
             while (pointer != null)
             {
-                pointer.image.Draw(sb);
+                pointer.Draw(sb);
 
                 pointer = pointer.next;
                 j++;
@@ -132,7 +132,7 @@ namespace wickedcrush.menu.editor
             //prev
             while (pointer != null)
             {
-                pointer.image.Draw(sb);
+                pointer.Draw(sb);
 
                 pointer = pointer.prev;
                 j--;
@@ -180,6 +180,21 @@ namespace wickedcrush.menu.editor
                 highlighted = node;
 
             node.image.color = generateColor(i, j, node.Equals(highlighted));
+
+            if (node.Equals(current))
+            {
+                node.text.visible = true;
+                node.text.color = Color.White;
+            }
+            else if (node.Equals(highlighted))
+            {
+                node.text.visible = true;
+                node.text.color = Color.Yellow;
+            }
+            else
+            {
+                node.text.visible = false;
+            }
         }
 
         private Color generateColor(int i, int j, bool highlighted)

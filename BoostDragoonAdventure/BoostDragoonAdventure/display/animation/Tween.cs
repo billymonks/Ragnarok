@@ -11,7 +11,7 @@ namespace wickedcrush.display.animation
         private TimeSpan elapsed, duration;
         private float start, end;
 
-        private bool finished;
+        private bool finished, remove;
 
         public Tween(float start, float end, TimeSpan duration)
         {
@@ -32,6 +32,11 @@ namespace wickedcrush.display.animation
         public float getValue()
         {
             return start + ( (end - start) * ((float)elapsed.TotalSeconds / (float)duration.TotalSeconds) );
+        }
+
+        public void Remove()
+        {
+            remove = true;
         }
     }
 }

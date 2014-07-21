@@ -13,6 +13,8 @@ namespace wickedcrush.display.sprite
         public SpriteFont font;
         public Vector2 scale;
 
+        public bool shadow = true, visible = true;
+
         public TextSprite(Vector2 pos, String text, SpriteFont font, Vector2 scale, Vector2 origin, Color color, float rotation)
             : base(pos, origin, color, rotation)
         {
@@ -28,6 +30,17 @@ namespace wickedcrush.display.sprite
 
         public override void Draw(SpriteBatch sb)
         {
+            if (!visible)
+                return;
+
+            if (shadow)
+            {
+                sb.DrawString(font, text, getPos() + new Vector2(1, 1), Color.Black, rotation, origin, scale, spriteEffects, 0f);
+                sb.DrawString(font, text, getPos() + new Vector2(-1, -1), Color.Black, rotation, origin, scale, spriteEffects, 0f);
+                sb.DrawString(font, text, getPos() + new Vector2(1, -1), Color.Black, rotation, origin, scale, spriteEffects, 0f);
+                sb.DrawString(font, text, getPos() + new Vector2(-1, 1), Color.Black, rotation, origin, scale, spriteEffects, 0f);
+            }
+
             sb.DrawString(font, text, getPos(), color, rotation, origin, scale, spriteEffects, 0f);
         }
 

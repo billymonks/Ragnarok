@@ -47,6 +47,13 @@ namespace wickedcrush.menu.editor
         private void UpdateSprites()
         {
             image.setPos(pos.X, pos.Y);
+            text.setPos(pos.X, pos.Y);
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            image.Draw(sb);
+            text.Draw(sb);
         }
     }
 }
