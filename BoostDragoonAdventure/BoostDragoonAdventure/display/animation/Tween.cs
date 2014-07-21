@@ -11,7 +11,7 @@ namespace wickedcrush.display.animation
         private TimeSpan elapsed, duration;
         private float start, end;
 
-        private bool finished, remove;
+        public bool finished = false, readyForRemoval = false;
 
         public Tween(float start, float end, TimeSpan duration)
         {
@@ -36,7 +36,7 @@ namespace wickedcrush.display.animation
 
         public void Remove()
         {
-            remove = true;
+            readyForRemoval = true;
         }
     }
 }
