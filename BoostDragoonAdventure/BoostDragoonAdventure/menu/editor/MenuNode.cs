@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.display.sprite;
+using wickedcrush.display.animation;
 
 namespace wickedcrush.menu.editor
 {
@@ -16,6 +17,9 @@ namespace wickedcrush.menu.editor
 
         public Point pos, size;
         public Rectangle hitbox;
+
+        public Queue<Tween> posXTweenQueue = new Queue<Tween>(),
+            posYTweenQueue = new Queue<Tween>();
 
         public MenuNode(TextSprite text, TextureSprite image)
         {
@@ -32,8 +36,37 @@ namespace wickedcrush.menu.editor
             text.Update(gameTime);
             image.Update(gameTime);
 
+            UpdateTweens(gameTime);
+
             UpdateHitbox();
             UpdateSprites();
+        }
+
+        private void UpdateTweens(GameTime gameTime)
+        {
+            if (posXTweenQueue.Count > 0)
+            {
+                posXTweenQueue.Peek().Update(gameTime);
+
+                pos.X = (int)posXTweenQueue.Peek().getValue();
+
+                if (posXTweenQueue.Peek().finished)
+                {
+                    posXTweenQueue.Dequeue().Remove();
+                }
+            }
+
+            if (posYTweenQueue.Count > 0)
+            {
+                posYTweenQueue.Peek().Update(gameTime);
+
+                pos.Y = (int)posYTweenQueue.Peek().getValue();
+
+                if (posYTweenQueue.Peek().finished)
+                {
+                    posYTweenQueue.Dequeue().Remove();
+                }
+            }
         }
 
         private void UpdateHitbox()
@@ -54,6 +87,12 @@ namespace wickedcrush.menu.editor
         {
             image.Draw(sb);
             text.Draw(sb);
+        }
+
+        public void tweenPosition(int x, int y, int ms)
+        {
+            posXTweenQueue.Enqueue(new Tween((float)pos.X, (float)x, new TimeSpan(0, 0, 0, 0, ms)));
+            posYTweenQueue.Enqueue(new Tween((float)pos.Y, (float)y, new TimeSpan(0, 0, 0, 0, ms)));
         }
     }
 }

@@ -19,6 +19,8 @@ namespace wickedcrush.menu.editor
 
         public EditorTool tool;
 
+        public List<MenuNode> nodes = new List<MenuNode>();
+
 
         public EditorMenu()
         {
@@ -36,7 +38,13 @@ namespace wickedcrush.menu.editor
 
             highlighted = null;
 
+            UpdateNodes(gameTime);
             UpdateVisible(gameTime);
+        }
+
+        private void UpdateNodes(GameTime gameTime)
+        {
+
         }
 
         public void Click()
@@ -171,9 +179,12 @@ namespace wickedcrush.menu.editor
 
         private void UpdateNode(GameTime gameTime, MenuNode node, int i, int j)
         {
-            node.pos.X = (int)pos.X + i * 52;
-            node.pos.Y = (int)pos.Y + j * 52;
-            
+            //node.pos.X = (int)pos.X + i * 52;
+            //node.pos.Y = (int)pos.Y + j * 52;
+
+            if (node.posXTweenQueue.Count == 0 && node.posYTweenQueue.Count == 0)
+                node.tweenPosition((int)pos.X + i * 52, (int)pos.Y + j * 52, 100);
+
             node.Update(gameTime);
 
             if (node.hitbox.Contains((int)cursorPosition.X, (int)cursorPosition.Y))
