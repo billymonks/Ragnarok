@@ -37,6 +37,11 @@ namespace wickedcrush.menu.editor
 
         public void Update(GameTime gameTime)
         {
+            if (!visible && sizeXTweenQueue.Count == 0 && centerXTweenQueue.Count == 0 && centerYTweenQueue.Count == 0)
+            {
+                tweenSize(10, 10, 100);
+            }
+
             text.Update(gameTime);
             image.Update(gameTime);
 
@@ -44,6 +49,8 @@ namespace wickedcrush.menu.editor
 
             UpdateHitbox();
             UpdateSprites();
+
+            
 
             visible = false;
         }

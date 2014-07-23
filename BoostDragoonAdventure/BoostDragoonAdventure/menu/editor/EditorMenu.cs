@@ -104,6 +104,14 @@ namespace wickedcrush.menu.editor
             }
         }
 
+        public void Draw(SpriteBatch sb)
+        {
+            foreach (KeyValuePair<string, MenuNode> pair in nodes)
+            {
+                pair.Value.Draw(sb);
+            }
+        }
+
         public void DebugDraw(SpriteBatch sb)
         {
             MenuNode pointer;
@@ -122,6 +130,7 @@ namespace wickedcrush.menu.editor
             }
 
             //draw parents
+
             pointer = current;
 
             if (pointer != null && pointer.parent != null)

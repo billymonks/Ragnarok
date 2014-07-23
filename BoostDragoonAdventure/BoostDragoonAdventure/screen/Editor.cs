@@ -231,7 +231,7 @@ namespace wickedcrush.screen
 
         private void DrawMenu()
         {
-            menu.DebugDraw(game.spriteBatch);
+            menu.Draw(game.spriteBatch);
         }
 
         private void DrawCircleTrail()
