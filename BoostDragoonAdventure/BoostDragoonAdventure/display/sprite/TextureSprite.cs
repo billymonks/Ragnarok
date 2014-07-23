@@ -10,7 +10,7 @@ namespace wickedcrush.display.sprite
     public class TextureSprite : BaseSprite
     {
         public Texture2D texture;
-        public Vector2 size;
+        private Vector2 size;
 
         private Rectangle rectangle = new Rectangle();
 
@@ -24,7 +24,7 @@ namespace wickedcrush.display.sprite
         }
 
         public TextureSprite(Vector2 pos, Texture2D texture, Vector2 origin, Vector2 size, Color color, float rotation)
-            : base(pos, origin, color, rotation)
+            : base(pos, new Vector2(origin.X *= texture.Width, origin.Y *= texture.Height), color, rotation)
         {
             this.texture = texture;
             this.size = size;
@@ -53,6 +53,14 @@ namespace wickedcrush.display.sprite
         public override void setPos(float x, float y)
         {
             base.setPos(x, y);
+            UpdateRectangle();
+        }
+
+        public void setSize(float x, float y)
+        {
+            size.X = x;
+            size.Y = y;
+
             UpdateRectangle();
         }
     }

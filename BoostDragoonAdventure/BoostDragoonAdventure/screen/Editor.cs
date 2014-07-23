@@ -68,20 +68,22 @@ namespace wickedcrush.screen
 
         private void InitializeEditorMenu()
         {
+            Dictionary<string, MenuNode> nodes = new Dictionary<string, MenuNode>();
+
             MenuElement wallNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.WALL));
 
             MenuElement deathSoupNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Death Soup", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.DEATHSOUP));
 
 
             MenuElement wiringNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wiring", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.WIRING));
 
             
@@ -93,7 +95,7 @@ namespace wickedcrush.screen
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 wallNode);
 
             wallNode.parent = terrainMenuNode;
@@ -102,13 +104,19 @@ namespace wickedcrush.screen
 
             SubMenu entityMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Entities", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), Vector2.Zero, new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 null);
 
             terrainMenuNode.next = entityMenuNode;
             entityMenuNode.prev = terrainMenuNode;
 
-            menu = new EditorMenu(terrainMenuNode);
+            nodes.Add("Wall", wallNode);
+            nodes.Add("Death Soup", deathSoupNode);
+            nodes.Add("Wiring", wiringNode);
+            nodes.Add("Terrain", terrainMenuNode);
+            nodes.Add("Entities", entityMenuNode);
+
+            menu = new EditorMenu(nodes);
 
             //menu.current = (node);
 

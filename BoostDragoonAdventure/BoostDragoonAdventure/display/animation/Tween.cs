@@ -31,7 +31,7 @@ namespace wickedcrush.display.animation
 
         public float getValue()
         {
-            return start + ( (end - start) * ((float)elapsed.TotalSeconds / (float)duration.TotalSeconds) );
+            return start + ((end - start) * (float)(elapsed.TotalMilliseconds / duration.TotalMilliseconds));
         }
 
         public void Remove()
