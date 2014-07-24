@@ -40,7 +40,7 @@ namespace wickedcrush.menu.editor
         {
             if (!visible && sizeXTweenQueue.Count == 0 && centerXTweenQueue.Count == 0 && centerYTweenQueue.Count == 0 && colorATweenQueue.Count == 0)
             {
-                //tweenSize(10, 10, 100);
+                tweenSize(10, 10, 100);
                 tweenColor(0, 0, 0, 0, 100);
             }
 

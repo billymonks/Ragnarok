@@ -214,7 +214,11 @@ namespace wickedcrush.menu.editor
             if (node.hitbox.Contains((int)cursorPosition.X, (int)cursorPosition.Y))
                 highlighted = node;
 
-            node.image.color = generateColor(i, j, node.Equals(highlighted));
+            if (node.colorATweenQueue.Count == 0)
+            {
+                Color c = generateColor(i, j, node.Equals(highlighted));
+                node.tweenColor(c.R, c.G, c.B, c.A, 100);
+            }
 
             if (node.Equals(highlighted))
             {
