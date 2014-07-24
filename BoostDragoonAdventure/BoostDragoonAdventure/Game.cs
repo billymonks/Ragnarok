@@ -140,20 +140,20 @@ namespace wickedcrush
 
             if (debugMode)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
                 if (screenStack.Count > 0)
                     screenStack.Peek().DebugDraw();
                 spriteBatch.End();
             }
             else
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
                 if (screenStack.Count > 0)
                     screenStack.Peek().Draw();
                 spriteBatch.End();
             }
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
             if (screenStack.Count > 0)
                 screenStack.Peek().FullScreenDraw();
             spriteBatch.End();

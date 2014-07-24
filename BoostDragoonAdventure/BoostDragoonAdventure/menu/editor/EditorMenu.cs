@@ -236,6 +236,9 @@ namespace wickedcrush.menu.editor
                 node.tweenSize(50 - (i * 20), 50 - (i * 20), 100);
             }
 
+            //if (node.colorATweenQueue.Count == 0)
+                //node.tweenColor(255, 100);
+
             node.visible = true;
         }
 
