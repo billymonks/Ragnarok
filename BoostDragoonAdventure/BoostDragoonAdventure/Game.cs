@@ -94,7 +94,6 @@ namespace wickedcrush
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this, controlsManager);
 
-            //componentStack.Push(new Test(this));
             screenStack.Push(new PlayerSelect(this));
             
         }
@@ -106,7 +105,7 @@ namespace wickedcrush
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
 
-            PrimitiveDrawer.LoadContent(whiteTexture);
+            PrimitiveDrawer.LoadContent(GraphicsDevice);
         }
 
         protected override void UnloadContent()

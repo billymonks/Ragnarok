@@ -108,7 +108,7 @@ namespace wickedcrush.menu.editor
         {
             if (!PrimitiveDrawer.isInitialized())
             {
-                PrimitiveDrawer.LoadContent(getWhiteTexture(sb.GraphicsDevice));
+                PrimitiveDrawer.LoadContent(sb.GraphicsDevice);
             }
             //sb.DrawCircle(pos, 27, Color.LightBlue, 8, 32);
             //sb.DrawCircle(pos, 35, Color.LightGreen, 8, 32);
@@ -287,13 +287,6 @@ namespace wickedcrush.menu.editor
             return c;
         }
 
-        private Texture2D getWhiteTexture(GraphicsDevice gd)
-        {
-            Texture2D whiteTexture = new Texture2D(gd, 1, 1);
-            Color[] data = new Color[1];
-            data[0] = Color.White;
-            whiteTexture.SetData(data);
-            return whiteTexture;
-        }
+        
     }
 }

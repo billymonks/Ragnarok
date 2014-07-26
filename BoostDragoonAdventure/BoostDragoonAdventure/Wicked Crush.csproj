@@ -124,7 +124,8 @@
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TimerTrigger.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
-    <Compile Include="factory\menu\editor\NodeFactory.cs" />
+    <Compile Include="factory\editor\EditorEntityFactory.cs" />
+    <Compile Include="factory\editor\menu\NodeFactory.cs" />
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
@@ -221,6 +222,8 @@
     <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />
+    <Folder Include="factory\editor\entity\" />
+    <Folder Include="factory\menu\editor\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

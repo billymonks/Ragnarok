@@ -31,8 +31,8 @@ namespace wickedcrush.menu.editor
             this.image = image;
 
             pos = new Vector2(0, 0);
-            size = new Vector2(50, 50);
-            center = new Vector2(25, 25);
+            size = new Vector2(100, 100);
+            center = new Vector2(50, 50);
             hitbox = new Rectangle((int) (pos.X - center.X), (int) (pos.Y - center.Y), (int) size.X, (int) size.Y);
         }
 

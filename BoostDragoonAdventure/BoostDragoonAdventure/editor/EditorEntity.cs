@@ -4,24 +4,27 @@ using System.Linq;
 using System.Text;
 using wickedcrush.entity;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace wickedcrush.editor
 {
     public class EditorEntity
     {
         public String code, name;
-        public int x, y;
+        public Vector2 pos, size, origin;
         public bool canRotate;
         public Direction angle = Direction.East;
 
-        public Texture2D texture;
+        //editor sprite (to have different textures for different directions built in)
 
-        public EditorEntity(String code, String name, int x, int y, Direction angle)
+        public EditorEntity(String code, String name, Vector2 pos, Vector2 size, Vector2 origin, bool canRotate, Direction angle)
         {
             this.code = code;
             this.name = name;
-            this.x = x;
-            this.y = y;
+            this.pos = pos;
+            this.size = size;
+            this.origin = origin;
+            this.canRotate = canRotate;
             this.angle = angle;
         }
 
@@ -36,6 +39,23 @@ namespace wickedcrush.editor
             angle -= 45;
             angle += 360;
             angle = (Direction)(((int)angle) % 360);
+        }
+
+        public void Draw(SpriteBatch sb)
+        {
+            //sb.Draw(texture, pos, 
+        }
+
+        public void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        {
+            spriteBatch.Draw(wTex, pos-origin, null, c, 0f, Vector2.Zero, size, SpriteEffects.None, 0f);
+
+            DrawName(spriteBatch, f);
+        }
+
+        private void DrawName(SpriteBatch sb, SpriteFont f)
+        {
+
         }
     }
 }

@@ -26,9 +26,9 @@ namespace wickedcrush.display.primitives
             return (_blankTexture != null);
         }
 
-        public static void LoadContent(Texture2D blankTexture)
+        public static void LoadContent(GraphicsDevice gd)
         {
-            _blankTexture = blankTexture;
+            _blankTexture = getWhiteTexture(gd);
         }
 
         public static void DrawLineSegment(this SpriteBatch spriteBatch, Vector2 point1, Vector2 point2, Color color, int lineWidth)
@@ -80,6 +80,15 @@ namespace wickedcrush.display.primitives
             }
 
             DrawPolygon(spritbatch, vertex, segments, color, lineWidth);
+        }
+
+        private static Texture2D getWhiteTexture(GraphicsDevice gd)
+        {
+            Texture2D whiteTexture = new Texture2D(gd, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            whiteTexture.SetData(data);
+            return whiteTexture;
         }
     }
 }

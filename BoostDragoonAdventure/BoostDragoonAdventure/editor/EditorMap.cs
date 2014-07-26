@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using wickedcrush.entity;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using wickedcrush.factory.editor;
 
 namespace wickedcrush.editor
 {
@@ -16,6 +17,8 @@ namespace wickedcrush.editor
         public int width, height;
         public Dictionary<LayerType, int[,]> layerList;
         public List<EditorEntity> entityList;
+
+        public EditorEntityFactory factory;
 
         public EditorMap(int width, int height)
         {
@@ -27,12 +30,17 @@ namespace wickedcrush.editor
             layerList = new Dictionary<LayerType, int[,]>();
             entityList = new List<EditorEntity>();
             createEmptyLayers();
+
+            factory = new EditorEntityFactory(this);
         }
 
         public EditorMap(String MAP_NAME)
         {
             layerList = new Dictionary<LayerType, int[,]>();
             entityList = new List<EditorEntity>();
+
+            factory = new EditorEntityFactory(this);
+
             loadMap(MAP_NAME);
         }
 
@@ -41,6 +49,8 @@ namespace wickedcrush.editor
             debugDrawLayer(tex, sb, LayerType.WALL, Color.Black, offset, 20);
             debugDrawLayer(tex, sb, LayerType.DEATHSOUP, Color.Red, offset, 20);
             debugDrawLayer(tex, sb, LayerType.WIRING, Color.Purple, offset, 10);
+
+            debugDrawEntities(tex, gd, sb, f, offset);
         }
 
         private void debugDrawLayer(Texture2D tex, SpriteBatch sb, LayerType t, Color c, Point offset, int gridSize)
@@ -54,6 +64,14 @@ namespace wickedcrush.editor
                     if (data[i, j] == 1)
                         sb.Draw(tex, new Rectangle(i * gridSize + offset.X, j * gridSize + offset.Y, gridSize, gridSize), c);
                 }
+            }
+        }
+
+        private void debugDrawEntities(Texture2D tex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
+        {
+            foreach (EditorEntity e in entityList)
+            {
+                e.DebugDraw(tex, null, gd, sb, f, Color.Green);
             }
         }
 
@@ -103,8 +121,8 @@ namespace wickedcrush.editor
             foreach (EditorEntity e in entityList)
             {
                 entity = new XElement(e.code);
-                entity.Add(new XAttribute("x", e.x));
-                entity.Add(new XAttribute("y", e.y));
+                entity.Add(new XAttribute("x", (int)e.pos.X));
+                entity.Add(new XAttribute("y", (int)e.pos.Y));
                 entity.Add(new XAttribute("angle", e.angle));
             }
 
@@ -160,8 +178,13 @@ namespace wickedcrush.editor
                     if (null != e.Attribute("angle"))
                         angle = (Direction)int.Parse(e.Attribute("angle").Value);
 
-                    editorEntity = new EditorEntity(e.Name.LocalName, e.Name.LocalName, int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value), angle);
-                    entityList.Add(editorEntity);
+                    factory.AddEntity(
+                        e.Name.LocalName,
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        angle);
+
+                    //editorEntity = new EditorEntity(e.Name.LocalName, e.Name.LocalName, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), angle);
+                    //entityList.Add(editorEntity);
                 }
             }
         }
