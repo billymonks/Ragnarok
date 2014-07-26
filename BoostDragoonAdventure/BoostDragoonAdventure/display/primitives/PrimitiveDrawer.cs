@@ -21,6 +21,11 @@ namespace wickedcrush.display.primitives
     {
         private static Texture2D _blankTexture;
 
+        public static bool isInitialized()
+        {
+            return (_blankTexture != null);
+        }
+
         public static void LoadContent(Texture2D blankTexture)
         {
             _blankTexture = blankTexture;

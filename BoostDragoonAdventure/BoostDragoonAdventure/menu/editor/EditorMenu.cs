@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using wickedcrush.editor.tool;
+using wickedcrush.display.primitives;
 
 namespace wickedcrush.menu.editor
 {
@@ -20,7 +21,6 @@ namespace wickedcrush.menu.editor
         public EditorTool tool;
 
         public Dictionary<string, MenuNode> nodes;
-
 
         public EditorMenu()
         {
@@ -106,10 +106,21 @@ namespace wickedcrush.menu.editor
 
         public void Draw(SpriteBatch sb)
         {
+            if (!PrimitiveDrawer.isInitialized())
+            {
+                PrimitiveDrawer.LoadContent(getWhiteTexture(sb.GraphicsDevice));
+            }
+            //sb.DrawCircle(pos, 27, Color.LightBlue, 8, 32);
+            //sb.DrawCircle(pos, 35, Color.LightGreen, 8, 32);
+
             foreach (KeyValuePair<string, MenuNode> pair in nodes)
             {
                 pair.Value.Draw(sb);
             }
+
+            sb.DrawCircle(pos, 30, Color.LightPink, 1, 32);
+
+            
         }
 
         public void DebugDraw(SpriteBatch sb)
@@ -207,7 +218,22 @@ namespace wickedcrush.menu.editor
             //node.pos.Y = (int)pos.Y + j * 52;
 
             if (node.posXTweenQueue.Count == 0 && node.posYTweenQueue.Count == 0)
-                node.tweenPosition((int)pos.X + i * 52, (int)pos.Y + j * 52, 100);
+            {
+                int xPos, yPos;
+
+                if (node.parent == null)
+                {
+                    xPos = (int)(pos.X + i * 62);
+                }
+                else
+                {
+                    xPos = (int)(pos.X + i * node.parent.size.X);
+                }
+                    
+                yPos = (int)(pos.Y + j * node.size.Y);
+
+                node.tweenPosition(xPos, yPos, 100);
+            }
 
             //node.Update(gameTime);
 
@@ -259,6 +285,15 @@ namespace wickedcrush.menu.editor
                 c.G += 30;
 
             return c;
+        }
+
+        private Texture2D getWhiteTexture(GraphicsDevice gd)
+        {
+            Texture2D whiteTexture = new Texture2D(gd, 1, 1);
+            Color[] data = new Color[1];
+            data[0] = Color.White;
+            whiteTexture.SetData(data);
+            return whiteTexture;
         }
     }
 }
