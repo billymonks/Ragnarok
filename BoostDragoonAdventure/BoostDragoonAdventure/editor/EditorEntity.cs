@@ -53,9 +53,13 @@ namespace wickedcrush.editor
             DrawName(spriteBatch, f);
         }
 
-        private void DrawName(SpriteBatch sb, SpriteFont f)
+        protected void DrawName(SpriteBatch spriteBatch, SpriteFont f)
         {
-
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 11), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 9), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(1, 10), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 10), Color.White);
         }
     }
 }

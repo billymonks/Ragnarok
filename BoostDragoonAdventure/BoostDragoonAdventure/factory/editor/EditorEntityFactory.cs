@@ -75,6 +75,11 @@ namespace wickedcrush.factory.editor
             data.Add(temp.name, temp);
         }
 
+        public EditorEntity getEntity(String code)
+        {
+            return new EditorEntity(code, data[code].name, new Vector2(0f, 0f), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+        }
+
         public void AddEntity(String code, Vector2 pos, Direction direction)
         {
             map.entityList.Add(new EditorEntity(code, data[code].name, pos, data[code].size, data[code].origin, data[code].canRotate, direction));

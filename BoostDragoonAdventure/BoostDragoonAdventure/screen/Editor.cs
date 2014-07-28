@@ -15,6 +15,7 @@ using wickedcrush.menu.editor;
 using wickedcrush.display.sprite;
 using wickedcrush.factory.sprite;
 using wickedcrush.display.primitives;
+using wickedcrush.factory.editor;
 
 namespace wickedcrush.screen
 {
@@ -38,6 +39,8 @@ namespace wickedcrush.screen
 
         private Dictionary<String, BaseSprite> hud = new Dictionary<String, BaseSprite>();
 
+        private EditorEntityFactory factory;
+
         public Editor(Game game)
         {
             this.game = game;
@@ -53,6 +56,8 @@ namespace wickedcrush.screen
 
             map = new EditorMap(game.mapName);
             mapOffset = new Point(0, 0);
+
+            factory = new EditorEntityFactory(map);
 
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
@@ -102,10 +107,18 @@ namespace wickedcrush.screen
             deathSoupNode.parent = terrainMenuNode;
             wiringNode.parent = terrainMenuNode;
 
+            MenuElement chestNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new EntityTool(factory.getEntity("CHEST") ,factory));
+
+
             SubMenu entityMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Entities", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                null);
+                chestNode);
+
+            chestNode.parent = entityMenuNode;
 
             terrainMenuNode.next = entityMenuNode;
             entityMenuNode.prev = terrainMenuNode;
@@ -113,6 +126,7 @@ namespace wickedcrush.screen
             nodes.Add("Wall", wallNode);
             nodes.Add("Death Soup", deathSoupNode);
             nodes.Add("Wiring", wiringNode);
+            nodes.Add("Chest", chestNode);
             nodes.Add("Terrain", terrainMenuNode);
             nodes.Add("Entities", entityMenuNode);
 
