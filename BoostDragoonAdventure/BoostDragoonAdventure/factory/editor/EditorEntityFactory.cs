@@ -91,17 +91,29 @@ namespace wickedcrush.factory.editor
 
         public void AddEntity(String code, Vector2 pos, Direction direction)
         {
+            if (!CanPlace(code, pos))
+                return;
+
             Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
             Vector2 correctedPos = new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
             map.entityList.Add(new EditorEntity(code, data[code].name, correctedPos, data[code].size, data[code].origin, data[code].canRotate, direction));
         }
 
-        public bool CanPlace(Vector2 pos)
+        public bool CanPlace(String code, Vector2 pos)
         {
-            Point size = new Point((int)(preview.size.X / 10f), (int)(preview.size.Y / 10f));
+            //Point size = new Point((int)(preview.size.X / 10f), (int)(preview.size.Y / 10f));
             Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
+            Vector2 correctedPos = new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
 
-            return false;
+            EditorEntity temp = new EditorEntity(code, data[code].name, correctedPos, data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+
+            foreach (EditorEntity e in map.entityList)
+            {
+                if (e.Collision(temp))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

@@ -61,5 +61,40 @@ namespace wickedcrush.editor
             spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10), Color.Black);
             spriteBatch.DrawString(f, name, pos - new Vector2(0, 10), Color.White);
         }
+
+        public bool Collision(EditorEntity e)
+        {
+            if (horizontalCollision(e) && verticalCollision(e))
+                return true;
+
+            return false;
+        }
+
+        private bool horizontalCollision(EditorEntity e)
+        {
+            if (this.pos.X <= e.pos.X
+                && this.pos.X + this.size.X > e.pos.X)
+                return true;
+
+            if (e.pos.X <= this.pos.X
+                && e.pos.X + e.size.X > this.pos.X)
+                return true;
+
+            return false;
+        }
+
+        private bool verticalCollision(EditorEntity e)
+        {
+            if (this.pos.Y <= e.pos.Y
+                && this.pos.Y + this.size.Y > e.pos.Y)
+                return true;
+
+            if (e.pos.Y <= this.pos.Y
+                && e.pos.Y + e.size.Y > this.pos.Y)
+                return true;
+
+
+            return false;
+        }
     }
 }
