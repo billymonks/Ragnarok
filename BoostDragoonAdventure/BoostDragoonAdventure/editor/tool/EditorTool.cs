@@ -20,21 +20,17 @@ namespace wickedcrush.editor.tool
         public abstract void primaryAction(Vector2 pos, EditorMap map);
         public abstract void secondaryAction(Vector2 pos, EditorMap map);
 
-        
-
-        protected Point convertPositionToCoordinate(Vector2 pos, EditorMap map, LayerType layerType)
-        {
-            int gridSize = map.width / map.layerList[layerType].GetLength(0);
-
-            return new Point((int)pos.X / gridSize, (int)pos.Y / gridSize);
-        }
-
         protected bool isValidCoordinate(Point coord, EditorMap map, LayerType layerType)
         {
             if (coord.X < 0 || coord.Y < 0 || coord.X >= map.layerList[layerType].GetLength(0) || coord.Y >= map.layerList[layerType].GetLength(1))
                 return false;
 
             return true;
+        }
+
+        public EditorMode getMode()
+        {
+            return mode;
         }
     }
 }

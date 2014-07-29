@@ -23,7 +23,8 @@ namespace wickedcrush
     {
         WALL = 0,
         DEATHSOUP = 1,
-        WIRING = 2
+        WIRING = 2,
+        ENTITY = 3
     };
 
     public class Game : Microsoft.Xna.Framework.Game

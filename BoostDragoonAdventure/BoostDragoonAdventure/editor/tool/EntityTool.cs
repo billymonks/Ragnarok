@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.factory.editor;
 using wickedcrush.entity;
+using wickedcrush.helper;
 
 namespace wickedcrush.editor.tool
 {
@@ -40,7 +41,7 @@ namespace wickedcrush.editor.tool
 
             foreach (KeyValuePair<LayerType, int[,]> pair in map.layerList)
             {
-                coordinate = convertPositionToCoordinate(pos, map, pair.Key);
+                coordinate = Helper.convertPositionToCoordinate(pos, map, pair.Key);
                 if (!isValidCoordinate(coordinate, map, pair.Key))
                 {
                     ready = false;

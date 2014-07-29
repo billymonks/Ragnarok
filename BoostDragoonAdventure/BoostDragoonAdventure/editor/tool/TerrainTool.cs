@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using wickedcrush.helper;
 
 namespace wickedcrush.editor.tool
 {
@@ -30,7 +31,7 @@ namespace wickedcrush.editor.tool
 
         protected void PlaceLayer(Vector2 pos, EditorMap map)
         {
-            Point coordinate = convertPositionToCoordinate(pos, map, layerType);
+            Point coordinate = Helper.convertPositionToCoordinate(pos, map, layerType);
 
             if (isValidCoordinate(coordinate, map, layerType))
                 map.layerList[layerType][coordinate.X, coordinate.Y] = 1;
@@ -38,7 +39,7 @@ namespace wickedcrush.editor.tool
 
         protected void EraseLayer(Vector2 pos, EditorMap map)
         {
-            Point coordinate = convertPositionToCoordinate(pos, map, layerType);
+            Point coordinate = Helper.convertPositionToCoordinate(pos, map, layerType);
 
             if (isValidCoordinate(coordinate, map, layerType))
                 map.layerList[layerType][coordinate.X, coordinate.Y] = 0;

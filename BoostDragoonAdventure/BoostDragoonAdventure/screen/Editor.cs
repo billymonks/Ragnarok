@@ -203,11 +203,14 @@ namespace wickedcrush.screen
                     {
                         menu.Click();
                         tool = menu.currentTool();
+
+                        if (toolReady && tool != null && tool.getMode() == EditorMode.Entity)
+                            tool.primaryAction(scaledCursorPosition, map);
                     }
 
                     if (((KeyboardControls)p.c).ActionHeld()) //lmb
                     {
-                        if(toolReady && tool != null)
+                        if(toolReady && tool != null && tool.getMode() == EditorMode.Layer)
                             tool.primaryAction(scaledCursorPosition, map);
                     }
 

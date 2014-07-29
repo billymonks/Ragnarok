@@ -77,9 +77,30 @@ namespace wickedcrush.editor
 
         private void createEmptyLayers()
         {
+            createWallLayer();
+            createDeathSoupLayer();
+            createWiringLayer();
+            createEntityLayer();
+        }
+
+        private void createWallLayer()
+        {
             layerList.Add(LayerType.WALL, getEmptyLayer(20));
+        }
+
+        private void createDeathSoupLayer()
+        {
             layerList.Add(LayerType.DEATHSOUP, getEmptyLayer(20));
+        }
+
+        private void createWiringLayer()
+        {
             layerList.Add(LayerType.WIRING, getEmptyLayer(10));
+        }
+
+        private void createEntityLayer()
+        {
+            layerList.Add(LayerType.ENTITY, getEmptyLayer(10)); //internal
         }
 
         private int[,] getEmptyLayer(int gridSize)
@@ -158,16 +179,24 @@ namespace wickedcrush.editor
                 data = getLayerData(walls.Value);
                 layerList.Add(LayerType.WALL, data);
             }
+
             if (deathSoup != null)
             {
                 data = getLayerData(deathSoup.Value);
                 layerList.Add(LayerType.DEATHSOUP, data);
             }
+
             if (wiring != null)
             {
                 data = getLayerData(wiring.Value);
                 layerList.Add(LayerType.WIRING, data);
             }
+            else
+            {
+
+            }
+
+            createEntityLayer();
 
             if (objects != null)
             {

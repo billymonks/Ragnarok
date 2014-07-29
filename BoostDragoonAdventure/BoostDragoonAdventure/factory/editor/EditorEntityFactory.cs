@@ -5,6 +5,7 @@ using System.Text;
 using wickedcrush.editor;
 using Microsoft.Xna.Framework;
 using wickedcrush.entity;
+using wickedcrush.helper;
 
 namespace wickedcrush.factory.editor
 {
@@ -20,6 +21,8 @@ namespace wickedcrush.factory.editor
         private EditorMap map;
 
         private Dictionary<String, EditorEntityData> data;
+
+        private EditorEntity preview;
 
         public EditorEntityFactory(EditorMap map)
         {
@@ -77,12 +80,28 @@ namespace wickedcrush.factory.editor
 
         public EditorEntity getEntity(String code)
         {
+            //return preview;
             return new EditorEntity(code, data[code].name, new Vector2(0f, 0f), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+        }
+
+        public void LoadEntity(String code, Vector2 pos, Direction direction)
+        {
+            preview = new EditorEntity(code, data[code].name, new Vector2(0f, 0f), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
         }
 
         public void AddEntity(String code, Vector2 pos, Direction direction)
         {
-            map.entityList.Add(new EditorEntity(code, data[code].name, pos, data[code].size, data[code].origin, data[code].canRotate, direction));
+            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
+            Vector2 correctedPos = new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
+            map.entityList.Add(new EditorEntity(code, data[code].name, correctedPos, data[code].size, data[code].origin, data[code].canRotate, direction));
+        }
+
+        public bool CanPlace(Vector2 pos)
+        {
+            Point size = new Point((int)(preview.size.X / 10f), (int)(preview.size.Y / 10f));
+            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
+
+            return false;
         }
     }
 }
