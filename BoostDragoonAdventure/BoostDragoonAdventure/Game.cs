@@ -102,7 +102,7 @@ namespace wickedcrush
         protected override void LoadContent()
         {
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
-            arrowTexture = Content.Load<Texture2D>("debug/img/arrow");
+            arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
 

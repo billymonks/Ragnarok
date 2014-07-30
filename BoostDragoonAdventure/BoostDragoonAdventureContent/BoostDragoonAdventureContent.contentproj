@@ -49,44 +49,44 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="debug\img\arrow.png">
+    <Compile Include="debugcontent\img\arrow.png">
       <Name>arrow</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="debug\img\ass_cursor.png">
+    <Compile Include="debugcontent\img\ass_cursor.png">
       <Name>ass_cursor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\mini_cursor.png">
+    <Compile Include="debugcontent\img\mini_cursor.png">
       <Name>mini_cursor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\mini_cursor_heart.png">
+    <Compile Include="debugcontent\img\mini_cursor_heart.png">
       <Name>mini_cursor_heart</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\mini_cursor_minus.png">
+    <Compile Include="debugcontent\img\mini_cursor_minus.png">
       <Name>mini_cursor_minus</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\mini_cursor_plus.png">
+    <Compile Include="debugcontent\img\mini_cursor_plus.png">
       <Name>mini_cursor_plus</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\happy_cursor.png">
+    <Compile Include="debugcontent\img\happy_cursor.png">
       <Name>happy_cursor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="debug\img\nice_cursor.png">
+    <Compile Include="debugcontent\img\nice_cursor.png">
       <Name>nice_cursor</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

@@ -66,7 +66,7 @@ namespace wickedcrush.screen
 
             InitializeEditorMenu();
 
-            cursorTexture = game.Content.Load<Texture2D>("debug/img/nice_cursor");
+            cursorTexture = game.Content.Load<Texture2D>("debugcontent/img/nice_cursor");
 
 
         }
@@ -77,18 +77,18 @@ namespace wickedcrush.screen
 
             MenuElement wallNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.WALL));
 
             MenuElement deathSoupNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Death Soup", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.DEATHSOUP));
 
 
             MenuElement wiringNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wiring", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.WIRING));
 
             
@@ -100,7 +100,7 @@ namespace wickedcrush.screen
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 wallNode);
 
             wallNode.parent = terrainMenuNode;
@@ -109,13 +109,13 @@ namespace wickedcrush.screen
 
             MenuElement chestNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new EntityTool(factory.getEntity("CHEST", Vector2.Zero, Direction.East) ,factory));
 
 
             SubMenu entityMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Entities", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 chestNode);
 
             chestNode.parent = entityMenuNode;
