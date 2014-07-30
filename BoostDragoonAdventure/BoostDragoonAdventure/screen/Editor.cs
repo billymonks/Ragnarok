@@ -110,7 +110,7 @@ namespace wickedcrush.screen
             MenuElement chestNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debug/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.getEntity("CHEST") ,factory));
+                new EntityTool(factory.getEntity("CHEST", Vector2.Zero, Direction.East) ,factory));
 
 
             SubMenu entityMenuNode = new SubMenu(
@@ -146,6 +146,11 @@ namespace wickedcrush.screen
         public override void DebugDraw()
         {
             map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
+
+            if (menu.currentTool() != null && menu.currentTool().getMode() == EditorMode.Entity)
+            {
+                ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition).DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, Color.MediumPurple);
+            }
         }
 
         public override void FreeDraw()
@@ -242,6 +247,8 @@ namespace wickedcrush.screen
 
         private void DrawCursor()
         {
+            
+
             game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
             //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
         }

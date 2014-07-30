@@ -66,6 +66,11 @@ namespace wickedcrush.editor.tool
             //if (isValidCoordinate(coordinate, map, layerType))
                 //map.layerList[layerType][coordinate.X, coordinate.Y] = 0;
         }
+
+        public EditorEntity getEntity(Vector2 pos)
+        {
+            return f.getEntity(entity.code, pos, Direction.East);
+        }
         
     }
 }

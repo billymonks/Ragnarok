@@ -5,6 +5,7 @@ using System.Text;
 using wickedcrush.entity;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using wickedcrush.display.primitives;
 
 namespace wickedcrush.editor
 {
@@ -50,6 +51,8 @@ namespace wickedcrush.editor
         {
             spriteBatch.Draw(wTex, pos-origin, null, c, 0f, Vector2.Zero, size, SpriteEffects.None, 0f);
 
+            DrawOutline(spriteBatch, f, Color.Black);
+
             DrawName(spriteBatch, f);
         }
 
@@ -60,6 +63,14 @@ namespace wickedcrush.editor
             spriteBatch.DrawString(f, name, pos - new Vector2(1, 10), Color.Black);
             spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10), Color.Black);
             spriteBatch.DrawString(f, name, pos - new Vector2(0, 10), Color.White);
+        }
+
+        protected void DrawOutline(SpriteBatch spriteBatch, SpriteFont f, Color c)
+        {
+            if (!PrimitiveDrawer.isInitialized())
+                PrimitiveDrawer.LoadContent(spriteBatch.GraphicsDevice);
+
+            spriteBatch.DrawRectangle(new Rectangle((int)(pos.X-origin.X), (int)(pos.Y-origin.Y), (int)size.X, (int)size.Y), c, 1);
         }
 
         public bool Collision(EditorEntity e)
@@ -92,7 +103,6 @@ namespace wickedcrush.editor
             if (e.pos.Y <= this.pos.Y
                 && e.pos.Y + e.size.Y > this.pos.Y)
                 return true;
-
 
             return false;
         }

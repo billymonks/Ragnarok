@@ -78,34 +78,30 @@ namespace wickedcrush.factory.editor
             data.Add(temp.name, temp);
         }
 
-        public EditorEntity getEntity(String code)
+        public EditorEntity getEntity(String code, Vector2 pos, Direction angle)
         {
-            //return preview;
-            return new EditorEntity(code, data[code].name, new Vector2(0f, 0f), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+            UpdatePreview(code, pos, angle);
+
+            return preview;
         }
 
-        public void LoadEntity(String code, Vector2 pos, Direction direction)
+        public void LoadEntity(String code, Vector2 pos, Direction angle)
         {
-            preview = new EditorEntity(code, data[code].name, new Vector2(0f, 0f), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+            InitializePreview(code, pos, angle);
         }
 
-        public void AddEntity(String code, Vector2 pos, Direction direction)
+        public void AddEntity(String code, Vector2 pos, Direction angle)
         {
-            if (!CanPlace(code, pos))
+            if (!CanPlace(code, pos, angle))
                 return;
 
-            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
-            Vector2 correctedPos = new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
-            map.entityList.Add(new EditorEntity(code, data[code].name, correctedPos, data[code].size, data[code].origin, data[code].canRotate, direction));
+            map.entityList.Add(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
         }
 
-        public bool CanPlace(String code, Vector2 pos)
+        public bool CanPlace(String code, Vector2 pos, Direction angle)
         {
-            //Point size = new Point((int)(preview.size.X / 10f), (int)(preview.size.Y / 10f));
-            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
-            Vector2 correctedPos = new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
 
-            EditorEntity temp = new EditorEntity(code, data[code].name, correctedPos, data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+            EditorEntity temp = new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
             foreach (EditorEntity e in map.entityList)
             {
@@ -114,6 +110,37 @@ namespace wickedcrush.factory.editor
             }
 
             return true;
+        }
+
+        private Vector2 getCorrectedPos(Vector2 pos)
+        {
+            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
+            return new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
+        }
+
+        private void InitializePreview(String code, Vector2 pos, Direction angle)
+        {
+            if (preview != null)
+                return;
+
+            preview = new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle);
+        }
+
+        private void UpdatePreview(String code, Vector2 pos, Direction angle)
+        {
+            if (preview == null)
+            {
+                InitializePreview(code, pos, angle);
+                return;
+            }
+
+            preview.code = code;
+            preview.name = data[code].name;
+            preview.pos = getCorrectedPos(pos);
+            preview.size = data[code].size;
+            preview.origin = data[code].origin;
+            preview.canRotate = data[code].canRotate;
+            preview.angle = angle;
         }
     }
 }
