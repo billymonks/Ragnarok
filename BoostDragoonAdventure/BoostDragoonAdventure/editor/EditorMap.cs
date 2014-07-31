@@ -75,6 +75,28 @@ namespace wickedcrush.editor
             }
         }
 
+        public bool layerCollision(EditorEntity entity, LayerType type)
+        {
+            Point start, end;
+            int[,] layer = layerList[type];
+
+            start = new Point((int) entity.pos.X / layer.GetLength(0), (int) entity.pos.Y / layer.GetLength(1));
+            end = new Point((int) (entity.pos.X+entity.size.X) / layer.GetLength(0), (int) (entity.pos.Y + entity.size.Y) / layer.GetLength(1));
+
+            for (int i = start.X; i <= end.X; i++)
+            { for (int j = start.Y; j <= end.Y; j++)
+            {
+                if (i < 0 || j < 0 || i >= layer.GetLength(0) || j >= layer.GetLength(1))
+                    return true;
+
+                if(layer[i,j] == 1)
+                    return true;
+            }
+            }
+
+            return false;
+        }
+
         private void createEmptyLayers()
         {
             createWallLayer();

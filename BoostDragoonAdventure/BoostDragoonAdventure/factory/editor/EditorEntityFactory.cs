@@ -109,6 +109,9 @@ namespace wickedcrush.factory.editor
                     return false;
             }
 
+            if (map.layerCollision(temp, LayerType.WALL))
+                return false;
+
             return true;
         }
 
