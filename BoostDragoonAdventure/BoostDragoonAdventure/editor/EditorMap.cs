@@ -75,12 +75,12 @@ namespace wickedcrush.editor
             }
         }
 
-        public bool layerCollision(EditorEntity entity, LayerType type)
+        public bool layerCollision(EditorEntity entity, LayerType type) // needs work, all messed up
         {
             Point start, end;
             int[,] layer = layerList[type];
 
-            start = new Point((int) entity.pos.X / layer.GetLength(0), (int) entity.pos.Y / layer.GetLength(1));
+            start = new Point((int) (entity.pos.X / layer.GetLength(0)), (int) (entity.pos.Y / layer.GetLength(1)));
             end = new Point((int) (entity.pos.X+entity.size.X) / layer.GetLength(0), (int) (entity.pos.Y + entity.size.Y) / layer.GetLength(1));
 
             for (int i = start.X; i <= end.X; i++)

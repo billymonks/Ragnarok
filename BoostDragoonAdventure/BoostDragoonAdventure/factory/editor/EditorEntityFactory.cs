@@ -109,7 +109,7 @@ namespace wickedcrush.factory.editor
                     return false;
             }
 
-            if (map.layerCollision(temp, LayerType.WALL))
+            if (map.layerCollision(temp, LayerType.WALL) || map.layerCollision(temp, LayerType.DEATHSOUP))
                 return false;
 
             return true;

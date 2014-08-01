@@ -149,7 +149,17 @@ namespace wickedcrush.screen
 
             if (menu.currentTool() != null && menu.currentTool().getMode() == EditorMode.Entity)
             {
-                ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition).DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, Color.MediumPurple);
+                EditorEntity tempEntity = ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition);
+                Color temp;
+
+                if (factory.CanPlace(((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition).code,
+                    scaledCursorPosition,
+                    Direction.East))
+                    temp = Color.Purple;
+                else
+                    temp = Color.Red;
+
+                tempEntity.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, temp);
             }
         }
 
