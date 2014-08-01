@@ -101,7 +101,8 @@ namespace wickedcrush.factory.editor
         public bool CanPlace(String code, Vector2 pos, Direction angle)
         {
 
-            EditorEntity temp = new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
+            EditorEntity temp = getEntity(code, pos, Direction.East);
+                //new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
             foreach (EditorEntity e in map.entityList)
             {

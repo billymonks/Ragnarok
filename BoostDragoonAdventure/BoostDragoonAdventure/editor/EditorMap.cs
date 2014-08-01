@@ -80,8 +80,14 @@ namespace wickedcrush.editor
             Point start, end;
             int[,] layer = layerList[type];
 
-            start = new Point((int) (entity.pos.X / layer.GetLength(0)), (int) (entity.pos.Y / layer.GetLength(1)));
-            end = new Point((int) (entity.pos.X+entity.size.X) / layer.GetLength(0), (int) (entity.pos.Y + entity.size.Y) / layer.GetLength(1));
+            int gridSize = width / layer.GetLength(0);
+
+            start = new Point(
+                (int)((entity.pos.X - entity.origin.X) / gridSize), 
+                (int)((entity.pos.Y - entity.origin.Y) / gridSize));
+            end = new Point(
+                (int)(entity.pos.X - entity.origin.X + entity.size.X - 1) / gridSize, //-1 so right edge being flush to the wall doesn't count as a collision
+                (int)(entity.pos.Y - entity.origin.Y + entity.size.Y - 1) / gridSize); //-1 so bottom edge being flush to the wall doesn't count as a collision
 
             for (int i = start.X; i <= end.X; i++)
             { for (int j = start.Y; j <= end.Y; j++)
