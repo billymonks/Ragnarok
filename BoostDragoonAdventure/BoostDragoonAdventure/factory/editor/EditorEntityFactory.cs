@@ -6,6 +6,7 @@ using wickedcrush.editor;
 using Microsoft.Xna.Framework;
 using wickedcrush.entity;
 using wickedcrush.helper;
+using wickedcrush.manager.editor.entity;
 
 namespace wickedcrush.factory.editor
 {
@@ -19,14 +20,16 @@ namespace wickedcrush.factory.editor
     public class EditorEntityFactory
     {
         private EditorMap map;
+        private EditorEntityManager manager;
 
         private Dictionary<String, EditorEntityData> data;
 
         private EditorEntity preview;
 
-        public EditorEntityFactory(EditorMap map)
+        public EditorEntityFactory(EditorMap map, EditorEntityManager manager)
         {
             this.map = map;
+            this.manager = manager;
 
             InitializeData();
         }
@@ -34,6 +37,11 @@ namespace wickedcrush.factory.editor
         public void SetMap(EditorMap map)
         {
             this.map = map;
+        }
+
+        public void SetManager(EditorEntityManager manager)
+        {
+            this.manager = manager;
         }
 
         private void InitializeData()
@@ -85,9 +93,9 @@ namespace wickedcrush.factory.editor
             return preview;
         }
 
-        public void LoadEntity(String code, Vector2 pos, Direction angle)
+        public EditorEntity LoadEntity(String code, Vector2 pos, Direction angle)
         {
-            InitializePreview(code, pos, angle);
+            return new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle);
         }
 
         public void AddEntity(String code, Vector2 pos, Direction angle)
@@ -95,7 +103,7 @@ namespace wickedcrush.factory.editor
             if (!CanPlace(code, pos, angle))
                 return;
 
-            map.entityList.Add(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
+            manager.addEntity(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
         }
 
         public bool CanPlace(String code, Vector2 pos, Direction angle)
@@ -104,11 +112,8 @@ namespace wickedcrush.factory.editor
             EditorEntity temp = getEntity(code, pos, Direction.East);
                 //new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
-            foreach (EditorEntity e in map.entityList)
-            {
-                if (e.Collision(temp))
-                    return false;
-            }
+            if (!manager.CanPlace(temp))
+                return false;
 
             if (map.layerCollision(temp, LayerType.WALL) || map.layerCollision(temp, LayerType.DEATHSOUP))
                 return false;

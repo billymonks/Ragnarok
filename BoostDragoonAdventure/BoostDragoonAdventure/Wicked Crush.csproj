@@ -131,6 +131,7 @@
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
+    <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />
     <Compile Include="map\circuit\Circuit.cs" />

@@ -276,6 +276,14 @@ namespace wickedcrush.controls
         {
             return new Point(mouseState.X, mouseState.Y);
         }
+
+        public bool DeletePressed()
+        {
+            if (keyState.IsKeyDown(Keys.Delete) && prevKeyState.IsKeyUp(Keys.Delete))
+                return true;
+            else
+                return false;
+        }
         
     }
 }

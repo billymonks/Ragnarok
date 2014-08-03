@@ -7,6 +7,9 @@ using wickedcrush.factory.editor;
 using wickedcrush.entity;
 using wickedcrush.helper;
 using wickedcrush.controls;
+using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.display.primitives;
+using wickedcrush.manager.editor.entity;
 
 namespace wickedcrush.editor.tool
 {
@@ -16,7 +19,7 @@ namespace wickedcrush.editor.tool
         protected LayerType layerType;
 
         private EditorEntityFactory f;
-        private EditorMap map;
+        private EditorEntityManager manager;
 
         private bool prevHold, hold;
 
@@ -24,12 +27,14 @@ namespace wickedcrush.editor.tool
 
         private List<EditorEntity> selection = new List<EditorEntity>();
 
-        public SelectorTool(EditorEntityFactory f, EditorMap map)
+        private Color outlineColor = new Color(255, 255, 255, 255), fillColor = new Color(100, 100, 100, 100);
+
+        public SelectorTool(EditorEntityFactory f, EditorEntityManager manager)
         {
             mode = EditorMode.Selector;
             this.entity = null;
             this.f = f;
-            this.map = map;
+            this.manager = manager;
 
             prevHold = false;
             hold = false;
@@ -45,16 +50,10 @@ namespace wickedcrush.editor.tool
             prevHold = hold;
             hold = controls.ActionHeld();
 
-            if (!toolReady)
-                return;
-
             if (!prevHold && hold)
             {
 
-                foreach (EditorEntity e in map.entityList)
-                {
-                    e.selected = false;
-                }
+                manager.DeselectAll();
 
                 selection.Clear();
 
@@ -64,19 +63,26 @@ namespace wickedcrush.editor.tool
 
             if (!hold && prevHold)
             {
+                manager.addSelection(selection, getBoundingBox());
+            }
+
+            if (hold)
+            {
                 end.X = pos.X;
                 end.Y = pos.Y;
+            }
+            else
+            {
+                start.X = pos.X;
+                start.Y = pos.Y;
+            }
 
-                Rectangle r = getBoundingBox();
+            if (!toolReady)
+                return;
 
-                foreach (EditorEntity e in map.entityList)
-                {
-                    if (e.RectangleCollision(r))
-                    {
-                        e.selected = true;
-                        selection.Add(e);
-                    }
-                }
+            if (controls.DeletePressed())
+            {
+                RemoveSelection();
             }
 
         }
@@ -101,6 +107,30 @@ namespace wickedcrush.editor.tool
         public override void secondaryAction(Vector2 pos, EditorMap map)
         {
             
+        }
+
+        private void RemoveSelection()
+        {
+            foreach (EditorEntity e in selection)
+            {
+                e.Remove();
+            }
+
+            selection.Clear();
+        }
+
+        public override void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        {
+            if (!PrimitiveDrawer.isInitialized())
+            {
+                PrimitiveDrawer.LoadContent(gd);
+            }
+
+            if (hold)
+            {
+                spriteBatch.Draw(wTex, getBoundingBox(), fillColor);
+                PrimitiveDrawer.DrawRectangle(spriteBatch, getBoundingBox(), outlineColor, 2);
+            }
         }
     }
 }

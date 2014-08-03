@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.helper;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.editor.tool
 {
@@ -57,6 +58,11 @@ namespace wickedcrush.editor.tool
 
             if (isValidCoordinate(coordinate, map, layerType))
                 map.layerList[layerType][coordinate.X, coordinate.Y] = 0;
+        }
+
+        public override void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        {
+            //throw new NotImplementedException();
         }
         
     }

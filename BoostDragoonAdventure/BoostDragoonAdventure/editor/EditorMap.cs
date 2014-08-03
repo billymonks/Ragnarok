@@ -8,6 +8,7 @@ using wickedcrush.entity;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using wickedcrush.factory.editor;
+using wickedcrush.manager.editor.entity;
 
 namespace wickedcrush.editor
 {
@@ -20,6 +21,8 @@ namespace wickedcrush.editor
 
         public EditorEntityFactory factory;
 
+        public EditorEntityManager manager;
+
         public EditorMap(int width, int height)
         {
             this.width = width;
@@ -31,7 +34,8 @@ namespace wickedcrush.editor
             entityList = new List<EditorEntity>();
             createEmptyLayers();
 
-            factory = new EditorEntityFactory(this);
+            manager = new EditorEntityManager();
+            factory = new EditorEntityFactory(this, manager);
         }
 
         public EditorMap(String MAP_NAME)
@@ -39,7 +43,8 @@ namespace wickedcrush.editor
             layerList = new Dictionary<LayerType, int[,]>();
             entityList = new List<EditorEntity>();
 
-            factory = new EditorEntityFactory(this);
+            manager = new EditorEntityManager();
+            factory = new EditorEntityFactory(this, manager);
 
             loadMap(MAP_NAME);
         }
@@ -51,6 +56,11 @@ namespace wickedcrush.editor
             debugDrawLayer(tex, sb, LayerType.WIRING, Color.Purple, offset, 10);
 
             debugDrawEntities(tex, gd, sb, f, offset);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            manager.Update(gameTime);
         }
 
         private void debugDrawLayer(Texture2D tex, SpriteBatch sb, LayerType t, Color c, Point offset, int gridSize)
@@ -69,10 +79,11 @@ namespace wickedcrush.editor
 
         private void debugDrawEntities(Texture2D tex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
         {
-            foreach (EditorEntity e in entityList)
-            {
-                e.DebugDraw(tex, null, gd, sb, f, Color.Green);
-            }
+            manager.DebugDraw(gd, sb, tex, null, f);
+            //foreach (EditorEntity e in entityList)
+            //{
+                //e.DebugDraw(tex, null, gd, sb, f, Color.Green);
+            //}
         }
 
         public bool layerCollision(EditorEntity entity, LayerType type) // needs work, all messed up

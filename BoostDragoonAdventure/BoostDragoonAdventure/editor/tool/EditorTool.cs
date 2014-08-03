@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.controls;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.editor.tool
 {
@@ -40,6 +41,8 @@ namespace wickedcrush.editor.tool
         {
             return mode;
         }
+
+        public abstract void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f);
 
         
     }

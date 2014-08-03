@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using wickedcrush.factory.editor;
 using wickedcrush.entity;
 using wickedcrush.helper;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.editor.tool
 {
@@ -80,6 +81,11 @@ namespace wickedcrush.editor.tool
         public EditorEntity getEntity(Vector2 pos)
         {
             return f.getEntity(entity.code, pos, Direction.East);
+        }
+
+        public override void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        {
+            //throw new NotImplementedException();
         }
         
     }

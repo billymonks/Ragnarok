@@ -59,7 +59,7 @@ namespace wickedcrush.screen
             map = new EditorMap(game.mapName);
             mapOffset = new Point(0, 0);
 
-            factory = new EditorEntityFactory(map);
+            factory = new EditorEntityFactory(map, map.manager);
 
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
@@ -103,7 +103,7 @@ namespace wickedcrush.screen
             MenuElement selectorNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Selector", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new SelectorTool(factory, map));
+                new SelectorTool(factory, map.manager));
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -117,7 +117,27 @@ namespace wickedcrush.screen
             MenuElement chestNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.getEntity("CHEST", Vector2.Zero, Direction.East) ,factory));
+                new EntityTool(factory.LoadEntity("CHEST", Vector2.Zero, Direction.East), factory));
+
+            MenuElement turretNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Turret", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new EntityTool(factory.LoadEntity("TURRET", Vector2.Zero, Direction.East), factory));
+
+            MenuElement potNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Pot", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new EntityTool(factory.LoadEntity("POT", Vector2.Zero, Direction.East), factory));
+
+            MenuElement floorSwitchNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Floor Switch", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new EntityTool(factory.LoadEntity("FLOOR_SWITCH", Vector2.Zero, Direction.East), factory));
+
+            MenuElement timerNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Timer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new EntityTool(factory.LoadEntity("TIMER", Vector2.Zero, Direction.East), factory));
 
 
             SubMenu entityMenuNode = new SubMenu(
@@ -126,16 +146,34 @@ namespace wickedcrush.screen
                 chestNode);
 
             chestNode.parent = entityMenuNode;
+            turretNode.parent = entityMenuNode;
+            potNode.parent = entityMenuNode;
+            floorSwitchNode.parent = entityMenuNode;
+            timerNode.parent = entityMenuNode;
 
             selectorNode.next = terrainMenuNode;
             terrainMenuNode.prev = selectorNode;
             terrainMenuNode.next = entityMenuNode;
             entityMenuNode.prev = terrainMenuNode;
 
+            chestNode.next = turretNode;
+            turretNode.prev = chestNode;
+            turretNode.next = potNode;
+            potNode.prev = turretNode;
+            potNode.next = floorSwitchNode;
+            floorSwitchNode.prev = potNode;
+            floorSwitchNode.next = timerNode;
+            timerNode.prev = floorSwitchNode;
+
             nodes.Add("Wall", wallNode);
             nodes.Add("Death Soup", deathSoupNode);
             nodes.Add("Wiring", wiringNode);
+            
             nodes.Add("Chest", chestNode);
+            nodes.Add("Turret", turretNode);
+            nodes.Add("Pot", potNode);
+            nodes.Add("Floor Switch", floorSwitchNode);
+            nodes.Add("Timer", timerNode);
 
             nodes.Add("Selector", selectorNode);
             nodes.Add("Terrain", terrainMenuNode);
@@ -152,6 +190,7 @@ namespace wickedcrush.screen
             game.diag = "";
             menu.Update(gameTime, cursorPosition);
             DebugControls(gameTime);
+            map.Update(gameTime);
         }
 
         public override void DebugDraw()
@@ -172,11 +211,14 @@ namespace wickedcrush.screen
 
                 tempEntity.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, temp);
             }
+
+            if (tool != null)
+                tool.Draw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont);
         }
 
         public override void FreeDraw()
         {
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, null, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
             
             foreach (KeyValuePair<String, BaseSprite> s in hud)
                 s.Value.Draw(game.spriteBatch);
@@ -259,9 +301,8 @@ namespace wickedcrush.screen
 
         private void DrawCursor()
         {
-            
-
             game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
+
             //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
         }
 

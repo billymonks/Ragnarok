@@ -18,6 +18,8 @@ namespace wickedcrush.editor
 
         public bool selected = false;
 
+        protected bool remove = false;
+
         //editor sprite (to have different textures for different directions built in)
 
         public EditorEntity(String code, String name, Vector2 pos, Vector2 size, Vector2 origin, bool canRotate, Direction angle)
@@ -29,6 +31,11 @@ namespace wickedcrush.editor
             this.origin = origin;
             this.canRotate = canRotate;
             this.angle = angle;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+
         }
 
         public void rotateCW()
@@ -120,6 +127,16 @@ namespace wickedcrush.editor
                 return true;
 
             return false;
+        }
+
+        public virtual void Remove()
+        {
+            remove = true;
+        }
+
+        public bool readyForRemoval()
+        {
+            return remove;
         }
     }
 }
