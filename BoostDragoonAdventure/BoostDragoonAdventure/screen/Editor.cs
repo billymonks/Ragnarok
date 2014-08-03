@@ -41,6 +41,8 @@ namespace wickedcrush.screen
 
         private EditorEntityFactory factory;
 
+        private KeyboardControls keyboardControls;
+
         public Editor(Game game)
         {
             this.game = game;
@@ -98,6 +100,11 @@ namespace wickedcrush.screen
             deathSoupNode.next = wiringNode;
             wiringNode.prev = deathSoupNode;
 
+            MenuElement selectorNode = new MenuElement(
+                sf.createText(new Vector2(0f, 0f), "Selector", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                new SelectorTool(factory, map));
+
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
@@ -120,6 +127,8 @@ namespace wickedcrush.screen
 
             chestNode.parent = entityMenuNode;
 
+            selectorNode.next = terrainMenuNode;
+            terrainMenuNode.prev = selectorNode;
             terrainMenuNode.next = entityMenuNode;
             entityMenuNode.prev = terrainMenuNode;
 
@@ -127,6 +136,8 @@ namespace wickedcrush.screen
             nodes.Add("Death Soup", deathSoupNode);
             nodes.Add("Wiring", wiringNode);
             nodes.Add("Chest", chestNode);
+
+            nodes.Add("Selector", selectorNode);
             nodes.Add("Terrain", terrainMenuNode);
             nodes.Add("Entities", entityMenuNode);
 
@@ -140,7 +151,7 @@ namespace wickedcrush.screen
         {
             game.diag = "";
             menu.Update(gameTime, cursorPosition);
-            DebugControls();
+            DebugControls(gameTime);
         }
 
         public override void DebugDraw()
@@ -182,7 +193,7 @@ namespace wickedcrush.screen
 
         }
 
-        private void DebugControls()
+        private void DebugControls(GameTime gameTime)
         {
             foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
             {
@@ -195,14 +206,7 @@ namespace wickedcrush.screen
 
                 if (p.c is KeyboardControls)
                 {
-                    cursorPosition.X = ((KeyboardControls)p.c).mousePosition().X;
-                    cursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y;
-
-                    scaledCursorPosition.X = ((KeyboardControls)p.c).mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
-                    scaledCursorPosition.Y = ((KeyboardControls)p.c).mousePosition().Y * (1 / game.debugyscale);
-
-                    game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
-                    game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+                    UpdateCursorPosition((KeyboardControls)p.c);
 
                     if (((KeyboardControls)p.c).ActionReleased())
                     {
@@ -214,30 +218,28 @@ namespace wickedcrush.screen
                         toolReady = false;
                     }
 
+                    if(tool != null)
+                        tool.Update(gameTime, (KeyboardControls)p.c, scaledCursorPosition, map, toolReady);
+
                     if (((KeyboardControls)p.c).ActionPressed())
                     {
                         menu.Click();
                         tool = menu.currentTool();
-
-                        if (toolReady && tool != null && tool.getMode() == EditorMode.Entity)
-                            tool.primaryAction(scaledCursorPosition, map);
                     }
-
-                    if (((KeyboardControls)p.c).ActionHeld()) //lmb
-                    {
-                        if(toolReady && tool != null && tool.getMode() == EditorMode.Layer)
-                            tool.primaryAction(scaledCursorPosition, map);
-                    }
-
-                    if (((KeyboardControls)p.c).StrafeHeld()) //rmb
-                    {
-                        if (toolReady && tool != null)
-                            tool.secondaryAction(scaledCursorPosition, map);
-                    }
-
-                    
                 }
             }
+        }
+
+        private void UpdateCursorPosition(KeyboardControls c)
+        {
+            cursorPosition.X = c.mousePosition().X;
+            cursorPosition.Y = c.mousePosition().Y;
+
+            scaledCursorPosition.X = c.mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
+            scaledCursorPosition.Y = c.mousePosition().Y * (1 / game.debugyscale);
+
+            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
+            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
         }
 
         private void DrawDiag()

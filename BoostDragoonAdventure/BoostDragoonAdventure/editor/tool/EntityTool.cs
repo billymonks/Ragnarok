@@ -23,15 +23,25 @@ namespace wickedcrush.editor.tool
             this.f = f;
         }
 
+        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        {
+            base.Update(gameTime, controls, pos, map, toolReady);
+
+            if (!toolReady)
+                return;
+
+            if (controls.ActionPressed())
+                primaryAction(pos, map);
+        }
+
         public override void primaryAction(Vector2 pos, EditorMap map)
         {
-
             PlaceEntity(pos, map);
         }
 
-        public override void secondaryAction(Vector2 pos, EditorMap map)
+        public override void secondaryAction(Vector2 pos, EditorMap map) //rotate (rotato)
         {
-            //EraseLayer(pos, map);
+
         }
 
         protected void PlaceEntity(Vector2 pos, EditorMap map)

@@ -19,6 +19,20 @@ namespace wickedcrush.editor.tool
             entity = null;
         }
 
+        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        {
+            base.Update(gameTime, controls, pos, map, toolReady);
+
+            if (!toolReady)
+                return;
+
+            if (controls.ActionHeld())
+                primaryAction(pos, map);
+
+            if (controls.StrafeHeld())
+                secondaryAction(pos, map);
+        }
+
         public override void primaryAction(Vector2 pos, EditorMap map)
         {
             PlaceLayer(pos, map);

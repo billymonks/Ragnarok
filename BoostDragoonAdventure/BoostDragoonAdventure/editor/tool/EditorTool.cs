@@ -3,19 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using wickedcrush.controls;
 
 namespace wickedcrush.editor.tool
 {
     public enum EditorMode
     {
         Layer,
-        Entity
+        Entity,
+        Selector
     }
 
     public abstract class EditorTool
     {
         protected EditorMode mode;
         protected EditorEntity entity;
+
+        public virtual void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        {
+            if (!toolReady)
+                return;
+        }
 
         public abstract void primaryAction(Vector2 pos, EditorMap map);
         public abstract void secondaryAction(Vector2 pos, EditorMap map);
