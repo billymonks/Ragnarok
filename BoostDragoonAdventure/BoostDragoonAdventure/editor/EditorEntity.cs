@@ -16,6 +16,8 @@ namespace wickedcrush.editor
         public bool canRotate;
         public Direction angle = Direction.East;
 
+        public bool selected = false;
+
         //editor sprite (to have different textures for different directions built in)
 
         public EditorEntity(String code, String name, Vector2 pos, Vector2 size, Vector2 origin, bool canRotate, Direction angle)
@@ -51,7 +53,13 @@ namespace wickedcrush.editor
         {
             spriteBatch.Draw(wTex, pos-origin, null, c, 0f, Vector2.Zero, size, SpriteEffects.None, 0f);
 
-            DrawOutline(spriteBatch, f, Color.Black);
+            Color temp;
+            if (selected)
+                temp = Color.White;
+            else
+                temp = Color.Black;
+
+            DrawOutline(spriteBatch, f, temp);
 
             DrawName(spriteBatch, f);
         }
@@ -79,6 +87,13 @@ namespace wickedcrush.editor
                 return true;
 
             return false;
+        }
+
+        public bool RectangleCollision(Rectangle r)
+        {
+            Rectangle temp = new Rectangle((int)this.pos.X, (int)this.pos.Y, (int)this.size.X, (int)this.size.Y);
+
+            return (temp.Intersects(r) || temp.Contains(r));
         }
 
         private bool horizontalCollision(EditorEntity e)
