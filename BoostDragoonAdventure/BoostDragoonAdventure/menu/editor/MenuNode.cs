@@ -42,6 +42,8 @@ namespace wickedcrush.menu.editor
             {
                 tweenSize(10, 10, 100);
                 tweenColor(0, 0, 0, 0, 100);
+
+                text.visible = false;
             }
 
             text.Update(gameTime);

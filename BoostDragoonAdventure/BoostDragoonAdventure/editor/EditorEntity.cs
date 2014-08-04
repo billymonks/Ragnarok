@@ -98,7 +98,7 @@ namespace wickedcrush.editor
 
         public bool RectangleCollision(Rectangle r)
         {
-            Rectangle temp = new Rectangle((int)this.pos.X, (int)this.pos.Y, (int)this.size.X, (int)this.size.Y);
+            Rectangle temp = new Rectangle((int)(this.pos.X-this.origin.X), (int)(this.pos.Y-this.origin.Y), (int)this.size.X, (int)this.size.Y);
 
             return (temp.Intersects(r) || temp.Contains(r));
         }
