@@ -59,6 +59,7 @@ namespace wickedcrush.editor
         public void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {
             spriteBatch.Draw(wTex, pos-origin, null, c, 0f, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, pos, null, c, MathHelper.ToRadians((float)angle), origin, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
 
             Color temp;
             if (selected)

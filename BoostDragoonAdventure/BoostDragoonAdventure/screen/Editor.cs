@@ -195,16 +195,22 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
+            Direction d;
+            if (factory.preview != null)
+                d = factory.preview.angle;
+            else
+                d = Direction.East;
+
+            map.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
 
             if (menu.currentTool() != null && menu.currentTool().getMode() == EditorMode.Entity)
             {
-                EditorEntity tempEntity = ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition);
+                EditorEntity tempEntity = ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition, d);
                 Color temp;
 
-                if (factory.CanPlace(((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition).code,
+                if (factory.CanPlace(((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition, d).code,
                     scaledCursorPosition,
-                    Direction.East))
+                    d))
                     temp = Color.Purple;
                 else
                     temp = Color.Red;

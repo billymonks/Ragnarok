@@ -46,13 +46,13 @@ namespace wickedcrush.editor
             loadMap(MAP_NAME);
         }
 
-        public void DebugDraw(Texture2D tex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
+        public void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
         {
-            debugDrawLayer(tex, sb, LayerType.WALL, Color.Black, offset, 20);
-            debugDrawLayer(tex, sb, LayerType.DEATHSOUP, Color.Red, offset, 20);
-            debugDrawLayer(tex, sb, LayerType.WIRING, Color.Purple, offset, 10);
+            debugDrawLayer(wTex, sb, LayerType.WALL, Color.Black, offset, 20);
+            debugDrawLayer(wTex, sb, LayerType.DEATHSOUP, Color.Red, offset, 20);
+            debugDrawLayer(wTex, sb, LayerType.WIRING, Color.Purple, offset, 10);
 
-            debugDrawEntities(tex, gd, sb, f, offset);
+            debugDrawEntities(wTex, aTex, gd, sb, f, offset);
         }
 
         public void Update(GameTime gameTime)
@@ -74,9 +74,9 @@ namespace wickedcrush.editor
             }
         }
 
-        private void debugDrawEntities(Texture2D tex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
+        private void debugDrawEntities(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
         {
-            manager.DebugDraw(gd, sb, tex, null, f);
+            manager.DebugDraw(gd, sb, wTex, aTex, f);
             //foreach (EditorEntity e in entityList)
             //{
                 //e.DebugDraw(tex, null, gd, sb, f, Color.Green);

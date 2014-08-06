@@ -131,6 +131,14 @@ namespace wickedcrush.controls
                 return false;
         }
 
+        public override bool StrafePressed()
+        {
+            if (padState.IsButtonDown(strafeButton) && prevPadState.IsButtonUp(strafeButton))
+                return true;
+            else
+                return false;
+        }
+
         public override bool DownPressed()
         {
             //if (padState.ThumbSticks.Left.Y < -0.2f && !(prevPadState.ThumbSticks.Left.Y < -0.2f))

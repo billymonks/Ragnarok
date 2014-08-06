@@ -33,6 +33,9 @@ namespace wickedcrush.editor.tool
 
             if (controls.ActionPressed())
                 primaryAction(pos, map);
+
+            if (controls.StrafePressed())
+                secondaryAction(pos, map);
         }
 
         public override void primaryAction(Vector2 pos, EditorMap map)
@@ -42,7 +45,7 @@ namespace wickedcrush.editor.tool
 
         public override void secondaryAction(Vector2 pos, EditorMap map) //rotate (rotato)
         {
-
+            f.preview.rotateCW();
         }
 
         protected void PlaceEntity(Vector2 pos, EditorMap map)
@@ -66,7 +69,7 @@ namespace wickedcrush.editor.tool
             }
 
             if(ready)
-                f.AddEntity(entity.code, pos, Direction.East);
+                f.AddEntity(entity.code, pos, f.preview.angle);
 
         }
 
@@ -78,9 +81,9 @@ namespace wickedcrush.editor.tool
                 //map.layerList[layerType][coordinate.X, coordinate.Y] = 0;
         }
 
-        public EditorEntity getEntity(Vector2 pos)
+        public EditorEntity getEntity(Vector2 pos, Direction d)
         {
-            return f.getEntity(entity.code, pos, Direction.East);
+            return f.getEntity(entity.code, pos, d);
         }
 
         public override void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)

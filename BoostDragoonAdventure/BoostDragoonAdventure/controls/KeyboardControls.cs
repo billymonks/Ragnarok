@@ -146,6 +146,18 @@ namespace wickedcrush.controls
                 return false;
         }
 
+        public override bool StrafePressed()
+        {
+            if (
+                (keyState.IsKeyDown(strafeKey) && prevKeyState.IsKeyUp(strafeKey))
+                ||
+                (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+               )
+                return true;
+            else
+                return false;
+        }
+
         public override bool DownPressed()
         {
             if (keyState.IsKeyDown(altDownKey) && prevKeyState.IsKeyUp(altDownKey))

@@ -24,7 +24,7 @@ namespace wickedcrush.factory.editor
 
         private Dictionary<String, EditorEntityData> data;
 
-        private EditorEntity preview;
+        public EditorEntity preview;
 
         public EditorEntityFactory(EditorMap map, EditorEntityManager manager)
         {
@@ -109,7 +109,7 @@ namespace wickedcrush.factory.editor
         public bool CanPlace(String code, Vector2 pos, Direction angle)
         {
 
-            EditorEntity temp = getEntity(code, pos, Direction.East);
+            EditorEntity temp = getEntity(code, pos, angle);
                 //new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
             if (!manager.CanPlace(temp))
