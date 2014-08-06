@@ -18,7 +18,7 @@ namespace wickedcrush.manager.editor.entity
     public class EditorEntityManager
     {
 
-        private List<EditorEntity> entityList = new List<EditorEntity>();
+        public List<EditorEntity> entityList = new List<EditorEntity>();
         private List<EditorEntity> addList = new List<EditorEntity>();
         private List<EditorEntity> removeList = new List<EditorEntity>();
 

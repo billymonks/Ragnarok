@@ -17,7 +17,6 @@ namespace wickedcrush.editor
         public String name;
         public int width, height;
         public Dictionary<LayerType, int[,]> layerList;
-        public List<EditorEntity> entityList;
 
         public EditorEntityFactory factory;
 
@@ -31,7 +30,6 @@ namespace wickedcrush.editor
             name = "Untitled";
 
             layerList = new Dictionary<LayerType, int[,]>();
-            entityList = new List<EditorEntity>();
             createEmptyLayers();
 
             manager = new EditorEntityManager();
@@ -41,7 +39,6 @@ namespace wickedcrush.editor
         public EditorMap(String MAP_NAME)
         {
             layerList = new Dictionary<LayerType, int[,]>();
-            entityList = new List<EditorEntity>();
 
             manager = new EditorEntityManager();
             factory = new EditorEntityFactory(this, manager);
@@ -178,7 +175,7 @@ namespace wickedcrush.editor
 
             XElement entity;
 
-            foreach (EditorEntity e in entityList)
+            foreach (EditorEntity e in manager.entityList)
             {
                 entity = new XElement(e.code);
                 entity.Add(new XAttribute("x", (int)e.pos.X));
