@@ -135,6 +135,7 @@
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
+    <Compile Include="menu\editor\buttonlist\Button.cs" />
     <Compile Include="menu\editor\EditorMenu.cs" />
     <Compile Include="menu\editor\MenuElement.cs" />
     <Compile Include="menu\editor\MenuNode.cs" />

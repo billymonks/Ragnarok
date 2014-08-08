@@ -150,7 +150,7 @@ namespace wickedcrush.editor
             return tempLayer;
         }
 
-        private void saveMap(String MAP_NAME)
+        public void saveMap(String MAP_NAME)
         {
             XDocument doc = new XDocument();
 

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using wickedcrush.editor.tool;
 using wickedcrush.display.primitives;
+using wickedcrush.menu.editor.buttonlist;
 
 namespace wickedcrush.menu.editor
 {
@@ -22,9 +23,12 @@ namespace wickedcrush.menu.editor
 
         public Dictionary<string, MenuNode> nodes;
 
+        public List<Button> controlBar;
+
         public EditorMenu()
         {
             nodes = new Dictionary<string, MenuNode>();
+            controlBar = new List<Button>();
         }
 
         public EditorMenu(Dictionary<string, MenuNode> nodes)
@@ -36,12 +40,16 @@ namespace wickedcrush.menu.editor
                 current = pair.Value;
                 break;
             }
+
+            controlBar = new List<Button>();
         }
 
         public EditorMenu(Dictionary<string, MenuNode> nodes, MenuNode node)
         {
             this.nodes = nodes;
             current = node;
+
+            controlBar = new List<Button>();
         }
 
         public void Update(GameTime gameTime, Vector2 cursor)

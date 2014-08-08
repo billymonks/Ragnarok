@@ -16,6 +16,7 @@ using wickedcrush.display.sprite;
 using wickedcrush.factory.sprite;
 using wickedcrush.display.primitives;
 using wickedcrush.factory.editor;
+using wickedcrush.menu.editor.buttonlist;
 
 namespace wickedcrush.screen
 {
@@ -42,6 +43,8 @@ namespace wickedcrush.screen
         private EditorEntityFactory factory;
 
         private KeyboardControls keyboardControls;
+
+        private Button saveButton;
 
         public Editor(Game game)
         {
@@ -75,6 +78,12 @@ namespace wickedcrush.screen
 
         private void InitializeEditorMenu()
         {
+            saveButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { e.SaveMap(); }
+                );
+
             Dictionary<string, MenuNode> nodes = new Dictionary<string, MenuNode>();
 
             MenuElement wallNode = new MenuElement(
@@ -189,6 +198,7 @@ namespace wickedcrush.screen
         {
             game.diag = "";
             menu.Update(gameTime, cursorPosition);
+            //saveButton.Update(gameTime, cursorPosition);
             DebugControls(gameTime);
             map.Update(gameTime);
         }
@@ -325,6 +335,11 @@ namespace wickedcrush.screen
         private void DrawExpandingCircle()
         {
 
+        }
+
+        public void SaveMap()
+        {
+            map.saveMap("buttdwellers");
         }
     }
 }
