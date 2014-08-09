@@ -22,6 +22,8 @@ namespace wickedcrush.menu.editor.buttonlist
 
         public ActionDelegate action;
 
+        public bool highlighted = false;
+
         public Button(TextSprite text, TextureSprite image, ActionDelegate action)
         {
             this.text = text;
@@ -36,7 +38,8 @@ namespace wickedcrush.menu.editor.buttonlist
 
         public void Update(GameTime gameTime, Vector2 cursorPosition)
         {
-
+            UpdateSprites();
+            UpdateHitbox();
         }
 
         private void UpdateHitbox()

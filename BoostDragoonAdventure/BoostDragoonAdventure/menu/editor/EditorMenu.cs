@@ -60,6 +60,7 @@ namespace wickedcrush.menu.editor
 
             UpdateVisible(gameTime);
             UpdateNodes(gameTime);
+            UpdateBar(gameTime);
         }
 
         private void UpdateNodes(GameTime gameTime)
@@ -67,6 +68,17 @@ namespace wickedcrush.menu.editor
             foreach(KeyValuePair<string, MenuNode> pair in nodes)
             {
                 pair.Value.Update(gameTime);
+            }
+        }
+
+        private void UpdateBar(GameTime gameTime)
+        {
+
+            for (int i = 0; i < controlBar.Count; i++ )
+            {
+                controlBar[i].pos.X = 100 + i * (controlBar[i].size.X + 10);
+                controlBar[i].pos.Y = 100;
+                controlBar[i].Update(gameTime, cursorPosition);
             }
         }
 
@@ -128,6 +140,8 @@ namespace wickedcrush.menu.editor
 
             sb.DrawCircle(pos, 30, Color.LightPink, 1, 32);
 
+            foreach (Button b in controlBar)
+                b.Draw(sb);
             
         }
 
@@ -158,6 +172,9 @@ namespace wickedcrush.menu.editor
 
                 DrawStem(sb, pointer, -1);
             }
+
+            foreach (Button b in controlBar)
+                b.Draw(sb);
         }
 
         private void DrawStem(SpriteBatch sb, MenuNode pointer, int i)

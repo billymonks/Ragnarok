@@ -44,8 +44,6 @@ namespace wickedcrush.screen
 
         private KeyboardControls keyboardControls;
 
-        private Button saveButton;
-
         public Editor(Game game)
         {
             this.game = game;
@@ -78,8 +76,8 @@ namespace wickedcrush.screen
 
         private void InitializeEditorMenu()
         {
-            saveButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+            Button saveButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 e => { e.SaveMap(); }
                 );
@@ -189,6 +187,7 @@ namespace wickedcrush.screen
             nodes.Add("Entities", entityMenuNode);
 
             menu = new EditorMenu(nodes);
+            menu.controlBar.Add(saveButton);
 
             //menu.current = (node);
 
