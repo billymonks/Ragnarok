@@ -164,13 +164,13 @@ namespace wickedcrush.editor
             level.Add(new XAttribute("width", width));
             level.Add(new XAttribute("height", height));
 
-            walls.Value = getLayerString(layerList[LayerType.WALL]);
+            walls.Value = setLayerData(layerList[LayerType.WALL]);
             walls.Add(new XAttribute("exportMode", "Bitstring"));
 
-            deathSoup.Value = getLayerString(layerList[LayerType.DEATHSOUP]);
+            deathSoup.Value = setLayerData(layerList[LayerType.DEATHSOUP]);
             deathSoup.Add(new XAttribute("exportMode", "Bitstring"));
 
-            wiring.Value = getLayerString(layerList[LayerType.WIRING]);
+            wiring.Value = setLayerData(layerList[LayerType.WIRING]);
             wiring.Add(new XAttribute("exportMode", "Bitstring"));
 
             XElement entity;
@@ -180,7 +180,9 @@ namespace wickedcrush.editor
                 entity = new XElement(e.code);
                 entity.Add(new XAttribute("x", (int)e.pos.X));
                 entity.Add(new XAttribute("y", (int)e.pos.Y));
-                entity.Add(new XAttribute("angle", e.angle));
+                entity.Add(new XAttribute("angle", (int)e.angle));
+                
+                objects.Add(entity);
             }
 
             level.Add(walls);
@@ -190,7 +192,7 @@ namespace wickedcrush.editor
 
             doc.Add(level);
 
-            doc.Save(MAP_NAME);
+            doc.Save(@"Content\maps\small\" + MAP_NAME + ".xml");
         }
 
         private void loadMap(String MAP_NAME)
@@ -252,6 +254,23 @@ namespace wickedcrush.editor
                     //entityList.Add(editorEntity);
                 }
             }
+        }
+
+        private String setLayerData(int[,] data)
+        {
+            String s = "";
+            for(int i = 0; i < data.GetLength(1); i++)
+            {
+                for(int j = 0; j < data.GetLength(0); j++)
+                {
+                    s += data[j, i];
+                }
+                
+                if(i!=data.GetLength(1)-1)
+                    s += '\n';
+            }
+
+            return s;
         }
 
         private int[,] getLayerData(String s)

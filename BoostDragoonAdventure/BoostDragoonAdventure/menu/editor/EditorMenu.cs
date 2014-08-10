@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using wickedcrush.editor.tool;
 using wickedcrush.display.primitives;
 using wickedcrush.menu.editor.buttonlist;
+using wickedcrush.screen;
 
 namespace wickedcrush.menu.editor
 {
@@ -25,13 +26,17 @@ namespace wickedcrush.menu.editor
 
         public List<Button> controlBar;
 
-        public EditorMenu()
+        private Editor _editor;
+
+        public EditorMenu(Editor editor)
         {
             nodes = new Dictionary<string, MenuNode>();
             controlBar = new List<Button>();
+
+            _editor = editor;
         }
 
-        public EditorMenu(Dictionary<string, MenuNode> nodes)
+        public EditorMenu(Editor editor, Dictionary<string, MenuNode> nodes)
         {
             this.nodes = nodes;
 
@@ -44,7 +49,7 @@ namespace wickedcrush.menu.editor
             controlBar = new List<Button>();
         }
 
-        public EditorMenu(Dictionary<string, MenuNode> nodes, MenuNode node)
+        public EditorMenu(Editor editor, Dictionary<string, MenuNode> nodes, MenuNode node)
         {
             this.nodes = nodes;
             current = node;
@@ -86,6 +91,12 @@ namespace wickedcrush.menu.editor
         {
             if(highlighted!=null)
                 current = highlighted;
+
+            foreach(Button b in controlBar)
+            {
+                if (b.highlighted)
+                    b.runAction(_editor);
+            }
         }
 
         public EditorTool currentTool()

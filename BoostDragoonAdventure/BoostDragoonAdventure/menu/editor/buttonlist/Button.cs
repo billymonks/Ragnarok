@@ -40,6 +40,11 @@ namespace wickedcrush.menu.editor.buttonlist
         {
             UpdateSprites();
             UpdateHitbox();
+
+            if (hitbox.Contains((int)cursorPosition.X, (int)cursorPosition.Y))
+                highlighted = true;
+            else
+                highlighted = false;
         }
 
         private void UpdateHitbox()
