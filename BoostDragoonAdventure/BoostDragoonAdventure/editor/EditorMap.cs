@@ -163,6 +163,7 @@ namespace wickedcrush.editor
 
             level.Add(new XAttribute("width", width));
             level.Add(new XAttribute("height", height));
+            level.Add(new XAttribute("name", name));
 
             walls.Value = setLayerData(layerList[LayerType.WALL]);
             walls.Add(new XAttribute("exportMode", "Bitstring"));
@@ -211,6 +212,15 @@ namespace wickedcrush.editor
             this.name = splitName[splitName.Length - 2];
             this.width = int.Parse(rootElement.Attribute("width").Value);
             this.height = int.Parse(rootElement.Attribute("height").Value);
+
+            try
+            {
+                if (rootElement.Attribute("name").Value != null)
+                    this.name = rootElement.Attribute("name").Value;
+            } catch
+            {
+                Console.WriteLine("Name attribute not in file. Using filename.");
+            }
 
             int[,] data;
             EditorEntity editorEntity;

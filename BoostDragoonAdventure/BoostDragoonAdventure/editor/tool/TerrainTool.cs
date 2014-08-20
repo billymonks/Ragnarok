@@ -49,15 +49,46 @@ namespace wickedcrush.editor.tool
             Point coordinate = Helper.convertPositionToCoordinate(pos, map, layerType);
 
             if (isValidCoordinate(coordinate, map, layerType))
+            {
                 map.layerList[layerType][coordinate.X, coordinate.Y] = 1;
+
+                // if layer lock not true
+                // {
+                if (layerType == LayerType.WALL)
+                {
+                    map.layerList[LayerType.DEATHSOUP][coordinate.X, coordinate.Y] = 0;
+                }
+                if (layerType == LayerType.DEATHSOUP)
+                {
+                    map.layerList[LayerType.WALL][coordinate.X, coordinate.Y] = 0;
+                }
+            }
+            // }
+
         }
 
         protected void EraseLayer(Vector2 pos, EditorMap map)
         {
-            Point coordinate = Helper.convertPositionToCoordinate(pos, map, layerType);
+            Point coordinate;
+
+            // if layer lock = true
+            // {
+            /* coordinate = Helper.convertPositionToCoordinate(pos, map, layerType);
 
             if (isValidCoordinate(coordinate, map, layerType))
-                map.layerList[layerType][coordinate.X, coordinate.Y] = 0;
+                map.layerList[layerType][coordinate.X, coordinate.Y] = 0;*/
+            // }
+
+            //else
+            foreach(KeyValuePair<LayerType, int[,]> pair in map.layerList)
+            {
+                coordinate = Helper.convertPositionToCoordinate(pos, map, pair.Key);
+
+                if (isValidCoordinate(coordinate, map, pair.Key))
+                    pair.Value[coordinate.X, coordinate.Y] = 0;
+            }
+
+
         }
 
         public override void Draw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
