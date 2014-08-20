@@ -17,6 +17,7 @@ namespace wickedcrush.controls
             altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
             startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
 
+        private List<char> inputKeys = new List<char>();
 
         public KeyboardControls()
         {
@@ -295,6 +296,38 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
+        }
+
+        public String GetInput()
+        {
+            String output = "";
+
+            List<Keys> keys = keyState.GetPressedKeys().ToList<Keys>();
+            
+            
+            bool shiftPressed = (keys.Contains<Keys>(Keys.LeftShift) || keys.Contains<Keys>(Keys.RightShift));
+
+            foreach (Keys k in prevKeyState.GetPressedKeys().ToList<Keys>())
+                keys.Remove(k);
+
+            foreach (Keys k in keys)
+            {
+                if (k >= Keys.A && k <= Keys.Z || k >= Keys.D0 && k <= Keys.D9)
+                    output += k.ToString();
+
+                if (k == Keys.Space)
+                    output += " ";
+
+                if (k == Keys.Back)
+                    output += "\b";
+            }
+
+            if (shiftPressed)
+                output = output.ToUpper();
+            else
+                output = output.ToLower();
+
+            return output;
         }
         
     }

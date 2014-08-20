@@ -192,7 +192,7 @@ namespace wickedcrush.editor
 
             doc.Add(level);
 
-            doc.Save(@"Content\maps\small\" + MAP_NAME + ".xml");
+            doc.Save(@"Content\maps\small\" + name + ".xml");
         }
 
         private void loadMap(String MAP_NAME)
@@ -205,7 +205,10 @@ namespace wickedcrush.editor
             XElement wiring = rootElement.Element("WIRING");
             XElement objects = rootElement.Element("OBJECTS");
 
-            this.name = MAP_NAME;
+            this.name = MAP_NAME.Substring(0, MAP_NAME.Length-4);
+            char[] sep = new char[3] { '.', '/', '\\' };
+            string[] splitName = MAP_NAME.Split(sep);
+            this.name = splitName[splitName.Length - 2];
             this.width = int.Parse(rootElement.Attribute("width").Value);
             this.height = int.Parse(rootElement.Attribute("height").Value);
 

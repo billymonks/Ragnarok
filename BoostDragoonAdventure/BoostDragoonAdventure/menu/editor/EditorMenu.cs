@@ -14,7 +14,7 @@ namespace wickedcrush.menu.editor
     public class EditorMenu
     {
         public MenuNode current;
-        public Vector2 pos = new Vector2(150, 300);
+        public Vector2 pos = new Vector2(150, 400);
 
         private Vector2 cursorPosition;
 

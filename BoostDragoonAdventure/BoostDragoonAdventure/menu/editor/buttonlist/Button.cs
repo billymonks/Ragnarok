@@ -60,6 +60,11 @@ namespace wickedcrush.menu.editor.buttonlist
             image.setPos(pos.X, pos.Y);
             image.setSize(size.X, size.Y);
             text.setPos(pos.X, pos.Y);
+
+            if (highlighted)
+                text.color = Color.Yellow;
+            else
+                text.color = Color.White;
         }
 
         public void Draw(SpriteBatch sb)

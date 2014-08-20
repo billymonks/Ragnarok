@@ -54,6 +54,11 @@ namespace wickedcrush.display.primitives
             }
         }
 
+        public static void DrawFilledRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color)
+        {
+            spriteBatch.Draw(_blankTexture, rectangle, color);
+        }
+
         public static void DrawRectangle(this SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth)
         {
             Vector2[] vertex = new Vector2[4];

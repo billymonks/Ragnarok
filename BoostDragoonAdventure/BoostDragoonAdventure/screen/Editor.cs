@@ -17,6 +17,7 @@ using wickedcrush.factory.sprite;
 using wickedcrush.display.primitives;
 using wickedcrush.factory.editor;
 using wickedcrush.menu.editor.buttonlist;
+using wickedcrush.menu.input;
 
 namespace wickedcrush.screen
 {
@@ -42,7 +43,7 @@ namespace wickedcrush.screen
 
         private EditorEntityFactory factory;
 
-        private KeyboardControls keyboardControls;
+        private TextInput textInput;
 
         public Editor(Game game)
         {
@@ -71,17 +72,12 @@ namespace wickedcrush.screen
 
             cursorTexture = game.Content.Load<Texture2D>("debugcontent/img/nice_cursor");
 
+            //textInput = new TextInput(game.controlsManager.getKeyboard());
 
         }
 
         private void InitializeEditorMenu()
         {
-            Button saveButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { this.SaveMap(); }
-                );
-
             Dictionary<string, MenuNode> nodes = new Dictionary<string, MenuNode>();
 
             MenuElement wallNode = new MenuElement(
@@ -187,7 +183,28 @@ namespace wickedcrush.screen
             nodes.Add("Entities", entityMenuNode);
 
             menu = new EditorMenu(this, nodes);
+
+            Button saveButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { SaveMap(); }
+                );
+
+            Button renameButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Rename", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { textInput = new TextInput(game.controlsManager.getKeyboard()); }
+                );
+
+            Button exitButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Exit", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { game.screenStack.Pop(); }
+                );
+
             menu.controlBar.Add(saveButton);
+            menu.controlBar.Add(renameButton);
+            menu.controlBar.Add(exitButton);
 
             //menu.current = (node);
 
@@ -196,10 +213,37 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+
+            UpdateTextInput(gameTime);
+
             menu.Update(gameTime, cursorPosition);
             //saveButton.Update(gameTime, cursorPosition);
             DebugControls(gameTime);
             map.Update(gameTime);
+            
+        }
+
+        public void UpdateTextInput(GameTime gameTime)
+        {
+            if (textInput == null)
+                return;
+            
+            textInput.Update(gameTime);
+            
+            if(textInput.finished)
+            {
+                //play a funny sound
+                map.name = textInput.getText();
+                textInput = null;
+                return;
+            }
+
+            if (textInput.cancelled)
+            {
+                //play a funny sound
+                textInput = null;
+                return;
+            }
         }
 
         public override void DebugDraw()
@@ -241,8 +285,15 @@ namespace wickedcrush.screen
             DrawMenu();
             DrawDiag();
             DrawCursor();
+            DrawTextInput();
 
             game.spriteBatch.End();
+        }
+
+        private void DrawTextInput()
+        {
+            if (textInput != null)
+                textInput.DebugDraw(game.spriteBatch, game.testFont);
         }
 
         public override void Dispose()
@@ -252,38 +303,42 @@ namespace wickedcrush.screen
 
         private void DebugControls(GameTime gameTime)
         {
-            foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
+            KeyboardControls keyboard = game.controlsManager.getKeyboard();
+            
+            /*if (textInput == null) // doesn't work, the textInput = null code comes in too early for this to work
             {
-                if (p.c.SelectPressed())
+                foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
                 {
-                    Dispose();
-                    game.screenStack.Pop();
-                    return;
-                }
-
-                if (p.c is KeyboardControls)
-                {
-                    UpdateCursorPosition((KeyboardControls)p.c);
-
-                    if (((KeyboardControls)p.c).ActionReleased())
+                    if (p.c.SelectPressed())
                     {
-                        toolReady = true;
-                    }
 
-                    if (menu.highlighted != null)
-                    {
-                        toolReady = false;
-                    }
+                        Dispose();
+                        game.screenStack.Pop();
+                        return;
 
-                    if(tool != null)
-                        tool.Update(gameTime, (KeyboardControls)p.c, scaledCursorPosition, map, toolReady);
-
-                    if (((KeyboardControls)p.c).ActionPressed())
-                    {
-                        menu.Click();
-                        tool = menu.currentTool();
                     }
                 }
+            }*/
+
+            UpdateCursorPosition(keyboard);
+
+            if (keyboard.ActionReleased())
+            {
+                toolReady = true;
+            }
+
+            if (menu.highlighted != null)
+            {
+                toolReady = false;
+            }
+
+            if (tool != null)
+                tool.Update(gameTime, keyboard, scaledCursorPosition, map, toolReady);
+
+            if (keyboard.ActionPressed())
+            {
+                menu.Click();
+                tool = menu.currentTool();
             }
         }
 
@@ -297,6 +352,7 @@ namespace wickedcrush.screen
 
             game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
             game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+            game.diag += "Map Name: " + map.name;
         }
 
         private void DrawDiag()

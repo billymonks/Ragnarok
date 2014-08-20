@@ -146,6 +146,17 @@ namespace wickedcrush.manager.controls
             return c;
         }
 
+        public KeyboardControls getKeyboard()
+        {
+            foreach(Controls c in controlsList)
+            {
+                if (c is KeyboardControls)
+                    return ((KeyboardControls)c);
+            }
+
+            throw new NotImplementedException("getkeyboard no get keyboard...NO KEYBOARD D:");
+        }
+
         public void removeGamepad(PlayerIndex index)
         {
             foreach (Controls c in controlsList)

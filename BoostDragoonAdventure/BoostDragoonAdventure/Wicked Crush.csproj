@@ -141,6 +141,7 @@
     <Compile Include="menu\editor\MenuNode.cs" />
     <Compile Include="menu\editor\SubMenu.cs" />
     <Compile Include="menu\IClickable.cs" />
+    <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
