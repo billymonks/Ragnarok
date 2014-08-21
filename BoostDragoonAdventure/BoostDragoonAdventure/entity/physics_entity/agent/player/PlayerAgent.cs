@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         
         private float boostSpeed = 100f;
         private bool overheating = false;
-
+        private int chargeLevel = 0;
         
         #endregion
 
@@ -96,6 +96,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             attackForward(new Vector2(36, 36), 2, 1);
                         }
                     }));
+            
+
             ctrl.Add("default",
                 new State("default",
                     c => true,
@@ -108,6 +110,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             attackForward(new Vector2(36, 36), 1, 1);
                         }
+
+                        if (controls.ActionHeld())
+                        {
+                            chargeLevel++;
+                        }
+                        else if (chargeLevel > 100)
+                        {
+                            attackForward(new Vector2(36, 36), 3, 3);
+                            chargeLevel = 0;
+                        }
+                        else
+                        {
+                            chargeLevel = 0;
+                        }
+                        
                     }));
 
             sm = new StateMachine(ctrl);
