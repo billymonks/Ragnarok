@@ -51,10 +51,13 @@ namespace wickedcrush.entity.physics_entity.agent.attack
             var c = bodies["body"].ContactList;
             while (c != null)
             {
-                if (c.Contact.IsTouching 
-                    && c.Other.UserData is Agent 
+                if (c.Contact.IsTouching
+                    && c.Other.UserData is Agent
                     && !c.Other.UserData.Equals(this.parent))
+                {
                     ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
+                    ((Agent)c.Other.UserData).stats.addTo("stagger", -force);
+                }
 
                 c = c.Next;
             }

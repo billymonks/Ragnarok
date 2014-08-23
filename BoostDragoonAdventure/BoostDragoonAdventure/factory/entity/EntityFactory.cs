@@ -75,6 +75,8 @@ namespace wickedcrush.factory.entity
         public void addAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
             Murderer a = new Murderer(w, pos, size, center, solid, this, stats);
+            a.stats.set("staggerLimit", 100);
+            a.stats.set("stagger", 0);
             if (map != null)
             {
                 a.activateNavigator(map);

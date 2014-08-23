@@ -115,13 +115,16 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             chargeLevel++;
                         }
-                        else if (chargeLevel > 100)
-                        {
-                            attackForward(new Vector2(36, 36), 3, 3);
-                            chargeLevel = 0;
-                        }
                         else
                         {
+                            if (chargeLevel > 100)
+                            {
+                                attackForward(new Vector2(36, 36), 3, 3);
+                            } else if (chargeLevel > 25)
+                            {
+                                attackForward(new Vector2(36, 36), 2, 2);
+                            }
+                                
                             chargeLevel = 0;
                         }
                         

@@ -74,6 +74,8 @@ namespace wickedcrush.player
             stats.set("fillSpeed", 3);
             stats.set("useSpeed", 8);
             stats.set("boostSpeedMod", 0);
+            stats.set("staggerLimit", 100);
+            stats.set("stagger", 0);
         }
 
         protected void Remove()
