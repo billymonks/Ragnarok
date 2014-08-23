@@ -24,8 +24,11 @@ namespace wickedcrush.stats
         {
             numbers = new Dictionary<String, int>();
 
-            numbers.Add("maxHP", maxHP);
-            numbers.Add("hp", currentHP);
+            set("maxHP", maxHP);
+            set("hp", currentHP);
+            set("staggerLimit", 100);
+            set("staggerDuration", 30);
+            set("stagger", 0);
         }
 
         public int get(String key)

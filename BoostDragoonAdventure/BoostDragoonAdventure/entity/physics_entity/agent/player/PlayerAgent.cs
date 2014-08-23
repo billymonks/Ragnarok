@@ -40,7 +40,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
         {
             this.controls = controls;
-            //stats = new PersistedStats(15, 15, 5);
             this.name = "Player";
 
             this.facing = Direction.East;
@@ -93,7 +92,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward(new Vector2(36, 36), 2, 1);
+                            attackForward(new Vector2(36, 36), 2, 50);
                         }
                     }));
             
@@ -108,7 +107,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward(new Vector2(36, 36), 1, 1);
+                            attackForward(new Vector2(36, 36), 1, 30);
                         }
 
                         if (controls.ActionHeld())
@@ -119,10 +118,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             if (chargeLevel > 100)
                             {
-                                attackForward(new Vector2(36, 36), 3, 3);
+                                attackForward(new Vector2(36, 36), 3, 100);
                             } else if (chargeLevel > 25)
                             {
-                                attackForward(new Vector2(36, 36), 2, 2);
+                                attackForward(new Vector2(36, 36), 2, 100);
                             }
                                 
                             chargeLevel = 0;

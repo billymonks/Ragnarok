@@ -38,6 +38,8 @@ namespace wickedcrush.entity.physics_entity.agent
         protected float speed = 50f;
         protected bool strafe = false;
 
+        protected bool staggered = false;
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid)
         {
@@ -95,6 +97,7 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             base.Update(gameTime);
 
+            UpdateStagger(gameTime);
             UpdateTimers(gameTime);
             UpdateTriggers(gameTime);
 
@@ -137,6 +140,22 @@ namespace wickedcrush.entity.physics_entity.agent
         private void ApplyStoppingFriction(GameTime gameTime)
         {
             bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f); //is this ok???
+        }
+
+        private void UpdateStagger(GameTime gameTime)
+        {
+            if (stats.get("stagger") > 0)
+                stats.addTo("stagger", -1); //change this someday to incorporate gameTime
+            if (stats.get("stagger") <= 0)
+            {
+                stats.set("stagger", 0);
+                staggered = false;
+            }
+            if (stats.get("stagger") >= stats.get("staggerLimit"))
+            {
+                staggered = true;
+                stats.set("stagger", stats.get("staggerDuration"));
+            }
         }
         
 

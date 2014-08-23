@@ -81,7 +81,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         testColor = Color.Yellow;
                         if(timers["attack_tell"].isDone())
                         {
-                            attackForward(new Vector2(48, 48), 3, 3);
+                            attackForward(new Vector2(48, 48), 3, 30);
                             testColor = Color.Red;
                             timers["post_attack"].resetAndStart();
                             timers["attack_tell"].reset();

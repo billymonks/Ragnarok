@@ -40,7 +40,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
                 if (c.Contact.IsTouching 
                     && c.Other.UserData is Agent 
                     && !c.Other.UserData.Equals(this.parent))
+                {
                     ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
+                    ((Agent)c.Other.UserData).stats.addTo("stagger", force);
+                }
 
                 c = c.Next;
             }
