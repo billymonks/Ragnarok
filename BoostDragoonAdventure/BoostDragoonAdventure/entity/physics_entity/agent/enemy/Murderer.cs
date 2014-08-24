@@ -57,6 +57,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private void SetupStateMachine()
         {
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
+            ctrl.Add("staggered",
+                new State("staggered",
+                    c => ((Murderer)c).staggered,
+                    c =>
+                    {
+                        testColor = Color.White;
+                        ResetAllTimers();
+                    }));
             ctrl.Add("post_attack",
                 new State("post_attack",
                     c => ((Murderer)c).timers["post_attack"].isActive(),

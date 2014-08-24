@@ -365,5 +365,13 @@ namespace wickedcrush.entity.physics_entity.agent
         {
 
         }
+
+        protected void ResetAllTimers()
+        {
+            foreach(KeyValuePair<string, Timer> t in timers)
+            {
+                t.Value.reset();
+            }
+        }
     }
 }
