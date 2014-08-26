@@ -42,7 +42,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
                     && !c.Other.UserData.Equals(this.parent))
                 {
                     ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
-                    ((Agent)c.Other.UserData).stats.addTo("stagger", force);
+                    if(!((Agent)c.Other.UserData).staggered)
+                        ((Agent)c.Other.UserData).stats.addTo("stagger", force);
                 }
 
                 c = c.Next;

@@ -38,7 +38,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected float speed = 50f;
         protected bool strafe = false;
 
-        protected bool staggered = false;
+        public bool staggered = false;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
             : base(w, pos, size, center, solid)
@@ -297,6 +297,14 @@ namespace wickedcrush.entity.physics_entity.agent
             //}
 
             base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
+
+            DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c);
+        }
+
+        protected void DebugDrawHealth(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        {
+            spriteBatch.Draw(wTex, new Rectangle((int)pos.X, (int)pos.Y - 6, 20 * stats.get("hp") / stats.get("maxHP"), 2), Color.Red);
+            spriteBatch.Draw(wTex, new Rectangle((int)pos.X, (int)pos.Y - 4, 20 * stats.get("stagger") / stats.get("staggerLimit"), 2), Color.Yellow);
         }
 
         protected void faceTarget()

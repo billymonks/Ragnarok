@@ -13,7 +13,7 @@ namespace wickedcrush.stats
         private Dictionary<String, int> numbers;
         //private Dictionary<String, String> strings;
 
-        public Inventory inventory;
+        public Inventory inventory; 
 
         public PersistedStats()
         {
