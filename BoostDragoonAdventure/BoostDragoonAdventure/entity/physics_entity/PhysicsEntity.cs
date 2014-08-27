@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity
 {
@@ -23,7 +24,8 @@ namespace wickedcrush.entity.physics_entity
         public float startingFriction = 0.5f;
         public float stoppingFriction = 0.4f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
 
-        public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid) : base (pos, size, center)
+        public PhysicsEntity(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, SoundManager sound)
+            : base(pos, size, center, sound)
         {
             _w = w;
             Initialize(w, pos, size, center, solid);

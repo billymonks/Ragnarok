@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="display\3d\Camera.cs" />
     <Compile Include="display\animation\Tween.cs" />
     <Compile Include="display\primitives\PrimitiveDrawer.cs" />
     <Compile Include="display\sprite\BaseSprite.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
+    <Compile Include="manager\audio\SoundManager.cs" />
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />
@@ -223,7 +225,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="display\3d\" />
     <Folder Include="entity\effects\" />
     <Folder Include="entity\physics_entity\agent\inanimate\" />
     <Folder Include="entity\physics_entity\agent\npc\" />

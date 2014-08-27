@@ -23,6 +23,8 @@ using wickedcrush.manager.player;
 using wickedcrush.manager.entity;
 using FarseerPhysics;
 using wickedcrush.map.layer;
+using wickedcrush.manager.audio;
+using wickedcrush.display._3d;
 
 
 namespace wickedcrush.screen
@@ -30,9 +32,11 @@ namespace wickedcrush.screen
     public class Gameplay : GameScreen
     {
         public EntityManager entityManager;
+        public SoundManager soundManager;
 
         public EntityFactory factory;
-        
+
+        public Camera camera;
         
 
         World w;
@@ -44,9 +48,16 @@ namespace wickedcrush.screen
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
 
+            soundManager = new SoundManager(game.Content);
             entityManager = new EntityManager(game);
+            
 
-            factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, w);
+            factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
+
+            camera = new Camera();
+            camera.cameraPosition = new Vector3(0f, 0f, 0f);
+            
+            soundManager.setCam(camera);
 
             LoadContent(game);
 
@@ -98,7 +109,9 @@ namespace wickedcrush.screen
 
             //playerManager.Update(gameTime);
             entityManager.Update(gameTime);
-            
+            soundManager.Update(gameTime);
+
+            camera.Update();
 
             factory.Update(); //player creation, needs to be replaced
 
@@ -156,6 +169,7 @@ namespace wickedcrush.screen
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
                 factory.addAgent(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30,30));
+                soundManager.playSound("blast off");
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))

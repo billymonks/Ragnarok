@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.map;
 using FarseerPhysics.Dynamics;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity
 {
@@ -40,19 +41,23 @@ namespace wickedcrush.entity
 
         public Direction facing;
         public Direction movementDirection;
+
+        public SoundManager _sound;
         #endregion
 
         #region Initialization
-        public Entity(Vector2 pos, Vector2 size, Vector2 center)
+        public Entity(Vector2 pos, Vector2 size, Vector2 center, SoundManager sound)
         {
-            Initialize(pos, size, center);
+            Initialize(pos, size, center, sound);
         }
-        
-        private void Initialize(Vector2 pos, Vector2 size, Vector2 center)
+
+        private void Initialize(Vector2 pos, Vector2 size, Vector2 center, SoundManager sound)
         {
             this.pos = pos;
             this.size = size;
             this.center = center;
+
+            this._sound = sound;
 
             this.name = "Entity";
 

@@ -6,6 +6,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.stats;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
@@ -13,14 +14,14 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
     {
         private float speed = 150f;
 
-        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force)
-            : base(w, pos, size, center, damage, force)
+        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
+            : base(w, pos, size, center, damage, force, sound)
         {
             Initialize(damage, force);
         }
 
-        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
-            : base(w, pos, size, center, damage, force)
+        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
+            : base(w, pos, size, center, damage, force, sound)
         {
             this.parent = parent;
             Initialize(damage, force);

@@ -13,6 +13,7 @@ using wickedcrush.entity.physics_entity.agent.attack;
 using wickedcrush.factory.entity;
 using wickedcrush.behavior.state;
 using wickedcrush.behavior;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -29,8 +30,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory)
-            : base(w, pos, size, center, solid, factory, stats)
+        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound)
+            : base(w, pos, size, center, solid, factory, stats, sound)
         {
             Initialize(pos, size, center, solid, controls);
 
@@ -44,6 +45,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             this.facing = Direction.East;
             movementDirection = facing;
+
+            _sound.addSound("blast off", "blast off");
 
             SetupStateMachine();
         }
@@ -86,6 +89,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     && !((PlayerAgent)c).overheating,
                     c =>
                     {
+                        if(sm.previousControlState.name != "boosting")
+                            _sound.playSound("blast off");
+
                         UpdateDirection();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));

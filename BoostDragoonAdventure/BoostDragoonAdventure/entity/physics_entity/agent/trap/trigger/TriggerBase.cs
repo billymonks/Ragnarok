@@ -7,6 +7,7 @@ using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using wickedcrush.utility.trigger;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -14,8 +15,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
     {
         public Trigger trigger;
 
-        public TriggerBase(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
-            : base(w, pos, size, center, solid, factory)
+        public TriggerBase(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
+            : base(w, pos, size, center, solid, factory, sound)
         {
             trigger = new Trigger(this, new List<Triggerable>(), c => c.isTriggered());
         }

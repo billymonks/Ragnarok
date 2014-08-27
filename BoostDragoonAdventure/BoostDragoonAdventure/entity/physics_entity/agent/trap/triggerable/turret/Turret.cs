@@ -9,6 +9,7 @@ using wickedcrush.stats;
 using FarseerPhysics.Factories;
 using wickedcrush.utility;
 using wickedcrush.utility.trigger;
+using wickedcrush.manager.audio;
 
 
 namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
@@ -17,8 +18,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
     {
         //private EntityFactory factory;
 
-        public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
+        public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize(facing);
         }

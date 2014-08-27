@@ -6,14 +6,15 @@ using wickedcrush.utility;
 using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
 using wickedcrush.factory.entity;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
     public class TimerTrigger : TriggerBase
     {
 
-        public TimerTrigger(World w, Vector2 pos, EntityFactory factory)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
+        public TimerTrigger(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize();
         }

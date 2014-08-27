@@ -7,6 +7,7 @@ using wickedcrush.utility.trigger;
 using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -14,8 +15,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
     {
         private bool triggered = false, ready = true, pressed = false;
 
-        public FloorSwitch(World w, Vector2 pos, EntityFactory factory)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), false, factory)
+        public FloorSwitch(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), false, factory, sound)
         {
             Initialize();
         }

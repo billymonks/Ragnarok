@@ -194,6 +194,11 @@
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
+    <Compile Include="sounds\blast off.wav">
+      <Name>blast off</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Content Include="xml\editor\entity\Chest.xml">
       <Name>Chest</Name>
       <Importer>XmlImporter</Importer>

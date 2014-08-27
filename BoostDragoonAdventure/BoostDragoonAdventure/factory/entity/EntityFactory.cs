@@ -22,6 +22,7 @@ using wickedcrush.entity.physics_entity.agent.enemy;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable.turret;
 using wickedcrush.entity.physics_entity.agent.chest;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.factory.entity
 {
@@ -30,15 +31,17 @@ namespace wickedcrush.factory.entity
         private EntityManager em;
         private PlayerManager pm;
         private ControlsManager cm;
+        private SoundManager sm;
         private World w;
 
         private Map map;
 
-        public EntityFactory(EntityManager em, PlayerManager pm, ControlsManager cm, World w)
+        public EntityFactory(EntityManager em, PlayerManager pm, ControlsManager cm, SoundManager sm, World w)
         {
             this.em = em;
             this.pm = pm;
             this.cm = cm;
+            this.sm = sm;
             this.w = w;
         }
 
@@ -54,19 +57,19 @@ namespace wickedcrush.factory.entity
 
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
         {
-            Entity e = new Entity(pos, size, center);
+            Entity e = new Entity(pos, size, center, sm);
             em.addEntity(e);
         }
 
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            PhysicsEntity e = new PhysicsEntity(w, pos, size, center, solid);
+            PhysicsEntity e = new PhysicsEntity(w, pos, size, center, solid, sm);
             em.addEntity(e);
         }
 
         public PlayerAgent addPlayerAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
         {
-            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this);
+            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this, sm);
             em.addEntity(agent);
             
             return agent;
@@ -74,9 +77,10 @@ namespace wickedcrush.factory.entity
 
         public void addAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
-            Murderer a = new Murderer(w, pos, size, center, solid, this, stats);
+            Murderer a = new Murderer(w, pos, size, center, solid, this, stats, sm);
             a.stats.set("staggerLimit", 100);
             a.stats.set("stagger", 0);
+            a.stats.set("staggerDuration", 5);
             if (map != null)
             {
                 a.activateNavigator(map);
@@ -86,37 +90,37 @@ namespace wickedcrush.factory.entity
 
         public void addTurret(Vector2 pos, Direction facing)
         {
-            Turret t = new Turret(w, pos, this, facing);
+            Turret t = new Turret(w, pos, this, facing, sm);
             em.addEntity(t);
         }
 
         public void addChest(Vector2 pos)
         {
-            Chest c = new Chest(w, pos, this);
+            Chest c = new Chest(w, pos, this, sm);
             em.addEntity(c);
         }
 
         public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            Bolt b = new Bolt(w, pos, size, center, parent, damage, force);
+            Bolt b = new Bolt(w, pos, size, center, parent, damage, force, sm);
             em.addEntity(b);
         }
 
         public void addFloorSwitch(Vector2 pos)
         {
-            FloorSwitch f = new FloorSwitch(w, pos, this);
+            FloorSwitch f = new FloorSwitch(w, pos, this, sm);
             em.addEntity(f);
         }
 
         public void addTimerTrigger(Vector2 pos)
         {
-            TimerTrigger t = new TimerTrigger(w, pos, this);
+            TimerTrigger t = new TimerTrigger(w, pos, this, sm);
             em.addEntity(t);
         }
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force);
+            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force, sm);
             em.addEntity(a);
         }
 

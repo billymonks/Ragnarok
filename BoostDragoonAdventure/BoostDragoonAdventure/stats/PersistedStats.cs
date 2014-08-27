@@ -27,7 +27,7 @@ namespace wickedcrush.stats
             set("maxHP", maxHP);
             set("hp", currentHP);
             set("staggerLimit", 100);
-            set("staggerDuration", 30);
+            set("staggerDuration", 50);
             set("stagger", 0);
         }
 

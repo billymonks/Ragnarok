@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using wickedcrush.stats;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.factory.entity;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.attack
 {
@@ -14,14 +15,14 @@ namespace wickedcrush.entity.physics_entity.agent.attack
     {
         protected int damage, force; // migrate to attackstats class?
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force)
-            : base(w, pos, size, center, false, (EntityFactory)null)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
+            : base(w, pos, size, center, false, (EntityFactory)null, sound)
         {
             Initialize(damage, force);
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
-            : base(w, pos, size, center, false, (EntityFactory)null)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
+            : base(w, pos, size, center, false, (EntityFactory)null, sound)
         {
             this.parent = parent;
             Initialize(damage, force);

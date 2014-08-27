@@ -17,6 +17,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.utility.trigger;
 using wickedcrush.inventory;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -40,15 +41,15 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public bool staggered = false;
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
-            : base(w, pos, size, center, solid)
+        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
+            : base(w, pos, size, center, solid, sound)
         {
             
             Initialize(new PersistedStats(5, 5), factory);
         }
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
-            : base(w, pos, size, center, solid)
+        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
+            : base(w, pos, size, center, solid, sound)
         {
             Initialize(stats, factory);
         }

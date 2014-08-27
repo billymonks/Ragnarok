@@ -12,6 +12,7 @@ using wickedcrush.behavior.state;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.helper;
 using FarseerPhysics.Factories;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -21,8 +22,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         private const int attackTellLength = 750, postAttackLength = 1200, navigationResetLength = 500;
 
-        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats)
-            : base(w, pos, size, center, solid, factory, stats)
+        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
+            : base(w, pos, size, center, solid, factory, stats, sound)
         {
             Initialize();
             this.stats = stats;

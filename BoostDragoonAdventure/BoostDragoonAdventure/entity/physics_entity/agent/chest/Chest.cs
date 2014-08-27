@@ -11,6 +11,7 @@ using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.inventory;
 using wickedcrush.behavior;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.entity.physics_entity.agent.chest
 {
@@ -23,8 +24,8 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private List<Item> contents;
         private int currency;
 
-        public Chest(World w, Vector2 pos, EntityFactory factory)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory)
+        public Chest(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
+            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize();
         }
