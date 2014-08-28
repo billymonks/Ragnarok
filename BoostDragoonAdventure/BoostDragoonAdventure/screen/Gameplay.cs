@@ -107,7 +107,6 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            //playerManager.Update(gameTime);
             entityManager.Update(gameTime);
             soundManager.Update(gameTime);
 
@@ -119,12 +118,8 @@ namespace wickedcrush.screen
 
             //game.testMap.connectTriggers();
 
-            
-
-            //base.Update(gameTime);
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 
-            //factory.initializeMap();
         }
 
         public override void Draw()

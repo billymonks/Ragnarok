@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.map;
 using FarseerPhysics.Dynamics;
 using wickedcrush.manager.audio;
+using wickedcrush.helper;
 
 namespace wickedcrush.entity
 {
@@ -43,6 +44,8 @@ namespace wickedcrush.entity
         public Direction movementDirection;
 
         public SoundManager _sound;
+
+        public int id = Helper.getUID();
         #endregion
 
         #region Initialization

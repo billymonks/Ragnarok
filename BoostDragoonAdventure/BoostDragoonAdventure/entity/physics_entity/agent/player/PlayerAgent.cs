@@ -46,8 +46,15 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.facing = Direction.East;
             movementDirection = facing;
 
-            _sound.addSound("blast off", "blast off");
-
+            _sound.addSound("blast off", "bfxr/blast off");
+            _sound.addSound("whsh", "bfxr/whsh");
+            _sound.addSound("whsh2", "bfxr/Randomize6");
+            _sound.addSound("ded", "bfxr/Randomize10");
+            _sound.addSound("smash", "bfxr/smash");
+            _sound.addSound("charge", "bfxr/charging");
+            _sound.addSound("ping", "bfxr/ping");
+            _sound.addAmbient("blast off", id + "blast off", false);
+            _sound.addAmbient("charge", id + "charge", false);
             SetupStateMachine();
         }
 
@@ -90,8 +97,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
                         if(sm.previousControlState.name != "boosting")
-                            _sound.playSound("blast off");
-
+                            _sound.playAmbient(id + "blast off");
+                        
                         UpdateDirection();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
@@ -99,6 +106,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         if (controls.ActionPressed())
                         {
                             attackForward(new Vector2(36, 36), 2, 50);
+                            _sound.playSound("whsh");
                         }
                     }));
             
@@ -111,25 +119,37 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateDirection();
                         WalkForward();
 
+                        _sound.stopAmbientSound(id + "blast off");
+
                         if (controls.ActionPressed())
                         {
                             attackForward(new Vector2(36, 36), 1, 30);
+                            _sound.playSound("whsh");
                         }
 
                         if (controls.ActionHeld())
                         {
                             chargeLevel++;
+
+                            if (chargeLevel > 25) 
+                                _sound.playAmbient(id + "charge");
+
+                            if (chargeLevel == 100)
+                                _sound.playSound("ping");
                         }
                         else
                         {
                             if (chargeLevel > 100)
                             {
                                 attackForward(new Vector2(36, 36), 3, 100);
+                                _sound.playSound("smash");
                             } else if (chargeLevel > 25)
                             {
                                 attackForward(new Vector2(36, 36), 2, 100);
+                                _sound.playSound("smash");
                             }
-                                
+
+                            _sound.stopAmbientSound(id + "charge");
                             chargeLevel = 0;
                         }
                         

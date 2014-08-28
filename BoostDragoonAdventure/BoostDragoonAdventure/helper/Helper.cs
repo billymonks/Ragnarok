@@ -9,6 +9,8 @@ namespace wickedcrush.helper
 {
     public static class Helper
     {
+        static int uid = 0;
+
         public static int smallestNumber(int[] list)
         {
             int num = list[0];
@@ -18,6 +20,11 @@ namespace wickedcrush.helper
                     num = list[i];
             }
             return num;
+        }
+
+        public static int getUID()
+        {
+            return uid++;
         }
 
         public static float roundTowardZero(float f)

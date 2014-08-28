@@ -12,7 +12,8 @@ namespace wickedcrush.manager.audio
     public class SoundManager
     {
         private Dictionary<String, SoundEffect> soundsList;
-        private List<SoundEffectInstance> loopingSoundsList;
+        private Dictionary<String, SoundEffectInstance> instancedAmbientSounds; 
+        //todo: hashmap? for instanced sounds from an entity, to contain emitter also. for stuff that needs to be synced, ambient is wrong 
 
         private ContentManager _cm;
         private Camera _gameCam;
@@ -22,7 +23,7 @@ namespace wickedcrush.manager.audio
         public SoundManager(ContentManager cm)
         {
             soundsList = new Dictionary<String, SoundEffect>();
-            loopingSoundsList = new List<SoundEffectInstance>();
+            instancedAmbientSounds = new Dictionary<String, SoundEffectInstance>();
 
             SoundEffect.DistanceScale = 140f;
 
@@ -68,31 +69,51 @@ namespace wickedcrush.manager.audio
             }
         }
 
-        public void playAmbientLoop(String key)
+        public void addAmbient(String key, String instanceKey, bool loop)
         {
             if (soundsList.ContainsKey(key))
             {
                 SoundEffectInstance temp = soundsList[key].CreateInstance();
 
-                temp.IsLooped = true;
+                temp.IsLooped = loop;
                 temp.Volume = .3f;
-                temp.Play();
 
-                loopingSoundsList.Add(temp);
+                if(!instancedAmbientSounds.ContainsKey(instanceKey))
+                    instancedAmbientSounds.Add(instanceKey, temp);
                 
             }
         }
 
-        public void stopAmbientLoops()
+        public void playAmbient(String instanceKey)
         {
-            for (int j = loopingSoundsList.Count; j >= 0; j--)
+            if(instancedAmbientSounds.ContainsKey(instanceKey))
             {
-                loopingSoundsList[j].Stop();
-                loopingSoundsList.Remove(loopingSoundsList[j]);
+                instancedAmbientSounds[instanceKey].Play();
             }
         }
 
-        public SoundEffectInstance getSoundInstance(String key)
+        public void stopAmbientSounds()
+        {
+            foreach(KeyValuePair<String, SoundEffectInstance> pair in instancedAmbientSounds)
+            {
+                pair.Value.Stop();
+            }
+
+            instancedAmbientSounds.Clear();
+        }
+
+        public void stopAmbientSound(String key)
+        {
+            if(instancedAmbientSounds.ContainsKey(key))
+                instancedAmbientSounds[key].Stop();
+        }
+
+        public SoundEffectInstance getAmbientSound(String instanceKey)
+        {
+            return instancedAmbientSounds[instanceKey];
+        }
+
+        public SoundEffectInstance createSoundInstance(String key)
         {
             if (soundsList.ContainsKey(key))
             {
