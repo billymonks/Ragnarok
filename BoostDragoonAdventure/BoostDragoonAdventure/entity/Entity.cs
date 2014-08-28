@@ -8,6 +8,7 @@ using wickedcrush.map;
 using FarseerPhysics.Dynamics;
 using wickedcrush.manager.audio;
 using wickedcrush.helper;
+using wickedcrush.entity.physics_entity.agent.attack;
 
 namespace wickedcrush.entity
 {
@@ -101,6 +102,11 @@ namespace wickedcrush.entity
                 }
                 remove = true;
             }
+        }
+
+        public virtual void TakeHit(Attack attack)
+        {
+
         }
 
         public bool readyForRemoval()

@@ -53,6 +53,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.addSound("smash", "bfxr/smash");
             _sound.addSound("charge", "bfxr/charging");
             _sound.addSound("ping", "bfxr/ping");
+            _sound.addSound("ping2", "bfxr/Pickup_Coin11");
+            _sound.addSound("ping3", "bfxr/Pickup_Coin13");
+            _sound.addSound("oof", "bfxr/oof");
             _sound.addAmbient("blast off", id + "blast off", false);
             _sound.addAmbient("charge", id + "charge", false);
             SetupStateMachine();
@@ -61,6 +64,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private void applyStats()
         {
             boostSpeed = 100f * (1 + (float)stats.get("boostSpeedMod") * (0.01f));
+        }
+
+        public override void TakeHit(Attack attack)
+        {
+            base.TakeHit(attack);
+            _sound.playSound("oof");
         }
 
         
@@ -135,7 +144,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                                 _sound.playAmbient(id + "charge");
 
                             if (chargeLevel == 100)
-                                _sound.playSound("ping");
+                                _sound.playSound("ping2");
                         }
                         else
                         {

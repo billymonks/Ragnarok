@@ -364,6 +364,21 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="sounds\bfxr\Hit_Hurt20.wav">
+      <Name>Hit_Hurt20</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sounds\bfxr\Pickup_Coin11.wav">
+      <Name>Pickup_Coin11</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sounds\bfxr\Pickup_Coin13.wav">
+      <Name>Pickup_Coin13</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Content Include="xml\editor\entity\Chest.xml">
       <Name>Chest</Name>
       <Importer>XmlImporter</Importer>

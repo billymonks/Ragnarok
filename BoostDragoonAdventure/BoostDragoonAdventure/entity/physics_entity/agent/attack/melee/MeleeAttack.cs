@@ -35,20 +35,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
 
         protected override void HandleCollisions()
         {
-            var c = bodies["body"].ContactList;
-            while (c != null)
-            {
-                if (c.Contact.IsTouching 
-                    && c.Other.UserData is Agent 
-                    && !c.Other.UserData.Equals(this.parent))
-                {
-                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
-                    if(!((Agent)c.Other.UserData).staggered)
-                        ((Agent)c.Other.UserData).stats.addTo("stagger", force);
-                }
-
-                c = c.Next;
-            }
+            base.HandleCollisions();    
 
             Remove();
         }
