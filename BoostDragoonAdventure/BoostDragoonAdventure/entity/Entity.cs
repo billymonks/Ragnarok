@@ -9,6 +9,7 @@ using FarseerPhysics.Dynamics;
 using wickedcrush.manager.audio;
 using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.attack;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wickedcrush.entity
 {
@@ -45,6 +46,7 @@ namespace wickedcrush.entity
         public Direction movementDirection;
 
         public SoundManager _sound;
+        public AudioEmitter emitter;
 
         public int id = Helper.getUID();
         #endregion
@@ -62,6 +64,7 @@ namespace wickedcrush.entity
             this.center = center;
 
             this._sound = sound;
+            this.emitter = new AudioEmitter();
 
             this.name = "Entity";
 
@@ -73,6 +76,8 @@ namespace wickedcrush.entity
         #region Update
         public virtual void Update(GameTime gameTime)
         {
+            emitter.Position = new Vector3(pos.X, pos.Y, 0f);
+
             foreach (Entity e in subEntityList)
             {
                 e.Update(gameTime);

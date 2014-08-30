@@ -55,7 +55,7 @@ namespace wickedcrush.screen
             factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
 
             camera = new Camera();
-            camera.cameraPosition = new Vector3(0f, 0f, 0f);
+            camera.cameraPosition = new Vector3(320f, 240f, 75f);
             
             soundManager.setCam(camera);
 
@@ -164,7 +164,7 @@ namespace wickedcrush.screen
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
                 factory.addAgent(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30,30));
-                soundManager.playSound("blast off");
+                //soundManager.playSound("blast off");
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))

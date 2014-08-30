@@ -27,7 +27,6 @@ namespace wickedcrush.map.layer
             this.data = data;
             bodyList = new Body[width, height];
             this.layerType = layerType;
-            generateBodies(w, width, height, solid);
         }
 
         public void setCoordinate(int x, int y, bool b)

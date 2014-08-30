@@ -55,7 +55,7 @@ namespace wickedcrush.screen
         {
             mapList = new List<String>();
 
-            string[] files = System.IO.Directory.GetFiles(@"Content\maps\small", "*.xml", SearchOption.TopDirectoryOnly);
+            string[] files = System.IO.Directory.GetFiles(@"Content\maps", "*.xml", SearchOption.AllDirectories);
             selectionIndex = 0;
 
             for (int i = 0; i < files.Length; i++)

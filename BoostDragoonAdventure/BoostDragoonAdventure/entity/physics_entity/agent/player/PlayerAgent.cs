@@ -14,6 +14,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.behavior.state;
 using wickedcrush.behavior;
 using wickedcrush.manager.audio;
+using Microsoft.Xna.Framework.Audio;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -56,8 +57,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.addSound("ping2", "bfxr/Pickup_Coin11");
             _sound.addSound("ping3", "bfxr/Pickup_Coin13");
             _sound.addSound("oof", "bfxr/oof");
-            _sound.addAmbient("blast off", id + "blast off", false);
-            _sound.addAmbient("charge", id + "charge", false);
+            _sound.addInstance("blast off", id + "blast off", false);
+            _sound.addInstance("charge", id + "charge", false);
             SetupStateMachine();
         }
 
@@ -69,8 +70,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void TakeHit(Attack attack)
         {
             base.TakeHit(attack);
-            _sound.playSound("oof");
+            _sound.fire3DSound("oof", emitter);
         }
+
+        
 
         
         #endregion
@@ -106,7 +109,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
                         if(sm.previousControlState.name != "boosting")
-                            _sound.playAmbient(id + "blast off");
+                            _sound.playInstanced(id + "blast off", emitter);
                         
                         UpdateDirection();
                         BoostForward();
@@ -115,7 +118,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         if (controls.ActionPressed())
                         {
                             attackForward(new Vector2(36, 36), 2, 50);
-                            _sound.playSound("whsh");
+                            //_sound.playSound("whsh");
+                            _sound.fire3DSound("whsh", emitter);
                         }
                     }));
             
@@ -128,12 +132,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateDirection();
                         WalkForward();
 
-                        _sound.stopAmbientSound(id + "blast off");
+                        _sound.stopInstancedSound(id + "blast off");
 
                         if (controls.ActionPressed())
                         {
                             attackForward(new Vector2(36, 36), 1, 30);
-                            _sound.playSound("whsh");
+                            //_sound.playSound("whsh");
+                            _sound.fire3DSound("whsh", emitter);
                         }
 
                         if (controls.ActionHeld())
@@ -141,24 +146,24 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             chargeLevel++;
 
                             if (chargeLevel > 25) 
-                                _sound.playAmbient(id + "charge");
+                                _sound.playInstanced(id + "charge", emitter);
 
                             if (chargeLevel == 100)
-                                _sound.playSound("ping2");
+                                _sound.fire3DSound("ping2", emitter);
                         }
                         else
                         {
                             if (chargeLevel > 100)
                             {
                                 attackForward(new Vector2(36, 36), 3, 100);
-                                _sound.playSound("smash");
+                                _sound.fire3DSound("smash", emitter);
                             } else if (chargeLevel > 25)
                             {
                                 attackForward(new Vector2(36, 36), 2, 100);
-                                _sound.playSound("smash");
+                                _sound.fire3DSound("smash", emitter);
                             }
 
-                            _sound.stopAmbientSound(id + "charge");
+                            _sound.stopInstancedSound(id + "charge");
                             chargeLevel = 0;
                         }
                         

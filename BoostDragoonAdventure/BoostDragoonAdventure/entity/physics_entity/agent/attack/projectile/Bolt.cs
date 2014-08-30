@@ -12,8 +12,6 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
     public class Bolt : Attack
     {
-        private float speed = 150f;
-
         public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
             : base(w, pos, size, center, damage, force, sound)
         {
@@ -36,6 +34,11 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             this.damage = damage;
             this.force = force;
             this.name = "Bolt";
+
+            speed = 150f;
+
+            reactToWall = true;
+            piercing = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -51,29 +54,6 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
             bodies["body"].LinearVelocity = v;
         }
-
-        protected override void HandleCollisions()
-        {
-            var c = bodies["body"].ContactList;
-            while (c != null)
-            {
-                if (c.Contact.IsTouching
-                    && c.Other.UserData != null
-                    && c.Other.UserData is Agent
-                    && !((Agent)c.Other.UserData).noCollision
-                    && !c.Other.UserData.Equals(this.parent))
-                {
-                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
-                    Remove();
-                } else if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
-                {
-                    Remove();
-                }
-
-                c = c.Next;
-            }
-        }
-
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
         {

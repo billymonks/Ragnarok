@@ -12,8 +12,8 @@ namespace wickedcrush.controls
         private KeyboardState keyState, prevKeyState;
         private MouseState mouseState, prevMouseState;
 
-        private Keys interactKey = Keys.C, actionKey = Keys.Z, blockKey = Keys.X, boostKey = Keys.Space,
-            strafeKey = Keys.LeftControl, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
+        private Keys interactKey = Keys.E, actionKey = Keys.J, blockKey = Keys.L, boostKey = Keys.Space,
+            strafeKey = Keys.K, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
             altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
             startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
 

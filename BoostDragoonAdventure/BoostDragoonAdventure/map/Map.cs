@@ -39,6 +39,17 @@ namespace wickedcrush.map
                 layerList.Add(layerType, new Layer(data, w, width, height, false, layerType));
         }
 
+        public void addRoomLayer(Point pos, Boolean[,] data, LayerType layerType)
+        {
+            for(int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    layerList[layerType].data[i + pos.X/10, j + pos.Y/10] = data[i, j];
+                }
+            }
+        }
+
         public void addEmptyLayer(World w, LayerType layerType)
         {
             Boolean[,] emptyData = new Boolean[1, 1];
@@ -50,6 +61,68 @@ namespace wickedcrush.map
         public Layer getLayer(LayerType layerType)
         {
             return layerList[layerType];
+        }
+
+        private void loadSubMap(String SUB_MAP_NAME, Point pos)
+        {
+            XDocument doc = XDocument.Load(SUB_MAP_NAME);
+
+            XElement rootElement = new XElement(doc.Element("level"));
+            XElement walls = rootElement.Element("WALLS");
+            XElement deathSoup = rootElement.Element("DEATHSOUP");
+            XElement wiring = rootElement.Element("WIRING");
+            XElement objects = rootElement.Element("OBJECTS");
+
+            pos.X -= 320;
+            pos.Y -= 240;
+
+            bool[,] data;
+
+            if (walls != null)
+            {
+                data = getLayerData(walls.Value);
+                addRoomLayer(pos, data, LayerType.WALL);
+            }
+
+            if (deathSoup != null)
+            {
+                data = getLayerData(deathSoup.Value);
+                addRoomLayer(pos, data, LayerType.DEATHSOUP);
+            }
+
+            if (wiring != null)
+            {
+                data = getLayerData(wiring.Value);
+                addRoomLayer(pos, data, LayerType.WIRING);
+            }
+
+            if (objects != null)
+            {
+                foreach (XElement e in objects.Elements("TURRET"))
+                {
+                    factory.addTurret(
+                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y),
+                        (Direction)int.Parse(e.Attribute("angle").Value));
+                }
+
+                foreach (XElement e in objects.Elements("CHEST"))
+                {
+                    factory.addChest(
+                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                }
+
+                foreach (XElement e in objects.Elements("FLOOR_SWITCH"))
+                {
+                    factory.addFloorSwitch(
+                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                }
+
+                foreach (XElement e in objects.Elements("TIMER"))
+                {
+                    factory.addTimerTrigger(
+                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                }
+            }
         }
 
         private void loadMap(String MAP_NAME, World w)
@@ -124,6 +197,19 @@ namespace wickedcrush.map
                 {
                     factory.addTimerTrigger(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
+                foreach (XElement e in objects.Elements("ROOM"))
+                {
+                    loadSubMap("Content/maps/small/Temple Halls V4.xml", new Point(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value)));
+                }
+
+                foreach (KeyValuePair<LayerType, Layer> pair in layerList)
+                {
+                    if (pair.Key.Equals(LayerType.WALL))
+                        pair.Value.generateBodies(w, width, height, true);
+                    else
+                        pair.Value.generateBodies(w, width, height, false);
                 }
 
                 makeCircuits();

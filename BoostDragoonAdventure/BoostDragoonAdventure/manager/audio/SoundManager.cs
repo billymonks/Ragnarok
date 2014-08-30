@@ -12,7 +12,7 @@ namespace wickedcrush.manager.audio
     public class SoundManager
     {
         private Dictionary<String, SoundEffect> soundsList;
-        private Dictionary<String, SoundEffectInstance> instancedAmbientSounds; 
+        private Dictionary<String, SoundEffectInstance> instancedSounds; 
         //todo: hashmap? for instanced sounds from an entity, to contain emitter also. for stuff that needs to be synced, ambient is wrong 
 
         private ContentManager _cm;
@@ -23,7 +23,7 @@ namespace wickedcrush.manager.audio
         public SoundManager(ContentManager cm)
         {
             soundsList = new Dictionary<String, SoundEffect>();
-            instancedAmbientSounds = new Dictionary<String, SoundEffectInstance>();
+            instancedSounds = new Dictionary<String, SoundEffectInstance>();
 
             SoundEffect.DistanceScale = 140f;
 
@@ -69,48 +69,57 @@ namespace wickedcrush.manager.audio
             }
         }
 
-        public void addAmbient(String key, String instanceKey, bool loop)
+        public void addInstance(String key, String instanceKey, bool loop)
         {
             if (soundsList.ContainsKey(key))
             {
                 SoundEffectInstance temp = soundsList[key].CreateInstance();
 
                 temp.IsLooped = loop;
-                temp.Volume = .3f;
+                temp.Volume = 1f;
 
-                if(!instancedAmbientSounds.ContainsKey(instanceKey))
-                    instancedAmbientSounds.Add(instanceKey, temp);
+                if(!instancedSounds.ContainsKey(instanceKey))
+                    instancedSounds.Add(instanceKey, temp);
                 
             }
         }
 
         public void playAmbient(String instanceKey)
         {
-            if(instancedAmbientSounds.ContainsKey(instanceKey))
+            if(instancedSounds.ContainsKey(instanceKey))
             {
-                instancedAmbientSounds[instanceKey].Play();
+                instancedSounds[instanceKey].Play();
             }
         }
 
-        public void stopAmbientSounds()
+        public void playInstanced(String instanceKey, AudioEmitter emitter)
         {
-            foreach(KeyValuePair<String, SoundEffectInstance> pair in instancedAmbientSounds)
+            if(instancedSounds.ContainsKey(instanceKey))
+            {
+                instancedSounds[instanceKey].Apply3D(listener, emitter);
+                instancedSounds[instanceKey].Play();
+            }
+        }
+
+        public void stopInstancedSounds()
+        {
+            foreach(KeyValuePair<String, SoundEffectInstance> pair in instancedSounds)
             {
                 pair.Value.Stop();
             }
 
-            instancedAmbientSounds.Clear();
+            instancedSounds.Clear();
         }
 
-        public void stopAmbientSound(String key)
+        public void stopInstancedSound(String key)
         {
-            if(instancedAmbientSounds.ContainsKey(key))
-                instancedAmbientSounds[key].Stop();
+            if(instancedSounds.ContainsKey(key))
+                instancedSounds[key].Stop();
         }
 
         public SoundEffectInstance getAmbientSound(String instanceKey)
         {
-            return instancedAmbientSounds[instanceKey];
+            return instancedSounds[instanceKey];
         }
 
         public SoundEffectInstance createSoundInstance(String key)
@@ -120,6 +129,13 @@ namespace wickedcrush.manager.audio
                 return soundsList[key].CreateInstance();
             }
             else return null;
+        }
+
+        public void fire3DSound(String key, AudioEmitter emitter)
+        {
+            SoundEffectInstance temp = createSoundInstance(key);
+            temp.Apply3D(listener, emitter);
+            temp.Play();
         }
     }
 }
