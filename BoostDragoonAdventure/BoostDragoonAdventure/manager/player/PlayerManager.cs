@@ -116,5 +116,18 @@ namespace wickedcrush.manager.player
         {
             return playerList;
         }
+
+        public Vector2 getMeanPlayerPos()
+        {
+            Vector2 meanPos = new Vector2(0f, 0f);
+            foreach(Player p in playerList)
+            {
+                meanPos += p.getAgent().pos;
+            }
+
+            meanPos /= playerList.Count;
+
+            return meanPos;
+        }
     }
 }

@@ -7,6 +7,7 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.audio;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity
 {
@@ -66,27 +67,29 @@ namespace wickedcrush.entity.physics_entity
             }
         }
 
-        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
-            spriteBatch.Draw(wTex, bodies["body"].Position, null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(aTex, bodies["body"].Position+center, null, c, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].Position - new Vector2(camera.cameraPosition.X,
+                    camera.cameraPosition.Y), null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, bodies["body"].Position + center - new Vector2(camera.cameraPosition.X,
+                    camera.cameraPosition.Y), null, c, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
 
-            DrawName(spriteBatch, f);
+            DrawName(spriteBatch, f, camera);
 
-            spriteBatch.Draw(wTex, bodies["body"].WorldCenter, null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             
             foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
+                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
         }
 
-        protected void DrawName(SpriteBatch spriteBatch, SpriteFont f)
+        protected void DrawName(SpriteBatch spriteBatch, SpriteFont f, Camera camera)
         {
-            spriteBatch.DrawString(f, name, pos - new Vector2(0, 11), Color.Black);
-            spriteBatch.DrawString(f, name, pos - new Vector2(0, 9), Color.Black);
-            spriteBatch.DrawString(f, name, pos - new Vector2(1, 10), Color.Black);
-            spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10), Color.Black);
-            spriteBatch.DrawString(f, name, pos - new Vector2(0, 10), Color.White);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 11) - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 9) - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(1, 10) - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(-1, 10) - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), Color.Black);
+            spriteBatch.DrawString(f, name, pos - new Vector2(0, 10) - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), Color.White);
         }
 
         protected void setLocalCenter()

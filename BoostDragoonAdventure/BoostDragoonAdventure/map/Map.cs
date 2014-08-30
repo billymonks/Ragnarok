@@ -11,6 +11,7 @@ using wickedcrush.map.path;
 using wickedcrush.factory.entity;
 using wickedcrush.entity;
 using wickedcrush.map.circuit;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.map
 {
@@ -202,7 +203,7 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap("Content/maps/small/Temple Halls V4.xml", new Point(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value)));
+                    loadSubMap("Content/maps/small/I66.xml", new Point(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value)));
                 }
 
                 foreach (KeyValuePair<LayerType, Layer> pair in layerList)
@@ -310,24 +311,48 @@ namespace wickedcrush.map
             return (c == '1');
         }
 
-        public void DebugDraw(Texture2D whiteTexture, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f)
+        public void DebugDraw(Texture2D whiteTexture, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Camera camera)
         {
             foreach (Body b in getLayer(LayerType.WALL).bodyList)
             {
                 if(b!=null)
-                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Black, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(whiteTexture, 
+                        b.Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), 
+                        null, 
+                        Color.Black, 
+                        b.Rotation, 
+                        Vector2.Zero, 
+                        new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), 
+                        SpriteEffects.None, 
+                        0f);
             }
 
             foreach (Body b in getLayer(LayerType.DEATHSOUP).bodyList)
             {
                 if (b != null)
-                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Red, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.DEATHSOUP).getWidth(), height / getLayer(LayerType.DEATHSOUP).getHeight()), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(whiteTexture,
+                        b.Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), 
+                        null, 
+                        Color.Red, 
+                        b.Rotation, 
+                        Vector2.Zero, 
+                        new Vector2(width / getLayer(LayerType.DEATHSOUP).getWidth(), height / getLayer(LayerType.DEATHSOUP).getHeight()), 
+                        SpriteEffects.None, 
+                        0f);
             }
 
             foreach (Body b in getLayer(LayerType.WIRING).bodyList)
             {
                 if (b != null)
-                    spriteBatch.Draw(whiteTexture, b.Position, null, Color.Purple, b.Rotation, Vector2.Zero, new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(whiteTexture,
+                        b.Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), 
+                        null, 
+                        Color.Purple, 
+                        b.Rotation, 
+                        Vector2.Zero, 
+                        new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), 
+                        SpriteEffects.None, 
+                        0f);
             }
         }
     }

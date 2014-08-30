@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using wickedcrush.entity;
 using wickedcrush.manager.controls;
+using wickedcrush.manager.player;
 
 namespace wickedcrush.display._3d
 {
@@ -24,9 +25,10 @@ namespace wickedcrush.display._3d
         public float smoothVal = 7f;
 
         public ControlsManager _controls;
+        public PlayerManager _players;
         #endregion
 
-        public Camera()
+        public Camera(PlayerManager players)
         {
             cameraPosition = new Vector3(0f, 0f, 0f);
             cameraTarget = new Vector3(0f, 0f, 0f);
@@ -34,6 +36,8 @@ namespace wickedcrush.display._3d
             upVector = Vector3.Up;
             fov = MathHelper.PiOver4;
             minCamPos = new Vector2(356f, 448f);
+
+            _players = players;
         }
 
         public void SetTarget(Entity e)
@@ -54,7 +58,7 @@ namespace wickedcrush.display._3d
 
         public void Update() // to be updated with use of state machine...maybe
         {
-            if (target == null)
+            /*if (target == null)
             {
                 camMode = CameraMode.Still;
             }
@@ -72,7 +76,11 @@ namespace wickedcrush.display._3d
             }
 
             cameraPosition += velocity;
-            cameraTarget += velocity;
+            cameraTarget += velocity;*/
+
+            cameraPosition.X = _players.getMeanPlayerPos().X - 320; //todo: change everything
+            cameraPosition.Y = _players.getMeanPlayerPos().Y - 240;
+
             //adhereToBounds();
         }
         private void adhereToBounds()

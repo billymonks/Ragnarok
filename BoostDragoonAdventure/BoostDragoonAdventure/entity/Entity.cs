@@ -10,6 +10,7 @@ using wickedcrush.manager.audio;
 using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.attack;
 using Microsoft.Xna.Framework.Audio;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity
 {
@@ -130,14 +131,18 @@ namespace wickedcrush.entity
             return true;
         }
 
-        public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
             //spriteBatch.Draw(whiteTexture, body, c);
             spriteBatch.Draw(wTex, new Rectangle((int)pos.X - 1, (int)pos.Y - 1, 2, 2), c); 
-            spriteBatch.DrawString(f, name, pos, Color.Black);
+            spriteBatch.DrawString(f, name, 
+                pos
+                - new Vector2(camera.cameraPosition.X,
+                    camera.cameraPosition.Y), 
+                Color.Black);
 
             foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
+                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
 
         protected Vector2 vectorToEntity(Entity e)

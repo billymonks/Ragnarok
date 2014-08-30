@@ -23,7 +23,7 @@ namespace wickedcrush.map.layer
             this.width = width;
             this.height = height;
             data = new bool[width, height]; //x, y
-            bodyList = new Body[width, height];
+            bodyList = new Body[getWidth(), getHeight()];
         }
 
         public Layer(bool[,] data, World w, int width, int height, bool solid, LayerType layerType)
@@ -31,7 +31,7 @@ namespace wickedcrush.map.layer
             this.data = data;
             this.width = width;
             this.height = height;
-            bodyList = new Body[width, height];
+            bodyList = new Body[getWidth(), getHeight()];
             this.layerType = layerType;
         }
 

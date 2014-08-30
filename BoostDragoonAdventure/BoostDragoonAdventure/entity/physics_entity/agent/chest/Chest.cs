@@ -12,6 +12,7 @@ using wickedcrush.inventory;
 using wickedcrush.behavior;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.audio;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity.agent.chest
 {
@@ -108,17 +109,17 @@ namespace wickedcrush.entity.physics_entity.agent.chest
             }
         }
 
-        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
             //if (navigator != null)
             //{
             //navigator.DebugDraw(wTex, gd, spriteBatch, f);
             //}
 
-            spriteBatch.Draw(wTex, bodies["body"].Position, null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(aTex, pos + center, null, testColor, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
+            spriteBatch.Draw(wTex, bodies["body"].Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+            spriteBatch.Draw(aTex, pos + center - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, testColor, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
             //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
-            DrawName(spriteBatch, f);
+            DrawName(spriteBatch, f, camera);
         }
     }
 }

@@ -11,6 +11,7 @@ using wickedcrush.entity.physics_entity.agent;
 using wickedcrush.entity.physics_entity.agent.enemy;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.map.layer;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.manager.entity
 {
@@ -114,11 +115,11 @@ namespace wickedcrush.manager.entity
             }
         }
 
-        public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont)
+        public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont, Camera camera)
         {
             foreach (Entity e in entityList)
             {
-                e.DebugDraw(wTex, aTex, gd, sb, testFont, Color.Green);
+                e.DebugDraw(wTex, aTex, gd, sb, testFont, Color.Green, camera);
             }
         }
 

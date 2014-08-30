@@ -54,7 +54,7 @@ namespace wickedcrush.screen
 
             factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
 
-            camera = new Camera();
+            camera = new Camera(game.playerManager);
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
             
             soundManager.setCam(camera);
@@ -111,7 +111,7 @@ namespace wickedcrush.screen
             soundManager.Update(gameTime);
 
             camera.Update();
-
+            
             factory.Update(); //player creation, needs to be replaced
 
             DebugControls();
@@ -131,9 +131,8 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont);
-
-            entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont);
+            game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
+            entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
 
             DrawHud();
         }

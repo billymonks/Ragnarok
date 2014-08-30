@@ -18,6 +18,7 @@ using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.utility.trigger;
 using wickedcrush.inventory;
 using wickedcrush.manager.audio;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -290,25 +291,43 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
             //if (navigator != null)
             //{
                 //navigator.DebugDraw(wTex, gd, spriteBatch, f);
             //}
 
-            base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c);
+            base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
-            DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c);
+            DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
 
-        protected void DebugDrawHealth(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c)
+        protected void DebugDrawHealth(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
-            spriteBatch.Draw(wTex, new Rectangle((int)pos.X, (int)pos.Y - 6, 25 * stats.get("hp") / stats.get("maxHP"), 2), Color.Red);
-            if(staggered)
-                spriteBatch.Draw(wTex, new Rectangle((int)pos.X, (int)pos.Y - 4, 25 * stats.get("stagger") / stats.get("staggerDuration"), 2), Color.Yellow);
+            int barWidth = 25;
+
+            spriteBatch.Draw(wTex, new Rectangle(
+                (int)pos.X - (int)camera.cameraPosition.X, 
+                (int)pos.Y - 6 - (int)camera.cameraPosition.Y, 
+                barWidth * stats.get("hp") / stats.get("maxHP"), 2), 
+                Color.Red);
+            if (staggered)
+            {
+                spriteBatch.Draw(wTex, new Rectangle(
+                    (int)pos.X - (int)camera.cameraPosition.X, 
+                    (int)pos.Y - 4 - (int)camera.cameraPosition.Y, 
+                    barWidth * stats.get("stagger") / stats.get("staggerDuration"), 2), 
+                    Color.Yellow);
+            }
             else
-                spriteBatch.Draw(wTex, new Rectangle((int)pos.X, (int)pos.Y - 4, 25 * stats.get("stagger") / stats.get("staggerLimit"), 2), Color.Green);
+            {
+                spriteBatch.Draw(wTex, new Rectangle(
+                    (int)pos.X - (int)camera.cameraPosition.X, 
+                    (int)pos.Y - 4 - (int)camera.cameraPosition.Y, 
+                    barWidth * stats.get("stagger") / stats.get("staggerLimit"), 2), 
+                    Color.Green);
+            }
         }
 
         protected void faceTarget()
