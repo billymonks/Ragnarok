@@ -41,11 +41,12 @@ namespace wickedcrush.map
 
         public void addRoomLayer(Point pos, Boolean[,] data, LayerType layerType)
         {
+            int gridSize = layerList[layerType].getGridSize();
             for(int i = 0; i < data.GetLength(0); i++)
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    layerList[layerType].data[i + pos.X/10, j + pos.Y/10] = data[i, j];
+                    layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, j];
                 }
             }
         }

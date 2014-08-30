@@ -16,8 +16,12 @@ namespace wickedcrush.map.layer
         public Body[,] bodyList;
         public LayerType layerType;
 
+        public int width, height;
+
         public Layer(int width, int height) // Empty Layer
         {
+            this.width = width;
+            this.height = height;
             data = new bool[width, height]; //x, y
             bodyList = new Body[width, height];
         }
@@ -25,6 +29,8 @@ namespace wickedcrush.map.layer
         public Layer(bool[,] data, World w, int width, int height, bool solid, LayerType layerType)
         {
             this.data = data;
+            this.width = width;
+            this.height = height;
             bodyList = new Body[width, height];
             this.layerType = layerType;
         }
@@ -50,6 +56,11 @@ namespace wickedcrush.map.layer
         public int getHeight()
         {
             return (data.GetLength(1));
+        }
+
+        public int getGridSize()
+        {
+            return width / getWidth();
         }
 
         public bool collision(Rectangle r)
