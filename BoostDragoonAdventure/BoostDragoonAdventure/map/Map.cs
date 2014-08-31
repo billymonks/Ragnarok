@@ -12,6 +12,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.entity;
 using wickedcrush.map.circuit;
 using wickedcrush.display._3d;
+using wickedcrush.helper;
 
 namespace wickedcrush.map
 {
@@ -40,14 +41,33 @@ namespace wickedcrush.map
                 layerList.Add(layerType, new Layer(data, w, width, height, false, layerType));
         }
 
-        public void addRoomLayer(Point pos, Boolean[,] data, LayerType layerType)
+        public void addRoomLayer(Point pos, Boolean[,] data, LayerType layerType, Direction rotation, bool flipped)
         {
             int gridSize = layerList[layerType].getGridSize();
-            for(int i = 0; i < data.GetLength(0); i++)
+            if (flipped)
             {
-                for (int j = 0; j < data.GetLength(1); j++)
+                for (int i = 0; i < data.GetLength(0); i++)
                 {
-                    layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, j];
+                    for (int j = 0; j < data.GetLength(1); j++)
+                    {
+                        if (rotation == Direction.East)
+                            layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[data.GetLength(0) - 1 - i, j];
+                        if (rotation == Direction.West)
+                            layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, data.GetLength(1) - 1 - j];
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < data.GetLength(0); i++)
+                {
+                    for (int j = 0; j < data.GetLength(1); j++)
+                    {
+                        if(rotation==Direction.East)
+                            layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, j];
+                        if(rotation==Direction.West)
+                            layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[data.GetLength(0) - 1 - i, data.GetLength(1) - 1 - j];
+                    }
                 }
             }
         }
@@ -65,7 +85,7 @@ namespace wickedcrush.map
             return layerList[layerType];
         }
 
-        private void loadSubMap(String SUB_MAP_NAME, Point pos)
+        private void loadSubMap(String SUB_MAP_NAME, Point pos, Direction rotation, bool flipped)
         {
             XDocument doc = XDocument.Load(SUB_MAP_NAME);
 
@@ -78,51 +98,92 @@ namespace wickedcrush.map
             pos.X -= 320;
             pos.Y -= 240;
 
+            float tempX, tempY;
+            int tempRotation;
+
             bool[,] data;
 
             if (walls != null)
             {
                 data = getLayerData(walls.Value);
-                addRoomLayer(pos, data, LayerType.WALL);
+                addRoomLayer(pos, data, LayerType.WALL, rotation, flipped);
             }
 
             if (deathSoup != null)
             {
                 data = getLayerData(deathSoup.Value);
-                addRoomLayer(pos, data, LayerType.DEATHSOUP);
+                addRoomLayer(pos, data, LayerType.DEATHSOUP, rotation, flipped);
             }
 
             if (wiring != null)
             {
                 data = getLayerData(wiring.Value);
-                addRoomLayer(pos, data, LayerType.WIRING);
+                addRoomLayer(pos, data, LayerType.WIRING, rotation, flipped);
             }
 
             if (objects != null)
             {
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
+                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
+                    tempRotation = int.Parse(e.Attribute("angle").Value);
+
+                    if (flipped)
+                    {
+                        tempX *= -1;
+                        if(tempRotation % 180 == 0)
+                            tempRotation += 180;
+                    }
+                     
                     factory.addTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y),
-                        (Direction)int.Parse(e.Attribute("angle").Value));
+                        new Vector2(
+                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
+                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),
+                            (Direction)((tempRotation + (int)rotation)%360));
+                    
                 }
 
                 foreach (XElement e in objects.Elements("CHEST"))
                 {
+                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
+                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
+
+                    if (flipped)
+                        tempX *= -1;
+
                     factory.addChest(
-                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                        new Vector2(
+                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X, 
+                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
                 }
 
                 foreach (XElement e in objects.Elements("FLOOR_SWITCH"))
                 {
+                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
+                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
+
+                    if (flipped)
+                        tempX *= -1;
+
                     factory.addFloorSwitch(
-                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                        new Vector2(
+                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X, 
+                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
                 }
 
                 foreach (XElement e in objects.Elements("TIMER"))
                 {
+                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
+                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
+
+                    if (flipped)
+                        tempX *= -1;
+
                     factory.addTimerTrigger(
-                        new Vector2(float.Parse(e.Attribute("x").Value) + pos.X, float.Parse(e.Attribute("y").Value) + pos.Y));
+                        new Vector2(
+                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X, 
+                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
                 }
             }
         }
@@ -203,7 +264,18 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap("Content/maps/small/I66.xml", new Point(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value)));
+                    loadSubMap("Content/maps/small/Temple Halls V4.xml", 
+                        new Point(int.Parse(e.Attribute("x").Value), 
+                        int.Parse(e.Attribute("y").Value)), 
+                        (Direction)int.Parse(e.Attribute("angle").Value), false);
+                }
+
+                foreach (XElement e in objects.Elements("ROOM_MIRROR"))
+                {
+                    loadSubMap("Content/maps/small/Temple Halls V4.xml",
+                        new Point(int.Parse(e.Attribute("x").Value),
+                        int.Parse(e.Attribute("y").Value)),
+                        (Direction)int.Parse(e.Attribute("angle").Value), true);
                 }
 
                 foreach (KeyValuePair<LayerType, Layer> pair in layerList)
