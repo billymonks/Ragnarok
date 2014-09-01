@@ -76,10 +76,7 @@ namespace wickedcrush.screen
 
             game.testMap = new Map(game.mapName, w, factory);
 
-            //connectWiring(game.testMap);
-            
-            //factory = new EntityFactory(game.entityManager, game.playerManager, w);
-            factory.setMap(game.testMap);
+            //factory.setMap(game.testMap);
 
             factory.spawnPlayers();
         }

@@ -13,6 +13,8 @@ using wickedcrush.entity;
 using wickedcrush.map.circuit;
 using wickedcrush.display._3d;
 using wickedcrush.helper;
+using wickedcrush.stats;
+using wickedcrush.entity.physics_entity.agent.inanimate;
 
 namespace wickedcrush.map
 {
@@ -22,6 +24,7 @@ namespace wickedcrush.map
         public int width, height;
         public Dictionary<LayerType, Layer> layerList;
         public List<Circuit> circuitList;
+        public List<Door> doorList;
         public String name;
 
         private EntityFactory factory;
@@ -30,6 +33,8 @@ namespace wickedcrush.map
         {
             layerList = new Dictionary<LayerType, Layer>();
             this.factory = factory;
+            factory.setMap(this);
+            doorList = new List<Door>();
             loadMap(MAP_NAME, w);
         }
 
@@ -44,27 +49,20 @@ namespace wickedcrush.map
         public void addRoomLayer(Point pos, Boolean[,] data, LayerType layerType, Direction rotation, bool flipped)
         {
             int gridSize = layerList[layerType].getGridSize();
-            if (flipped)
+            
+            for (int i = 0; i < data.GetLength(0); i++)
             {
-                for (int i = 0; i < data.GetLength(0); i++)
+                for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    for (int j = 0; j < data.GetLength(1); j++)
+                    if (flipped)
                     {
                         if (rotation == Direction.East)
                             layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[data.GetLength(0) - 1 - i, j];
                         if (rotation == Direction.West)
                             layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, data.GetLength(1) - 1 - j];
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < data.GetLength(0); i++)
-                {
-                    for (int j = 0; j < data.GetLength(1); j++)
-                    {
+                    } else {
                         if(rotation==Direction.East)
-                            layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, j];
+                           layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[i, j];
                         if(rotation==Direction.West)
                             layerList[layerType].data[i + pos.X / gridSize, j + pos.Y / gridSize] = data[data.GetLength(0) - 1 - i, data.GetLength(1) - 1 - j];
                     }
@@ -260,6 +258,19 @@ namespace wickedcrush.map
                 {
                     factory.addTimerTrigger(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
+                foreach (XElement e in objects.Elements("DOOR"))
+                {
+                    //put dis shit in factory ffs
+                    doorList.Add(new Door(w, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), (Direction)int.Parse(e.Attribute("angle").Value), factory, null));
+                }
+
+                foreach (XElement e in objects.Elements("MURDERER"))
+                {
+                    factory.addAgent(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), 
+                        new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30, 30));
                 }
 
                 foreach (XElement e in objects.Elements("ROOM"))
