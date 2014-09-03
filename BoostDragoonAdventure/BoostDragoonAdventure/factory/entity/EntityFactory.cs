@@ -23,6 +23,7 @@ using wickedcrush.entity.physics_entity.agent.trap.triggerable.turret;
 using wickedcrush.entity.physics_entity.agent.chest;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.manager.audio;
+using wickedcrush.entity.physics_entity.agent.inanimate;
 
 namespace wickedcrush.factory.entity
 {
@@ -34,6 +35,8 @@ namespace wickedcrush.factory.entity
         private SoundManager sm;
         private World w;
 
+        private List<Door> doorList;
+
         private Map map;
 
         public EntityFactory(EntityManager em, PlayerManager pm, ControlsManager cm, SoundManager sm, World w)
@@ -43,6 +46,8 @@ namespace wickedcrush.factory.entity
             this.cm = cm;
             this.sm = sm;
             this.w = w;
+
+            doorList = new List<Door>();
         }
 
         public void setMap(Map map)
@@ -59,6 +64,11 @@ namespace wickedcrush.factory.entity
         {
             Entity e = new Entity(pos, size, center, sm);
             em.addEntity(e);
+        }
+
+        public void addDoor(Vector2 pos, Direction facing)
+        {
+            doorList.Add(new Door(w, pos, facing, this, sm));
         }
 
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -127,17 +137,17 @@ namespace wickedcrush.factory.entity
         public void spawnPlayers()
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
-            positions.AddLast(new Vector2(3, 315));
-            positions.AddLast(new Vector2(3, 340));
-            positions.AddLast(new Vector2(28, 315));
-            positions.AddLast(new Vector2(28, 340));
-            positions.AddLast(new Vector2(53, 326));
+            positions.AddLast(new Vector2(-24, -24));
+            positions.AddLast(new Vector2(-24, 24));
+            positions.AddLast(new Vector2(24, 24));
+            positions.AddLast(new Vector2(24, -24));
+            positions.AddLast(new Vector2(48, 0));
             LinkedListNode<Vector2> current = positions.First;
             
             
             foreach (Player p in pm.getPlayerList())
             {
-                p.GenerateAgent(current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 current = current.Next;
             }
         }
@@ -145,11 +155,11 @@ namespace wickedcrush.factory.entity
         private void respawnPlayer() //needs a new home
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
-            positions.AddLast(new Vector2(3, 315));
-            positions.AddLast(new Vector2(3, 340));
-            positions.AddLast(new Vector2(28, 315));
-            positions.AddLast(new Vector2(28, 340));
-            positions.AddLast(new Vector2(53, 326));
+            positions.AddLast(new Vector2(-24, -24));
+            positions.AddLast(new Vector2(-24, 24));
+            positions.AddLast(new Vector2(24, 24));
+            positions.AddLast(new Vector2(24, -24));
+            positions.AddLast(new Vector2(48, 0));
             LinkedListNode<Vector2> current = positions.First;
 
 
@@ -158,7 +168,7 @@ namespace wickedcrush.factory.entity
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
                     p.getStats().set("hp", p.getStats().get("maxHP"));
-                    p.GenerateAgent(current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                     current = current.Next;
                 }
             }

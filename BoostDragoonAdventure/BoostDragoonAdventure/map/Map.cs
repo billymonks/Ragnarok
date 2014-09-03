@@ -262,8 +262,11 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("DOOR"))
                 {
+                    factory.addDoor(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), 
+                        (Direction)int.Parse(e.Attribute("angle").Value));
                     //put dis shit in factory ffs
-                    doorList.Add(new Door(w, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), (Direction)int.Parse(e.Attribute("angle").Value), factory, null));
+                    //doorList.Add(new Door(w, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), (Direction)int.Parse(e.Attribute("angle").Value), factory, null));
                 }
 
                 foreach (XElement e in objects.Elements("MURDERER"))
