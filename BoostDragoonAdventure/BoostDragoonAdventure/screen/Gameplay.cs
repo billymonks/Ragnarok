@@ -25,6 +25,7 @@ using FarseerPhysics;
 using wickedcrush.map.layer;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
+using wickedcrush.manager.map.room;
 
 
 namespace wickedcrush.screen
@@ -33,6 +34,8 @@ namespace wickedcrush.screen
     {
         public EntityManager entityManager;
         public SoundManager soundManager;
+
+        public RoomManager roomManager;
 
         public EntityFactory factory;
 
@@ -50,7 +53,8 @@ namespace wickedcrush.screen
 
             soundManager = new SoundManager(game.Content);
             entityManager = new EntityManager(game);
-            
+
+            roomManager = new RoomManager();
 
             factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
 

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<atlas>
+  <room>
+    <filename>Content/maps/small/A Few Rooms.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+  <room>
+    <filename>Content/maps/small/Death Maze.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+  <room>
+    <filename>Content/maps/small/I66.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+
+</atlas>
