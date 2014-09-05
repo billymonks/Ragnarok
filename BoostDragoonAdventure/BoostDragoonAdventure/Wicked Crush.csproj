@@ -133,6 +133,7 @@
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
+    <Compile Include="inventory\ItemServer.cs" />
     <Compile Include="manager\audio\SoundManager.cs" />
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
     <Compile Include="manager\map\room\RoomManager.cs" />

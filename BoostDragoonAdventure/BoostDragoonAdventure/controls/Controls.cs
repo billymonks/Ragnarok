@@ -42,6 +42,10 @@ namespace wickedcrush.controls
 
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
-        
+
+        public abstract bool ItemAHeld();
+        public abstract bool ItemAPressed();
+        public abstract bool ItemAReleased();
+
     }
 }

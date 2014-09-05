@@ -8,6 +8,7 @@ using wickedcrush.stats;
 using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using wickedcrush.factory.entity;
+using wickedcrush.inventory;
 
 namespace wickedcrush.player
 {
@@ -74,8 +75,11 @@ namespace wickedcrush.player
             stats.set("fillSpeed", 3);
             stats.set("useSpeed", 8);
             stats.set("boostSpeedMod", 0);
-            
+
+            stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
         }
+
+
 
         protected void Remove()
         {
@@ -100,14 +104,6 @@ namespace wickedcrush.player
         public void Update(GameTime gameTime)
         {
             c.Update();
-
-            //if (agent != null)
-            //{
-                //agent.Update(gameTime);
-
-                //if (agent.readyForRemoval())
-                    //agent = null;
-            //}
         }
     }
 }

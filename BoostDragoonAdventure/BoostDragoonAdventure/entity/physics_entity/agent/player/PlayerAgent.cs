@@ -15,6 +15,7 @@ using wickedcrush.behavior.state;
 using wickedcrush.behavior;
 using wickedcrush.manager.audio;
 using Microsoft.Xna.Framework.Audio;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -27,7 +28,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private float boostSpeed = 100f;
         private bool overheating = false;
         private int chargeLevel = 0;
-        
+
+        public Item itemA;
+
         #endregion
 
         #region Initialization
@@ -46,6 +49,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             this.facing = Direction.East;
             movementDirection = facing;
+
+            itemA = ItemServer.getItem("Healthsweed");
 
             _sound.addSound("blast off", "bfxr/blast off");
             _sound.addSound("whsh", "bfxr/whsh");

@@ -18,17 +18,20 @@ namespace wickedcrush.stats
         public PersistedStats()
         {
             numbers = new Dictionary<String, int>();
+            inventory = new Inventory();
         }
 
         public PersistedStats(int maxHP, int currentHP)
         {
             numbers = new Dictionary<String, int>();
+            inventory = new Inventory();
 
             set("maxHP", maxHP);
             set("hp", currentHP);
             set("staggerLimit", 100);
             set("staggerDuration", 50);
             set("stagger", 0);
+            
         }
 
         public int get(String key)
