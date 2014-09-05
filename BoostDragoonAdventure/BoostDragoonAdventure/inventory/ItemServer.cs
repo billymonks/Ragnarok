@@ -13,6 +13,10 @@ namespace wickedcrush.inventory
         {
             items = new Dictionary<String, Item>();
             items.Add("Healthsweed", new Item("Healthsweed", a => a.stats.set("hp", a.stats.get("maxHP"))));
+            items.Add("Fireball", new Item("Spellbook: Fireball", 
+                a => {
+                    a.fireBolt();
+                }));
         }
         
         public static Item getItem(String name)

@@ -39,27 +39,12 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
             bodies["body"].BodyType = BodyType.Static;
         }
 
-        protected void fireShot()
-        {
-
-            factory.addBolt(
-                new Vector2(
-                        (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
-                        (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
-                new Vector2(10f, 10f),
-                new Vector2(5f, 5f),
-                this,
-                1,
-                1);
-
-            //timer = new Timer(600);
-
-        }
+        
 
         public override void activate()
         {
             if(!dead)
-                fireShot();
+                fireBolt();
         }
 
         public override void Remove()

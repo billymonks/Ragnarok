@@ -404,5 +404,18 @@ namespace wickedcrush.entity.physics_entity.agent
                 t.Value.reset();
             }
         }
+
+        public void fireBolt()
+        {
+            factory.addBolt(
+                new Vector2(
+                        (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
+                        (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
+                new Vector2(10f, 10f),
+                new Vector2(5f, 5f),
+                this,
+                1,
+                1);
+        }
     }
 }

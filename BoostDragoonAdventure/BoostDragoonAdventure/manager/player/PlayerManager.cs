@@ -95,11 +95,20 @@ namespace wickedcrush.manager.player
 
         public void DrawPlayerHud(SpriteBatch sb, SpriteFont f)
         {
+            String hud = "";
             foreach (Player p in getPlayerList())
             {
+                hud += p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
+                    + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost");
+
+                if (p.getStats().inventory.itemA != null)
+                    hud += "\nItem A: " + p.getStats().inventory.itemA.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemA);
+
+                if (p.getStats().inventory.itemB != null)
+                    hud += "\nItem B: " + p.getStats().inventory.itemB.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemB);
+
                 sb.DrawString(f, 
-                    p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
-                    + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost"), 
+                    hud, 
                     new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
         }

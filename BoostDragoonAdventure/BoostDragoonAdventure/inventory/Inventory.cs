@@ -12,6 +12,8 @@ namespace wickedcrush.inventory
         private Dictionary<Item, int> inventory;
         private int currency;
 
+        public Item itemA, itemB;
+
         public Inventory()
         {
             inventory = new Dictionary<Item, int>();
@@ -40,6 +42,14 @@ namespace wickedcrush.inventory
             {
                 inventory.Add(i, count);
             }
+        }
+
+        public int getItemCount(Item i)
+        {
+            if(inventory.ContainsKey(i))
+                return inventory[i];
+
+            return 0;
         }
 
         public void useItem(Item i, Agent a)

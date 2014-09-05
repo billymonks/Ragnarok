@@ -77,6 +77,7 @@ namespace wickedcrush.player
             stats.set("boostSpeedMod", 0);
 
             stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
+            stats.inventory.receiveItem(ItemServer.getItem("Fireball"), 5);
         }
 
 

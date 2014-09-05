@@ -99,6 +99,30 @@ namespace wickedcrush.controls
                 return false;
         }
 
+        public override bool ItemBHeld()
+        {
+            if (padState.IsButtonDown(itemBButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemBPressed()
+        {
+            if (padState.IsButtonDown(itemBButton) && prevPadState.IsButtonUp(itemBButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemBReleased()
+        {
+            if (padState.IsButtonUp(itemBButton))
+                return true;
+            else
+                return false;
+        }
+
         public override bool BoostHeld()
         {
             if (padState.IsButtonDown(boostButton))

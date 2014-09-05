@@ -29,7 +29,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private bool overheating = false;
         private int chargeLevel = 0;
 
-        public Item itemA;
+        //public Item itemA;
 
         #endregion
 
@@ -50,7 +50,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.facing = Direction.East;
             movementDirection = facing;
 
-            itemA = ItemServer.getItem("Healthsweed");
+            stats.inventory.itemA = ItemServer.getItem("Healthsweed");
+            stats.inventory.itemB = ItemServer.getItem("Fireball");
 
             _sound.addSound("blast off", "bfxr/blast off");
             _sound.addSound("whsh", "bfxr/whsh");
@@ -175,7 +176,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ItemAPressed())
                         {
-                            stats.inventory.useItem(itemA, this);
+                            stats.inventory.useItem(stats.inventory.itemA, this);
+                        }
+
+                        if (controls.ItemBPressed())
+                        {
+                            stats.inventory.useItem(stats.inventory.itemB, this);
                         }
                         
                     }));
