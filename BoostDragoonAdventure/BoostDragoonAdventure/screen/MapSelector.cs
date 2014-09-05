@@ -89,7 +89,7 @@ namespace wickedcrush.screen
                     return;
                 }
 
-                if (p.c.BlockPressed())
+                if (p.c.ItemAPressed())
                 {
                     game.mapName = mapList[selectionIndex];
                     game.screenStack.Push(new Editor(game));

@@ -29,9 +29,9 @@ namespace wickedcrush.controls
         public abstract bool ActionPressed();
         public abstract bool ActionReleased();
 
-        public abstract bool BlockHeld();
-        public abstract bool BlockPressed();
-        public abstract bool BlockReleased();
+        public abstract bool ItemAHeld();
+        public abstract bool ItemAPressed();
+        public abstract bool ItemAReleased();
 
         public abstract bool BoostHeld();
         public abstract bool BoostPressed();
@@ -42,10 +42,6 @@ namespace wickedcrush.controls
 
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
-
-        public abstract bool ItemAHeld();
-        public abstract bool ItemAPressed();
-        public abstract bool ItemAReleased();
 
     }
 }

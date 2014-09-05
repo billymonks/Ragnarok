@@ -13,7 +13,7 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons interactButton = Buttons.A, actionButton = Buttons.X, blockButton = Buttons.B, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
+        private Buttons interactButton = Buttons.A, actionButton = Buttons.X, itemAButton = Buttons.B, itemBButton = Buttons.Y, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
 
         public GamepadControls(PlayerIndex playerIndex)
         {
@@ -75,25 +75,25 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool BlockHeld()
+        public override bool ItemAHeld()
         {
-            if (padState.IsButtonDown(blockButton))
+            if (padState.IsButtonDown(itemAButton))
                 return true;
             else
                 return false;
         }
 
-        public override bool BlockPressed()
+        public override bool ItemAPressed()
         {
-            if (padState.IsButtonDown(blockButton) && prevPadState.IsButtonUp(blockButton))
+            if (padState.IsButtonDown(itemAButton) && prevPadState.IsButtonUp(itemAButton))
                 return true;
             else
                 return false;
         }
 
-        public override bool BlockReleased()
+        public override bool ItemAReleased()
         {
-            if (padState.IsButtonUp(blockButton))
+            if (padState.IsButtonUp(itemAButton))
                 return true;
             else
                 return false;

@@ -126,6 +126,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             //_sound.playSound("whsh");
                             _sound.fire3DSound("whsh", emitter);
                         }
+
                     }));
             
 
@@ -170,6 +171,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                             _sound.stopInstancedSound(id + "charge");
                             chargeLevel = 0;
+                        }
+
+                        if (controls.ItemAPressed())
+                        {
+                            stats.inventory.useItem(itemA, this);
                         }
                         
                     }));

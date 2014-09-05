@@ -12,7 +12,7 @@ namespace wickedcrush.controls
         private KeyboardState keyState, prevKeyState;
         private MouseState mouseState, prevMouseState;
 
-        private Keys interactKey = Keys.E, actionKey = Keys.J, blockKey = Keys.L, boostKey = Keys.Space,
+        private Keys interactKey = Keys.E, actionKey = Keys.J, itemAKey = Keys.L, boostKey = Keys.Space,
             strafeKey = Keys.K, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
             altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
             startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
@@ -91,25 +91,25 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool BlockHeld()
+        public override bool ItemAHeld()
         {
-            if (keyState.IsKeyDown(blockKey))
+            if (keyState.IsKeyDown(itemAKey))
                 return true;
             else
                 return false;
         }
 
-        public override bool BlockPressed()
+        public override bool ItemAPressed()
         {
-            if (keyState.IsKeyDown(blockKey) && prevKeyState.IsKeyUp(blockKey))
+            if (keyState.IsKeyDown(itemAKey) && prevKeyState.IsKeyUp(itemAKey))
                 return true;
             else
                 return false;
         }
 
-        public override bool BlockReleased()
+        public override bool ItemAReleased()
         {
-            if (keyState.IsKeyUp(blockKey))
+            if (keyState.IsKeyUp(itemAKey))
                 return true;
             else
                 return false;
