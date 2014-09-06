@@ -104,6 +104,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     {
                         //((PlayerAgent)e).stats //place loot in player inventory
                         opened = true;
+                        ((PlayerAgent)e).stats.inventory.receiveItem(ItemServer.getRandomItem());
                     }
                 }
             }
