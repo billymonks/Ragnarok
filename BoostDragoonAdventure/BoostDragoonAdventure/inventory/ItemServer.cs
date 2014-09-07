@@ -14,11 +14,11 @@ namespace wickedcrush.inventory
         public static void Initialize()
         {
             items = new Dictionary<String, Item>();
-            items.Add("Healthsweed", new Item("Healthsweed", a => a.stats.set("hp", a.stats.get("maxHP"))));
-            items.Add("Fireball", new Item("Spellbook: Fireball", 
+            items.Add("Healthsweed", new Item("Healthsweed", ItemType.Consumable, a => a.stats.set("hp", a.stats.get("maxHP"))));
+            items.Add("Fireball", new Item("Spellbook: Fireball", ItemType.UsesFuel,
                 a => {
                     a.fireBolt();
-                }));
+                }, 200));
         }
         
         public static Item getItem(String name)

@@ -57,7 +57,7 @@ namespace wickedcrush.inventory
             if (inventory.ContainsKey(i) && inventory[i] > 0)
             {
                 i.useItem(a);
-                removeItem(i);
+
             }
         }
 
