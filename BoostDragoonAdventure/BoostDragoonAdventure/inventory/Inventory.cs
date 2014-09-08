@@ -52,11 +52,11 @@ namespace wickedcrush.inventory
             return 0;
         }
 
-        public void useItem(Item i, Agent a)
+        public void useItem(Item i, Agent a, int charge)
         {
             if (inventory.ContainsKey(i) && inventory[i] > 0)
             {
-                i.useItem(a);
+                i.useItem(a, charge);
 
             }
         }

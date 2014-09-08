@@ -387,11 +387,6 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        protected void useItem(Item i)
-        {
-            stats.inventory.useItem(i, this);
-        }
-
         private void drawPath()
         {
 

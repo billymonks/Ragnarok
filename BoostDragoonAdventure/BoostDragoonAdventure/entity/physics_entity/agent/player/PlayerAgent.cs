@@ -27,7 +27,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         
         private float boostSpeed = 100f;
         private bool overheating = false;
-        private int chargeLevel = 0;
+        private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
         //public Item itemA;
 
@@ -174,19 +174,65 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             chargeLevel = 0;
                         }
 
-                        if (controls.ItemAPressed())
-                        {
-                            stats.inventory.useItem(stats.inventory.itemA, this);
-                        }
-
-                        if (controls.ItemBPressed())
-                        {
-                            stats.inventory.useItem(stats.inventory.itemB, this);
-                        }
-                        
+                        //put below in item update method
+                        UpdateItemA();
+                        UpdateItemB();
                     }));
 
             sm = new StateMachine(ctrl);
+        }
+
+        private void UpdateItems()
+        {
+
+        }
+
+        private void UpdateItemA()
+        {
+            if (stats.inventory.itemA == null)
+                return;
+
+            if (stats.inventory.itemA.type.Equals(ItemType.UsesFuelCharge))
+            {
+                if (controls.ItemAHeld())
+                {
+                    itemAChargeLevel++;
+                }
+                else if (itemAChargeLevel > 0)
+                {
+                    stats.inventory.useItem(stats.inventory.itemA, this, itemAChargeLevel);
+                    itemAChargeLevel = 0;
+                }
+            }
+            else if (controls.ItemAPressed())
+            {
+                stats.inventory.useItem(stats.inventory.itemA, this, 0);
+                itemAChargeLevel = 0;
+            }
+        }
+
+        private void UpdateItemB()
+        {
+            if (stats.inventory.itemB == null)
+                return;
+
+            if (stats.inventory.itemB.type.Equals(ItemType.UsesFuelCharge))
+            {
+                if (controls.ItemBHeld())
+                {
+                    itemBChargeLevel++;
+                }
+                else if (itemBChargeLevel > 0)
+                {
+                    stats.inventory.useItem(stats.inventory.itemB, this, itemBChargeLevel);
+                    itemBChargeLevel = 0;
+                }
+            }
+            else if (controls.ItemBPressed())
+            {
+                stats.inventory.useItem(stats.inventory.itemB, this, 0);
+                itemBChargeLevel = 0;
+            }
         }
 
         protected void UpdateDirection()

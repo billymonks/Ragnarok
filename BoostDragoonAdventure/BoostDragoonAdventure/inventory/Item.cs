@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,8 @@ namespace wickedcrush.inventory
     {
         Consumable = 0,
         UsesFuel = 1,
-        UsesAmmo = 2
+        UsesAmmo = 2,
+        UsesFuelCharge = 3
     }
 
     public class Item
@@ -22,6 +24,7 @@ namespace wickedcrush.inventory
         public ItemType type;
 
         public int fuelCost = 0;
+        public int maxFuelCost = 0;
         public Item ammoType;
 
         public Item(String name, ItemType type, ItemAction action)
@@ -38,6 +41,17 @@ namespace wickedcrush.inventory
             this.action = action;
 
             this.fuelCost = fuelCost;
+            this.maxFuelCost = fuelCost;
+        }
+
+        public Item(String name, ItemType type, ItemAction action, int fuelCost, int maxFuelCost)
+        {
+            this.name = name;
+            this.type = type;
+            this.action = action;
+
+            this.fuelCost = fuelCost;
+            this.maxFuelCost = maxFuelCost;
         }
 
         public Item(String name, ItemType type, ItemAction action, Item ammoType)
@@ -49,7 +63,7 @@ namespace wickedcrush.inventory
             this.ammoType = ammoType;
         }
 
-        public void useItem(Agent a)
+        private void useItem(Agent a)
         {
             switch(type)
             {
@@ -72,6 +86,21 @@ namespace wickedcrush.inventory
                     }
                     break;
             }
+        }
+
+        public void useItem(Agent a, int charge)
+        {
+            if(type==ItemType.UsesFuelCharge)
+            {
+                int calculatedCost = (int)MathHelper.Lerp((float)fuelCost, (float)maxFuelCost, (float)charge / 100f);
+
+                if (a.stats.get("boost") >= calculatedCost)
+                {
+                    action(a);
+                    a.stats.addTo("boost", -calculatedCost);
+                }
+            }
+            else { useItem(a); }
         }
     }
 }
