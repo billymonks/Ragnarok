@@ -25,6 +25,7 @@ namespace wickedcrush.inventory
 
         public int fuelCost = 0;
         public int maxFuelCost = 0;
+        public int maxCharge = 0;
         public Item ammoType;
 
         public Item(String name, ItemType type, ItemAction action)
@@ -44,7 +45,7 @@ namespace wickedcrush.inventory
             this.maxFuelCost = fuelCost;
         }
 
-        public Item(String name, ItemType type, ItemAction action, int fuelCost, int maxFuelCost)
+        public Item(String name, ItemType type, ItemAction action, int fuelCost, int maxFuelCost, int maxCharge)
         {
             this.name = name;
             this.type = type;
@@ -52,6 +53,7 @@ namespace wickedcrush.inventory
 
             this.fuelCost = fuelCost;
             this.maxFuelCost = maxFuelCost;
+            this.maxCharge = maxCharge;
         }
 
         public Item(String name, ItemType type, ItemAction action, Item ammoType)
@@ -90,9 +92,12 @@ namespace wickedcrush.inventory
 
         public void useItem(Agent a, int charge)
         {
+            if (charge > maxCharge)
+                charge = maxCharge;
+
             if(type==ItemType.UsesFuelCharge)
             {
-                int calculatedCost = (int)MathHelper.Lerp((float)fuelCost, (float)maxFuelCost, (float)charge / 100f);
+                int calculatedCost = (int)MathHelper.Lerp((float)fuelCost, (float)maxFuelCost, (float)charge / (float)maxCharge);
 
                 if (a.stats.get("boost") >= calculatedCost)
                 {
