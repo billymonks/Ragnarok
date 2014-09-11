@@ -278,7 +278,7 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap("Content/maps/small/Temple Halls V4.xml", 
+                    loadSubMap(factory.rm.getRandomRoom(), 
                         new Point(int.Parse(e.Attribute("x").Value), 
                         int.Parse(e.Attribute("y").Value)), 
                         (Direction)int.Parse(e.Attribute("angle").Value), false);
@@ -286,7 +286,7 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("ROOM_MIRROR"))
                 {
-                    loadSubMap("Content/maps/small/Temple Halls V4.xml",
+                    loadSubMap(factory.rm.getRandomRoom(),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), true);

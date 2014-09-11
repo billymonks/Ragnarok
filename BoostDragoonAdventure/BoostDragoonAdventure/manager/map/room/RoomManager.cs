@@ -26,11 +26,13 @@ namespace wickedcrush.manager.map.room
     {
         Dictionary<String, RoomStats> sessionStats;
         List<RoomStats> offlineAtlas;
+        Random random;
 
         public RoomManager()
         {
             sessionStats = new Dictionary<String, RoomStats>();
             offlineAtlas = new List<RoomStats>();
+            random = new Random();
 
             LoadOfflineAtlas();
         }
@@ -54,6 +56,11 @@ namespace wickedcrush.manager.map.room
 
                 offlineAtlas.Add(temp);
             }
+        }
+
+        public String getRandomRoom()
+        {
+            return offlineAtlas[random.Next(offlineAtlas.Count - 1)].filename;
         }
     }
 }

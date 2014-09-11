@@ -24,6 +24,7 @@ using wickedcrush.entity.physics_entity.agent.chest;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.manager.audio;
 using wickedcrush.entity.physics_entity.agent.inanimate;
+using wickedcrush.manager.map.room;
 
 namespace wickedcrush.factory.entity
 {
@@ -34,6 +35,7 @@ namespace wickedcrush.factory.entity
         private ControlsManager cm;
         private SoundManager sm;
         private World w;
+        public RoomManager rm;
 
         private List<Door> doorList;
 
@@ -46,6 +48,8 @@ namespace wickedcrush.factory.entity
             this.cm = cm;
             this.sm = sm;
             this.w = w;
+
+            rm = new RoomManager();
 
             doorList = new List<Door>();
         }

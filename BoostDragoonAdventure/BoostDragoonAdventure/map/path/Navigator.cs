@@ -14,7 +14,9 @@ namespace wickedcrush.map.path
         private Map map;
         private PathNode[,] pathNodeGrid;
         private int agentSize;
-        
+
+        private int closedListLimit = 100; // keep the game from freezing when can't find a path
+
         public Navigator(Map m, int agentSize)
         {
             map = m;
@@ -116,6 +118,8 @@ namespace wickedcrush.map.path
                 //sort openList
                 openList.Sort(); //just use quicksort
 
+                if (closedList.Count > closedListLimit)
+                    return null;
             }
 
             return null;

@@ -18,5 +18,29 @@
     <completions>0</completions>
     <damage>0</damage>
   </room>
+  <room>
+    <filename>Content/maps/small/Temple Halls.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+  <room>
+    <filename>Content/maps/small/Temple Halls V2.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+  <room>
+    <filename>Content/maps/small/Temple Halls V3.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
+  <room>
+    <filename>Content/maps/small/Temple Halls V4.xml</filename>
+    <attempts>0</attempts>
+    <completions>0</completions>
+    <damage>0</damage>
+  </room>
 
 </atlas>

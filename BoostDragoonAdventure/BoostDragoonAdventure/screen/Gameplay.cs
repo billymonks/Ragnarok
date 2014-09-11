@@ -54,7 +54,7 @@ namespace wickedcrush.screen
             soundManager = new SoundManager(game.Content);
             entityManager = new EntityManager(game);
 
-            roomManager = new RoomManager();
+            
 
             factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
 
