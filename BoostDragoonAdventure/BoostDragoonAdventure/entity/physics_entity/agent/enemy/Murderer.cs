@@ -108,7 +108,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             timers["navigation"].resetAndStart();
                         }
 
-                        FollowPath();
+                        FollowPath(false);
 
                         testColor = Color.Green;
                     }));

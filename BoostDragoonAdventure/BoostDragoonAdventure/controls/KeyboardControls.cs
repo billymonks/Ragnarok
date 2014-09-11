@@ -117,7 +117,7 @@ namespace wickedcrush.controls
 
         public override bool ItemBHeld()
         {
-            if (keyState.IsKeyDown(itemAKey))
+            if (keyState.IsKeyDown(itemBKey))
                 return true;
             else
                 return false;

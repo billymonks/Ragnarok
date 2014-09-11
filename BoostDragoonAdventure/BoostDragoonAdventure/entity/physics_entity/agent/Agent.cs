@@ -38,7 +38,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public PersistedStats stats;
 
         protected float speed = 50f;
-        protected bool strafe = false;
+        //protected bool strafe = false;
 
         public bool staggered = false;
 
@@ -161,7 +161,7 @@ namespace wickedcrush.entity.physics_entity.agent
         }
         
 
-        protected void FollowPath()
+        protected void FollowPath(bool strafe)
         {
             if (path == null || path.Count == 0)
                 return;

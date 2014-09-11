@@ -23,10 +23,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
     {
         #region Variables
         protected Controls controls;
-        
-        
-        private float boostSpeed = 100f;
-        private bool overheating = false;
+
+        private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 100f;
+        private bool overheating = false, inCharge = false, lockChargeDirection = false;
         private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
         //public Item itemA;
@@ -114,10 +113,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     && !((PlayerAgent)c).overheating,
                     c =>
                     {
+                        
                         if(sm.previousControlState.name != "boosting")
                             _sound.playInstanced(id + "blast off", emitter);
                         
-                        UpdateDirection();
+                        UpdateDirection(false);
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
 
@@ -127,6 +127,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             //_sound.playSound("whsh");
                             _sound.fire3DSound("whsh", emitter);
                         }
+                        inCharge = false;
 
                     }));
             
@@ -136,8 +137,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c => true,
                     c =>
                     {
-                        UpdateDirection();
+                        UpdateDirection(inCharge && lockChargeDirection);
                         WalkForward();
+
+                        inCharge = false;
+                        
+                        UpdateItemA();
+                        UpdateItemB();
 
                         _sound.stopInstancedSound(id + "blast off");
 
@@ -150,6 +156,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionHeld())
                         {
+                            inCharge = true;
                             chargeLevel++;
 
                             if (chargeLevel > 25) 
@@ -175,11 +182,20 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         }
 
                         //put below in item update method
-                        UpdateItemA();
-                        UpdateItemB();
+                        
+
                     }));
 
             sm = new StateMachine(ctrl);
+        }
+
+        private void CancelCharge()
+        {
+            chargeLevel = 0;
+            itemAChargeLevel = 0;
+            itemBChargeLevel = 0;
+
+            inCharge = false;
         }
 
         private void UpdateItems()
@@ -196,6 +212,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 if (controls.ItemAHeld())
                 {
+                    inCharge = true;
                     itemAChargeLevel++;
                 }
                 else if (itemAChargeLevel > 0)
@@ -220,6 +237,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 if (controls.ItemBHeld())
                 {
+                    inCharge = true;
                     itemBChargeLevel++;
                 }
                 else if (itemBChargeLevel > 0)
@@ -235,7 +253,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
         }
 
-        protected void UpdateDirection()
+        protected void UpdateDirection(bool strafe)
         {
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
@@ -245,7 +263,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             Direction temp = (Direction)
                         Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
-            strafe = controls.StrafeHeld();
+            //strafe = controls.StrafeHeld();
 
             if (!strafe)
                 facing = temp;
@@ -263,7 +281,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
                 (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
             );
-            speed = 75f;
+
+            if (inCharge)
+                speed = walkSpeed;
+            else
+                speed = runSpeed;
+
             v += unitVector * magnitude * speed * startingFriction;
 
             bodies["body"].LinearVelocity = v;

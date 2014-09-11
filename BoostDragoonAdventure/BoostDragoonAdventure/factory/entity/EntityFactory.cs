@@ -151,7 +151,10 @@ namespace wickedcrush.factory.entity
             
             foreach (Player p in pm.getPlayerList())
             {
-                p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                if(doorList.Count > 0)
+                    p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                else
+                    p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 current = current.Next;
             }
         }
