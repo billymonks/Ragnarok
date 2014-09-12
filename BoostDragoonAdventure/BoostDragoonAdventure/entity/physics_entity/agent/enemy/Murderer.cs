@@ -110,6 +110,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         FollowPath(false);
 
+                        if (distanceToTarget() < 40)
+                            timers["attack_tell"].resetAndStart();
+
                         testColor = Color.Green;
                     }));
             ctrl.Add("idle",
