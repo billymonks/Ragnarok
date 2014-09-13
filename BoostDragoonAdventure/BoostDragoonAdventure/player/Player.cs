@@ -76,6 +76,12 @@ namespace wickedcrush.player
             stats.set("useSpeed", 8);
             stats.set("boostSpeedMod", 0);
 
+            stats.set("boostRecharge", 250);
+            stats.set(("iFrameTime"), 80);
+
+            stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
+            stats.inventory.removeAllOfItem(ItemServer.getItem("Fireball"));
+
             stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
             stats.inventory.receiveItem(ItemServer.getItem("Fireball"), 5);
         }

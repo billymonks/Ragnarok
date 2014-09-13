@@ -121,6 +121,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
             if (stats.get("hp") <= 0 && immortal == false)
                 Remove();
+
+            if (target != null && target.dead)
+                target = null;
         }
 
         private void UpdateTimers(GameTime gameTime)
@@ -332,7 +335,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void faceTarget()
         {
-            facing = (Direction)Helper.degreeConversion(angleToEntity(target));
+            if(target!=null)
+                facing = (Direction)Helper.degreeConversion(angleToEntity(target));
         }
 
         protected bool hasLineOfSightToAgent(Agent a)

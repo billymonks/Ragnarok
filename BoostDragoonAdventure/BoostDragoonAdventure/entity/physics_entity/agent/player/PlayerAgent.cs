@@ -49,6 +49,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.facing = Direction.East;
             movementDirection = facing;
 
+            timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
+
+            timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
+            timers["iFrameTime"].resetAndStart();
+            
             stats.inventory.itemA = ItemServer.getItem("Healthsweed");
             stats.inventory.itemB = ItemServer.getItem("Fireball");
 
@@ -109,14 +114,22 @@ namespace wickedcrush.entity.physics_entity.agent.player
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("boosting",
                 new State("boosting",
-                    c => ((PlayerAgent)c).controls.BoostHeld()
+                    c => !((PlayerAgent)c).timers["boostRecharge"].isDone()
+                        && ((PlayerAgent)c).timers["boostRecharge"].isActive()
+                    || ((PlayerAgent)c).controls.BoostHeld()
                     && !((PlayerAgent)c).overheating,
                     c =>
                     {
-                        
-                        if(sm.previousControlState.name != "boosting")
+
+                        if (sm.previousControlState.name != "boosting")
+                        {
+                            timers["iFrameTime"].resetAndStart();
                             _sound.playInstanced(id + "blast off", emitter);
-                        
+                        }
+
+                        if(((PlayerAgent)c).controls.BoostPressed())
+                        timers["boostRecharge"].resetAndStart();
+
                         UpdateDirection(false);
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
@@ -146,6 +159,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateItemB();
 
                         _sound.stopInstancedSound(id + "blast off");
+
 
                         if (controls.ActionPressed())
                         {

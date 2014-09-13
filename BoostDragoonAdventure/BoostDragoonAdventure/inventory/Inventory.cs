@@ -86,5 +86,17 @@ namespace wickedcrush.inventory
             if (inventory.ContainsKey(i))
                 inventory.Remove(i);
         }
+
+        public void clearInventory()
+        {
+            inventory.Clear();
+        }
+
+        public void addCurrency(int number)
+        {
+            currency += number;
+            if (currency < 0)
+                currency = 0;
+        }
     }
 }
