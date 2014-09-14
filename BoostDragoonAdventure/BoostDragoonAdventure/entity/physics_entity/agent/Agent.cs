@@ -19,6 +19,7 @@ using wickedcrush.utility.trigger;
 using wickedcrush.inventory;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
+using wickedcrush.entity.physics_entity.agent.attack;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -88,6 +89,8 @@ namespace wickedcrush.entity.physics_entity.agent
             
 
         }
+
+
 
         public void activateNavigator(Map m)
         {
@@ -389,6 +392,14 @@ namespace wickedcrush.entity.physics_entity.agent
                 if (lowestDistance == this.distanceToEntity(p))
                     target = p;
             }
+        }
+
+        public virtual void TakeHit(Attack attack)
+        {
+            stats.addTo("hp", -attack.damage);
+
+            if (!staggered)
+                stats.addTo("stagger", attack.force);
         }
 
         private void drawPath()

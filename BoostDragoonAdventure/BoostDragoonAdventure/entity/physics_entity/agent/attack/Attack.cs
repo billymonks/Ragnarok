@@ -14,7 +14,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack
 {
     public abstract class Attack : Agent
     {
-        protected int damage, force; // migrate to attackstats class?
+        public int damage, force; // migrate to attackstats class?
         protected bool reactToWall = false, piercing = true;
 
         public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
@@ -61,9 +61,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack
                     && !c.Other.UserData.Equals(this.parent))
                 {
                     ((Agent)c.Other.UserData).TakeHit(this);
-                    ((Agent)c.Other.UserData).stats.addTo("hp", -damage);
-                    if (!((Agent)c.Other.UserData).staggered)
-                        ((Agent)c.Other.UserData).stats.addTo("stagger", force);
+                    
                     if (!piercing)
                         Remove();
                 } else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))

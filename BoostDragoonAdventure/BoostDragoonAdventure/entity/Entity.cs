@@ -110,10 +110,7 @@ namespace wickedcrush.entity
             }
         }
 
-        public virtual void TakeHit(Attack attack)
-        {
-
-        }
+        
 
         public bool readyForRemoval()
         {

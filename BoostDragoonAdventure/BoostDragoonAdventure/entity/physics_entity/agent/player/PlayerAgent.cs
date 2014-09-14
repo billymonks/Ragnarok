@@ -79,8 +79,15 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         public override void TakeHit(Attack attack)
         {
-            base.TakeHit(attack);
-            _sound.fire3DSound("oof", emitter);
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                _sound.fire3DSound("ping3", emitter);
+            }
+            else
+            {
+                base.TakeHit(attack);
+                _sound.fire3DSound("oof", emitter);
+            }
         }
 
         
