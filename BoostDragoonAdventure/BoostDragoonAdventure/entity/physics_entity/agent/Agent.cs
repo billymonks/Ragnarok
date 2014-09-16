@@ -398,6 +398,17 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             stats.addTo("hp", -attack.damage);
 
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians((float)attack.facing)),
+                (float)Math.Sin(MathHelper.ToRadians((float)attack.facing)));
+
+            v.X += unitVector.X * attack.force * 100f;
+            v.Y += unitVector.Y * attack.force * 100f;
+
+            bodies["body"].LinearVelocity = v;
+
             if (!staggered)
                 stats.addTo("stagger", attack.force);
         }
