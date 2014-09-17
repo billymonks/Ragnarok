@@ -26,7 +26,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
 
         private void Initialize(Direction facing)
         {
-            stats = new PersistedStats(5, 5);
+            //stats = new PersistedStats(5, 5);
             this.name = "Turret";
 
             this.facing = facing;

@@ -78,6 +78,7 @@ namespace wickedcrush.player
 
             stats.set("boostRecharge", 250);
             stats.set(("iFrameTime"), 150);
+            stats.set("staggerDistance", 100);
 
             stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
             stats.inventory.removeAllOfItem(ItemServer.getItem("Fireball"));

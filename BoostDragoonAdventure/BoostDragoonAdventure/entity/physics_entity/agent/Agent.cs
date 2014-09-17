@@ -61,6 +61,8 @@ namespace wickedcrush.entity.physics_entity.agent
             this.factory = factory;
             this.stats = stats;
 
+            stats.set("staggerDistance", 0);
+
             timers = new Dictionary<String, Timer>();
             triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
@@ -398,19 +400,25 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             stats.addTo("hp", -attack.damage);
 
+            float staggerMultiply = 1f;
+
+            if (staggered)
+                staggerMultiply = 10f;
+            else
+                stats.addTo("stagger", attack.force);
+
             Vector2 v = bodies["body"].LinearVelocity;
 
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians((float)attack.facing)),
                 (float)Math.Sin(MathHelper.ToRadians((float)attack.facing)));
 
-            v.X += unitVector.X * attack.force * 100f;
-            v.Y += unitVector.Y * attack.force * 100f;
+            v.X += unitVector.X * (float)attack.force * staggerMultiply * (float)stats.get("staggerDistance");
+            v.Y += unitVector.Y * (float)attack.force * staggerMultiply * (float)stats.get("staggerDistance");
 
             bodies["body"].LinearVelocity = v;
 
-            if (!staggered)
-                stats.addTo("stagger", attack.force);
+            
         }
 
         private void drawPath()
