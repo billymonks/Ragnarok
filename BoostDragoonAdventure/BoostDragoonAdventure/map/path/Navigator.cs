@@ -15,7 +15,7 @@ namespace wickedcrush.map.path
         private PathNode[,] pathNodeGrid;
         private int agentSize;
 
-        private int closedListLimit = 100; // keep the game from freezing when can't find a path
+        private int closedListLimit = 256; // keep the game from freezing when can't find a path
 
         public Navigator(Map m, int agentSize)
         {
@@ -110,6 +110,22 @@ namespace wickedcrush.map.path
                 addNodeToOpenList(curr.gridPos.X + 1, curr.gridPos.Y, start, goal, curr, openList, closedList);
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
+
+                if (openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y]) 
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y - 1]))
+                    addNodeToOpenList(curr.gridPos.X - 1, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
+
+                if (openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y])
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y + 1])) 
+                    addNodeToOpenList(curr.gridPos.X - 1, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
+                
+                if (openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y - 1]))
+                    addNodeToOpenList(curr.gridPos.X + 1, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
+
+                if (openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y + 1]))
+                    addNodeToOpenList(curr.gridPos.X + 1, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
 
 
                 openList.Remove(curr);

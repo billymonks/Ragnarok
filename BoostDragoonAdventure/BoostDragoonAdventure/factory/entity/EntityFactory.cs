@@ -108,7 +108,7 @@ namespace wickedcrush.factory.entity
             return agent;
         }
 
-        public void addAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
+        public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
             Murderer a = new Murderer(w, pos, size, center, solid, this, stats, sm);
             a.stats.set("staggerLimit", 100);
@@ -125,7 +125,7 @@ namespace wickedcrush.factory.entity
         public void addTurret(Vector2 pos, Direction facing)
         {
             Turret t = new Turret(w, pos, this, facing, sm);
-            t.stats.set("staggerDuration", 0);
+            t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             em.addEntity(t);
         }
@@ -133,7 +133,7 @@ namespace wickedcrush.factory.entity
         public void addChest(Vector2 pos)
         {
             Chest c = new Chest(w, pos, this, sm);
-            c.stats.set("staggerDuration", 0);
+            c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
             em.addEntity(c);
         }
@@ -142,7 +142,7 @@ namespace wickedcrush.factory.entity
         {
             Bolt b = new Bolt(w, pos, size, center, parent, damage, force, sm);
 
-            b.stats.set("staggerDuration", 0);
+            b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);
 
             em.addEntity(b);
@@ -152,7 +152,7 @@ namespace wickedcrush.factory.entity
         {
             FloorSwitch f = new FloorSwitch(w, pos, this, sm);
 
-            f.stats.set("staggerDuration", 0);
+            f.stats.set("staggerDuration", 1);
             f.stats.set("staggerDistance", 0);
             
             em.addEntity(f);
@@ -162,7 +162,7 @@ namespace wickedcrush.factory.entity
         {
             TimerTrigger t = new TimerTrigger(w, pos, this, sm);
 
-            t.stats.set("staggerDuration", 0);
+            t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             
             em.addEntity(t);
@@ -172,7 +172,7 @@ namespace wickedcrush.factory.entity
         {
             MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force, sm);
 
-            a.stats.set("staggerDuration", 0);
+            a.stats.set("staggerDuration", 1);
             a.stats.set("staggerDistance", 0);
             
             em.addEntity(a);

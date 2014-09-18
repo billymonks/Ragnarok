@@ -21,7 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        private const int attackTellLength = 750, postAttackLength = 1200, navigationResetLength = 500;
+        private const int attackTellLength = 400, postAttackLength = 900, navigationResetLength = 500;
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)

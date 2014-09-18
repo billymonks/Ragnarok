@@ -271,7 +271,7 @@ namespace wickedcrush.map
 
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
-                    factory.addAgent(
+                    factory.addMurderer(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), 
                         new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30, 30));
                 }
