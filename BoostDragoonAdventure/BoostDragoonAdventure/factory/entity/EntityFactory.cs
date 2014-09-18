@@ -67,6 +67,10 @@ namespace wickedcrush.factory.entity
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
         {
             Entity e = new Entity(pos, size, center, sm);
+
+            //e.stats.set("staggerDuration", 0);
+            //e.stats.set("staggerDistance", 0);
+            
             em.addEntity(e);
         }
 
@@ -78,6 +82,10 @@ namespace wickedcrush.factory.entity
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PhysicsEntity e = new PhysicsEntity(w, pos, size, center, solid, sm);
+
+            //e.stats.set("staggerDuration", 0);
+            //e.stats.set("staggerDistance", 0);
+            
             em.addEntity(e);
         }
 
@@ -117,36 +125,56 @@ namespace wickedcrush.factory.entity
         public void addTurret(Vector2 pos, Direction facing)
         {
             Turret t = new Turret(w, pos, this, facing, sm);
+            t.stats.set("staggerDuration", 0);
+            t.stats.set("staggerDistance", 0);
             em.addEntity(t);
         }
 
         public void addChest(Vector2 pos)
         {
             Chest c = new Chest(w, pos, this, sm);
+            c.stats.set("staggerDuration", 0);
+            c.stats.set("staggerDistance", 0);
             em.addEntity(c);
         }
 
         public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
             Bolt b = new Bolt(w, pos, size, center, parent, damage, force, sm);
+
+            b.stats.set("staggerDuration", 0);
+            b.stats.set("staggerDistance", 0);
+
             em.addEntity(b);
         }
 
         public void addFloorSwitch(Vector2 pos)
         {
             FloorSwitch f = new FloorSwitch(w, pos, this, sm);
+
+            f.stats.set("staggerDuration", 0);
+            f.stats.set("staggerDistance", 0);
+            
             em.addEntity(f);
         }
 
         public void addTimerTrigger(Vector2 pos)
         {
             TimerTrigger t = new TimerTrigger(w, pos, this, sm);
+
+            t.stats.set("staggerDuration", 0);
+            t.stats.set("staggerDistance", 0);
+            
             em.addEntity(t);
         }
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
             MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force, sm);
+
+            a.stats.set("staggerDuration", 0);
+            a.stats.set("staggerDistance", 0);
+            
             em.addEntity(a);
         }
 
