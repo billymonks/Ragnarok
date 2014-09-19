@@ -50,7 +50,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             base.setupBody(w, pos, size, center, solid);
 
             bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
-            FixtureFactory.AttachCircle(400f, 1f, bodies["activeArea"], center);
+            FixtureFactory.AttachCircle(300f, 1f, bodies["activeArea"], center);
             bodies["activeArea"].IsSensor = true;
             bodies["activeArea"].BodyType = BodyType.Dynamic;
             bodies["activeArea"].LinearVelocity = Vector2.Zero;
