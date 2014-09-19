@@ -107,6 +107,31 @@ namespace wickedcrush.manager.player
                 if (p.getStats().inventory.itemB != null)
                     hud += "\nItem B: " + p.getStats().inventory.itemB.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemB);
 
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 - 1, 5 - 1), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 + 1, 5 + 1), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 - 1, 5 + 1), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 + 1, 5 - 1), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 - 1, 5), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5 + 1, 5), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5, 5 + 1), Color.Black);
+                sb.DrawString(f,
+                    hud,
+                    new Vector2(p.playerNumber * 100 + 5, 5 - 1), Color.Black);
+
                 sb.DrawString(f, 
                     hud, 
                     new Vector2(p.playerNumber * 100 + 5, 5), Color.White);

@@ -163,7 +163,7 @@ namespace wickedcrush.screen
         {
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(30,30));
+                factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(20,20));
                 //soundManager.playSound("blast off");
             }
 

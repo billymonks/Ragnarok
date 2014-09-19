@@ -25,7 +25,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected Controls controls;
 
         private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 100f;
-        private bool overheating = false, inCharge = false, lockChargeDirection = false;
+        private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
         private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
         //public Item itemA;
@@ -143,7 +143,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (controls.ActionPressed())
                         {
-                            attackForward(new Vector2(36, 36), 2, 50);
+                            stats.addTo("boost", -100);
+                            attackForward(new Vector2(36, 36), 6, 70);
                             //_sound.playSound("whsh");
                             _sound.fire3DSound("whsh", emitter);
                         }
@@ -167,43 +168,48 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         _sound.stopInstancedSound(id + "blast off");
 
-
-                        if (controls.ActionPressed())
+                        if (canAttackWhileOverheating || !overheating)
                         {
-                            attackForward(new Vector2(36, 36), 5, 70);
-                            //_sound.playSound("whsh");
-                            _sound.fire3DSound("whsh", emitter);
-                        }
-
-                        if (controls.ActionHeld())
-                        {
-                            inCharge = true;
-                            chargeLevel++;
-
-                            if (chargeLevel > 25) 
-                                _sound.playInstanced(id + "charge", emitter);
-
-                            if (chargeLevel == 100)
-                                _sound.fire3DSound("ping2", emitter);
-                        }
-                        else
-                        {
-                            if (chargeLevel > 100)
+                            if (controls.ActionPressed())
                             {
-                                attackForward(new Vector2(36, 36), 8, 200);
-                                _sound.fire3DSound("smash", emitter);
-                            } else if (chargeLevel > 25)
-                            {
-                                attackForward(new Vector2(36, 36), 6, 100);
-                                _sound.fire3DSound("smash", emitter);
+                                stats.addTo("boost", -70);
+                                attackForward(new Vector2(36, 36), 5, 50);
+                                //_sound.playSound("whsh");
+                                _sound.fire3DSound("whsh", emitter);
                             }
 
-                            _sound.stopInstancedSound(id + "charge");
-                            chargeLevel = 0;
-                        }
+                            if (controls.ActionHeld())
+                            {
+                                inCharge = true;
+                                chargeLevel++;
 
-                        //put below in item update method
-                        
+                                if (chargeLevel > 25)
+                                    _sound.playInstanced(id + "charge", emitter);
+
+                                if (chargeLevel == 100)
+                                    _sound.fire3DSound("ping2", emitter);
+                            }
+                            else
+                            {
+                                if (chargeLevel > 100)
+                                {
+                                    stats.addTo("boost", -170);
+                                    attackForward(new Vector2(36, 36), 8, 200);
+                                    _sound.fire3DSound("smash", emitter);
+                                }
+                                else if (chargeLevel > 25)
+                                {
+                                    stats.addTo("boost", -120);
+                                    attackForward(new Vector2(36, 36), 6, 100);
+                                    _sound.fire3DSound("smash", emitter);
+                                }
+
+                                _sound.stopInstancedSound(id + "charge");
+                                chargeLevel = 0;
+                            }
+
+                            //put below in item update method
+                        }
 
                     }));
 
