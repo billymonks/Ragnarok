@@ -26,6 +26,7 @@ using wickedcrush.map.layer;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.manager.map.room;
+using wickedcrush.menu.hudpanel;
 
 
 namespace wickedcrush.screen
@@ -40,6 +41,8 @@ namespace wickedcrush.screen
         public EntityFactory factory;
 
         public Camera camera;
+
+        public HUDPanel panel;
         
 
         World w;
@@ -75,8 +78,6 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
-
-            
 
             game.testMap = new Map(game.mapName, w, factory);
 
@@ -134,8 +135,10 @@ namespace wickedcrush.screen
         {
             game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
             entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
+            game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
 
             DrawHud();
+
         }
 
         private void DrawHud()

@@ -86,11 +86,11 @@ namespace wickedcrush.manager.player
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont f)
         {
-            //foreach (Player p in playerList)
-            //{
-                //if(p.getAgent()!=null)
-                    //p.getAgent().DebugDraw(whiteTexture, gd, sb, f, Color.Green);
-            //}
+            foreach (Player p in playerList)
+            {
+                p.DebugDrawPanels(sb);
+                    
+            }
         }
 
         public void DrawPlayerHud(SpriteBatch sb, SpriteFont f)

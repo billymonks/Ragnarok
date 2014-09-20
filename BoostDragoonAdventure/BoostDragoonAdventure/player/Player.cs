@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using wickedcrush.factory.entity;
 using wickedcrush.inventory;
+using wickedcrush.menu.hudpanel;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.player
 {
@@ -21,6 +23,8 @@ namespace wickedcrush.player
         public String name;
         public int playerNumber;
 
+        public HUDPanel panels;
+
         private bool remove = false;
 
         public Player(String name, int playerNumber, Controls c, PersistedStats stats)
@@ -30,7 +34,7 @@ namespace wickedcrush.player
             this.stats = stats;
             this.playerNumber = getPlayerNumber();
 
-            //this.factory = factory;
+            panels = new HUDPanel(Color.Purple, new Rectangle(100, 100, 100, 100));
         }
 
         public Player(String name, int playerNumber, Controls c)
@@ -38,6 +42,8 @@ namespace wickedcrush.player
             this.name = name;
             this.c = c;
             this.playerNumber = getPlayerNumber();
+
+            panels = new HUDPanel(Color.Purple, new Rectangle(100, 100, 100, 100));
         }
 
         private int getPlayerNumber()
@@ -107,6 +113,11 @@ namespace wickedcrush.player
         public PersistedStats getStats()
         {
             return stats;
+        }
+
+        public void DebugDrawPanels(SpriteBatch sb)
+        {
+            panels.DebugDraw(sb, new Point((int)agent.pos.X, (int)agent.pos.Y));
         }
 
         public void Update(GameTime gameTime)
