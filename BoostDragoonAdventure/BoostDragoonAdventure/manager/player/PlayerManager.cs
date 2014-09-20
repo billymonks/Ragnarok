@@ -10,6 +10,7 @@ using FarseerPhysics.Dynamics;
 using wickedcrush.controls;
 using wickedcrush.factory.entity;
 using wickedcrush.manager.controls;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.manager.player
 {
@@ -86,10 +87,14 @@ namespace wickedcrush.manager.player
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont f)
         {
+            
+        }
+
+        public void DebugDrawPanels(SpriteBatch sb, Camera camera)
+        {
             foreach (Player p in playerList)
             {
-                p.DebugDrawPanels(sb);
-                    
+                p.DebugDrawPanels(sb, camera);
             }
         }
 

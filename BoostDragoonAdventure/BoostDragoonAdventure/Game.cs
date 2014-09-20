@@ -17,6 +17,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.map;
 using wickedcrush.display.primitives;
 using wickedcrush.inventory;
+using wickedcrush.factory.menu.panel;
 
 namespace wickedcrush
 {
@@ -36,6 +37,7 @@ namespace wickedcrush
 
         public SpriteBatch spriteBatch;
 
+        public PanelFactory panelFactory;
 
         public Stack<GameScreen> screenStack;
 
@@ -90,6 +92,8 @@ namespace wickedcrush
                 * Matrix.CreateTranslation(xtranslate, 0f, 0f);
 
             fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1); //for effects that should be stretched across whole screen (possible examples: transitions, edge darkening, etc.)
+
+            panelFactory = new PanelFactory();
 
             ItemServer.Initialize();
 

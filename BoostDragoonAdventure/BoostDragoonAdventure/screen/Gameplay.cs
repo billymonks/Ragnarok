@@ -26,7 +26,7 @@ using wickedcrush.map.layer;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.manager.map.room;
-using wickedcrush.menu.hudpanel;
+using wickedcrush.menu.panel;
 
 
 namespace wickedcrush.screen
@@ -42,7 +42,7 @@ namespace wickedcrush.screen
 
         public Camera camera;
 
-        public HUDPanel panel;
+        public Panel panel;
         
 
         World w;
@@ -135,7 +135,7 @@ namespace wickedcrush.screen
         {
             game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
             entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
-            game.playerManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.testFont);
+            game.playerManager.DebugDrawPanels(game.spriteBatch, camera);
 
             DrawHud();
 

@@ -130,6 +130,7 @@
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
     <Compile Include="factory\editor\EditorEntityFactory.cs" />
     <Compile Include="factory\editor\menu\NodeFactory.cs" />
+    <Compile Include="factory\menu\panel\PanelFactory.cs" />
     <Compile Include="factory\sprite\SpriteFactory.cs" />
     <Compile Include="inventory\Inventory.cs" />
     <Compile Include="inventory\Item.cs" />
@@ -145,7 +146,7 @@
     <Compile Include="menu\editor\MenuElement.cs" />
     <Compile Include="menu\editor\MenuNode.cs" />
     <Compile Include="menu\editor\SubMenu.cs" />
-    <Compile Include="menu\hudpanel\HUDPanel.cs" />
+    <Compile Include="menu\panel\Panel.cs" />
     <Compile Include="menu\IClickable.cs" />
     <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="screen\Editor.cs" />

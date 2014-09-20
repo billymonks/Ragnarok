@@ -83,7 +83,7 @@ namespace wickedcrush.screen
 
         private void addPlayer(String name, Controls controls) //needs a new home
         {
-            Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, game.playerManager.getPlayerList().Count, controls, new PersistedStats(15, 15));
+            Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, game.playerManager.getPlayerList().Count, controls, new PersistedStats(15, 15), game.panelFactory);
             //p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
             game.playerManager.addPlayer(p);
 

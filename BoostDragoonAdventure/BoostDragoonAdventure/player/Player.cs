@@ -9,8 +9,11 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Dynamics;
 using wickedcrush.factory.entity;
 using wickedcrush.inventory;
-using wickedcrush.menu.hudpanel;
+using wickedcrush.menu.panel;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.display._3d;
+using wickedcrush.factory.menu.panel;
+using wickedcrush.helper;
 
 namespace wickedcrush.player
 {
@@ -23,27 +26,21 @@ namespace wickedcrush.player
         public String name;
         public int playerNumber;
 
-        public HUDPanel panels;
+        public Stack<Panel> panels;
 
         private bool remove = false;
 
-        public Player(String name, int playerNumber, Controls c, PersistedStats stats)
+        public Player(String name, int playerNumber, Controls c, PersistedStats stats, PanelFactory pf)
         {
             this.name = name;
             this.c = c;
             this.stats = stats;
             this.playerNumber = getPlayerNumber();
 
-            panels = new HUDPanel(Color.Purple, new Rectangle(100, 100, 100, 100));
-        }
 
-        public Player(String name, int playerNumber, Controls c)
-        {
-            this.name = name;
-            this.c = c;
-            this.playerNumber = getPlayerNumber();
+            panels = new Stack<Panel>();
 
-            panels = new HUDPanel(Color.Purple, new Rectangle(100, 100, 100, 100));
+            panels.Push(pf.getInventory());
         }
 
         private int getPlayerNumber()
@@ -58,7 +55,6 @@ namespace wickedcrush.player
         public void setAgent(PlayerAgent agent)
         {
             this.agent = agent;
-            //stats = agent.stats;
         }
 
         public PlayerAgent getAgent()
@@ -115,9 +111,12 @@ namespace wickedcrush.player
             return stats;
         }
 
-        public void DebugDrawPanels(SpriteBatch sb)
+        public void DebugDrawPanels(SpriteBatch sb, Camera camera)
         {
-            panels.DebugDraw(sb, new Point((int)agent.pos.X, (int)agent.pos.Y));
+            panels.Peek().DebugDraw(sb, 
+                new Point(
+                    (int)Helper.roundTowardZero(agent.pos.X - camera.cameraPosition.X),
+                    (int)Helper.roundTowardZero(agent.pos.Y - camera.cameraPosition.Y)));
         }
 
         public void Update(GameTime gameTime)
