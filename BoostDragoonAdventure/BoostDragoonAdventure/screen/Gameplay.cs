@@ -35,6 +35,7 @@ namespace wickedcrush.screen
     {
         public EntityManager entityManager;
         public SoundManager soundManager;
+        public PlayerManager playerManager; //replace with panelManager
 
         public RoomManager roomManager;
 
@@ -56,7 +57,7 @@ namespace wickedcrush.screen
 
             soundManager = new SoundManager(game.Content);
             entityManager = new EntityManager(game);
-
+            playerManager = game.playerManager;
             
 
             factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
@@ -111,6 +112,7 @@ namespace wickedcrush.screen
 
             entityManager.Update(gameTime);
             soundManager.Update(gameTime);
+            playerManager.Update(gameTime);
 
             camera.Update();
             
@@ -175,13 +177,13 @@ namespace wickedcrush.screen
                 factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5));
             }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))
+            if (game.controlsManager.debugControls.KeyPressed(Keys.End))
             {
                 Dispose();
                 game.screenStack.Pop();
             }
             
-            foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
+            /*foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
             {
                 if (p.c.SelectPressed())
                 {
@@ -189,7 +191,7 @@ namespace wickedcrush.screen
                     game.screenStack.Pop();
                     return;
                 }
-            }
+            }*/
         }
 
         public override void Dispose()

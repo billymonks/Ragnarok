@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using wickedcrush.controls;
 using wickedcrush.display.primitives;
 
 namespace wickedcrush.menu.panel
@@ -27,9 +28,9 @@ namespace wickedcrush.menu.panel
             r = new Rectangle(pos.X, pos.Y, size.X, size.Y);
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, Controls controls)
         {
-
+            UpdateControls(controls);
         }
 
         public void DebugDraw(SpriteBatch sb, Point origin)
@@ -42,6 +43,11 @@ namespace wickedcrush.menu.panel
             foreach (KeyValuePair<string, Panel> pair in children)
             { pair.Value.DebugDraw(sb, origin); }
 
+        }
+
+        public virtual void UpdateControls(Controls controls)
+        {
+            
         }
     }
 }

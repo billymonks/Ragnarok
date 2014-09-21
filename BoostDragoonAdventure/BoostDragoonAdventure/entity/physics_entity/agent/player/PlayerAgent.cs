@@ -28,6 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = false;
         private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
+        public bool busy = false;
         //public Item itemA;
 
         #endregion
@@ -167,6 +168,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateItemB();
 
                         _sound.stopInstancedSound(id + "blast off");
+
 
                         if (canAttackWhileOverheating || !overheating)
                         {

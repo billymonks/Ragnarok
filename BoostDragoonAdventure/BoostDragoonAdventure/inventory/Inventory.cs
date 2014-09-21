@@ -14,6 +14,8 @@ namespace wickedcrush.inventory
 
         public Item itemA, itemB;
 
+        public bool changed = false;
+
         public Inventory()
         {
             inventory = new Dictionary<Item, int>();
@@ -29,6 +31,7 @@ namespace wickedcrush.inventory
             else
             {
                 inventory.Add(i, 1);
+                changed = true;
             }
         }
 
@@ -41,6 +44,7 @@ namespace wickedcrush.inventory
             else
             {
                 inventory.Add(i, count);
+                changed = true;
             }
         }
 
@@ -67,7 +71,10 @@ namespace wickedcrush.inventory
             {
                 inventory[i]--;
                 if (inventory[i] <= 0)
+                {
                     inventory.Remove(i);
+                    changed = true;
+                }
             }
         }
 
@@ -77,19 +84,26 @@ namespace wickedcrush.inventory
             {
                 inventory[i] -= count;
                 if (inventory[i] <= 0)
+                {
                     inventory.Remove(i);
+                    changed = true;
+                }
             }
         }
 
         public void removeAllOfItem(Item i)
         {
             if (inventory.ContainsKey(i))
+            {
                 inventory.Remove(i);
+                changed = true;
+            }
         }
 
         public void clearInventory()
         {
             inventory.Clear();
+            changed = true;
         }
 
         public void addCurrency(int number)
@@ -97,6 +111,12 @@ namespace wickedcrush.inventory
             currency += number;
             if (currency < 0)
                 currency = 0;
+        }
+
+        public List<Item> GetItemList()
+        {
+            changed = false;
+            return inventory.Keys.ToList<Item>();
         }
     }
 }

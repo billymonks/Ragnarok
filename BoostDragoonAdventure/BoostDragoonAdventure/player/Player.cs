@@ -26,7 +26,10 @@ namespace wickedcrush.player
         public String name;
         public int playerNumber;
 
-        public Stack<Panel> panels;
+        public PanelFactory pf; //move this stuff to panel manager
+        public Stack<Panel> panels; // this too
+
+        public InventoryPanel inventoryPanel; // this three
 
         private bool remove = false;
 
@@ -37,10 +40,9 @@ namespace wickedcrush.player
             this.stats = stats;
             this.playerNumber = getPlayerNumber();
 
-
+            this.pf = pf;
             panels = new Stack<Panel>();
-
-            panels.Push(pf.getInventory());
+            inventoryPanel = pf.getInventory(stats.inventory);
         }
 
         private int getPlayerNumber()
@@ -113,15 +115,39 @@ namespace wickedcrush.player
 
         public void DebugDrawPanels(SpriteBatch sb, Camera camera)
         {
-            panels.Peek().DebugDraw(sb, 
-                new Point(
-                    (int)Helper.roundTowardZero(agent.pos.X - camera.cameraPosition.X),
-                    (int)Helper.roundTowardZero(agent.pos.Y - camera.cameraPosition.Y)));
+            foreach(Panel p in panels)
+            {
+                p.DebugDraw(sb,
+                    new Point(
+                        (int)Helper.roundTowardZero(agent.pos.X - camera.cameraPosition.X),
+                        (int)Helper.roundTowardZero(agent.pos.Y - camera.cameraPosition.Y)));
+            }
         }
 
         public void Update(GameTime gameTime)
         {
             c.Update();
+            UpdatePanels(gameTime);
+        }
+
+        public void UpdatePanels(GameTime gameTime)
+        {
+            if(panels.Count == 0 && agent != null && !agent.dead && c.StartPressed())
+            {
+                panels.Push(inventoryPanel);
+            }
+
+            if (agent != null)
+            {
+                if (panels.Count == 0)
+                    agent.busy = false;
+                else
+                    agent.busy = true;
+            }
+
+            if(panels.Count > 0)
+                panels.Peek().Update(gameTime, c);
+            
         }
     }
 }

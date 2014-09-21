@@ -60,6 +60,14 @@ namespace wickedcrush.manager.player
             performRemoval();
         }
 
+        public void UpdatePanels(GameTime gameTime)
+        {
+            foreach (Player p in playerList)
+            {
+                p.UpdatePanels(gameTime);
+            }
+        }
+
         private void performRemoval()
         {
             if (removeList.Count > 0)
