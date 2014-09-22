@@ -113,14 +113,15 @@ namespace wickedcrush.player
             return stats;
         }
 
-        public void DebugDrawPanels(SpriteBatch sb, Camera camera)
+        public void DebugDrawPanels(SpriteBatch sb, Camera camera, SpriteFont font)
         {
             foreach(Panel p in panels)
             {
                 p.DebugDraw(sb,
                     new Point(
                         (int)Helper.roundTowardZero(agent.pos.X - camera.cameraPosition.X),
-                        (int)Helper.roundTowardZero(agent.pos.Y - camera.cameraPosition.Y)));
+                        (int)Helper.roundTowardZero(agent.pos.Y - camera.cameraPosition.Y)),
+                        font);
             }
         }
 
@@ -145,8 +146,15 @@ namespace wickedcrush.player
                     agent.busy = true;
             }
 
-            if(panels.Count > 0)
+            if (c.SelectPressed() && panels.Count > 0)
+            {
+                panels.Pop();
+            }
+
+            if (panels.Count > 0)
+            {
                 panels.Peek().Update(gameTime, c);
+            }
             
         }
     }

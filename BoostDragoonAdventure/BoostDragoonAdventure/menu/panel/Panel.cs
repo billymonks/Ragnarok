@@ -33,7 +33,7 @@ namespace wickedcrush.menu.panel
             UpdateControls(controls);
         }
 
-        public void DebugDraw(SpriteBatch sb, Point origin)
+        public virtual void DebugDraw(SpriteBatch sb, Point origin, SpriteFont font)
         {
             r.X = pos.X + origin.X;
             r.Y = pos.Y + origin.Y;
@@ -41,7 +41,7 @@ namespace wickedcrush.menu.panel
             PrimitiveDrawer.DrawFilledRectangle(sb, r, color);
 
             foreach (KeyValuePair<string, Panel> pair in children)
-            { pair.Value.DebugDraw(sb, origin); }
+            { pair.Value.DebugDraw(sb, origin, font); }
 
         }
 

@@ -125,7 +125,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c => !((PlayerAgent)c).timers["boostRecharge"].isDone()
                         && ((PlayerAgent)c).timers["boostRecharge"].isActive()
                     || ((PlayerAgent)c).controls.BoostHeld()
-                    && !((PlayerAgent)c).overheating,
+                    && !((PlayerAgent)c).overheating
+                    && !((PlayerAgent)c).busy,
                     c =>
                     {
 
@@ -170,7 +171,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         _sound.stopInstancedSound(id + "blast off");
 
 
-                        if (canAttackWhileOverheating || !overheating)
+                        if ((canAttackWhileOverheating || !overheating) && !busy)
                         {
                             if (controls.ActionPressed())
                             {
@@ -234,7 +235,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void UpdateItemA()
         {
-            if (stats.inventory.itemA == null)
+            if (stats.inventory.itemA == null || busy)
                 return;
 
             if (stats.inventory.itemA.type.Equals(ItemType.UsesFuelCharge))
@@ -259,7 +260,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void UpdateItemB()
         {
-            if (stats.inventory.itemB == null)
+            if (stats.inventory.itemB == null || busy)
                 return;
 
             if (stats.inventory.itemB.type.Equals(ItemType.UsesFuelCharge))

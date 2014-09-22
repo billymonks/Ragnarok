@@ -98,11 +98,11 @@ namespace wickedcrush.manager.player
             
         }
 
-        public void DebugDrawPanels(SpriteBatch sb, Camera camera)
+        public void DebugDrawPanels(SpriteBatch sb, Camera camera, SpriteFont font)
         {
             foreach (Player p in playerList)
             {
-                p.DebugDrawPanels(sb, camera);
+                p.DebugDrawPanels(sb, camera, font);
             }
         }
 

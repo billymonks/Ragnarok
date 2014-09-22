@@ -69,15 +69,20 @@ namespace wickedcrush.menu.panel
             for (int j = 0; j < 9; j++)
             {
                 children["slot" + j].color = Color.DarkSlateGray;
+                ((ItemPanel)children["slot" + j]).setItem(null);
+                ((ItemPanel)children["slot" + j]).selected = false;
             }
         }
 
         private void highlightItems()
         {
             for(int j = 0; j < 9; j++)
-            { 
-                if( itemList.Count > (rowScroll * 3) + j )
-                    children["slot" + j].color = Color.SlateGray; 
+            {
+                if (itemList.Count > (rowScroll * 3) + j)
+                {
+                    children["slot" + j].color = Color.SlateGray;
+                    ((ItemPanel)children["slot" + j]).setItem(itemList[(rowScroll * 3) + j]);
+                }
             }
         }
 
@@ -86,12 +91,30 @@ namespace wickedcrush.menu.panel
             for (int j = 0; j < 9; j++)
             {
                 if (i == (rowScroll * 3) + j)
+                {
                     children["slot" + j].color = Color.LightGray;
+                    ((ItemPanel)children["slot" + j]).selected = true;
+                }
             }
         }
 
         public override void UpdateControls(Controls controls)
         {
+            if (controls.ItemAPressed())
+            {
+                inventory.itemA = itemList[i];
+            }
+
+            if (controls.ItemBPressed())
+            {
+                inventory.itemB = itemList[i];
+            }
+
+            if (controls.ActionPressed())
+            {
+                //inventory.useItem()
+            }
+
             if(controls.UpPressed())
                 i-=3;
 
@@ -103,6 +126,8 @@ namespace wickedcrush.menu.panel
 
             if (controls.RightPressed())
                 i++;
+
+            
         }
     }
 }
