@@ -398,7 +398,11 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public virtual void TakeHit(Attack attack)
         {
-            stats.addTo("hp", -attack.damage);
+            int damage = attack.damage;
+            if (staggered)
+                damage *= 2;
+
+            stats.addTo("hp", -damage);
 
             float staggerMultiply = 1f;
 

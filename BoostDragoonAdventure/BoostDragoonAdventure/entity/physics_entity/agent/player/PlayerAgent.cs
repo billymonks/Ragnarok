@@ -25,7 +25,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected Controls controls;
 
         private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 100f;
-        private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = false;
+        private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
         private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
         public bool busy = false;

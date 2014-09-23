@@ -110,13 +110,15 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
+            factory.Update(); //player creation, needs to be replaced
+
             entityManager.Update(gameTime);
             soundManager.Update(gameTime);
             playerManager.Update(gameTime);
 
             camera.Update();
             
-            factory.Update(); //player creation, needs to be replaced
+            
 
             DebugControls();
 
@@ -177,7 +179,7 @@ namespace wickedcrush.screen
                 factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5));
             }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.End))
+            if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))
             {
                 Dispose();
                 game.screenStack.Pop();

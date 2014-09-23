@@ -110,10 +110,13 @@ namespace wickedcrush.factory.entity
 
         public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
         {
-            Murderer a = new Murderer(w, pos, size, center, solid, this, stats, sm);
+            PersistedStats fuckStats = new PersistedStats();
+            Murderer a = new Murderer(w, pos, size, center, solid, this, fuckStats, sm);
+            a.stats.set("hp", 80);
+            a.stats.set("maxHP", 80);
             a.stats.set("staggerLimit", 100);
             a.stats.set("stagger", 0);
-            a.stats.set("staggerDuration", 5);
+            a.stats.set("staggerDuration", 30);
             a.stats.set("staggerDistance", 1);
             if (map != null)
             {
