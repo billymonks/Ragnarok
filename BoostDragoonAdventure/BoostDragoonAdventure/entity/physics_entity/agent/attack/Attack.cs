@@ -15,16 +15,16 @@ namespace wickedcrush.entity.physics_entity.agent.attack
     public abstract class Attack : Agent
     {
         public int damage, force; // migrate to attackstats class?
-        protected bool reactToWall = false, piercing = true;
+        protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
-            : base(w, pos, size, center, false, (EntityFactory)null, sound)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound, EntityFactory factory)
+            : base(w, pos, size, center, false, factory, sound)
         {
             Initialize(damage, force);
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
-            : base(w, pos, size, center, false, (EntityFactory)null, sound)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
+            : base(w, pos, size, center, false, factory, sound)
         {
             this.parent = parent;
             Initialize(damage, force);
@@ -60,6 +60,12 @@ namespace wickedcrush.entity.physics_entity.agent.attack
                     && !((Agent)c.Other.UserData).noCollision
                     && !c.Other.UserData.Equals(this.parent))
                 {
+                    if (this.parent != null
+                        && ((Agent)c.Other.UserData).parent != null
+                        && ((Agent)c.Other.UserData).parent.Equals(this.parent)
+                        && ignoreSameParent)
+                        break;
+
                     ((Agent)c.Other.UserData).TakeHit(this);
                     
                     if (!piercing)

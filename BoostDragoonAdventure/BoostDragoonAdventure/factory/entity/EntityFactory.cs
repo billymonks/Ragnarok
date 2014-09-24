@@ -151,6 +151,16 @@ namespace wickedcrush.factory.entity
             em.addEntity(b);
         }
 
+        public void addFireball(Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusters)
+        {
+            Fireball b = new Fireball(w, pos, size, center, parent, facing, damage, force, clusters, sm, this);
+
+            b.stats.set("staggerDuration", 1);
+            b.stats.set("staggerDistance", 0);
+
+            em.addEntity(b);
+        }
+
         public void addFloorSwitch(Vector2 pos)
         {
             FloorSwitch f = new FloorSwitch(w, pos, this, sm);

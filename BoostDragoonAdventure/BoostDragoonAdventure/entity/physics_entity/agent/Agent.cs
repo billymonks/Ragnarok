@@ -450,5 +450,20 @@ namespace wickedcrush.entity.physics_entity.agent
                 1,
                 1);
         }
+
+        public void fireFireball(int clusters, float ballSize, int damage, int force)
+        {
+            factory.addFireball(
+                new Vector2(
+                    (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))),
+                    (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))),
+                    new Vector2(ballSize, ballSize),
+                    new Vector2(ballSize / 2f, ballSize / 2f),
+                    this,
+                    this.facing,
+                    damage,
+                    force,
+                    clusters);
+        }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
+using wickedcrush.factory.entity;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.melee
 {
@@ -15,7 +16,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
         //private bool deployed = false;
 
         public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
-            : base(w, pos, size, center, parent, damage, force, sound)
+            : base(w, pos, size, center, parent, damage, force, sound, (EntityFactory)null)
         {
             Initialize(damage, force);
         }

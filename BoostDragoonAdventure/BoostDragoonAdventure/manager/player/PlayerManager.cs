@@ -111,6 +111,7 @@ namespace wickedcrush.manager.player
             String hud = "";
             foreach (Player p in getPlayerList())
             {
+                hud = "";
                 hud += p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
                     + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost");
 

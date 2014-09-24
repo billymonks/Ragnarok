@@ -8,34 +8,38 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.stats;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
+using wickedcrush.utility;
 using wickedcrush.factory.entity;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
-    public class Bolt : Attack
+    public class Fireball : Attack
     {
-        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound)
-            : base(w, pos, size, center, damage, force, sound, (EntityFactory)null)
-        {
-            Initialize(damage, force);
-        }
+        int clusterCount = 0;
+        int flightTime = 300;
 
-        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
-            : base(w, pos, size, center, damage, force, sound, (EntityFactory)null)
+        public Fireball(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusterCount, SoundManager sound, EntityFactory factory)
+            : base(w, pos, size, center, damage, force, sound, factory)
         {
             this.parent = parent;
-            Initialize(damage, force);
+            Initialize(damage, force, clusterCount, facing);
         }
 
-        private void Initialize(int damage, int force)
+        private void Initialize(int damage, int force, int clusterCount, Direction facing)
         {
             stats = new PersistedStats(1, 1);
-            facing = parent.facing;
+            this.facing = facing;
             immortal = false;
 
             this.damage = damage;
             this.force = force;
-            this.name = "Bolt";
+            this.clusterCount = clusterCount;
+
+            flightTime += clusterCount * 200;
+            this.name = "Fireball";
+
+            timers.Add("flightTime", new Timer(flightTime));
+            timers["flightTime"].resetAndStart();
 
             speed = 150f;
 
@@ -47,6 +51,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         {
             base.Update(gameTime);
             moveForward(speed);
+
+            checkTimer();
         }
 
         protected void moveForward(float speed)
@@ -55,6 +61,31 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
             v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
             bodies["body"].LinearVelocity = v;
+        }
+
+        private void checkTimer()
+        {
+            if(timers["flightTime"].isDone())
+            {
+                if(clusterCount>0)
+                {
+                    clusterCount--;
+                    if (clusterCount % 2 == 0)
+                    {
+                        factory.addFireball(pos, size, center, this.parent, Direction.East, this.damage, this.force, clusterCount);
+                        factory.addFireball(pos, size, center, this.parent, Direction.SouthWest, this.damage, this.force, clusterCount);
+                        factory.addFireball(pos, size, center, this.parent, Direction.NorthWest, this.damage, this.force, clusterCount);
+                    }
+                    else
+                    {
+                        factory.addFireball(pos, size, center, this.parent, Direction.West, this.damage, this.force, clusterCount);
+                        factory.addFireball(pos, size, center, this.parent, Direction.SouthEast, this.damage, this.force, clusterCount);
+                        factory.addFireball(pos, size, center, this.parent, Direction.NorthEast, this.damage, this.force, clusterCount);
+                    }
+                }
+
+                Remove();
+            }
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
