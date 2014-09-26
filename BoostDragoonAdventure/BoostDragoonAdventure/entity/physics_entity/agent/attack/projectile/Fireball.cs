@@ -16,7 +16,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
     public class Fireball : Attack
     {
         int clusterCount = 0;
-        int flightTime = 300;
+        int flightTime = 400;
 
         public Fireball(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusterCount, SoundManager sound, EntityFactory factory)
             : base(w, pos, size, center, damage, force, sound, factory)
@@ -67,24 +67,74 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         {
             if(timers["flightTime"].isDone())
             {
-                if(clusterCount>0)
+
+                cluster();
+                Remove();
+            }
+        }
+
+        private void cluster()
+        {
+            if (clusterCount <= 0)
+                return;
+            
+            clusterCount--;
+            if (clusterCount % 4 == 0)
+            {
+                factory.addFireball(pos, size, center, this.parent, Direction.East, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.SouthWest, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.NorthWest, this.damage, this.force, clusterCount);
+            }
+            else if (clusterCount % 4 == 1)
+            {
+                factory.addFireball(pos, size, center, this.parent, Direction.West, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.SouthEast, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.NorthEast, this.damage, this.force, clusterCount);
+            }
+            else if (clusterCount % 4 == 2)
+            {
+                factory.addFireball(pos, size, center, this.parent, Direction.South, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.NorthEast, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.NorthWest, this.damage, this.force, clusterCount);
+            }
+            else if (clusterCount % 4 == 3)
+            {
+                factory.addFireball(pos, size, center, this.parent, Direction.North, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.SouthEast, this.damage, this.force, clusterCount);
+                factory.addFireball(pos, size, center, this.parent, Direction.SouthWest, this.damage, this.force, clusterCount);
+            }
+            
+        }
+
+        protected override void HandleCollisions()
+        {
+            var c = bodies["body"].ContactList;
+            while (c != null)
+            {
+                if (c.Contact.IsTouching
+                    && c.Other.UserData != null
+                    && c.Other.UserData is Agent
+                    && !((Agent)c.Other.UserData).noCollision
+                    && !c.Other.UserData.Equals(this.parent))
                 {
-                    clusterCount--;
-                    if (clusterCount % 2 == 0)
-                    {
-                        factory.addFireball(pos, size, center, this.parent, Direction.East, this.damage, this.force, clusterCount);
-                        factory.addFireball(pos, size, center, this.parent, Direction.SouthWest, this.damage, this.force, clusterCount);
-                        factory.addFireball(pos, size, center, this.parent, Direction.NorthWest, this.damage, this.force, clusterCount);
-                    }
-                    else
-                    {
-                        factory.addFireball(pos, size, center, this.parent, Direction.West, this.damage, this.force, clusterCount);
-                        factory.addFireball(pos, size, center, this.parent, Direction.SouthEast, this.damage, this.force, clusterCount);
-                        factory.addFireball(pos, size, center, this.parent, Direction.NorthEast, this.damage, this.force, clusterCount);
-                    }
+                    if (this.parent != null
+                        && ((Agent)c.Other.UserData).parent != null
+                        && ((Agent)c.Other.UserData).parent.Equals(this.parent)
+                        && ignoreSameParent)
+                        break;
+
+                    ((Agent)c.Other.UserData).TakeHit(this);
+
+                    
+                    Remove();
+                }
+                else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
+                {
+                    cluster();
+                    Remove();
                 }
 
-                Remove();
+                c = c.Next;
             }
         }
 
