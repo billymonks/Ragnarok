@@ -13,6 +13,7 @@ namespace wickedcrush.menu.panel
     {
         public Item item;
         public bool selected = false;
+        String itemName = "";
 
         public ItemPanel(Color color, Point pos, Point size)
             : base(color, pos, size)
@@ -33,8 +34,12 @@ namespace wickedcrush.menu.panel
         public override void DebugDraw(SpriteBatch sb, Point origin, SpriteFont font)
         {
             base.DebugDraw(sb, origin, font);
+
+            if(item!=null)
+                itemName = item.name;
+
             if(selected)
-                sb.DrawString(font, item.name, new Vector2(pos.X + origin.X, pos.Y + origin.Y + size.Y), Color.White);
+                sb.DrawString(font, itemName, new Vector2(pos.X + origin.X, pos.Y + origin.Y + size.Y), Color.White);
         }
     }
 }

@@ -114,7 +114,6 @@ namespace wickedcrush.screen
 
             entityManager.Update(gameTime);
             soundManager.Update(gameTime);
-            playerManager.Update(gameTime);
 
             camera.Update();
             

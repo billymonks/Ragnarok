@@ -30,17 +30,15 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
-            checkForNewPlayers();
 
+            checkForNewPlayers();
             foreach (Player p in game.playerManager.getPlayerList())
             {
                 if (p.c.StartPressed())
                 {
                     game.screenStack.Push(new MapSelector(game));
                     return;
-
                 }
-
 
                 if (p.c.SelectPressed())
                 {
@@ -49,6 +47,8 @@ namespace wickedcrush.screen
                 }
 
             }
+
+
         }
 
         public override void Draw()

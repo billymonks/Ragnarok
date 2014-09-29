@@ -132,12 +132,13 @@ namespace wickedcrush
             }
 
             
-            playerManager.Update(gameTime);
-            
-            screenStack.Peek().Update(gameTime);
-
             controlsManager.Update(gameTime);
 
+            playerManager.Update(gameTime);
+
+            screenStack.Peek().Update(gameTime);
+
+            
             base.Update(gameTime);
         }
 

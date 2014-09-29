@@ -127,16 +127,17 @@ namespace wickedcrush.player
 
         public void Update(GameTime gameTime)
         {
-            c.Update();
             UpdatePanels(gameTime);
         }
 
         public void UpdatePanels(GameTime gameTime)
         {
+
             if ((c.StartPressed() || agent == null || agent.dead) && panels.Count > 0)
             {
                 panels.Pop();
-            } else if (panels.Count == 0 && agent != null && !agent.dead && c.StartPressed())
+            }
+            else if ((c.StartPressed() && agent != null && !agent.dead) && panels.Count == 0)
             {
                 panels.Push(inventoryPanel);
             }
