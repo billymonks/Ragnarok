@@ -399,32 +399,35 @@ namespace wickedcrush.map
 
         public void DebugDraw(Texture2D whiteTexture, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Camera camera)
         {
-            foreach (Body b in getLayer(LayerType.WALL).bodyList)
+            for (int i = (int)(camera.cameraPosition.X / 20f) - 6; i < (int)(camera.cameraPosition.X / 20f) + 40; i++)
             {
-                if(b!=null)
-                    spriteBatch.Draw(whiteTexture, 
-                        b.Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), 
-                        null, 
-                        Color.Black, 
-                        b.Rotation, 
-                        Vector2.Zero, 
-                        new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()), 
-                        SpriteEffects.None, 
-                        0f);
-            }
+                for (int j = (int)(camera.cameraPosition.Y / 20f); j < (int)(camera.cameraPosition.Y / 20f) + 25; j++)
+                {
+                    if (i >= 0 && i < getLayer(LayerType.WALL).getWidth() && j >= 0 && j < getLayer(LayerType.WALL).getHeight())
+                    {
+                        if(getLayer(LayerType.WALL).bodyList[i, j] != null)
+                            spriteBatch.Draw(whiteTexture,
+                                getLayer(LayerType.WALL).bodyList[i, j].Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y),
+                                null,
+                                Color.Black,
+                                getLayer(LayerType.WALL).bodyList[i, j].Rotation,
+                                Vector2.Zero,
+                                new Vector2(width / getLayer(LayerType.WALL).getWidth(), height / getLayer(LayerType.WALL).getHeight()),
+                                SpriteEffects.None,
+                                0f);
 
-            foreach (Body b in getLayer(LayerType.DEATHSOUP).bodyList)
-            {
-                if (b != null)
-                    spriteBatch.Draw(whiteTexture,
-                        b.Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), 
-                        null, 
-                        Color.Red, 
-                        b.Rotation, 
-                        Vector2.Zero, 
-                        new Vector2(width / getLayer(LayerType.DEATHSOUP).getWidth(), height / getLayer(LayerType.DEATHSOUP).getHeight()), 
-                        SpriteEffects.None, 
-                        0f);
+                        if(getLayer(LayerType.DEATHSOUP).bodyList[i, j] != null)
+                            spriteBatch.Draw(whiteTexture,
+                                getLayer(LayerType.DEATHSOUP).bodyList[i, j].Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y),
+                                null,
+                                Color.Red,
+                                getLayer(LayerType.DEATHSOUP).bodyList[i, j].Rotation,
+                                Vector2.Zero,
+                                new Vector2(width / getLayer(LayerType.DEATHSOUP).getWidth(), height / getLayer(LayerType.DEATHSOUP).getHeight()),
+                                SpriteEffects.None,
+                                0f);
+                    }
+                }
             }
 
             foreach (Body b in getLayer(LayerType.WIRING).bodyList)
