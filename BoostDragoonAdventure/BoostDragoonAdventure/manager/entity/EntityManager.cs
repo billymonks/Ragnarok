@@ -12,6 +12,7 @@ using wickedcrush.entity.physics_entity.agent.enemy;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.map.layer;
 using wickedcrush.display._3d;
+using wickedcrush.helper;
 
 namespace wickedcrush.manager.entity
 {
@@ -37,6 +38,7 @@ namespace wickedcrush.manager.entity
 
         public override void Update(GameTime gameTime)
         {
+            discover();
             updateEntities(gameTime);
 
             base.Update(gameTime);
@@ -54,6 +56,28 @@ namespace wickedcrush.manager.entity
 
             performRemoval();
             performAdd();
+        }
+
+        private void discover()
+        {
+            for (int i = 0; i < entityList.Count; i++)
+            {
+                if(entityList[i] is Agent && ((Agent)entityList[i]).activeRange != 0f)
+                {
+                    ((Agent)entityList[i]).proximity.Clear();
+
+                    for(int j = i+1; j < entityList.Count; j++)
+                    {
+                        float distance = Helper.getDistance(entityList[i].pos, entityList[j].pos);
+
+                        if (((Agent)entityList[i]).activeRange > distance)
+                            ((Agent)entityList[i]).proximity.Add(entityList[j]);
+
+                        if (entityList[j] is Agent && ((Agent)entityList[j]).activeRange > distance)
+                            ((Agent)entityList[j]).proximity.Add(entityList[i]);
+                    }
+                }
+            }
         }
 
         private void performAdd()

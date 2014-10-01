@@ -41,6 +41,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             timers.Add("attack_tell", new Timer(attackTellLength));
             timers.Add("post_attack", new Timer(postAttackLength));
 
+
+            activeRange = 300f;
+
             SetupStateMachine();
             
         }
@@ -49,11 +52,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         {
             base.setupBody(w, pos, size, center, solid);
 
-            bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
-            FixtureFactory.AttachCircle(300f, 1f, bodies["activeArea"], center);
-            bodies["activeArea"].IsSensor = true;
-            bodies["activeArea"].BodyType = BodyType.Dynamic;
-            bodies["activeArea"].LinearVelocity = Vector2.Zero;
+            //bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
+            //FixtureFactory.AttachCircle(300f, 1f, bodies["activeArea"], center);
+            //bodies["activeArea"].IsSensor = true;
+            //bodies["activeArea"].BodyType = BodyType.Dynamic;
+            //bodies["activeArea"].LinearVelocity = Vector2.Zero;
         }
 
         private void SetupStateMachine()

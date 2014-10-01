@@ -33,12 +33,13 @@ namespace wickedcrush.entity.physics_entity.agent
         protected StateMachine sm;
         protected EntityFactory factory;
 
-        protected List<Entity> proximity;
+        public List<Entity> proximity;
         protected Entity target;
 
         public PersistedStats stats;
 
         protected float speed = 50f;
+        public float activeRange = 0f;
         //protected bool strafe = false;
 
         public bool staggered = false;
@@ -116,7 +117,7 @@ namespace wickedcrush.entity.physics_entity.agent
             }
             
             HandleCollisions();
-            CheckProximity();
+            //CheckProximity();
 
             if(bodies.ContainsKey("hotspot"))
                 bodies["hotspot"].Position = bodies["body"].WorldCenter;

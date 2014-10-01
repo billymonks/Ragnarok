@@ -35,6 +35,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         {
             this.name = "Chest";
             immortal = true;
+            activeRange = 40f;
             SetupStateMachine();
             
         }
@@ -61,14 +62,12 @@ namespace wickedcrush.entity.physics_entity.agent.chest
             bodies["hotspot"].BodyType = BodyType.Static;
             bodies["hotspot"].IsSensor = true;
 
-            bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - (center + new Vector2(20f, 20f))));
-            FixtureFactory.AttachRectangle(size.X + 40f, size.Y + 40f, 1f, center + new Vector2(20f, 20f), bodies["activeArea"]);
-            bodies["activeArea"].IsSensor = true;
-            bodies["activeArea"].BodyType = BodyType.Static;
-            bodies["activeArea"].LinearVelocity = Vector2.Zero;
+            //bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - (center + new Vector2(20f, 20f))));
+            //FixtureFactory.AttachRectangle(size.X + 40f, size.Y + 40f, 1f, center + new Vector2(20f, 20f), bodies["activeArea"]);
+            //bodies["activeArea"].IsSensor = true;
+            //bodies["activeArea"].BodyType = BodyType.Static;
+            //bodies["activeArea"].LinearVelocity = Vector2.Zero;
 
-            //bodies.Add("interactArea", BodyFactory.CreateBody(w, pos - new Vector2(
-            //bodies["hotspot"].IsSensor = true;
 
 
         }

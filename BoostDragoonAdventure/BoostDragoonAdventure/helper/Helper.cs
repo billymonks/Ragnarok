@@ -55,5 +55,10 @@ namespace wickedcrush.helper
 
             return new Point((int)pos.X / gridSize, (int)pos.Y / gridSize);
         }
+
+        public static float getDistance(Vector2 posA, Vector2 posB)
+        {
+            return (float)Math.Sqrt(Math.Pow(posA.X - posB.X, 2) + Math.Pow(posA.Y - posB.Y, 2));
+        }
     }
 }

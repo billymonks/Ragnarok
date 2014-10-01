@@ -111,19 +111,23 @@ namespace wickedcrush.map.path
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
                 addNodeToOpenList(curr.gridPos.X, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
 
-                if (openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y]) 
+                if (curr.gridPos.X > 0 && curr.gridPos.Y > 0
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y]) 
                     && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y - 1]))
                     addNodeToOpenList(curr.gridPos.X - 1, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
 
-                if (openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y])
+                if (curr.gridPos.X > 0 && curr.gridPos.Y < pathNodeGrid.GetLength(1) - 1
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X - 1, curr.gridPos.Y])
                     && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y + 1])) 
                     addNodeToOpenList(curr.gridPos.X - 1, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
-                
-                if (openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
+
+                if (curr.gridPos.X < pathNodeGrid.GetLength(0) && curr.gridPos.Y > 0
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
                     && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y - 1]))
                     addNodeToOpenList(curr.gridPos.X + 1, curr.gridPos.Y - 1, start, goal, curr, openList, closedList);
 
-                if (openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
+                if (curr.gridPos.X < pathNodeGrid.GetLength(0) && curr.gridPos.Y < pathNodeGrid.GetLength(1)
+                    && openList.Contains(pathNodeGrid[curr.gridPos.X + 1, curr.gridPos.Y])
                     && openList.Contains(pathNodeGrid[curr.gridPos.X, curr.gridPos.Y + 1]))
                     addNodeToOpenList(curr.gridPos.X + 1, curr.gridPos.Y + 1, start, goal, curr, openList, closedList);
 
