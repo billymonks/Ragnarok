@@ -189,12 +189,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                                 if (chargeLevel > 25)
                                     _sound.playInstanced(id + "charge", emitter);
 
-                                if (chargeLevel == 100)
+                                if (chargeLevel == 75)
                                     _sound.fire3DSound("ping2", emitter);
                             }
                             else
                             {
-                                if (chargeLevel > 100)
+                                if (chargeLevel >= 75)
                                 {
                                     stats.addTo("boost", -170);
                                     attackForward(new Vector2(36, 36), 8, 200);
