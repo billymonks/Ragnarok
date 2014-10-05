@@ -60,5 +60,10 @@ namespace wickedcrush.helper
         {
             return (float)Math.Sqrt(Math.Pow(posA.X - posB.X, 2) + Math.Pow(posA.Y - posB.Y, 2));
         }
+
+        public static bool CharToBool(Char c)
+        {
+            return (c == '1');
+        }
     }
 }

@@ -18,6 +18,7 @@ using wickedcrush.map;
 using wickedcrush.display.primitives;
 using wickedcrush.inventory;
 using wickedcrush.factory.menu.panel;
+using wickedcrush.manager.map.room;
 
 namespace wickedcrush
 {
@@ -34,6 +35,7 @@ namespace wickedcrush
         public GraphicsDeviceManager graphics;
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
+        public MapManager mapManager;
 
         public SpriteBatch spriteBatch;
 
@@ -99,8 +101,10 @@ namespace wickedcrush
 
             screenStack = new Stack<GameScreen>();
 
+            
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this, controlsManager);
+            mapManager = new MapManager(this);
 
             screenStack.Push(new PlayerSelect(this));
             

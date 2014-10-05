@@ -32,6 +32,7 @@ namespace wickedcrush.factory.entity
     {
         private EntityManager em;
         private PlayerManager pm;
+        private MapManager mm;
         private ControlsManager cm;
         private SoundManager sm;
         private World w;
@@ -39,12 +40,13 @@ namespace wickedcrush.factory.entity
 
         private List<Door> doorList;
 
-        private Map map;
+        //private Map map;
 
-        public EntityFactory(EntityManager em, PlayerManager pm, ControlsManager cm, SoundManager sm, World w)
+        public EntityFactory(EntityManager em, PlayerManager pm, MapManager mm, ControlsManager cm, SoundManager sm, World w)
         {
             this.em = em;
             this.pm = pm;
+            this.mm = mm;
             this.cm = cm;
             this.sm = sm;
             this.w = w;
@@ -54,7 +56,7 @@ namespace wickedcrush.factory.entity
             doorList = new List<Door>();
         }
 
-        public void setMap(Map map)
+        /*public void setMap(Map map)
         {
             this.map = map;
         }
@@ -62,7 +64,7 @@ namespace wickedcrush.factory.entity
         public void clearMap()
         {
             map = null;
-        }
+        }*/
 
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
         {
@@ -118,9 +120,9 @@ namespace wickedcrush.factory.entity
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 30);
             a.stats.set("staggerDistance", 1);
-            if (map != null)
+            if (mm.map != null)
             {
-                a.activateNavigator(map);
+                a.activateNavigator(mm.map);
             }
             em.addEntity(a);
         }

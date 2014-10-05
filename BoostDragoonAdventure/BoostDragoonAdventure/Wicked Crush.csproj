@@ -138,6 +138,7 @@
     <Compile Include="inventory\ItemServer.cs" />
     <Compile Include="manager\audio\SoundManager.cs" />
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
+    <Compile Include="manager\map\room\MapManager.cs" />
     <Compile Include="manager\map\room\RoomManager.cs" />
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />

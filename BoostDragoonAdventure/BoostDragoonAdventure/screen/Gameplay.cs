@@ -33,39 +33,22 @@ namespace wickedcrush.screen
 {
     public class Gameplay : GameScreen
     {
-        public EntityManager entityManager;
-        public SoundManager soundManager;
-        public PlayerManager playerManager; //replace with panelManager
-
-        public RoomManager roomManager;
-
-        public EntityFactory factory;
-
         public Camera camera;
 
         public Panel panel;
-        
 
-        World w;
+        private MapManager mm;
 
         
 
         public Gameplay(Game game)
         {
-            w = new World(Vector2.Zero);
-            w.Gravity = Vector2.Zero;
-
-            soundManager = new SoundManager(game.Content);
-            entityManager = new EntityManager(game);
-            playerManager = game.playerManager;
+            mm = game.mapManager;
             
-
-            factory = new EntityFactory(entityManager, game.playerManager, game.controlsManager, soundManager, w);
-
             camera = new Camera(game.playerManager);
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
             
-            soundManager.setCam(camera);
+            mm.soundManager.setCam(camera);
 
             LoadContent(game);
 
@@ -80,18 +63,18 @@ namespace wickedcrush.screen
         {
             base.Initialize(g);
 
-            game.testMap = new Map(game.mapName, w, factory);
+            mm.loadMap(game.mapName, mm.w);
 
             //factory.setMap(game.testMap);
 
-            factory.spawnPlayers();
+            mm.factory.spawnPlayers();
         }
 
         private void connectWiring(Map map)
         {
             Layer wiring = map.getLayer(LayerType.WIRING);
 
-            entityManager.connectWiring(wiring);
+            mm.entityManager.connectWiring(wiring);
         }
 
         private void checkAndAdd()
@@ -110,10 +93,10 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            factory.Update(); //player creation, needs to be replaced
+            mm.factory.Update(); //player creation, needs to be replaced
 
-            entityManager.Update(gameTime);
-            soundManager.Update(gameTime);
+            mm.entityManager.Update(gameTime);
+            mm.soundManager.Update(gameTime);
 
             camera.Update();
             
@@ -123,7 +106,7 @@ namespace wickedcrush.screen
 
             //game.testMap.connectTriggers();
 
-            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+            mm.w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 
         }
 
@@ -136,8 +119,8 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            game.testMap.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
-            entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
+            mm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
+            mm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
             game.playerManager.DebugDrawPanels(game.spriteBatch, camera, game.testFont);
 
             DrawHud();
@@ -169,13 +152,13 @@ namespace wickedcrush.screen
         {
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(20,20));
+                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(20,20));
                 //soundManager.playSound("blast off");
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))
             {
-                factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5));
+                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5));
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))
@@ -197,7 +180,7 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
-            entityManager.Dispose();
+            //mm.entityManager.Dispose();
         }
     }
 }
