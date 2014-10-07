@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using wickedcrush.display._3d;
 using wickedcrush.entity;
 using wickedcrush.factory.entity;
 using wickedcrush.helper;
@@ -19,20 +20,28 @@ using wickedcrush.stats;
 
 namespace wickedcrush.manager.map.room
 {
+    public struct Connection
+    {
+        public String mapName;
+        public int doorIndex;
+
+        public Connection(String mapName, int doorIndex)
+        {
+            this.mapName = mapName;
+            this.doorIndex = doorIndex;
+        }
+    }
+
     public struct MapStats
     {
-        public String filename;
-        public List<String> connections;
+        public String name, filename;
+        public List<Connection> connections;
 
-        public MapStats(String filename, params String[] connections)
+        public MapStats(String name, String filename, List<Connection> connections)
         {
+            this.name = name;
             this.filename = filename;
-            this.connections = new List<String>();
-
-            foreach (String s in connections)
-            {
-                this.connections.Add(s);
-            }
+            this.connections = connections;
         }
     }
 
@@ -50,24 +59,82 @@ namespace wickedcrush.manager.map.room
 
         public EntityFactory factory;
 
+        public Camera camera;
 
         public World w;
 
+        public Connection activeConnection;
+
+        private Game _game;
+
         public MapManager(Game game)
+        {
+            atlas = new Dictionary<String, MapStats>();
+            LoadAtlas();
+
+            _game = game;
+
+            Initialize();
+        }
+
+        private void Initialize()
         {
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
 
-            soundManager = new SoundManager(game.Content);
-            entityManager = new EntityManager(game);
-            playerManager = game.playerManager;
+            camera = new Camera(_game.playerManager);
+            camera.cameraPosition = new Vector3(320f, 240f, 75f);
 
-            factory = new EntityFactory(entityManager, game.playerManager, this, game.controlsManager, soundManager, w);
-            LoadAtlas();
+            soundManager = new SoundManager(_game.Content);
+            soundManager.setCam(camera);
+            entityManager = new EntityManager(_game);
+            playerManager = _game.playerManager;
+
+            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, soundManager, w);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            factory.Update();
+            
+            entityManager.Update(gameTime);
+            soundManager.Update(gameTime);
+            camera.Update();
+
+            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+
+            if (playerManager.checkForTransition(map))
+                TransitionMap();
         }
         
         private void LoadAtlas()
         {
+            atlas.Clear();
+
+            String path = "Content/maps/atlas/MapAtlas.xml";
+            XDocument doc = XDocument.Load(path);
+            XElement rootElement = new XElement(doc.Element("atlas"));
+
+            foreach (XElement e in rootElement.Elements("map"))
+            {
+                String name, fileName;
+                List<Connection> connections = new List<Connection>();
+
+                name = e.Attribute("name").Value;
+                fileName = e.Attribute("filename").Value;
+
+                foreach(XElement connection in e.Elements("connection"))
+                {
+                    connections.Add(
+                        new Connection(connection.Value, 
+                            int.Parse(connection.Attribute("doorIndex").Value)));
+                }
+
+                MapStats temp = new MapStats(name, fileName, connections);
+
+
+                atlas.Add(name, temp);
+            }
 
         }
 
@@ -174,11 +241,31 @@ namespace wickedcrush.manager.map.room
             }
         }
 
-        public void loadMap(String MAP_NAME, World w)
+        public void loadDefaultMap()
         {
-            map = new Map(MAP_NAME, w, this);
+            loadMap(atlas["big kahuna burger"]);
+        }
 
-            XDocument doc = XDocument.Load(MAP_NAME);
+        public void TransitionMap()
+        {
+            if (activeConnection.Equals(null))
+                return;
+
+            playerManager.startTransition();
+            loadMap(atlas[activeConnection.mapName]);
+            factory.spawnPlayers(activeConnection.doorIndex);
+            playerManager.endTransition();
+        }
+
+        public void loadMap(MapStats mapStats)
+        {
+            Initialize();
+
+            int doorCount = 0;
+
+            map = new Map(mapStats.filename, w, this);
+
+            XDocument doc = XDocument.Load(mapStats.filename);
 
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
@@ -186,10 +273,9 @@ namespace wickedcrush.manager.map.room
             XElement wiring = rootElement.Element("WIRING");
             XElement objects = rootElement.Element("OBJECTS");
 
-            map.name = MAP_NAME;
+            map.name = mapStats.name;
             map.width = int.Parse(rootElement.Attribute("width").Value);
             map.height = int.Parse(rootElement.Attribute("height").Value);
-
 
             bool[,] data;
 
@@ -254,9 +340,11 @@ namespace wickedcrush.manager.map.room
                 {
                     factory.addDoor(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value));
+                        (Direction)int.Parse(e.Attribute("angle").Value),
+                        mapStats.connections[doorCount]);
+                    
+                    doorCount++;
                     //put dis shit in factory ffs
-                    //doorList.Add(new Door(w, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)), (Direction)int.Parse(e.Attribute("angle").Value), factory, null));
                 }
 
                 foreach (XElement e in objects.Elements("MURDERER"))

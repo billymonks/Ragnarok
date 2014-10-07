@@ -76,9 +76,12 @@ namespace wickedcrush.factory.entity
             em.addEntity(e);
         }
 
-        public void addDoor(Vector2 pos, Direction facing)
+        public void addDoor(Vector2 pos, Direction facing, Connection connection)
         {
-            doorList.Add(new Door(w, pos, facing, this, sm));
+            Door d = new Door(w, pos, facing, connection, mm, this, sm);
+            doorList.Add(d);
+
+            em.addEntity(d);
         }
 
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -193,7 +196,7 @@ namespace wickedcrush.factory.entity
             em.addEntity(a);
         }
 
-        public void spawnPlayers()
+        public void spawnPlayers(int doorIndex)
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
             positions.AddLast(new Vector2(-24, -24));
@@ -206,8 +209,8 @@ namespace wickedcrush.factory.entity
             
             foreach (Player p in pm.getPlayerList())
             {
-                if(doorList.Count > 0)
-                    p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                if(doorList.Count > doorIndex)
+                    p.GenerateAgent(doorList[doorIndex].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 else
                     p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 current = current.Next;

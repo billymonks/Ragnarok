@@ -9,11 +9,13 @@ using wickedcrush.manager.controls;
 using Microsoft.Xna.Framework.Input;
 using wickedcrush.utility;
 using wickedcrush.player;
+using wickedcrush.manager.map.room;
 
 namespace wickedcrush.screen
 {
     public class MapSelector : GameScreen
     {
+        private MapManager mm;
         List<String> mapList;
         int selectionIndex;
 
@@ -23,7 +25,9 @@ namespace wickedcrush.screen
         public MapSelector(Game game)
         {
             this.game = game;
-            
+
+            this.mm = game.mapManager;
+
             Initialize(game);
         }
 
@@ -35,7 +39,7 @@ namespace wickedcrush.screen
             //game.controlsManager = new ControlsManager(g);
 
 
-            LoadMapList();
+            LoadMapListFromAtlas();
 
             game.mapName = "Temple Halls V4";
         }
@@ -49,6 +53,12 @@ namespace wickedcrush.screen
 
             DebugControls();
             game.diag = "";
+        }
+
+        private void LoadMapListFromAtlas()
+        {
+            mapList = mm.atlas.Keys.ToList<String>();
+
         }
 
         private void LoadMapList()

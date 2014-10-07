@@ -9,11 +9,14 @@ using wickedcrush.player;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Input;
 using wickedcrush.stats;
+using wickedcrush.utility;
 
 namespace wickedcrush.screen
 {
     public class PlayerSelect : GameScreen
     {
+
+        Dictionary<Player, Timer> readyTimer;
 
         public PlayerSelect(Game game)
         {
@@ -25,15 +28,25 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
+
+            readyTimer = new Dictionary<Player, Timer> ();
         }
 
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
 
+            foreach(KeyValuePair<Player, Timer> pair in readyTimer)
+            {
+                pair.Value.Update(gameTime);
+            }
+
             checkForNewPlayers();
             foreach (Player p in game.playerManager.getPlayerList())
             {
+                if (!readyTimer.ContainsKey(p) || !readyTimer[p].isDone())
+                    return;
+
                 if (p.c.StartPressed())
                 {
                     game.screenStack.Push(new MapSelector(game));
@@ -86,6 +99,8 @@ namespace wickedcrush.screen
             Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, game.playerManager.getPlayerList().Count, controls, new PersistedStats(15, 15), game.panelFactory);
             //p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
             game.playerManager.addPlayer(p);
+            readyTimer.Add(p, new Timer(20));
+            readyTimer[p].resetAndStart();
 
         }
 

@@ -11,6 +11,7 @@ using wickedcrush.controls;
 using wickedcrush.factory.entity;
 using wickedcrush.manager.controls;
 using wickedcrush.display._3d;
+using wickedcrush.map;
 
 namespace wickedcrush.manager.player
 {
@@ -58,6 +59,40 @@ namespace wickedcrush.manager.player
 
 
             performRemoval();
+        }
+
+        public bool checkForTransition(Map m)
+        {
+            foreach (Player p in playerList)
+            {
+                if(p.getAgent() != null 
+                    && (p.getAgent().pos.X < 0
+                    || p.getAgent().pos.Y < 0
+                    || p.getAgent().pos.X > m.width
+                    || p.getAgent().pos.Y > m.height))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void startTransition()
+        {
+            foreach (Player p in playerList)
+            {
+                if(p.getAgent() != null)
+                    p.getAgent().busy = true;
+            }
+        }
+
+        public void endTransition()
+        {
+            foreach (Player p in playerList)
+            {
+                if (p.getAgent() != null)
+                    p.getAgent().busy = false;
+            }
         }
 
         public void UpdatePanels(GameTime gameTime)

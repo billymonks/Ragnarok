@@ -309,7 +309,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
-            DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c, camera);
+            if(visible)
+                DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
 
         protected void DebugDrawHealth(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)

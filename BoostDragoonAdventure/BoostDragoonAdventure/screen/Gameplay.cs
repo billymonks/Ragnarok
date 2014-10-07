@@ -33,7 +33,7 @@ namespace wickedcrush.screen
 {
     public class Gameplay : GameScreen
     {
-        public Camera camera;
+        
 
         public Panel panel;
 
@@ -44,11 +44,6 @@ namespace wickedcrush.screen
         public Gameplay(Game game)
         {
             mm = game.mapManager;
-            
-            camera = new Camera(game.playerManager);
-            camera.cameraPosition = new Vector3(320f, 240f, 75f);
-            
-            mm.soundManager.setCam(camera);
 
             LoadContent(game);
 
@@ -63,11 +58,12 @@ namespace wickedcrush.screen
         {
             base.Initialize(g);
 
-            mm.loadMap(game.mapName, mm.w);
+            mm.loadMap(mm.atlas[g.mapName]);
+            //mm.loadMap(game.mapName, mm.w);
 
             //factory.setMap(game.testMap);
 
-            mm.factory.spawnPlayers();
+            mm.factory.spawnPlayers(0);
         }
 
         private void connectWiring(Map map)
@@ -93,12 +89,7 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            mm.factory.Update(); //player creation, needs to be replaced
-
-            mm.entityManager.Update(gameTime);
-            mm.soundManager.Update(gameTime);
-
-            camera.Update();
+            mm.Update(gameTime);
             
             
 
@@ -106,7 +97,7 @@ namespace wickedcrush.screen
 
             //game.testMap.connectTriggers();
 
-            mm.w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+            
 
         }
 
@@ -119,9 +110,9 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            mm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, camera);
-            mm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, camera);
-            game.playerManager.DebugDrawPanels(game.spriteBatch, camera, game.testFont);
+            mm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mm.camera);
+            mm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, mm.camera);
+            game.playerManager.DebugDrawPanels(game.spriteBatch, mm.camera, game.testFont);
 
             DrawHud();
 

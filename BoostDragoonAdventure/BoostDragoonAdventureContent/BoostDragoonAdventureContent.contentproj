@@ -91,6 +91,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Content Include="maps\atlas\MapAtlas.xml">
+      <Name>MapAtlas</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="maps\full\big kahuna burger.xml">
       <Name>big kahuna burger</Name>
       <Importer>XmlImporter</Importer>

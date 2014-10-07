@@ -42,6 +42,10 @@ namespace wickedcrush.entity.physics_entity
             bodies = new Dictionary<String, Body>();
             bodies.Add("body", BodyFactory.CreateBody(w, pos - center));
             bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
+
+            if (!solid)
+                bodies["body"].IsSensor = true;
+
             bodies["hotspot"].IsSensor = true;
         }
 
@@ -69,15 +73,17 @@ namespace wickedcrush.entity.physics_entity
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
-            spriteBatch.Draw(wTex, bodies["body"].Position - new Vector2(camera.cameraPosition.X,
-                    camera.cameraPosition.Y), null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(aTex, bodies["body"].Position + center - new Vector2(camera.cameraPosition.X,
-                    camera.cameraPosition.Y), null, c, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
+            if (visible)
+            {
+                spriteBatch.Draw(wTex, bodies["body"].Position - new Vector2(camera.cameraPosition.X,
+                        camera.cameraPosition.Y), null, c, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
+                spriteBatch.Draw(aTex, bodies["body"].Position + center - new Vector2(camera.cameraPosition.X,
+                        camera.cameraPosition.Y), null, c, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
 
-            DrawName(spriteBatch, f, camera);
+                DrawName(spriteBatch, f, camera);
 
-            spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
-            
+                spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+            }
             foreach (Entity e in subEntityList)
                 e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 

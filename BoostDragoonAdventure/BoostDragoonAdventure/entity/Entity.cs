@@ -42,6 +42,7 @@ namespace wickedcrush.entity
         public bool immortal = false;
         public bool airborne = false;
         public bool noCollision = false;
+        public bool visible = true;
 
         public Direction facing;
         public Direction movementDirection;

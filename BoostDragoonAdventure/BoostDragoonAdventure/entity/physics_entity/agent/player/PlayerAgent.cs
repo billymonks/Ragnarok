@@ -130,7 +130,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
 
-                        if (sm.previousControlState.name != "boosting")
+                        if (sm.previousControlState != null && sm.previousControlState.name != "boosting")
                         {
                             timers["iFrameTime"].resetAndStart();
                             _sound.playInstanced(id + "blast off", emitter);
