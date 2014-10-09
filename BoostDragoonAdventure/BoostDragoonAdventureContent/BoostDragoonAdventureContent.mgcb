@@ -1,0 +1,409 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin
+/intermediateDir:obj
+/platform:Windows
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+
+#---------------------------------- Content ---------------------------------#
+
+#begin fonts/TestFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:fonts/TestFont.spritefont
+
+#begin debugcontent/img/arrow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/arrow.png
+
+#begin debugcontent/img/ass_cursor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/ass_cursor.png
+
+#begin debugcontent/img/mini_cursor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/mini_cursor.png
+
+#begin debugcontent/img/mini_cursor_heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/mini_cursor_heart.png
+
+#begin debugcontent/img/mini_cursor_minus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/mini_cursor_minus.png
+
+#begin debugcontent/img/mini_cursor_plus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/mini_cursor_plus.png
+
+#begin debugcontent/img/happy_cursor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/happy_cursor.png
+
+#begin debugcontent/img/nice_cursor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=False
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:TextureFormat=Color
+/build:debugcontent/img/nice_cursor.png
+
+#begin maps/atlas/MapAtlas.xml
+/copy:maps/atlas/MapAtlas.xml
+
+#begin maps/full/big kahuna burger.xml
+/copy:maps/full/big kahuna burger.xml
+
+#begin maps/atlas/OfflineAtlas.xml
+/copy:maps/atlas/OfflineAtlas.xml
+
+#begin maps/full/the bender.xml
+/copy:maps/full/the bender.xml
+
+#begin maps/full/variety.xml
+/copy:maps/full/variety.xml
+
+#begin maps/small/A Few Rooms.xml
+/copy:maps/small/A Few Rooms.xml
+
+#begin maps/small/Death Maze.xml
+/copy:maps/small/Death Maze.xml
+
+#begin maps/small/I66.xml
+/copy:maps/small/I66.xml
+
+#begin maps/small/Island.xml
+/copy:maps/small/Island.xml
+
+#begin maps/small/Mostly Harmless Water V2.xml
+/copy:maps/small/Mostly Harmless Water V2.xml
+
+#begin maps/small/Mostly Harmless Water.xml
+/copy:maps/small/Mostly Harmless Water.xml
+
+#begin maps/small/Symmetry.xml
+/copy:maps/small/Symmetry.xml
+
+#begin maps/small/Template.xml
+/copy:maps/small/Template.xml
+
+#begin maps/small/Temple Halls V2.xml
+/copy:maps/small/Temple Halls V2.xml
+
+#begin maps/small/Temple Halls V3.xml
+/copy:maps/small/Temple Halls V3.xml
+
+#begin maps/small/Temple Halls V4.xml
+/copy:maps/small/Temple Halls V4.xml
+
+#begin maps/small/Temple Halls.xml
+/copy:maps/small/Temple Halls.xml
+
+#begin maps/small/Test 1.xml
+/copy:maps/small/Test 1.xml
+
+#begin maps/small/Test 2.xml
+/copy:maps/small/Test 2.xml
+
+#begin maps/small/The Serpents Bend.xml
+/copy:maps/small/The Serpents Bend.xml
+
+#begin maps/small/Twisty Turny Get Losty V2.xml
+/copy:maps/small/Twisty Turny Get Losty V2.xml
+
+#begin maps/small/Twisty Turny Get Losty.xml
+/copy:maps/small/Twisty Turny Get Losty.xml
+
+#begin sounds/bfxr/blast off.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/blast off.wav
+
+#begin sounds/bfxr/abraisive laser.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/abraisive laser.wav
+
+#begin sounds/bfxr/beam me down.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/beam me down.wav
+
+#begin sounds/bfxr/charging.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/charging.wav
+
+#begin sounds/bfxr/chime.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/chime.wav
+
+#begin sounds/bfxr/crazy tweeting.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/crazy tweeting.wav
+
+#begin sounds/bfxr/defeated.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/defeated.wav
+
+#begin sounds/bfxr/dizzy mosquito.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/dizzy mosquito.wav
+
+#begin sounds/bfxr/dizzy2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/dizzy2.wav
+
+#begin sounds/bfxr/do do do do do do do do do.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/do do do do do do do do do.wav
+
+#begin sounds/bfxr/down the stairs.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/down the stairs.wav
+
+#begin sounds/bfxr/hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/hurt.wav
+
+#begin sounds/bfxr/laser fart.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/laser fart.wav
+
+#begin sounds/bfxr/lasers.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/lasers.wav
+
+#begin sounds/bfxr/monkey want a banana.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/monkey want a banana.wav
+
+#begin sounds/bfxr/oof.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/oof.wav
+
+#begin sounds/bfxr/Paste11.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Paste11.wav
+
+#begin sounds/bfxr/Paste12.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Paste12.wav
+
+#begin sounds/bfxr/ping.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/ping.wav
+
+#begin sounds/bfxr/powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/powerup.wav
+
+#begin sounds/bfxr/Randomize10.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize10.wav
+
+#begin sounds/bfxr/Randomize13.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize13.wav
+
+#begin sounds/bfxr/Randomize14.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize14.wav
+
+#begin sounds/bfxr/Randomize6.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize6.wav
+
+#begin sounds/bfxr/Randomize7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize7.wav
+
+#begin sounds/bfxr/Randomize9.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Randomize9.wav
+
+#begin sounds/bfxr/rapid mana.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/rapid mana.wav
+
+#begin sounds/bfxr/ruff ruff.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/ruff ruff.wav
+
+#begin sounds/bfxr/smash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/smash.wav
+
+#begin sounds/bfxr/splooshoo.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/splooshoo.wav
+
+#begin sounds/bfxr/squash.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/squash.wav
+
+#begin sounds/bfxr/ufo.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/ufo.wav
+
+#begin sounds/bfxr/volleyball.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/volleyball.wav
+
+#begin sounds/bfxr/whsh.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/whsh.wav
+
+#begin sounds/bfxr/Hit_Hurt20.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Hit_Hurt20.wav
+
+#begin sounds/bfxr/Pickup_Coin11.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Pickup_Coin11.wav
+
+#begin sounds/bfxr/Pickup_Coin13.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/bfxr/Pickup_Coin13.wav
+
+#begin xml/editor/entity/Chest.xml
+/copy:xml/editor/entity/Chest.xml
+
+#begin xml/editor/entity/Turret.xml
+/copy:xml/editor/entity/Turret.xml
+
+#begin xml/editor/entity/FloorSwitch.xml
+/copy:xml/editor/entity/FloorSwitch.xml
+
+#begin xml/editor/entity/Timer.xml
+/copy:xml/editor/entity/Timer.xml
+

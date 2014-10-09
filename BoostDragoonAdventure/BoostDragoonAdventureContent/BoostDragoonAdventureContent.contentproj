@@ -224,190 +224,10 @@
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
-    <Compile Include="sounds\bfxr\blast off.wav">
-      <Name>blast off</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\abraisive laser.wav">
-      <Name>abraisive laser</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\beam me down.wav">
-      <Name>beam me down</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\charging.wav">
-      <Name>charging</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\chime.wav">
-      <Name>chime</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\crazy tweeting.wav">
-      <Name>crazy tweeting</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\defeated.wav">
-      <Name>defeated</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\dizzy mosquito.wav">
-      <Name>dizzy mosquito</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\dizzy2.wav">
-      <Name>dizzy2</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\do do do do do do do do do.wav">
-      <Name>do do do do do do do do do</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\down the stairs.wav">
-      <Name>down the stairs</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\hurt.wav">
-      <Name>hurt</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\laser fart.wav">
-      <Name>laser fart</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\lasers.wav">
-      <Name>lasers</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\monkey want a banana.wav">
-      <Name>monkey want a banana</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\oof.wav">
-      <Name>oof</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Paste11.wav">
-      <Name>Paste11</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Paste12.wav">
-      <Name>Paste12</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\ping.wav">
-      <Name>ping</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\powerup.wav">
-      <Name>powerup</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize10.wav">
-      <Name>Randomize10</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize13.wav">
-      <Name>Randomize13</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize14.wav">
-      <Name>Randomize14</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize6.wav">
-      <Name>Randomize6</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize7.wav">
-      <Name>Randomize7</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Randomize9.wav">
-      <Name>Randomize9</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\rapid mana.wav">
-      <Name>rapid mana</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\ruff ruff.wav">
-      <Name>ruff ruff</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\smash.wav">
-      <Name>smash</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\splooshoo.wav">
-      <Name>splooshoo</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\squash.wav">
-      <Name>squash</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\ufo.wav">
-      <Name>ufo</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\volleyball.wav">
-      <Name>volleyball</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\whsh.wav">
-      <Name>whsh</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Hit_Hurt20.wav">
-      <Name>Hit_Hurt20</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Pickup_Coin11.wav">
-      <Name>Pickup_Coin11</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="sounds\bfxr\Pickup_Coin13.wav">
-      <Name>Pickup_Coin13</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
+    <Compile Include="sounds\AudioEngine.xap">
+      <Name>AudioEngine</Name>
+      <Importer>XactImporter</Importer>
+      <Processor>XactProcessor</Processor>
     </Compile>
     <Content Include="xml\editor\entity\Chest.xml">
       <Name>Chest</Name>
@@ -436,6 +256,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="xml\map\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sounds\Win\bfxr sound bank.xsb">
+      <Name>bfxr sound bank</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sounds\Win\bfxr wave bank.xwb">
+      <Name>bfxr wave bank</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

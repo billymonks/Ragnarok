@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using wickedcrush.utility;
 using wickedcrush.player;
 using wickedcrush.manager.map.room;
+using wickedcrush.manager.audio;
 
 namespace wickedcrush.screen
 {
@@ -21,13 +22,14 @@ namespace wickedcrush.screen
 
         Timer readyTimer;
 
+        private SoundManager _sound;
 
         public MapSelector(Game game)
         {
             this.game = game;
 
             this.mm = game.mapManager;
-
+            this._sound = game.soundManager;
             Initialize(game);
         }
 
@@ -88,6 +90,7 @@ namespace wickedcrush.screen
             {
                 if (p.c.UpPressed())
                 {
+                    _sound.playCue("ping3");
                     selectionIndex--;
                     if (selectionIndex < 0)
                         selectionIndex = mapList.Count - 1;
@@ -95,6 +98,7 @@ namespace wickedcrush.screen
 
                 if (p.c.DownPressed())
                 {
+                    _sound.playCue("ping3");
                     selectionIndex++;
                     if (selectionIndex > mapList.Count - 1)
                         selectionIndex = 0;

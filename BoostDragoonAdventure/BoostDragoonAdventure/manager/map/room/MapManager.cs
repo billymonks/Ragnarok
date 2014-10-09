@@ -51,7 +51,6 @@ namespace wickedcrush.manager.map.room
         public Map map;
 
         public EntityManager entityManager;
-        public SoundManager soundManager;
         public PlayerManager playerManager; //replace with panelManager
         public MapManager mapManager;
 
@@ -85,20 +84,18 @@ namespace wickedcrush.manager.map.room
             camera = new Camera(_game.playerManager);
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
 
-            soundManager = new SoundManager(_game.Content);
-            soundManager.setCam(camera);
+            _game.soundManager.setCam(camera);
             entityManager = new EntityManager(_game);
             playerManager = _game.playerManager;
 
-            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, soundManager, w);
+            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, w);
         }
 
         public void Update(GameTime gameTime)
         {
             factory.Update();
-            
+
             entityManager.Update(gameTime);
-            soundManager.Update(gameTime);
             camera.Update();
 
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
@@ -106,7 +103,7 @@ namespace wickedcrush.manager.map.room
             if (playerManager.checkForTransition(map))
                 TransitionMap();
         }
-        
+
         private void LoadAtlas()
         {
             atlas.Clear();
@@ -123,10 +120,10 @@ namespace wickedcrush.manager.map.room
                 name = e.Attribute("name").Value;
                 fileName = e.Attribute("filename").Value;
 
-                foreach(XElement connection in e.Elements("connection"))
+                foreach (XElement connection in e.Elements("connection"))
                 {
                     connections.Add(
-                        new Connection(connection.Value, 
+                        new Connection(connection.Value,
                             int.Parse(connection.Attribute("doorIndex").Value)));
                 }
 
@@ -342,7 +339,7 @@ namespace wickedcrush.manager.map.room
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value),
                         mapStats.connections[doorCount]);
-                    
+
                     doorCount++;
                     //put dis shit in factory ffs
                 }

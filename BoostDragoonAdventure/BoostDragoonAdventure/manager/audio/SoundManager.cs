@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,13 @@ namespace wickedcrush.manager.audio
 {
     public class SoundManager
     {
-        private Dictionary<String, SoundEffect> soundsList;
-        private Dictionary<String, SoundEffectInstance> instancedSounds; 
-        //todo: hashmap? for instanced sounds from an entity, to contain emitter also. for stuff that needs to be synced, ambient is wrong 
+        private Dictionary<String, Cue> cueList;
+        private List<KeyValuePair<String, Cue>> tempList;
+
+
+        private AudioEngine audioEngine;
+        private WaveBank waveBank;
+        private SoundBank soundBank;
 
         private ContentManager _cm;
         private Camera _gameCam;
@@ -22,8 +27,12 @@ namespace wickedcrush.manager.audio
 
         public SoundManager(ContentManager cm)
         {
-            soundsList = new Dictionary<String, SoundEffect>();
-            instancedSounds = new Dictionary<String, SoundEffectInstance>();
+            audioEngine = new AudioEngine("Content/sounds/AudioEngine.xgs");
+            waveBank = new WaveBank(audioEngine, "Content/sounds/Win/bfxr wave bank.xwb");
+            soundBank = new SoundBank(audioEngine, "Content/sounds/Win/bfxr sound bank.xsb");
+
+            cueList = new Dictionary<String, Cue>();
+            tempList = new List<KeyValuePair<String, Cue>>();
 
             SoundEffect.DistanceScale = 140f;
 
@@ -36,6 +45,10 @@ namespace wickedcrush.manager.audio
             {
                 listener.Position = new Vector3(_gameCam.cameraPosition.X, _gameCam.cameraPosition.Y, 0f);
             }
+
+            recreateCue();
+
+            audioEngine.Update();
         }
 
         public void setCam(Camera gameCam)
@@ -48,94 +61,73 @@ namespace wickedcrush.manager.audio
             listener.Up = Vector3.Forward;
         }
 
-        public void clearList()
+        public void playCue(String name)
         {
-            soundsList.Clear();
+            Cue cue = soundBank.GetCue(name);
+            cue.Play();
+            //soundBank.PlayCue(cue);
         }
 
-        public void addSound(String key, String name)
+        public void playCue(String name, AudioEmitter emitter)
         {
-            if (!soundsList.ContainsKey(key))
+            Cue cue = soundBank.GetCue(name);
+            cue.Apply3D(listener, emitter);
+            cue.Play();
+        }
+
+        public void addCueInstance(String key, String instanceKey, bool loop)
+        {
+            Cue temp = soundBank.GetCue(key);
+
+            if (!cueList.ContainsKey(instanceKey))
             {
-                soundsList.Add(key, _cm.Load<SoundEffect>(@"sounds/" + name));
+                cueList.Add(instanceKey, temp);
+                //cueList[instanceKey].Play();
+                //cueList[instanceKey].Pause();
+            }
+
+        }
+
+        public void playCueInstance(String instanceKey, AudioEmitter emitter)
+        {
+            if (cueList.ContainsKey(instanceKey) && cueList[instanceKey].IsPrepared)
+            {
+                cueList[instanceKey].Apply3D(listener, emitter);
+                //if (cueList[instanceKey].IsStopped)
+                //cueList[instanceKey].Resume();
+                cueList[instanceKey].Play();
             }
         }
 
-        public void playSound(String key)
+        public void stopCueInstance(String instanceKey, AudioEmitter emitter)
         {
-            if (soundsList.ContainsKey(key))
+            if (cueList.ContainsKey(instanceKey))
             {
-                soundsList[key].Play();
-            }
-        }
-
-        public void addInstance(String key, String instanceKey, bool loop)
-        {
-            if (soundsList.ContainsKey(key))
-            {
-                SoundEffectInstance temp = soundsList[key].CreateInstance();
-
-                temp.IsLooped = loop;
-                temp.Volume = 1f;
-
-                if(!instancedSounds.ContainsKey(instanceKey))
-                    instancedSounds.Add(instanceKey, temp);
+                if (cueList[instanceKey].IsPlaying)
+                {
+                    cueList[instanceKey].Stop(AudioStopOptions.AsAuthored);
+                    
+                }
                 
             }
         }
 
-        public void playAmbient(String instanceKey)
+        private void recreateCue()
         {
-            if(instancedSounds.ContainsKey(instanceKey))
+            tempList.Clear();
+            
+            foreach(KeyValuePair <String, Cue> cue in cueList)
             {
-                instancedSounds[instanceKey].Play();
-            }
-        }
-
-        public void playInstanced(String instanceKey, AudioEmitter emitter)
-        {
-            if(instancedSounds.ContainsKey(instanceKey))
-            {
-                instancedSounds[instanceKey].Apply3D(listener, emitter);
-                instancedSounds[instanceKey].Play();
-            }
-        }
-
-        public void stopInstancedSounds()
-        {
-            foreach(KeyValuePair<String, SoundEffectInstance> pair in instancedSounds)
-            {
-                pair.Value.Stop();
+                if(cue.Value.IsStopped)
+                {
+                    tempList.Add(cue);
+                }
             }
 
-            instancedSounds.Clear();
-        }
-
-        public void stopInstancedSound(String key)
-        {
-            if(instancedSounds.ContainsKey(key))
-                instancedSounds[key].Stop();
-        }
-
-        public SoundEffectInstance getAmbientSound(String instanceKey)
-        {
-            return instancedSounds[instanceKey];
-        }
-
-        public SoundEffectInstance createSoundInstance(String key)
-        {
-            if (soundsList.ContainsKey(key))
+            foreach(KeyValuePair<String, Cue> pair in tempList)
             {
-                return soundsList[key].CreateInstance();
+                cueList[pair.Key] = soundBank.GetCue(pair.Value.Name);
             }
-            else return null;
-        }
-
-        public void fire3DSound(String key, AudioEmitter emitter)
-        {
-            SoundEffectInstance temp = createSoundInstance(key);
-            temp.Apply3D(listener, emitter);
-            temp.Play();
         }
     }
 }

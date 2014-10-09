@@ -39,7 +39,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             Initialize(pos, size, center, solid, controls);
 
-            
+
         }
 
         private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
@@ -54,22 +54,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
-            
+
             stats.inventory.itemA = ItemServer.getItem("Healthsweed");
             stats.inventory.itemB = ItemServer.getItem("Fireball");
 
-            _sound.addSound("blast off", "bfxr/blast off");
-            _sound.addSound("whsh", "bfxr/whsh");
-            _sound.addSound("whsh2", "bfxr/Randomize6");
-            _sound.addSound("ded", "bfxr/Randomize10");
-            _sound.addSound("smash", "bfxr/smash");
-            _sound.addSound("charge", "bfxr/charging");
-            _sound.addSound("ping", "bfxr/ping");
-            _sound.addSound("ping2", "bfxr/Pickup_Coin11");
-            _sound.addSound("ping3", "bfxr/Pickup_Coin13");
-            _sound.addSound("oof", "bfxr/oof");
-            _sound.addInstance("blast off", id + "blast off", false);
-            _sound.addInstance("charge", id + "charge", false);
+            _sound.addCueInstance("blast off", id + "blast off", false);
+            _sound.addCueInstance("charging", id + "charging", false);
             SetupStateMachine();
         }
 
@@ -82,18 +72,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
             {
-                _sound.fire3DSound("ping3", emitter);
+                _sound.playCue("ping3", emitter);
             }
             else
             {
                 base.TakeHit(attack);
-                _sound.fire3DSound("oof", emitter);
+                _sound.playCue("oof", emitter);
             }
         }
 
-        
 
-        
+
+
         #endregion
 
         #region Update
@@ -133,11 +123,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         if (sm.previousControlState != null && sm.previousControlState.name != "boosting")
                         {
                             timers["iFrameTime"].resetAndStart();
-                            _sound.playInstanced(id + "blast off", emitter);
+                            _sound.playCueInstance(id + "blast off", emitter);
                         }
 
-                        if(((PlayerAgent)c).controls.BoostPressed())
-                        timers["boostRecharge"].resetAndStart();
+                        if (((PlayerAgent)c).controls.BoostPressed())
+                            timers["boostRecharge"].resetAndStart();
 
                         UpdateDirection(false);
                         BoostForward();
@@ -148,12 +138,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             stats.addTo("boost", -100);
                             attackForward(new Vector2(36, 36), 6, 70);
                             //_sound.playSound("whsh");
-                            _sound.fire3DSound("whsh", emitter);
+                            _sound.playCue("whsh", emitter);
                         }
                         inCharge = false;
 
                     }));
-            
+
 
             ctrl.Add("default",
                 new State("default",
@@ -164,11 +154,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         WalkForward();
 
                         inCharge = false;
-                        
+
                         UpdateItemA();
                         UpdateItemB();
 
-                        _sound.stopInstancedSound(id + "blast off");
+                        _sound.stopCueInstance(id + "blast off", emitter);
 
 
                         if ((canAttackWhileOverheating || !overheating) && !busy)
@@ -178,7 +168,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                                 stats.addTo("boost", -70);
                                 attackForward(new Vector2(36, 36), 5, 50);
                                 //_sound.playSound("whsh");
-                                _sound.fire3DSound("whsh", emitter);
+                                _sound.playCue("whsh", emitter);
                             }
 
                             if (controls.ActionHeld())
@@ -187,10 +177,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
                                 chargeLevel++;
 
                                 if (chargeLevel > 25)
-                                    _sound.playInstanced(id + "charge", emitter);
+                                    _sound.playCueInstance(id + "charging", emitter);
 
                                 if (chargeLevel == 75)
-                                    _sound.fire3DSound("ping2", emitter);
+                                    _sound.playCue("ping2", emitter);
                             }
                             else
                             {
@@ -198,16 +188,16 @@ namespace wickedcrush.entity.physics_entity.agent.player
                                 {
                                     stats.addTo("boost", -170);
                                     attackForward(new Vector2(36, 36), 8, 200);
-                                    _sound.fire3DSound("smash", emitter);
+                                    _sound.playCue("smash", emitter);
                                 }
                                 else if (chargeLevel > 25)
                                 {
                                     stats.addTo("boost", -120);
                                     attackForward(new Vector2(36, 36), 6, 100);
-                                    _sound.fire3DSound("smash", emitter);
+                                    _sound.playCue("smash", emitter);
                                 }
 
-                                _sound.stopInstancedSound(id + "charge");
+                                _sound.stopCueInstance(id + "charging", emitter);
                                 chargeLevel = 0;
                             }
 
@@ -304,7 +294,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected void WalkForward()
         {
             Vector2 v = bodies["body"].LinearVelocity;
-            
+
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
             Vector2 unitVector = new Vector2(
@@ -345,7 +335,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             return controls.InteractPressed();
         }
-        
+
     }
-        
+
 }

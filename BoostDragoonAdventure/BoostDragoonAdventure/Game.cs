@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -19,6 +18,8 @@ using wickedcrush.display.primitives;
 using wickedcrush.inventory;
 using wickedcrush.factory.menu.panel;
 using wickedcrush.manager.map.room;
+using wickedcrush.manager.audio;
+using System.Collections.ObjectModel;
 
 namespace wickedcrush
 {
@@ -33,6 +34,7 @@ namespace wickedcrush
     public class Game : Microsoft.Xna.Framework.Game
     {
         public GraphicsDeviceManager graphics;
+        public SoundManager soundManager;
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
         public MapManager mapManager;
@@ -64,14 +66,24 @@ namespace wickedcrush
             debugMode = true;
 
             graphics = new GraphicsDeviceManager(this);
+            //Window.SetPosition(Point.Zero);
+            //wickedcrush.utility.extensions.GameWindowExtensions.SetPosition(Window, Point.Zero);
 
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+
+            //graphics.IsFullScreen = true;
+
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
             IsFixedTimeStep = true;
             //SetFrameRate(120);
+            graphics.ApplyChanges();
+            
+
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+            graphics.IsFullScreen = true;
+            
             graphics.ApplyChanges();
         }
 
@@ -81,12 +93,14 @@ namespace wickedcrush
 
             e = new BasicEffect(GraphicsDevice);
 
+
+
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
             debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
             debugxtranslate = (debugxscale - debugyscale) * 320f;
-            debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1) 
+            debugSpriteScale = Matrix.CreateScale(debugyscale, debugyscale, 1)
                 * Matrix.CreateTranslation(debugxtranslate, 0f, 0f);
-            
+
             xscale = (float)GraphicsDevice.Viewport.Width / 1440f;
             yscale = (float)GraphicsDevice.Viewport.Height / 1080f;
             xtranslate = (xscale - yscale) * 720f;
@@ -101,17 +115,18 @@ namespace wickedcrush
 
             screenStack = new Stack<GameScreen>();
 
-            
+            soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this, controlsManager);
             mapManager = new MapManager(this);
 
             screenStack.Push(new PlayerSelect(this));
-            
+
         }
 
         protected override void LoadContent()
         {
+            //Content.RootDirectory = "Content";
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -135,14 +150,15 @@ namespace wickedcrush
                 return;
             }
 
-            
+
+            soundManager.Update(gameTime);
             controlsManager.Update(gameTime);
 
             playerManager.Update(gameTime);
 
             screenStack.Peek().Update(gameTime);
 
-            
+
             base.Update(gameTime);
         }
 
