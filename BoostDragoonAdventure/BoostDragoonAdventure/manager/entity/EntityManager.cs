@@ -147,6 +147,18 @@ namespace wickedcrush.manager.entity
             }
         }
 
+        public void RemoveAll()
+        {
+            foreach (Entity e in entityList)
+            {
+                e.Remove();
+            }
+
+            entityList.Clear();
+            addList.Clear();
+            removeList.Clear();
+        }
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);

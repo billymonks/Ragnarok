@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.editor;
+using wickedcrush.entity;
 
 namespace wickedcrush.helper
 {
@@ -44,9 +45,14 @@ namespace wickedcrush.helper
             return (a / b + (a % b > 0 ? 1 : 0));
         }
 
-        public static int degreeConversion(float radians) // makes radian angle positive and converts to decimals in 45 degree intervals, for 8 directional things
+        public static int degreeConversion(float radians) // makes radian angle positive
         {
-            return(((((int)MathHelper.ToDegrees(radians) + 360) % 360) / 45) * 45);
+            return (((int)MathHelper.ToDegrees(radians) + 360) % 360);
+        }
+
+        public static Direction degreeToDirection(float radians) // makes radian angle positive and converts to decimals in 45 degree intervals, for 8 directional things
+        {
+            return((Direction)(((((int)MathHelper.ToDegrees(radians) + 360) % 360) / 45) * 45));
         }
 
         public static Point convertPositionToCoordinate(Vector2 pos, EditorMap map, LayerType layerType)

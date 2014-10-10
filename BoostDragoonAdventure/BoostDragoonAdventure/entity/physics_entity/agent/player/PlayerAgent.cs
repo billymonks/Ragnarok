@@ -48,7 +48,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.name = "Player";
 
             this.facing = Direction.East;
-            movementDirection = facing;
+            movementDirection = (int)facing;
 
             timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
 
@@ -281,14 +281,14 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 return;
 
             Direction temp = (Direction)
-                        Helper.degreeConversion((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
+                        Helper.degreeToDirection((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
             //strafe = controls.StrafeHeld();
 
             if (!strafe)
                 facing = temp;
 
-            movementDirection = temp;
+            movementDirection = (int)temp;
         }
 
         protected void WalkForward()
@@ -336,6 +336,15 @@ namespace wickedcrush.entity.physics_entity.agent.player
             return controls.InteractPressed();
         }
 
+        protected override void Dispose()
+        {
+            base.Dispose();
+
+            _sound.removeCueInstance(id + "blast off");
+            _sound.removeCueInstance(id + "charging");
+
+        }
     }
+
 
 }

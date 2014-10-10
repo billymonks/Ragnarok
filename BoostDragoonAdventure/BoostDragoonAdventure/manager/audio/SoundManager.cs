@@ -65,14 +65,12 @@ namespace wickedcrush.manager.audio
         {
             Cue cue = soundBank.GetCue(name);
             cue.Play();
-            //soundBank.PlayCue(cue);
         }
 
         public void playCue(String name, AudioEmitter emitter)
         {
             Cue cue = soundBank.GetCue(name);
             cue.Apply3D(listener, emitter);
-            
             cue.Play();
         }
 
@@ -83,8 +81,6 @@ namespace wickedcrush.manager.audio
             if (!cueList.ContainsKey(instanceKey))
             {
                 cueList.Add(instanceKey, temp);
-                //cueList[instanceKey].Play();
-                //cueList[instanceKey].Pause();
             }
 
         }
@@ -110,6 +106,18 @@ namespace wickedcrush.manager.audio
                     
                 }
                 
+            }
+        }
+
+        public void removeCueInstance(String instanceKey)
+        {
+            if (cueList.ContainsKey(instanceKey))
+            {
+                if (cueList[instanceKey].IsPlaying)
+                {
+                    cueList[instanceKey].Stop(AudioStopOptions.Immediate);
+                }
+                cueList.Remove(instanceKey);
             }
         }
 

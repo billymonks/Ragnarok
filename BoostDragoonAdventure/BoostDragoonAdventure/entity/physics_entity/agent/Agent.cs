@@ -117,7 +117,6 @@ namespace wickedcrush.entity.physics_entity.agent
             }
             
             HandleCollisions();
-            //CheckProximity();
 
             if(bodies.ContainsKey("hotspot"))
                 bodies["hotspot"].Position = bodies["body"].WorldCenter;
@@ -196,7 +195,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 if(!strafe)
                     facing = (Direction)
-                        Helper.degreeConversion((float)Math.Atan2(v.Y, v.X));
+                        Helper.degreeToDirection((float)Math.Atan2(v.Y, v.X));
 
                 bodies["body"].LinearVelocity = v;
             }
@@ -281,31 +280,8 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        protected virtual void CheckProximity()
-        {
-            if (!bodies.ContainsKey("activeArea"))
-                return;
-
-            var c = bodies["activeArea"].ContactList;
-            proximity.Clear();
-
-            while(c != null)
-            {
-                if (c.Contact.IsTouching && c.Other.UserData is Entity && !c.Other.UserData.Equals(this))
-                {
-                    proximity.Add((Entity)c.Other.UserData);
-                }
-
-                c = c.Next;
-            }
-        }
-
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
-            //if (navigator != null)
-            //{
-                //navigator.DebugDraw(wTex, gd, spriteBatch, f);
-            //}
 
             base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
@@ -343,7 +319,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected void faceTarget()
         {
             if(target!=null)
-                facing = (Direction)Helper.degreeConversion(angleToEntity(target));
+                facing = Helper.degreeToDirection(angleToEntity(target));
         }
 
         protected bool hasLineOfSightToAgent(Agent a)
@@ -451,6 +427,20 @@ namespace wickedcrush.entity.physics_entity.agent
                 this,
                 1,
                 1);
+        }
+
+        public void fireAimedProjectile(int aimDirection)
+        {
+            factory.addAimedProjectile(
+                new Vector2(
+                        (float)(pos.X + center.X + size.X * Math.Cos(MathHelper.ToRadians((float)facing))), //x component of pos
+                        (float)(pos.Y + center.Y + size.Y * Math.Sin(MathHelper.ToRadians((float)facing)))), //y component of pos
+                new Vector2(10f, 10f),
+                new Vector2(5f, 5f),
+                this,
+                1,
+                1,
+                aimDirection);
         }
 
         public void fireFireball(int clusters, float ballSize, int damage, int force)

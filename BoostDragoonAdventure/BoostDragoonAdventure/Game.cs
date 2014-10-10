@@ -66,11 +66,6 @@ namespace wickedcrush
             debugMode = true;
 
             graphics = new GraphicsDeviceManager(this);
-            //Window.SetPosition(Point.Zero);
-            //wickedcrush.utility.extensions.GameWindowExtensions.SetPosition(Window, Point.Zero);
-
-
-            //graphics.IsFullScreen = true;
 
             Content.RootDirectory = "Content";
 

@@ -25,6 +25,7 @@ using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.manager.audio;
 using wickedcrush.entity.physics_entity.agent.inanimate;
 using wickedcrush.manager.map.room;
+using wickedcrush.entity.physics_entity.agent.trap;
 
 namespace wickedcrush.factory.entity
 {
@@ -138,6 +139,14 @@ namespace wickedcrush.factory.entity
             em.addEntity(t);
         }
 
+        public void addAimTurret(Vector2 pos)
+        {
+            AimTurret t = new AimTurret(w, pos, this, Direction.East, sm);
+            t.stats.set("staggerDuration", 1);
+            t.stats.set("staggerDistance", 0);
+            em.addEntity(t);
+        }
+
         public void addChest(Vector2 pos)
         {
             Chest c = new Chest(w, pos, this, sm);
@@ -149,6 +158,16 @@ namespace wickedcrush.factory.entity
         public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
             Bolt b = new Bolt(w, pos, size, center, parent, damage, force, sm);
+
+            b.stats.set("staggerDuration", 1);
+            b.stats.set("staggerDistance", 0);
+
+            em.addEntity(b);
+        }
+
+        public void addAimedProjectile(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, int aimDirection)
+        {
+            AimedProjectile b = new AimedProjectile(w, pos, size, center, parent, damage, force, aimDirection, sm);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);

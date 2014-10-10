@@ -45,7 +45,7 @@ namespace wickedcrush.entity
         public bool visible = true;
 
         public Direction facing;
-        public Direction movementDirection;
+        public int movementDirection;
 
         public SoundManager _sound;
         public AudioEmitter emitter;
@@ -107,11 +107,17 @@ namespace wickedcrush.entity
                 {
                     e.Remove();
                 }
+
+                Dispose();
+
                 remove = true;
             }
         }
 
-        
+        protected virtual void Dispose()
+        {
+
+        }
 
         public bool readyForRemoval()
         {

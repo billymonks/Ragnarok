@@ -1,27 +1,33 @@
-﻿using System;
+﻿using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using wickedcrush.stats;
-using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.factory.entity;
+using wickedcrush.manager.audio;
+using wickedcrush.stats;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
-    public class Bolt : Attack
+    public class AimedProjectile : Attack
     {
-        public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound)
+        public AimedProjectile(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, int aimedDirection, SoundManager sound)
+            : base(w, pos, size, center, damage, force, sound, (EntityFactory)null)
+        {
+            Initialize(damage, force, aimedDirection);
+        }
+
+        public AimedProjectile(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, int aimedDirection, SoundManager sound)
             : base(w, pos, size, center, damage, force, sound, (EntityFactory)null)
         {
             this.parent = parent;
-            Initialize(damage, force);
+            Initialize(damage, force, aimedDirection);
         }
 
-        private void Initialize(int damage, int force)
+        private void Initialize(int damage, int force, int aimedDirection)
         {
             stats = new PersistedStats(1, 1);
             facing = parent.facing;
@@ -29,7 +35,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
             this.damage = damage;
             this.force = force;
-            this.name = "Bolt";
+            this.movementDirection = aimedDirection;
+            this.name = "AimProj";
 
             speed = 150f;
 
@@ -46,8 +53,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         protected void moveForward(float speed)
         {
             Vector2 v = bodies["body"].LinearVelocity;
-            v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
-            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
+            v.X = (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)) * speed;
+            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)movementDirection)) * speed;
             bodies["body"].LinearVelocity = v;
         }
 

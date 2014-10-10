@@ -85,7 +85,12 @@ namespace wickedcrush.manager.map.room
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
 
             _game.soundManager.setCam(camera);
-            entityManager = new EntityManager(_game);
+            
+            if (entityManager == null)
+                entityManager = new EntityManager(_game);
+            else
+                entityManager.RemoveAll();
+
             playerManager = _game.playerManager;
 
             factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, w);
@@ -313,6 +318,12 @@ namespace wickedcrush.manager.map.room
                     factory.addTurret(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value));
+                }
+
+                foreach (XElement e in objects.Elements("AIM_TURRET"))
+                {
+                    factory.addAimTurret(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
                 foreach (XElement e in objects.Elements("CHEST"))
