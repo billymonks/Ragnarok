@@ -78,7 +78,7 @@ namespace wickedcrush.entity
         #region Update
         public virtual void Update(GameTime gameTime)
         {
-            emitter.Position = new Vector3(pos.X, pos.Y, 0f);
+            emitter.Position = new Vector3(pos.X+center.X, pos.Y+center.Y, 0f);
 
             foreach (Entity e in subEntityList)
             {

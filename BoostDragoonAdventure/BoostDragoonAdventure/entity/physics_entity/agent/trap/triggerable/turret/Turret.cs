@@ -43,8 +43,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
 
         public override void activate()
         {
-            if(!dead)
+            if (!dead)
+            {
+                _sound.playCue("whsh", emitter);
                 fireBolt();
+            }
         }
 
         public override void Remove()

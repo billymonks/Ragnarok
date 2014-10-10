@@ -34,7 +34,7 @@ namespace wickedcrush.manager.audio
             cueList = new Dictionary<String, Cue>();
             tempList = new List<KeyValuePair<String, Cue>>();
 
-            SoundEffect.DistanceScale = 140f;
+            //SoundEffect.DistanceScale = 140f;
 
             _cm = cm;
         }
@@ -43,7 +43,7 @@ namespace wickedcrush.manager.audio
         {
             if (_gameCam != null && listener != null)
             {
-                listener.Position = new Vector3(_gameCam.cameraPosition.X, _gameCam.cameraPosition.Y, 0f);
+                listener.Position = new Vector3(_gameCam.cameraPosition.X, _gameCam.cameraPosition.Y, 10f);
             }
 
             recreateCue();
@@ -56,9 +56,9 @@ namespace wickedcrush.manager.audio
             _gameCam = gameCam;
 
             listener = new AudioListener();
-            listener.Position = new Vector3(_gameCam.cameraPosition.X, _gameCam.cameraPosition.Y, 0f);
-            listener.Forward = Vector3.Down;
-            listener.Up = Vector3.Forward;
+            listener.Position = new Vector3(_gameCam.cameraPosition.X, _gameCam.cameraPosition.Y, 10f);
+            listener.Forward = Vector3.Forward;
+            listener.Up = Vector3.Up;
         }
 
         public void playCue(String name)
@@ -72,6 +72,7 @@ namespace wickedcrush.manager.audio
         {
             Cue cue = soundBank.GetCue(name);
             cue.Apply3D(listener, emitter);
+            
             cue.Play();
         }
 
