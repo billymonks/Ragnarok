@@ -61,6 +61,8 @@ namespace wickedcrush
 
         public bool debugMode;
 
+        public bool fullscreen = false;
+
         public Game()
         {
             debugMode = true;
@@ -73,11 +75,20 @@ namespace wickedcrush
             IsFixedTimeStep = true;
             //SetFrameRate(120);
             graphics.ApplyChanges();
-            
 
-            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-            graphics.IsFullScreen = true;
+            if (fullscreen)
+            {
+                graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+                graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+                graphics.IsFullScreen = true;
+            }
+            else
+            {
+                graphics.PreferredBackBufferWidth = 1280;
+                graphics.PreferredBackBufferHeight = 720;
+                graphics.IsFullScreen = false;
+            }
+
             
             graphics.ApplyChanges();
         }

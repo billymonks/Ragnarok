@@ -212,5 +212,20 @@ namespace wickedcrush.manager.player
 
             return meanPos;
         }
+
+        public bool pollDodgeSuccess()
+        {
+            bool temp = false;
+
+            foreach (Player p in playerList)
+            {
+                if (p.getAgent() != null && p.getAgent().pollDodgeSuccess())
+                {
+                    temp = true;
+                }
+            }
+
+            return temp;
+        }
     }
 }

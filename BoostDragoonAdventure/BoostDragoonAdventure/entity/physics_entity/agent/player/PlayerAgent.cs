@@ -29,7 +29,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
 
         public bool busy = false;
-        //public Item itemA;
+
+        //pollable gameplay stuff:
+        private bool dodgeSuccess = false;
 
         #endregion
 
@@ -72,6 +74,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
             {
+                dodgeSuccess = true;
                 _sound.playCue("ping3", emitter);
             }
             else
@@ -81,7 +84,16 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
         }
 
+        public bool pollDodgeSuccess()
+        {
+            if (dodgeSuccess)
+            {
+                dodgeSuccess = false;
+                return true;
+            }
 
+            return false;
+        }
 
 
         #endregion

@@ -109,6 +109,11 @@ namespace wickedcrush.manager.map.room
                 TransitionMap();
         }
 
+        public bool getFreezeFrame()
+        {
+            return playerManager.pollDodgeSuccess();
+        }
+
         private void LoadAtlas()
         {
             atlas.Clear();

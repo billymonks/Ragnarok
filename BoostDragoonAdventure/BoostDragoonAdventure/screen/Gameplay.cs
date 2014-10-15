@@ -27,18 +27,17 @@ using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.manager.map.room;
 using wickedcrush.menu.panel;
+using wickedcrush.utility;
 
 
 namespace wickedcrush.screen
 {
     public class Gameplay : GameScreen
     {
-        
-
-        public Panel panel;
 
         private MapManager mm;
 
+        public Timer freezeFrameTimer = new Timer(150);
         
 
         public Gameplay(Game game)
@@ -66,6 +65,14 @@ namespace wickedcrush.screen
             mm.factory.spawnPlayers(0);
         }
 
+        public void UpdateFreezeFrame(GameTime gameTime)
+        {
+            if(mm.getFreezeFrame())
+                freezeFrameTimer.resetAndStart();
+
+            freezeFrameTimer.Update(gameTime);
+        }
+
         private void connectWiring(Map map)
         {
             Layer wiring = map.getLayer(LayerType.WIRING);
@@ -89,7 +96,10 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            mm.Update(gameTime);
+            UpdateFreezeFrame(gameTime);
+
+            if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
+                mm.Update(gameTime);
             
             
 
@@ -152,7 +162,7 @@ namespace wickedcrush.screen
                 mm.factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true);
             }
 
-            if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))
+            if (game.controlsManager.SelectPressed())
             {
                 Dispose();
                 game.screenStack.Pop();

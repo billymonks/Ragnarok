@@ -213,5 +213,15 @@ namespace wickedcrush.manager.controls
 
             return diag;
         }
+
+        public bool SelectPressed()
+        {
+            foreach (Controls c in controlsList)
+            {
+                if (c.SelectPressed())
+                    return true;
+            }
+            return false;
+        }
     }
 }
