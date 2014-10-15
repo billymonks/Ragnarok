@@ -26,8 +26,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             this.facing = facing;
 
-            timers.Add("firing", new Timer(500));
-            timers["firing"].resetAndStart();
+            timers.Add("firing", new Timer(1500));
+            
 
             activeRange = 200f;
         }
@@ -41,9 +41,17 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             faceTarget();
 
-            if(target!=null && timers["firing"].isDone())
+            if (target == null)
+            {
+                timers["firing"].reset();
+            }
+            else if (timers["firing"].isDone())
             {
                 fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
+                timers["firing"].resetAndStart();
+            }
+            else if (!timers["firing"].isActive())
+            {
                 timers["firing"].resetAndStart();
             }
         }

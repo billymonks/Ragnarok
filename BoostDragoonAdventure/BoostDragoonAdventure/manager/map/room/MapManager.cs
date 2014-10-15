@@ -352,14 +352,13 @@ namespace wickedcrush.manager.map.room
                         mapStats.connections[doorCount]);
 
                     doorCount++;
-                    //put dis shit in factory ffs
                 }
 
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
                     factory.addMurderer(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(20, 20));
+                        new Vector2(24, 24), new Vector2(12, 12), true);
                 }
 
                 foreach (XElement e in objects.Elements("ROOM"))

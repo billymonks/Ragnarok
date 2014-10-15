@@ -143,13 +143,13 @@ namespace wickedcrush.screen
         {
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
-                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true, new PersistedStats(20,20));
+                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true);
                 //soundManager.playSound("blast off");
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))
             {
-                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true, new PersistedStats(5, 5));
+                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true);
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.Escape))

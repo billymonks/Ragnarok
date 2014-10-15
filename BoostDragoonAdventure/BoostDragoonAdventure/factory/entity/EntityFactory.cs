@@ -114,7 +114,7 @@ namespace wickedcrush.factory.entity
             return agent;
         }
 
-        public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid, PersistedStats stats)
+        public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PersistedStats fuckStats = new PersistedStats();
             Murderer a = new Murderer(w, pos, size, center, solid, this, fuckStats, sm);
@@ -134,6 +134,8 @@ namespace wickedcrush.factory.entity
         public void addTurret(Vector2 pos, Direction facing)
         {
             Turret t = new Turret(w, pos, this, facing, sm);
+            t.stats.set("hp", 20);
+            t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             em.addEntity(t);
@@ -142,6 +144,8 @@ namespace wickedcrush.factory.entity
         public void addAimTurret(Vector2 pos)
         {
             AimTurret t = new AimTurret(w, pos, this, Direction.East, sm);
+            t.stats.set("hp", 20);
+            t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             em.addEntity(t);
