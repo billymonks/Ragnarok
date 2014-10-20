@@ -90,6 +90,9 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
+    <Reference Include="Photon3DotNet">
+      <HintPath>..\..\..\..\..\..\..\Photon\lib\Photon3DotNet.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -142,6 +145,8 @@
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
     <Compile Include="manager\map\room\MapManager.cs" />
     <Compile Include="manager\map\room\RoomManager.cs" />
+    <Compile Include="manager\network\NetworkManager.cs" />
+    <Compile Include="manager\network\PeerListener.cs" />
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
