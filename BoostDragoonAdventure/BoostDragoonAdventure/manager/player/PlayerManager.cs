@@ -12,6 +12,10 @@ using wickedcrush.factory.entity;
 using wickedcrush.manager.controls;
 using wickedcrush.display._3d;
 using wickedcrush.map;
+using System.Xml.Linq;
+using System.IO;
+using wickedcrush.stats;
+using wickedcrush.inventory;
 
 namespace wickedcrush.manager.player
 {
@@ -84,6 +88,8 @@ namespace wickedcrush.manager.player
                 if(p.getAgent() != null)
                     p.getAgent().busy = true;
             }
+
+            saveAllPlayers();
         }
 
         public void endTransition()
@@ -126,6 +132,108 @@ namespace wickedcrush.manager.player
                 }
             }
             playerList.Add(p);
+        }
+
+        public Player addNewPlayer(String name, int playerNumber, Controls c)
+        {
+            Player p = new Player(name, playerNumber, c, new PersistedStats(), g.panelFactory);
+            
+            do
+            {
+                p.localId = Guid.NewGuid().ToString();
+            } while (File.Exists("characters/" + p.localId + ".xml"));
+
+            p.initializeAgentStats();
+
+            playerList.Add(p);
+
+            return p;
+        }
+
+        public void saveAllPlayers()
+        {
+            foreach (Player p in playerList)
+            {
+                savePlayer(p);
+            }
+        }
+
+        public void savePlayer(Player p)
+        {
+            if (!Directory.Exists("characters/"))
+                Directory.CreateDirectory("characters/");
+
+            String path = "characters/" + p.localId + ".xml";
+
+            XDocument doc = new XDocument();
+            XElement rootElement = new XElement("character");
+            XElement statsElement = new XElement("stats");
+            XElement inventoryElement = new XElement("inventory");
+
+            XElement temp;
+
+            rootElement.Add(new XAttribute("name", p.name));
+            rootElement.Add(new XAttribute("localId", p.localId));
+            rootElement.Add(new XAttribute("globalId", p.globalId));
+
+            foreach (KeyValuePair<String, int> pair in p.getStats().numbers)
+            {
+                temp = new XElement("stat", pair.Value);
+                temp.Add(new XAttribute("name", pair.Key));
+                statsElement.Add(temp);
+            }
+
+            foreach (Item i in p.getStats().inventory.GetItemList())
+            {
+                temp = new XElement("item", i.name);
+                temp.Add(new XAttribute("count", p.getStats().inventory.getItemCount(i)));
+                inventoryElement.Add(temp);
+            }
+
+            inventoryElement.Add(new XAttribute("gold", p.getStats().inventory.currency));
+
+            doc.Add(rootElement);
+            rootElement.Add(statsElement);
+            rootElement.Add(inventoryElement);
+
+            doc.Save(path);
+        }
+
+        public Player loadPlayer(String localId, int playerNumber, Controls c)
+        {
+            String path = "characters/" + localId + ".xml";
+
+            if (!File.Exists(path))
+                throw new FileLoadException("i'm sorry to break this bad news to you but your character seems to be deleted: " + path);
+
+            XDocument doc = XDocument.Load(path);
+            XElement rootElement = new XElement(doc.Element("character"));
+            XElement statsElement = new XElement(rootElement.Element("stats"));
+            XElement inventoryElement = new XElement(rootElement.Element("inventory"));
+
+            PersistedStats stats = new PersistedStats();
+
+            foreach (XElement statElement in statsElement.Elements("stat"))
+            {
+                stats.set(statElement.Attribute("name").Value, int.Parse(statElement.Value));
+            }
+
+            stats.inventory.addCurrency(int.Parse(inventoryElement.Attribute("gold").Value));
+
+            foreach (XElement itemElement in inventoryElement.Elements("item"))
+            {
+                stats.inventory.receiveItem(ItemServer.getItem(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
+            }
+
+
+            Player p = new Player(rootElement.Attribute("name").Value, playerNumber, c, stats, g.panelFactory);
+
+            p.localId = localId;
+            p.globalId = int.Parse(rootElement.Attribute("globalId").Value);
+
+            playerList.Add(p);
+
+            return p;
         }
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D whiteTexture, SpriteFont f)
@@ -184,14 +292,6 @@ namespace wickedcrush.manager.player
                 sb.DrawString(f, 
                     hud, 
                     new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
-            }
-        }
-
-        public void DrawPlayerSelect(SpriteBatch sb, SpriteFont f)
-        {
-            foreach (Player p in getPlayerList())
-            {
-                sb.DrawString(f, p.name, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
             }
         }
 

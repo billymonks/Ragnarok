@@ -4,46 +4,89 @@ using System.Linq;
 using System.Text;
 
 using ExitGames.Client.Photon;
+using System.Xml.Linq;
 
 namespace wickedcrush.manager.network
 {
-    
+    public enum OpCode
+    {
+        MapFromServer = 1,
+        MapToServer = 2
+    }
 
     public class PeerListener : IPhotonPeerListener
     {
         private int retries = 0, maxRetries = 5;
         
-        private string serverAddress = "54.172.128.30:4530", serverName = "WorldServer";
+        //private string serverAddress = "54.172.128.30:4530", serverName = "WorldServer";
+        private string serverAddress = "localhost:4530", serverName = "WorldServer";
 
-        bool connected = false;
+        public bool connected = false;
 
-        PhotonPeer peer;
+        public PhotonPeer peer;
 
         public PeerListener()
         {
             peer = new PhotonPeer(this, ConnectionProtocol.Tcp);
         }
 
-        
+        public void Update()
+        {
+            if (peer.PeerState.Equals(PeerStateValue.Connected))
+                connected = true;
+            else
+                connected = false;
+
+            peer.Service();
+        }
 
         public void  DebugReturn(DebugLevel level, string message)
         {
- 	        throw new NotImplementedException();
+            Console.WriteLine(level + ": " + message);
         }
 
         public void  OnEvent(EventData eventData)
         {
- 	        throw new NotImplementedException();
+            Console.WriteLine("Event: " + eventData.Code);
+            if (eventData.Code == 1)
+            {
+                Console.WriteLine("Chat: " + eventData.Parameters[1]);
+            }
         }
 
         public void  OnOperationResponse(OperationResponse operationResponse)
         {
- 	        throw new NotImplementedException();
+            Console.WriteLine("Response: " + operationResponse.OperationCode);
+            OperationResponse(operationResponse);
+        }
+
+        public void OperationResponse(OperationResponse operationResponse)
+        {
+            // handle response by code (action we called)
+            /*switch (operationResponse.OperationCode)
+            {
+                // out custom "hello world" operation's code is 1
+                case 1:
+                    // OK
+                    if (operationResponse.ReturnCode == 0)
+                    {
+                        // show the complete content of the response
+                        Console.WriteLine(operationResponse.ToStringFull());
+                    }
+                    else
+                    {
+                        // show the error message
+                        Console.WriteLine(operationResponse.DebugMessage);
+                    }
+                    break;
+            }*/
+
+            Console.WriteLine(operationResponse.ToStringFull());
         }
 
         public void  OnStatusChanged(StatusCode statusCode)
         {
- 	        throw new NotImplementedException();
+            Console.WriteLine(statusCode.ToString());
         }
 
         public void Connect()
@@ -53,6 +96,21 @@ namespace wickedcrush.manager.network
                 connected = peer.Connect(serverAddress, serverName);
                 retries++;
             } while (!connected && retries < maxRetries);
+        }
+
+        public void Disconnect()
+        {
+            peer.Disconnect();
+            connected = false;
+        }
+
+        public void SendMap(String name, XDocument map)
+        {
+            var parameters = new Dictionary<byte, object>();
+            parameters[(byte)100] = name;
+            parameters[(byte)101] = map.ToString();
+            peer.OpCustom((byte)OpCode.MapToServer, parameters, true);
+            Console.WriteLine("Map sent: " + name);
         }
     }
 }

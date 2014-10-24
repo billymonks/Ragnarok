@@ -25,6 +25,8 @@ namespace wickedcrush.player
 
         public String name;
         public int playerNumber;
+        public int globalId = -1;
+        public String localId;
 
         public PanelFactory pf; //move this stuff to panel manager
         public Stack<Panel> panels; // this too
@@ -64,16 +66,23 @@ namespace wickedcrush.player
             return agent;
         }
 
+        public void RespawnAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
+        {
+
+        }
+
         public void GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
-            initializeAgentStats();
+            //initializeAgentStats();
 
-            agent = factory.addPlayerAgent(pos, size, center, solid, c, stats);
+            agent = factory.addPlayerAgent(name, pos, size, center, solid, c, stats);
             stats = agent.stats;
         }
 
-        private void initializeAgentStats()
+        public void initializeAgentStats()
         {
+            stats.set("hp", 15);
+            stats.set("maxHP", 15);
             stats.set("maxBoost", 1000);
             stats.set("boost", 1000);
             stats.set("fillSpeed", 3);
@@ -84,11 +93,15 @@ namespace wickedcrush.player
             stats.set(("iFrameTime"), 150);
             stats.set("staggerDistance", 100);
 
-            stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
-            stats.inventory.removeAllOfItem(ItemServer.getItem("Fireball"));
+            stats.set("staggerLimit", 100);
+            stats.set("staggerDuration", 50);
+            stats.set("stagger", 0);
+
+            //stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
+            //stats.inventory.removeAllOfItem(ItemServer.getItem("Spellbook: Fireball"));
 
             stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
-            stats.inventory.receiveItem(ItemServer.getItem("Fireball"), 5);
+            stats.inventory.receiveItem(ItemServer.getItem("Spellbook: Fireball"), 1);
         }
 
 

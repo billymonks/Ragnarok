@@ -36,18 +36,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound)
+        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound, String name)
             : base(w, pos, size, center, solid, factory, stats, sound)
         {
-            Initialize(pos, size, center, solid, controls);
+            Initialize(name, pos, size, center, solid, controls);
 
 
         }
 
-        private void Initialize(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
+        private void Initialize(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
         {
             this.controls = controls;
-            this.name = "Player";
+            this.name = name;
 
             this.facing = Direction.East;
             movementDirection = (int)facing;
@@ -58,7 +58,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             timers["iFrameTime"].resetAndStart();
 
             stats.inventory.itemA = ItemServer.getItem("Healthsweed");
-            stats.inventory.itemB = ItemServer.getItem("Fireball");
+            stats.inventory.itemB = ItemServer.getItem("Spellbook: Fireball");
 
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);

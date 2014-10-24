@@ -20,6 +20,7 @@ using wickedcrush.factory.menu.panel;
 using wickedcrush.manager.map.room;
 using wickedcrush.manager.audio;
 using System.Collections.ObjectModel;
+using wickedcrush.manager.network;
 
 namespace wickedcrush
 {
@@ -38,6 +39,7 @@ namespace wickedcrush
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
         public MapManager mapManager;
+        public NetworkManager networkManager;
 
         public SpriteBatch spriteBatch;
 
@@ -121,10 +123,13 @@ namespace wickedcrush
 
             screenStack = new Stack<GameScreen>();
 
+            networkManager = new NetworkManager(this);
+
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this, controlsManager);
             mapManager = new MapManager(this);
+            
 
             screenStack.Push(new PlayerSelect(this));
 
@@ -161,6 +166,8 @@ namespace wickedcrush
             controlsManager.Update(gameTime);
 
             playerManager.Update(gameTime);
+
+            networkManager.Update();
 
             screenStack.Peek().Update(gameTime);
 

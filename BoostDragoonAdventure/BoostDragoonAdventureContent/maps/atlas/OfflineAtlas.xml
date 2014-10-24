@@ -1,42 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
-  <room>
+  <room rid="-1" name="A Few Rooms">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/A Few Rooms.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="Death Maze">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/Death Maze.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="I66">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/I66.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="Temple Halls">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/Temple Halls.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="Temple Halls V2">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/Temple Halls V2.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="Temple Halls V3">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/Temple Halls V3.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>
     <damage>0</damage>
   </room>
-  <room>
+  <room rid="-1" name="Temple Halls V4">
+    <creator id="-1">Billy</creator>
     <filename>Content/maps/small/Temple Halls V4.xml</filename>
     <attempts>0</attempts>
     <completions>0</completions>

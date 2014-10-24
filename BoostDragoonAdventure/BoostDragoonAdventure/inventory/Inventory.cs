@@ -10,7 +10,7 @@ namespace wickedcrush.inventory
     {
 
         private Dictionary<Item, int> inventory;
-        private int currency;
+        public int currency;
 
         public Item itemA, itemB;
 

@@ -15,7 +15,7 @@ namespace wickedcrush.inventory
         {
             items = new Dictionary<String, Item>();
             items.Add("Healthsweed", new Item("Healthsweed", ItemType.Consumable, a => a.stats.set("hp", a.stats.get("maxHP"))));
-            items.Add("Fireball", new Item("Spellbook: Fireball", ItemType.UsesFuelCharge,
+            items.Add("Spellbook: Fireball", new Item("Spellbook: Fireball", ItemType.UsesFuelCharge,
                 a => {
                     a.fireFireball(2, 10f, 20, 300);
                 }, 200, 400, 300));

@@ -10,8 +10,7 @@ namespace wickedcrush.stats
 {
     public class PersistedStats //totally could have been struct
     {
-        private Dictionary<String, int> numbers;
-        //private Dictionary<String, String> strings;
+        public Dictionary<String, int> numbers;
 
         public Inventory inventory; 
 

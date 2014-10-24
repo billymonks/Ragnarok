@@ -95,11 +95,11 @@ namespace wickedcrush.factory.entity
             em.addEntity(e);
         }
 
-        public PlayerAgent addPlayerAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
+        public PlayerAgent addPlayerAgent(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
         {
-            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this, sm);
+            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this, sm, name);
 
-            agent.stats.set("maxBoost", 1000);
+            /*agent.stats.set("maxBoost", 1000);
             agent.stats.set("boost", 1000);
             agent.stats.set("fillSpeed", 3);
             agent.stats.set("useSpeed", 8);
@@ -107,7 +107,7 @@ namespace wickedcrush.factory.entity
 
             agent.stats.set("boostRecharge", 250);
             agent.stats.set(("iFrameTime"), 150);
-            agent.stats.set("staggerDistance", 100);
+            agent.stats.set("staggerDistance", 100);*/
             
             em.addEntity(agent);
             

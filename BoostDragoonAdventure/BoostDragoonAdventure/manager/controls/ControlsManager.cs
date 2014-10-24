@@ -59,7 +59,7 @@ namespace wickedcrush.manager.controls
             performRemoval();
         }
 
-        public bool gamepadPressed()
+        public bool NewGamepadPressed()
         {
             if (!joinAllowed)
                 return false;
@@ -75,7 +75,7 @@ namespace wickedcrush.manager.controls
             return false;
         }
 
-        public bool keyboardPressed()
+        public bool NewKeyboardPressed()
         {
             if (!joinAllowed)
                 return false;

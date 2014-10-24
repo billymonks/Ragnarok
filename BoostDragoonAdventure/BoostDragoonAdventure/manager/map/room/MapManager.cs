@@ -17,6 +17,7 @@ using wickedcrush.map;
 using wickedcrush.map.circuit;
 using wickedcrush.map.layer;
 using wickedcrush.stats;
+using wickedcrush.manager.network;
 
 namespace wickedcrush.manager.map.room
 {
@@ -53,6 +54,7 @@ namespace wickedcrush.manager.map.room
         public EntityManager entityManager;
         public PlayerManager playerManager; //replace with panelManager
         public MapManager mapManager;
+        public NetworkManager networkManager;
 
         public RoomManager roomManager;
 
@@ -70,6 +72,8 @@ namespace wickedcrush.manager.map.room
         {
             atlas = new Dictionary<String, MapStats>();
             LoadAtlas();
+
+            
 
             _game = game;
 
@@ -92,6 +96,9 @@ namespace wickedcrush.manager.map.room
                 entityManager.RemoveAll();
 
             playerManager = _game.playerManager;
+            networkManager = _game.networkManager;
+
+            
 
             factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, w);
         }
