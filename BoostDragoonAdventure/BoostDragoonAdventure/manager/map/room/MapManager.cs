@@ -98,9 +98,12 @@ namespace wickedcrush.manager.map.room
             playerManager = _game.playerManager;
             networkManager = _game.networkManager;
 
-            
 
-            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, w);
+            roomManager = new RoomManager();
+            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, roomManager, w);
+
+            roomManager.SendOfflineAtlas(networkManager);
+            
         }
 
         public void Update(GameTime gameTime)

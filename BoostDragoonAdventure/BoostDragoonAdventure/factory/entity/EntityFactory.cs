@@ -43,16 +43,15 @@ namespace wickedcrush.factory.entity
 
         //private Map map;
 
-        public EntityFactory(EntityManager em, PlayerManager pm, MapManager mm, ControlsManager cm, SoundManager sm, World w)
+        public EntityFactory(EntityManager em, PlayerManager pm, MapManager mm, ControlsManager cm, SoundManager sm, RoomManager rm, World w)
         {
             this.em = em;
             this.pm = pm;
             this.mm = mm;
             this.cm = cm;
             this.sm = sm;
+            this.rm = rm;
             this.w = w;
-
-            rm = new RoomManager();
 
             doorList = new List<Door>();
         }

@@ -71,7 +71,7 @@ namespace wickedcrush.manager.map.room
 
             foreach (XElement e in rootElement.Elements("room"))
             {
-                RoomStats temp = new RoomStats(e.Element("filename").Value, e.Element("filename").Value);
+                RoomStats temp = new RoomStats(e.Element("filename").Value, e.Attribute("name").Value);
 
                 temp.attempts = int.Parse(e.Element("attempts").Value);
                 temp.completions = int.Parse(e.Element("completions").Value);

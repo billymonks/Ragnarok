@@ -10,7 +10,7 @@ namespace wickedcrush.manager.network
 {
     public class NetworkManager
     {
-        public bool enabled = false;
+        public bool enabled = true;
 
         PeerListener listener;
 
@@ -19,6 +19,11 @@ namespace wickedcrush.manager.network
         public NetworkManager(Game game)
         {
             listener = new PeerListener();
+
+            if (enabled)
+            {
+                listener.Connect();
+            }
         }
 
         public void Update()
@@ -34,8 +39,6 @@ namespace wickedcrush.manager.network
             {
                 if (listener.connected)
                     SendQueuedMaps();
-                else
-                    listener.Connect();
             }
         }
 
