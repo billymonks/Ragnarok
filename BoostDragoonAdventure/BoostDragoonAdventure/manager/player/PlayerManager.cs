@@ -16,6 +16,7 @@ using System.Xml.Linq;
 using System.IO;
 using wickedcrush.stats;
 using wickedcrush.inventory;
+using wickedcrush.manager.network;
 
 namespace wickedcrush.manager.player
 {
@@ -27,13 +28,15 @@ namespace wickedcrush.manager.player
         private List<Player> removeList = new List<Player>();
 
         private ControlsManager _cm;
+        private NetworkManager _nm;
 
-        public PlayerManager(Game game, ControlsManager cm)
+        public PlayerManager(Game game)
             : base(game)
         {
             g = game;
 
-            _cm = cm;
+            _cm = game.controlsManager;
+            _nm = game.networkManager;
 
             Initialize();
         }
@@ -145,7 +148,11 @@ namespace wickedcrush.manager.player
 
             p.initializeAgentStats();
 
+            savePlayer(p);
+
             playerList.Add(p);
+
+            _nm.AssignCharacter(p.name, p.localId);
 
             return p;
         }
@@ -232,6 +239,9 @@ namespace wickedcrush.manager.player
             p.globalId = int.Parse(rootElement.Attribute("globalId").Value);
 
             playerList.Add(p);
+
+            if(p.globalId==-1)
+                _nm.AssignCharacter(p.name, p.localId);
 
             return p;
         }
@@ -326,6 +336,32 @@ namespace wickedcrush.manager.player
             }
 
             return temp;
+        }
+
+        public bool AssignGlobalId(int globalId, String localId)
+        {
+            Player p = GetPlayerByLocalId(localId);
+
+            if (p != null)
+            {
+                p.globalId = globalId;
+                return true;
+            }
+
+
+            return false;
+        }
+
+        public Player GetPlayerByLocalId(String localId)
+        {
+            foreach (Player p in playerList)
+            {
+                if (p.localId.Equals(localId))
+                {
+                    return p;
+                }
+            }
+            return null;
         }
     }
 }

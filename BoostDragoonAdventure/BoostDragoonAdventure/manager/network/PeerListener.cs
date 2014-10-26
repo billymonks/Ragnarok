@@ -11,7 +11,9 @@ namespace wickedcrush.manager.network
     public enum OpCode
     {
         MapFromServer = 1,
-        MapToServer = 2
+        MapToServer = 2,
+        AssignMapId = 3,
+        AssignCharId = 4
     }
 
     public class PeerListener : IPhotonPeerListener
@@ -25,9 +27,12 @@ namespace wickedcrush.manager.network
 
         public PhotonPeer peer;
 
-        public PeerListener()
+        private Game _g;
+
+        public PeerListener(Game g)
         {
             peer = new PhotonPeer(this, ConnectionProtocol.Tcp);
+            this._g = g;
         }
 
         public void Update()
@@ -81,6 +86,21 @@ namespace wickedcrush.manager.network
                     break;
             }*/
 
+            if (operationResponse.ReturnCode == 1)
+            {
+                Console.WriteLine(operationResponse.ToStringFull());
+                return;
+            }
+
+            switch (operationResponse.OperationCode)
+            {
+                case (byte)OpCode.AssignCharId: //AssignCharId
+                    _g.playerManager.AssignGlobalId((int)operationResponse.Parameters[102], (string)operationResponse.Parameters[101]);
+
+                    break;
+
+            }
+
             Console.WriteLine(operationResponse.ToStringFull());
         }
 
@@ -111,6 +131,15 @@ namespace wickedcrush.manager.network
             parameters[(byte)101] = map.ToString();
             peer.OpCustom((byte)OpCode.MapToServer, parameters, true);
             Console.WriteLine("Map sent: " + name);
+        }
+
+        public void AssignCharacter(String name, String localId)
+        {
+            var parameters = new Dictionary<byte, object>();
+            parameters[(byte)100] = name;
+            parameters[(byte)101] = localId;
+            peer.OpCustom((byte)OpCode.AssignCharId, parameters, true);
+            Console.WriteLine("Character sent: " + name);
         }
     }
 }

@@ -15,10 +15,11 @@ namespace wickedcrush.manager.network
         PeerListener listener;
 
         Dictionary<String, XDocument> mapsToSend = new Dictionary<String, XDocument>();
+        Dictionary<String, String> charactersToSend = new Dictionary<String, String>();
 
         public NetworkManager(Game game)
         {
-            listener = new PeerListener();
+            listener = new PeerListener(game);
 
             if (enabled)
             {
@@ -40,6 +41,12 @@ namespace wickedcrush.manager.network
                 if (listener.connected)
                     SendQueuedMaps();
             }
+
+            if (CharactersReady())
+            {
+                if (listener.connected)
+                    SendQueuedCharacters();
+            }
         }
 
         private bool OkToSend()
@@ -52,6 +59,11 @@ namespace wickedcrush.manager.network
             return (mapsToSend.Count > 0);
         }
 
+        private bool CharactersReady()
+        {
+            return (charactersToSend.Count > 0);
+        }
+
         private void SendQueuedMaps()
         {
             foreach (KeyValuePair<String, XDocument> pair in mapsToSend)
@@ -60,6 +72,16 @@ namespace wickedcrush.manager.network
             }
 
             mapsToSend.Clear();
+        }
+
+        private void SendQueuedCharacters()
+        {
+            foreach (KeyValuePair<String, String> pair in charactersToSend)
+            {
+                listener.AssignCharacter(pair.Value, pair.Key);
+            }
+
+            charactersToSend.Clear();
         }
 
         public void SendMap(String name, XDocument map)
@@ -75,9 +97,12 @@ namespace wickedcrush.manager.network
 
         }
 
-        public void RequestUserId(String localId, String name)
+        public void AssignCharacter(String name, String localId)
         {
+            if (charactersToSend.ContainsKey(localId))
+                return;
 
+            charactersToSend.Add(localId, name);
         }
     }
 }

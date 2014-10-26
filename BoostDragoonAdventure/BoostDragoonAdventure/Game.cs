@@ -127,7 +127,7 @@ namespace wickedcrush
 
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
-            playerManager = new PlayerManager(this, controlsManager);
+            playerManager = new PlayerManager(this);
             mapManager = new MapManager(this);
             
 
