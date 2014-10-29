@@ -86,7 +86,8 @@ namespace wickedcrush.manager.map.room
         {
             foreach (RoomStats stats in offlineAtlas)
             {
-                networkManager.SendMap(stats.name, XDocument.Load(stats.localId));
+                networkManager.SendMap(stats.name, XDocument.Load(stats.localId), stats.localId, 11);
+                return;
             }
         }
 

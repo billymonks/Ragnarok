@@ -82,7 +82,7 @@ namespace wickedcrush.manager.network
                     break;
 
                 case (byte)OpCode.MapToServer: //maybe use this to mark jobs as completed 
-                    //(1. click author map, 2. creates job to author map, 3. sends request, 3.5. if no response, job tries again, 4. on response, close out job)
+                    //assign global id to room matching local id
 
                     break;
 
