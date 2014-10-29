@@ -67,24 +67,6 @@ namespace wickedcrush.manager.network
 
         public void OperationResponse(OperationResponse operationResponse)
         {
-            // handle response by code (action we called)
-            /*switch (operationResponse.OperationCode)
-            {
-                // out custom "hello world" operation's code is 1
-                case 1:
-                    // OK
-                    if (operationResponse.ReturnCode == 0)
-                    {
-                        // show the complete content of the response
-                        Console.WriteLine(operationResponse.ToStringFull());
-                    }
-                    else
-                    {
-                        // show the error message
-                        Console.WriteLine(operationResponse.DebugMessage);
-                    }
-                    break;
-            }*/
 
             if (operationResponse.ReturnCode == 1)
             {
@@ -96,6 +78,11 @@ namespace wickedcrush.manager.network
             {
                 case (byte)OpCode.AssignCharId: //AssignCharId
                     _g.playerManager.AssignGlobalId((int)operationResponse.Parameters[102], (string)operationResponse.Parameters[101]);
+
+                    break;
+
+                case (byte)OpCode.MapToServer: //maybe use this to mark jobs as completed 
+                    //(1. click author map, 2. creates job to author map, 3. sends request, 3.5. if no response, job tries again, 4. on response, close out job)
 
                     break;
 
@@ -124,13 +111,15 @@ namespace wickedcrush.manager.network
             connected = false;
         }
 
-        public void SendMap(String name, XDocument map)
+        public void SendMap(AuthoredMap authoredMap)
         {
             var parameters = new Dictionary<byte, object>();
-            parameters[(byte)100] = name;
-            parameters[(byte)101] = map.ToString();
+            parameters[(byte)100] = authoredMap.mapName; //map name
+            parameters[(byte)101] = authoredMap.map.ToString(); //map data
+            parameters[(byte)102] = authoredMap.localId;
+            parameters[(byte)103] = authoredMap.globalCharId;
             peer.OpCustom((byte)OpCode.MapToServer, parameters, true);
-            Console.WriteLine("Map sent: " + name);
+            Console.WriteLine("Map sent: " + authoredMap.mapName);
         }
 
         public void AssignCharacter(String name, String localId)

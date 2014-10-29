@@ -10,20 +10,20 @@ namespace wickedcrush.manager.map.room
     public struct RoomStats
     {
         //network
-        public int roomId;
+        public int globalId;
 
         public String name;
-        public String filename;
+        public String localId;
         public int attempts, completions, damage;
         public float difficulty;
 
         public String creator;
 
-        public RoomStats(String filename)
+        public RoomStats(String localId)
         {
-            roomId = -1;
+            globalId = -1;
             this.name = "nameless room, so sad, so sad";
-            this.filename = filename;
+            this.localId = localId;
             attempts = 0;
             completions = 0;
             damage = 0;
@@ -31,11 +31,11 @@ namespace wickedcrush.manager.map.room
             creator = "captain no-name";
         }
 
-        public RoomStats(String filename, String name)
+        public RoomStats(String localId, String name)
         {
-            roomId = -1;
+            globalId = -1;
             this.name = name;
-            this.filename = filename;
+            this.localId = localId;
             attempts = 0;
             completions = 0;
             damage = 0;
@@ -86,13 +86,13 @@ namespace wickedcrush.manager.map.room
         {
             foreach (RoomStats stats in offlineAtlas)
             {
-                networkManager.SendMap(stats.name, XDocument.Load(stats.filename));
+                networkManager.SendMap(stats.name, XDocument.Load(stats.localId));
             }
         }
 
         public String getRandomRoom()
         {
-            return offlineAtlas[random.Next(offlineAtlas.Count - 1)].filename;
+            return offlineAtlas[random.Next(offlineAtlas.Count - 1)].localId;
         }
     }
 }

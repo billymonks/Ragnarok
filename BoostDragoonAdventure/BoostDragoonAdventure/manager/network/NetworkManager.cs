@@ -8,13 +8,28 @@ using System.Xml.Linq;
 
 namespace wickedcrush.manager.network
 {
+    public struct AuthoredMap
+    {
+        public String mapName;
+        public XDocument map;
+        public String localId;
+        public int globalCharId;
+
+        public AuthoredMap(String mapName, XDocument map, String localId, int globalCharId)
+        {
+            this.mapName = mapName;
+            this.map = map;
+            this.localId = localId;
+            this.globalCharId = globalCharId;
+        }
+    }
     public class NetworkManager
     {
         public bool enabled = true;
 
         PeerListener listener;
 
-        Dictionary<String, XDocument> mapsToSend = new Dictionary<String, XDocument>();
+        Dictionary<String, AuthoredMap> mapsToSend = new Dictionary<String, AuthoredMap>();
         Dictionary<String, String> charactersToSend = new Dictionary<String, String>();
 
         public NetworkManager(Game game)
@@ -66,9 +81,9 @@ namespace wickedcrush.manager.network
 
         private void SendQueuedMaps()
         {
-            foreach (KeyValuePair<String, XDocument> pair in mapsToSend)
+            foreach (KeyValuePair<String, AuthoredMap> pair in mapsToSend)
             {
-                listener.SendMap(pair.Key, pair.Value);
+                listener.SendMap(pair.Value);
             }
 
             mapsToSend.Clear();
@@ -84,12 +99,12 @@ namespace wickedcrush.manager.network
             charactersToSend.Clear();
         }
 
-        public void SendMap(String name, XDocument map)
+        public void SendMap(String mapName, XDocument map, String localId, int globalCharId)
         {
-            if (mapsToSend.ContainsKey(name))
+            if (mapsToSend.ContainsKey(localId))
                 return;
 
-            mapsToSend.Add(name, map);
+            mapsToSend.Add(localId, new AuthoredMap(mapName, map, localId, globalCharId));
         }
 
         public void RequestMap(int difficulty, int tier)
