@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.display._3d;
 using wickedcrush.factory.menu.panel;
 using wickedcrush.helper;
+using wickedcrush.manager.map.room;
 
 namespace wickedcrush.player
 {

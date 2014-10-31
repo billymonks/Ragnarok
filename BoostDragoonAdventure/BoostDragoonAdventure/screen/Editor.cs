@@ -58,7 +58,7 @@ namespace wickedcrush.screen
 
             sf = new SpriteFactory(g.Content);
 
-            map = new EditorMap(game.mapName);
+            map = new EditorMap("Content/maps/small/Template.xml");
             mapOffset = new Point(0, 0);
 
             factory = new EditorEntityFactory(map, map.manager);
@@ -190,6 +190,12 @@ namespace wickedcrush.screen
                 e => { SaveMap(); }
                 );
 
+            Button authorButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Author", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { SaveMap(); }
+                );
+
             Button renameButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Rename", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
@@ -203,6 +209,7 @@ namespace wickedcrush.screen
                 );
 
             menu.controlBar.Add(saveButton);
+            menu.controlBar.Add(authorButton);
             menu.controlBar.Add(renameButton);
             menu.controlBar.Add(exitButton);
 
@@ -394,7 +401,7 @@ namespace wickedcrush.screen
 
         public void SaveMap()
         {
-            map.saveMap("buttdwellers");
+            map.saveMap(game.playerManager.getPlayerList()[0]);
         }
     }
 }

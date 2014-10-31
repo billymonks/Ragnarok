@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using wickedcrush.factory.editor;
 using wickedcrush.manager.editor.entity;
+using wickedcrush.player;
+using System.IO;
 
 namespace wickedcrush.editor
 {
@@ -150,8 +152,10 @@ namespace wickedcrush.editor
             return tempLayer;
         }
 
-        public void saveMap(String MAP_NAME)
+        public void saveMap(Player p)
         {
+            String localId;
+
             XDocument doc = new XDocument();
 
             XElement level = new XElement("level");
@@ -160,6 +164,12 @@ namespace wickedcrush.editor
             XElement deathSoup = new XElement("DEATHSOUP");
             XElement wiring = new XElement("WIRING");
             XElement objects = new XElement("OBJECTS");
+
+            do
+            {
+                localId = Guid.NewGuid().ToString();
+            } while (File.Exists("Content/maps/small/" + localId + ".xml"));
+            
 
             level.Add(new XAttribute("width", width));
             level.Add(new XAttribute("height", height));
@@ -193,7 +203,7 @@ namespace wickedcrush.editor
 
             doc.Add(level);
 
-            doc.Save(@"Content\maps\small\" + name + ".xml");
+            doc.Save(@"Content\maps\small\" + localId + ".xml");
         }
 
         private void loadMap(String MAP_NAME)

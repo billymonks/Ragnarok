@@ -50,6 +50,8 @@ namespace wickedcrush.manager.map.room
         List<RoomStats> offlineAtlas;
         Random random;
 
+        
+
         public RoomManager()
         {
             
