@@ -1,53 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
-  <room rid="-1" name="A Few Rooms">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/A Few Rooms.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
+  <room>
+    <localId>Content/maps/small/A Few Rooms.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>A Few Rooms</roomName>
+    <creatorName>Billy</creatorName>
   </room>
-  <room rid="-1" name="Death Maze">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/Death Maze.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
+  <room>
+    <localId>Content/maps/small/Death Maze.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>Death Maze</roomName>
+    <creatorName>Billy</creatorName>
   </room>
-  <room rid="-1" name="I66">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/I66.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
+  <room>
+    <localId>Content/maps/small/I66.xml</localId>
+    <globalId>-1</globalId>
+    <roomName></roomName>
+    <creatorName>Billy</creatorName>
   </room>
-  <room rid="-1" name="Temple Halls">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/Temple Halls.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
+  <room>
+    <localId>Content/maps/small/Temple Halls.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>Temple Halls</roomName>
+    <creatorName>Billy</creatorName>
+</room>
+  <room>
+    <localId>Content/maps/small/Temple Halls V2.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>Temple Halls V2</roomName>
+    <creatorName>Billy</creatorName>
   </room>
-  <room rid="-1" name="Temple Halls V2">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/Temple Halls V2.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
+  <room>
+    <localId>Content/maps/small/Temple Halls V3.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>Temple Halls V3</roomName>
+    <creatorName>Billy</creatorName>
   </room>
-  <room rid="-1" name="Temple Halls V3">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/Temple Halls V3.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
-  </room>
-  <room rid="-1" name="Temple Halls V4">
-    <creator id="-1">Billy</creator>
-    <filename>Content/maps/small/Temple Halls V4.xml</filename>
-    <attempts>0</attempts>
-    <completions>0</completions>
-    <damage>0</damage>
-  </room>
+  <room>
+    <localId>Content/maps/small/Temple Halls V4.xml</localId>
+    <globalId>-1</globalId>
+    <roomName>Temple Halls V4</roomName>
+    <creatorName>Billy</creatorName>
+</room>
 
 </atlas>

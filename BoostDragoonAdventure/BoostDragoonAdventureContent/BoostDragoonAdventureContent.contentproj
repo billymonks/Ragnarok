@@ -176,6 +176,7 @@
       <Name>Template</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="maps\small\Temple Halls V2.xml">
       <SubType>Designer</SubType>

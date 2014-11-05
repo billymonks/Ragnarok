@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using wickedcrush.manager.network;
+using System.IO;
 
 namespace wickedcrush.manager.map.room
 {
@@ -11,36 +12,24 @@ namespace wickedcrush.manager.map.room
     {
         //network
         public int globalId;
-
-        public String name;
+        public String roomName;
         public String localId;
-        public int attempts, completions, damage;
-        public float difficulty;
-
-        public String creator;
+        public String creatorName;
 
         public RoomStats(String localId)
         {
             globalId = -1;
-            this.name = "nameless room, so sad, so sad";
+            this.roomName = "nameless room, so sad, so sad";
             this.localId = localId;
-            attempts = 0;
-            completions = 0;
-            damage = 0;
-            difficulty = 0;
-            creator = "captain no-name";
+            creatorName = "captain no-name";
         }
 
-        public RoomStats(String localId, String name)
+        public RoomStats(int globalId, String localId, String roomName, String creatorName)
         {
-            globalId = -1;
-            this.name = name;
+            this.globalId = globalId;
+            this.roomName = roomName;
             this.localId = localId;
-            attempts = 0;
-            completions = 0;
-            damage = 0;
-            difficulty = 0;
-            creator = "captain no-name";
+            this.creatorName = creatorName;
         }
     }
 
@@ -60,6 +49,7 @@ namespace wickedcrush.manager.map.room
             offlineAtlas = new List<RoomStats>();
             random = new Random();
 
+            CreateLocalAtlas();
             LoadOfflineAtlas();
         }
 
@@ -73,22 +63,90 @@ namespace wickedcrush.manager.map.room
 
             foreach (XElement e in rootElement.Elements("room"))
             {
-                RoomStats temp = new RoomStats(e.Element("filename").Value, e.Attribute("name").Value);
-
-                temp.attempts = int.Parse(e.Element("attempts").Value);
-                temp.completions = int.Parse(e.Element("completions").Value);
-                temp.damage = int.Parse(e.Element("damage").Value);
-                temp.difficulty = 0f;
+                RoomStats temp = new RoomStats(int.Parse(e.Element("globalId").Value), e.Element("localId").Value, e.Element("roomName").Value, e.Element("creatorName").Value);
 
                 offlineAtlas.Add(temp);
             }
+        }
+
+        private void CreateLocalAtlas()
+        {
+            if (File.Exists("Content/maps/atlas/LocalAtlas.xml"))
+                return;
+
+            XDocument doc = new XDocument();
+            XElement rootElement = new XElement("atlas");
+            doc.Add(rootElement);
+            doc.Save("Content/maps/atlas/LocalAtlas.xml");
+        }
+
+        public void AddRoomToAtlas(RoomStats room, String atlasPath) //next level future shit
+        {
+            String path = atlasPath;
+            XDocument doc = XDocument.Load(path);
+            XElement rootElement = new XElement(doc.Element("atlas"));
+
+            XElement roomElement = new XElement("room");
+
+            XElement globalIdElement = new XElement("globalId");
+            globalIdElement.SetValue(room.globalId);
+
+            XElement localIdElement = new XElement("localId");
+            localIdElement.SetValue(room.localId);
+
+            XElement roomNameElement = new XElement("roomName");
+            roomNameElement.SetValue(room.roomName);
+
+            XElement creatorNameElement = new XElement("creatorName");
+            creatorNameElement.SetValue(room.creatorName);
+
+            roomElement.Add(globalIdElement);
+            roomElement.Add(localIdElement);
+            roomElement.Add(roomNameElement);
+            roomElement.Add(creatorNameElement);
+
+            rootElement.Add(roomElement);
+            doc = new XDocument();
+            doc.Add(rootElement);
+            doc.Save(path);
+        }
+
+        public void AddRoomToLocalAtlas(RoomStats room)
+        {
+            String path = "Content/maps/atlas/LocalAtlas.xml";
+            XDocument doc = XDocument.Load(path);
+            XElement rootElement = new XElement(doc.Element("atlas"));
+
+            XElement roomElement = new XElement("room");
+
+            XElement globalIdElement = new XElement("globalId");
+            globalIdElement.SetValue(room.globalId);
+
+            XElement localIdElement = new XElement("localId");
+            localIdElement.SetValue(room.localId);
+
+            XElement roomNameElement = new XElement("roomName");
+            roomNameElement.SetValue(room.roomName);
+
+            XElement creatorNameElement = new XElement("creatorName");
+            creatorNameElement.SetValue(room.creatorName);
+
+            roomElement.Add(globalIdElement);
+            roomElement.Add(localIdElement);
+            roomElement.Add(roomNameElement);
+            roomElement.Add(creatorNameElement);
+
+            rootElement.Add(roomElement);
+            doc = new XDocument();
+            doc.Add(rootElement);
+            doc.Save(path);
         }
 
         public void SendOfflineAtlas(NetworkManager networkManager)
         {
             foreach (RoomStats stats in offlineAtlas)
             {
-                networkManager.SendMap(stats.name, XDocument.Load(stats.localId), stats.localId, 11);
+                networkManager.SendMap(stats.roomName, XDocument.Load(stats.localId), stats.localId, 11);
                 return;
             }
         }
