@@ -18,6 +18,8 @@ using wickedcrush.display.primitives;
 using wickedcrush.factory.editor;
 using wickedcrush.menu.editor.buttonlist;
 using wickedcrush.menu.input;
+using wickedcrush.manager.map.room;
+using System.IO;
 
 namespace wickedcrush.screen
 {
@@ -25,7 +27,7 @@ namespace wickedcrush.screen
     {
         SpriteFactory sf;
 
-        public EditorMap map;
+        public EditorRoom room;
         public Point mapOffset;
 
         public Vector2 cursorPosition;
@@ -58,10 +60,10 @@ namespace wickedcrush.screen
 
             sf = new SpriteFactory(g.Content);
 
-            map = new EditorMap("Content/maps/small/Template.xml");
+            room = new EditorRoom();
             mapOffset = new Point(0, 0);
 
-            factory = new EditorEntityFactory(map, map.manager);
+            factory = new EditorEntityFactory(room, room.manager);
 
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
@@ -106,7 +108,7 @@ namespace wickedcrush.screen
             MenuElement selectorNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Selector", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new SelectorTool(factory, map.manager));
+                new SelectorTool(factory, room.manager));
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -226,7 +228,7 @@ namespace wickedcrush.screen
             menu.Update(gameTime, cursorPosition);
             //saveButton.Update(gameTime, cursorPosition);
             DebugControls(gameTime);
-            map.Update(gameTime);
+            room.Update(gameTime);
             
         }
 
@@ -240,7 +242,7 @@ namespace wickedcrush.screen
             if(textInput.finished)
             {
                 //play a funny sound
-                map.name = textInput.getText();
+                room.stats.roomName = textInput.getText();
                 textInput = null;
                 return;
             }
@@ -261,7 +263,7 @@ namespace wickedcrush.screen
             else
                 d = Direction.East;
 
-            map.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
+            room.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
 
             if (menu.currentTool() != null && menu.currentTool().getMode() == EditorMode.Entity)
             {
@@ -340,7 +342,7 @@ namespace wickedcrush.screen
             }
 
             if (tool != null)
-                tool.Update(gameTime, keyboard, scaledCursorPosition, map, toolReady);
+                tool.Update(gameTime, keyboard, scaledCursorPosition, room, toolReady);
 
             if (keyboard.ActionPressed())
             {
@@ -359,7 +361,7 @@ namespace wickedcrush.screen
 
             game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
             game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
-            game.diag += "Map Name: " + map.name;
+            game.diag += "Map Name: " + room.stats.roomName;
         }
 
         private void DrawDiag()
@@ -401,7 +403,10 @@ namespace wickedcrush.screen
 
         public void SaveMap()
         {
-            map.saveMap(game.playerManager.getPlayerList()[0]);
+            room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
+
+            room.saveRoom();
+            game.mapManager.roomManager.AddRoomToLocalAtlas(room.stats);
         }
     }
 }

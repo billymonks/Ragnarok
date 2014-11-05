@@ -11,12 +11,14 @@ using wickedcrush.factory.editor;
 using wickedcrush.manager.editor.entity;
 using wickedcrush.player;
 using System.IO;
+using wickedcrush.manager.map.room;
 
 namespace wickedcrush.editor
 {
-    public class EditorMap
+    public class EditorRoom
     {
-        public String name;
+        public RoomStats stats;
+
         public int width, height;
         public Dictionary<LayerType, int[,]> layerList;
 
@@ -24,28 +26,47 @@ namespace wickedcrush.editor
 
         public EditorEntityManager manager;
 
-        public EditorMap(int width, int height)
+        public EditorRoom() //true new room
+        {
+            width = 640; height = 480; //default dimensions
+
+            layerList = new Dictionary<LayerType, int[,]>();
+
+            manager = new EditorEntityManager();
+            factory = new EditorEntityFactory(this, manager);
+
+            loadTemplateRoom();
+        }
+
+        public EditorRoom(int width, int height) //new room
         {
             this.width = width;
             this.height = height;
 
-            name = "Untitled";
+            String localId;
+            do
+            {
+                localId = Guid.NewGuid().ToString();
+            } while (File.Exists("Content/maps/small/" + localId + ".xml"));
+
+            stats = new RoomStats(-1, localId, "Untitled", "Undefined");
 
             layerList = new Dictionary<LayerType, int[,]>();
-            createEmptyLayers();
+            //createEmptyLayers();
 
             manager = new EditorEntityManager();
             factory = new EditorEntityFactory(this, manager);
         }
 
-        public EditorMap(String MAP_NAME)
+        public EditorRoom(RoomStats stats)
         {
             layerList = new Dictionary<LayerType, int[,]>();
 
             manager = new EditorEntityManager();
             factory = new EditorEntityFactory(this, manager);
 
-            loadMap(MAP_NAME);
+            this.stats = stats;
+            loadRoom(stats);
         }
 
         public void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
@@ -79,10 +100,6 @@ namespace wickedcrush.editor
         private void debugDrawEntities(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
         {
             manager.DebugDraw(gd, sb, wTex, aTex, f);
-            //foreach (EditorEntity e in entityList)
-            //{
-                //e.DebugDraw(tex, null, gd, sb, f, Color.Green);
-            //}
         }
 
         public bool layerCollision(EditorEntity entity, LayerType type) // needs work, all messed up
@@ -152,10 +169,8 @@ namespace wickedcrush.editor
             return tempLayer;
         }
 
-        public void saveMap(Player p)
+        public void saveRoom()
         {
-            String localId;
-
             XDocument doc = new XDocument();
 
             XElement level = new XElement("level");
@@ -165,15 +180,8 @@ namespace wickedcrush.editor
             XElement wiring = new XElement("WIRING");
             XElement objects = new XElement("OBJECTS");
 
-            do
-            {
-                localId = Guid.NewGuid().ToString();
-            } while (File.Exists("Content/maps/small/" + localId + ".xml"));
-            
-
             level.Add(new XAttribute("width", width));
             level.Add(new XAttribute("height", height));
-            level.Add(new XAttribute("name", name));
 
             walls.Value = setLayerData(layerList[LayerType.WALL]);
             walls.Add(new XAttribute("exportMode", "Bitstring"));
@@ -203,12 +211,25 @@ namespace wickedcrush.editor
 
             doc.Add(level);
 
-            doc.Save(@"Content\maps\small\" + localId + ".xml");
+            doc.Save(@"Content\maps\small\" + stats.localId + ".xml");
         }
 
-        private void loadMap(String MAP_NAME)
+        private void loadTemplateRoom()
         {
-            XDocument doc = XDocument.Load(MAP_NAME);
+            RoomStats stats = new RoomStats(-1, "Template", "Untitled", "Undefined");
+            loadRoom(stats);
+
+            do
+            {
+                stats.localId = Guid.NewGuid().ToString();
+            } while (File.Exists("Content/maps/small/" + stats.localId + ".xml"));
+
+            this.stats = stats;
+        }
+
+        private void loadRoom(RoomStats stats)
+        {
+            XDocument doc = XDocument.Load(@"Content\maps\small\" + stats.localId + ".xml");
 
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
@@ -216,24 +237,10 @@ namespace wickedcrush.editor
             XElement wiring = rootElement.Element("WIRING");
             XElement objects = rootElement.Element("OBJECTS");
 
-            this.name = MAP_NAME.Substring(0, MAP_NAME.Length-4);
-            char[] sep = new char[3] { '.', '/', '\\' };
-            string[] splitName = MAP_NAME.Split(sep);
-            this.name = splitName[splitName.Length - 2];
             this.width = int.Parse(rootElement.Attribute("width").Value);
             this.height = int.Parse(rootElement.Attribute("height").Value);
 
-            try
-            {
-                if (rootElement.Attribute("name").Value != null)
-                    this.name = rootElement.Attribute("name").Value;
-            } catch
-            {
-                Console.WriteLine("Name attribute not in file. Using filename.");
-            }
-
             int[,] data;
-            EditorEntity editorEntity;
 
             if (walls != null)
             {

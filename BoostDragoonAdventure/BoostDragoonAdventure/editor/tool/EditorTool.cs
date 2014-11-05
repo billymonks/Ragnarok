@@ -20,16 +20,16 @@ namespace wickedcrush.editor.tool
         protected EditorMode mode;
         protected EditorEntity entity;
 
-        public virtual void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        public virtual void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             if (!toolReady)
                 return;
         }
 
-        public abstract void primaryAction(Vector2 pos, EditorMap map);
-        public abstract void secondaryAction(Vector2 pos, EditorMap map);
+        public abstract void primaryAction(Vector2 pos, EditorRoom map);
+        public abstract void secondaryAction(Vector2 pos, EditorRoom map);
 
-        protected bool isValidCoordinate(Point coord, EditorMap map, LayerType layerType)
+        protected bool isValidCoordinate(Point coord, EditorRoom map, LayerType layerType)
         {
             if (coord.X < 0 || coord.Y < 0 || coord.X >= map.layerList[layerType].GetLength(0) || coord.Y >= map.layerList[layerType].GetLength(1))
                 return false;

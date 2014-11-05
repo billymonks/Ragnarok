@@ -43,7 +43,7 @@ namespace wickedcrush.editor.tool
             end = new Vector2(0, 0);
         }
 
-        public override void Update(GameTime gameTime, KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        public override void Update(GameTime gameTime, KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             base.Update(gameTime, controls, pos, map, toolReady);
 
@@ -99,12 +99,12 @@ namespace wickedcrush.editor.tool
             return r;
         }
 
-        public override void primaryAction(Vector2 pos, EditorMap map)
+        public override void primaryAction(Vector2 pos, EditorRoom map)
         {
 
         }
 
-        public override void secondaryAction(Vector2 pos, EditorMap map)
+        public override void secondaryAction(Vector2 pos, EditorRoom map)
         {
             
         }

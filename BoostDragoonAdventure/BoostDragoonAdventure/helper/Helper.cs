@@ -55,7 +55,7 @@ namespace wickedcrush.helper
             return((Direction)(((((int)MathHelper.ToDegrees(radians) + 360) % 360) / 45) * 45));
         }
 
-        public static Point convertPositionToCoordinate(Vector2 pos, EditorMap map, LayerType layerType)
+        public static Point convertPositionToCoordinate(Vector2 pos, EditorRoom map, LayerType layerType)
         {
             int gridSize = map.width / map.layerList[layerType].GetLength(0);
 

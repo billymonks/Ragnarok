@@ -24,7 +24,7 @@ namespace wickedcrush.editor.tool
             this.f = f;
         }
 
-        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorMap map, bool toolReady)
+        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             base.Update(gameTime, controls, pos, map, toolReady);
 
@@ -38,17 +38,17 @@ namespace wickedcrush.editor.tool
                 secondaryAction(pos, map);
         }
 
-        public override void primaryAction(Vector2 pos, EditorMap map)
+        public override void primaryAction(Vector2 pos, EditorRoom map)
         {
             PlaceEntity(pos, map);
         }
 
-        public override void secondaryAction(Vector2 pos, EditorMap map) //rotate (rotato)
+        public override void secondaryAction(Vector2 pos, EditorRoom map) //rotate (rotato)
         {
             f.preview.rotateCW();
         }
 
-        protected void PlaceEntity(Vector2 pos, EditorMap map)
+        protected void PlaceEntity(Vector2 pos, EditorRoom map)
         {
             bool ready = true;
             Point coordinate;
@@ -73,7 +73,7 @@ namespace wickedcrush.editor.tool
 
         }
 
-        protected void EraseEntity(Vector2 pos, EditorMap map)
+        protected void EraseEntity(Vector2 pos, EditorRoom map)
         {
             //Point coordinate = convertPositionToCoordinate(pos, map, layerType);
 

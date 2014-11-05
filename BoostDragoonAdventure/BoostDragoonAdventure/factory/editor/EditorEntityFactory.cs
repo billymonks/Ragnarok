@@ -19,14 +19,14 @@ namespace wickedcrush.factory.editor
 
     public class EditorEntityFactory
     {
-        private EditorMap map;
+        private EditorRoom map;
         private EditorEntityManager manager;
 
         private Dictionary<String, EditorEntityData> data;
 
         public EditorEntity preview;
 
-        public EditorEntityFactory(EditorMap map, EditorEntityManager manager)
+        public EditorEntityFactory(EditorRoom map, EditorEntityManager manager)
         {
             this.map = map;
             this.manager = manager;
@@ -34,7 +34,7 @@ namespace wickedcrush.factory.editor
             InitializeData();
         }
 
-        public void SetMap(EditorMap map)
+        public void SetMap(EditorRoom map)
         {
             this.map = map;
         }

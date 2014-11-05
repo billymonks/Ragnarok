@@ -119,7 +119,7 @@
     <Compile Include="display\sprite\TextSprite.cs" />
     <Compile Include="display\sprite\TextureSprite.cs" />
     <Compile Include="editor\EditorEntity.cs" />
-    <Compile Include="editor\EditorMap.cs" />
+    <Compile Include="editor\EditorRoom.cs" />
     <Compile Include="editor\tool\SelectorTool.cs" />
     <Compile Include="editor\tool\EntityTool.cs" />
     <Compile Include="editor\tool\EditorTool.cs" />
