@@ -77,13 +77,13 @@ namespace wickedcrush.manager.network
             switch (operationResponse.OperationCode)
             {
                 case (byte)OpCode.AssignCharId: //AssignCharId
-                    _g.playerManager.AssignGlobalId((int)operationResponse.Parameters[102], (string)operationResponse.Parameters[101]);
+                    _g.playerManager.AssignGlobalId((string)operationResponse.Parameters[101], (int)operationResponse.Parameters[102]);
 
                     break;
 
                 case (byte)OpCode.MapToServer: //maybe use this to mark jobs as completed 
                     //assign global id to room matching local id
-
+                    _g.mapManager.roomManager.AssignGlobalId((string)operationResponse.Parameters[101], (int)operationResponse.Parameters[102]);
                     break;
 
             }

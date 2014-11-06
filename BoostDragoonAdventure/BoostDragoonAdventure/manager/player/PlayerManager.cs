@@ -338,7 +338,7 @@ namespace wickedcrush.manager.player
             return temp;
         }
 
-        public bool AssignGlobalId(int globalId, String localId)
+        public bool AssignGlobalId(String localId, int globalId)
         {
             Player p = GetPlayerByLocalId(localId);
 

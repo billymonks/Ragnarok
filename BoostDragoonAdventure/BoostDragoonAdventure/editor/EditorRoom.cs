@@ -335,5 +335,11 @@ namespace wickedcrush.editor
 
             return result;
         }
+
+        public XDocument getXDocument()
+        {
+            XDocument doc = XDocument.Load(@"Content/maps/small/" + stats.localId + ".xml");
+            return doc;
+        }
     }
 }

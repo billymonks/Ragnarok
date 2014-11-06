@@ -20,6 +20,7 @@ using wickedcrush.menu.editor.buttonlist;
 using wickedcrush.menu.input;
 using wickedcrush.manager.map.room;
 using System.IO;
+using System.Xml.Linq;
 
 namespace wickedcrush.screen
 {
@@ -195,13 +196,13 @@ namespace wickedcrush.screen
             Button saveButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { SaveMap(); }
+                e => { SaveRoom(); }
                 );
 
             Button authorButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Author", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { SaveMap(); }
+                e => { AuthorRoom(); }
                 );
 
             Button renameButton = new Button(
@@ -407,12 +408,18 @@ namespace wickedcrush.screen
 
         }
 
-        public void SaveMap()
+        public void SaveRoom()
         {
             room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
 
             room.saveRoom();
             game.mapManager.roomManager.AddRoomToLocalAtlas(room.stats);
+        }
+
+        public void AuthorRoom()
+        {
+            SaveRoom();
+            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, 69);
         }
     }
 }

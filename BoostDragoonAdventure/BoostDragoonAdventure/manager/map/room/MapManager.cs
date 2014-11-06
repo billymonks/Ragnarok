@@ -102,7 +102,7 @@ namespace wickedcrush.manager.map.room
             roomManager = new RoomManager();
             factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, roomManager, w);
 
-            roomManager.SendOfflineAtlas(networkManager);
+            //roomManager.SendOfflineAtlas(networkManager);
             
         }
 
@@ -378,7 +378,7 @@ namespace wickedcrush.manager.map.room
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap(factory.rm.getRandomRoom(),
+                    loadSubMap(factory.rm.getRandomOfflineRoom(),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), false);
@@ -386,7 +386,7 @@ namespace wickedcrush.manager.map.room
 
                 foreach (XElement e in objects.Elements("ROOM_MIRROR"))
                 {
-                    loadSubMap(factory.rm.getRandomRoom(),
+                    loadSubMap(factory.rm.getRandomOfflineRoom(),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), true);
