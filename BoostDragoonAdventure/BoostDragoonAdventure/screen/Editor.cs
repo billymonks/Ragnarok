@@ -63,7 +63,7 @@ namespace wickedcrush.screen
             room = new EditorRoom();
             mapOffset = new Point(0, 0);
 
-            factory = new EditorEntityFactory(room, room.manager);
+            factory = new EditorEntityFactory(room);
 
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
@@ -76,6 +76,12 @@ namespace wickedcrush.screen
 
             //textInput = new TextInput(game.controlsManager.getKeyboard());
 
+        }
+
+        private void NewRoom()
+        {
+            room = new EditorRoom();
+            factory.SetMap(room);
         }
 
         private void InitializeEditorMenu()

@@ -20,16 +20,14 @@ namespace wickedcrush.factory.editor
     public class EditorEntityFactory
     {
         private EditorRoom map;
-        private EditorEntityManager manager;
 
         private Dictionary<String, EditorEntityData> data;
 
         public EditorEntity preview;
 
-        public EditorEntityFactory(EditorRoom map, EditorEntityManager manager)
+        public EditorEntityFactory(EditorRoom map)
         {
             this.map = map;
-            this.manager = manager;
 
             InitializeData();
         }
@@ -37,11 +35,6 @@ namespace wickedcrush.factory.editor
         public void SetMap(EditorRoom map)
         {
             this.map = map;
-        }
-
-        public void SetManager(EditorEntityManager manager)
-        {
-            this.manager = manager;
         }
 
         private void InitializeData()
@@ -103,7 +96,7 @@ namespace wickedcrush.factory.editor
             if (!CanPlace(code, pos, angle))
                 return;
 
-            manager.addEntity(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
+            map.manager.addEntity(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
         }
 
         public bool CanPlace(String code, Vector2 pos, Direction angle)
@@ -112,7 +105,7 @@ namespace wickedcrush.factory.editor
             EditorEntity temp = getEntity(code, pos, angle);
                 //new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
-            if (!manager.CanPlace(temp))
+            if (!map.manager.CanPlace(temp))
                 return false;
 
             if (map.layerCollision(temp, LayerType.WALL) || map.layerCollision(temp, LayerType.DEATHSOUP))

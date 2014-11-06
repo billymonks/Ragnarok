@@ -8,7 +8,7 @@ using System.IO;
 
 namespace wickedcrush.manager.map.room
 {
-    public struct RoomStats
+    public struct RoomInfo
     {
         //network
         public int globalId;
@@ -16,7 +16,7 @@ namespace wickedcrush.manager.map.room
         public String localId;
         public String creatorName;
 
-        public RoomStats(String localId)
+        public RoomInfo(String localId)
         {
             globalId = -1;
             this.roomName = "nameless room, so sad, so sad";
@@ -24,7 +24,7 @@ namespace wickedcrush.manager.map.room
             creatorName = "captain no-name";
         }
 
-        public RoomStats(int globalId, String localId, String roomName, String creatorName)
+        public RoomInfo(int globalId, String localId, String roomName, String creatorName)
         {
             this.globalId = globalId;
             this.roomName = roomName;
@@ -35,8 +35,9 @@ namespace wickedcrush.manager.map.room
 
     public class RoomManager
     {
-        Dictionary<String, RoomStats> sessionStats;
-        List<RoomStats> offlineAtlas;
+        Dictionary<String, RoomInfo> sessionStats;
+        List<RoomInfo> offlineAtlas;
+        List<RoomInfo> localAtlas;
         Random random;
 
         
@@ -45,11 +46,12 @@ namespace wickedcrush.manager.map.room
         {
             
 
-            sessionStats = new Dictionary<String, RoomStats>();
-            offlineAtlas = new List<RoomStats>();
+            sessionStats = new Dictionary<String, RoomInfo>();
+            offlineAtlas = new List<RoomInfo>();
+            localAtlas = new List<RoomInfo>();
             random = new Random();
 
-            CreateLocalAtlas();
+            LoadLocalAtlas();
             LoadOfflineAtlas();
         }
 
@@ -63,24 +65,37 @@ namespace wickedcrush.manager.map.room
 
             foreach (XElement e in rootElement.Elements("room"))
             {
-                RoomStats temp = new RoomStats(int.Parse(e.Element("globalId").Value), e.Element("localId").Value, e.Element("roomName").Value, e.Element("creatorName").Value);
+                RoomInfo temp = new RoomInfo(int.Parse(e.Element("globalId").Value), e.Element("localId").Value, e.Element("roomName").Value, e.Element("creatorName").Value);
 
                 offlineAtlas.Add(temp);
             }
         }
 
-        private void CreateLocalAtlas()
+        private void LoadLocalAtlas()
         {
-            if (File.Exists("Content/maps/atlas/LocalAtlas.xml"))
-                return;
+            XDocument doc;
+            XElement rootElement;
+            String path = "Content/maps/atlas/LocalAtlas.xml";
 
-            XDocument doc = new XDocument();
-            XElement rootElement = new XElement("atlas");
-            doc.Add(rootElement);
-            doc.Save("Content/maps/atlas/LocalAtlas.xml");
+            localAtlas.Clear();
+
+            
+
+            if (File.Exists(path))
+            {
+                doc = XDocument.Load(path);
+                rootElement = new XElement(doc.Element("atlas"));
+
+                foreach (XElement e in rootElement.Elements("room"))
+                {
+                    RoomInfo temp = new RoomInfo(int.Parse(e.Element("globalId").Value), e.Element("localId").Value, e.Element("roomName").Value, e.Element("creatorName").Value);
+
+                    localAtlas.Add(temp);
+                }
+            }
         }
 
-        public void AddRoomToAtlas(RoomStats room, String atlasPath) //next level future shit
+        public void AddRoomToAtlas(RoomInfo room, String atlasPath) //next level future shit
         {
             String path = atlasPath;
             XDocument doc = XDocument.Load(path);
@@ -111,7 +126,7 @@ namespace wickedcrush.manager.map.room
             doc.Save(path);
         }
 
-        public void AddRoomToLocalAtlas(RoomStats room)
+        public void AddRoomToLocalAtlas(RoomInfo room)
         {
             String path = "Content/maps/atlas/LocalAtlas.xml";
             XDocument doc = XDocument.Load(path);
@@ -140,11 +155,13 @@ namespace wickedcrush.manager.map.room
             doc = new XDocument();
             doc.Add(rootElement);
             doc.Save(path);
+
+            localAtlas.Add(room);
         }
 
         public void SendOfflineAtlas(NetworkManager networkManager)
         {
-            foreach (RoomStats stats in offlineAtlas)
+            foreach (RoomInfo stats in offlineAtlas)
             {
                 networkManager.SendMap(stats.roomName, XDocument.Load(stats.localId), stats.localId, 11);
                 return;

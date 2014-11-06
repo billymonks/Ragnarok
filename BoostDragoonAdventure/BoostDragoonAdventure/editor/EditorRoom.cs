@@ -17,7 +17,7 @@ namespace wickedcrush.editor
 {
     public class EditorRoom
     {
-        public RoomStats stats;
+        public RoomInfo stats;
 
         public int width, height;
         public Dictionary<LayerType, int[,]> layerList;
@@ -33,7 +33,7 @@ namespace wickedcrush.editor
             layerList = new Dictionary<LayerType, int[,]>();
 
             manager = new EditorEntityManager();
-            factory = new EditorEntityFactory(this, manager);
+            factory = new EditorEntityFactory(this);
 
             loadTemplateRoom();
         }
@@ -49,21 +49,21 @@ namespace wickedcrush.editor
                 localId = Guid.NewGuid().ToString();
             } while (File.Exists("Content/maps/small/" + localId + ".xml"));
 
-            stats = new RoomStats(-1, localId, "Untitled", "Undefined");
+            stats = new RoomInfo(-1, localId, "Untitled", "Undefined");
 
             layerList = new Dictionary<LayerType, int[,]>();
             //createEmptyLayers();
 
             manager = new EditorEntityManager();
-            factory = new EditorEntityFactory(this, manager);
+            factory = new EditorEntityFactory(this);
         }
 
-        public EditorRoom(RoomStats stats)
+        public EditorRoom(RoomInfo stats)
         {
             layerList = new Dictionary<LayerType, int[,]>();
 
             manager = new EditorEntityManager();
-            factory = new EditorEntityFactory(this, manager);
+            factory = new EditorEntityFactory(this);
 
             this.stats = stats;
             loadRoom(stats);
@@ -216,7 +216,7 @@ namespace wickedcrush.editor
 
         private void loadTemplateRoom()
         {
-            RoomStats stats = new RoomStats(-1, "Template", "Untitled", "Undefined");
+            RoomInfo stats = new RoomInfo(-1, "Template", "Untitled", "Undefined");
             loadRoom(stats);
 
             do
@@ -227,7 +227,7 @@ namespace wickedcrush.editor
             this.stats = stats;
         }
 
-        private void loadRoom(RoomStats stats)
+        private void loadRoom(RoomInfo stats)
         {
             XDocument doc = XDocument.Load(@"Content\maps\small\" + stats.localId + ".xml");
 
