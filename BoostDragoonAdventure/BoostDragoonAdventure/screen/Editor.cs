@@ -418,8 +418,14 @@ namespace wickedcrush.screen
 
         public void AuthorRoom()
         {
+            if (room.stats.globalId != -1)
+            {
+                Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has already been authored.");
+                return;
+            }
+
             SaveRoom();
-            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, 69);
+            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, 11);
         }
     }
 }

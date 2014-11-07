@@ -345,6 +345,7 @@ namespace wickedcrush.manager.player
             if (p != null)
             {
                 p.globalId = globalId;
+                savePlayer(p);
                 return true;
             }
 

@@ -123,7 +123,11 @@ namespace wickedcrush.manager.map.room
                 XElement creatorName = new XElement("creatorName");
                 creatorName.SetValue(pair.Value.creatorName);
                 room.Add(creatorName);
+
+                rootElement.Add(room);
             }
+
+            doc.Add(rootElement);
 
             doc.Save(path);
         }
@@ -163,6 +167,9 @@ namespace wickedcrush.manager.map.room
         {
             LoadLocalAtlas();
 
+            if (localAtlas.ContainsKey(room.localId))
+                return;
+
             localAtlas.Add(room.localId, room);
 
             SaveLocalAtlas();
@@ -190,6 +197,8 @@ namespace wickedcrush.manager.map.room
             RoomInfo temp = localAtlas[localId];
             temp.globalId = globalId;
             localAtlas[localId] = temp;
+
+            SaveLocalAtlas();
         }
 
         public String getRandomOfflineRoom()
