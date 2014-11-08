@@ -68,6 +68,9 @@ namespace wickedcrush.screen
         {
             base.Initialize(g);
 
+            exclusiveDraw = true;
+            exclusiveUpdate = true;
+
             LoadLocalChars();
 
             readyTimer = new Dictionary<User, Timer> ();
@@ -93,13 +96,13 @@ namespace wickedcrush.screen
 
                 if (u.controls.StartPressed())
                 {
-                    game.screenStack.Push(new MapSelector(game));
+                    game.AddScreen(new MapSelector(game));
                     return;
                 }
 
                 if (u.controls.SelectPressed())
                 {
-                    game.screenStack.Pop();
+                    game.RemoveScreen(this);
                     return;
                 }
 

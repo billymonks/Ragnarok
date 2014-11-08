@@ -11,10 +11,13 @@ namespace wickedcrush.screen
     {
         public Game game { get; set; }
 
+        public bool exclusiveUpdate = false;
+        public bool exclusiveDraw = false;
+
         public event EventHandler<EventArgs> Disposed;
 
         public abstract void Dispose();
-        //protected abstract void Dispose(bool disposing);
+
         public virtual void Initialize(Game g)
         {
             game = g;

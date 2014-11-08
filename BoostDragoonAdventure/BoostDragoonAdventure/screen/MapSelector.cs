@@ -26,8 +26,6 @@ namespace wickedcrush.screen
 
         public MapSelector(Game game)
         {
-            this.game = game;
-
             this.mm = game.mapManager;
             this._sound = game.soundManager;
             Initialize(game);
@@ -36,6 +34,10 @@ namespace wickedcrush.screen
         public override void Initialize(Game g)
         {
             base.Initialize(g);
+
+            exclusiveDraw = true;
+            exclusiveUpdate = true;
+
             readyTimer = new Timer(20);
             readyTimer.start();
             //game.controlsManager = new ControlsManager(g);
@@ -107,20 +109,20 @@ namespace wickedcrush.screen
                 if (p.c.StartPressed())
                 {
                     game.mapName = mapList[selectionIndex];
-                    game.screenStack.Push(new Gameplay(game));
+                    game.AddScreen(new Gameplay(game));
                     return;
                 }
 
                 if (p.c.ItemAPressed())
                 {
                     game.mapName = mapList[selectionIndex];
-                    game.screenStack.Push(new Editor(game));
+                    game.AddScreen(new Editor(game));
                     return;
                 }
 
                 if (p.c.SelectPressed())
                 {
-                    game.screenStack.Pop();
+                    game.RemoveScreen(this);
                     return;
                 }
             }

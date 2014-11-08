@@ -57,6 +57,9 @@ namespace wickedcrush.screen
         {
             base.Initialize(g);
 
+            exclusiveDraw = true;
+            exclusiveUpdate = true;
+
             mm.loadMap(mm.atlas[g.mapName]);
             //mm.loadMap(game.mapName, mm.w);
 
@@ -165,7 +168,7 @@ namespace wickedcrush.screen
             if (game.controlsManager.SelectPressed())
             {
                 Dispose();
-                game.screenStack.Pop();
+                game.RemoveScreen(this);
             }
             
             /*foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players

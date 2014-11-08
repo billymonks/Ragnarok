@@ -45,7 +45,9 @@ namespace wickedcrush
 
         public PanelFactory panelFactory;
 
-        public Stack<GameScreen> screenStack;
+        private List<GameScreen> screenList = new List<GameScreen>(); //need GameScreen manager
+        private List<GameScreen> screensToAdd = new List<GameScreen>();
+        private List<GameScreen> screensToRemove = new List<GameScreen>();
 
         public Map testMap;
         public String mapName = "";
@@ -121,8 +123,6 @@ namespace wickedcrush
 
             ItemServer.Initialize();
 
-            screenStack = new Stack<GameScreen>();
-
             networkManager = new NetworkManager(this);
 
             soundManager = new SoundManager(Content);
@@ -131,7 +131,7 @@ namespace wickedcrush
             mapManager = new MapManager(this);
             
 
-            screenStack.Push(new PlayerSelect(this));
+            screenList.Add(new PlayerSelect(this));
 
         }
 
@@ -155,7 +155,7 @@ namespace wickedcrush
 
         protected override void Update(GameTime gameTime)
         {
-            if (screenStack.Count == 0)
+            if (screenList.Count == 0)
             {
                 this.Exit();
                 return;
@@ -169,38 +169,94 @@ namespace wickedcrush
 
             networkManager.Update();
 
-            screenStack.Peek().Update(gameTime);
+            for (int i = screenList.Count - 1; i >= 0; i--)
+            {
+                screenList[i].Update(gameTime);
+                if (screenList[i].exclusiveUpdate)
+                    break;
+            }
 
+            AddScreens();
+            RemoveScreens();
 
             base.Update(gameTime);
+        }
+
+        public void AddScreen(GameScreen screen)
+        {
+            screensToAdd.Add(screen);
+        }
+
+        public void RemoveScreen(GameScreen screen)
+        {
+            screensToRemove.Add(screen);
+        }
+
+        private void AddScreens()
+        {
+            foreach (GameScreen screen in screensToAdd)
+            {
+                screenList.Add(screen);
+            }
+
+            screensToAdd.Clear();
+        }
+
+        private void RemoveScreens()
+        {
+            foreach (GameScreen screen in screensToRemove)
+            {
+                screenList.Remove(screen);
+            }
+
+            screensToRemove.Clear();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightCyan);
 
+            int screenIndex = 0;
+
+            for (int i = screenList.Count - 1; i >= 0; i--)
+            {
+                if (screenList[i].exclusiveDraw)
+                {
+                    screenIndex = i;
+                    break;
+                }
+            }
+
             if (debugMode)
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
-                if (screenStack.Count > 0)
-                    screenStack.Peek().DebugDraw();
+                for (int i = screenIndex; i < screenList.Count; i++)
+                {
+                    screenList[i].DebugDraw();
+                }
                 spriteBatch.End();
             }
             else
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
-                if (screenStack.Count > 0)
-                    screenStack.Peek().Draw();
+                for (int i = screenIndex; i < screenList.Count; i++)
+                {
+                    screenList[i].Draw();
+                }
                 spriteBatch.End();
             }
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
-            if (screenStack.Count > 0)
-                screenStack.Peek().FullScreenDraw();
+            for (int i = screenIndex; i < screenList.Count; i++)
+            {
+                screenList[i].FullScreenDraw();
+            }
             spriteBatch.End();
 
-            if (screenStack.Count > 0)
-                screenStack.Peek().FreeDraw();
+            for (int i = screenIndex; i < screenList.Count; i++)
+            {
+                screenList[i].FreeDraw();
+            }
 
             base.Draw(gameTime);
         }
