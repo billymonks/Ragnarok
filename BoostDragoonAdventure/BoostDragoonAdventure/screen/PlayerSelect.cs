@@ -16,7 +16,7 @@ using System.IO;
 
 namespace wickedcrush.screen
 {
-    class User
+    public class User
     {
         public String name;
         public Controls controls;
@@ -57,10 +57,10 @@ namespace wickedcrush.screen
 
         List<LocalChar> charList = new List<LocalChar>();
 
+        bool updateCharList = false;
+
         public PlayerSelect(Game game)
         {
-            this.game = game;
-            
             Initialize(game);
         }
 
@@ -85,8 +85,16 @@ namespace wickedcrush.screen
                 pair.Value.Update(gameTime);
             }
 
+            if (updateCharList)
+            {
+                LoadLocalChars();
+                updateCharList = false;
+            }
+
             UpdateUsers();
             checkForNewPlayers();
+
+            
             
 
             foreach (User u in userList)
@@ -206,6 +214,8 @@ namespace wickedcrush.screen
 
         private void LoadLocalChars()
         {
+            charList.Clear();
+
             if (!Directory.Exists("characters/"))
                 Directory.CreateDirectory("characters/");
 
@@ -245,7 +255,9 @@ namespace wickedcrush.screen
 
         private void addNewPlayer(User u)
         {
-            u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
+            updateCharList = true;
+            game.AddScreen(new CharCreation(game, u));
+            //u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
         }
 
         private void loadPlayer(User u)

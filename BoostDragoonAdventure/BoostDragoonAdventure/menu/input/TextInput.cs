@@ -48,6 +48,11 @@ namespace wickedcrush.menu.input
 
         public void DebugDraw(SpriteBatch sb, SpriteFont f)
         {
+            DebugDraw(sb, f, new Point(100, 100));
+        }
+
+        public void DebugDraw(SpriteBatch sb, SpriteFont f, Point pos)
+        {
             if (!PrimitiveDrawer.isInitialized())
             {
                 PrimitiveDrawer.LoadContent(sb.GraphicsDevice);
@@ -55,8 +60,8 @@ namespace wickedcrush.menu.input
 
             if (!(finished || cancelled))
             {
-                sb.DrawFilledRectangle(new Rectangle(100, 100, 300, 50), Color.White);
-                sb.DrawString(f, input, new Vector2(100, 100), Color.Black);
+                sb.DrawFilledRectangle(new Rectangle(pos.X, pos.Y, 300, 50), Color.White);
+                sb.DrawString(f, input, new Vector2(pos.X, pos.Y), Color.Black);
             }
         }
 
