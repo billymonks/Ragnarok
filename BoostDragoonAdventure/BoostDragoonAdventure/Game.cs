@@ -157,6 +157,7 @@ namespace wickedcrush
         {
             if (screenList.Count == 0)
             {
+                networkManager.Disconnect();
                 this.Exit();
                 return;
             }

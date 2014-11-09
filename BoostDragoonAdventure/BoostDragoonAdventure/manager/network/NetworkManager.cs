@@ -64,6 +64,12 @@ namespace wickedcrush.manager.network
             }
         }
 
+        public void Disconnect()
+        {
+            listener.Disconnect();
+            enabled = false;
+        }
+
         private bool OkToSend()
         {
             return (listener.connected);

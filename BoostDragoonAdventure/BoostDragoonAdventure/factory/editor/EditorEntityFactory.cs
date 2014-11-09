@@ -19,22 +19,22 @@ namespace wickedcrush.factory.editor
 
     public class EditorEntityFactory
     {
-        private EditorRoom map;
+        private EditorRoom room;
 
         private Dictionary<String, EditorEntityData> data;
 
         public EditorEntity preview;
 
-        public EditorEntityFactory(EditorRoom map)
+        public EditorEntityFactory(EditorRoom room)
         {
-            this.map = map;
+            this.room = room;
 
             InitializeData();
         }
 
-        public void SetMap(EditorRoom map)
+        public void SetMap(EditorRoom room)
         {
-            this.map = map;
+            this.room = room;
         }
 
         private void InitializeData()
@@ -96,7 +96,7 @@ namespace wickedcrush.factory.editor
             if (!CanPlace(code, pos, angle))
                 return;
 
-            map.manager.addEntity(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
+            room.manager.addEntity(new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, angle));
         }
 
         public bool CanPlace(String code, Vector2 pos, Direction angle)
@@ -105,10 +105,10 @@ namespace wickedcrush.factory.editor
             EditorEntity temp = getEntity(code, pos, angle);
                 //new EditorEntity(code, data[code].name, getCorrectedPos(pos), data[code].size, data[code].origin, data[code].canRotate, Direction.East);
 
-            if (!map.manager.CanPlace(temp))
+            if (!room.manager.CanPlace(temp))
                 return false;
 
-            if (map.layerCollision(temp, LayerType.WALL) || map.layerCollision(temp, LayerType.DEATHSOUP))
+            if (room.layerCollision(temp, LayerType.WALL) || room.layerCollision(temp, LayerType.DEATHSOUP))
                 return false;
 
             return true;
@@ -116,7 +116,7 @@ namespace wickedcrush.factory.editor
 
         private Vector2 getCorrectedPos(Vector2 pos)
         {
-            Point coordinate = Helper.convertPositionToCoordinate(pos, map, LayerType.ENTITY);
+            Point coordinate = Helper.convertPositionToCoordinate(pos, room, LayerType.ENTITY);
             return new Vector2(coordinate.X * 10f, coordinate.Y * 10f);
         }
 

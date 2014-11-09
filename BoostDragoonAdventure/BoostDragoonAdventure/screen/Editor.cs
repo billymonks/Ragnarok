@@ -196,6 +196,12 @@ namespace wickedcrush.screen
 
             menu = new EditorMenu(this, nodes);
 
+            Button newButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "New", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { NewRoom(); }
+                );
+
             Button saveButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
@@ -220,6 +226,7 @@ namespace wickedcrush.screen
                 e => { game.RemoveScreen(this); }
                 );
 
+            menu.controlBar.Add(newButton);
             menu.controlBar.Add(saveButton);
             menu.controlBar.Add(authorButton);
             menu.controlBar.Add(renameButton);
@@ -411,6 +418,11 @@ namespace wickedcrush.screen
 
         }
 
+        private void PollRoomUpdate()
+        {
+            room.stats = game.mapManager.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
+        }
+
         public void SaveRoom()
         {
             room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
@@ -421,14 +433,18 @@ namespace wickedcrush.screen
 
         public void AuthorRoom()
         {
+            PollRoomUpdate();
+
             if (room.stats.globalId != -1)
             {
                 Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has already been authored.");
+                NewRoom();
                 return;
             }
 
             SaveRoom();
-            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, 11);
+            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, game.playerManager.getPlayerList()[0].globalId);
+            NewRoom();
         }
     }
 }

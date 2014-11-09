@@ -175,6 +175,15 @@ namespace wickedcrush.manager.map.room
             SaveLocalAtlas();
         }
 
+        public RoomInfo GetRoomFromLocalAtlas(String localId)
+        {
+            LoadLocalAtlas();
+            if (!localAtlas.ContainsKey(localId))
+                throw new Exception("Whahahhahahah");
+
+            return localAtlas[localId];
+        }
+
         
 
         public void SendOfflineAtlas(NetworkManager networkManager)
