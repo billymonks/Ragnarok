@@ -26,6 +26,8 @@ namespace wickedcrush.screen
 
         public Player p;
 
+        public bool ready = false;
+
         public User(String name, Controls controls, int id)
         {
             this.name = name;
@@ -51,13 +53,14 @@ namespace wickedcrush.screen
     {
 
         //Dictionary<Player, Timer> readyTimer;
-        Dictionary<User, Timer> readyTimer;
+        Dictionary<User, Timer> readyTimer = new Dictionary<User, Timer>();
 
         List<User> userList = new List<User>();
 
         List<LocalChar> charList = new List<LocalChar>();
 
-        bool updateCharList = false;
+        bool updateCharList = true;
+        bool rehydrateScreen = false;
 
         public PlayerSelect(Game game)
         {
@@ -71,14 +74,23 @@ namespace wickedcrush.screen
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
-            LoadLocalChars();
+            foreach (User u in userList)
+            {
+                u.ready = false;
+            }
 
-            readyTimer = new Dictionary<User, Timer> ();
+            LoadLocalChars();
+            rehydrateScreen = false;
         }
 
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+
+            if (rehydrateScreen)
+            {
+                Initialize(game);
+            }
 
             foreach (KeyValuePair<User, Timer> pair in readyTimer)
             {
@@ -94,26 +106,26 @@ namespace wickedcrush.screen
             UpdateUsers();
             checkForNewPlayers();
 
-            
-            
+
+            bool ready = true;
+
+            if (userList.Count == 0)
+                ready = false;
 
             foreach (User u in userList)
             {
                 if (!readyTimer.ContainsKey(u) || !readyTimer[u].isDone() || u.p == null)
                     return;
 
-                if (u.controls.StartPressed())
-                {
-                    game.AddScreen(new MapSelector(game));
-                    return;
-                }
+                if (u.ready == false)
+                    ready = false;
 
-                if (u.controls.SelectPressed())
-                {
-                    game.RemoveScreen(this);
-                    return;
-                }
+            }
 
+            if (ready)
+            {
+                game.AddScreen(new MapSelector(game));
+                rehydrateScreen = true;
             }
         }
 
@@ -131,15 +143,29 @@ namespace wickedcrush.screen
 
         private void DrawPlayerSelect(SpriteBatch sb, SpriteFont f)
         {
-            foreach (Player p in game.playerManager.getPlayerList())
-            {
-                sb.DrawString(f, p.name, new Vector2(p.playerNumber * 100 + 5, 5), Color.White);
-            }
 
             foreach (User u in userList)
             {
-                sb.DrawString(f, u.name, new Vector2(u.id * 100 + 5, 5), Color.White);
-                DrawCharacterSelect(sb, f, u);
+                Color temp;
+                if (u.ready)
+                    temp = Color.Green;
+                else
+                    temp = Color.White;
+
+
+
+                if (u.p == null)
+                {
+                    sb.DrawString(f, u.name, new Vector2(u.id * 100 + 5, 5), temp);
+                    DrawCharacterSelect(sb, f, u);
+                }
+                else
+                {
+                    sb.DrawString(f, u.p.name, new Vector2(u.id * 100 + 5, 5), temp);
+                }
+                //else
+
+                
             }
         }
 
@@ -176,14 +202,18 @@ namespace wickedcrush.screen
             if (!readyTimer[u].isDone())
                 return;
 
-            if (u.controls.DownPressed())
+            if (u.p == null)
             {
-                u.selection++;
-            }
+                if (u.controls.DownPressed())
+                {
+                    u.selection++;
+                }
 
-            if (u.controls.UpPressed())
-            {
-                u.selection--;
+                if (u.controls.UpPressed())
+                {
+                    u.selection--;
+                }
+
             }
 
             if (u.selection < -1)
@@ -191,9 +221,36 @@ namespace wickedcrush.screen
             else if (u.selection > charList.Count - 1)
                 u.selection = -1;
 
-            if (u.controls.StartPressed() && u.p == null)
+            if (u.controls.StartPressed())
             {
-                SelectCharacter(u);
+                if (u.p == null)
+                {
+                    SelectCharacter(u);
+                }
+                else
+                {
+                    u.ready = true;
+                    derpReadyTimer(u);
+                }
+            }
+
+            if (u.controls.SelectPressed())
+            {
+                if (u.p != null)
+                {
+                    ClearCharacterSelection(u);
+                }
+                else
+                {
+                    if (userList.Count > 1)
+                    {
+                        userList.Remove(u);
+                    }
+                    else
+                    {
+                        game.RemoveScreen(this);
+                    }
+                }
             }
         }
 
@@ -204,6 +261,13 @@ namespace wickedcrush.screen
             else
                 loadPlayer(u);
 
+            derpReadyTimer(u);
+        }
+
+        private void ClearCharacterSelection(User u)
+        {
+            u.p = null;
+            u.ready = false;
             derpReadyTimer(u);
         }
 
@@ -263,6 +327,7 @@ namespace wickedcrush.screen
         private void loadPlayer(User u)
         {
             u.p = game.playerManager.loadPlayer(charList[u.selection].localId, u.id, u.controls);
+            u.ready = true;
         }
 
         private void addPlayer(String name, Controls controls, int playerNumber) //needs a new home

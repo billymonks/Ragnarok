@@ -48,6 +48,8 @@ namespace wickedcrush.screen
 
         private TextInput textInput;
 
+        bool updateCurrentRoom = false;
+
         public Editor(Game game)
         {
             this.game = game;
@@ -86,6 +88,11 @@ namespace wickedcrush.screen
         {
             room = new EditorRoom();
             factory.SetMap(room);
+        }
+
+        private void LoadRoom()
+        {
+            //room = new EditorRoom(stats)
         }
 
         private void InitializeEditorMenu()

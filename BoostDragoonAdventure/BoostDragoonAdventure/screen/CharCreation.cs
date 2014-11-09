@@ -72,7 +72,8 @@ namespace wickedcrush.screen
             {
                 //play a funny sound
                 u.name = textInput.getText();
-                game.playerManager.addNewPlayer(u.name, u.id, u.controls);
+                u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
+                u.ready = true;
                 textInput = null;
                 Dispose();
                 return;

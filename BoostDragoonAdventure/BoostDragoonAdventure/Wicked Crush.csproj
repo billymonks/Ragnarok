@@ -163,6 +163,7 @@
     <Compile Include="screen\CharCreation.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
+    <Compile Include="screen\LoadRoomMenuScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
     <Compile Include="screen\Gameplay.cs" />
     <Compile Include="controls\Controls.cs" />
