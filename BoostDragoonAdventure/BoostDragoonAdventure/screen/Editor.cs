@@ -48,6 +48,7 @@ namespace wickedcrush.screen
 
         private TextInput textInput;
 
+        private RoomInfo roomToLoad;
         bool updateCurrentRoom = false;
 
         public Editor(Game game)
@@ -90,8 +91,16 @@ namespace wickedcrush.screen
             factory.SetMap(room);
         }
 
+        private void PollRoom(RoomInfo roomInfo)
+        {
+            room = new EditorRoom(roomInfo);
+            factory.SetMap(room);
+        }
+
         private void LoadRoom()
         {
+            game.AddScreen(new LoadRoomMenuScreen(game, roomToLoad));
+            updateCurrentRoom = true;
             //room = new EditorRoom(stats)
         }
 
@@ -246,6 +255,9 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+
+            if (updateCurrentRoom)
+                PollRoom(roomToLoad);
 
             UpdateTextInput(gameTime);
 

@@ -36,8 +36,8 @@ namespace wickedcrush.manager.map.room
     public class RoomManager
     {
         Dictionary<String, RoomInfo> sessionStats;
-        List<RoomInfo> offlineAtlas;
-        Dictionary<String, RoomInfo> localAtlas;
+        public List<RoomInfo> offlineAtlas;
+        public Dictionary<String, RoomInfo> localAtlas;
         Random random;
 
         

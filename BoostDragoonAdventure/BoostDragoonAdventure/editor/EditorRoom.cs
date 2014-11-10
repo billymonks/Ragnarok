@@ -66,7 +66,7 @@ namespace wickedcrush.editor
             factory = new EditorEntityFactory(this);
 
             this.stats = stats;
-            loadRoom(stats);
+            LoadRoom(stats);
         }
 
         public void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch sb, SpriteFont f, Point offset)
@@ -217,7 +217,7 @@ namespace wickedcrush.editor
         private void loadTemplateRoom()
         {
             RoomInfo stats = new RoomInfo(-1, "Template", "Untitled", "Undefined");
-            loadRoom(stats);
+            LoadRoom(stats);
 
             do
             {
@@ -227,7 +227,7 @@ namespace wickedcrush.editor
             this.stats = stats;
         }
 
-        private void loadRoom(RoomInfo stats)
+        private void LoadRoom(RoomInfo stats)
         {
             XDocument doc = XDocument.Load(@"Content\maps\small\" + stats.localId + ".xml");
 
