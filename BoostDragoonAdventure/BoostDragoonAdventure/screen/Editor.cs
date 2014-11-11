@@ -48,8 +48,7 @@ namespace wickedcrush.screen
 
         private TextInput textInput;
 
-        private RoomInfo roomToLoad;
-        bool updateCurrentRoom = false;
+        private RoomInfo roomToLoad = new RoomInfo("");
 
         public Editor(Game game)
         {
@@ -100,7 +99,7 @@ namespace wickedcrush.screen
         private void LoadRoom()
         {
             game.AddScreen(new LoadRoomMenuScreen(game, roomToLoad));
-            updateCurrentRoom = true;
+            
             //room = new EditorRoom(stats)
         }
 
@@ -236,6 +235,12 @@ namespace wickedcrush.screen
                 e => { textInput = new TextInput(game.controlsManager.getKeyboard()); }
                 );
 
+            Button loadButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Load", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e => { LoadRoom(); }
+                );
+
             Button exitButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Exit", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
@@ -246,6 +251,7 @@ namespace wickedcrush.screen
             menu.controlBar.Add(saveButton);
             menu.controlBar.Add(authorButton);
             menu.controlBar.Add(renameButton);
+            menu.controlBar.Add(loadButton);
             menu.controlBar.Add(exitButton);
 
             //menu.current = (node);
@@ -256,8 +262,11 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            if (updateCurrentRoom)
+            if (roomToLoad.ready)
+            {
                 PollRoom(roomToLoad);
+                roomToLoad.ready = false;
+            }
 
             UpdateTextInput(gameTime);
 

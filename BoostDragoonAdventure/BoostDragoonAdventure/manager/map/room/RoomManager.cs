@@ -8,13 +8,15 @@ using System.IO;
 
 namespace wickedcrush.manager.map.room
 {
-    public struct RoomInfo
+    public class RoomInfo
     {
         //network
         public int globalId;
         public String roomName;
         public String localId;
         public String creatorName;
+
+        public bool ready = false;
 
         public RoomInfo(String localId)
         {

@@ -228,34 +228,28 @@ namespace wickedcrush
                 }
             }
 
-            if (debugMode)
+            for (int i = screenIndex; i < screenList.Count; i++)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
-                for (int i = screenIndex; i < screenList.Count; i++)
+
+                if (debugMode)
                 {
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
                     screenList[i].DebugDraw();
+                    spriteBatch.End();
                 }
-                spriteBatch.End();
-            }
-            else
-            {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
-                for (int i = screenIndex; i < screenList.Count; i++)
+                else
                 {
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
                     screenList[i].Draw();
+                    spriteBatch.End();
                 }
-                spriteBatch.End();
-            }
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
-            for (int i = screenIndex; i < screenList.Count; i++)
-            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
+
                 screenList[i].FullScreenDraw();
-            }
-            spriteBatch.End();
 
-            for (int i = screenIndex; i < screenList.Count; i++)
-            {
+                spriteBatch.End();
+
                 screenList[i].FreeDraw();
             }
 

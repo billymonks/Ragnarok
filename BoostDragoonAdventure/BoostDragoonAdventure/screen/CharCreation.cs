@@ -17,7 +17,6 @@ namespace wickedcrush.screen
         Dictionary<User, Timer> readyTimer;
         List<LocalChar> charList = new List<LocalChar>();
 
-        LocalChar character;
         private TextInput textInput;
         User u;
 
@@ -43,7 +42,6 @@ namespace wickedcrush.screen
                 localId = Guid.NewGuid().ToString();
             } while (File.Exists("characters/" + localId + ".xml"));
 
-            character = new LocalChar("Nameless", localId);
             textInput = new TextInput(g.controlsManager.getKeyboard());
         }
 
