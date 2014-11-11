@@ -36,10 +36,8 @@ namespace wickedcrush.screen
     {
 
         private MapManager mm;
-
         public Timer freezeFrameTimer = new Timer(150);
         
-
         public Gameplay(Game game)
         {
             mm = game.mapManager;
@@ -50,7 +48,6 @@ namespace wickedcrush.screen
             
             Initialize(game);
 
-            
         }
 
         public override void Initialize(Game g)
@@ -61,10 +58,7 @@ namespace wickedcrush.screen
             exclusiveUpdate = true;
 
             mm.loadMap(mm.atlas[g.mapName]);
-            //mm.loadMap(game.mapName, mm.w);
-
-            //factory.setMap(game.testMap);
-
+            
             mm.factory.spawnPlayers(0);
         }
 
@@ -88,8 +82,6 @@ namespace wickedcrush.screen
             game.controlsManager.checkAndAddGamepads();
         }
 
-        
-
         private void LoadContent(Game game)
         {
             
@@ -104,20 +96,12 @@ namespace wickedcrush.screen
             if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
                 mm.Update(gameTime);
             
-            
-
             DebugControls();
-
-            //game.testMap.connectTriggers();
-
-            
 
         }
 
         public override void Draw()
         {
-
-            //game.testMap.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.testFont);
             
         }
 
@@ -157,7 +141,6 @@ namespace wickedcrush.screen
             if (game.controlsManager.debugControls.KeyPressed(Keys.P))
             {
                 mm.factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true);
-                //soundManager.playSound("blast off");
             }
 
             if (game.controlsManager.debugControls.KeyPressed(Keys.O))
@@ -171,20 +154,11 @@ namespace wickedcrush.screen
                 game.RemoveScreen(this);
             }
             
-            /*foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
-            {
-                if (p.c.SelectPressed())
-                {
-                    Dispose();
-                    game.screenStack.Pop();
-                    return;
-                }
-            }*/
         }
 
         public override void Dispose()
         {
-            //mm.entityManager.Dispose();
+            game.playerManager.saveAllPlayers();
         }
     }
 }

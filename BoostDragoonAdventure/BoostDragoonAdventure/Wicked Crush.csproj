@@ -91,7 +91,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Photon3DotNet">
-      <HintPath>..\..\..\..\..\..\..\Photon\lib\Photon3DotNet.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\Photon\lib\Photon3DotNet.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>

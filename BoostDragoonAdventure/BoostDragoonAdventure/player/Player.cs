@@ -107,7 +107,7 @@ namespace wickedcrush.player
 
 
 
-        protected void Remove()
+        public void Remove()
         {
             remove = true;
         }

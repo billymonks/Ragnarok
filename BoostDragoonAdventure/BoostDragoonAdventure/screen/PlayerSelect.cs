@@ -51,12 +51,8 @@ namespace wickedcrush.screen
 
     public class PlayerSelect : GameScreen
     {
-
-        //Dictionary<Player, Timer> readyTimer;
         Dictionary<User, Timer> readyTimer = new Dictionary<User, Timer>();
-
         List<User> userList = new List<User>();
-
         List<LocalChar> charList = new List<LocalChar>();
 
         bool updateCharList = true;
@@ -131,7 +127,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            //DebugDraw();
+            
         }
 
         public override void DebugDraw()
@@ -266,6 +262,7 @@ namespace wickedcrush.screen
 
         private void ClearCharacterSelection(User u)
         {
+            u.p.Remove();
             u.p = null;
             u.ready = false;
             derpReadyTimer(u);
