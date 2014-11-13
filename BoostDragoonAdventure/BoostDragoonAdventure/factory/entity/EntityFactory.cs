@@ -26,11 +26,13 @@ using wickedcrush.manager.audio;
 using wickedcrush.entity.physics_entity.agent.inanimate;
 using wickedcrush.manager.map.room;
 using wickedcrush.entity.physics_entity.agent.trap;
+using wickedcrush.entity.physics_entity.agent.npc;
 
 namespace wickedcrush.factory.entity
 {
     public class EntityFactory
     {
+        private Game _game; //lol what r u gonna do about it ;) jk pls be nice
         private EntityManager em;
         private PlayerManager pm;
         private MapManager mm;
@@ -41,37 +43,24 @@ namespace wickedcrush.factory.entity
 
         private List<Door> doorList;
 
-        //private Map map;
-
-        public EntityFactory(EntityManager em, PlayerManager pm, MapManager mm, ControlsManager cm, SoundManager sm, RoomManager rm, World w)
+        public EntityFactory(Game game, EntityManager em, RoomManager rm, World w)
         {
+
+            this._game = game;
             this.em = em;
-            this.pm = pm;
-            this.mm = mm;
-            this.cm = cm;
-            this.sm = sm;
+            this.pm = _game.playerManager;
+            this.mm = _game.mapManager;
+            this.cm = _game.controlsManager;
+            this.sm = _game.soundManager;
             this.rm = rm;
             this.w = w;
 
             doorList = new List<Door>();
         }
 
-        /*public void setMap(Map map)
-        {
-            this.map = map;
-        }
-
-        public void clearMap()
-        {
-            map = null;
-        }*/
-
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
         {
             Entity e = new Entity(pos, size, center, sm);
-
-            //e.stats.set("staggerDuration", 0);
-            //e.stats.set("staggerDistance", 0);
             
             em.addEntity(e);
         }
@@ -87,9 +76,6 @@ namespace wickedcrush.factory.entity
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PhysicsEntity e = new PhysicsEntity(w, pos, size, center, solid, sm);
-
-            //e.stats.set("staggerDuration", 0);
-            //e.stats.set("staggerDistance", 0);
             
             em.addEntity(e);
         }
@@ -97,16 +83,6 @@ namespace wickedcrush.factory.entity
         public PlayerAgent addPlayerAgent(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
         {
             PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this, sm, name);
-
-            /*agent.stats.set("maxBoost", 1000);
-            agent.stats.set("boost", 1000);
-            agent.stats.set("fillSpeed", 3);
-            agent.stats.set("useSpeed", 8);
-            agent.stats.set("boostSpeedMod", 0);
-
-            agent.stats.set("boostRecharge", 250);
-            agent.stats.set(("iFrameTime"), 150);
-            agent.stats.set("staggerDistance", 100);*/
             
             em.addEntity(agent);
             
@@ -153,6 +129,14 @@ namespace wickedcrush.factory.entity
         public void addChest(Vector2 pos)
         {
             Chest c = new Chest(w, pos, this, sm);
+            c.stats.set("staggerDuration", 1);
+            c.stats.set("staggerDistance", 0);
+            em.addEntity(c);
+        }
+
+        public void addTerminal(Vector2 pos)
+        {
+            TerminalNPC c = new TerminalNPC(pos, _game);
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
             em.addEntity(c);

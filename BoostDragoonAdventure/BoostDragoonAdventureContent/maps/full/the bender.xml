@@ -504,7 +504,7 @@
     <MURDERER id="21" x="500" y="860" />
     <MURDERER id="22" x="380" y="1240" />
     <MURDERER id="23" x="1840" y="1340" />
-    <CHEST id="24" x="720" y="1230" />
+    <TERMINAL id="24" x="720" y="1230" />
     <CHEST id="25" x="670" y="1200" />
     <CHEST id="26" x="670" y="1260" />
     <CHEST id="27" x="430" y="160" />

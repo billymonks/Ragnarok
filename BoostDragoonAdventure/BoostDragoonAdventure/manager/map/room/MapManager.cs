@@ -100,7 +100,7 @@ namespace wickedcrush.manager.map.room
 
 
             roomManager = new RoomManager();
-            factory = new EntityFactory(entityManager, _game.playerManager, this, _game.controlsManager, _game.soundManager, roomManager, w);
+            factory = new EntityFactory(_game, entityManager, roomManager, w);
 
             //roomManager.SendOfflineAtlas(networkManager);
             
@@ -345,6 +345,11 @@ namespace wickedcrush.manager.map.room
                 {
                     factory.addChest(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
+                foreach (XElement e in objects.Elements("TERMINAL"))
+                {
+                    factory.addTerminal(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
                 foreach (XElement e in objects.Elements("FLOOR_SWITCH"))

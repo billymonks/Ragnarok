@@ -129,6 +129,7 @@
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
+    <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />
     <Compile Include="entity\physics_entity\agent\trap\AimTurret.cs" />
     <Compile Include="entity\physics_entity\agent\trap\triggerable\Triggerable.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
@@ -244,7 +245,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="entity\effects\" />
-    <Folder Include="entity\physics_entity\agent\npc\" />
     <Folder Include="factory\editor\entity\" />
     <Folder Include="factory\menu\editor\" />
   </ItemGroup>

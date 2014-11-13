@@ -247,7 +247,7 @@
     <MURDERER id="4" x="1130" y="580" />
     <MURDERER id="5" x="1060" y="830" />
     <CHEST id="6" x="1200" y="690" />
-    <CHEST id="7" x="950" y="880" />
+    <TERMINAL id="7" x="950" y="880" />
     <MURDERER id="8" x="170" y="140" />
   </OBJECTS>
 </level>
