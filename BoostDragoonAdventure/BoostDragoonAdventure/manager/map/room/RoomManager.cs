@@ -39,6 +39,7 @@ namespace wickedcrush.manager.map.room
     {
         Dictionary<String, RoomInfo> sessionStats;
         public List<RoomInfo> offlineAtlas;
+        public List<RoomInfo> onlineAtlas;
         public Dictionary<String, RoomInfo> localAtlas;
         Random random;
 
@@ -50,6 +51,7 @@ namespace wickedcrush.manager.map.room
 
             sessionStats = new Dictionary<String, RoomInfo>();
             offlineAtlas = new List<RoomInfo>();
+            onlineAtlas = new List<RoomInfo>();
             localAtlas = new Dictionary<String, RoomInfo>();
             random = new Random();
 
@@ -71,6 +73,14 @@ namespace wickedcrush.manager.map.room
 
                 offlineAtlas.Add(temp);
             }
+        }
+
+        public void LoadOnlineAtlas(List<RoomInfo> atlas)
+        {
+            onlineAtlas.Clear();
+
+            foreach (RoomInfo room in atlas)
+                onlineAtlas.Add(room);
         }
 
         private void LoadLocalAtlas()
@@ -215,6 +225,12 @@ namespace wickedcrush.manager.map.room
         public String getRandomOfflineRoom()
         {
             return offlineAtlas[random.Next(offlineAtlas.Count - 1)].localId;
+        }
+
+        public String getRandomOnlineRoom()
+        {
+            RoomInfo info = onlineAtlas[random.Next(onlineAtlas.Count - 1)];
+            return "Content/maps/temp/" + info.globalId + "_" + info.localId + ".xml";
         }
     }
 }

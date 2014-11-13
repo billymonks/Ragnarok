@@ -39,6 +39,7 @@ namespace wickedcrush
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
         public MapManager mapManager;
+        public RoomManager roomManager;
         public NetworkManager networkManager;
 
         public SpriteBatch spriteBatch;
@@ -128,6 +129,7 @@ namespace wickedcrush
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this);
+            roomManager = new RoomManager();
             mapManager = new MapManager(this);
             
 

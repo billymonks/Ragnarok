@@ -55,7 +55,6 @@ namespace wickedcrush.manager.map.room
         public PlayerManager playerManager; //replace with panelManager
         public MapManager mapManager;
         public NetworkManager networkManager;
-
         public RoomManager roomManager;
 
         public EntityFactory factory;
@@ -97,9 +96,10 @@ namespace wickedcrush.manager.map.room
 
             playerManager = _game.playerManager;
             networkManager = _game.networkManager;
+            roomManager = _game.roomManager;
 
 
-            roomManager = new RoomManager();
+            
             factory = new EntityFactory(_game, entityManager, roomManager, w);
 
             //roomManager.SendOfflineAtlas(networkManager);
@@ -155,9 +155,9 @@ namespace wickedcrush.manager.map.room
 
         }
 
-        private void loadSubMap(String SUB_MAP_NAME, Point pos, Direction rotation, bool flipped)
+        private void loadSubMap(String SUB_MAP_PATH, Point pos, Direction rotation, bool flipped)
         {
-            XDocument doc = XDocument.Load(SUB_MAP_NAME);
+            XDocument doc = XDocument.Load(SUB_MAP_PATH);
 
             XElement rootElement = new XElement(doc.Element("level"));
             XElement walls = rootElement.Element("WALLS");
@@ -383,7 +383,7 @@ namespace wickedcrush.manager.map.room
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap(factory.rm.getRandomOfflineRoom(),
+                    loadSubMap(getRandomRoom(),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), false);
@@ -391,7 +391,7 @@ namespace wickedcrush.manager.map.room
 
                 foreach (XElement e in objects.Elements("ROOM_MIRROR"))
                 {
-                    loadSubMap(factory.rm.getRandomOfflineRoom(),
+                    loadSubMap(getRandomRoom(),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), true);
@@ -410,6 +410,18 @@ namespace wickedcrush.manager.map.room
                 factory.processWorldChanges();
 
                 connectTriggers();
+            }
+        }
+
+        private String getRandomRoom()
+        {
+            if (roomManager.onlineAtlas.Count > 0)
+            {
+                return roomManager.getRandomOnlineRoom();
+            }
+            else
+            {
+                return roomManager.getRandomOfflineRoom();
             }
         }
 
