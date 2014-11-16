@@ -10,10 +10,10 @@ namespace wickedcrush.manager.network
 {
     public enum OpCode
     {
-        MapFromServer = 1,
-        MapToServer = 2,
-        AssignMapId = 3,
-        AssignCharId = 4
+        MapFromServer = (byte)1,
+        MapToServer = (byte)2,
+        AssignMapId = (byte)3,
+        AssignCharId = (byte)4
     }
 
     public class PeerListener : IPhotonPeerListener
