@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldServer", "..\WCWorld\WorldServer\WorldServer.csproj", "{978F3C14-B7B2-45C1-BF1F-3C53986293A8}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wicked Crush", "BoostDragoonAdventure\BoostDragoonAdventure\Wicked Crush.csproj", "{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoostDragoonAdventureContent", "BoostDragoonAdventure\BoostDragoonAdventureContent\BoostDragoonAdventureContent.contentproj", "{197AF7BA-EB2B-4D46-9163-D46E64072721}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "BoostDragoonAdventure\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldServer", "..\WCWorld\WorldServer\WorldServer.csproj", "{978F3C14-B7B2-45C1-BF1F-3C53986293A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +19,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.ActiveCfg = bin|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.Build.0 = bin|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|x86.ActiveCfg = Release|Any CPU
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -45,16 +55,6 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.Build.0 = Release|x86
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

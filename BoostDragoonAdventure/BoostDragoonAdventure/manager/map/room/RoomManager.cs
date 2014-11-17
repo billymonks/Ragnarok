@@ -8,6 +8,49 @@ using System.IO;
 
 namespace wickedcrush.manager.map.room
 {
+    public static class RoomInfoList
+    {
+        public static List<RoomInfo> Deserialize(string data)
+        {
+            List<RoomInfo> roomInfoList = new List<RoomInfo>();
+
+            XDocument doc = XDocument.Parse(data);
+
+            XElement rootElement = new XElement(doc.Element("atlas"));
+
+            foreach (XElement e in rootElement.Elements("room"))
+            {
+                RoomInfo temp = new RoomInfo(int.Parse(e.Attribute("globalId").Value), e.Attribute("localId").Value, e.Attribute("roomName").Value, e.Attribute("creatorName").Value);
+
+                roomInfoList.Add(temp);
+            }
+
+            return roomInfoList;
+        }
+
+        public static string Serialize(List<RoomInfo> roomInfoList)
+        {
+            XDocument doc = new XDocument();
+
+            XElement rootElement = new XElement("atlas");
+
+            foreach (RoomInfo roomInfo in roomInfoList)
+            {
+                XElement map = new XElement("room");
+                map.Add(new XAttribute("localId", roomInfo.localId));
+                map.Add(new XAttribute("globalId", roomInfo.globalId));
+                map.Add(new XAttribute("roomName", roomInfo.roomName));
+                map.Add(new XAttribute("creatorName", roomInfo.creatorName));
+
+                rootElement.Add(map);
+            }
+
+            doc.Add(rootElement);
+
+            return doc.ToString();
+        }
+    }
+
     public class RoomInfo
     {
         //network

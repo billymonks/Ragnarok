@@ -5,6 +5,8 @@ using System.Text;
 
 using ExitGames.Client.Photon;
 using System.Xml.Linq;
+using wickedcrush.utility;
+using Microsoft.Xna.Framework;
 
 namespace wickedcrush.manager.network
 {
@@ -32,9 +34,14 @@ namespace wickedcrush.manager.network
         Dictionary<String, AuthoredMap> mapsToSend = new Dictionary<String, AuthoredMap>();
         Dictionary<String, String> charactersToSend = new Dictionary<String, String>();
 
+        public Dictionary<String, Timer> timers;
+
+        public bool mapsRequested = false;
+
         public NetworkManager(Game game)
         {
             listener = new PeerListener(game);
+            timers = new Dictionary<String, Timer>();
 
             if (enabled)
             {
@@ -42,12 +49,14 @@ namespace wickedcrush.manager.network
             }
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             if (!enabled)
             {
                 return;
             }
+
+            UpdateTimers(gameTime);
 
             listener.Update();
 
@@ -62,12 +71,31 @@ namespace wickedcrush.manager.network
                 if (listener.connected)
                     SendQueuedCharacters();
             }
+
+            if (!mapsRequested && listener.connected)
+            {
+                RequestOnlineMaps(1);
+                mapsRequested = true;
+            }
+        }
+
+        private void UpdateTimers(GameTime gameTime)
+        {
+            foreach (KeyValuePair<String, Timer> pair in timers)
+            {
+                pair.Value.Update(gameTime);
+            }
         }
 
         public void Disconnect()
         {
             listener.Disconnect();
             enabled = false;
+        }
+
+        public void RequestOnlineMaps(int count)
+        {
+            listener.RequestOnlineRooms(count);
         }
 
         private bool OkToSend()
@@ -89,7 +117,7 @@ namespace wickedcrush.manager.network
         {
             foreach (KeyValuePair<String, AuthoredMap> pair in mapsToSend)
             {
-                listener.SendMap(pair.Value);
+                listener.SendRoom(pair.Value);
             }
 
             mapsToSend.Clear();

@@ -170,7 +170,7 @@ namespace wickedcrush
 
             playerManager.Update(gameTime);
 
-            networkManager.Update();
+            networkManager.Update(gameTime);
 
             for (int i = screenList.Count - 1; i >= 0; i--)
             {

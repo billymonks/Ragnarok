@@ -5,6 +5,8 @@ using System.Text;
 
 using ExitGames.Client.Photon;
 using System.Xml.Linq;
+using wickedcrush.manager.map.room;
+using System.IO;
 
 namespace wickedcrush.manager.network
 {
@@ -86,9 +88,23 @@ namespace wickedcrush.manager.network
                     _g.mapManager.roomManager.AssignGlobalId((string)operationResponse.Parameters[101], (int)operationResponse.Parameters[102]);
                     break;
 
+                case (byte)OpCode.MapFromServer:
+                    if (!Directory.Exists("Content/maps/temp/"))
+                        Directory.CreateDirectory("Content/maps/temp");
+
+                    List<RoomInfo> atlas = RoomInfoList.Deserialize((string)operationResponse.Parameters[100]);
+                    _g.mapManager.roomManager.LoadOnlineAtlas(atlas);
+
+                    for (int i = 0; i < atlas.Count; i++)
+                    {
+                        File.WriteAllText("Content/maps/temp/" + atlas[i].globalId.ToString() + "_" + atlas[i].localId + ".xml", operationResponse.Parameters[(byte)(101 + i)].ToString());
+                    }
+
+                    break;
+
             }
 
-            Console.WriteLine(operationResponse.ToStringFull());
+            Console.WriteLine(operationResponse.ToString());
         }
 
         public void  OnStatusChanged(StatusCode statusCode)
@@ -111,7 +127,15 @@ namespace wickedcrush.manager.network
             connected = false;
         }
 
-        public void SendMap(AuthoredMap authoredMap)
+        public void RequestOnlineRooms(int count)
+        {
+            var parameters = new Dictionary<byte, object>();
+            parameters[(byte)100] = count;
+            peer.OpCustom((byte)OpCode.MapFromServer, parameters, true);
+            Console.WriteLine("Requesting " + count + " room(s).");
+        }
+
+        public void SendRoom(AuthoredMap authoredMap)
         {
             var parameters = new Dictionary<byte, object>();
             parameters[(byte)100] = authoredMap.mapName; //map name
