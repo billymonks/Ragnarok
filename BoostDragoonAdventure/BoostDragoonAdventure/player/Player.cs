@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.display._3d;
 using wickedcrush.factory.menu.panel;
 using wickedcrush.helper;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 
 namespace wickedcrush.player
 {
@@ -171,6 +171,14 @@ namespace wickedcrush.player
                 panels.Peek().Update(gameTime, c);
             }
             
+        }
+
+        public void CloseAllPanels()
+        {
+            if (agent != null)
+                agent.busy = false;
+
+            panels.Clear();
         }
     }
 }

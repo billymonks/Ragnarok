@@ -22,7 +22,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
         Game _game;
 
         public TerminalNPC(Vector2 pos, Game game)
-            : base(game.mapManager.w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, game.mapManager.factory, game.soundManager)
+            : base(game.gameplayManager.w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, game.gameplayManager.factory, game.soundManager)
         {
             this._game = game;
             Initialize();

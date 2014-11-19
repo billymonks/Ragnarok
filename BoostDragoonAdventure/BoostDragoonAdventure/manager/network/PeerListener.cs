@@ -5,7 +5,7 @@ using System.Text;
 
 using ExitGames.Client.Photon;
 using System.Xml.Linq;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 using System.IO;
 
 namespace wickedcrush.manager.network
@@ -85,7 +85,7 @@ namespace wickedcrush.manager.network
 
                 case (byte)OpCode.MapToServer: //maybe use this to mark jobs as completed 
                     //assign global id to room matching local id
-                    _g.mapManager.roomManager.AssignGlobalId((string)operationResponse.Parameters[101], (int)operationResponse.Parameters[102]);
+                    _g.gameplayManager.roomManager.AssignGlobalId((string)operationResponse.Parameters[101], (int)operationResponse.Parameters[102]);
                     break;
 
                 case (byte)OpCode.MapFromServer:
@@ -93,7 +93,7 @@ namespace wickedcrush.manager.network
                         Directory.CreateDirectory("Content/maps/temp");
 
                     List<RoomInfo> atlas = RoomInfoList.Deserialize((string)operationResponse.Parameters[100]);
-                    _g.mapManager.roomManager.LoadOnlineAtlas(atlas);
+                    _g.gameplayManager.roomManager.LoadOnlineAtlas(atlas);
 
                     for (int i = 0; i < atlas.Count; i++)
                     {

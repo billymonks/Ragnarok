@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using wickedcrush.editor;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 using wickedcrush.player;
 using wickedcrush.manager.audio;
 using Microsoft.Xna.Framework;
@@ -15,7 +15,7 @@ namespace wickedcrush.screen
         public SoundManager _sound;
         RoomInfo room;
 
-        Dictionary<string, RoomInfo> roomAtlas;
+        Dictionary<string, RoomInfo> roomAtlas = new Dictionary<string, RoomInfo>();
         List<String> roomKeysList;
         int selectionIndex;
 
@@ -40,7 +40,14 @@ namespace wickedcrush.screen
 
         private void LoadRoomListFromLocalAtlas()
         {
-            roomAtlas = game.mapManager.roomManager.localAtlas;
+            roomAtlas.Clear();
+
+            foreach (KeyValuePair<string, RoomInfo> pair in game.gameplayManager.roomManager.localAtlas)
+            {
+                if (pair.Value.globalId == -1)
+                    roomAtlas.Add(pair.Key, pair.Value);
+            }
+
             roomKeysList = roomAtlas.Keys.ToList<String>();
         }
 
@@ -80,7 +87,7 @@ namespace wickedcrush.screen
                     room.localId = roomAtlas[roomKeysList[selectionIndex]].localId;
                     room.roomName = roomAtlas[roomKeysList[selectionIndex]].roomName;
                     room.creatorName = roomAtlas[roomKeysList[selectionIndex]].creatorName;
-                    room.ready = true;
+                    room.readyToLoad = true;
                     game.RemoveScreen(this);
                     return;
                 }

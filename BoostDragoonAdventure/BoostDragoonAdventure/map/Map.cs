@@ -15,7 +15,7 @@ using wickedcrush.display._3d;
 using wickedcrush.helper;
 using wickedcrush.stats;
 using wickedcrush.entity.physics_entity.agent.inanimate;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.map
 {
@@ -28,9 +28,9 @@ namespace wickedcrush.map
         public List<Door> doorList;
         public String name;
 
-        private MapManager mapManager;
+        private GameplayManager mapManager;
 
-        public Map(String MAP_NAME, World w, MapManager mapManager)
+        public Map(String MAP_NAME, World w, GameplayManager mapManager)
         {
             layerList = new Dictionary<LayerType, Layer>();
             this.mapManager = mapManager;

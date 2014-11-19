@@ -13,13 +13,14 @@ using wickedcrush.manager.audio;
 using wickedcrush.manager.controls;
 using wickedcrush.manager.entity;
 using wickedcrush.manager.player;
+using wickedcrush.manager.gameplay.room;
 using wickedcrush.map;
 using wickedcrush.map.circuit;
 using wickedcrush.map.layer;
 using wickedcrush.stats;
 using wickedcrush.manager.network;
 
-namespace wickedcrush.manager.map.room
+namespace wickedcrush.manager.gameplay
 {
     public struct Connection
     {
@@ -46,14 +47,13 @@ namespace wickedcrush.manager.map.room
         }
     }
 
-    public class MapManager
+    public class GameplayManager
     {
         public Dictionary<String, MapStats> atlas;
         public Map map;
 
         public EntityManager entityManager;
         public PlayerManager playerManager; //replace with panelManager
-        public MapManager mapManager;
         public NetworkManager networkManager;
         public RoomManager roomManager;
 
@@ -67,7 +67,7 @@ namespace wickedcrush.manager.map.room
 
         private Game _game;
 
-        public MapManager(Game game)
+        public GameplayManager(Game game)
         {
             atlas = new Dictionary<String, MapStats>();
             LoadAtlas();
@@ -98,16 +98,13 @@ namespace wickedcrush.manager.map.room
             networkManager = _game.networkManager;
             roomManager = _game.roomManager;
 
-
-            
             factory = new EntityFactory(_game, entityManager, roomManager, w);
 
-            //roomManager.SendOfflineAtlas(networkManager);
-            
         }
 
         public void Update(GameTime gameTime)
         {
+            playerManager.Update(gameTime); //nothing but panels
             factory.Update();
 
             entityManager.Update(gameTime);
@@ -256,11 +253,6 @@ namespace wickedcrush.manager.map.room
                             240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
                 }
             }
-        }
-
-        public void loadDefaultMap()
-        {
-            loadMap(atlas["big kahuna burger"]);
         }
 
         public void TransitionMap()

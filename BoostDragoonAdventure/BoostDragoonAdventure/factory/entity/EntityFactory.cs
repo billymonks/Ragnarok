@@ -24,22 +24,24 @@ using wickedcrush.entity.physics_entity.agent.chest;
 using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.manager.audio;
 using wickedcrush.entity.physics_entity.agent.inanimate;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay;
 using wickedcrush.entity.physics_entity.agent.trap;
 using wickedcrush.entity.physics_entity.agent.npc;
+using wickedcrush.manager.gameplay;
+using wickedcrush.manager.gameplay.room;
 
 namespace wickedcrush.factory.entity
 {
     public class EntityFactory
     {
         private Game _game; //lol what r u gonna do about it ;) jk pls be nice
-        private EntityManager em;
-        private PlayerManager pm;
-        private MapManager mm;
-        private ControlsManager cm;
-        private SoundManager sm;
-        private World w;
-        public RoomManager rm;
+        private EntityManager _em;
+        private PlayerManager _pm;
+        private GameplayManager _gm;
+        private ControlsManager _cm;
+        private SoundManager _sm;
+        private World _w;
+        public RoomManager _rm;
 
         private List<Door> doorList;
 
@@ -47,44 +49,44 @@ namespace wickedcrush.factory.entity
         {
 
             this._game = game;
-            this.em = em;
-            this.pm = _game.playerManager;
-            this.mm = _game.mapManager;
-            this.cm = _game.controlsManager;
-            this.sm = _game.soundManager;
-            this.rm = rm;
-            this.w = w;
+            this._em = em;
+            this._pm = _game.playerManager;
+            this._gm = _game.gameplayManager;
+            this._cm = _game.controlsManager;
+            this._sm = _game.soundManager;
+            this._rm = rm;
+            this._w = w;
 
             doorList = new List<Door>();
         }
 
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
         {
-            Entity e = new Entity(pos, size, center, sm);
+            Entity e = new Entity(pos, size, center, _sm);
             
-            em.addEntity(e);
+            _em.addEntity(e);
         }
 
         public void addDoor(Vector2 pos, Direction facing, Connection connection)
         {
-            Door d = new Door(w, pos, facing, connection, mm, this, sm);
+            Door d = new Door(_w, pos, facing, connection, _gm, this, _sm);
             doorList.Add(d);
 
-            em.addEntity(d);
+            _em.addEntity(d);
         }
 
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
-            PhysicsEntity e = new PhysicsEntity(w, pos, size, center, solid, sm);
+            PhysicsEntity e = new PhysicsEntity(_w, pos, size, center, solid, _sm);
             
-            em.addEntity(e);
+            _em.addEntity(e);
         }
 
         public PlayerAgent addPlayerAgent(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
         {
-            PlayerAgent agent = new PlayerAgent(w, pos, size, center, solid, c, stats, this, sm, name);
+            PlayerAgent agent = new PlayerAgent(_w, pos, size, center, solid, c, stats, this, _sm, name);
             
-            em.addEntity(agent);
+            _em.addEntity(agent);
             
             return agent;
         }
@@ -92,46 +94,46 @@ namespace wickedcrush.factory.entity
         public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(w, pos, size, center, solid, this, fuckStats, sm);
+            Murderer a = new Murderer(_w, pos, size, center, solid, this, fuckStats, _sm);
             a.stats.set("hp", 80);
             a.stats.set("maxHP", 80);
             a.stats.set("staggerLimit", 100);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 30);
             a.stats.set("staggerDistance", 1);
-            if (mm.map != null)
+            if (_gm.map != null)
             {
-                a.activateNavigator(mm.map);
+                a.activateNavigator(_gm.map);
             }
-            em.addEntity(a);
+            _em.addEntity(a);
         }
 
         public void addTurret(Vector2 pos, Direction facing)
         {
-            Turret t = new Turret(w, pos, this, facing, sm);
+            Turret t = new Turret(_w, pos, this, facing, _sm);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
-            em.addEntity(t);
+            _em.addEntity(t);
         }
 
         public void addAimTurret(Vector2 pos)
         {
-            AimTurret t = new AimTurret(w, pos, this, Direction.East, sm);
+            AimTurret t = new AimTurret(_w, pos, this, Direction.East, _sm);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
-            em.addEntity(t);
+            _em.addEntity(t);
         }
 
         public void addChest(Vector2 pos)
         {
-            Chest c = new Chest(w, pos, this, sm);
+            Chest c = new Chest(_w, pos, this, _sm);
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
-            em.addEntity(c);
+            _em.addEntity(c);
         }
 
         public void addTerminal(Vector2 pos)
@@ -139,67 +141,67 @@ namespace wickedcrush.factory.entity
             TerminalNPC c = new TerminalNPC(pos, _game);
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
-            em.addEntity(c);
+            _em.addEntity(c);
         }
 
         public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            Bolt b = new Bolt(w, pos, size, center, parent, damage, force, sm);
+            Bolt b = new Bolt(_w, pos, size, center, parent, damage, force, _sm);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);
 
-            em.addEntity(b);
+            _em.addEntity(b);
         }
 
         public void addAimedProjectile(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, int aimDirection)
         {
-            AimedProjectile b = new AimedProjectile(w, pos, size, center, parent, damage, force, aimDirection, sm);
+            AimedProjectile b = new AimedProjectile(_w, pos, size, center, parent, damage, force, aimDirection, _sm);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);
 
-            em.addEntity(b);
+            _em.addEntity(b);
         }
 
         public void addFireball(Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusters)
         {
-            Fireball b = new Fireball(w, pos, size, center, parent, facing, damage, force, clusters, sm, this);
+            Fireball b = new Fireball(_w, pos, size, center, parent, facing, damage, force, clusters, _sm, this);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);
 
-            em.addEntity(b);
+            _em.addEntity(b);
         }
 
         public void addFloorSwitch(Vector2 pos)
         {
-            FloorSwitch f = new FloorSwitch(w, pos, this, sm);
+            FloorSwitch f = new FloorSwitch(_w, pos, this, _sm);
 
             f.stats.set("staggerDuration", 1);
             f.stats.set("staggerDistance", 0);
             
-            em.addEntity(f);
+            _em.addEntity(f);
         }
 
         public void addTimerTrigger(Vector2 pos)
         {
-            TimerTrigger t = new TimerTrigger(w, pos, this, sm);
+            TimerTrigger t = new TimerTrigger(_w, pos, this, _sm);
 
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             
-            em.addEntity(t);
+            _em.addEntity(t);
         }
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            MeleeAttack a = new MeleeAttack(w, pos, size, center, parent, damage, force, sm);
+            MeleeAttack a = new MeleeAttack(_w, pos, size, center, parent, damage, force, _sm);
 
             a.stats.set("staggerDuration", 1);
             a.stats.set("staggerDistance", 0);
             
-            em.addEntity(a);
+            _em.addEntity(a);
         }
 
         public void spawnPlayers(int doorIndex)
@@ -213,7 +215,7 @@ namespace wickedcrush.factory.entity
             LinkedListNode<Vector2> current = positions.First;
             
             
-            foreach (Player p in pm.getPlayerList())
+            foreach (Player p in _pm.getPlayerList())
             {
                 if(doorList.Count > doorIndex)
                     p.GenerateAgent(doorList[doorIndex].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
@@ -234,7 +236,7 @@ namespace wickedcrush.factory.entity
             LinkedListNode<Vector2> current = positions.First;
 
 
-            foreach (Player p in pm.getPlayerList())
+            foreach (Player p in _pm.getPlayerList())
             {
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
@@ -252,7 +254,7 @@ namespace wickedcrush.factory.entity
 
         public void processWorldChanges()
         {
-            w.Step(0f);
+            _w.Step(0f);
             //w.ProcessChanges();
         }
     }

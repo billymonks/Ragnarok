@@ -11,7 +11,7 @@ using wickedcrush.factory.editor;
 using wickedcrush.manager.editor.entity;
 using wickedcrush.player;
 using System.IO;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 
 namespace wickedcrush.editor
 {

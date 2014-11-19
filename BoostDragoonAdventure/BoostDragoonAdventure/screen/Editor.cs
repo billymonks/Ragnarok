@@ -18,7 +18,7 @@ using wickedcrush.display.primitives;
 using wickedcrush.factory.editor;
 using wickedcrush.menu.editor.buttonlist;
 using wickedcrush.menu.input;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 using System.IO;
 using System.Xml.Linq;
 
@@ -262,10 +262,10 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            if (roomToLoad.ready)
+            if (roomToLoad.readyToLoad)
             {
                 PollRoom(roomToLoad);
-                roomToLoad.ready = false;
+                roomToLoad.readyToLoad = false;
             }
 
             UpdateTextInput(gameTime);
@@ -448,7 +448,7 @@ namespace wickedcrush.screen
 
         private void PollRoomUpdate()
         {
-            room.stats = game.mapManager.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
+            room.stats = game.gameplayManager.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
         }
 
         public void SaveRoom()
@@ -456,7 +456,7 @@ namespace wickedcrush.screen
             room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
 
             room.saveRoom();
-            game.mapManager.roomManager.AddRoomToLocalAtlas(room.stats);
+            game.gameplayManager.roomManager.AddRoomToLocalAtlas(room.stats);
         }
 
         public void AuthorRoom()

@@ -17,10 +17,11 @@ using wickedcrush.map;
 using wickedcrush.display.primitives;
 using wickedcrush.inventory;
 using wickedcrush.factory.menu.panel;
-using wickedcrush.manager.map.room;
 using wickedcrush.manager.audio;
 using System.Collections.ObjectModel;
 using wickedcrush.manager.network;
+using wickedcrush.manager.gameplay;
+using wickedcrush.manager.gameplay.room;
 
 namespace wickedcrush
 {
@@ -38,7 +39,7 @@ namespace wickedcrush
         public SoundManager soundManager;
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
-        public MapManager mapManager;
+        public GameplayManager gameplayManager;
         public RoomManager roomManager;
         public NetworkManager networkManager;
 
@@ -51,7 +52,7 @@ namespace wickedcrush
         private List<GameScreen> screensToRemove = new List<GameScreen>();
 
         public Map testMap;
-        public String mapName = "";
+        //public String mapName = "";
 
         public String diag = "";
 
@@ -130,7 +131,7 @@ namespace wickedcrush
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this);
             roomManager = new RoomManager();
-            mapManager = new MapManager(this);
+            gameplayManager = new GameplayManager(this);
             
 
             screenList.Add(new PlayerSelect(this));
@@ -168,7 +169,7 @@ namespace wickedcrush
             soundManager.Update(gameTime);
             controlsManager.Update(gameTime);
 
-            playerManager.Update(gameTime);
+            //playerManager.Update(gameTime);
 
             networkManager.Update(gameTime);
 

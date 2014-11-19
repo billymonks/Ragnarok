@@ -86,6 +86,8 @@ namespace wickedcrush.manager.player
 
         public void startTransition()
         {
+            CloseAllPanels();
+
             foreach (Player p in playerList)
             {
                 if(p.getAgent() != null)
@@ -363,6 +365,14 @@ namespace wickedcrush.manager.player
                 }
             }
             return null;
+        }
+
+        public void CloseAllPanels()
+        {
+            foreach (Player p in playerList)
+            {
+                p.CloseAllPanels();
+            }
         }
     }
 }

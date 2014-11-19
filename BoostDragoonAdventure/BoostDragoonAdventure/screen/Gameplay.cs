@@ -25,9 +25,10 @@ using FarseerPhysics;
 using wickedcrush.map.layer;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 using wickedcrush.menu.panel;
 using wickedcrush.utility;
+using wickedcrush.manager.gameplay;
 
 
 namespace wickedcrush.screen
@@ -35,31 +36,35 @@ namespace wickedcrush.screen
     public class Gameplay : GameScreen
     {
 
-        private MapManager mm;
+        private GameplayManager mm;
         public Timer freezeFrameTimer = new Timer(150);
+        Timer readyTimer;
         
-        public Gameplay(Game game)
+        public Gameplay(Game game, String mapName)
         {
-            mm = game.mapManager;
+            mm = game.gameplayManager;
 
             LoadContent(game);
 
             this.game = game;
             
-            Initialize(game);
+            Initialize(game, mapName);
 
         }
 
-        public override void Initialize(Game g)
+        public void Initialize(Game g, String mapName)
         {
             base.Initialize(g);
 
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
-            mm.loadMap(mm.atlas[g.mapName]);
+            mm.loadMap(mm.atlas[mapName]);
             
             mm.factory.spawnPlayers(0);
+
+            readyTimer = new Timer(20);
+            readyTimer.start();
         }
 
         public void UpdateFreezeFrame(GameTime gameTime)
@@ -90,6 +95,11 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+
+            readyTimer.Update(gameTime);
+
+            if (!readyTimer.isDone())
+                return;
 
             UpdateFreezeFrame(gameTime);
 
@@ -138,20 +148,10 @@ namespace wickedcrush.screen
 
         private void DebugControls()
         {
-            if (game.controlsManager.debugControls.KeyPressed(Keys.P))
-            {
-                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(24, 24), new Vector2(12, 12), true);
-            }
-
-            if (game.controlsManager.debugControls.KeyPressed(Keys.O))
-            {
-                mm.factory.addMurderer(new Vector2(600, 160), new Vector2(12, 12), new Vector2(6f, 6f), true);
-            }
-
+            
             if (game.controlsManager.SelectPressed())
             {
                 Dispose();
-                game.RemoveScreen(this);
             }
             
         }
@@ -159,6 +159,7 @@ namespace wickedcrush.screen
         public override void Dispose()
         {
             game.playerManager.saveAllPlayers();
+            game.RemoveScreen(this);
         }
     }
 }

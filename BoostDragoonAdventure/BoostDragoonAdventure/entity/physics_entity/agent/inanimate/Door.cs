@@ -7,7 +7,7 @@ using System.Text;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.factory.entity;
 using wickedcrush.manager.audio;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity.physics_entity.agent.inanimate
 {
@@ -15,13 +15,13 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
     {
         public Connection connection;
 
-        private MapManager mm;
+        private GameplayManager _gameplayManager;
 
-        public Door(World w, Vector2 pos, Direction facing, Connection connection, MapManager mm, EntityFactory factory, SoundManager sound) 
+        public Door(World w, Vector2 pos, Direction facing, Connection connection, GameplayManager gm, EntityFactory factory, SoundManager sound) 
             : base(w, pos, new Vector2(80f, 80f), new Vector2(40f, 40f), false, factory, sound)
         {
             this.facing = facing;
-            this.mm = mm;
+            this._gameplayManager = gm;
             this.connection = connection;
             this.visible = false;
             
@@ -36,7 +36,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
                     && c.Other.UserData != null
                     && c.Other.UserData is PlayerAgent)
                 {
-                    mm.activeConnection = this.connection;
+                    _gameplayManager.activeConnection = this.connection;
                 }
                 
                 c = c.Next;

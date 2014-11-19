@@ -9,14 +9,15 @@ using wickedcrush.manager.controls;
 using Microsoft.Xna.Framework.Input;
 using wickedcrush.utility;
 using wickedcrush.player;
-using wickedcrush.manager.map.room;
+using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.audio;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.screen
 {
     public class MapSelector : GameScreen
     {
-        private MapManager mm;
+        private GameplayManager mm;
         List<String> mapList;
         int selectionIndex;
 
@@ -26,7 +27,7 @@ namespace wickedcrush.screen
 
         public MapSelector(Game game)
         {
-            this.mm = game.mapManager;
+            this.mm = game.gameplayManager;
             this._sound = game.soundManager;
             Initialize(game);
         }
@@ -45,7 +46,7 @@ namespace wickedcrush.screen
 
             LoadMapListFromAtlas();
 
-            game.mapName = "Temple Halls V4";
+            //game.mapName = "Temple Halls V4";
         }
 
         public override void Update(GameTime gameTime)
@@ -108,15 +109,8 @@ namespace wickedcrush.screen
 
                 if (p.c.StartPressed())
                 {
-                    game.mapName = mapList[selectionIndex];
-                    game.AddScreen(new Gameplay(game));
-                    return;
-                }
-
-                if (p.c.ItemAPressed())
-                {
-                    game.mapName = mapList[selectionIndex];
-                    game.AddScreen(new Editor(game));
+                    //game.mapName = mapList[selectionIndex];
+                    game.AddScreen(new Gameplay(game, mapList[selectionIndex]));
                     return;
                 }
 

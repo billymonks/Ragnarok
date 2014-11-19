@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using wickedcrush.manager.network;
 using System.IO;
 
-namespace wickedcrush.manager.map.room
+namespace wickedcrush.manager.gameplay.room
 {
     public static class RoomInfoList
     {
@@ -59,7 +59,8 @@ namespace wickedcrush.manager.map.room
         public String localId;
         public String creatorName;
 
-        public bool ready = false;
+        public bool readyToLoad = false;
+        public bool readyToAuthor = false;
 
         public RoomInfo(String localId)
         {
