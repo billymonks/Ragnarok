@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using wickedcrush.manager.network;
 using wickedcrush.manager.gameplay;
 using wickedcrush.manager.gameplay.room;
+using wickedcrush.manager.screen;
 
 namespace wickedcrush
 {
@@ -42,14 +43,13 @@ namespace wickedcrush
         public GameplayManager gameplayManager;
         public RoomManager roomManager;
         public NetworkManager networkManager;
+        public ScreenManager screenManager;
 
         public SpriteBatch spriteBatch;
 
         public PanelFactory panelFactory;
 
-        private List<GameScreen> screenList = new List<GameScreen>(); //need GameScreen manager
-        private List<GameScreen> screensToAdd = new List<GameScreen>();
-        private List<GameScreen> screensToRemove = new List<GameScreen>();
+        
 
         public Map testMap;
         //public String mapName = "";
@@ -63,7 +63,7 @@ namespace wickedcrush
 
         private BasicEffect e;
         public float debugxscale, debugyscale, xscale, yscale, debugxtranslate, xtranslate;
-        private Matrix debugSpriteScale, spriteScale, fullSpriteScale;
+        public Matrix debugSpriteScale, spriteScale, fullSpriteScale;
 
         public bool debugMode;
 
@@ -132,9 +132,7 @@ namespace wickedcrush
             playerManager = new PlayerManager(this);
             roomManager = new RoomManager();
             gameplayManager = new GameplayManager(this);
-            
-
-            screenList.Add(new PlayerSelect(this));
+            screenManager = new ScreenManager(this, new PlayerSelect(this));
 
         }
 
@@ -158,103 +156,24 @@ namespace wickedcrush
 
         protected override void Update(GameTime gameTime)
         {
-            if (screenList.Count == 0)
-            {
-                networkManager.Disconnect();
-                this.Exit();
-                return;
-            }
-
-
+            screenManager.Update(gameTime);
             soundManager.Update(gameTime);
             controlsManager.Update(gameTime);
 
-            //playerManager.Update(gameTime);
-
             networkManager.Update(gameTime);
 
-            for (int i = screenList.Count - 1; i >= 0; i--)
-            {
-                screenList[i].Update(gameTime);
-                if (screenList[i].exclusiveUpdate)
-                    break;
-            }
-
-            AddScreens();
-            RemoveScreens();
+            
 
             base.Update(gameTime);
         }
 
-        public void AddScreen(GameScreen screen)
-        {
-            screensToAdd.Add(screen);
-        }
+        
 
-        public void RemoveScreen(GameScreen screen)
-        {
-            screensToRemove.Add(screen);
-        }
-
-        private void AddScreens()
-        {
-            foreach (GameScreen screen in screensToAdd)
-            {
-                screenList.Add(screen);
-            }
-
-            screensToAdd.Clear();
-        }
-
-        private void RemoveScreens()
-        {
-            foreach (GameScreen screen in screensToRemove)
-            {
-                screenList.Remove(screen);
-            }
-
-            screensToRemove.Clear();
-        }
+        
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LightCyan);
-
-            int screenIndex = 0;
-
-            for (int i = screenList.Count - 1; i >= 0; i--)
-            {
-                if (screenList[i].exclusiveDraw)
-                {
-                    screenIndex = i;
-                    break;
-                }
-            }
-
-            for (int i = screenIndex; i < screenList.Count; i++)
-            {
-
-                if (debugMode)
-                {
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, debugSpriteScale);
-                    screenList[i].DebugDraw();
-                    spriteBatch.End();
-                }
-                else
-                {
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, spriteScale);
-                    screenList[i].Draw();
-                    spriteBatch.End();
-                }
-
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, fullSpriteScale);
-
-                screenList[i].FullScreenDraw();
-
-                spriteBatch.End();
-
-                screenList[i].FreeDraw();
-            }
+            screenManager.Draw(gameTime);
 
             base.Draw(gameTime);
         }

@@ -98,7 +98,7 @@ namespace wickedcrush.screen
 
         private void LoadRoom()
         {
-            game.AddScreen(new LoadRoomMenuScreen(game, roomToLoad));
+            game.screenManager.AddScreen(new LoadRoomMenuScreen(game, roomToLoad));
             
             //room = new EditorRoom(stats)
         }
@@ -244,7 +244,7 @@ namespace wickedcrush.screen
             Button exitButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Exit", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { game.RemoveScreen(this); }
+                e => { game.screenManager.RemoveScreen(this); }
                 );
 
             menu.controlBar.Add(newButton);

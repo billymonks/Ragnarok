@@ -110,13 +110,13 @@ namespace wickedcrush.screen
                 if (p.c.StartPressed())
                 {
                     //game.mapName = mapList[selectionIndex];
-                    game.AddScreen(new Gameplay(game, mapList[selectionIndex]));
+                    game.screenManager.AddScreen(new Gameplay(game, mapList[selectionIndex]));
                     return;
                 }
 
                 if (p.c.SelectPressed())
                 {
-                    game.RemoveScreen(this);
+                    game.screenManager.RemoveScreen(this);
                     return;
                 }
             }

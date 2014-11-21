@@ -82,7 +82,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                 {
                     if (((PlayerAgent)e).InteractPressed())
                     {
-                        _game.AddScreen(new Editor(_game));
+                        _game.screenManager.AddScreen(new Editor(_game));
                     }
                 }
             }

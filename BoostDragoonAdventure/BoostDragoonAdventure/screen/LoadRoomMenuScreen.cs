@@ -88,13 +88,13 @@ namespace wickedcrush.screen
                     room.roomName = roomAtlas[roomKeysList[selectionIndex]].roomName;
                     room.creatorName = roomAtlas[roomKeysList[selectionIndex]].creatorName;
                     room.readyToLoad = true;
-                    game.RemoveScreen(this);
+                    game.screenManager.RemoveScreen(this);
                     return;
                 }
 
                 if (p.c.SelectPressed())
                 {
-                    game.RemoveScreen(this);
+                    game.screenManager.RemoveScreen(this);
                     return;
                 }
             }

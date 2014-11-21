@@ -120,7 +120,7 @@ namespace wickedcrush.screen
 
             if (ready)
             {
-                game.AddScreen(new MapSelector(game));
+                game.screenManager.AddScreen(new MapSelector(game));
                 rehydrateScreen = true;
             }
         }
@@ -244,7 +244,7 @@ namespace wickedcrush.screen
                     }
                     else
                     {
-                        game.RemoveScreen(this);
+                        game.screenManager.RemoveScreen(this);
                     }
                 }
             }
@@ -317,7 +317,7 @@ namespace wickedcrush.screen
         private void addNewPlayer(User u)
         {
             updateCharList = true;
-            game.AddScreen(new CharCreation(game, u));
+            game.screenManager.AddScreen(new CharCreation(game, u));
             //u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
         }
 

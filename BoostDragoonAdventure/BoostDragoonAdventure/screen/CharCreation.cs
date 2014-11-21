@@ -145,7 +145,7 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
-            game.RemoveScreen(this);
+            game.screenManager.RemoveScreen(this);
         }
     }
 }

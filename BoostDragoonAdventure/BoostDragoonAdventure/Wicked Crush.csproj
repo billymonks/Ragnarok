@@ -148,6 +148,7 @@
     <Compile Include="manager\gameplay\room\RoomManager.cs" />
     <Compile Include="manager\network\NetworkManager.cs" />
     <Compile Include="manager\network\PeerListener.cs" />
+    <Compile Include="manager\screen\ScreenManager.cs" />
     <Compile Include="manager\sprite\SpriteManager.cs" />
     <Compile Include="manager\tween\TweenManager.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="screen\CharCreation.cs" />
     <Compile Include="screen\Editor.cs" />
     <Compile Include="screen\GameScreen.cs" />
+    <Compile Include="screen\LoadingScreen.cs" />
     <Compile Include="screen\LoadRoomMenuScreen.cs" />
     <Compile Include="screen\MapSelector.cs" />
     <Compile Include="screen\Gameplay.cs" />

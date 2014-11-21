@@ -159,7 +159,7 @@ namespace wickedcrush.screen
         public override void Dispose()
         {
             game.playerManager.saveAllPlayers();
-            game.RemoveScreen(this);
+            game.screenManager.RemoveScreen(this);
         }
     }
 }
