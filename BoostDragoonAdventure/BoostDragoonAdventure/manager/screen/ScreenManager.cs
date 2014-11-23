@@ -5,14 +5,17 @@ using System.Text;
 using wickedcrush.screen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.screen.transition;
 
 namespace wickedcrush.manager.screen
 {
     public class ScreenManager
     {
-        private List<GameScreen> screenList = new List<GameScreen>(); //need GameScreen manager
+        private List<GameScreen> screenList = new List<GameScreen>();
         private List<GameScreen> screensToAdd = new List<GameScreen>();
         private List<GameScreen> screensToRemove = new List<GameScreen>();
+
+        private LoadingScreen loadingScreen;
 
         private Game _game;
 
@@ -26,6 +29,7 @@ namespace wickedcrush.manager.screen
         private void Initialize(GameScreen rootScreen)
         {
             screenList.Add(rootScreen);
+            loadingScreen = new LoadingScreen(_game);
         }
 
         public void Update(GameTime gameTime)
@@ -44,11 +48,25 @@ namespace wickedcrush.manager.screen
                     break;
             }
 
-            AddScreens();
             RemoveScreens();
+            AddScreens();
         }
 
-        public void AddScreen(GameScreen screen)
+        public void StartLoading()
+        {
+            AddScreen(loadingScreen);
+        }
+
+        public void EndLoading()
+        {
+            RemoveScreen(loadingScreen);
+            if (screensToAdd.Contains(loadingScreen))
+                screensToAdd.Remove(loadingScreen);
+
+            AddScreen(new SolidColorFadeTransition(_game, 1000, new Color(0f, 0f, 0f, 1f), new Color(0f, 0f, 0f, 0f)));
+        }
+
+        public void AddScreen(GameScreen screen) //moves screen to top if already exists
         {
             screensToAdd.Add(screen);
         }
@@ -62,6 +80,8 @@ namespace wickedcrush.manager.screen
         {
             foreach (GameScreen screen in screensToAdd)
             {
+                if (screenList.Contains(screen))
+                    screenList.Remove(screen);
                 screenList.Add(screen);
             }
 
@@ -72,7 +92,8 @@ namespace wickedcrush.manager.screen
         {
             foreach (GameScreen screen in screensToRemove)
             {
-                screenList.Remove(screen);
+                if(screenList.Contains(screen))
+                    screenList.Remove(screen);
             }
 
             screensToRemove.Clear();

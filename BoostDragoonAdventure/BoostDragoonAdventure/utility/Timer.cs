@@ -83,7 +83,7 @@ namespace wickedcrush.utility
 
         public float getPercent()
         {
-            return ((float)currentTime.Milliseconds) / ((float)interval.Milliseconds);
+            return ((float)currentTime.TotalMilliseconds) / ((float)interval.TotalMilliseconds);
         }
 
         private void checkIfDone()

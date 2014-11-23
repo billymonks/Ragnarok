@@ -86,6 +86,7 @@ namespace wickedcrush.manager.player
 
         public void startTransition()
         {
+            g.screenManager.StartLoading();
             CloseAllPanels();
 
             foreach (Player p in playerList)
@@ -104,6 +105,8 @@ namespace wickedcrush.manager.player
                 if (p.getAgent() != null)
                     p.getAgent().busy = false;
             }
+
+            g.screenManager.EndLoading();
         }
 
         public void UpdatePanels(GameTime gameTime)

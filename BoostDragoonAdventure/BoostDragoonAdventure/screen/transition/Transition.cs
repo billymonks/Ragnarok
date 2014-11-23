@@ -15,19 +15,37 @@ namespace wickedcrush.screen.transition
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            UpdateTimers(gameTime);
+
+            if (timers["transition"].isDone())
+                Dispose();
         }
 
-        public override void Initialize(Game g)
+        public void Initialize(Game g, double transitionTime)
         {
             base.Initialize(g);
 
             timers = new Dictionary<String, Timer>();
+            timers.Add("transition", new Timer(transitionTime));
+            timers["transition"].resetAndStart();
+        }
+
+        protected float GetPercent()
+        {
+            return timers["transition"].getPercent();
         }
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+            game.screenManager.RemoveScreen(this);
+        }
+
+        private void UpdateTimers(GameTime gameTime)
+        {
+            foreach (KeyValuePair<String, Timer> pair in timers)
+            {
+                pair.Value.Update(gameTime);
+            }
         }
     }
 }
