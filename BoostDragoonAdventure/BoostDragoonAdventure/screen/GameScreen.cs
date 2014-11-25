@@ -13,6 +13,8 @@ namespace wickedcrush.screen
 
         public bool exclusiveUpdate = false;
         public bool exclusiveDraw = false;
+        public bool disposed = false;
+        public bool finished = false;
 
         public event EventHandler<EventArgs> Disposed;
 

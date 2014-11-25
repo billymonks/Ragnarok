@@ -10,7 +10,7 @@ namespace wickedcrush.screen.transition
     // Separate from gamestate stack. do not update when in effect, but DO render
     public abstract class Transition : GameScreen
     {
-        public bool disposed = false, finished = false;
+        
         protected Dictionary<String, Timer> timers;
 
         public override void Update(GameTime gameTime)

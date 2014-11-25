@@ -71,6 +71,22 @@ namespace wickedcrush.manager.screen
             screensToAdd.Add(screen);
         }
 
+        public void AddScreen(GameScreen screen, bool autoDispose) 
+        {
+            screensToAdd.Add(screen);
+            if (autoDispose)
+            {
+                _game.taskManager.EnqueueTask(
+                new GameTask(
+                    g => screen.finished,
+                    g =>
+                    {
+                        screen.Dispose();
+                    }
+                ));
+            }
+        }
+
         public void RemoveScreen(GameScreen screen)
         {
             screensToRemove.Add(screen);

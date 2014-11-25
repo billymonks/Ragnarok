@@ -13,12 +13,14 @@ namespace wickedcrush.manager.task
 
         private List<GameTask> taskList;
         private List<GameTask> removeList;
+        private List<GameTask> addList;
 
         public TaskManager(Game g)
         {
             _game = g;
             taskList = new List<GameTask>();
             removeList = new List<GameTask>();
+            addList = new List<GameTask>();
         }
 
         public void Update(GameTime gameTime)
@@ -36,12 +38,17 @@ namespace wickedcrush.manager.task
             {
                 taskList.Remove(t);
             }
+            foreach (GameTask t in addList)
+            {
+                taskList.Add(t);
+            }
             removeList.Clear();
+            addList.Clear();
         }
 
         public void EnqueueTask(GameTask task)
         {
-            taskList.Add(task);
+            addList.Add(task);
         }
     }
 }

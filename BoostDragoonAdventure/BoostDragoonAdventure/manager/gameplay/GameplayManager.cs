@@ -288,18 +288,18 @@ namespace wickedcrush.manager.gameplay
                         g.gameplayManager.loadMap(atlas[activeConnection.mapName]);
                         g.gameplayManager.factory.spawnPlayers(activeConnection.doorIndex);
                         g.playerManager.endTransition();
-                        g.screenManager.AddScreen(fadeInTransition);
+                        g.screenManager.AddScreen(fadeInTransition, true);
                     }
                 ));
 
-            _game.taskManager.EnqueueTask(
+            /*_game.taskManager.EnqueueTask(
                 new GameTask(
                     g => fadeInTransition.finished,
                     g =>
                     {
                         fadeInTransition.Dispose();
                     }
-                ));
+                ));*/
 
         }
 
