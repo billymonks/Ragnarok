@@ -6,6 +6,7 @@ using wickedcrush.screen;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.screen.transition;
+using wickedcrush.task;
 
 namespace wickedcrush.manager.screen
 {
@@ -54,6 +55,7 @@ namespace wickedcrush.manager.screen
 
         public void StartLoading()
         {
+            //AddScreen(new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f)));
             AddScreen(loadingScreen);
         }
 
@@ -62,8 +64,6 @@ namespace wickedcrush.manager.screen
             RemoveScreen(loadingScreen);
             if (screensToAdd.Contains(loadingScreen))
                 screensToAdd.Remove(loadingScreen);
-
-            AddScreen(new SolidColorFadeTransition(_game, 1000, new Color(0f, 0f, 0f, 1f), new Color(0f, 0f, 0f, 0f)));
         }
 
         public void AddScreen(GameScreen screen) //moves screen to top if already exists

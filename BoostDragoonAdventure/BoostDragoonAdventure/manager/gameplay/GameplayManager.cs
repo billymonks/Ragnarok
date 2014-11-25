@@ -19,6 +19,8 @@ using wickedcrush.map.circuit;
 using wickedcrush.map.layer;
 using wickedcrush.stats;
 using wickedcrush.manager.network;
+using wickedcrush.screen.transition;
+using wickedcrush.task;
 
 namespace wickedcrush.manager.gameplay
 {
@@ -113,7 +115,9 @@ namespace wickedcrush.manager.gameplay
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 
             if (playerManager.checkForTransition(map))
+            {
                 TransitionMap();
+            }
         }
 
         public bool getFreezeFrame()
@@ -259,11 +263,44 @@ namespace wickedcrush.manager.gameplay
         {
             if (activeConnection.Equals(null))
                 return;
+            
+            EnqueueFadeOut();
+        }
 
-            playerManager.startTransition();
-            loadMap(atlas[activeConnection.mapName]);
-            factory.spawnPlayers(activeConnection.doorIndex);
-            playerManager.endTransition();
+        private void EnqueueFadeOut()
+        {
+            _game.playerManager.startTransition();
+
+            SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));
+            SolidColorFadeTransition fadeInTransition = new SolidColorFadeTransition(_game, 1000, false, new Color(0f, 0f, 0f, 1f), new Color(0f, 0f, 0f, 0f));
+            _game.taskManager.EnqueueTask(
+                new GameTask(
+                    g => true,
+                    g => { g.screenManager.AddScreen(fadeOutTransition); }
+                ));
+
+            _game.taskManager.EnqueueTask(
+                new GameTask(
+                    g => fadeOutTransition.finished,
+                    g => {
+                        fadeOutTransition.Dispose();
+                        g.screenManager.StartLoading();
+                        g.gameplayManager.loadMap(atlas[activeConnection.mapName]);
+                        g.gameplayManager.factory.spawnPlayers(activeConnection.doorIndex);
+                        g.playerManager.endTransition();
+                        g.screenManager.AddScreen(fadeInTransition);
+                    }
+                ));
+
+            _game.taskManager.EnqueueTask(
+                new GameTask(
+                    g => fadeInTransition.finished,
+                    g =>
+                    {
+                        fadeInTransition.Dispose();
+                    }
+                ));
+
         }
 
         public void loadMap(MapStats mapStats)

@@ -73,6 +73,7 @@ namespace wickedcrush.manager.player
             foreach (Player p in playerList)
             {
                 if(p.getAgent() != null 
+                    && !p.getAgent().busy
                     && (p.getAgent().pos.X < 0
                     || p.getAgent().pos.Y < 0
                     || p.getAgent().pos.X > m.width
@@ -86,7 +87,6 @@ namespace wickedcrush.manager.player
 
         public void startTransition()
         {
-            g.screenManager.StartLoading();
             CloseAllPanels();
 
             foreach (Player p in playerList)

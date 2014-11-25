@@ -23,6 +23,7 @@ using wickedcrush.manager.network;
 using wickedcrush.manager.gameplay;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.screen;
+using wickedcrush.manager.task;
 
 namespace wickedcrush
 {
@@ -36,6 +37,7 @@ namespace wickedcrush
 
     public class Game : Microsoft.Xna.Framework.Game
     {
+        public TaskManager taskManager;
         public GraphicsDeviceManager graphics;
         public SoundManager soundManager;
         public ControlsManager controlsManager;
@@ -127,6 +129,7 @@ namespace wickedcrush
 
             networkManager = new NetworkManager(this);
 
+            taskManager = new TaskManager(this);
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this);
@@ -156,6 +159,7 @@ namespace wickedcrush
 
         protected override void Update(GameTime gameTime)
         {
+            taskManager.Update(gameTime);
             screenManager.Update(gameTime);
             soundManager.Update(gameTime);
             controlsManager.Update(gameTime);

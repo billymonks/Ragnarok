@@ -11,17 +11,17 @@ namespace wickedcrush.screen.transition
     {
         public Color startColor, endColor, drawColor;
 
-        public SolidColorFadeTransition(Game g, double transitionTime, Color startColor, Color endColor)
+        public SolidColorFadeTransition(Game g, double transitionTime, bool exclusiveUpdate, Color startColor, Color endColor)
         {
-            Initialize(g, transitionTime, startColor, endColor);
+            Initialize(g, transitionTime, exclusiveUpdate, startColor, endColor);
         }
 
-        public void Initialize(Game g, double transitionTime, Color startColor, Color endColor)
+        public void Initialize(Game g, double transitionTime, bool exclusiveUpdate, Color startColor, Color endColor)
         {
             base.Initialize(g, transitionTime);
 
             exclusiveDraw = false;
-            exclusiveUpdate = false;
+            this.exclusiveUpdate = exclusiveUpdate;
 
             this.startColor = startColor;
             this.endColor = endColor;

@@ -150,21 +150,14 @@ namespace wickedcrush.player
             if ((c.StartPressed() || agent == null || agent.dead) && panels.Count > 0)
             {
                 panels.Pop();
+                if (agent != null)
+                    agent.busy = false;
             }
             else if ((c.StartPressed() && agent != null && !agent.dead) && panels.Count == 0)
             {
                 panels.Push(inventoryPanel);
-            }
-
-            if (agent != null)
-            {
-                if (panels.Count == 0)
-                    agent.busy = false;
-                else
-                    agent.busy = true;
-            }
-
-            
+                agent.busy = true;
+            }            
 
             if (panels.Count > 0)
             {
