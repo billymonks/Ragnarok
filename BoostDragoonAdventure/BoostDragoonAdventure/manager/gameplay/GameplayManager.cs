@@ -55,9 +55,9 @@ namespace wickedcrush.manager.gameplay
         public Map map;
 
         public EntityManager entityManager;
-        public PlayerManager playerManager; //replace with panelManager
-        public NetworkManager networkManager;
-        public RoomManager roomManager;
+        public PlayerManager _playerManager; //replace with panelManager
+        public NetworkManager _networkManager;
+        public RoomManager _roomManager;
 
         public EntityFactory factory;
 
@@ -96,17 +96,17 @@ namespace wickedcrush.manager.gameplay
             else
                 entityManager.RemoveAll();
 
-            playerManager = _game.playerManager;
-            networkManager = _game.networkManager;
-            roomManager = _game.roomManager;
+            _playerManager = _game.playerManager;
+            _networkManager = _game.networkManager;
+            _roomManager = _game.roomManager;
 
-            factory = new EntityFactory(_game, entityManager, roomManager, w);
+            factory = new EntityFactory(_game, entityManager, _roomManager, w);
 
         }
 
         public void Update(GameTime gameTime)
         {
-            playerManager.Update(gameTime); //nothing but panels
+            _playerManager.Update(gameTime); //nothing but panels
             factory.Update();
 
             entityManager.Update(gameTime);
@@ -114,7 +114,7 @@ namespace wickedcrush.manager.gameplay
 
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 
-            if (playerManager.checkForTransition(map))
+            if (_playerManager.checkForTransition(map))
             {
                 TransitionMap();
             }
@@ -122,7 +122,7 @@ namespace wickedcrush.manager.gameplay
 
         public bool getFreezeFrame()
         {
-            return playerManager.pollDodgeSuccess();
+            return _playerManager.pollDodgeSuccess();
         }
 
         private void LoadAtlas()
@@ -264,10 +264,10 @@ namespace wickedcrush.manager.gameplay
             if (activeConnection.Equals(null))
                 return;
             
-            EnqueueFadeOut();
+            EnqueueMapTransition();
         }
 
-        private void EnqueueFadeOut()
+        private void EnqueueMapTransition()
         {
             _game.playerManager.startTransition();
 
@@ -291,16 +291,6 @@ namespace wickedcrush.manager.gameplay
                         g.screenManager.AddScreen(fadeInTransition, true);
                     }
                 ));
-
-            /*_game.taskManager.EnqueueTask(
-                new GameTask(
-                    g => fadeInTransition.finished,
-                    g =>
-                    {
-                        fadeInTransition.Dispose();
-                    }
-                ));*/
-
         }
 
         public void loadMap(MapStats mapStats)
@@ -444,13 +434,13 @@ namespace wickedcrush.manager.gameplay
 
         private String getRandomRoom()
         {
-            if (roomManager.onlineAtlas.Count > 0)
+            if (_roomManager.onlineAtlas.Count > 0)
             {
-                return roomManager.getRandomOnlineRoom();
+                return _roomManager.getRandomOnlineRoom();
             }
             else
             {
-                return roomManager.getRandomOfflineRoom();
+                return _roomManager.getRandomOfflineRoom();
             }
         }
 

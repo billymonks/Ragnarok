@@ -36,32 +36,41 @@ namespace wickedcrush.screen
     public class Gameplay : GameScreen
     {
 
-        private GameplayManager mm;
+        private GameplayManager _gm;
         public Timer freezeFrameTimer = new Timer(150);
         Timer readyTimer;
+
+        bool testMode;
         
         public Gameplay(Game game, String mapName)
         {
-            mm = game.gameplayManager;
+            _gm = game.gameplayManager;
 
             LoadContent(game);
 
             this.game = game;
             
-            Initialize(game, mapName);
+            Initialize(game, mapName, false);
 
         }
 
-        public void Initialize(Game g, String mapName)
+        public Gameplay(Game game, RoomInfo roomToTest)
+        {
+
+        }
+
+        public void Initialize(Game g, String mapName, bool testMode)
         {
             base.Initialize(g);
+
+            this.testMode = testMode;
 
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
-            mm.loadMap(mm.atlas[mapName]);
+            _gm.loadMap(_gm.atlas[mapName]);
             
-            mm.factory.spawnPlayers(0);
+            _gm.factory.spawnPlayers(0);
 
             readyTimer = new Timer(20);
             readyTimer.start();
@@ -69,7 +78,7 @@ namespace wickedcrush.screen
 
         public void UpdateFreezeFrame(GameTime gameTime)
         {
-            if(mm.getFreezeFrame())
+            if(_gm.getFreezeFrame())
                 freezeFrameTimer.resetAndStart();
 
             freezeFrameTimer.Update(gameTime);
@@ -79,7 +88,7 @@ namespace wickedcrush.screen
         {
             Layer wiring = map.getLayer(LayerType.WIRING);
 
-            mm.entityManager.connectWiring(wiring);
+            _gm.entityManager.connectWiring(wiring);
         }
 
         private void checkAndAdd()
@@ -104,7 +113,7 @@ namespace wickedcrush.screen
             UpdateFreezeFrame(gameTime);
 
             if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
-                mm.Update(gameTime);
+                _gm.Update(gameTime);
             
             DebugControls();
 
@@ -117,9 +126,9 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            mm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mm.camera);
-            mm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, mm.camera);
-            game.playerManager.DebugDrawPanels(game.spriteBatch, mm.camera, game.testFont);
+            _gm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, _gm.camera);
+            _gm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, _gm.camera);
+            game.playerManager.DebugDrawPanels(game.spriteBatch, _gm.camera, game.testFont);
 
             DrawHud();
 

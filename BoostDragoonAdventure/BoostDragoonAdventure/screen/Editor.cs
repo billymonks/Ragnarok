@@ -448,7 +448,7 @@ namespace wickedcrush.screen
 
         private void PollRoomUpdate()
         {
-            room.stats = game.gameplayManager.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
+            room.stats = game.gameplayManager._roomManager.GetRoomFromLocalAtlas(room.stats.localId);
         }
 
         public void SaveRoom()
@@ -456,7 +456,7 @@ namespace wickedcrush.screen
             room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
 
             room.saveRoom();
-            game.gameplayManager.roomManager.AddRoomToLocalAtlas(room.stats);
+            game.gameplayManager._roomManager.AddRoomToLocalAtlas(room.stats);
         }
 
         public void AuthorRoom()

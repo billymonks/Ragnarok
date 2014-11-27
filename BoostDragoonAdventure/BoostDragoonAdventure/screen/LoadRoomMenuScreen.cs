@@ -42,7 +42,7 @@ namespace wickedcrush.screen
         {
             roomAtlas.Clear();
 
-            foreach (KeyValuePair<string, RoomInfo> pair in game.gameplayManager.roomManager.localAtlas)
+            foreach (KeyValuePair<string, RoomInfo> pair in game.gameplayManager._roomManager.localAtlas)
             {
                 if (pair.Value.globalId == -1)
                     roomAtlas.Add(pair.Key, pair.Value);
