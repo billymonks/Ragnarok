@@ -36,7 +36,7 @@ namespace wickedcrush.screen
     public class Gameplay : GameScreen
     {
 
-        private GameplayManager _gm;
+        private GameplayManager gameplayManager;
         public Timer freezeFrameTimer = new Timer(150);
         Timer readyTimer;
 
@@ -44,7 +44,7 @@ namespace wickedcrush.screen
         
         public Gameplay(Game game, String mapName)
         {
-            _gm = game.gameplayManager;
+            gameplayManager = new GameplayManager(game);
 
             LoadContent(game);
 
@@ -68,9 +68,9 @@ namespace wickedcrush.screen
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
-            _gm.loadMap(_gm.atlas[mapName]);
+            gameplayManager.LoadMap(mapName);
             
-            _gm.factory.spawnPlayers(0);
+            gameplayManager.factory.spawnPlayers(0);
 
             readyTimer = new Timer(20);
             readyTimer.start();
@@ -78,7 +78,7 @@ namespace wickedcrush.screen
 
         public void UpdateFreezeFrame(GameTime gameTime)
         {
-            if(_gm.getFreezeFrame())
+            if(gameplayManager.getFreezeFrame())
                 freezeFrameTimer.resetAndStart();
 
             freezeFrameTimer.Update(gameTime);
@@ -88,7 +88,7 @@ namespace wickedcrush.screen
         {
             Layer wiring = map.getLayer(LayerType.WIRING);
 
-            _gm.entityManager.connectWiring(wiring);
+            gameplayManager.entityManager.connectWiring(wiring);
         }
 
         private void checkAndAdd()
@@ -113,7 +113,7 @@ namespace wickedcrush.screen
             UpdateFreezeFrame(gameTime);
 
             if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
-                _gm.Update(gameTime);
+                gameplayManager.Update(gameTime);
             
             DebugControls();
 
@@ -126,9 +126,9 @@ namespace wickedcrush.screen
 
         public override void DebugDraw()
         {
-            _gm.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, _gm.camera);
-            _gm.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, _gm.camera);
-            game.playerManager.DebugDrawPanels(game.spriteBatch, _gm.camera, game.testFont);
+            gameplayManager.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, gameplayManager.camera);
+            gameplayManager.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, gameplayManager.camera);
+            game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
 
             DrawHud();
 

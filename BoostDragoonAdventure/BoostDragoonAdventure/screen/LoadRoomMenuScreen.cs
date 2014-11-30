@@ -13,6 +13,7 @@ namespace wickedcrush.screen
     public class LoadRoomMenuScreen : GameScreen
     {
         public SoundManager _sound;
+        public RoomManager _rm;
         RoomInfo room;
 
         Dictionary<string, RoomInfo> roomAtlas = new Dictionary<string, RoomInfo>();
@@ -21,11 +22,11 @@ namespace wickedcrush.screen
 
         public LoadRoomMenuScreen(Game g, RoomInfo room)
         {
-            Initialize(g);
-
+            this._rm = g.roomManager;
             this.room = room;
             this._sound = g.soundManager;
-            
+
+            Initialize(g);
         }
 
         public override void Initialize(Game g)
@@ -42,7 +43,9 @@ namespace wickedcrush.screen
         {
             roomAtlas.Clear();
 
-            foreach (KeyValuePair<string, RoomInfo> pair in game.gameplayManager._roomManager.localAtlas)
+            //_rm.LoadLocalAtlas();
+
+            foreach (KeyValuePair<string, RoomInfo> pair in _rm.localAtlas)
             {
                 if (pair.Value.globalId == -1)
                     roomAtlas.Add(pair.Key, pair.Value);

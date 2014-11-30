@@ -8,6 +8,7 @@ using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.factory.entity;
 using wickedcrush.manager.audio;
 using wickedcrush.manager.gameplay;
+using wickedcrush.manager.map;
 
 namespace wickedcrush.entity.physics_entity.agent.inanimate
 {

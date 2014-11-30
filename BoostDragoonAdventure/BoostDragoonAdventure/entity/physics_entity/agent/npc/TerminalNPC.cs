@@ -14,6 +14,7 @@ using wickedcrush.display._3d;
 using wickedcrush.behavior;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.screen;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity.physics_entity.agent.npc
 {
@@ -21,8 +22,8 @@ namespace wickedcrush.entity.physics_entity.agent.npc
     {
         Game _game;
 
-        public TerminalNPC(Vector2 pos, Game game)
-            : base(game.gameplayManager.w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, game.gameplayManager.factory, game.soundManager)
+        public TerminalNPC(Vector2 pos, Game game, GameplayManager gameplayManager)
+            : base(gameplayManager.w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, gameplayManager.factory, game.soundManager)
         {
             this._game = game;
             Initialize();

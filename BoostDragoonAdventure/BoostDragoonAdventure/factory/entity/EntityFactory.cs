@@ -29,6 +29,7 @@ using wickedcrush.entity.physics_entity.agent.trap;
 using wickedcrush.entity.physics_entity.agent.npc;
 using wickedcrush.manager.gameplay;
 using wickedcrush.manager.gameplay.room;
+using wickedcrush.manager.map;
 
 namespace wickedcrush.factory.entity
 {
@@ -45,13 +46,13 @@ namespace wickedcrush.factory.entity
 
         private List<Door> doorList;
 
-        public EntityFactory(Game game, EntityManager em, RoomManager rm, World w)
+        public EntityFactory(Game game, GameplayManager gm, EntityManager em, RoomManager rm, World w)
         {
 
             this._game = game;
             this._em = em;
             this._pm = _game.playerManager;
-            this._gm = _game.gameplayManager;
+            this._gm = gm;
             this._cm = _game.controlsManager;
             this._sm = _game.soundManager;
             this._rm = rm;
@@ -138,7 +139,7 @@ namespace wickedcrush.factory.entity
 
         public void addTerminal(Vector2 pos)
         {
-            TerminalNPC c = new TerminalNPC(pos, _game);
+            TerminalNPC c = new TerminalNPC(pos, _game, _gm);
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
             _em.addEntity(c);

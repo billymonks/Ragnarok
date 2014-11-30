@@ -146,6 +146,7 @@
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
     <Compile Include="manager\gameplay\GameplayManager.cs" />
     <Compile Include="manager\gameplay\room\RoomManager.cs" />
+    <Compile Include="manager\map\MapManager.cs" />
     <Compile Include="manager\network\NetworkManager.cs" />
     <Compile Include="manager\network\PeerListener.cs" />
     <Compile Include="manager\screen\ScreenManager.cs" />

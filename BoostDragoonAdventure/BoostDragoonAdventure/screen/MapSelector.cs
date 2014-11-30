@@ -17,7 +17,7 @@ namespace wickedcrush.screen
 {
     public class MapSelector : GameScreen
     {
-        private GameplayManager mm;
+        //private GameplayManager _gm;
         List<String> mapList;
         int selectionIndex;
 
@@ -27,7 +27,7 @@ namespace wickedcrush.screen
 
         public MapSelector(Game game)
         {
-            this.mm = game.gameplayManager;
+            //this._gm = gameplayManager;
             this._sound = game.soundManager;
             Initialize(game);
         }
@@ -62,7 +62,7 @@ namespace wickedcrush.screen
 
         private void LoadMapListFromAtlas()
         {
-            mapList = mm.atlas.Keys.ToList<String>();
+            mapList = game.mapManager.atlas.Keys.ToList<String>();
 
         }
 

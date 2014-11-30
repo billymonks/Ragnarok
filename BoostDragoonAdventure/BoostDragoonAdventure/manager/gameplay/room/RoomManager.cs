@@ -127,7 +127,7 @@ namespace wickedcrush.manager.gameplay.room
                 onlineAtlas.Add(room);
         }
 
-        private void LoadLocalAtlas()
+        public void LoadLocalAtlas()
         {
             XDocument doc;
             XElement rootElement;
@@ -224,7 +224,9 @@ namespace wickedcrush.manager.gameplay.room
             LoadLocalAtlas();
 
             if (localAtlas.ContainsKey(room.localId))
-                return;
+            {
+                localAtlas.Remove(room.localId);
+            }
 
             localAtlas.Add(room.localId, room);
 

@@ -358,21 +358,6 @@ namespace wickedcrush.screen
         private void DebugControls(GameTime gameTime)
         {
             KeyboardControls keyboard = game.controlsManager.getKeyboard();
-            
-            /*if (textInput == null) // doesn't work, the textInput = null code comes in too early for this to work
-            {
-                foreach (Player p in game.playerManager.getPlayerList()) //move these foreach to playermanager, create methods that use all players
-                {
-                    if (p.c.SelectPressed())
-                    {
-
-                        Dispose();
-                        game.screenStack.Pop();
-                        return;
-
-                    }
-                }
-            }*/
 
             UpdateCursorPosition(keyboard);
 
@@ -448,7 +433,7 @@ namespace wickedcrush.screen
 
         private void PollRoomUpdate()
         {
-            room.stats = game.gameplayManager._roomManager.GetRoomFromLocalAtlas(room.stats.localId);
+            room.stats = game.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
         }
 
         public void SaveRoom()
@@ -456,7 +441,7 @@ namespace wickedcrush.screen
             room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
 
             room.saveRoom();
-            game.gameplayManager._roomManager.AddRoomToLocalAtlas(room.stats);
+            game.roomManager.AddRoomToLocalAtlas(room.stats);
         }
 
         public void AuthorRoom()

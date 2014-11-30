@@ -21,37 +21,13 @@ using wickedcrush.stats;
 using wickedcrush.manager.network;
 using wickedcrush.screen.transition;
 using wickedcrush.task;
+using wickedcrush.manager.map;
 
 namespace wickedcrush.manager.gameplay
 {
-    public struct Connection
-    {
-        public String mapName;
-        public int doorIndex;
-
-        public Connection(String mapName, int doorIndex)
-        {
-            this.mapName = mapName;
-            this.doorIndex = doorIndex;
-        }
-    }
-
-    public struct MapStats
-    {
-        public String name, filename;
-        public List<Connection> connections;
-
-        public MapStats(String name, String filename, List<Connection> connections)
-        {
-            this.name = name;
-            this.filename = filename;
-            this.connections = connections;
-        }
-    }
-
     public class GameplayManager
     {
-        public Dictionary<String, MapStats> atlas;
+        
         public Map map;
 
         public EntityManager entityManager;
@@ -71,11 +47,6 @@ namespace wickedcrush.manager.gameplay
 
         public GameplayManager(Game game)
         {
-            atlas = new Dictionary<String, MapStats>();
-            LoadAtlas();
-
-            
-
             _game = game;
 
             Initialize();
@@ -100,7 +71,7 @@ namespace wickedcrush.manager.gameplay
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
 
-            factory = new EntityFactory(_game, entityManager, _roomManager, w);
+            factory = new EntityFactory(_game, this, entityManager, _roomManager, w);
 
         }
 
@@ -125,139 +96,7 @@ namespace wickedcrush.manager.gameplay
             return _playerManager.pollDodgeSuccess();
         }
 
-        private void LoadAtlas()
-        {
-            atlas.Clear();
-
-            String path = "Content/maps/atlas/MapAtlas.xml";
-            XDocument doc = XDocument.Load(path);
-            XElement rootElement = new XElement(doc.Element("atlas"));
-
-            foreach (XElement e in rootElement.Elements("map"))
-            {
-                String name, fileName;
-                List<Connection> connections = new List<Connection>();
-
-                name = e.Attribute("name").Value;
-                fileName = e.Attribute("filename").Value;
-
-                foreach (XElement connection in e.Elements("connection"))
-                {
-                    connections.Add(
-                        new Connection(connection.Value,
-                            int.Parse(connection.Attribute("doorIndex").Value)));
-                }
-
-                MapStats temp = new MapStats(name, fileName, connections);
-
-
-                atlas.Add(name, temp);
-            }
-
-        }
-
-        private void loadSubMap(String SUB_MAP_PATH, Point pos, Direction rotation, bool flipped)
-        {
-            XDocument doc = XDocument.Load(SUB_MAP_PATH);
-
-            XElement rootElement = new XElement(doc.Element("level"));
-            XElement walls = rootElement.Element("WALLS");
-            XElement deathSoup = rootElement.Element("DEATHSOUP");
-            XElement wiring = rootElement.Element("WIRING");
-            XElement objects = rootElement.Element("OBJECTS");
-
-            pos.X -= 320;
-            pos.Y -= 240;
-
-            float tempX, tempY;
-            int tempRotation;
-
-            bool[,] data;
-
-            if (walls != null)
-            {
-                data = getLayerData(walls.Value);
-                map.addRoomLayer(pos, data, LayerType.WALL, rotation, flipped);
-            }
-
-            if (deathSoup != null)
-            {
-                data = getLayerData(deathSoup.Value);
-                map.addRoomLayer(pos, data, LayerType.DEATHSOUP, rotation, flipped);
-            }
-
-            if (wiring != null)
-            {
-                data = getLayerData(wiring.Value);
-                map.addRoomLayer(pos, data, LayerType.WIRING, rotation, flipped);
-            }
-
-            if (objects != null)
-            {
-                foreach (XElement e in objects.Elements("TURRET"))
-                {
-                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
-                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
-                    tempRotation = int.Parse(e.Attribute("angle").Value);
-
-                    if (flipped)
-                    {
-                        tempX *= -1;
-                        if (tempRotation % 180 == 0)
-                            tempRotation += 180;
-                    }
-
-                    factory.addTurret(
-                        new Vector2(
-                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
-                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),
-                            (Direction)((tempRotation + (int)rotation) % 360));
-
-                }
-
-                foreach (XElement e in objects.Elements("CHEST"))
-                {
-                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
-                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
-
-                    if (flipped)
-                        tempX *= -1;
-
-                    factory.addChest(
-                        new Vector2(
-                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
-                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
-                }
-
-                foreach (XElement e in objects.Elements("FLOOR_SWITCH"))
-                {
-                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
-                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
-
-                    if (flipped)
-                        tempX *= -1;
-
-                    factory.addFloorSwitch(
-                        new Vector2(
-                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
-                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
-                }
-
-                foreach (XElement e in objects.Elements("TIMER"))
-                {
-                    tempX = float.Parse(e.Attribute("x").Value) - 320f;
-                    tempY = float.Parse(e.Attribute("y").Value) - 240f;
-
-                    if (flipped)
-                        tempX *= -1;
-
-                    factory.addTimerTrigger(
-                        new Vector2(
-                            320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
-                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
-                }
-            }
-        }
+        
 
         public void TransitionMap()
         {
@@ -265,6 +104,14 @@ namespace wickedcrush.manager.gameplay
                 return;
             
             EnqueueMapTransition();
+        }
+
+        public void LoadMap(String mapName)
+        {
+            Initialize();
+            MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
+            map = new Map(mapStats.filename, w, this);
+            _game.mapManager.LoadMap(this, map, mapStats);
         }
 
         private void EnqueueMapTransition()
@@ -285,246 +132,21 @@ namespace wickedcrush.manager.gameplay
                     g => {
                         fadeOutTransition.Dispose();
                         g.screenManager.StartLoading();
-                        g.gameplayManager.loadMap(atlas[activeConnection.mapName]);
-                        g.gameplayManager.factory.spawnPlayers(activeConnection.doorIndex);
+                        LoadMap(activeConnection.mapName);
+                        factory.spawnPlayers(activeConnection.doorIndex);
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
                     }
                 ));
         }
 
-        public void loadMap(MapStats mapStats)
-        {
-            Initialize();
+        
 
-            int doorCount = 0;
+        
 
-            map = new Map(mapStats.filename, w, this);
+        
 
-            XDocument doc = XDocument.Load(mapStats.filename);
-
-            XElement rootElement = new XElement(doc.Element("level"));
-            XElement walls = rootElement.Element("WALLS");
-            XElement deathSoup = rootElement.Element("DEATHSOUP");
-            XElement wiring = rootElement.Element("WIRING");
-            XElement objects = rootElement.Element("OBJECTS");
-
-            map.name = mapStats.name;
-            map.width = int.Parse(rootElement.Attribute("width").Value);
-            map.height = int.Parse(rootElement.Attribute("height").Value);
-
-            bool[,] data;
-
-            if (walls != null)
-            {
-                data = getLayerData(walls.Value);
-                map.addLayer(w, data, LayerType.WALL);
-            }
-            else
-            {
-                map.addEmptyLayer(w, LayerType.WALL);
-            }
-
-            if (deathSoup != null)
-            {
-                data = getLayerData(deathSoup.Value);
-                map.addLayer(w, data, LayerType.DEATHSOUP);
-            }
-            else
-            {
-                map.addEmptyLayer(w, LayerType.DEATHSOUP);
-            }
-
-            if (wiring != null)
-            {
-                data = getLayerData(wiring.Value);
-                map.addLayer(w, data, LayerType.WIRING);
-            }
-            else
-            {
-                map.addEmptyLayer(w, LayerType.WIRING);
-            }
-
-            if (objects != null)
-            {
-                foreach (XElement e in objects.Elements("TURRET"))
-                {
-                    factory.addTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value));
-                }
-
-                foreach (XElement e in objects.Elements("AIM_TURRET"))
-                {
-                    factory.addAimTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                }
-
-                foreach (XElement e in objects.Elements("CHEST"))
-                {
-                    factory.addChest(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                }
-
-                foreach (XElement e in objects.Elements("TERMINAL"))
-                {
-                    factory.addTerminal(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                }
-
-                foreach (XElement e in objects.Elements("FLOOR_SWITCH"))
-                {
-                    factory.addFloorSwitch(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                }
-
-                foreach (XElement e in objects.Elements("TIMER"))
-                {
-                    factory.addTimerTrigger(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                }
-
-                foreach (XElement e in objects.Elements("DOOR"))
-                {
-                    factory.addDoor(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value),
-                        mapStats.connections[doorCount]);
-
-                    doorCount++;
-                }
-
-                foreach (XElement e in objects.Elements("MURDERER"))
-                {
-                    factory.addMurderer(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(24, 24), new Vector2(12, 12), true);
-                }
-
-                foreach (XElement e in objects.Elements("ROOM"))
-                {
-                    loadSubMap(getRandomRoom(),
-                        new Point(int.Parse(e.Attribute("x").Value),
-                        int.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value), false);
-                }
-
-                foreach (XElement e in objects.Elements("ROOM_MIRROR"))
-                {
-                    loadSubMap(getRandomRoom(),
-                        new Point(int.Parse(e.Attribute("x").Value),
-                        int.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value), true);
-                }
-
-                foreach (KeyValuePair<LayerType, Layer> pair in map.layerList)
-                {
-                    if (pair.Key.Equals(LayerType.WALL))
-                        pair.Value.generateBodies(w, map.width, map.height, true);
-                    else
-                        pair.Value.generateBodies(w, map.width, map.height, false);
-                }
-
-                makeCircuits();
-
-                factory.processWorldChanges();
-
-                connectTriggers();
-            }
-        }
-
-        private String getRandomRoom()
-        {
-            if (_roomManager.onlineAtlas.Count > 0)
-            {
-                return _roomManager.getRandomOnlineRoom();
-            }
-            else
-            {
-                return _roomManager.getRandomOfflineRoom();
-            }
-        }
-
-        //perverse circuit logic starts here. beware. move to somewhere smarter someday.
-        public void connectTriggers()
-        {
-            foreach (Circuit c in map.circuitList)
-                c.connectTriggers();
-        }
-
-        private void makeCircuits()
-        {
-            map.circuitList = new List<Circuit>();
-
-            Layer wiringLayer = map.getLayer(LayerType.WIRING);
-
-            for (int i = 0; i < wiringLayer.bodyList.GetLength(0); i++)
-                for (int j = 0; j < wiringLayer.bodyList.GetLength(1); j++)
-                {
-                    getConnections(wiringLayer, i, j);
-                }
-        }
-
-        private void getConnections(Layer wiring, int x, int y)
-        {
-            List<Body> openList = new List<Body>();
-            List<Body> closedList = new List<Body>();
-
-            if (wiring.getCoordinate(x, y) && !inCircuit(wiring.bodyList[x, y]))
-            {
-                addCircuit(wiring, x, y);
-            }
-        }
-
-        private void addCircuit(Layer wiring, int x, int y)
-        {
-            Circuit c = new Circuit();
-
-            addConnectionsToCircuit(c, wiring, x, y);
-
-            map.circuitList.Add(c);
-        }
-
-        private void addConnectionsToCircuit(Circuit c, Layer wiring, int x, int y)
-        {
-            if (x >= 0 && x < wiring.getWidth() && y >= 0 && y < wiring.getHeight() && wiring.getCoordinate(x, y) && !c.contains(wiring.bodyList[x, y]))
-            {
-                c.addWiring(wiring.bodyList[x, y]);
-
-                addConnectionsToCircuit(c, wiring, x - 1, y);
-                addConnectionsToCircuit(c, wiring, x + 1, y);
-                addConnectionsToCircuit(c, wiring, x, y - 1);
-                addConnectionsToCircuit(c, wiring, x, y + 1);
-            }
-        }
-
-        private bool inCircuit(Body wire)
-        {
-            if (map.circuitList == null)
-                return false;
-
-            foreach (Circuit c in map.circuitList)
-            {
-                if (c.contains(wire))
-                    return true;
-            }
-
-            return false;
-        }
-
-        private bool[,] getLayerData(String s)
-        {
-            char[] separator = new char[1];
-            separator[0] = '\n';
-            String[] splitString = s.Split(separator);
-
-            bool[,] data = new bool[splitString[0].Length, splitString.GetLength(0)];
-
-            for (int i = 0; i < data.GetLength(0); i++)
-                for (int j = 0; j < data.GetLength(1); j++)
-                    data[i, j] = Helper.CharToBool(splitString[j].ToArray()[i]);
-
-            return data;
-        }
+        
 
     }
 

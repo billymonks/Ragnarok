@@ -24,6 +24,7 @@ using wickedcrush.manager.gameplay;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.screen;
 using wickedcrush.manager.task;
+using wickedcrush.manager.map;
 
 namespace wickedcrush
 {
@@ -42,10 +43,12 @@ namespace wickedcrush
         public SoundManager soundManager;
         public ControlsManager controlsManager;
         public PlayerManager playerManager;
-        public GameplayManager gameplayManager;
+        public MapManager mapManager;
         public RoomManager roomManager;
         public NetworkManager networkManager;
         public ScreenManager screenManager;
+
+        public GameplayManager gameplayManager;
 
         public SpriteBatch spriteBatch;
 
@@ -133,8 +136,9 @@ namespace wickedcrush
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
             playerManager = new PlayerManager(this);
+            mapManager = new MapManager(this);
             roomManager = new RoomManager();
-            gameplayManager = new GameplayManager(this);
+            //gameplayManager = new GameplayManager(this);
             screenManager = new ScreenManager(this, new PlayerSelect(this));
 
         }
