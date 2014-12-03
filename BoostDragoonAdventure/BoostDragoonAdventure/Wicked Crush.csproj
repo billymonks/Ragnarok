@@ -165,7 +165,8 @@
     <Compile Include="menu\IClickable.cs" />
     <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="screen\CharCreation.cs" />
-    <Compile Include="screen\Editor.cs" />
+    <Compile Include="screen\EditorScreen.cs" />
+    <Compile Include="screen\EditorMenuScreen.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\LoadingScreen.cs" />
     <Compile Include="screen\LoadRoomMenuScreen.cs" />

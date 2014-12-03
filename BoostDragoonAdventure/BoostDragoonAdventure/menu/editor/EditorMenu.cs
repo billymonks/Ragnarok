@@ -26,18 +26,18 @@ namespace wickedcrush.menu.editor
 
         public List<Button> controlBar;
 
-        private Editor _editor;
+        public EditorScreen _editor;
 
-        public EditorMenu(Editor editor)
+        public EditorMenu(EditorScreen editor)
         {
+            _editor = editor;
             nodes = new Dictionary<string, MenuNode>();
             controlBar = new List<Button>();
-
-            _editor = editor;
         }
 
-        public EditorMenu(Editor editor, Dictionary<string, MenuNode> nodes)
+        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes)
         {
+            _editor = editor;
             this.nodes = nodes;
 
             foreach (KeyValuePair<string, MenuNode> pair in nodes)
@@ -49,8 +49,9 @@ namespace wickedcrush.menu.editor
             controlBar = new List<Button>();
         }
 
-        public EditorMenu(Editor editor, Dictionary<string, MenuNode> nodes, MenuNode node)
+        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes, MenuNode node)
         {
+            _editor = editor;
             this.nodes = nodes;
             current = node;
 

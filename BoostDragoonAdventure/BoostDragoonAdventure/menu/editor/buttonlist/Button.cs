@@ -10,7 +10,7 @@ using wickedcrush.screen;
 namespace wickedcrush.menu.editor.buttonlist
 {
 
-    public delegate void ActionDelegate(Editor e);
+    public delegate void ActionDelegate(EditorScreen e);
 
     public class Button
     {
@@ -73,7 +73,7 @@ namespace wickedcrush.menu.editor.buttonlist
             text.Draw(sb);
         }
 
-        public void runAction(Editor e)
+        public void runAction(EditorScreen e)
         {
             action(e);
         }

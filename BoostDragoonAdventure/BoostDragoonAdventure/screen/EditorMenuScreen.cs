@@ -2,105 +2,72 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using wickedcrush.menu.editor;
+using wickedcrush.factory.sprite;
+using wickedcrush.editor.tool;
 using Microsoft.Xna.Framework;
+using wickedcrush.menu.editor.buttonlist;
+using wickedcrush.factory.editor;
 using wickedcrush.entity;
-using wickedcrush.map.layer;
-using wickedcrush.map;
-using wickedcrush.editor;
-using wickedcrush.player;
+using wickedcrush.menu.input;
 using wickedcrush.controls;
 using Microsoft.Xna.Framework.Graphics;
-using wickedcrush.editor.tool;
-using wickedcrush.menu.editor;
-using wickedcrush.display.sprite;
-using wickedcrush.factory.sprite;
-using wickedcrush.display.primitives;
-using wickedcrush.factory.editor;
-using wickedcrush.menu.editor.buttonlist;
-using wickedcrush.menu.input;
-using wickedcrush.manager.gameplay.room;
-using System.IO;
-using System.Xml.Linq;
 
 namespace wickedcrush.screen
 {
-    public class Editor : GameScreen
+    public class EditorMenuScreen : GameScreen
     {
-        SpriteFactory sf;
-
-        public EditorRoom room;
-        public Point mapOffset;
+        private SpriteFactory sf;
 
         public Vector2 cursorPosition;
         public Vector2 scaledCursorPosition;
 
-        private Texture2D cursorTexture;
-
-        private EditorTool tool;
-
         private EditorMenu menu;
+        private EditorScreen _parent;
 
-        private bool toolReady = false;
-
-        private Dictionary<String, BaseSprite> hud = new Dictionary<String, BaseSprite>();
-
-        private EditorEntityFactory factory;
-
-        private TextInput textInput;
-
-        private RoomInfo roomToLoad = new RoomInfo("");
-
-        public Editor(Game game)
-        {
-            this.game = game;
-
-            Initialize(game);
-        }
-
-        public override void Initialize(Game g)
+        public EditorMenuScreen(Game g, EditorScreen parent)
         {
             base.Initialize(g);
 
-            exclusiveDraw = true;
-            exclusiveUpdate = true;
-
             sf = new SpriteFactory(g.Content);
 
-            room = new EditorRoom();
-            mapOffset = new Point(0, 0);
+            _parent = parent;
 
-            factory = new EditorEntityFactory(room);
-
-            cursorPosition = new Vector2();
-            scaledCursorPosition = new Vector2();
-
-            tool = new TerrainTool(LayerType.WALL);
+            exclusiveDraw = false;
+            exclusiveUpdate = true;
 
             InitializeEditorMenu();
 
-            cursorTexture = game.Content.Load<Texture2D>("debugcontent/img/nice_cursor");
-
-            //textInput = new TextInput(game.controlsManager.getKeyboard());
-
+            cursorPosition = new Vector2();
+            scaledCursorPosition = new Vector2();
         }
 
-        private void NewRoom()
+        public override void Update(GameTime gameTime)
         {
-            room = new EditorRoom();
-            factory.SetMap(room);
-        }
+            game.diag = "";
 
-        private void PollRoom(RoomInfo roomInfo)
-        {
-            room = new EditorRoom(roomInfo);
-            factory.SetMap(room);
-        }
 
-        private void LoadRoom()
-        {
-            game.screenManager.AddScreen(new LoadRoomMenuScreen(game, roomToLoad));
+            DebugControls(gameTime);
+
+            UpdateCursorPosition(game.controlsManager.getKeyboard());
+
+            menu.Update(gameTime, cursorPosition);
+
             
-            //room = new EditorRoom(stats)
+
+            
+        }
+
+        private void UpdateCursorPosition(KeyboardControls c)
+        {
+            cursorPosition.X = c.mousePosition().X;
+            cursorPosition.Y = c.mousePosition().Y;
+
+            scaledCursorPosition.X = c.mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
+            scaledCursorPosition.Y = c.mousePosition().Y * (1 / game.debugyscale);
+
+            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
+            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
         }
 
         private void InitializeEditorMenu()
@@ -123,7 +90,7 @@ namespace wickedcrush.screen
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 new TerrainTool(LayerType.WIRING));
 
-            
+
 
             wallNode.next = deathSoupNode;
             deathSoupNode.prev = wallNode;
@@ -133,7 +100,7 @@ namespace wickedcrush.screen
             MenuElement selectorNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Selector", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new SelectorTool(factory, room.manager));
+                new SelectorTool(_parent.factory, _parent.room.manager));
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -147,27 +114,27 @@ namespace wickedcrush.screen
             MenuElement chestNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.LoadEntity("CHEST", Vector2.Zero, Direction.East), factory));
+                new EntityTool(_parent.factory.LoadEntity("CHEST", Vector2.Zero, Direction.East), _parent.factory));
 
             MenuElement turretNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Turret", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.LoadEntity("TURRET", Vector2.Zero, Direction.East), factory));
+                new EntityTool(_parent.factory.LoadEntity("TURRET", Vector2.Zero, Direction.East), _parent.factory));
 
             MenuElement potNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Pot", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.LoadEntity("POT", Vector2.Zero, Direction.East), factory));
+                new EntityTool(_parent.factory.LoadEntity("POT", Vector2.Zero, Direction.East), _parent.factory));
 
             MenuElement floorSwitchNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Floor Switch", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.LoadEntity("FLOOR_SWITCH", Vector2.Zero, Direction.East), factory));
+                new EntityTool(_parent.factory.LoadEntity("FLOOR_SWITCH", Vector2.Zero, Direction.East), _parent.factory));
 
             MenuElement timerNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Timer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(factory.LoadEntity("TIMER", Vector2.Zero, Direction.East), factory));
+                new EntityTool(_parent.factory.LoadEntity("TIMER", Vector2.Zero, Direction.East), _parent.factory));
 
 
             SubMenu entityMenuNode = new SubMenu(
@@ -198,7 +165,7 @@ namespace wickedcrush.screen
             nodes.Add("Wall", wallNode);
             nodes.Add("Death Soup", deathSoupNode);
             nodes.Add("Wiring", wiringNode);
-            
+
             nodes.Add("Chest", chestNode);
             nodes.Add("Turret", turretNode);
             nodes.Add("Pot", potNode);
@@ -209,42 +176,55 @@ namespace wickedcrush.screen
             nodes.Add("Terrain", terrainMenuNode);
             nodes.Add("Entities", entityMenuNode);
 
-            menu = new EditorMenu(this, nodes);
+            menu = new EditorMenu(_parent, nodes);
 
             Button newButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "New", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { NewRoom(); }
+                e => { _parent.NewRoom();
+                Dispose();
+                }
                 );
 
             Button saveButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { SaveRoom(); }
+                e => { _parent.SaveRoom();
+                game.screenManager.RemoveScreen(this);
+                }
                 );
 
             Button authorButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Author", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { AuthorRoom(); }
+                e => { _parent.AuthorRoom();
+                game.screenManager.RemoveScreen(this);
+                }
                 );
 
             Button renameButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Rename", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { textInput = new TextInput(game.controlsManager.getKeyboard()); }
+                e => { _parent.textInput = new TextInput(game.controlsManager.getKeyboard());
+                game.screenManager.RemoveScreen(this);
+                }
                 );
 
             Button loadButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Load", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { LoadRoom(); }
+                e => { _parent.LoadRoom();
+                game.screenManager.RemoveScreen(this);
+                }
                 );
 
             Button exitButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Exit", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { game.screenManager.RemoveScreen(this); }
+                e => {
+                    game.screenManager.RemoveScreen(_parent);
+                    game.screenManager.RemoveScreen(this);
+                }
                 );
 
             menu.controlBar.Add(newButton);
@@ -258,101 +238,37 @@ namespace wickedcrush.screen
 
         }
 
-        public override void Update(GameTime gameTime)
+        private void DrawMenu()
         {
-            game.diag = "";
-
-            if (roomToLoad.readyToLoad)
-            {
-                PollRoom(roomToLoad);
-                roomToLoad.readyToLoad = false;
-            }
-
-            UpdateTextInput(gameTime);
-
-            menu.Update(gameTime, cursorPosition);
-            //saveButton.Update(gameTime, cursorPosition);
-            DebugControls(gameTime);
-            room.Update(gameTime);
-            
+            menu.Draw(game.spriteBatch);
         }
 
-        public void UpdateTextInput(GameTime gameTime)
+        private void DrawCursor()
         {
-            if (textInput == null)
-                return;
-            
-            textInput.Update(gameTime);
-            
-            if(textInput.finished)
-            {
-                //play a funny sound
-                room.stats.roomName = textInput.getText();
-                textInput = null;
-                return;
-            }
+            game.spriteBatch.Draw(_parent.cursorTexture, cursorPosition, Color.LightGreen);
 
-            if (textInput.cancelled)
-            {
-                //play a funny sound
-                textInput = null;
-                return;
-            }
+            //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
         }
 
         public override void DebugDraw()
         {
-            Direction d;
-            if (factory.preview != null)
-                d = factory.preview.angle;
-            else
-                d = Direction.East;
 
-            room.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, mapOffset);
-
-            if (menu.currentTool() != null && menu.currentTool().getMode() == EditorMode.Entity)
-            {
-                EditorEntity tempEntity = ((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition, d);
-                Color temp;
-
-                if (factory.CanPlace(((EntityTool)menu.currentTool()).getEntity(scaledCursorPosition, d).code,
-                    scaledCursorPosition,
-                    d))
-                    temp = Color.Purple;
-                else
-                    temp = Color.Red;
-
-                tempEntity.DebugDraw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, temp);
-            }
-
-            if (tool != null)
-                tool.Draw(game.whiteTexture, game.arrowTexture, game.GraphicsDevice, game.spriteBatch, game.testFont);
         }
 
         public override void FreeDraw()
         {
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
-            
-            foreach (KeyValuePair<String, BaseSprite> s in hud)
-                s.Value.Draw(game.spriteBatch);
 
             DrawMenu();
-            DrawDiag();
             DrawCursor();
-            DrawTextInput();
 
             game.spriteBatch.End();
         }
 
-        private void DrawTextInput()
-        {
-            if (textInput != null)
-                textInput.DebugDraw(game.spriteBatch, game.testFont);
-        }
 
         public override void Dispose()
         {
-
+            //throw new NotImplementedException();
         }
 
         private void DebugControls(GameTime gameTime)
@@ -363,101 +279,23 @@ namespace wickedcrush.screen
 
             if (keyboard.ActionReleased())
             {
-                toolReady = true;
+                //toolReady = true;
             }
 
             if (menu.highlighted != null)
             {
-                toolReady = false;
+                //toolReady = false;
             }
 
-            if (tool != null)
-                tool.Update(gameTime, keyboard, scaledCursorPosition, room, toolReady);
+            //if (tool != null)
+                //tool.Update(gameTime, keyboard, scaledCursorPosition, room, toolReady);
 
             if (keyboard.ActionPressed())
             {
                 menu.Click();
-                tool = menu.currentTool();
+                _parent.tool = menu.currentTool();
+                game.screenManager.RemoveScreen(this);
             }
-        }
-
-        private void UpdateCursorPosition(KeyboardControls c)
-        {
-            cursorPosition.X = c.mousePosition().X;
-            cursorPosition.Y = c.mousePosition().Y;
-
-            scaledCursorPosition.X = c.mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
-            scaledCursorPosition.Y = c.mousePosition().Y * (1 / game.debugyscale);
-
-            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
-            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
-            game.diag += "Map Name: " + room.stats.roomName;
-        }
-
-        private void DrawDiag()
-        {
-            
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 3), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 3), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 3), Color.Black);
-
-
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
-            
-        }
-
-        private void DrawCursor()
-        {
-            game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
-
-            //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
-        }
-
-        private void DrawMenu()
-        {
-            menu.Draw(game.spriteBatch);
-        }
-
-        private void DrawCircleTrail()
-        {
-
-        }
-
-        private void DrawExpandingCircle()
-        {
-
-        }
-
-        private void PollRoomUpdate()
-        {
-            room.stats = game.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
-        }
-
-        public void SaveRoom()
-        {
-            room.stats.creatorName = game.playerManager.getPlayerList()[0].name;
-
-            room.saveRoom();
-            game.roomManager.AddRoomToLocalAtlas(room.stats);
-        }
-
-        public void AuthorRoom()
-        {
-            PollRoomUpdate();
-
-            if (room.stats.globalId != -1)
-            {
-                Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has already been authored.");
-                NewRoom();
-                return;
-            }
-
-            SaveRoom();
-            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, game.playerManager.getPlayerList()[0].globalId);
-            NewRoom();
         }
     }
 }
