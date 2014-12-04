@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.screen
 {
-    public class CharCreation : GameScreen
+    public class CharCreationScreen : GameScreen
     {
         Dictionary<User, Timer> readyTimer;
         List<LocalChar> charList = new List<LocalChar>();
@@ -20,7 +20,7 @@ namespace wickedcrush.screen
         private TextInput textInput;
         User u;
 
-        public CharCreation(Game g, User u)
+        public CharCreationScreen(Game g, User u)
         {
             Initialize(g);
             this.u = u;

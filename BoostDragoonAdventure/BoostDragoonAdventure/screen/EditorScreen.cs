@@ -38,6 +38,7 @@ namespace wickedcrush.screen
         public Texture2D cursorTexture;
 
         public MenuElement current;
+        public Toolbox toolbox;
         public EditorTool tool;
 
         private bool toolReady = false;
@@ -74,7 +75,8 @@ namespace wickedcrush.screen
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
 
-            tool = new TerrainTool(LayerType.WALL);
+            toolbox = new Toolbox(this);
+            tool = toolbox.tools["wall"];
 
             
 
@@ -249,7 +251,7 @@ namespace wickedcrush.screen
                 //tool = menu.currentTool();
             }
 
-            if (keyboard.StrafePressed())
+            if (keyboard.BoostPressed())
             {
                 game.screenManager.AddScreen(new EditorMenuScreen(game, this));
             }

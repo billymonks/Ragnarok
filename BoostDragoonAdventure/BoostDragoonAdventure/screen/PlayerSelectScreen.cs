@@ -49,7 +49,7 @@ namespace wickedcrush.screen
         }
     }
 
-    public class PlayerSelect : GameScreen
+    public class PlayerSelectScreen : GameScreen
     {
         Dictionary<User, Timer> readyTimer = new Dictionary<User, Timer>();
         List<User> userList = new List<User>();
@@ -58,7 +58,7 @@ namespace wickedcrush.screen
         bool updateCharList = true;
         bool rehydrateScreen = false;
 
-        public PlayerSelect(Game game)
+        public PlayerSelectScreen(Game game)
         {
             Initialize(game);
         }
@@ -120,7 +120,7 @@ namespace wickedcrush.screen
 
             if (ready)
             {
-                game.screenManager.AddScreen(new MapSelector(game));
+                game.screenManager.AddScreen(new MapSelectorScreen(game));
                 rehydrateScreen = true;
             }
         }
@@ -317,7 +317,7 @@ namespace wickedcrush.screen
         private void addNewPlayer(User u)
         {
             updateCharList = true;
-            game.screenManager.AddScreen(new CharCreation(game, u));
+            game.screenManager.AddScreen(new CharCreationScreen(game, u));
             //u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
         }
 

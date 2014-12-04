@@ -124,6 +124,7 @@
     <Compile Include="editor\tool\EntityTool.cs" />
     <Compile Include="editor\tool\EditorTool.cs" />
     <Compile Include="editor\tool\TerrainTool.cs" />
+    <Compile Include="editor\tool\Toolbox.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\AimedProjectile.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Fireball.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
@@ -164,14 +165,14 @@
     <Compile Include="menu\panel\Panel.cs" />
     <Compile Include="menu\IClickable.cs" />
     <Compile Include="menu\input\TextInput.cs" />
-    <Compile Include="screen\CharCreation.cs" />
+    <Compile Include="screen\CharCreationScreen.cs" />
     <Compile Include="screen\EditorScreen.cs" />
     <Compile Include="screen\EditorMenuScreen.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\LoadingScreen.cs" />
     <Compile Include="screen\LoadRoomMenuScreen.cs" />
-    <Compile Include="screen\MapSelector.cs" />
-    <Compile Include="screen\Gameplay.cs" />
+    <Compile Include="screen\MapSelectorScreen.cs" />
+    <Compile Include="screen\GameplayScreen.cs" />
     <Compile Include="controls\Controls.cs" />
     <Compile Include="controls\DebugControls.cs" />
     <Compile Include="controls\KeyboardControls.cs" />
@@ -198,7 +199,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="screen\PlayerSelect.cs" />
+    <Compile Include="screen\PlayerSelectScreen.cs" />
     <Compile Include="screen\transition\SolidColorFadeTransition.cs" />
     <Compile Include="screen\transition\Transition.cs" />
     <Compile Include="stats\PersistedStats.cs" />

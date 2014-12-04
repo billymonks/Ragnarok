@@ -15,7 +15,7 @@ using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.screen
 {
-    public class MapSelector : GameScreen
+    public class MapSelectorScreen : GameScreen
     {
         //private GameplayManager _gm;
         List<String> mapList;
@@ -25,7 +25,7 @@ namespace wickedcrush.screen
 
         private SoundManager _sound;
 
-        public MapSelector(Game game)
+        public MapSelectorScreen(Game game)
         {
             //this._gm = gameplayManager;
             this._sound = game.soundManager;
@@ -110,7 +110,7 @@ namespace wickedcrush.screen
                 if (p.c.StartPressed())
                 {
                     //game.mapName = mapList[selectionIndex];
-                    game.screenManager.AddScreen(new Gameplay(game, mapList[selectionIndex]));
+                    game.screenManager.AddScreen(new GameplayScreen(game, mapList[selectionIndex]));
                     return;
                 }
 

@@ -33,7 +33,7 @@ using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.screen
 {
-    public class Gameplay : GameScreen
+    public class GameplayScreen : GameScreen
     {
 
         private GameplayManager gameplayManager;
@@ -42,7 +42,7 @@ namespace wickedcrush.screen
 
         bool testMode;
         
-        public Gameplay(Game game, String mapName)
+        public GameplayScreen(Game game, String mapName)
         {
             gameplayManager = new GameplayManager(game);
 
@@ -54,7 +54,7 @@ namespace wickedcrush.screen
 
         }
 
-        public Gameplay(Game game, RoomInfo roomToTest)
+        public GameplayScreen(Game game, RoomInfo roomToTest)
         {
 
         }

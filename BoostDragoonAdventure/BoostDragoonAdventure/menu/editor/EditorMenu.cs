@@ -88,6 +88,17 @@ namespace wickedcrush.menu.editor
             }
         }
 
+        public void SetCurrentToTool(EditorTool tool)
+        {
+            foreach (KeyValuePair<string, MenuNode> node in nodes)
+            {
+                if (node.Value is MenuElement && ((MenuElement)node.Value).tool.Equals(tool))
+                {
+                    current = node.Value;
+                }
+            }
+        }
+
         public void Click()
         {
             if(highlighted!=null)

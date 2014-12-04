@@ -139,7 +139,7 @@ namespace wickedcrush
             mapManager = new MapManager(this);
             roomManager = new RoomManager();
             //gameplayManager = new GameplayManager(this);
-            screenManager = new ScreenManager(this, new PlayerSelect(this));
+            screenManager = new ScreenManager(this, new PlayerSelectScreen(this));
 
         }
 

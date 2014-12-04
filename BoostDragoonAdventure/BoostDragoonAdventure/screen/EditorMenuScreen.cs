@@ -77,18 +77,18 @@ namespace wickedcrush.screen
             MenuElement wallNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wall", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new TerrainTool(LayerType.WALL));
+                _parent.toolbox.tools["wall"]);
 
             MenuElement deathSoupNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Death Soup", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new TerrainTool(LayerType.DEATHSOUP));
+                _parent.toolbox.tools["deathsoup"]);
 
 
             MenuElement wiringNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Wiring", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new TerrainTool(LayerType.WIRING));
+                _parent.toolbox.tools["wiring"]);
 
 
 
@@ -100,7 +100,7 @@ namespace wickedcrush.screen
             MenuElement selectorNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Selector", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new SelectorTool(_parent.factory, _parent.room.manager));
+                _parent.toolbox.tools["selector"]);
 
             SubMenu terrainMenuNode = new SubMenu(
                 sf.createText(new Vector2(0f, 0f), "Terrain", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -114,27 +114,27 @@ namespace wickedcrush.screen
             MenuElement chestNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Chest", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(_parent.factory.LoadEntity("CHEST", Vector2.Zero, Direction.East), _parent.factory));
+                 _parent.toolbox.tools["chest"]);
 
             MenuElement turretNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Turret", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(_parent.factory.LoadEntity("TURRET", Vector2.Zero, Direction.East), _parent.factory));
+                _parent.toolbox.tools["turret"]);
 
             MenuElement potNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Pot", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(_parent.factory.LoadEntity("POT", Vector2.Zero, Direction.East), _parent.factory));
+                _parent.toolbox.tools["pot"]);
 
             MenuElement floorSwitchNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Floor Switch", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(_parent.factory.LoadEntity("FLOOR_SWITCH", Vector2.Zero, Direction.East), _parent.factory));
+                _parent.toolbox.tools["floorswitch"]);
 
             MenuElement timerNode = new MenuElement(
                 sf.createText(new Vector2(0f, 0f), "Timer", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                new EntityTool(_parent.factory.LoadEntity("TIMER", Vector2.Zero, Direction.East), _parent.factory));
+                _parent.toolbox.tools["timer"]);
 
 
             SubMenu entityMenuNode = new SubMenu(
@@ -236,6 +236,8 @@ namespace wickedcrush.screen
 
             //menu.current = (node);
 
+            menu.SetCurrentToTool(_parent.tool);
+
         }
 
         private void DrawMenu()
@@ -282,19 +284,34 @@ namespace wickedcrush.screen
                 //toolReady = true;
             }
 
-            if (menu.highlighted != null)
+            if (keyboard.BoostPressed())
             {
-                //toolReady = false;
+                game.screenManager.RemoveScreen(this);
             }
 
-            //if (tool != null)
-                //tool.Update(gameTime, keyboard, scaledCursorPosition, room, toolReady);
+            if (menu.highlighted == null)
+            {
+                return;
+            }
+
+            EditorTool highlightedTool = null;
+
+            if (menu.highlighted is MenuElement)
+            {
+                highlightedTool = ((MenuElement)menu.highlighted).tool;
+            }
 
             if (keyboard.ActionPressed())
             {
+                if (menu.currentTool() == highlightedTool)
+                {
+                    _parent.tool = menu.currentTool();
+                    game.screenManager.RemoveScreen(this);
+                    return;
+                }
+
                 menu.Click();
-                _parent.tool = menu.currentTool();
-                game.screenManager.RemoveScreen(this);
+               
             }
         }
     }
