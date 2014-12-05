@@ -249,7 +249,7 @@ namespace wickedcrush.screen
                     //tool = menu.currentTool();
                 }
 
-                if (keyboard.ActionReleased())
+                if (keyboard.InteractReleased() || keyboard.ActionReleased())
                 {
                     toolReady = true;
                 }
@@ -264,12 +264,12 @@ namespace wickedcrush.screen
                 GamepadControls gamepad = (GamepadControls)user.c;
                 UpdateCursorPosition(gamepad);
 
-                if (gamepad.ActionReleased())
+                if (gamepad.ActionReleased() || gamepad.InteractReleased())
                 {
                     toolReady = true;
                 }
 
-                if (gamepad.ItemAPressed())
+                if (gamepad.ItemBPressed())
                 {
                     game.screenManager.AddScreen(new EditorMenuScreen(game, this));
                 }

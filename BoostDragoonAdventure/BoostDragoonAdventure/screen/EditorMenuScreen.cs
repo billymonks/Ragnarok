@@ -38,8 +38,8 @@ namespace wickedcrush.screen
 
             InitializeEditorMenu();
 
-            cursorPosition = new Vector2();
-            scaledCursorPosition = new Vector2();
+            cursorPosition = _parent.cursorPosition;
+            scaledCursorPosition = _parent.scaledCursorPosition;
         }
 
         public override void Update(GameTime gameTime)
