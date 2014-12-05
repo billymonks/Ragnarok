@@ -20,7 +20,7 @@ namespace wickedcrush.editor.tool
         protected EditorMode mode;
         protected EditorEntity entity;
 
-        public virtual void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
+        public virtual void Update(GameTime gameTime, controls.Controls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             if (!toolReady)
                 return;

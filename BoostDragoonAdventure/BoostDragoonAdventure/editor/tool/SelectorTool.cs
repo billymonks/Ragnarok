@@ -43,12 +43,14 @@ namespace wickedcrush.editor.tool
             end = new Vector2(0, 0);
         }
 
-        public override void Update(GameTime gameTime, KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
+        public override void Update(GameTime gameTime, Controls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             base.Update(gameTime, controls, pos, map, toolReady);
 
             prevHold = hold;
-            hold = controls.ActionHeld();
+            hold = controls.ActionHeld() || controls.InteractHeld();
+
+
 
             if (!prevHold && hold)
             {
@@ -80,9 +82,21 @@ namespace wickedcrush.editor.tool
             if (!toolReady)
                 return;
 
-            if (controls.DeletePressed())
+            if (controls is KeyboardControls)
             {
-                RemoveSelection();
+                KeyboardControls keyboard = (KeyboardControls)controls;
+
+                if (keyboard.DeletePressed())
+                {
+                    RemoveSelection();
+                }
+            }
+            else
+            {
+                if (controls.ItemAPressed())
+                {
+                    RemoveSelection();
+                }
             }
 
         }

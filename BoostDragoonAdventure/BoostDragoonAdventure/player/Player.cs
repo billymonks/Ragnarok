@@ -76,7 +76,7 @@ namespace wickedcrush.player
         {
             //initializeAgentStats();
 
-            agent = factory.addPlayerAgent(name, pos, size, center, solid, c, stats);
+            agent = factory.addPlayerAgent(name, pos, size, center, solid, c, stats, this);
             stats = agent.stats;
         }
 

@@ -24,18 +24,32 @@ namespace wickedcrush.editor.tool
             this.f = f;
         }
 
-        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
+        public override void Update(GameTime gameTime, controls.Controls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             base.Update(gameTime, controls, pos, map, toolReady);
 
             if (!toolReady)
                 return;
 
-            if (controls.ActionPressed())
-                primaryAction(pos, map);
+            
 
-            if (controls.StrafePressed())
-                secondaryAction(pos, map);
+
+            if (controls is controls.KeyboardControls)
+            {
+                if (controls.ActionPressed())
+                    primaryAction(pos, map);
+                if (controls.StrafePressed())
+                    secondaryAction(pos, map);
+            }
+            else
+            {
+                if (controls.InteractPressed())
+                    primaryAction(pos, map);
+                if (controls.StrafePressed())
+                    f.preview.rotateCCW();
+                if (controls.BoostPressed())
+                    f.preview.rotateCW();
+            }
         }
 
         public override void primaryAction(Vector2 pos, EditorRoom map)

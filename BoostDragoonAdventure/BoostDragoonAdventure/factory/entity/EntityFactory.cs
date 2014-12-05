@@ -83,9 +83,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(e);
         }
 
-        public PlayerAgent addPlayerAgent(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats)
+        public PlayerAgent addPlayerAgent(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls c, PersistedStats stats, Player player)
         {
-            PlayerAgent agent = new PlayerAgent(_w, pos, size, center, solid, c, stats, this, _sm, name);
+            PlayerAgent agent = new PlayerAgent(_w, pos, size, center, solid, c, stats, this, _sm, name, player);
             
             _em.addEntity(agent);
             

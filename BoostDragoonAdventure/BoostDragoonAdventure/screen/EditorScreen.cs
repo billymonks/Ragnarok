@@ -51,9 +51,12 @@ namespace wickedcrush.screen
 
         public RoomInfo roomToLoad = new RoomInfo("");
 
-        public EditorScreen(Game game)
+        public Player user;
+
+        public EditorScreen(Game game, Player user)
         {
             this.game = game;
+            this.user = user;
 
             Initialize(game);
         }
@@ -228,42 +231,73 @@ namespace wickedcrush.screen
 
         private void DebugControls(GameTime gameTime)
         {
-            KeyboardControls keyboard = game.controlsManager.getKeyboard();
-
-            UpdateCursorPosition(keyboard);
-
-            if (keyboard.ActionReleased())
-            {
-                toolReady = true;
-            }
-
-            //if (menu.highlighted != null)
-            //{
-                //toolReady = false;
-            //}
-
             if (tool != null)
-                tool.Update(gameTime, keyboard, scaledCursorPosition, room, toolReady);
+                    tool.Update(gameTime, user.c, scaledCursorPosition, room, toolReady);
 
-            if (keyboard.ActionPressed())
+            if (user.c is KeyboardControls)
             {
-                //menu.Click();
-                //tool = menu.currentTool();
+                KeyboardControls keyboard = (KeyboardControls)user.c;
+                UpdateCursorPosition(keyboard);
+
+                
+
+                
+
+                if (keyboard.ActionPressed())
+                {
+                    //menu.Click();
+                    //tool = menu.currentTool();
+                }
+
+                if (keyboard.ActionReleased())
+                {
+                    toolReady = true;
+                }
+
+                if (keyboard.BoostPressed())
+                {
+                    game.screenManager.AddScreen(new EditorMenuScreen(game, this));
+                }
             }
-
-            if (keyboard.BoostPressed())
+            else
             {
-                game.screenManager.AddScreen(new EditorMenuScreen(game, this));
+                GamepadControls gamepad = (GamepadControls)user.c;
+                UpdateCursorPosition(gamepad);
+
+                if (gamepad.ActionReleased())
+                {
+                    toolReady = true;
+                }
+
+                if (gamepad.ItemAPressed())
+                {
+                    game.screenManager.AddScreen(new EditorMenuScreen(game, this));
+                }
             }
         }
 
-        private void UpdateCursorPosition(KeyboardControls c)
+        public void UpdateCursorPosition(KeyboardControls c)
         {
             cursorPosition.X = c.mousePosition().X;
             cursorPosition.Y = c.mousePosition().Y;
 
             scaledCursorPosition.X = c.mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
             scaledCursorPosition.Y = c.mousePosition().Y * (1 / game.debugyscale);
+
+            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
+            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+            game.diag += "Map Name: " + room.stats.roomName;
+        }
+
+        public void UpdateCursorPosition(GamepadControls c)
+        {
+            float sensitivity = 10f;
+            cursorPosition.X += c.LStickXAxis() * sensitivity;
+            cursorPosition.Y += c.LStickYAxis() * sensitivity;
+
+            scaledCursorPosition.X = cursorPosition.X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
+            scaledCursorPosition.Y = cursorPosition.Y * (1 / game.debugyscale);
+
 
             game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
             game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";

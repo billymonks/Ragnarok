@@ -11,12 +11,12 @@ namespace wickedcrush.menu.input
 {
     public class TextInput
     {
-        private KeyboardControls controls;
+        private Controls controls;
         private String input;
 
         public bool finished = false, cancelled = false;
 
-        public TextInput(KeyboardControls controls)
+        public TextInput(Controls controls)
         {
             this.controls = controls;
             input = "";
@@ -25,14 +25,17 @@ namespace wickedcrush.menu.input
         public void Update(GameTime gameTime)
         {
             //controls.Update();
+            if (controls is GamepadControls)
+                return;
 
-            if (controls.GetInput().Contains("\b"))
+
+            if (((KeyboardControls)controls).GetInput().Contains("\b"))
             {
                 if (input.Length > 0)
                     input = input.Remove(input.Length - 1);
             }
             else
-                input += controls.GetInput();
+                input += ((KeyboardControls)controls).GetInput();
 
             if (controls.StartPressed())
                 finished = true;

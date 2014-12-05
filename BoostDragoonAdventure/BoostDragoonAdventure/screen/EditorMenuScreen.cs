@@ -49,13 +49,26 @@ namespace wickedcrush.screen
 
             DebugControls(gameTime);
 
-            UpdateCursorPosition(game.controlsManager.getKeyboard());
+            UpdateCursorPosition(_parent.user.c);
+            //UpdateCursorPosition(game.controlsManager.getKeyboard());
 
             menu.Update(gameTime, cursorPosition);
 
             
 
             
+        }
+
+        private void UpdateCursorPosition(Controls c)
+        {
+            if (c is KeyboardControls)
+            {
+                UpdateCursorPosition((KeyboardControls)c);
+            }
+            else
+            {
+                UpdateCursorPosition((GamepadControls)c);
+            }
         }
 
         private void UpdateCursorPosition(KeyboardControls c)
@@ -65,6 +78,20 @@ namespace wickedcrush.screen
 
             scaledCursorPosition.X = c.mousePosition().X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
             scaledCursorPosition.Y = c.mousePosition().Y * (1 / game.debugyscale);
+
+            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
+            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
+        }
+
+        private void UpdateCursorPosition(GamepadControls c)
+        {
+            float sensitivity = 10f;
+            cursorPosition.X += c.LStickXAxis() * sensitivity;
+            cursorPosition.Y += c.LStickYAxis() * sensitivity;
+
+            scaledCursorPosition.X = cursorPosition.X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
+            scaledCursorPosition.Y = cursorPosition.Y * (1 / game.debugyscale);
+
 
             game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
             game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
@@ -176,7 +203,7 @@ namespace wickedcrush.screen
             nodes.Add("Terrain", terrainMenuNode);
             nodes.Add("Entities", entityMenuNode);
 
-            menu = new EditorMenu(_parent, nodes);
+            menu = new EditorMenu(_parent, nodes, _parent.cursorPosition);
 
             Button newButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "New", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
@@ -205,7 +232,7 @@ namespace wickedcrush.screen
             Button renameButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Rename", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.textInput = new TextInput(game.controlsManager.getKeyboard());
+                e => { _parent.textInput = new TextInput(_parent.user.c);
                 game.screenManager.RemoveScreen(this);
                 }
                 );
@@ -275,43 +302,66 @@ namespace wickedcrush.screen
 
         private void DebugControls(GameTime gameTime)
         {
-            KeyboardControls keyboard = game.controlsManager.getKeyboard();
-
-            UpdateCursorPosition(keyboard);
-
-            if (keyboard.ActionReleased())
+            if (_parent.user.c is KeyboardControls)
             {
-                //toolReady = true;
-            }
+                KeyboardControls keyboard = (KeyboardControls)_parent.user.c;
+                UpdateCursorPosition(keyboard);
 
-            if (keyboard.BoostPressed())
-            {
-                game.screenManager.RemoveScreen(this);
-            }
 
-            if (menu.highlighted == null)
-            {
-                return;
-            }
-
-            EditorTool highlightedTool = null;
-
-            if (menu.highlighted is MenuElement)
-            {
-                highlightedTool = ((MenuElement)menu.highlighted).tool;
-            }
-
-            if (keyboard.ActionPressed())
-            {
-                if (menu.currentTool() == highlightedTool)
+                if (keyboard.BoostPressed())
                 {
-                    _parent.tool = menu.currentTool();
                     game.screenManager.RemoveScreen(this);
-                    return;
                 }
 
-                menu.Click();
-               
+                EditorTool highlightedTool = null;
+
+                if (menu.highlighted is MenuElement)
+                {
+                    highlightedTool = ((MenuElement)menu.highlighted).tool;
+                }
+
+                if (keyboard.ActionPressed())
+                {
+                    if (menu.currentTool() == highlightedTool)
+                    {
+                        _parent.tool = menu.currentTool();
+                        game.screenManager.RemoveScreen(this);
+                        return;
+                    }
+
+                    menu.Click();
+
+                }
+            }
+            else if (_parent.user.c is GamepadControls)
+            {
+                GamepadControls gamepad = (GamepadControls)_parent.user.c;
+                UpdateCursorPosition(gamepad);
+
+                if (gamepad.ItemAPressed())
+                {
+                    game.screenManager.RemoveScreen(this);
+                }
+
+                EditorTool highlightedTool = null;
+
+                if (menu.highlighted is MenuElement)
+                {
+                    highlightedTool = ((MenuElement)menu.highlighted).tool;
+                }
+
+                if (gamepad.InteractPressed())
+                {
+                    if (menu.currentTool() == highlightedTool)
+                    {
+                        _parent.tool = menu.currentTool();
+                        game.screenManager.RemoveScreen(this);
+                        return;
+                    }
+
+                    menu.Click();
+
+                }
             }
         }
     }

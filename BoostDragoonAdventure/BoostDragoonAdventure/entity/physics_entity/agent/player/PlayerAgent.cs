@@ -16,6 +16,7 @@ using wickedcrush.behavior;
 using wickedcrush.manager.audio;
 using Microsoft.Xna.Framework.Audio;
 using wickedcrush.inventory;
+using wickedcrush.player;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -30,15 +31,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         public bool busy = false;
 
+        public Player player;
+
         //pollable gameplay stuff:
         private bool dodgeSuccess = false;
 
         #endregion
 
         #region Initialization
-        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound, String name)
+        public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound, String name, Player player)
             : base(w, pos, size, center, solid, factory, stats, sound)
         {
+            this.player = player;
             Initialize(name, pos, size, center, solid, controls);
 
 

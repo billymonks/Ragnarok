@@ -20,7 +20,7 @@ namespace wickedcrush.editor.tool
             entity = null;
         }
 
-        public override void Update(GameTime gameTime, controls.KeyboardControls controls, Vector2 pos, EditorRoom map, bool toolReady)
+        public override void Update(GameTime gameTime, controls.Controls controls, Vector2 pos, EditorRoom map, bool toolReady)
         {
             base.Update(gameTime, controls, pos, map, toolReady);
 
@@ -30,8 +30,10 @@ namespace wickedcrush.editor.tool
             if (controls.ActionHeld())
                 primaryAction(pos, map);
 
-            if (controls.StrafeHeld())
+            if (controls.StrafeHeld() || controls is controls.GamepadControls && controls.ItemAHeld())
                 secondaryAction(pos, map);
+
+            
         }
 
         public override void primaryAction(Vector2 pos, EditorRoom map)

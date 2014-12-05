@@ -14,7 +14,7 @@ namespace wickedcrush.menu.editor
     public class EditorMenu
     {
         public MenuNode current;
-        public Vector2 pos = new Vector2(150, 400);
+        public Vector2 pos;
 
         private Vector2 cursorPosition;
 
@@ -28,32 +28,17 @@ namespace wickedcrush.menu.editor
 
         public EditorScreen _editor;
 
-        public EditorMenu(EditorScreen editor)
-        {
-            _editor = editor;
-            nodes = new Dictionary<string, MenuNode>();
-            controlBar = new List<Button>();
-        }
-
-        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes)
+        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes, Vector2 pos)
         {
             _editor = editor;
             this.nodes = nodes;
+            this.pos = pos;
 
             foreach (KeyValuePair<string, MenuNode> pair in nodes)
             {
                 current = pair.Value;
                 break;
             }
-
-            controlBar = new List<Button>();
-        }
-
-        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes, MenuNode node)
-        {
-            _editor = editor;
-            this.nodes = nodes;
-            current = node;
 
             controlBar = new List<Button>();
         }
