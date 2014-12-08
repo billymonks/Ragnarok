@@ -156,7 +156,8 @@
     <Compile Include="manager\tween\TweenManager.cs" />
     <Compile Include="map\circuit\Circuit.cs" />
     <Compile Include="menu\editor\buttonlist\Button.cs" />
-    <Compile Include="menu\editor\EditorMenu.cs" />
+    <Compile Include="menu\editor\EditorBarMenu.cs" />
+    <Compile Include="menu\editor\EditorTreeMenu.cs" />
     <Compile Include="menu\editor\MenuElement.cs" />
     <Compile Include="menu\editor\MenuNode.cs" />
     <Compile Include="menu\editor\SubMenu.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="menu\IClickable.cs" />
     <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="screen\CharCreationScreen.cs" />
+    <Compile Include="screen\EditorMenuControlBarScreen.cs" />
     <Compile Include="screen\EditorScreen.cs" />
     <Compile Include="screen\EditorMenuScreen.cs" />
     <Compile Include="screen\GameScreen.cs" />

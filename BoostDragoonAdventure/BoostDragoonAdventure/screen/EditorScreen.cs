@@ -258,6 +258,11 @@ namespace wickedcrush.screen
                 {
                     game.screenManager.AddScreen(new EditorMenuScreen(game, this));
                 }
+
+                if (keyboard.SelectPressed() || keyboard.StartPressed())
+                {
+                    game.screenManager.AddScreen(new EditorMenuControlBarScreen(game, this));
+                }
             }
             else
             {
@@ -272,6 +277,11 @@ namespace wickedcrush.screen
                 if (gamepad.ItemBPressed())
                 {
                     game.screenManager.AddScreen(new EditorMenuScreen(game, this));
+                }
+
+                if (gamepad.SelectPressed() || gamepad.StartPressed())
+                {
+                    game.screenManager.AddScreen(new EditorMenuControlBarScreen(game, this));
                 }
             }
         }

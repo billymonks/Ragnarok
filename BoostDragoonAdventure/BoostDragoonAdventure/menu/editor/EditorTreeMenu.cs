@@ -11,7 +11,7 @@ using wickedcrush.screen;
 
 namespace wickedcrush.menu.editor
 {
-    public class EditorMenu
+    public class EditorTreeMenu
     {
         public MenuNode current;
         public Vector2 pos;
@@ -24,23 +24,26 @@ namespace wickedcrush.menu.editor
 
         public Dictionary<string, MenuNode> nodes;
 
-        public List<Button> controlBar;
+        
 
         public EditorScreen _editor;
 
-        public EditorMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes, Vector2 pos)
+        public EditorTreeMenu(EditorScreen editor, Dictionary<string, MenuNode> nodes, Vector2 pos)
         {
             _editor = editor;
-            this.nodes = nodes;
             this.pos = pos;
 
+            SetNodes(nodes);
+        }
+
+        public void SetNodes(Dictionary<string, MenuNode> nodes)
+        {
+            this.nodes = nodes;
             foreach (KeyValuePair<string, MenuNode> pair in nodes)
             {
                 current = pair.Value;
                 break;
             }
-
-            controlBar = new List<Button>();
         }
 
         public void Update(GameTime gameTime, Vector2 cursor)
@@ -51,25 +54,16 @@ namespace wickedcrush.menu.editor
 
             UpdateVisible(gameTime);
             UpdateNodes(gameTime);
-            UpdateBar(gameTime);
         }
 
         private void UpdateNodes(GameTime gameTime)
         {
+            if (nodes == null)
+                return;
+
             foreach(KeyValuePair<string, MenuNode> pair in nodes)
             {
                 pair.Value.Update(gameTime);
-            }
-        }
-
-        private void UpdateBar(GameTime gameTime)
-        {
-
-            for (int i = 0; i < controlBar.Count; i++ )
-            {
-                controlBar[i].pos.X = 100 + i * (controlBar[i].size.X + 10);
-                controlBar[i].pos.Y = 100;
-                controlBar[i].Update(gameTime, cursorPosition);
             }
         }
 
@@ -89,11 +83,6 @@ namespace wickedcrush.menu.editor
             if(highlighted!=null)
                 current = highlighted;
 
-            foreach(Button b in controlBar)
-            {
-                if (b.highlighted)
-                    b.runAction(_editor);
-            }
         }
 
         public EditorTool currentTool()
@@ -147,9 +136,6 @@ namespace wickedcrush.menu.editor
             }
 
             sb.DrawCircle(pos, 30, Color.LightPink, 1, 32);
-
-            foreach (Button b in controlBar)
-                b.Draw(sb);
             
         }
 
@@ -181,8 +167,7 @@ namespace wickedcrush.menu.editor
                 DrawStem(sb, pointer, -1);
             }
 
-            foreach (Button b in controlBar)
-                b.Draw(sb);
+            
         }
 
         private void DrawStem(SpriteBatch sb, MenuNode pointer, int i)

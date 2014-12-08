@@ -9,9 +9,9 @@ namespace wickedcrush.factory.menu.editor
 {
     public class NodeFactory
     {
-        EditorMenu menu;
+        EditorTreeMenu menu;
 
-        public NodeFactory(EditorMenu menu)
+        public NodeFactory(EditorTreeMenu menu)
         {
             this.menu = menu;
         }

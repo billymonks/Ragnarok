@@ -22,7 +22,7 @@ namespace wickedcrush.screen
         public Vector2 cursorPosition;
         public Vector2 scaledCursorPosition;
 
-        private EditorMenu menu;
+        private EditorTreeMenu menu;
         private EditorScreen _parent;
 
         public EditorMenuScreen(Game g, EditorScreen parent)
@@ -203,65 +203,7 @@ namespace wickedcrush.screen
             nodes.Add("Terrain", terrainMenuNode);
             nodes.Add("Entities", entityMenuNode);
 
-            menu = new EditorMenu(_parent, nodes, _parent.cursorPosition);
-
-            Button newButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "New", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.NewRoom();
-                Dispose();
-                }
-                );
-
-            Button saveButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Save", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.SaveRoom();
-                game.screenManager.RemoveScreen(this);
-                }
-                );
-
-            Button authorButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Author", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.AuthorRoom();
-                game.screenManager.RemoveScreen(this);
-                }
-                );
-
-            Button renameButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Rename", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.textInput = new TextInput(_parent.user.c);
-                game.screenManager.RemoveScreen(this);
-                }
-                );
-
-            Button loadButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Load", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => { _parent.LoadRoom();
-                game.screenManager.RemoveScreen(this);
-                }
-                );
-
-            Button exitButton = new Button(
-                sf.createText(new Vector2(0f, 0f), "Exit", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
-                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
-                e => {
-                    game.screenManager.RemoveScreen(_parent);
-                    game.screenManager.RemoveScreen(this);
-                }
-                );
-
-            menu.controlBar.Add(newButton);
-            menu.controlBar.Add(saveButton);
-            menu.controlBar.Add(authorButton);
-            menu.controlBar.Add(renameButton);
-            menu.controlBar.Add(loadButton);
-            menu.controlBar.Add(exitButton);
-
-            //menu.current = (node);
+            menu = new EditorTreeMenu(_parent, nodes, _parent.cursorPosition);
 
             menu.SetCurrentToTool(_parent.tool);
 
