@@ -38,6 +38,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
                     && c.Other.UserData is PlayerAgent)
                 {
                     _gameplayManager.activeConnection = this.connection;
+                    ((PlayerAgent)c.Other.UserData).player.respawnPoint = this;
                 }
                 
                 c = c.Next;

@@ -15,6 +15,7 @@ using wickedcrush.display._3d;
 using wickedcrush.factory.menu.panel;
 using wickedcrush.helper;
 using wickedcrush.manager.gameplay.room;
+using wickedcrush.entity.physics_entity.agent.inanimate;
 
 namespace wickedcrush.player
 {
@@ -33,6 +34,8 @@ namespace wickedcrush.player
         public Stack<Panel> panels; // this too
 
         public InventoryPanel inventoryPanel; // this three
+
+        public Door respawnPoint;
 
         private bool remove = false;
 

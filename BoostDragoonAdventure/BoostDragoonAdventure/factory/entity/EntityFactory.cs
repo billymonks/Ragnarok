@@ -242,7 +242,7 @@ namespace wickedcrush.factory.entity
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
                     p.getStats().set("hp", p.getStats().get("maxHP"));
-                    p.GenerateAgent(doorList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    p.GenerateAgent(p.respawnPoint.pos + p.respawnPoint.center, new Vector2(24, 24), new Vector2(12, 12), true, this);
                     current = current.Next;
                 }
             }

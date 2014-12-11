@@ -202,6 +202,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="screen\PlayerSelectScreen.cs" />
+    <Compile Include="screen\TestCompleteScreen.cs" />
     <Compile Include="screen\transition\SolidColorFadeTransition.cs" />
     <Compile Include="screen\transition\Transition.cs" />
     <Compile Include="stats\PersistedStats.cs" />
