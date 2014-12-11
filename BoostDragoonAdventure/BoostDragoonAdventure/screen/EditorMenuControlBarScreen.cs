@@ -66,6 +66,16 @@ namespace wickedcrush.screen
                 }
                 );
 
+            Button testButton = new Button(
+                sf.createText(new Vector2(0f, 0f), "Test", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
+                sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
+                e =>
+                {
+                    _parent.TestRoom();
+                    game.screenManager.RemoveScreen(this);
+                }
+                );
+
             Button authorButton = new Button(
                 sf.createText(new Vector2(0f, 0f), "Author", "fonts/TestFont", new Vector2(1f, 1f), Vector2.Zero, Color.White, 0f),
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),

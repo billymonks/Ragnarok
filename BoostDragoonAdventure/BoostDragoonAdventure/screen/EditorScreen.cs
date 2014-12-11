@@ -110,6 +110,11 @@ namespace wickedcrush.screen
             game.roomManager.AddRoomToLocalAtlas(room.stats);
         }
 
+        public void TestRoom()
+        {
+
+        }
+
         public void AuthorRoom()
         {
             PollRoomUpdate();

@@ -30,6 +30,8 @@ namespace wickedcrush.manager.player
         private ControlsManager _cm;
         private NetworkManager _nm;
 
+        private Dictionary<Player, PersistedStats> tempSavedStats = new Dictionary<Player,PersistedStats>();
+
         public PlayerManager(Game game)
             : base(game)
         {
@@ -66,6 +68,55 @@ namespace wickedcrush.manager.player
 
 
             performRemoval();
+        }
+
+        public void SaveTempStats()
+        {
+            tempSavedStats.Clear();
+            foreach (Player p in playerList)
+            {
+                tempSavedStats.Add(p, p.getStats());
+            }
+        }
+
+        public void SetTempStatsForEditorTest()
+        {
+            tempSavedStats.Clear();
+            foreach (Player p in playerList)
+            {
+                tempSavedStats.Add(p, p.getStats());
+                InitializeStatsForEditorTest(p);
+            }
+        }
+
+        private void InitializeStatsForEditorTest(Player p)
+        {
+            PersistedStats stats = new PersistedStats();
+            stats.set("hp", 1);
+            stats.set("maxHP", 1);
+            stats.set("maxBoost", 1000);
+            stats.set("boost", 1000);
+            stats.set("fillSpeed", 3);
+            stats.set("useSpeed", 8);
+            stats.set("boostSpeedMod", 0);
+
+            stats.set("boostRecharge", 250);
+            stats.set(("iFrameTime"), 150);
+            stats.set("staggerDistance", 100);
+
+            stats.set("staggerLimit", 100);
+            stats.set("staggerDuration", 50);
+            stats.set("stagger", 0);
+
+            p.setStats(stats);
+        }
+
+        public void LoadTempStats()
+        {
+            foreach (KeyValuePair<Player, PersistedStats> pair in tempSavedStats)
+            {
+                pair.Key.setStats(pair.Value);
+            }
         }
 
         public bool checkForTransition(Map m)

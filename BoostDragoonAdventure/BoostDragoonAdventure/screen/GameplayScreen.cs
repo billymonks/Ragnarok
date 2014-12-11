@@ -40,7 +40,7 @@ namespace wickedcrush.screen
         public Timer freezeFrameTimer = new Timer(150);
         Timer readyTimer;
 
-        bool testMode;
+        private bool testMode;
         
         public GameplayScreen(Game game, String mapName)
         {
@@ -56,24 +56,39 @@ namespace wickedcrush.screen
 
         public GameplayScreen(Game game, RoomInfo roomToTest)
         {
+            gameplayManager = new GameplayManager(game);
+            LoadContent(game);
+            this.game = game;
 
+            Initialize(game, "testmap", true);
         }
 
         public void Initialize(Game g, String mapName, bool testMode)
         {
             base.Initialize(g);
 
-            this.testMode = testMode;
-
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
-            gameplayManager.LoadMap(mapName);
+            this.testMode = testMode;
+
+            if (this.testMode)
+            {
+                g.playerManager.SaveTempStats();
+                gameplayManager.LoadMap("testMap");
+            }
+            else
+            {
+                gameplayManager.LoadMap(mapName);
+            }
+            
             
             gameplayManager.factory.spawnPlayers(0);
 
             readyTimer = new Timer(20);
             readyTimer.start();
+
+            
         }
 
         public void UpdateFreezeFrame(GameTime gameTime)
@@ -167,7 +182,12 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
-            game.playerManager.saveAllPlayers();
+            if (testMode)
+            {
+                game.playerManager.LoadTempStats();
+            } else {
+                game.playerManager.saveAllPlayers();
+            }
             game.screenManager.RemoveScreen(this);
         }
     }
