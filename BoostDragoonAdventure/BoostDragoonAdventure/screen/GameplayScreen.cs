@@ -41,10 +41,12 @@ namespace wickedcrush.screen
         Timer readyTimer;
 
         private bool testMode;
+
+        public RoomInfo roomToTest; // needs to be expanded to to child class RoomTestScreen or something
         
         public GameplayScreen(Game game, String mapName)
         {
-            gameplayManager = new GameplayManager(game);
+            gameplayManager = new GameplayManager(game, this);
 
             LoadContent(game);
 
@@ -54,13 +56,15 @@ namespace wickedcrush.screen
 
         }
 
-        public GameplayScreen(Game game, RoomInfo roomToTest)
+        public GameplayScreen(Game game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
         {
-            gameplayManager = new GameplayManager(game);
+            gameplayManager = new GameplayManager(game, this);
+
             LoadContent(game);
             this.game = game;
+            this.roomToTest = roomToTest;
 
-            Initialize(game, "testmap", true);
+            Initialize(game, "testMap", true);
         }
 
         public void Initialize(Game g, String mapName, bool testMode)
@@ -75,12 +79,9 @@ namespace wickedcrush.screen
             if (this.testMode)
             {
                 g.playerManager.SaveTempStats();
-                gameplayManager.LoadMap("testMap");
             }
-            else
-            {
-                gameplayManager.LoadMap(mapName);
-            }
+
+            gameplayManager.LoadMap(mapName);
             
             
             gameplayManager.factory.spawnPlayers(0);
@@ -163,7 +164,6 @@ namespace wickedcrush.screen
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 3), Color.Black);
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 1), Color.Black);
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 3), Color.Black);
-
 
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
         }

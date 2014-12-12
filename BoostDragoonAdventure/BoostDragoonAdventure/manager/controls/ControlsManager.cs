@@ -223,5 +223,15 @@ namespace wickedcrush.manager.controls
             }
             return false;
         }
+
+        public bool StartPressed()
+        {
+            foreach (Controls c in controlsList)
+            {
+                if (c.StartPressed())
+                    return true;
+            }
+            return false;
+        }
     }
 }

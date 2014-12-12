@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.factory.sprite;
 using wickedcrush.display.primitives;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.screen
 {
@@ -15,7 +16,9 @@ namespace wickedcrush.screen
         public Vector2 cursorPosition;
         public Vector2 scaledCursorPosition;
 
-        public TestCompleteScreen(Game g)
+        public GameplayManager _gameplayManager;
+
+        public TestCompleteScreen(Game g, GameplayManager gameplayManager)
         {
             base.Initialize(g);
 
@@ -23,11 +26,24 @@ namespace wickedcrush.screen
 
             exclusiveDraw = false;
             exclusiveUpdate = true;
+
+            _gameplayManager = gameplayManager;
+
+            if (gameplayManager._screen.roomToTest != null)
+            {
+                gameplayManager._screen.roomToTest.readyToAuthor = true;
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             game.diag = "Room Complete!\nPress Start/Enter to return to the Editor!";
+
+            if (game.controlsManager.StartPressed())
+            {
+                _gameplayManager._screen.Dispose();
+                Dispose();
+            }
         }
 
         public override void DebugDraw()
@@ -37,7 +53,7 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
-            
+            game.screenManager.RemoveScreen(this);
         }
     }
 }

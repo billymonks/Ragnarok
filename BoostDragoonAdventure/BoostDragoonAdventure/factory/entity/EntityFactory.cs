@@ -41,7 +41,7 @@ namespace wickedcrush.factory.entity
         private GameplayManager _gm;
         private ControlsManager _cm;
         private SoundManager _sm;
-        private World _w;
+        public World _w;
         public RoomManager _rm;
 
         private List<Door> doorList;

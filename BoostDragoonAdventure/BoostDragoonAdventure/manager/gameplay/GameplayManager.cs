@@ -22,6 +22,7 @@ using wickedcrush.manager.network;
 using wickedcrush.screen.transition;
 using wickedcrush.task;
 using wickedcrush.manager.map;
+using wickedcrush.screen;
 
 namespace wickedcrush.manager.gameplay
 {
@@ -45,9 +46,12 @@ namespace wickedcrush.manager.gameplay
 
         private Game _game;
 
-        public GameplayManager(Game game)
+        public GameplayScreen _screen; 
+
+        public GameplayManager(Game game, GameplayScreen screen)
         {
             _game = game;
+            _screen = screen;
 
             Initialize();
         }

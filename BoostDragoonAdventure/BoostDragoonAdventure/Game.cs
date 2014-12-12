@@ -48,8 +48,6 @@ namespace wickedcrush
         public NetworkManager networkManager;
         public ScreenManager screenManager;
 
-        public GameplayManager gameplayManager;
-
         public SpriteBatch spriteBatch;
 
         public PanelFactory panelFactory;
