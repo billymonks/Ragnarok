@@ -112,7 +112,7 @@ namespace wickedcrush.screen
 
         public void TestRoom()
         {
-
+            game.screenManager.AddScreen(new GameplayScreen(game, room.stats));
         }
 
         public void AuthorRoom()
@@ -123,6 +123,12 @@ namespace wickedcrush.screen
             {
                 Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has already been authored.");
                 NewRoom();
+                return;
+            }
+
+            if (!room.stats.readyToAuthor)
+            {
+                Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has not passed its test.");
                 return;
             }
 

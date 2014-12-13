@@ -118,6 +118,7 @@ namespace wickedcrush.screen
 
             bar.controlBar.Add(newButton);
             bar.controlBar.Add(saveButton);
+            bar.controlBar.Add(testButton);
             bar.controlBar.Add(authorButton);
             bar.controlBar.Add(renameButton);
             bar.controlBar.Add(loadButton);

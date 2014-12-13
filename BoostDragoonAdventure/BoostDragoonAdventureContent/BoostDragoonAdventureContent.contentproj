@@ -111,6 +111,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="maps\full\testMap.xml">
+      <Name>testMap</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="maps\full\the bender.xml">
       <Name>the bender</Name>
       <Importer>XmlImporter</Importer>
