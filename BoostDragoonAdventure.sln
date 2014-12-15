@@ -14,6 +14,9 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
 		Debug|x86 = Debug|x86
+		NoServerRebuild|Any CPU = NoServerRebuild|Any CPU
+		NoServerRebuild|Mixed Platforms = NoServerRebuild|Mixed Platforms
+		NoServerRebuild|x86 = NoServerRebuild|x86
 		Release|Any CPU = Release|Any CPU
 		Release|Mixed Platforms = Release|Mixed Platforms
 		Release|x86 = Release|x86
@@ -24,6 +27,10 @@ Global
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.ActiveCfg = bin|Any CPU
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|Mixed Platforms.Build.0 = bin|Any CPU
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.NoServerRebuild|Any CPU.ActiveCfg = NoServerRebuild|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.NoServerRebuild|Any CPU.Build.0 = NoServerRebuild|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.NoServerRebuild|Mixed Platforms.ActiveCfg = NoServerRebuild|Any CPU
+		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.NoServerRebuild|x86.ActiveCfg = NoServerRebuild|Any CPU
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{978F3C14-B7B2-45C1-BF1F-3C53986293A8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -34,6 +41,11 @@ Global
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|x86.ActiveCfg = Debug|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Debug|x86.Build.0 = Debug|x86
+		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.NoServerRebuild|Any CPU.ActiveCfg = NoServerRebuild|x86
+		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.NoServerRebuild|Mixed Platforms.ActiveCfg = NoServerRebuild|x86
+		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.NoServerRebuild|Mixed Platforms.Build.0 = NoServerRebuild|x86
+		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.NoServerRebuild|x86.ActiveCfg = NoServerRebuild|x86
+		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.NoServerRebuild|x86.Build.0 = NoServerRebuild|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Release|Any CPU.ActiveCfg = Release|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{B2BED031-C9F5-4F9C-9999-40CE8D14ED24}.Release|Mixed Platforms.Build.0 = Release|x86
@@ -42,6 +54,9 @@ Global
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Debug|x86.ActiveCfg = Debug|x86
+		{197AF7BA-EB2B-4D46-9163-D46E64072721}.NoServerRebuild|Any CPU.ActiveCfg = Release|x86
+		{197AF7BA-EB2B-4D46-9163-D46E64072721}.NoServerRebuild|Mixed Platforms.ActiveCfg = Release|x86
+		{197AF7BA-EB2B-4D46-9163-D46E64072721}.NoServerRebuild|x86.ActiveCfg = Release|x86
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Release|Any CPU.ActiveCfg = Release|x86
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{197AF7BA-EB2B-4D46-9163-D46E64072721}.Release|x86.ActiveCfg = Release|x86
@@ -50,6 +65,11 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|x86.ActiveCfg = Debug|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Debug|x86.Build.0 = Debug|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.NoServerRebuild|Any CPU.ActiveCfg = NoServerRebuild|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.NoServerRebuild|Mixed Platforms.ActiveCfg = NoServerRebuild|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.NoServerRebuild|Mixed Platforms.Build.0 = NoServerRebuild|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.NoServerRebuild|x86.ActiveCfg = NoServerRebuild|x86
+		{0A850700-1ABB-4288-A391-6726B90EBEB9}.NoServerRebuild|x86.Build.0 = NoServerRebuild|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Any CPU.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.Build.0 = Release|x86

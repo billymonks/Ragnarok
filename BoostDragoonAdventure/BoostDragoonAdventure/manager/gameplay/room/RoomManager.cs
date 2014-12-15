@@ -268,6 +268,11 @@ namespace wickedcrush.manager.gameplay.room
             SaveLocalAtlas();
         }
 
+        public String getGameplayRoom(RoomInfo room)
+        {
+            return "Content/maps/small/" + room.localId + ".xml";
+        }
+
         public String getRandomOfflineRoom()
         {
             return offlineAtlas[random.Next(offlineAtlas.Count - 1)].localId;
@@ -275,7 +280,7 @@ namespace wickedcrush.manager.gameplay.room
 
         public String getRandomOnlineRoom()
         {
-            RoomInfo info = onlineAtlas[random.Next(onlineAtlas.Count - 1)];
+            RoomInfo info = onlineAtlas[random.Next(0, onlineAtlas.Count)];
             return "Content/maps/temp/" + info.globalId + "_" + info.localId + ".xml";
         }
     }

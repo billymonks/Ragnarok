@@ -74,7 +74,7 @@ namespace wickedcrush.manager.network
 
             if (!mapsRequested && listener.connected)
             {
-                RequestOnlineMaps(1);
+                RequestOnlineMaps(3);
                 mapsRequested = true;
             }
         }

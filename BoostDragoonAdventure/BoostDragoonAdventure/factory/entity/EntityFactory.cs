@@ -76,6 +76,13 @@ namespace wickedcrush.factory.entity
             _em.addEntity(d);
         }
 
+        public void addDestination(Vector2 pos)
+        {
+            DestinationAgent d = new DestinationAgent(pos, new Vector2(80f, 80f), _gm, _game);
+
+            _em.addEntity(d);
+        }
+
         public void addPhysicsEntity(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PhysicsEntity e = new PhysicsEntity(_w, pos, size, center, solid, _sm);

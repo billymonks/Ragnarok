@@ -29,6 +29,7 @@ using wickedcrush.manager.gameplay.room;
 using wickedcrush.menu.panel;
 using wickedcrush.utility;
 using wickedcrush.manager.gameplay;
+using wickedcrush.editor;
 
 
 namespace wickedcrush.screen
@@ -42,11 +43,11 @@ namespace wickedcrush.screen
 
         private bool testMode;
 
-        public RoomInfo roomToTest; // needs to be expanded to to child class RoomTestScreen or something
+        RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
         
         public GameplayScreen(Game game, String mapName)
         {
-            gameplayManager = new GameplayManager(game, this);
+            gameplayManager = new GameplayManager(game, this, false);
 
             LoadContent(game);
 
@@ -58,11 +59,11 @@ namespace wickedcrush.screen
 
         public GameplayScreen(Game game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
         {
-            gameplayManager = new GameplayManager(game, this);
+            gameplayManager = new GameplayManager(game, this, true);
 
             LoadContent(game);
             this.game = game;
-            this.roomToTest = roomToTest;
+            _roomToTest = roomToTest;
 
             Initialize(game, "testMap", true);
         }
@@ -92,6 +93,11 @@ namespace wickedcrush.screen
             
         }
 
+        public RoomInfo GetRoom()
+        {
+            return _roomToTest;
+        }
+
         public void UpdateFreezeFrame(GameTime gameTime)
         {
             if(gameplayManager.getFreezeFrame())
@@ -110,6 +116,16 @@ namespace wickedcrush.screen
         private void checkAndAdd()
         {
             game.controlsManager.checkAndAddGamepads();
+        }
+
+        public void SetRoomReady()
+        {
+            if (_roomToTest != null)
+            {
+                _roomToTest.readyToAuthor = true;
+                //_roomToTest.saveRoom();
+                //game.roomManager.AddRoomToLocalAtlas(_roomToTest.stats);
+            }
         }
 
         private void LoadContent(Game game)

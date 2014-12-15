@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using wickedcrush.factory.sprite;
 using wickedcrush.display.primitives;
 using wickedcrush.manager.gameplay;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.screen
 {
@@ -29,10 +30,7 @@ namespace wickedcrush.screen
 
             _gameplayManager = gameplayManager;
 
-            if (gameplayManager._screen.roomToTest != null)
-            {
-                gameplayManager._screen.roomToTest.readyToAuthor = true;
-            }
+            gameplayManager._screen.SetRoomReady();
         }
 
         public override void Update(GameTime gameTime)
@@ -49,6 +47,15 @@ namespace wickedcrush.screen
         public override void DebugDraw()
         {
             
+        }
+
+        public override void FreeDraw()
+        {
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
+
+            DrawDiag();
+
+            game.spriteBatch.End();
         }
 
         public override void Dispose()

@@ -50,6 +50,7 @@ namespace wickedcrush.screen
         public TextInput textInput;
 
         public RoomInfo roomToLoad = new RoomInfo("");
+        public RoomInfo roomToAuthor = new RoomInfo("");
 
         public Player user;
 
@@ -112,7 +113,9 @@ namespace wickedcrush.screen
 
         public void TestRoom()
         {
-            game.screenManager.AddScreen(new GameplayScreen(game, room.stats));
+            roomToAuthor = room.stats;
+            game.screenManager.AddScreen(new GameplayScreen(game, roomToAuthor));
+            
         }
 
         public void AuthorRoom()
@@ -126,11 +129,11 @@ namespace wickedcrush.screen
                 return;
             }
 
-            if (!room.stats.readyToAuthor)
+            /*if (!room.stats.readyToAuthor)
             {
                 Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has not passed its test.");
                 return;
-            }
+            }*/
 
             SaveRoom();
             game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, game.playerManager.getPlayerList()[0].globalId);
@@ -153,6 +156,12 @@ namespace wickedcrush.screen
             {
                 PollRoom(roomToLoad);
                 roomToLoad.readyToLoad = false;
+            }
+
+            if (roomToAuthor.readyToAuthor)
+            {
+                AuthorRoom();
+                roomToAuthor.readyToAuthor = false;
             }
 
             UpdateTextInput(gameTime);
@@ -325,20 +334,6 @@ namespace wickedcrush.screen
             game.diag += "Map Name: " + room.stats.roomName;
         }
 
-        private void DrawDiag()
-        {
-            
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 3), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 3), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 1), Color.Black);
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 3), Color.Black);
-
-
-            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
-            
-        }
 
         private void DrawCursor()
         {

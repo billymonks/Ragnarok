@@ -29,5 +29,20 @@ namespace wickedcrush.screen
         public virtual void DebugDraw() { }
         public virtual void FullScreenDraw() { }
         public virtual void FreeDraw() { }
+
+        protected void DrawDiag()
+        {
+
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 1), Color.Black);
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 3), Color.Black);
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 1), Color.Black);
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 3), Color.Black);
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 1), Color.Black);
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 3), Color.Black);
+
+
+            game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
+
+        }
     }
 }

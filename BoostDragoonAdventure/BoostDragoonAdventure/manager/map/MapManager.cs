@@ -11,6 +11,7 @@ using wickedcrush.manager.gameplay;
 using wickedcrush.entity;
 using wickedcrush.map.layer;
 using wickedcrush.map.circuit;
+using wickedcrush.manager.gameplay.room;
 
 namespace wickedcrush.manager.map
 {
@@ -152,6 +153,12 @@ namespace wickedcrush.manager.map
                     doorCount++;
                 }
 
+                foreach (XElement e in objects.Elements("TEST_DESTINATION"))
+                {
+                    gm.factory.addDestination(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
                     gm.factory.addMurderer(
@@ -161,10 +168,20 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("ROOM"))
                 {
-                    loadSubMap(gm, map, getRandomRoom(),
+                    if (gm.testMode)
+                    {
+                        loadSubMap(gm, map, gm._roomManager.getGameplayRoom(gm._screen.GetRoom()),
                         new Point(int.Parse(e.Attribute("x").Value),
                         int.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value), false);
+                    }
+                    else
+                    {
+                        loadSubMap(gm, map, getRandomRoom(),
+                            new Point(int.Parse(e.Attribute("x").Value),
+                            int.Parse(e.Attribute("y").Value)),
+                            (Direction)int.Parse(e.Attribute("angle").Value), false);
+                    }
                 }
 
                 foreach (XElement e in objects.Elements("ROOM_MIRROR"))
@@ -324,6 +341,8 @@ namespace wickedcrush.manager.map
                 }
             }
         }
+
+        
 
         private String getRandomRoom()
         {

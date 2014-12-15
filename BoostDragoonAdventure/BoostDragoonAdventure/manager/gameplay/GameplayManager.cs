@@ -46,12 +46,15 @@ namespace wickedcrush.manager.gameplay
 
         private Game _game;
 
-        public GameplayScreen _screen; 
+        public GameplayScreen _screen;
 
-        public GameplayManager(Game game, GameplayScreen screen)
+        public bool testMode;
+
+        public GameplayManager(Game game, GameplayScreen screen, bool testMode)
         {
             _game = game;
             _screen = screen;
+            this.testMode = testMode;
 
             Initialize();
         }
