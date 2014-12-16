@@ -20,7 +20,7 @@ namespace wickedcrush.manager.entity
     {
         Game g;
 
-        private List<Entity> entityList = new List<Entity>();
+        public List<Entity> entityList = new List<Entity>();
         private List<Entity> addList = new List<Entity>();
         private List<Entity> removeList = new List<Entity>();
 

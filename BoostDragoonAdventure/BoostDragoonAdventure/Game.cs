@@ -25,6 +25,7 @@ using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.screen;
 using wickedcrush.manager.task;
 using wickedcrush.manager.map;
+using wickedcrush.display.spriter;
 
 namespace wickedcrush
 {
@@ -52,6 +53,8 @@ namespace wickedcrush
 
         public PanelFactory panelFactory;
 
+
+        public SpriterManager spriterManager;
         
 
         public Map testMap;
@@ -108,6 +111,8 @@ namespace wickedcrush
 
             e = new BasicEffect(GraphicsDevice);
 
+            spriterManager = new SpriterManager(this);
+
 
 
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
@@ -143,6 +148,7 @@ namespace wickedcrush
 
         protected override void LoadContent()
         {
+            
             //Content.RootDirectory = "Content";
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
@@ -150,6 +156,8 @@ namespace wickedcrush
             initializeWhiteTexture(GraphicsDevice);
 
             PrimitiveDrawer.LoadContent(GraphicsDevice);
+
+            spriterManager.LoadContent();
         }
 
         protected override void UnloadContent()
@@ -157,6 +165,7 @@ namespace wickedcrush
             base.UnloadContent();
 
             spriteBatch.Dispose();
+            spriterManager.UnloadContent();
         }
 
         protected override void Update(GameTime gameTime)

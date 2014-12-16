@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoostDragoonAdventureConten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "BoostDragoonAdventure\Farseer Physics Engine 3.5\Farseer Physics XNA.csproj", "{0A850700-1ABB-4288-A391-6726B90EBEB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spriter", "..\SpriterXNATest\SpriterTest\Spriter\Spriter.csproj", "{77AC0DDD-09FB-4025-95BE-018E2269D3D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,21 @@ Global
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.ActiveCfg = Release|x86
 		{0A850700-1ABB-4288-A391-6726B90EBEB9}.Release|x86.Build.0 = Release|x86
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.NoServerRebuild|Any CPU.ActiveCfg = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.NoServerRebuild|Any CPU.Build.0 = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.NoServerRebuild|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.NoServerRebuild|Mixed Platforms.Build.0 = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.NoServerRebuild|x86.ActiveCfg = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
