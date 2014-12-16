@@ -23,6 +23,7 @@ using wickedcrush.screen.transition;
 using wickedcrush.task;
 using wickedcrush.manager.map;
 using wickedcrush.screen;
+using wickedcrush.display.spriter;
 
 namespace wickedcrush.manager.gameplay
 {
@@ -35,6 +36,8 @@ namespace wickedcrush.manager.gameplay
         public PlayerManager _playerManager; //replace with panelManager
         public NetworkManager _networkManager;
         public RoomManager _roomManager;
+
+        public SpriterManager spriterManager;
 
         public EntityFactory factory;
 
@@ -77,6 +80,8 @@ namespace wickedcrush.manager.gameplay
             _playerManager = _game.playerManager;
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
+
+            spriterManager = new SpriterManager(_game, this);
 
             factory = new EntityFactory(_game, this, entityManager, _roomManager, w);
 

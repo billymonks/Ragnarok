@@ -27,9 +27,9 @@ using wickedcrush.entity.physics_entity.agent.inanimate;
 using wickedcrush.manager.gameplay;
 using wickedcrush.entity.physics_entity.agent.trap;
 using wickedcrush.entity.physics_entity.agent.npc;
-using wickedcrush.manager.gameplay;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.map;
+using wickedcrush.display.spriter;
 
 namespace wickedcrush.factory.entity
 {
@@ -43,6 +43,7 @@ namespace wickedcrush.factory.entity
         private SoundManager _sm;
         public World _w;
         public RoomManager _rm;
+        public SpriterManager _spriterManager;
 
         private List<Door> doorList;
 
@@ -57,6 +58,7 @@ namespace wickedcrush.factory.entity
             this._sm = _game.soundManager;
             this._rm = rm;
             this._w = w;
+            this._spriterManager = gm.spriterManager;
 
             doorList = new List<Door>();
         }

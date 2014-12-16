@@ -52,9 +52,6 @@ namespace wickedcrush
         public SpriteBatch spriteBatch;
 
         public PanelFactory panelFactory;
-
-
-        public SpriterManager spriterManager;
         
 
         public Map testMap;
@@ -111,7 +108,7 @@ namespace wickedcrush
 
             e = new BasicEffect(GraphicsDevice);
 
-            spriterManager = new SpriterManager(this);
+            
 
 
 
@@ -157,7 +154,7 @@ namespace wickedcrush
 
             PrimitiveDrawer.LoadContent(GraphicsDevice);
 
-            spriterManager.LoadContent();
+            
         }
 
         protected override void UnloadContent()
@@ -165,7 +162,7 @@ namespace wickedcrush
             base.UnloadContent();
 
             spriteBatch.Dispose();
-            spriterManager.UnloadContent();
+            //spriterManager.UnloadContent();
         }
 
         protected override void Update(GameTime gameTime)

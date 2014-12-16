@@ -20,6 +20,8 @@ using wickedcrush.inventory;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.entity.physics_entity.agent.attack;
+using Com.Brashmonkey.Spriter.player;
+using wickedcrush.display.spriter;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -32,6 +34,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected Dictionary<String, Trigger> triggers;
         protected StateMachine sm;
         protected EntityFactory factory;
+        protected SpriterManager _spriterManager;
 
         public List<Entity> proximity;
         protected Entity target;
@@ -44,10 +47,12 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public bool staggered = false;
 
+        public SpriterPlayer player;
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
-            
+            _spriterManager = factory._spriterManager;
             Initialize(new PersistedStats(5, 5), factory);
         }
 
@@ -91,6 +96,13 @@ namespace wickedcrush.entity.physics_entity.agent
 
             
 
+        }
+
+        protected virtual void SetupSpriterPlayer()
+        {
+            player = new SpriterPlayer(factory._spriterManager.spriters["monster/basic"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
+            player.setAnimation("dash", 0, 0);
+            player.setFrameSpeed(20);
         }
 
 
