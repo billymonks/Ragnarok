@@ -136,6 +136,7 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
+            game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y;
 
             readyTimer.Update(gameTime);
 
@@ -153,7 +154,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            
+            gameplayManager.entityManager.Draw();
         }
 
         public override void DebugDraw()
@@ -166,13 +167,23 @@ namespace wickedcrush.screen
 
         }
 
+        public override void FreeDraw()
+        {
+            
+            gameplayManager.entityManager.FreeDraw();
+
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, Matrix.Identity);
+            DrawDiag();
+            game.spriteBatch.End();
+        }
+
         private void DrawHud()
         {
             
             game.playerManager.DrawPlayerHud(game.spriteBatch, game.testFont);
         }
 
-        private void DrawDiag()
+        /*private void DrawDiag()
         {
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 1), Color.Black);
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(2, 3), Color.Black);
@@ -182,7 +193,7 @@ namespace wickedcrush.screen
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(4, 3), Color.Black);
 
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
-        }
+        }*/
 
         
 

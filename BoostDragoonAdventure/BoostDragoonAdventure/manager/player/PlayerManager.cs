@@ -330,6 +330,9 @@ namespace wickedcrush.manager.player
                 if (p.getStats().inventory.itemB != null)
                     hud += "\nItem B: " + p.getStats().inventory.itemB.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemB);
 
+                if (p.getAgent() != null)
+                    hud += "\nPos: " + p.getAgent().pos.X + ", " + p.getAgent().pos.Y;
+
                 sb.DrawString(f,
                     hud,
                     new Vector2(p.playerNumber * 100 + 5 - 1, 5 - 1), Color.Black);

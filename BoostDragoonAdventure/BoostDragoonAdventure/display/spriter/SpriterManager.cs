@@ -13,18 +13,19 @@ namespace wickedcrush.display.spriter
     public class SpriterManager
     {
         Game g;
-        GameplayManager _gameplay;
+        public GameplayManager _gameplay;
 
-        GraphicsDeviceManager graphics;
         SpriterDrawer drawer;
         public Dictionary<String, SpriterLoader> loaders;
         public Dictionary<String, Spriter> spriters;
-        SpriterPlayer player1;
 
         public SpriterManager(Game g, GameplayManager gameplay)
         {
             this.g = g;
             _gameplay = gameplay;
+
+            loaders = new Dictionary<String, SpriterLoader>();
+            spriters = new Dictionary<String, Spriter>();
         }
         public void LoadContent()
         {
@@ -33,7 +34,7 @@ namespace wickedcrush.display.spriter
             spriters.Add("monster/basic", new Spriter("monster/basic.scml", loaders["loader1"]));
             
 
-            this.drawer = new SpriterDrawer(this.graphics);
+            this.drawer = new SpriterDrawer(g.graphics);
             this.drawer.batch = g.spriteBatch;
             this.drawer.loader = loaders["loader1"];
         }
@@ -48,6 +49,10 @@ namespace wickedcrush.display.spriter
         public void Update(GameTime gameTime)
         {
 
+        }
+        public void DrawPlayer(SpriterPlayer player)
+        {
+            drawer.draw(player);
         }
     }
 }

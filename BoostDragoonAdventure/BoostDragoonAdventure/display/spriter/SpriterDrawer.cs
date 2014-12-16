@@ -52,7 +52,8 @@ namespace wickedcrush.display.spriter
             Vector2 origin = new Vector2(reference.dimensions.width * pivotX, reference.dimensions.height * (1 - pivotY));
             Vector2 scale = new Vector2(scaleX, scaleY);
             Color color = new Color(1, 1, 1, alpha);
-            this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, 1);
+            //this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, 1);
+            this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, 0f);
         }
 
         protected override void drawLine(float x1, float y1, float x2, float y2)

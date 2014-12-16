@@ -71,6 +71,8 @@ namespace wickedcrush.manager.gameplay
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
 
             _game.soundManager.setCam(camera);
+
+            spriterManager = new SpriterManager(_game, this);
             
             if (entityManager == null)
                 entityManager = new EntityManager(_game);
@@ -81,10 +83,17 @@ namespace wickedcrush.manager.gameplay
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
 
-            spriterManager = new SpriterManager(_game, this);
+            
 
             factory = new EntityFactory(_game, this, entityManager, _roomManager, w);
 
+            LoadContent();
+
+        }
+
+        public void LoadContent()
+        {
+            spriterManager.LoadContent();
         }
 
         public void Update(GameTime gameTime)

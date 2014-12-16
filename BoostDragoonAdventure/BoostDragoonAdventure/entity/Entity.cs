@@ -135,6 +135,11 @@ namespace wickedcrush.entity
             return true;
         }
 
+        public virtual void Draw()
+        {
+            
+        }
+
         public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
             //spriteBatch.Draw(whiteTexture, body, c);
@@ -147,6 +152,11 @@ namespace wickedcrush.entity
 
             foreach (Entity e in subEntityList)
                 e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+        }
+
+        public virtual void FreeDraw()
+        {
+
         }
 
         protected Vector2 vectorToEntity(Entity e)

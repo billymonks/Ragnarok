@@ -47,7 +47,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public bool staggered = false;
 
-        public SpriterPlayer player;
+        public SpriterPlayer sPlayer;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -59,6 +59,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
+            _spriterManager = factory._spriterManager;
             Initialize(stats, factory);
         }
 
@@ -73,6 +74,8 @@ namespace wickedcrush.entity.physics_entity.agent
             triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
             this.name = "Agent";
+
+            SetupSpriterPlayer();
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -100,9 +103,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void SetupSpriterPlayer()
         {
-            player = new SpriterPlayer(factory._spriterManager.spriters["monster/basic"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
-            player.setAnimation("dash", 0, 0);
-            player.setFrameSpeed(20);
+            sPlayer = new SpriterPlayer(factory._spriterManager.spriters["monster/basic"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
+            sPlayer.setAnimation("dash", 0, 0);
+            sPlayer.setFrameSpeed(20);
         }
 
 
@@ -292,10 +295,26 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
+        public override void FreeDraw()
+        {
+            //_spriterManager.DrawPlayer(sPlayer);
+        }
+
+        public override void Draw()
+        {
+            //sPlayer.update(bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X, bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y);
+            //sPlayer.update(1440, -1080);
+            sPlayer.update((bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X) * 2.25f,
+                (bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y) * -2.25f);
+            _spriterManager.DrawPlayer(sPlayer);
+        }
+
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
         {
 
             base.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+
+            //_spriterManager.DrawPlayer(sPlayer);
 
             if(visible)
                 DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c, camera);

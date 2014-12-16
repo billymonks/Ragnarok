@@ -139,12 +139,30 @@ namespace wickedcrush.manager.entity
             }
         }
 
+        public void Draw()
+        {
+            foreach (Entity e in entityList)
+            {
+                e.Draw();
+            }
+        }
+
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont, Camera camera)
         {
             foreach (Entity e in entityList)
             {
                 e.DebugDraw(wTex, aTex, gd, sb, testFont, Color.Green, camera);
             }
+        }
+
+        public void FreeDraw()
+        {
+            g.spriteBatch.Begin();
+            foreach (Entity e in entityList)
+            {
+                e.FreeDraw();
+            }
+            g.spriteBatch.End();
         }
 
         public void RemoveAll()

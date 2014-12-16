@@ -156,7 +156,7 @@ namespace wickedcrush.factory.entity
 
         public void addBolt(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            Bolt b = new Bolt(_w, pos, size, center, parent, damage, force, _sm);
+            Bolt b = new Bolt(_w, pos, size, center, parent, damage, force, _sm, this);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);
@@ -206,7 +206,7 @@ namespace wickedcrush.factory.entity
 
         public void addMeleeAttack(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force)
         {
-            MeleeAttack a = new MeleeAttack(_w, pos, size, center, parent, damage, force, _sm);
+            MeleeAttack a = new MeleeAttack(_w, pos, size, center, parent, damage, force, _sm, this);
 
             a.stats.set("staggerDuration", 1);
             a.stats.set("staggerDistance", 0);
