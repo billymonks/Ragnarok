@@ -51,6 +51,8 @@ namespace wickedcrush
 
         public SpriteBatch spriteBatch;
 
+        public SpriterManager spriterManager;
+
         public PanelFactory panelFactory;
         
 
@@ -108,10 +110,6 @@ namespace wickedcrush
 
             e = new BasicEffect(GraphicsDevice);
 
-            
-
-
-
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
             debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
             debugxtranslate = (debugxscale - debugyscale) * 320f;
@@ -130,6 +128,8 @@ namespace wickedcrush
 
             ItemServer.Initialize();
 
+            spriterManager = new SpriterManager(this);
+
             networkManager = new NetworkManager(this);
 
             taskManager = new TaskManager(this);
@@ -145,7 +145,6 @@ namespace wickedcrush
 
         protected override void LoadContent()
         {
-            
             //Content.RootDirectory = "Content";
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
@@ -162,7 +161,7 @@ namespace wickedcrush
             base.UnloadContent();
 
             spriteBatch.Dispose();
-            //spriterManager.UnloadContent();
+            spriterManager.UnloadContent();
         }
 
         protected override void Update(GameTime gameTime)

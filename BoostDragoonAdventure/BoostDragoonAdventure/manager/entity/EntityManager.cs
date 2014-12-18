@@ -141,10 +141,17 @@ namespace wickedcrush.manager.entity
 
         public void Draw()
         {
+            DepthSort();
+
             foreach (Entity e in entityList)
             {
                 e.Draw();
             }
+        }
+
+        private void DepthSort()
+        {
+            entityList.Sort();
         }
 
         public void DebugDraw(GraphicsDevice gd, SpriteBatch sb, Texture2D wTex, Texture2D aTex, SpriteFont testFont, Camera camera)

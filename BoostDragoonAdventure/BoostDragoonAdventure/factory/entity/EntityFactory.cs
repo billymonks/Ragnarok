@@ -38,7 +38,7 @@ namespace wickedcrush.factory.entity
         private Game _game; //lol what r u gonna do about it ;) jk pls be nice
         private EntityManager _em;
         private PlayerManager _pm;
-        private GameplayManager _gm;
+        public GameplayManager _gm;
         private ControlsManager _cm;
         private SoundManager _sm;
         public World _w;
@@ -58,7 +58,7 @@ namespace wickedcrush.factory.entity
             this._sm = _game.soundManager;
             this._rm = rm;
             this._w = w;
-            this._spriterManager = gm.spriterManager;
+            this._spriterManager = game.spriterManager;
 
             doorList = new List<Door>();
         }

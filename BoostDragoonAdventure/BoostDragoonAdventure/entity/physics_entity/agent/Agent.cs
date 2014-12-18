@@ -103,8 +103,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void SetupSpriterPlayer()
         {
-            sPlayer = new SpriterPlayer(factory._spriterManager.spriters["monster/basic"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
-            sPlayer.setAnimation("dash", 0, 0);
+            sPlayer = new SpriterPlayer(factory._spriterManager.spriters["cursor"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
+            sPlayer.setAnimation("hover", 0, 0);
             sPlayer.setFrameSpeed(20);
         }
 
@@ -304,8 +304,8 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             //sPlayer.update(bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X, bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y);
             //sPlayer.update(1440, -1080);
-            sPlayer.update((bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X) * 2.25f,
-                (bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y) * -2.25f);
+            sPlayer.update((bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * 2.25f,
+                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * -2.25f);
             _spriterManager.DrawPlayer(sPlayer);
         }
 

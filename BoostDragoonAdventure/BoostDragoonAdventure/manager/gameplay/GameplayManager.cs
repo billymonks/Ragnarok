@@ -37,7 +37,7 @@ namespace wickedcrush.manager.gameplay
         public NetworkManager _networkManager;
         public RoomManager _roomManager;
 
-        public SpriterManager spriterManager;
+        
 
         public EntityFactory factory;
 
@@ -72,7 +72,7 @@ namespace wickedcrush.manager.gameplay
 
             _game.soundManager.setCam(camera);
 
-            spriterManager = new SpriterManager(_game, this);
+            
             
             if (entityManager == null)
                 entityManager = new EntityManager(_game);
@@ -93,7 +93,7 @@ namespace wickedcrush.manager.gameplay
 
         public void LoadContent()
         {
-            spriterManager.LoadContent();
+            
         }
 
         public void Update(GameTime gameTime)

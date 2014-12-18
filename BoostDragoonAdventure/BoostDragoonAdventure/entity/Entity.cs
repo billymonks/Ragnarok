@@ -26,7 +26,7 @@ namespace wickedcrush.entity
         NorthEast = 315
     }
 
-    public class Entity
+    public class Entity : IComparable<Entity>
     {
         #region Variables
         public Vector2 pos, size, center;
@@ -174,6 +174,19 @@ namespace wickedcrush.entity
         protected float angleToEntity(Entity e)
         {
             return directionVectorToAngle(vectorToEntity(e));
+        }
+
+        public int CompareTo(Entity other)
+        {
+            if (other.pos.Y + other.size.Y > pos.Y + size.Y)
+            {
+                return -1;
+            }
+            else if (other.pos.Y + other.size.Y == pos.Y + size.Y)
+            {
+                return 0;
+            }
+            else return 1;
         }
     }
         

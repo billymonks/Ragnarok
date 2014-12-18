@@ -125,6 +125,8 @@
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="display\3d\Camera.cs" />
+    <Compile Include="display\3d\Scene.cs" />
+    <Compile Include="display\3d\vertex\WCVertex.cs" />
     <Compile Include="display\animation\Tween.cs" />
     <Compile Include="display\primitives\PrimitiveDrawer.cs" />
     <Compile Include="display\spriter\SpriterDrawer.cs" />
