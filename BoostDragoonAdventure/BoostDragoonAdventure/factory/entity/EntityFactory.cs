@@ -166,7 +166,7 @@ namespace wickedcrush.factory.entity
 
         public void addAimedProjectile(Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, int aimDirection)
         {
-            AimedProjectile b = new AimedProjectile(_w, pos, size, center, parent, damage, force, aimDirection, _sm);
+            AimedProjectile b = new AimedProjectile(_w, pos, size, center, parent, damage, force, aimDirection, _sm, this);
 
             b.stats.set("staggerDuration", 1);
             b.stats.set("staggerDistance", 0);

@@ -53,6 +53,8 @@ namespace wickedcrush.manager.gameplay
 
         public bool testMode;
 
+        public Scene scene;
+
         public GameplayManager(Game game, GameplayScreen screen, bool testMode)
         {
             _game = game;
@@ -66,6 +68,8 @@ namespace wickedcrush.manager.gameplay
         {
             w = new World(Vector2.Zero);
             w.Gravity = Vector2.Zero;
+
+            scene = new Scene(_game);
 
             camera = new Camera(_game.playerManager);
             camera.cameraPosition = new Vector3(320f, 240f, 75f);
@@ -133,6 +137,7 @@ namespace wickedcrush.manager.gameplay
             MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
             map = new Map(mapStats.filename, w, this);
             _game.mapManager.LoadMap(this, map, mapStats);
+            scene.BuildScene(map);
         }
 
         private void EnqueueMapTransition()

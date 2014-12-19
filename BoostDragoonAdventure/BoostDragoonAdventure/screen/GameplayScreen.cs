@@ -152,15 +152,27 @@ namespace wickedcrush.screen
 
         }
 
+        public override void Render()
+        {
+            gameplayManager.scene.DrawScene(game, gameplayManager);
+        }
+
         public override void Draw()
         {
+            //game.GraphicsDevice.Clear(Color.Black);
+            
+            
             gameplayManager.entityManager.Draw();
+            
+            
+            
         }
 
         public override void DebugDraw()
         {
-            gameplayManager.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, gameplayManager.camera);
-            gameplayManager.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, gameplayManager.camera);
+            
+            //gameplayManager.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, gameplayManager.camera);
+            //gameplayManager.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, gameplayManager.camera);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
 
             DrawHud();

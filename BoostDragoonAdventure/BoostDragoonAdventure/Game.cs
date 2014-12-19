@@ -74,6 +74,8 @@ namespace wickedcrush
 
         public bool fullscreen = false;
 
+        public float aspectRatio;
+
         public Game()
         {
             debugMode = true;
@@ -95,11 +97,12 @@ namespace wickedcrush
             }
             else
             {
-                graphics.PreferredBackBufferWidth = 1280;
-                graphics.PreferredBackBufferHeight = 720;
+                graphics.PreferredBackBufferWidth = 1920;
+                graphics.PreferredBackBufferHeight = 1080;
                 graphics.IsFullScreen = false;
             }
-
+            
+            aspectRatio = (float)graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
             
             graphics.ApplyChanges();
         }

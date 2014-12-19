@@ -135,14 +135,18 @@ namespace wickedcrush.manager.screen
 
                 //if (_game.debugMode)
                 //{
-                    _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.debugSpriteScale);
-                    screenList[i].DebugDraw();
-                    _game.spriteBatch.End();
+                    
                 //}
                 //else
                 //{
+                screenList[i].Render();
+
                     _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, _game.spriteScale);
                     screenList[i].Draw();
+                    _game.spriteBatch.End();
+
+                    _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.debugSpriteScale);
+                    screenList[i].DebugDraw();
                     _game.spriteBatch.End();
                 //}
 
