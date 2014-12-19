@@ -170,13 +170,13 @@ namespace wickedcrush
         protected override void Update(GameTime gameTime)
         {
             taskManager.Update(gameTime);
-            screenManager.Update(gameTime);
+            
             soundManager.Update(gameTime);
             controlsManager.Update(gameTime);
 
             networkManager.Update(gameTime);
 
-            
+            screenManager.Update(gameTime);
 
             base.Update(gameTime);
         }

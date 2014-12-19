@@ -138,6 +138,7 @@ namespace wickedcrush.screen
             game.diag = "";
             game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y;
 
+            
             readyTimer.Update(gameTime);
 
             if (!readyTimer.isDone())

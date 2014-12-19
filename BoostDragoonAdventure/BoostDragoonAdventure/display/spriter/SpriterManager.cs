@@ -51,6 +51,12 @@ namespace wickedcrush.display.spriter
         {
 
         }
+
+        public void DrawPlayers(GameplayManager gm)
+        {
+            //List<SpriterPlayer> players = gm.entityManager.getSpriterPlayers();
+
+        }
         public void DrawPlayer(SpriterPlayer player)
         {
             drawer.draw(player);

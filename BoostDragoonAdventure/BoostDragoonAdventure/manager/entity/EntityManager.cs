@@ -38,8 +38,11 @@ namespace wickedcrush.manager.entity
 
         public override void Update(GameTime gameTime)
         {
+            
             discover();
+            
             updateEntities(gameTime);
+            
 
             base.Update(gameTime);
         }
@@ -60,15 +63,21 @@ namespace wickedcrush.manager.entity
 
         private void discover()
         {
+            DepthSort();
             for (int i = 0; i < entityList.Count; i++)
             {
-                if(entityList[i] is Agent && ((Agent)entityList[i]).activeRange != 0f)
-                {
+                if(entityList[i] is Agent)
                     ((Agent)entityList[i]).proximity.Clear();
+            }
+            for (int i = 0; i < entityList.Count; i++)
+            {
+                if(entityList[i] is Agent /*&& ((Agent)entityList[i]).activeRange != 0f*/)
+                {
+                    
 
                     for(int j = i+1; j < entityList.Count; j++)
                     {
-                        float distance = Helper.getDistance(entityList[i].pos, entityList[j].pos);
+                        float distance = Helper.getDistance(entityList[i].pos + entityList[i].center, entityList[j].pos + entityList[j].center);
 
                         if (((Agent)entityList[i]).activeRange > distance)
                             ((Agent)entityList[i]).proximity.Add(entityList[j]);
@@ -141,15 +150,14 @@ namespace wickedcrush.manager.entity
 
         public void Draw()
         {
-            DepthSort();
-
+            
             foreach (Entity e in entityList)
             {
                 e.Draw();
             }
         }
 
-        private void DepthSort()
+        public void DepthSort()
         {
             entityList.Sort();
         }

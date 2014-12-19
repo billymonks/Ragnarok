@@ -102,6 +102,7 @@ namespace wickedcrush.manager.gameplay
 
         public void Update(GameTime gameTime)
         {
+            //entityManager.DepthSort();
             _playerManager.Update(gameTime); //nothing but panels
             factory.Update();
 
