@@ -305,7 +305,7 @@ namespace wickedcrush.entity.physics_entity.agent
             //sPlayer.update(bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X, bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y);
             //sPlayer.update(1440, -1080);
             sPlayer.update((bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * 2.25f,
-                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * -2.25f);
+                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * -2.25f * (float)(Math.Sqrt(2)/2));
             _spriterManager.DrawPlayer(sPlayer);
         }
 
