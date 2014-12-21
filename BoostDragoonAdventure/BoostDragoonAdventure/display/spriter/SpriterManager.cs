@@ -59,6 +59,7 @@ namespace wickedcrush.display.spriter
         }
         public void DrawPlayer(SpriterPlayer player)
         {
+            
             drawer.draw(player);
         }
     }

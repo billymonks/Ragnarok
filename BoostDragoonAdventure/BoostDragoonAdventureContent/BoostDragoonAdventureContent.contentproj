@@ -91,6 +91,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="debugcontent\img\terribad_normal.png">
+      <Name>terribad_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="debugcontent\img\terribad_fwd_normal.png">
+      <Name>terribad_fwd_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="maps\atlas\MapAtlas.xml">
       <Name>MapAtlas</Name>
       <Importer>XmlImporter</Importer>
