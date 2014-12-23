@@ -20,6 +20,8 @@ namespace wickedcrush.manager.screen
 
         private Game _game;
 
+        BasicEffect basicEffect;
+
         public ScreenManager(Game game, GameScreen rootScreen)
         {
             this._game = game;
@@ -29,6 +31,7 @@ namespace wickedcrush.manager.screen
 
         private void Initialize(GameScreen rootScreen)
         {
+            basicEffect = new BasicEffect(_game.GraphicsDevice);
             screenList.Add(rootScreen);
             loadingScreen = new LoadingScreen(_game);
         }
@@ -117,8 +120,10 @@ namespace wickedcrush.manager.screen
 
         public void Draw(GameTime gameTime)
         {
-            _game.GraphicsDevice.Clear(Color.LightCyan);
-
+            
+            //basicEffect.
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            
             int screenIndex = 0;
 
             for (int i = screenList.Count - 1; i >= 0; i--)
@@ -141,9 +146,9 @@ namespace wickedcrush.manager.screen
                 //{
                 screenList[i].Render();
 
-                    _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, _game.spriteScale);
-                    screenList[i].Draw();
-                    _game.spriteBatch.End();
+                _game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, _game.spriteScale);
+                screenList[i].Draw();
+                _game.spriteBatch.End();
 
                     _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.debugSpriteScale);
                     screenList[i].DebugDraw();

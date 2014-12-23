@@ -53,7 +53,7 @@ namespace wickedcrush.display._3d
                 }
             }
 
-            AddGeometry(map);
+            AddGeometry(map, 3);
 
             SetEffectParameters();
             
@@ -102,8 +102,8 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["DiffuseColor"].SetValue(new Vector4(0.7f, 0.75f, 0.9f, 1f));
             normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(0.5f);
             normalMappingEffect.Parameters["SpecularColor"].SetValue(new Vector4(0.4f, 0.9f, 0.6f, 1f));
-            normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X, 100f, cameraPosition.Z - 100));
-            normalMappingEffect.Parameters["PointLightRange"].SetValue(1000);
+            normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X, 30f, cameraPosition.Z - 100));
+            normalMappingEffect.Parameters["PointLightRange"].SetValue(500);
 
             normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
             game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
@@ -118,10 +118,11 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["World"].SetValue(Matrix.Identity);
 
             sceneDimensions = new Vector2(480 * game.aspectRatio, 480);
-            normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(480 * game.aspectRatio, 480, -800, 800));
+            normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(480 * game.aspectRatio, 480, -200, 400));
+            //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(1280, 720, 10, 800));
             
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
-            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.02f);
+            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
 
 
 
@@ -169,7 +170,7 @@ namespace wickedcrush.display._3d
 
         }
 
-        private void AddGeometry(Map map)
+        private void AddGeometry(Map map, int wallHeight)
         {
             for (int i = 0; i < map.getLayer(LayerType.WALL).data.GetLength(0); i++)
             {
@@ -184,9 +185,12 @@ namespace wickedcrush.display._3d
 
                         if ( j > 0 && map.getLayer(LayerType.WALL).data[i, j - 1])
                         {
-                            AddWallVertices(map, i * 2, 0, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 0, j * 2);
-                            AddWallVertices(map, i * 2, 1, j * 2);
+                            for (int k = 0; k < wallHeight; k++)
+                            {
+                                AddWallVertices(map, i * 2, k, j * 2);
+                                AddWallVertices(map, i * 2 + 1, k, j * 2);
+                            }
+                            /*AddWallVertices(map, i * 2, 1, j * 2);
                             AddWallVertices(map, i * 2 + 1, 1, j * 2);
                             AddWallVertices(map, i * 2, 2, j * 2);
                             AddWallVertices(map, i * 2 + 1, 2, j * 2);
@@ -195,7 +199,7 @@ namespace wickedcrush.display._3d
                             AddWallVertices(map, i * 2, 4, j * 2);
                             AddWallVertices(map, i * 2 + 1, 4, j * 2);
                             AddWallVertices(map, i * 2, 5, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 5, j * 2);
+                            AddWallVertices(map, i * 2 + 1, 5, j * 2);*/
                         }
 
 
@@ -204,13 +208,30 @@ namespace wickedcrush.display._3d
                     {
                         AddWallVertices(map, i * 2, -1, j * 2);
                         AddWallVertices(map, i * 2 + 1, -1, j * 2);
+
+                        if (map.getLayer(LayerType.WALL).data[i, j - 1])
+                        {
+                            for (int k = 0; k < wallHeight; k++)
+                            {
+                                AddWallVertices(map, i * 2, k, j * 2);
+                                AddWallVertices(map, i * 2 + 1, k, j * 2);
+                            }
+                            /*AddWallVertices(map, i * 2, 0, j * 2);
+                            AddWallVertices(map, i * 2 + 1, 0, j * 2);
+                            AddWallVertices(map, i * 2, 1, j * 2);
+                            AddWallVertices(map, i * 2 + 1, 1, j * 2);
+                            AddWallVertices(map, i * 2, 2, j * 2);
+                            AddWallVertices(map, i * 2 + 1, 2, j * 2);
+                            AddWallVertices(map, i * 2, 3, j * 2);
+                            AddWallVertices(map, i * 2 + 1, 3, j * 2);*/
+                        }
                     }
                     else if (map.getLayer(LayerType.WALL).data[i, j])
                     {
-                        AddFloorVertices(map, i * 2, 6, j * 2);
-                        AddFloorVertices(map, i * 2 + 1, 6, j * 2);
-                        AddFloorVertices(map, i * 2, 6, j * 2 + 1);
-                        AddFloorVertices(map, i * 2 + 1, 6, j * 2 + 1);
+                        AddFloorVertices(map, i * 2, wallHeight, j * 2);
+                        AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2);
+                        AddFloorVertices(map, i * 2, wallHeight, j * 2 + 1);
+                        AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2 + 1);
                     }
                     
                 }

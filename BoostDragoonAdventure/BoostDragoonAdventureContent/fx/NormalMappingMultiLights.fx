@@ -76,8 +76,8 @@ PerPixelVertexShaderOutput PerPixelVertexShaderFunction(VertexShaderInput input)
 	output.TexCoord = input.TexCoord;
 	output.NormCoord = input.NormCoord;
 
-	output.WorldToTangentSpace[1] = normalize(mul(input.Tangent, World));
 	output.WorldToTangentSpace[0] = normalize(mul(input.Binormal, World));
+	output.WorldToTangentSpace[1] = normalize(mul(input.Tangent, World));
 	output.WorldToTangentSpace[2] = normalize(mul(input.Normal, World));
 
 	float3 Light = PointLightPosition - worldPosition;
@@ -101,8 +101,8 @@ PerPixelVertexShaderOutput PerPixelVertexShaderFunctionSpecial(VertexShaderInput
 	output.TexCoord = input.TexCoord;
 	output.NormCoord = input.NormCoord;
 
-	output.WorldToTangentSpace[1] = normalize(mul(input.Tangent, World));
 	output.WorldToTangentSpace[0] = normalize(mul(input.Binormal, World));
+	output.WorldToTangentSpace[1] = normalize(mul(input.Tangent, World));
 	output.WorldToTangentSpace[2] = normalize(mul(input.Normal, World));
 
 	float3 Light = PointLightPosition - worldPosition;

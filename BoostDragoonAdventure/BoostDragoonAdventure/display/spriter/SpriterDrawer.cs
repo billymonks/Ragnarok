@@ -39,11 +39,11 @@ namespace wickedcrush.display.spriter
         {
             draw(instruction.getRef(), instruction.getX(), instruction.getY(), instruction.getPivotX(),
                 instruction.getPivotY(), instruction.getScaleX(), instruction.getScaleY(), instruction.getAngle(),
-                instruction.getAlpha());
+                instruction.getAlpha(), instruction.getDepth());
         }
 
         private void draw(Reference reference, float x, float y, float pivotX, float pivotY, float scaleX, float scaleY,
-            float angle, float alpha)
+            float angle, float alpha, float depth)
         {
             if (reference == null) return;
             Texture2D sprite = (Texture2D)this.loader.get(reference);
@@ -52,8 +52,10 @@ namespace wickedcrush.display.spriter
             Vector2 origin = new Vector2(reference.dimensions.width * pivotX, reference.dimensions.height * (1 - pivotY));
             Vector2 scale = new Vector2(scaleX, scaleY);
             Color color = new Color(1, 1, 1, alpha);
-            //this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, 1);
-            this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, 0f);
+            
+            //depth = ((1f - (position.Y - 200 - sprite.Height/2) / 1080f) * ((float)Math.Sqrt(2)/2f));
+            
+            this.batch.Draw(sprite, position, null, color, this.DegreeToRadian(-angle), origin, scale, SpriteEffects.None, depth);
         }
 
         protected override void drawLine(float x1, float y1, float x2, float y2)

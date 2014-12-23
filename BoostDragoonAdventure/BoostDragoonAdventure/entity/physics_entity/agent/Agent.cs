@@ -302,11 +302,27 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Draw()
         {
-            //sPlayer.update(bodies["body"].Position.X - _spriterManager._gameplay.camera.cameraPosition.X, bodies["body"].Position.Y - _spriterManager._gameplay.camera.cameraPosition.Y);
-            //sPlayer.update(1440, -1080);
-            sPlayer.update((bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * 2.25f,
-                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * -2.25f * (float)(Math.Sqrt(2)/2) - 100);
-            _spriterManager.DrawPlayer(sPlayer);
+            Vector2 spritePos = new Vector2(bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X, 
+                bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y);
+
+            float near = -165f;
+            float far = 765f;
+
+            float depth = 1f - (((spritePos.Y - near - center.Y)) / (far-near)) ;
+
+            //float depth = 0f;
+
+            sPlayer.SetDepth(depth);
+
+            sPlayer.update(spritePos.X * 2.25f,
+                (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100));
+
+
+
+            //float top = sPlayer.getBoundingBox().top;
+            //float bottom = sPlayer.getBoundingBox().bottom;
+            if(spritePos.Y > -200f && spritePos.Y < 800f)
+                _spriterManager.DrawPlayer(sPlayer);
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
