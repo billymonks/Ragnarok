@@ -305,8 +305,8 @@ namespace wickedcrush.entity.physics_entity.agent
             Vector2 spritePos = new Vector2(bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X, 
                 bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y);
 
-            float near = -165f;
-            float far = 765f;
+            float near = -200f;
+            float far = 800f;
 
             float depth = 1f - (((spritePos.Y - near - center.Y)) / (far-near)) ;
 

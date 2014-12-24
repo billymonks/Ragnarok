@@ -101,6 +101,22 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="img\tex\3x3_normal.png">
+      <Name>3x3_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Content Include="img\xml\3x3.xml">
+      <Name>3x3</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="img\tex\3x3_pink.png">
+      <Name>3x3_pink</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="maps\atlas\MapAtlas.xml">
       <Name>MapAtlas</Name>
       <Importer>XmlImporter</Importer>

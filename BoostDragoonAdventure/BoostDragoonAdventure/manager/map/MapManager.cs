@@ -12,6 +12,7 @@ using wickedcrush.entity;
 using wickedcrush.map.layer;
 using wickedcrush.map.circuit;
 using wickedcrush.manager.gameplay.room;
+using wickedcrush.display._3d.texture;
 
 namespace wickedcrush.manager.map
 {

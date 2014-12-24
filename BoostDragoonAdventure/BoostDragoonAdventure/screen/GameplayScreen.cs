@@ -161,10 +161,9 @@ namespace wickedcrush.screen
         public override void Draw()
         {
             //game.GraphicsDevice.Clear(Color.Black);
-            
-            
+            game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
             gameplayManager.entityManager.Draw();
-            
+            game.spriteBatch.End();
             
             
         }

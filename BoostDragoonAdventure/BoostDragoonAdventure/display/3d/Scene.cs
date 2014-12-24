@@ -7,6 +7,7 @@ using wickedcrush.map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.gameplay;
+using wickedcrush.display._3d.texture;
 
 namespace wickedcrush.display._3d
 {
@@ -29,14 +30,19 @@ namespace wickedcrush.display._3d
 
         Vector2 sceneDimensions;
 
+        Texture2D colorTexture;
         Texture2D normalTexture;
+
+        Tileset tileset = new Tileset("3x3");
 
         public Scene(Game game)
         {
             this.game = game;
             solidGeomVertices = new List<WCVertex>();
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
-            normalTexture = game.Content.Load<Texture2D>(@"debugcontent/img/terribad_normal");
+            colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
+            normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
+            //normalTexture = game.whiteTexture;
             //normalTexture = game.Content.Load<Texture2D>(@"debugcontent/img/terribad_fwd_normal");
             
         }
@@ -80,7 +86,7 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["View"].SetValue(viewMatrix);
             normalMappingEffect.Parameters["EyePosition"].SetValue(cameraPosition);
 
-            normalMappingEffect.Parameters["ColorMap"].SetValue(game.whiteTexture);
+            normalMappingEffect.Parameters["ColorMap"].SetValue(colorTexture);
             normalMappingEffect.Parameters["NormalMap"].SetValue(normalTexture);
 
             normalMappingEffect.Parameters["SpecularIntensity"].SetValue(1f);
@@ -187,51 +193,34 @@ namespace wickedcrush.display._3d
                         {
                             for (int k = 0; k < wallHeight; k++)
                             {
-                                AddWallVertices(map, i * 2, k, j * 2);
-                                AddWallVertices(map, i * 2 + 1, k, j * 2);
+                                //AddWallVertices(map, i * 2, k, j * 2);
+                                //AddWallVertices(map, i * 2 + 1, k, j * 2);
                             }
-                            /*AddWallVertices(map, i * 2, 1, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 1, j * 2);
-                            AddWallVertices(map, i * 2, 2, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 2, j * 2);
-                            AddWallVertices(map, i * 2, 3, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 3, j * 2);
-                            AddWallVertices(map, i * 2, 4, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 4, j * 2);
-                            AddWallVertices(map, i * 2, 5, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 5, j * 2);*/
                         }
 
 
                     }
                     else if (map.getLayer(LayerType.DEATHSOUP).data[i, j] && j > 0 && !map.getLayer(LayerType.DEATHSOUP).data[i, j - 1])
                     {
-                        AddWallVertices(map, i * 2, -1, j * 2);
-                        AddWallVertices(map, i * 2 + 1, -1, j * 2);
+                        //AddWallVertices(map, i * 2, -1, j * 2);
+                        //AddWallVertices(map, i * 2 + 1, -1, j * 2);
 
                         if (map.getLayer(LayerType.WALL).data[i, j - 1])
                         {
                             for (int k = 0; k < wallHeight; k++)
                             {
-                                AddWallVertices(map, i * 2, k, j * 2);
-                                AddWallVertices(map, i * 2 + 1, k, j * 2);
+                                //AddWallVertices(map, i * 2, k, j * 2);
+                                //AddWallVertices(map, i * 2 + 1, k, j * 2);
                             }
-                            /*AddWallVertices(map, i * 2, 0, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 0, j * 2);
-                            AddWallVertices(map, i * 2, 1, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 1, j * 2);
-                            AddWallVertices(map, i * 2, 2, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 2, j * 2);
-                            AddWallVertices(map, i * 2, 3, j * 2);
-                            AddWallVertices(map, i * 2 + 1, 3, j * 2);*/
+
                         }
                     }
                     else if (map.getLayer(LayerType.WALL).data[i, j])
                     {
-                        AddFloorVertices(map, i * 2, wallHeight, j * 2);
-                        AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2);
-                        AddFloorVertices(map, i * 2, wallHeight, j * 2 + 1);
-                        AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2 + 1);
+                        //AddFloorVertices(map, i * 2, wallHeight, j * 2);
+                        //AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2);
+                        //AddFloorVertices(map, i * 2, wallHeight, j * 2 + 1);
+                        //AddFloorVertices(map, i * 2 + 1, wallHeight, j * 2 + 1);
                     }
                     
                 }
@@ -312,15 +301,17 @@ namespace wickedcrush.display._3d
             Vector3 tangent = Vector3.Forward;
             Vector3 binormal = Vector3.Cross(tangent, normal);
 
-            Vector2 topRight = new Vector2(0f, 1f);
-            Vector2 bottomRight = new Vector2(0f, 0f);
-            Vector2 topLeft = new Vector2(1f, 1f);
-            Vector2 bottomLeft = new Vector2(1f, 0f);
+            int quarter = x % 2 + 2 * (z % 2);
+
+            Vector2 topRight = GetFloorCoordinate(map, x, z, new Vector2(0f, 1f), quarter);
+            Vector2 bottomRight = GetFloorCoordinate(map, x, z, new Vector2(0f, 0f), quarter);
+            Vector2 topLeft = GetFloorCoordinate(map, x, z, new Vector2(1f, 1f), quarter);
+            Vector2 bottomLeft = GetFloorCoordinate(map, x, z, new Vector2(1f, 0f), quarter);
 
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                bottomRight,
                 bottomRight,
                 tangent,
                 binormal));
@@ -328,7 +319,7 @@ namespace wickedcrush.display._3d
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                bottomLeft,
                 bottomLeft,
                 tangent,
                 binormal));
@@ -336,7 +327,7 @@ namespace wickedcrush.display._3d
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                topRight,
                 topRight,
                 tangent,
                 binormal));
@@ -344,7 +335,7 @@ namespace wickedcrush.display._3d
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                bottomLeft,
                 bottomLeft,
                 tangent,
                 binormal));
@@ -352,7 +343,7 @@ namespace wickedcrush.display._3d
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                topLeft,
                 topLeft,
                 tangent,
                 binormal));
@@ -360,10 +351,90 @@ namespace wickedcrush.display._3d
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
                 normal,
-                Vector2.Zero,
+                topRight,
                 topRight,
                 tangent,
                 binormal));
+        }
+
+        private Vector2 GetFloorCoordinate(Map map, int x, int y, Vector2 coordinate, int quarter) //quarter = 0, 1, 2, 3
+        {
+            //int z = (int)(coordinate.X / 1 + 2 * coordinate.Y / 1);
+            int floorTexInt = GetFloorTextureInt(map, x, y);
+            int artFragment = GetArtFragment(floorTexInt, quarter);
+            Vector2 coordFromFragment = ConvertFragmentToCoordinate(artFragment);
+            Vector2 result = coordFromFragment + coordinate * new Vector2(1f / 3f, 1f / 3f);
+            return result;
+        }
+
+        private Vector2 ConvertFragmentToCoordinate(int num)
+        {
+            int i = (num % 3);
+            int j = (num / 3);
+            Vector2 result = new Vector2((1f/3f)*i, (1f/3f)*j);
+            return result;
+        }
+
+        private int GetArtFragment(int input, int quarter)
+        {
+            byte[,] fragmentSet = {{0, 2, 6, 8},
+                                  {0, 1, 6, 7},
+                                  {0, 2, 3, 5},
+                                  {0, 1, 3, 4},
+                                  {1, 2, 7, 8},
+                                  {1, 1, 7, 7},
+                                  {1, 2, 4, 5},
+                                  {1, 1, 4, 4},
+                                  {3, 5, 6, 8},
+                                  {3, 4, 6, 7},
+                                  {3, 5, 3, 5},
+                                  {3, 4, 3, 4},
+                                  {4, 5, 7, 8},
+                                  {4, 4, 7, 7},
+                                  {4, 5, 4, 5},
+                                  {4, 4, 4, 4}};
+
+            return fragmentSet[input, quarter];
+        }
+
+        private int GetFloorTextureInt(Map map, int x, int y)
+        {
+            int result = 0;
+
+            bool[,] data = new bool[map.getLayer(LayerType.DEATHSOUP).data.GetLength(0), map.getLayer(LayerType.DEATHSOUP).data.GetLength(1)];
+
+            for (int i = 0; i < data.GetLength(0); i++)
+                for (int j = 0; j < data.GetLength(1); j++)
+                    if (map.getLayer(LayerType.DEATHSOUP).data[i, j] || map.getLayer(LayerType.WALL).data[i, j])
+                        data[i, j] = true;
+                    else data[i, j] = false;
+
+            x /= 2;
+            y /= 2;
+
+            if (data[x, y])
+            {
+                return 4;
+            }
+
+            if (x > 0 && !data[x - 1, y])
+            {
+                result += 4;
+            }
+            if (y > 0 && !data[x, y - 1])
+            {
+                result += 8;
+            }
+            if (x < data.GetLength(0)-1 && !data[x + 1, y])
+            {
+                result ++;
+            }
+            if (y < data.GetLength(1)-1 && !data[x, y + 1])
+            {
+                result += 2;
+            }
+
+            return result;
         }
 
         private void clearGridVerts()
