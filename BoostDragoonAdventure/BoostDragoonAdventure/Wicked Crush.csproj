@@ -126,6 +126,7 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="display\3d\Camera.cs" />
     <Compile Include="display\3d\Scene.cs" />
+    <Compile Include="display\3d\SurfaceTileLayer.cs" />
     <Compile Include="display\3d\texture\Tileset.cs" />
     <Compile Include="display\3d\vertex\WCVertex.cs" />
     <Compile Include="display\animation\Tween.cs" />

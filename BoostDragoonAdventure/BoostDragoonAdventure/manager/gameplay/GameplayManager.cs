@@ -138,7 +138,7 @@ namespace wickedcrush.manager.gameplay
             MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
             map = new Map(mapStats.filename, w, this);
             _game.mapManager.LoadMap(this, map, mapStats);
-            scene.BuildScene(map);
+            scene.BuildScene(_game, map);
         }
 
         private void EnqueueMapTransition()

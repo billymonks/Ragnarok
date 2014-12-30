@@ -14,7 +14,7 @@ namespace wickedcrush.display._3d
     public class Scene
     {
         const int ART_GRID_SIZE = 10;
-        public List<WCVertex>[,] gridVertices;
+        //public List<WCVertex>[,] gridVertices;
         public List<WCVertex> solidGeomVertices;
 
         public Vector3 cameraPosition;
@@ -30,26 +30,35 @@ namespace wickedcrush.display._3d
 
         Vector2 sceneDimensions;
 
-        Texture2D colorTexture;
-        Texture2D normalTexture;
+        SurfaceTileLayer surfaceTileLayer;
 
-        Tileset tileset = new Tileset("3x3");
+        
 
         public Scene(Game game)
         {
             this.game = game;
             solidGeomVertices = new List<WCVertex>();
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
-            colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
-            normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
+
+            
+            
             //normalTexture = game.whiteTexture;
             //normalTexture = game.Content.Load<Texture2D>(@"debugcontent/img/terribad_fwd_normal");
             
         }
 
-        public void BuildScene(Map map)
+        public void BuildScene(Game game, Map map)
         {
-            gridVertices = new List<WCVertex>[map.width / ART_GRID_SIZE, map.height / ART_GRID_SIZE];
+            surfaceTileLayer = new SurfaceTileLayer(game, 
+                ScaleLayer(
+                    InvertLayer(GetCompositeLayer(
+                        map.layerList[LayerType.WALL].data, 
+                        map.layerList[LayerType.DEATHSOUP].data, 
+                        true)), 
+                     2),
+                 0);
+
+            /*gridVertices = new List<WCVertex>[map.width / ART_GRID_SIZE, map.height / ART_GRID_SIZE];
             
             for(int i = 0; i < gridVertices.GetLength(0); i++)
             {
@@ -57,12 +66,62 @@ namespace wickedcrush.display._3d
                 {
                     gridVertices[i, j] = new List<WCVertex>();
                 }
-            }
+            }*/
 
-            AddGeometry(map, 3);
+            //AddGeometry(map, 3);
 
             SetEffectParameters();
             
+        }
+
+        public bool[,] ScaleLayer(bool[,] a, int scale) //must be power of 2, makes bigger
+        {
+            bool[,] b = new bool[(a.GetLength(0) * scale), (a.GetLength(1) * scale)];
+
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    for (int k = 0; k < scale; k++)
+                    {
+                        b[i * scale, j * scale] = a[i, j];
+                        b[i * scale + k, j * scale] = a[i, j];
+                        b[i * scale, j * scale + k] = a[i, j];
+                        b[i * scale + k, j * scale + k] = a[i, j];
+                    }
+                }
+            }
+
+            return b;
+        }
+
+        public bool[,] GetCompositeLayer(bool[,] a, bool[,] b, bool or) //or = ||, and = &&
+        {
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (or)
+                        a[i, j] = a[i, j] || b[i, j];
+                    else
+                        a[i, j] = a[i, j] && b[i, j];
+                }
+            }
+
+            return a;
+        }
+
+        public bool[,] InvertLayer(bool[,] a)
+        {
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    a[i, j] = !a[i, j];
+                }
+            }
+
+            return a;
         }
 
         public void DrawScene(Game game, GameplayManager gameplay)
@@ -86,8 +145,8 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["View"].SetValue(viewMatrix);
             normalMappingEffect.Parameters["EyePosition"].SetValue(cameraPosition);
 
-            normalMappingEffect.Parameters["ColorMap"].SetValue(colorTexture);
-            normalMappingEffect.Parameters["NormalMap"].SetValue(normalTexture);
+            normalMappingEffect.Parameters["ColorMap"].SetValue(surfaceTileLayer.colorTexture);
+            normalMappingEffect.Parameters["NormalMap"].SetValue(surfaceTileLayer.normalTexture);
 
             normalMappingEffect.Parameters["SpecularIntensity"].SetValue(1f);
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0f,0f,0f,1f));
@@ -128,7 +187,7 @@ namespace wickedcrush.display._3d
             //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(1280, 720, 10, 800));
             
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
-            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
+            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.115f);
 
 
 
@@ -153,30 +212,30 @@ namespace wickedcrush.display._3d
                 startX = 0;
             if (startY < 0)
                 startY = 0;
-            if (endX >= gridVertices.GetLength(0))
+            if (endX >= surfaceTileLayer.gridVertices.GetLength(0))
             {
-                endX = gridVertices.GetLength(0)-1;
+                endX = surfaceTileLayer.gridVertices.GetLength(0) - 1;
             }
-            if (endY >= gridVertices.GetLength(1))
+            if (endY >= surfaceTileLayer.gridVertices.GetLength(1))
             {
-                endY = gridVertices.GetLength(1)-1;
+                endY = surfaceTileLayer.gridVertices.GetLength(1) - 1;
             }
 
-            if (endX > gridVertices.GetLength(0))
-                endX = gridVertices.GetLength(0);
-            if (endY > gridVertices.GetLength(1))
-                endY = gridVertices.GetLength(1);
+            if (endX > surfaceTileLayer.gridVertices.GetLength(0))
+                endX = surfaceTileLayer.gridVertices.GetLength(0);
+            if (endY > surfaceTileLayer.gridVertices.GetLength(1))
+                endY = surfaceTileLayer.gridVertices.GetLength(1);
 
             for (int i = startX; i < endX; i++)
                 for (int j = endY; j >= startY; j--)
-                    foreach (WCVertex v in gridVertices[i, j])
+                    foreach (WCVertex v in surfaceTileLayer.gridVertices[i, j])
                     {
                         solidGeomVertices.Add(v);
                     }
 
         }
 
-        private void AddGeometry(Map map, int wallHeight)
+        /*private void AddGeometry(Map map, int wallHeight)
         {
             for (int i = 0; i < map.getLayer(LayerType.WALL).data.GetLength(0); i++)
             {
@@ -446,6 +505,6 @@ namespace wickedcrush.display._3d
                     gridVertices[i, j].Clear();
                 }
             }
-        }
+        }*/
     }
 }
