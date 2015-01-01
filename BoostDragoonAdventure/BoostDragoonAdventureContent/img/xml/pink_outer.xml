@@ -1,6 +1,6 @@
-﻿<tileset name="default" x="90" y="90">
+﻿<tileset name="pink_outer" x="90" y="90">
   <tex>3x3_pink</tex>
-  <normal>3x3_normal</normal>
+  <normal>pink_outer_normal</normal>
   <tilesize>
     <tilepos id="0" x="0" y="0" width="30" height="30"></tilepos>
     <tilepos id="1" x="30" y="30" width="30" height="30"></tilepos>

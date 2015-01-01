@@ -18,20 +18,27 @@ namespace wickedcrush.display._3d
         public Texture2D colorTexture;
         public Texture2D normalTexture;
 
-        Tileset tileset = new Tileset("3x3");
+        Tileset tileset;
 
         public List<WCVertex>[,] gridVertices;
 
         int height;
 
-        public SurfaceTileLayer(Game game, bool[,] data, int height)
+        bool edgeTilesOnly;
+
+        public SurfaceTileLayer(Game game, bool[,] data, int height, String tilesetPath, bool edgeOnly)
         {
             this.data = data;
+
+            this.height = height;
+            this.tileset = new Tileset(tilesetPath);
 
             colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
             normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
 
-            this.height = height;
+            
+
+            edgeTilesOnly = edgeOnly;
 
             BuildScene(game);
         }
@@ -73,10 +80,17 @@ namespace wickedcrush.display._3d
 
             int quarter = x % 2 + 2 * (z % 2);
 
-            Vector2 topRight = GetFloorCoordinate(x, z, new Vector2(0f, 1f), quarter);
-            Vector2 bottomRight = GetFloorCoordinate(x, z, new Vector2(0f, 0f), quarter);
-            Vector2 topLeft = GetFloorCoordinate(x, z, new Vector2(1f, 1f), quarter);
-            Vector2 bottomLeft = GetFloorCoordinate(x, z, new Vector2(1f, 0f), quarter);
+            int floorTexture = GetFloorTextureInt(x, z);
+
+            if (floorTexture == 4 && edgeTilesOnly)
+            {
+                return;
+            }
+
+            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 1f), quarter);
+            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 0f), quarter);
+            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(1f, 1f), quarter);
+            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(1f, 0f), quarter);
 
             gridVertices[x, z].Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
@@ -127,74 +141,20 @@ namespace wickedcrush.display._3d
                 binormal));
         }
 
-        private Vector2 GetFloorCoordinate(int x, int y, Vector2 coordinate, int quarter) //quarter = 0, 1, 2, 3
+        private Vector2 GetFloorCoordinate(int floorTexInt, Vector2 coordinate, int quarter) //quarter = 0, 1, 2, 3
         {
-            //int z = (int)(coordinate.X / 1 + 2 * coordinate.Y / 1);
-            int floorTexInt = GetFloorTextureInt(x, y);
-            //int artFragment = GetArtFragment(floorTexInt, quarter);
-            Vector2 coordFromFragment = ConvertFragmentToCoordinate(floorTexInt);
+            Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt);
             Vector2 result = coordFromFragment + coordinate * new Vector2(1f / 3f, 1f / 3f);
             return result;
         }
 
-        private Vector2 ConvertFragmentToCoordinate(int num)
+        private Vector2 ConvertTextureIntToCoordinate(int num)
         {
             int i = (num % 3);
             int j = (num / 3);
             Vector2 result = new Vector2((1f / 3f) * i, (1f / 3f) * j);
             return result;
         }
-
-        /*private int GetArtFragment(int input, int quarter)
-        {
-            byte[,] fragmentSet = {{0, 2, 6, 8},
-                                  {0, 1, 6, 7},
-                                  {0, 2, 3, 5},
-                                  {0, 1, 3, 4},
-                                  {1, 2, 7, 8},
-                                  {1, 1, 7, 7},
-                                  {1, 2, 4, 5},
-                                  {1, 1, 4, 4},
-                                  {3, 5, 6, 8},
-                                  {3, 4, 6, 7},
-                                  {3, 5, 3, 5},
-                                  {3, 4, 3, 4},
-                                  {4, 5, 7, 8},
-                                  {4, 4, 7, 7},
-                                  {4, 5, 4, 5},
-                                  {4, 4, 4, 4}};
-
-            return fragmentSet[input, quarter];
-        }*/
-
-        /*private int GetFloorTextureInt(int x, int y)
-        {
-            int result = 0;
-
-            if (data[x, y])
-            {
-                return 4;
-            }
-
-            if (x > 0 && !data[x - 1, y])
-            {
-                result += 4;
-            }
-            if (y > 0 && !data[x, y - 1])
-            {
-                result += 8;
-            }
-            if (x < data.GetLength(0) - 1 && !data[x + 1, y])
-            {
-                result++;
-            }
-            if (y < data.GetLength(1) - 1 && !data[x, y + 1])
-            {
-                result += 2;
-            }
-
-            return result;
-        }*/
 
         private int GetFloorTextureInt(int x, int y)
         {
