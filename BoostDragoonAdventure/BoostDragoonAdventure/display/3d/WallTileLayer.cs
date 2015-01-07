@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace wickedcrush.display._3d
 {
-    public class SurfaceTileLayer
+    public class WallTileLayer
     {
         int ART_GRID_SIZE = 10;
 
@@ -22,23 +22,18 @@ namespace wickedcrush.display._3d
 
         public List<WCVertex>[,] gridVertices;
 
-        int height;
+        int height, baseHeight; //height = height of top, baseheight = height of base, aka baseheight = 3, height = 4 means 1 grid high
 
-        bool edgeTilesOnly;
-
-        public SurfaceTileLayer(Game game, bool[,] data, int height, String tilesetPath, bool edgeOnly)
+        public WallTileLayer(Game game, bool[,] data, int height, int baseHeight, String tilesetPath)
         {
             this.data = data;
 
             this.height = height;
+            this.baseHeight = baseHeight;
             this.tileset = new Tileset(tilesetPath);
 
             colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
             normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
-
-            
-
-            edgeTilesOnly = edgeOnly;
 
             BuildScene(game);
         }
@@ -64,84 +59,85 @@ namespace wickedcrush.display._3d
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    if (data[i, j])
+                    if (data[i, j] && (j == data.GetLength(1)-1 || !data[i, j+1]))
                     {
-                        AddFloorVertices(i, height, j);
+                        for(int k = baseHeight; k < height; k++)
+                            AddWallVertices(i, k, j);
                     }
                 }
             }
         }
 
-        private void AddFloorVertices(int x, int y, int z)
+        private void AddWallVertices(int x, int y, int z)
         {
-            Vector3 normal = Vector3.Up;
-            Vector3 tangent = Vector3.Forward;
+            Vector3 normal = Vector3.Backward;
+            Vector3 tangent = Vector3.Up;
             Vector3 binormal = Vector3.Cross(tangent, normal);
 
             int quarter = x % 2 + 2 * (z % 2);
 
-            int floorTexture = GetFloorTextureInt(x, z);
+            int floorTexture = GetWallTextureInt(x, y, z);
 
-            if (floorTexture == 4 && edgeTilesOnly)
-            {
-                return;
-            }
+            Vector2 topRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f, 1f));
+            Vector2 bottomRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f, 0f));
+            Vector2 topLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f, 1f));
+            Vector2 bottomLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f, 0f));
 
-            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 1f));
-            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 0f));
-            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(1f, 1f));
-            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(1f, 0f));
+            Vector4 topRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 0) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
+            Vector4 bottomRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 1) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
+            Vector4 topLeftVertPos = new Vector4((x + 1) * ART_GRID_SIZE, (y + 0) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
+            Vector4 bottomLeftVertPos = new Vector4((x + 1) * ART_GRID_SIZE, (y + 1) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
+                bottomRightVertPos,
                 normal,
-                bottomRight,
-                bottomRight,
+                bottomRightTexCoord,
+                bottomRightTexCoord,
                 tangent,
                 binormal));
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
+                bottomLeftVertPos,
                 normal,
-                bottomLeft,
-                bottomLeft,
+                bottomLeftTexCoord,
+                bottomLeftTexCoord,
                 tangent,
                 binormal));
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
+                topRightVertPos,
                 normal,
-                topRight,
-                topRight,
+                topRightTexCoord,
+                topRightTexCoord,
                 tangent,
                 binormal));
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
+                bottomLeftVertPos,
                 normal,
-                bottomLeft,
-                bottomLeft,
+                bottomLeftTexCoord,
+                bottomLeftTexCoord,
                 tangent,
                 binormal));
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
+                topLeftVertPos,
                 normal,
-                topLeft,
-                topLeft,
+                topLeftTexCoord,
+                topLeftTexCoord,
                 tangent,
                 binormal));
 
             gridVertices[x, z].Add(new WCVertex(
-                new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1),
+                topRightVertPos,
                 normal,
-                topRight,
-                topRight,
+                topRightTexCoord,
+                topRightTexCoord,
                 tangent,
                 binormal));
         }
 
-        private Vector2 GetFloorCoordinate(int floorTexInt, Vector2 coordinate)
+        private Vector2 GetWallCoordinate(int floorTexInt, Vector2 coordinate)
         {
             Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt);
             Vector2 result = coordFromFragment + coordinate * new Vector2(1f / 3f, 1f / 3f);
@@ -156,22 +152,23 @@ namespace wickedcrush.display._3d
             return result;
         }
 
-        private int GetFloorTextureInt(int x, int y)
+        private int GetWallTextureInt(int x, int y, int z)
         {
             int result = 4;
 
-            if (x > 0 && !data[x - 1, y])
+            if (x > 0 && !data[x - 1, z])
                 result--;
-            else if (x < data.GetLength(0) - 1 && !data[x + 1, y])
+            
+            if (x < data.GetLength(0) - 1 && !data[x + 1, z])
                 result++;
 
-            if (y > 0 && !data[x, y - 1])
-                result -= 3;
-            else if (y < data.GetLength(1) - 1 && !data[x, y + 1])
+            if (y == baseHeight)
                 result += 3;
+            
+            if (y == height-1)
+                result -= 3;
 
             return result;
         }
-
     }
 }

@@ -129,6 +129,7 @@
     <Compile Include="display\3d\SurfaceTileLayer.cs" />
     <Compile Include="display\3d\texture\Tileset.cs" />
     <Compile Include="display\3d\vertex\WCVertex.cs" />
+    <Compile Include="display\3d\WallTileLayer.cs" />
     <Compile Include="display\animation\Tween.cs" />
     <Compile Include="display\primitives\PrimitiveDrawer.cs" />
     <Compile Include="display\spriter\SpriterDrawer.cs" />

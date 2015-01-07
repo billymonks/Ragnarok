@@ -31,7 +31,8 @@ namespace wickedcrush.display._3d
         Vector2 sceneDimensions;
 
         SurfaceTileLayer floorOuterLayer, floorInnerLayer; // todo: group variable number of layers in a parent class
-        SurfaceTileLayer wallOuterLayer, wallInnerLayer; // todo: group variable number of layers in a parent class
+        SurfaceTileLayer wallSurfaceOuterLayer, wallSurfaceInnerLayer; // todo: group variable number of layers in a parent class
+        WallTileLayer wallLayer, cliffLayer;
 
         
 
@@ -48,14 +49,19 @@ namespace wickedcrush.display._3d
             bool[,] data = GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.DEATHSOUP].data, true);
             //bool[,] data = map.layerList[LayerType.DEATHSOUP].data;
             data = ScaleLayer(data, 2);
+
+            wallLayer = new WallTileLayer(game, ScaleLayer(map.layerList[LayerType.WALL].data, 2), 3, 0, "pink_outer");
+            cliffLayer = new WallTileLayer(game, InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2)), 0, -1, "pink_outer");
+
             data = InvertLayer(data);
             floorOuterLayer = new SurfaceTileLayer(game, data, 0, "pink_outer", true);
             data = ShrinkLayer(data, 1);
             floorInnerLayer = new SurfaceTileLayer(game, data, 0, "pink_inner", false);
 
             data = ScaleLayer(map.layerList[LayerType.WALL].data, 2);
-            wallOuterLayer = new SurfaceTileLayer(game, data, 2, "pink_outer", true);
-            wallInnerLayer = new SurfaceTileLayer(game, ShrinkLayer(data, 1), 2, "pink_inner", false);
+            wallSurfaceOuterLayer = new SurfaceTileLayer(game, data, 3, "pink_outer", true);
+            wallSurfaceInnerLayer = new SurfaceTileLayer(game, ShrinkLayer(data, 1), 3, "pink_inner", false);
+            
 
             SetEffectParameters();
             
@@ -149,7 +155,7 @@ namespace wickedcrush.display._3d
             buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
             buffer.SetData(solidGeomVertices.ToArray());
 
-            game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
             normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
@@ -167,7 +173,36 @@ namespace wickedcrush.display._3d
 
             normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
             game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+        }
 
+        public void DrawLayer(Game game, GameplayManager gameplay, WallTileLayer layer)
+        {
+            PrepareVertices(gameplay, layer);
+
+            if (solidGeomVertices.Count <= 0)
+                return;
+
+            buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
+            buffer.SetData(solidGeomVertices.ToArray());
+
+            game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
+            normalMappingEffect.Parameters["NormalMap"].SetValue(layer.normalTexture);
+
+            game.GraphicsDevice.SetVertexBuffer(buffer);
+
+            game.GraphicsDevice.BlendState = BlendState.Opaque;
+
+            normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
+
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+
+            game.GraphicsDevice.BlendState = BlendState.Additive;
+
+            normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
         }
 
         public void DrawScene(Game game, GameplayManager gameplay)
@@ -186,36 +221,14 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120));
             normalMappingEffect.Parameters["PointLightRange"].SetValue(500);
 
+            DrawLayer(game, gameplay, cliffLayer);
+            DrawLayer(game, gameplay, wallLayer);
             DrawLayer(game, gameplay, floorOuterLayer);
             DrawLayer(game, gameplay, floorInnerLayer);
-            DrawLayer(game, gameplay, wallOuterLayer);
-            DrawLayer(game, gameplay, wallInnerLayer);
-
-            //game.GraphicsDevice.BlendState = BlendState.Additive;
-
-            //PrepareVertices(gameplay, outerLayer);
-
-            //if (solidGeomVertices.Count <= 0)
-                //return;
+            DrawLayer(game, gameplay, wallSurfaceOuterLayer);
+            DrawLayer(game, gameplay, wallSurfaceInnerLayer);
 
             
-            
-            //buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
-            //buffer.SetData(solidGeomVertices.ToArray());
-
-            //game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-            //game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            
-
-            
-
-            
-
-
-            
-
-            
-
             
 
             game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -252,6 +265,48 @@ namespace wickedcrush.display._3d
             startY = (int)cameraPosition.Z / 10 - (int)(sceneDimensions.Y / 20) - 20;
             endX = startX + (int)(sceneDimensions.X/10) + 2; // gridVertices.GetLength(0);
             endY = startY + (int)(sceneDimensions.Y/10) + 27; // gridVertices.GetLength(1);
+
+            if (startX < 0)
+                startX = 0;
+            if (startY < 0)
+                startY = 0;
+            if (endX >= layer.gridVertices.GetLength(0))
+            {
+                endX = layer.gridVertices.GetLength(0) - 1;
+            }
+            if (endY >= layer.gridVertices.GetLength(1))
+            {
+                endY = layer.gridVertices.GetLength(1) - 1;
+            }
+
+            if (endX > layer.gridVertices.GetLength(0))
+                endX = layer.gridVertices.GetLength(0);
+            if (endY > layer.gridVertices.GetLength(1))
+                endY = layer.gridVertices.GetLength(1);
+
+            for (int i = startX; i < endX; i++)
+                for (int j = endY; j >= startY; j--)
+                    foreach (WCVertex v in layer.gridVertices[i, j])
+                    {
+                        solidGeomVertices.Add(v);
+                    }
+
+        }
+
+        private void PrepareVertices(GameplayManager gameplay, WallTileLayer layer)
+        {
+            int startX, startY, endX, endY;
+            solidGeomVertices.Clear();
+
+            /*startX = 0;
+            startY = 0;
+            endX = gridVertices.GetLength(0);
+            endY = gridVertices.GetLength(1);*/
+
+            startX = (int)cameraPosition.X / 10 - (int)(sceneDimensions.X / 20) - 1;
+            startY = (int)cameraPosition.Z / 10 - (int)(sceneDimensions.Y / 20) - 20;
+            endX = startX + (int)(sceneDimensions.X / 10) + 2; // gridVertices.GetLength(0);
+            endY = startY + (int)(sceneDimensions.Y / 10) + 27; // gridVertices.GetLength(1);
 
             if (startX < 0)
                 startX = 0;
