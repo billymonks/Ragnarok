@@ -308,7 +308,7 @@ namespace wickedcrush.entity.physics_entity.agent
             float near = -200f;
             float far = 800f;
 
-            float depth = 1f - (((spritePos.Y - near - center.Y)) / (far-near)) ;
+            float depth = 1f - (((spritePos.Y * 1.03f - near - center.Y)) / (far - near));
 
             //float depth = 0f;
 

@@ -18,7 +18,7 @@ namespace wickedcrush.display._3d
     {
         #region fields
         public Vector3 cameraPosition, cameraTarget, upVector, velocity;
-        public Vector2 minCamPos;
+        public Vector2 minCamPos, maxCamPos;
         public float fov, minX, minY;
         public Entity target;
         public CameraMode camMode = CameraMode.Still;
@@ -35,7 +35,8 @@ namespace wickedcrush.display._3d
             velocity = new Vector3(0f, 0f, 0f);
             upVector = Vector3.Up;
             fov = MathHelper.PiOver4;
-            minCamPos = new Vector2(356f, 448f);
+            minCamPos = new Vector2(120f, 64f);
+            maxCamPos = new Vector2(524f, 320f);
 
             _players = players;
         }
@@ -85,6 +86,16 @@ namespace wickedcrush.display._3d
         }
         private void adhereToBounds()
         {
+            if (cameraPosition.X > maxCamPos.X)
+            {
+                cameraPosition.X = maxCamPos.X;
+                cameraTarget.X = maxCamPos.X;
+            }
+            if (cameraPosition.Y > maxCamPos.Y)
+            {
+                cameraPosition.Y = maxCamPos.Y;
+                cameraTarget.Y = maxCamPos.Y;
+            }
             if (cameraPosition.X < minCamPos.X)
             {
                 cameraPosition.X = minCamPos.X;

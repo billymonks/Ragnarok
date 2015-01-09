@@ -9,51 +9,20 @@ using Microsoft.Xna.Framework;
 
 namespace wickedcrush.display._3d
 {
-    public class WallTileLayer
+    public class WallTileLayer : TileLayer
     {
-        int ART_GRID_SIZE = 10;
 
-        bool[,] data;
-
-        public Texture2D colorTexture;
-        public Texture2D normalTexture;
-
-        Tileset tileset;
-
-        public List<WCVertex>[,] gridVertices;
-
-        int height, baseHeight; //height = height of top, baseheight = height of base, aka baseheight = 3, height = 4 means 1 grid high
+        int baseHeight; //height = height of top, baseheight = height of base, aka baseheight = 3, height = 4 means 1 grid high
 
         public WallTileLayer(Game game, bool[,] data, int height, int baseHeight, String tilesetPath)
+            : base(game, data, height, tilesetPath)
         {
-            this.data = data;
-
-            this.height = height;
             this.baseHeight = baseHeight;
-            this.tileset = new Tileset(tilesetPath);
-
-            colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
-            normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
-
             BuildScene(game);
+            
         }
 
-        private void BuildScene(Game game)
-        {
-            gridVertices = new List<WCVertex>[data.GetLength(0), data.GetLength(1)];
-
-            for (int i = 0; i < gridVertices.GetLength(0); i++)
-            {
-                for (int j = 0; j < gridVertices.GetLength(1); j++)
-                {
-                    gridVertices[i, j] = new List<WCVertex>();
-                }
-            }
-
-            AddGeometry();
-        }
-
-        private void AddGeometry()
+        protected override void AddGeometry()
         {
             for (int i = 0; i < data.GetLength(0); i++)
             {

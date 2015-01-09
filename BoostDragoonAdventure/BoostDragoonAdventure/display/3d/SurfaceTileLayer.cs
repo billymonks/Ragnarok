@@ -9,56 +9,19 @@ using Microsoft.Xna.Framework;
 
 namespace wickedcrush.display._3d
 {
-    public class SurfaceTileLayer
+    public class SurfaceTileLayer : TileLayer
     {
-        int ART_GRID_SIZE = 10;
-
-        bool[,] data;
-
-        public Texture2D colorTexture;
-        public Texture2D normalTexture;
-
-        Tileset tileset;
-
-        public List<WCVertex>[,] gridVertices;
-
-        int height;
 
         bool edgeTilesOnly;
 
-        public SurfaceTileLayer(Game game, bool[,] data, int height, String tilesetPath, bool edgeOnly)
+        public SurfaceTileLayer(Game game, bool[,] data, int height, String tilesetPath, bool edgeOnly) : base(game, data, height, tilesetPath)
         {
-            this.data = data;
-
-            this.height = height;
-            this.tileset = new Tileset(tilesetPath);
-
-            colorTexture = game.Content.Load<Texture2D>(@tileset.tex);
-            normalTexture = game.Content.Load<Texture2D>(@tileset.normal);
-
-            
-
             edgeTilesOnly = edgeOnly;
 
             BuildScene(game);
         }
 
-        private void BuildScene(Game game)
-        {
-            gridVertices = new List<WCVertex>[data.GetLength(0), data.GetLength(1)];
-
-            for (int i = 0; i < gridVertices.GetLength(0); i++)
-            {
-                for (int j = 0; j < gridVertices.GetLength(1); j++)
-                {
-                    gridVertices[i, j] = new List<WCVertex>();
-                }
-            }
-
-            AddGeometry();
-        }
-
-        private void AddGeometry()
+        protected override void AddGeometry()
         {
             for (int i = 0; i < data.GetLength(0); i++)
             {

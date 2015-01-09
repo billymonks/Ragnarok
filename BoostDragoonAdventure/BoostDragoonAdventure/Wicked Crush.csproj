@@ -128,6 +128,7 @@
     <Compile Include="display\3d\Scene.cs" />
     <Compile Include="display\3d\SurfaceTileLayer.cs" />
     <Compile Include="display\3d\texture\Tileset.cs" />
+    <Compile Include="display\3d\TileLayer.cs" />
     <Compile Include="display\3d\vertex\WCVertex.cs" />
     <Compile Include="display\3d\WallTileLayer.cs" />
     <Compile Include="display\animation\Tween.cs" />

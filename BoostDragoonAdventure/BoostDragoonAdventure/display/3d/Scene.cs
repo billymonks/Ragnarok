@@ -14,13 +14,12 @@ namespace wickedcrush.display._3d
     public class Scene
     {
         const int ART_GRID_SIZE = 10;
-        //public List<WCVertex>[,] gridVertices;
-        public List<WCVertex> solidGeomVertices;
+        //public List<WCVertex> solidGeomVertices;
 
         public Vector3 cameraPosition;
         public Vector3 cameraDirection;
 
-        private DynamicVertexBuffer buffer;
+        //private DynamicVertexBuffer buffer;
 
         Effect normalMappingEffect;
 
@@ -39,7 +38,7 @@ namespace wickedcrush.display._3d
         public Scene(Game game)
         {
             this.game = game;
-            solidGeomVertices = new List<WCVertex>();
+            
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
             
         }
@@ -145,15 +144,15 @@ namespace wickedcrush.display._3d
             return result;
         }
 
-        public void DrawLayer(Game game, GameplayManager gameplay, SurfaceTileLayer layer)
+        public void DrawLayer(Game game, GameplayManager gameplay, TileLayer layer)
         {
-            PrepareVertices(gameplay, layer);
+            //PrepareVertices(gameplay, layer);
 
-            if (solidGeomVertices.Count <= 0)
+            if (layer.solidGeomVertices.Count <= 0)
                 return;
 
-            buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
-            buffer.SetData(solidGeomVertices.ToArray());
+            
+            //buffer.SetData(solidGeomVertices.ToArray());
 
             game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -161,48 +160,19 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
             normalMappingEffect.Parameters["NormalMap"].SetValue(layer.normalTexture);
 
-            game.GraphicsDevice.SetVertexBuffer(buffer);
+            game.GraphicsDevice.SetVertexBuffer(layer.buffer);
 
             game.GraphicsDevice.BlendState = BlendState.Opaque;
 
             normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
 
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
 
             game.GraphicsDevice.BlendState = BlendState.Additive;
 
             normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
-        }
-
-        public void DrawLayer(Game game, GameplayManager gameplay, WallTileLayer layer)
-        {
-            PrepareVertices(gameplay, layer);
-
-            if (solidGeomVertices.Count <= 0)
-                return;
-
-            buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
-            buffer.SetData(solidGeomVertices.ToArray());
-
-            game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-            normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
-            normalMappingEffect.Parameters["NormalMap"].SetValue(layer.normalTexture);
-
-            game.GraphicsDevice.SetVertexBuffer(buffer);
-
-            game.GraphicsDevice.BlendState = BlendState.Opaque;
-
-            normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
-
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
-
-            game.GraphicsDevice.BlendState = BlendState.Additive;
-
-            normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
+            //game.GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 
         }
 
         public void DrawScene(Game game, GameplayManager gameplay)
@@ -217,9 +187,9 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["DiffuseColor"].SetValue(new Vector4(0.7f, 0.75f, 0.9f, 1f));
             normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(0.9f);
             normalMappingEffect.Parameters["SpecularColor"].SetValue(new Vector4(0.7f, 0.75f, 0.9f, 1f));
-            normalMappingEffect.Parameters["SpecularIntensity"].SetValue(0f);
-            normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120));
-            normalMappingEffect.Parameters["PointLightRange"].SetValue(500);
+            normalMappingEffect.Parameters["SpecularIntensity"].SetValue(1f);
+            normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300));
+            normalMappingEffect.Parameters["PointLightRange"].SetValue(1000);
 
             DrawLayer(game, gameplay, cliffLayer);
             DrawLayer(game, gameplay, wallLayer);
@@ -242,96 +212,12 @@ namespace wickedcrush.display._3d
 
             sceneDimensions = new Vector2(480 * game.aspectRatio, 480);
             normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(480 * game.aspectRatio, 480, -200, 400));
-            //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(1280, 720, 10, 800));
+            //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32 * game.aspectRatio, 16, 10, 1600));
             
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
             normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.115f);
 
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0f, 0f, 0f, 1f));
-
-        }
-
-        private void PrepareVertices(GameplayManager gameplay, SurfaceTileLayer layer)
-        {
-            int startX, startY, endX, endY;
-            solidGeomVertices.Clear();
-
-            /*startX = 0;
-            startY = 0;
-            endX = gridVertices.GetLength(0);
-            endY = gridVertices.GetLength(1);*/
-
-            startX = (int)cameraPosition.X / 10 - (int)(sceneDimensions.X / 20) - 1;
-            startY = (int)cameraPosition.Z / 10 - (int)(sceneDimensions.Y / 20) - 20;
-            endX = startX + (int)(sceneDimensions.X/10) + 2; // gridVertices.GetLength(0);
-            endY = startY + (int)(sceneDimensions.Y/10) + 27; // gridVertices.GetLength(1);
-
-            if (startX < 0)
-                startX = 0;
-            if (startY < 0)
-                startY = 0;
-            if (endX >= layer.gridVertices.GetLength(0))
-            {
-                endX = layer.gridVertices.GetLength(0) - 1;
-            }
-            if (endY >= layer.gridVertices.GetLength(1))
-            {
-                endY = layer.gridVertices.GetLength(1) - 1;
-            }
-
-            if (endX > layer.gridVertices.GetLength(0))
-                endX = layer.gridVertices.GetLength(0);
-            if (endY > layer.gridVertices.GetLength(1))
-                endY = layer.gridVertices.GetLength(1);
-
-            for (int i = startX; i < endX; i++)
-                for (int j = endY; j >= startY; j--)
-                    foreach (WCVertex v in layer.gridVertices[i, j])
-                    {
-                        solidGeomVertices.Add(v);
-                    }
-
-        }
-
-        private void PrepareVertices(GameplayManager gameplay, WallTileLayer layer)
-        {
-            int startX, startY, endX, endY;
-            solidGeomVertices.Clear();
-
-            /*startX = 0;
-            startY = 0;
-            endX = gridVertices.GetLength(0);
-            endY = gridVertices.GetLength(1);*/
-
-            startX = (int)cameraPosition.X / 10 - (int)(sceneDimensions.X / 20) - 1;
-            startY = (int)cameraPosition.Z / 10 - (int)(sceneDimensions.Y / 20) - 20;
-            endX = startX + (int)(sceneDimensions.X / 10) + 2; // gridVertices.GetLength(0);
-            endY = startY + (int)(sceneDimensions.Y / 10) + 27; // gridVertices.GetLength(1);
-
-            if (startX < 0)
-                startX = 0;
-            if (startY < 0)
-                startY = 0;
-            if (endX >= layer.gridVertices.GetLength(0))
-            {
-                endX = layer.gridVertices.GetLength(0) - 1;
-            }
-            if (endY >= layer.gridVertices.GetLength(1))
-            {
-                endY = layer.gridVertices.GetLength(1) - 1;
-            }
-
-            if (endX > layer.gridVertices.GetLength(0))
-                endX = layer.gridVertices.GetLength(0);
-            if (endY > layer.gridVertices.GetLength(1))
-                endY = layer.gridVertices.GetLength(1);
-
-            for (int i = startX; i < endX; i++)
-                for (int j = endY; j >= startY; j--)
-                    foreach (WCVertex v in layer.gridVertices[i, j])
-                    {
-                        solidGeomVertices.Add(v);
-                    }
 
         }
 
