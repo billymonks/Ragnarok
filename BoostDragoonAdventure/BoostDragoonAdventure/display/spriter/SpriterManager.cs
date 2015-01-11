@@ -33,6 +33,7 @@ namespace wickedcrush.display.spriter
             //player1 = new SpriterPlayer(Spriter.getSpriter("monster/basic.scml", loader1), 0, loader1);
             //spriters.Add("monster", new Spriter("monster/basic.scml", loaders["loader1"]));
             spriters.Add("cursor", new Spriter("Content/sprites/cursor/cursor.scml", loaders["loader1"]));
+            spriters.Add("neku", new Spriter("Content/sprites/neku/neku.scml", loaders["loader1"]));
             
 
             this.drawer = new SpriterDrawer(g.graphics);

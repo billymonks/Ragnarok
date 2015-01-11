@@ -47,6 +47,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public bool staggered = false;
 
+        public Dictionary<String,SpriterPlayer> sPlayers;
+
         public SpriterPlayer sPlayer;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
@@ -103,7 +105,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void SetupSpriterPlayer()
         {
-            sPlayer = new SpriterPlayer(factory._spriterManager.spriters["cursor"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]);
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["cursor"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
+
+            sPlayer = sPlayers["cursor"];
             sPlayer.setAnimation("hover", 0, 0);
             sPlayer.setFrameSpeed(20);
         }

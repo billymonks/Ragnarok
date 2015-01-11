@@ -17,6 +17,7 @@ using wickedcrush.manager.audio;
 using Microsoft.Xna.Framework.Audio;
 using wickedcrush.inventory;
 using wickedcrush.player;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -67,6 +68,17 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);
             SetupStateMachine();
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["neku"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["neku"].getSpriterData(), 1, factory._spriterManager.loaders["loader1"]));
+            //sPlayer.setAnimation("standing_north", 0, 0);
+            sPlayer = sPlayers["standing"];
+            sPlayer.setFrameSpeed(20);
+            
         }
 
         private void applyStats()
@@ -146,6 +158,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             timers["boostRecharge"].resetAndStart();
 
                         UpdateDirection(false);
+                        sPlayer = sPlayers["boosting"];
+                        UpdateAnimation();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
 
@@ -158,6 +172,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         }
                         inCharge = false;
 
+                        //sPlayer.
                     }));
 
 
@@ -167,8 +182,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
                         UpdateDirection(inCharge && lockChargeDirection);
+                        
                         WalkForward();
-
+                        sPlayer = sPlayers["standing"];
+                        UpdateAnimation();
                         inCharge = false;
 
                         UpdateItemA();
@@ -305,6 +322,47 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 facing = temp;
 
             movementDirection = (int)temp;
+        }
+
+        protected void UpdateAnimation()
+        {
+            //if (sPlayer == null)
+                //return;
+
+            switch (facing)
+            {
+                case Direction.East:
+                    sPlayer.setAnimation("east", 0, 0);
+                    break;
+
+                case Direction.North:
+                    sPlayer.setAnimation("north", 0, 0);
+                    break;
+
+                case Direction.South:
+                    sPlayer.setAnimation("south", 0, 0);
+                    break;
+
+                case Direction.West:
+                    sPlayer.setAnimation("west", 0, 0);
+                    break;
+
+                case Direction.NorthEast:
+                    sPlayer.setAnimation("northeast", 0, 0);
+                    break;
+
+                case Direction.NorthWest:
+                    sPlayer.setAnimation("northwest", 0, 0);
+                    break;
+
+                case Direction.SouthEast:
+                    sPlayer.setAnimation("southeast", 0, 0);
+                    break;
+
+                case Direction.SouthWest:
+                    sPlayer.setAnimation("southwest", 0, 0);
+                    break;
+            }
         }
 
         protected void WalkForward()
