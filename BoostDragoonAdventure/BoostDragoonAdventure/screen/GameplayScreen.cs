@@ -45,7 +45,7 @@ namespace wickedcrush.screen
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
         
-        public GameplayScreen(Game game, String mapName)
+        public GameplayScreen(GameBase game, String mapName)
         {
             gameplayManager = new GameplayManager(game, this, false);
 
@@ -57,7 +57,7 @@ namespace wickedcrush.screen
 
         }
 
-        public GameplayScreen(Game game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
+        public GameplayScreen(GameBase game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
         {
             gameplayManager = new GameplayManager(game, this, true);
 
@@ -68,7 +68,7 @@ namespace wickedcrush.screen
             Initialize(game, "testMap", true);
         }
 
-        public void Initialize(Game g, String mapName, bool testMode)
+        public void Initialize(GameBase g, String mapName, bool testMode)
         {
             base.Initialize(g);
 
@@ -128,7 +128,7 @@ namespace wickedcrush.screen
             }
         }
 
-        private void LoadContent(Game game)
+        private void LoadContent(GameBase game)
         {
             
         }

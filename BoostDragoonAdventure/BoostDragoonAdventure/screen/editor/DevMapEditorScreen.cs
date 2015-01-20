@@ -24,7 +24,7 @@ using System.Xml.Linq;
 
 namespace wickedcrush.screen
 {
-    public class EditorScreen : GameScreen
+    public class DevMapEditorScreen : GameScreen
     {
         SpriteFactory sf;
 
@@ -38,7 +38,6 @@ namespace wickedcrush.screen
         public Texture2D cursorTexture;
 
         public MenuElement current;
-        public Toolbox toolbox;
         public EditorTool tool;
 
         private bool toolReady = false;
@@ -52,12 +51,13 @@ namespace wickedcrush.screen
         public RoomInfo roomToLoad = new RoomInfo("");
         public RoomInfo roomToAuthor = new RoomInfo("");
 
-        public Player user;
+        public KeyboardControls controls;
 
-        public EditorScreen(GameBase game, Player user)
+        public bool gridEnabled = false;
+
+        public DevMapEditorScreen(GameBase game)
         {
             this.game = game;
-            this.user = user;
 
             Initialize(game);
         }
@@ -79,15 +79,11 @@ namespace wickedcrush.screen
             cursorPosition = new Vector2();
             scaledCursorPosition = new Vector2();
 
-            toolbox = new Toolbox(this);
-            tool = toolbox.tools["wall"];
-
-            
-
             cursorTexture = game.Content.Load<Texture2D>("debugcontent/img/nice_cursor");
 
             //textInput = new TextInput(game.controlsManager.getKeyboard());
 
+            controls = g.controlsManager.addKeyboard();
         }
 
         public void NewRoom()
@@ -118,28 +114,6 @@ namespace wickedcrush.screen
             
         }
 
-        public void AuthorRoom()
-        {
-            PollRoomUpdate();
-
-            if (room.stats.globalId != -1)
-            {
-                Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has already been authored.");
-                NewRoom();
-                return;
-            }
-
-            /*if (!room.stats.readyToAuthor)
-            {
-                Console.WriteLine("Room: '" + room.stats.roomName + "' with localId: '" + room.stats.localId + "' has not passed its test.");
-                return;
-            }*/
-
-            SaveRoom();
-            game.networkManager.SendMap(room.stats.roomName, room.getXDocument(), room.stats.localId, game.playerManager.getPlayerList()[0].globalId);
-            NewRoom();
-        }
-
         private void PollRoom(RoomInfo roomInfo)
         {
             room = new EditorRoom(roomInfo);
@@ -156,12 +130,6 @@ namespace wickedcrush.screen
             {
                 PollRoom(roomToLoad);
                 roomToLoad.readyToLoad = false;
-            }
-
-            if (roomToAuthor.readyToAuthor)
-            {
-                AuthorRoom();
-                roomToAuthor.readyToAuthor = false;
             }
 
             UpdateTextInput(gameTime);
@@ -193,6 +161,11 @@ namespace wickedcrush.screen
                 textInput = null;
                 return;
             }
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
         }
 
         public override void DebugDraw()
@@ -235,6 +208,9 @@ namespace wickedcrush.screen
             DrawCursor();
             DrawTextInput();
 
+            if(gridEnabled)
+                DrawGrid();
+
             game.spriteBatch.End();
         }
 
@@ -251,59 +227,8 @@ namespace wickedcrush.screen
 
         private void DebugControls(GameTime gameTime)
         {
-            if (tool != null)
-                    tool.Update(gameTime, user.c, scaledCursorPosition, room, toolReady);
 
-            if (user.c is KeyboardControls)
-            {
-                KeyboardControls keyboard = (KeyboardControls)user.c;
-                UpdateCursorPosition(keyboard);
-
-                
-
-                
-
-                if (keyboard.ActionPressed())
-                {
-                    //menu.Click();
-                    //tool = menu.currentTool();
-                }
-
-                if (keyboard.InteractReleased() || keyboard.ActionReleased())
-                {
-                    toolReady = true;
-                }
-
-                if (keyboard.BoostPressed())
-                {
-                    game.screenManager.AddScreen(new EditorMenuScreen(game, this));
-                }
-
-                if (keyboard.SelectPressed() || keyboard.StartPressed())
-                {
-                    game.screenManager.AddScreen(new EditorMenuControlBarScreen(game, this));
-                }
-            }
-            else
-            {
-                GamepadControls gamepad = (GamepadControls)user.c;
-                UpdateCursorPosition(gamepad);
-
-                if (gamepad.ActionReleased() || gamepad.InteractReleased())
-                {
-                    toolReady = true;
-                }
-
-                if (gamepad.ItemBPressed())
-                {
-                    game.screenManager.AddScreen(new EditorMenuScreen(game, this));
-                }
-
-                if (gamepad.SelectPressed() || gamepad.StartPressed())
-                {
-                    game.screenManager.AddScreen(new EditorMenuControlBarScreen(game, this));
-                }
-            }
+            UpdateCursorPosition(controls);
         }
 
         public void UpdateCursorPosition(KeyboardControls c)
@@ -319,27 +244,10 @@ namespace wickedcrush.screen
             game.diag += "Map Name: " + room.stats.roomName;
         }
 
-        public void UpdateCursorPosition(GamepadControls c)
-        {
-            float sensitivity = 10f;
-            cursorPosition.X += c.LStickXAxis() * sensitivity;
-            cursorPosition.Y += c.LStickYAxis() * sensitivity;
-
-            scaledCursorPosition.X = cursorPosition.X * (1 / game.debugyscale) - (game.GraphicsDevice.Viewport.Width * 0.5f * (1 / game.debugyscale) - 320);
-            scaledCursorPosition.Y = cursorPosition.Y * (1 / game.debugyscale);
-
-
-            game.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
-            game.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
-            game.diag += "Map Name: " + room.stats.roomName;
-        }
-
 
         private void DrawCursor()
         {
             game.spriteBatch.Draw(cursorTexture, cursorPosition, Color.LightGreen);
-
-            //game.spriteBatch.DrawCircle(cursorPosition, 90, Color.LightGreen, 1, 32); //cool
         }
 
         
@@ -354,9 +262,23 @@ namespace wickedcrush.screen
 
         }
 
-        private void PollRoomUpdate()
+        private void DrawGrid()
         {
-            room.stats = game.roomManager.GetRoomFromLocalAtlas(room.stats.localId);
+            int width = game.GraphicsDevice.Viewport.Width;
+            int height = game.GraphicsDevice.Viewport.Height;
+
+            int gridSize = 10;
+            Point offset = new Point(0, 0);
+
+            for (int i = 0; i < width; i += gridSize)
+            {
+                PrimitiveDrawer.DrawLineSegment(game.spriteBatch, new Vector2(i + offset.X, 0), new Vector2(i + offset.X, height), Color.Yellow, 1);
+            }
+
+            for (int i = 0; i < height; i += gridSize)
+            {
+                PrimitiveDrawer.DrawLineSegment(game.spriteBatch, new Vector2(0, i + offset.Y), new Vector2(width, i + offset.Y), Color.Yellow, 1);
+            }
         }
 
         

@@ -13,10 +13,10 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
 {
     public class DestinationAgent : Agent
     {
-        private Game g;
+        private GameBase g;
         private GameplayManager _gm;
 
-        public DestinationAgent(Vector2 pos, Vector2 size, GameplayManager gameplayManager, Game g)
+        public DestinationAgent(Vector2 pos, Vector2 size, GameplayManager gameplayManager, GameBase g)
             : base(gameplayManager.w, pos, size, new Vector2(size.X / 2f, size.Y / 2f), false, gameplayManager.factory, g.soundManager)
         {
             this.g = g;

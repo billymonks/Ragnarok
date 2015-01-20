@@ -13,7 +13,7 @@ namespace wickedcrush.manager.sprite
         private List<BaseSprite> addList = new List<BaseSprite>();
         private List<BaseSprite> removeList = new List<BaseSprite>();
 
-        public SpriteManager(Game game)
+        public SpriteManager(GameBase game)
             : base(game)
         {
             Initialize();

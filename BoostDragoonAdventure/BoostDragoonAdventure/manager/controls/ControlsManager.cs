@@ -22,7 +22,7 @@ namespace wickedcrush.manager.controls
 
         public DebugControls debugControls;
 
-        public ControlsManager(Game game)
+        public ControlsManager(GameBase game)
             : base(game)
         {
             Initialize();
@@ -137,9 +137,9 @@ namespace wickedcrush.manager.controls
             return c;
         }
 
-        public Controls addKeyboard()
+        public KeyboardControls addKeyboard()
         {
-            Controls c = new KeyboardControls();
+            KeyboardControls c = new KeyboardControls();
 
             controlsList.Add(c);
 

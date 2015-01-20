@@ -20,7 +20,7 @@ namespace wickedcrush.screen
         List<String> roomKeysList;
         int selectionIndex;
 
-        public LoadRoomMenuScreen(Game g, RoomInfo room)
+        public LoadRoomMenuScreen(GameBase g, RoomInfo room)
         {
             this._rm = g.roomManager;
             this.room = room;
@@ -29,7 +29,7 @@ namespace wickedcrush.screen
             Initialize(g);
         }
 
-        public override void Initialize(Game g)
+        public override void Initialize(GameBase g)
         {
             base.Initialize(g);
 

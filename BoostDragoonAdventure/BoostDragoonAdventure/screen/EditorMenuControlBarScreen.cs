@@ -23,7 +23,7 @@ namespace wickedcrush.screen
         private EditorBarMenu bar;
         private EditorScreen _parent;
 
-        public EditorMenuControlBarScreen(Game g, EditorScreen parent)
+        public EditorMenuControlBarScreen(GameBase g, EditorScreen parent)
         {
             base.Initialize(g);
 

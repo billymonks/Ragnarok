@@ -20,9 +20,9 @@ namespace wickedcrush.entity.physics_entity.agent.npc
 {
     public class TerminalNPC : Agent
     {
-        Game _game;
+        GameBase _game;
 
-        public TerminalNPC(Vector2 pos, Game game, GameplayManager gameplayManager)
+        public TerminalNPC(Vector2 pos, GameBase game, GameplayManager gameplayManager)
             : base(gameplayManager.w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, gameplayManager.factory, game.soundManager)
         {
             this._game = game;

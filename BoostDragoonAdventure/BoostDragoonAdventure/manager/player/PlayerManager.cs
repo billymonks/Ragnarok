@@ -22,7 +22,7 @@ namespace wickedcrush.manager.player
 {
     public class PlayerManager : Microsoft.Xna.Framework.GameComponent
     {
-        Game g;
+        GameBase g;
 
         private List<Player> playerList = new List<Player>();
         private List<Player> removeList = new List<Player>();
@@ -32,7 +32,7 @@ namespace wickedcrush.manager.player
 
         private Dictionary<Player, PersistedStats> tempSavedStats = new Dictionary<Player,PersistedStats>();
 
-        public PlayerManager(Game game)
+        public PlayerManager(GameBase game)
             : base(game)
         {
             g = game;

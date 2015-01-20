@@ -35,7 +35,7 @@ namespace wickedcrush.factory.entity
 {
     public class EntityFactory
     {
-        private Game _game; //lol what r u gonna do about it ;) jk pls be nice
+        private GameBase _game; //lol what r u gonna do about it ;) jk pls be nice
         private EntityManager _em;
         private PlayerManager _pm;
         public GameplayManager _gm;
@@ -47,7 +47,7 @@ namespace wickedcrush.factory.entity
 
         private List<Door> doorList;
 
-        public EntityFactory(Game game, GameplayManager gm, EntityManager em, RoomManager rm, World w)
+        public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, RoomManager rm, World w)
         {
 
             this._game = game;

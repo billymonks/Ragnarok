@@ -14,7 +14,7 @@ namespace wickedcrush.display._3d
 
         bool edgeTilesOnly;
 
-        public SurfaceTileLayer(Game game, bool[,] data, int height, String tilesetPath, bool edgeOnly) : base(game, data, height, tilesetPath)
+        public SurfaceTileLayer(GameBase game, bool[,] data, int height, String tilesetPath, bool edgeOnly) : base(game, data, height, tilesetPath)
         {
             edgeTilesOnly = edgeOnly;
 

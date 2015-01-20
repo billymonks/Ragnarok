@@ -25,14 +25,14 @@ namespace wickedcrush.screen
 
         private SoundManager _sound;
 
-        public MapSelectorScreen(Game game)
+        public MapSelectorScreen(GameBase game)
         {
             //this._gm = gameplayManager;
             this._sound = game.soundManager;
             Initialize(game);
         }
 
-        public override void Initialize(Game g)
+        public override void Initialize(GameBase g)
         {
             base.Initialize(g);
 

@@ -12,13 +12,13 @@ namespace wickedcrush.display.spriter
 {
     public class SpriterManager
     {
-        Game g;
+        GameBase g;
 
         SpriterDrawer drawer;
         public Dictionary<String, SpriterLoader> loaders;
         public Dictionary<String, Spriter> spriters;
 
-        public SpriterManager(Game g)
+        public SpriterManager(GameBase g)
         {
             this.g = g;
 

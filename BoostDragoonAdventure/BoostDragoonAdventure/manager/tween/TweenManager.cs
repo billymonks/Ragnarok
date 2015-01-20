@@ -11,13 +11,13 @@ namespace wickedcrush.manager.tween
     // a mistake, tween should be a sprite method
     public class TweenManager : Microsoft.Xna.Framework.GameComponent
     {
-        Game g;
+        GameBase g;
 
         private List<Tween> tweenList = new List<Tween>();
         private List<Tween> addList = new List<Tween>();
         private List<Tween> removeList = new List<Tween>();
 
-        public TweenManager(Game game)
+        public TweenManager(GameBase game)
             : base(game)
         {
             g = game;

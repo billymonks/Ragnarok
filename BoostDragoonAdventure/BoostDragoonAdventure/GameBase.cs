@@ -37,7 +37,7 @@ namespace wickedcrush
         ENTITY = 3
     };
 
-    public class Game : Microsoft.Xna.Framework.Game
+    public class GameBase : Microsoft.Xna.Framework.Game
     {
         public TaskManager taskManager;
         public GraphicsDeviceManager graphics;
@@ -76,7 +76,7 @@ namespace wickedcrush
 
         public float aspectRatio;
 
-        public Game()
+        public GameBase()
         {
             debugMode = true;
 
@@ -85,34 +85,16 @@ namespace wickedcrush
             Content.RootDirectory = "Content";
 
             graphics.SynchronizeWithVerticalRetrace = true;
+            
             IsFixedTimeStep = true;
             //SetFrameRate(120);
             graphics.ApplyChanges();
 
-            if (fullscreen)
-            {
-                graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
-                graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-                graphics.IsFullScreen = true;
-            }
-            else
-            {
-                graphics.PreferredBackBufferWidth = 1920;
-                graphics.PreferredBackBufferHeight = 1080;
-                graphics.IsFullScreen = false;
-            }
             
-            aspectRatio = (float)graphics.PreferredBackBufferWidth / (float)graphics.PreferredBackBufferHeight;
-            
-            graphics.ApplyChanges();
         }
 
-        protected override void Initialize()
+        protected void CalculateDimensionScale()
         {
-            base.Initialize();
-
-            e = new BasicEffect(GraphicsDevice);
-
             debugxscale = (float)GraphicsDevice.Viewport.Width / 640f;
             debugyscale = (float)GraphicsDevice.Viewport.Height / 480f;
             debugxtranslate = (debugxscale - debugyscale) * 320f;
@@ -126,6 +108,15 @@ namespace wickedcrush
                 * Matrix.CreateTranslation(xtranslate, 0f, 0f);
 
             fullSpriteScale = Matrix.CreateScale(xscale, yscale, 1); //for effects that should be stretched across whole screen (possible examples: transitions, edge darkening, etc.)
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+
+            e = new BasicEffect(GraphicsDevice);
+
+            CalculateDimensionScale();
 
             panelFactory = new PanelFactory();
 
@@ -141,8 +132,7 @@ namespace wickedcrush
             playerManager = new PlayerManager(this);
             mapManager = new MapManager(this);
             roomManager = new RoomManager();
-            //gameplayManager = new GameplayManager(this);
-            screenManager = new ScreenManager(this, new PlayerSelectScreen(this));
+            
 
         }
 

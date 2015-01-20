@@ -14,7 +14,7 @@ namespace wickedcrush.display._3d
 
         int baseHeight; //height = height of top, baseheight = height of base, aka baseheight = 3, height = 4 means 1 grid high
 
-        public WallTileLayer(Game game, bool[,] data, int height, int baseHeight, String tilesetPath)
+        public WallTileLayer(GameBase game, bool[,] data, int height, int baseHeight, String tilesetPath)
             : base(game, data, height, tilesetPath)
         {
             this.baseHeight = baseHeight;

@@ -10,7 +10,7 @@ namespace wickedcrush
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game game = new Game())
+            using (WinGame game = new WinGame())
             {
                 game.Run();
             }

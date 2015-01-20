@@ -26,7 +26,7 @@ namespace wickedcrush.display._3d
 
         public DynamicVertexBuffer buffer;
 
-        public TileLayer(Game game, bool[,] data, int height, String tilesetPath)
+        public TileLayer(GameBase game, bool[,] data, int height, String tilesetPath)
         {
             this.data = data;
 
@@ -81,7 +81,7 @@ namespace wickedcrush.display._3d
 
         }
 
-        protected void BuildScene(Game game)
+        protected void BuildScene(GameBase game)
         {
             gridVertices = new List<WCVertex>[data.GetLength(0), data.GetLength(1)];
 

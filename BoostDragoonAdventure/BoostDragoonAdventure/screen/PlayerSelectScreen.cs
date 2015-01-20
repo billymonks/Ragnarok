@@ -58,12 +58,12 @@ namespace wickedcrush.screen
         bool updateCharList = true;
         bool rehydrateScreen = false;
 
-        public PlayerSelectScreen(Game game)
+        public PlayerSelectScreen(GameBase game)
         {
             Initialize(game);
         }
 
-        public override void Initialize(Game g)
+        public override void Initialize(GameBase g)
         {
             base.Initialize(g);
 

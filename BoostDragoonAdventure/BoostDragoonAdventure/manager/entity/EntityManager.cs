@@ -18,13 +18,13 @@ namespace wickedcrush.manager.entity
 {
     public class EntityManager : Microsoft.Xna.Framework.GameComponent
     {
-        Game g;
+        GameBase g;
 
         public List<Entity> entityList = new List<Entity>();
         private List<Entity> addList = new List<Entity>();
         private List<Entity> removeList = new List<Entity>();
 
-        public EntityManager(Game game)
+        public EntityManager(GameBase game)
             : base(game)
         {
             g = game;

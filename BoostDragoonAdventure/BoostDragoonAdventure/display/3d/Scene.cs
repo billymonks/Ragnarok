@@ -25,7 +25,7 @@ namespace wickedcrush.display._3d
 
         Matrix viewMatrix;
 
-        private Game game;
+        private GameBase game;
 
         Vector2 sceneDimensions;
 
@@ -35,7 +35,7 @@ namespace wickedcrush.display._3d
 
         
 
-        public Scene(Game game)
+        public Scene(GameBase game)
         {
             this.game = game;
             
@@ -43,7 +43,7 @@ namespace wickedcrush.display._3d
             
         }
 
-        public void BuildScene(Game game, Map map)
+        public void BuildScene(GameBase game, Map map)
         {
             bool[,] data = GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.DEATHSOUP].data, true);
             //bool[,] data = map.layerList[LayerType.DEATHSOUP].data;
@@ -144,7 +144,7 @@ namespace wickedcrush.display._3d
             return result;
         }
 
-        public void DrawLayer(Game game, GameplayManager gameplay, TileLayer layer)
+        public void DrawLayer(GameBase game, GameplayManager gameplay, TileLayer layer)
         {
             //PrepareVertices(gameplay, layer);
 
@@ -175,7 +175,7 @@ namespace wickedcrush.display._3d
             //game.GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 
         }
 
-        public void DrawScene(Game game, GameplayManager gameplay)
+        public void DrawScene(GameBase game, GameplayManager gameplay)
         {
             cameraPosition = new Vector3(gameplay.camera.cameraPosition.X + 320, 100f, gameplay.camera.cameraPosition.Y + 380);
             viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(cameraPosition.X, 0f, cameraPosition.Z - 100), new Vector3(0f, 0.5f, -0.5f));

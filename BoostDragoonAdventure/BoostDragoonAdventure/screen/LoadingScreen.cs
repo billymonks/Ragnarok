@@ -8,11 +8,11 @@ namespace wickedcrush.screen
 {
     public class LoadingScreen : GameScreen
     {
-        public LoadingScreen(Game g)
+        public LoadingScreen(GameBase g)
         {
             Initialize(g);
         }
-        public override void Initialize(Game g)
+        public override void Initialize(GameBase g)
         {
             base.Initialize(g);
 

@@ -20,13 +20,13 @@ namespace wickedcrush.screen
         private TextInput textInput;
         User u;
 
-        public CharCreationScreen(Game g, User u)
+        public CharCreationScreen(GameBase g, User u)
         {
             Initialize(g);
             this.u = u;
         }
 
-        public override void Initialize(Game g)
+        public override void Initialize(GameBase g)
         {
             base.Initialize(g);
 

@@ -19,7 +19,7 @@ namespace wickedcrush.screen
 
         public GameplayManager _gameplayManager;
 
-        public TestCompleteScreen(Game g, GameplayManager gameplayManager)
+        public TestCompleteScreen(GameBase g, GameplayManager gameplayManager)
         {
             base.Initialize(g);
 

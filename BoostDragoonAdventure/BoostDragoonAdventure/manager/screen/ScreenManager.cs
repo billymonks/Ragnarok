@@ -18,11 +18,11 @@ namespace wickedcrush.manager.screen
 
         private LoadingScreen loadingScreen;
 
-        private Game _game;
+        private GameBase _game;
 
         BasicEffect basicEffect;
 
-        public ScreenManager(Game game, GameScreen rootScreen)
+        public ScreenManager(GameBase game, GameScreen rootScreen)
         {
             this._game = game;
 
@@ -145,6 +145,7 @@ namespace wickedcrush.manager.screen
                 //else
                 //{
                 screenList[i].Render();
+
 
                 //_game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, _game.spriteScale);
                 screenList[i].Draw();

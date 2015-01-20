@@ -9,7 +9,7 @@ namespace wickedcrush.screen
 {
     public abstract class GameScreen
     {
-        public Game game { get; set; }
+        public GameBase game { get; set; }
 
         public bool exclusiveUpdate = false;
         public bool exclusiveDraw = false;
@@ -20,7 +20,7 @@ namespace wickedcrush.screen
 
         public abstract void Dispose();
 
-        public virtual void Initialize(Game g)
+        public virtual void Initialize(GameBase g)
         {
             game = g;
         }

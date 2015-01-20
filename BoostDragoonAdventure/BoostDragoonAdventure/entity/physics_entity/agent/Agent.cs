@@ -22,6 +22,7 @@ using wickedcrush.display._3d;
 using wickedcrush.entity.physics_entity.agent.attack;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.display.spriter;
+using wickedcrush.entity.physics_entity.agent.action;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -424,6 +425,11 @@ namespace wickedcrush.entity.physics_entity.agent
                 if (lowestDistance == this.distanceToEntity(p))
                     target = p;
             }
+        }
+
+        public virtual void TakeSkill(ActionSkill action)
+        {
+            action.
         }
 
         public virtual void TakeHit(Attack attack)

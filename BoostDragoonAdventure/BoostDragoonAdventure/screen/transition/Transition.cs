@@ -21,7 +21,7 @@ namespace wickedcrush.screen.transition
                 finished = true;
         }
 
-        public void Initialize(Game g, double transitionTime)
+        public void Initialize(GameBase g, double transitionTime)
         {
             base.Initialize(g);
 

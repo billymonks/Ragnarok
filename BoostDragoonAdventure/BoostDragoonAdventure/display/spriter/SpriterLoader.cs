@@ -10,9 +10,9 @@ namespace wickedcrush.display.spriter
 {
     public class SpriterLoader : FileLoader
     {
-        private Game game;
+        private GameBase game;
 
-        public SpriterLoader(Game game)
+        public SpriterLoader(GameBase game)
         {
             this.game = game;
         }

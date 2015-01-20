@@ -11,6 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Farseer Physics XNA", "Boos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spriter", "..\SpriterXNATest\SpriterTest\Spriter\Spriter.csproj", "{77AC0DDD-09FB-4025-95BE-018E2269D3D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCEdit", "WCEdit\WCEdit\WCEdit.csproj", "{9CA53F0B-3252-4229-AD33-4FFC88F42852}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0A850700-1ABB-4288-A391-6726B90EBEB9} = {0A850700-1ABB-4288-A391-6726B90EBEB9}
+		{77AC0DDD-09FB-4025-95BE-018E2269D3D4} = {77AC0DDD-09FB-4025-95BE-018E2269D3D4}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCEditContent", "WCEdit\WCEditContent\WCEditContent.contentproj", "{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +100,30 @@ Global
 		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{77AC0DDD-09FB-4025-95BE-018E2269D3D4}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Debug|x86.ActiveCfg = Debug|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Debug|x86.Build.0 = Debug|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.NoServerRebuild|Any CPU.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.NoServerRebuild|Mixed Platforms.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.NoServerRebuild|Mixed Platforms.Build.0 = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.NoServerRebuild|x86.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.NoServerRebuild|x86.Build.0 = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Release|Any CPU.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Release|Mixed Platforms.Build.0 = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Release|x86.ActiveCfg = Release|x86
+		{9CA53F0B-3252-4229-AD33-4FFC88F42852}.Release|x86.Build.0 = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Debug|x86.ActiveCfg = Debug|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.NoServerRebuild|Any CPU.ActiveCfg = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.NoServerRebuild|Mixed Platforms.ActiveCfg = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.NoServerRebuild|x86.ActiveCfg = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Release|Any CPU.ActiveCfg = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

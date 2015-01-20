@@ -43,10 +43,10 @@ namespace wickedcrush.manager.map
 
     public class MapManager
     {
-        private Game _game;
+        private GameBase _game;
         public Dictionary<String, MapStats> atlas;
 
-        public MapManager(Game game)
+        public MapManager(GameBase game)
         {
             atlas = new Dictionary<String, MapStats>();
             LoadAtlas();

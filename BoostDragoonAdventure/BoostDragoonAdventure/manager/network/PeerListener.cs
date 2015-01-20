@@ -29,9 +29,9 @@ namespace wickedcrush.manager.network
 
         public PhotonPeer peer;
 
-        private Game _g;
+        private GameBase _g;
 
-        public PeerListener(Game g)
+        public PeerListener(GameBase g)
         {
             peer = new PhotonPeer(this, ConnectionProtocol.Tcp);
             this._g = g;

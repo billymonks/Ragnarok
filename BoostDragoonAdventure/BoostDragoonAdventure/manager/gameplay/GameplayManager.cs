@@ -47,7 +47,7 @@ namespace wickedcrush.manager.gameplay
 
         public Connection activeConnection;
 
-        private Game _game;
+        private GameBase _game;
 
         public GameplayScreen _screen;
 
@@ -55,7 +55,7 @@ namespace wickedcrush.manager.gameplay
 
         public Scene scene;
 
-        public GameplayManager(Game game, GameplayScreen screen, bool testMode)
+        public GameplayManager(GameBase game, GameplayScreen screen, bool testMode)
         {
             _game = game;
             _screen = screen;
@@ -136,7 +136,7 @@ namespace wickedcrush.manager.gameplay
         {
             Initialize();
             MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
-            map = new Map(mapStats.filename, w, this);
+            map = new Map(mapStats.filename);
             _game.mapManager.LoadMap(this, map, mapStats);
             scene.BuildScene(_game, map);
         }

@@ -9,13 +9,13 @@ namespace wickedcrush.manager.task
 {
     public class TaskManager
     {
-        private Game _game;
+        private GameBase _game;
 
         private List<GameTask> taskList;
         private List<GameTask> removeList;
         private List<GameTask> addList;
 
-        public TaskManager(Game g)
+        public TaskManager(GameBase g)
         {
             _game = g;
             taskList = new List<GameTask>();

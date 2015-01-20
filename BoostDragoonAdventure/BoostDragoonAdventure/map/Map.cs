@@ -28,16 +28,10 @@ namespace wickedcrush.map
         public List<Door> doorList;
         public String name;
 
-        private GameplayManager mapManager;
-
-        public Map(String MAP_NAME, World w, GameplayManager mapManager)
+        public Map(String MAP_NAME)
         {
             layerList = new Dictionary<LayerType, Layer>();
-            this.mapManager = mapManager;
-            //mapManager.map = this;
-            //factory.setMap(this);
             doorList = new List<Door>();
-            //mapManager.loadMap(MAP_NAME, w);
         }
 
         public void addLayer(World w, Boolean[,] data, LayerType layerType) // need map factory for this?

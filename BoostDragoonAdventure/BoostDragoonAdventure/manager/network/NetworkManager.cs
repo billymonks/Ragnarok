@@ -38,7 +38,7 @@ namespace wickedcrush.manager.network
 
         public bool mapsRequested = false;
 
-        public NetworkManager(Game game)
+        public NetworkManager(GameBase game)
         {
             listener = new PeerListener(game);
             timers = new Dictionary<String, Timer>();
