@@ -14,10 +14,10 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         int duration;
 
-        List<KeyValuePair<String, int>> statIncrement;
+        public List<KeyValuePair<String, int>> statIncrement;
         List<KeyValuePair<Timer, ActionSkill>> blows;
 
-        KeyValuePair<int, float> force; //direction, force amount
+        public KeyValuePair<int, float> force; //direction, force amount
 
         protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
 
@@ -66,7 +66,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         && ignoreSameParent)
                         break;
 
-                    ((Agent)c.Other.UserData).TakeHit(this);
+                    ((Agent)c.Other.UserData).TakeSkill(this);
 
                     if (!piercing)
                         Remove();

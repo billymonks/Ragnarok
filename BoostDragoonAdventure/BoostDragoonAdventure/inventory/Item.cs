@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using wickedcrush.entity.physics_entity.agent;
+using wickedcrush.controls;
 
 namespace wickedcrush.inventory
 {
-    public delegate void ItemAction(Agent a);
+    public delegate void ItemAction(Agent a, Item i);
 
     public enum ItemType
     {
@@ -20,92 +21,107 @@ namespace wickedcrush.inventory
     public class Item
     {
         public String name;
-        protected ItemAction action;
+        protected ItemAction pressAction, holdAction, releaseAction;
         public ItemType type;
 
-        public int fuelCost = 0;
-        public int maxFuelCost = 0;
-        public int maxCharge = 0;
-        public Item ammoType;
+        public List<KeyValuePair<string, int>> pressRequirements;
+        public List<KeyValuePair<string, int>> holdRequirements;
+        public List<KeyValuePair<string, int>> releaseRequirements;
 
-        public Item(String name, ItemType type, ItemAction action)
+        public bool pressReady = true, holdReady = false, releaseReady = false;
+
+        public Item(
+            String name,
+            ItemAction pressAction,
+            ItemAction holdAction,
+            ItemAction releaseAction,
+            List<KeyValuePair<string, int>> pressRequirements,
+            List<KeyValuePair<string, int>> holdRequirements,
+            List<KeyValuePair<string, int>> releaseRequirements)
         {
             this.name = name;
-            this.type = type;
-            this.action = action;
+            this.pressAction = pressAction;
+            this.holdAction = holdAction;
+            this.releaseAction = releaseAction;
+
+            this.pressRequirements = pressRequirements;
+            this.holdRequirements = holdRequirements;
+            this.releaseRequirements = releaseRequirements;
         }
 
-        public Item(String name, ItemType type, ItemAction action, int fuelCost)
+
+
+        public void Press(Agent a)
         {
-            this.name = name;
-            this.type = type;
-            this.action = action;
+            if (pressAction == null || !pressReady)
+                return;
 
-            this.fuelCost = fuelCost;
-            this.maxFuelCost = fuelCost;
-        }
-
-        public Item(String name, ItemType type, ItemAction action, int fuelCost, int maxFuelCost, int maxCharge)
-        {
-            this.name = name;
-            this.type = type;
-            this.action = action;
-
-            this.fuelCost = fuelCost;
-            this.maxFuelCost = maxFuelCost;
-            this.maxCharge = maxCharge;
-        }
-
-        public Item(String name, ItemType type, ItemAction action, Item ammoType)
-        {
-            this.name = name;
-            this.type = type;
-            this.action = action;
-
-            this.ammoType = ammoType;
-        }
-
-        private void useItem(Agent a)
-        {
-            switch(type)
+            foreach (KeyValuePair<string, int> req in pressRequirements)
             {
-                case ItemType.Consumable:
-                        action(a);
-                        a.stats.inventory.removeItem(this);
-                    break;
-                case ItemType.UsesAmmo:
-                    if(a.stats.inventory.getItemCount(ammoType) > 0)
-                    {
-                        action(a);
-                        a.stats.inventory.removeItem(ammoType);
-                    }
-                    break;
-                case ItemType.UsesFuel:
-                    if (a.stats.get("boost") >= fuelCost)
-                    {
-                        action(a);
-                        a.stats.addTo("boost", -fuelCost);
-                    }
-                    break;
-            }
-        }
-
-        public void useItem(Agent a, int charge)
-        {
-            if (charge > maxCharge)
-                charge = maxCharge;
-
-            if(type==ItemType.UsesFuelCharge)
-            {
-                int calculatedCost = (int)MathHelper.Lerp((float)fuelCost, (float)maxFuelCost, (float)charge / (float)maxCharge);
-
-                if (a.stats.get("boost") >= calculatedCost)
+                if (!a.stats.requirementMet(req.Key, req.Value))
                 {
-                    action(a);
-                    a.stats.addTo("boost", -calculatedCost);
+                    return;
                 }
             }
-            else { useItem(a); }
+
+            if (a.stats.inventory.getItemCount(this) <= 0)
+                return;
+
+
+            pressAction(a, this);
+
+            pressReady = false;
+            holdReady = true;
+            releaseReady = true;
+        }
+
+        public void Hold(Agent a)
+        {
+            if (holdAction == null || !holdReady)
+                return;
+
+            foreach (KeyValuePair<string, int> req in holdRequirements)
+            {
+                if (!a.stats.requirementMet(req.Key, req.Value))
+                {
+                    return;
+                }
+            }
+
+            if (a.stats.inventory.getItemCount(this) <= 0)
+                return;
+
+
+            holdAction(a, this);
+
+            pressReady = false;
+            holdReady = true;
+            releaseReady = true;
+        }
+
+        public void Release(Agent a)
+        {
+            if (releaseAction == null || !releaseReady)
+                return;
+
+            foreach (KeyValuePair<string, int> req in releaseRequirements)
+            {
+                if (!a.stats.requirementMet(req.Key, req.Value))
+                {
+                    return;
+                }
+            }
+
+            if (a.stats.inventory.getItemCount(this) <= 0)
+            {
+                return;
+            }
+
+            releaseAction(a, this);
+
+            pressReady = true;
+            holdReady = false;
+            releaseReady = false;
         }
     }
 }

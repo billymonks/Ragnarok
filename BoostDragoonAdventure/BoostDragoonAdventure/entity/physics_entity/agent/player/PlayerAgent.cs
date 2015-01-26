@@ -188,8 +188,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateAnimation();
                         inCharge = false;
 
-                        UpdateItemA();
-                        UpdateItemB();
+                        UpdateItems();
+                        //UpdateItemA();
+                        //UpdateItemB();
 
                         _sound.stopCueInstance(id + "blast off", emitter);
 
@@ -253,7 +254,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void UpdateItems()
         {
-
+            UpdateItemA();
+            UpdateItemB();
         }
 
         private void UpdateItemA()
@@ -261,7 +263,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.inventory.itemA == null || busy)
                 return;
 
-            if (stats.inventory.itemA.type.Equals(ItemType.UsesFuelCharge))
+            if (controls.ItemAPressed())
+            {
+                stats.inventory.itemA.Press(this);
+            }
+
+            if (controls.ItemAHeld())
+            {
+                stats.inventory.itemA.Hold(this);
+            }
+
+            if (controls.ItemAReleased())
+            {
+                stats.inventory.itemA.Release(this);
+            }
+            /*if (stats.inventory.itemA.type.Equals(ItemType.UsesFuelCharge))
             {
                 if (controls.ItemAHeld())
                 {
@@ -278,7 +294,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 stats.inventory.useItem(stats.inventory.itemA, this, 0);
                 itemAChargeLevel = 0;
-            }
+            }*/
         }
 
         private void UpdateItemB()
@@ -286,7 +302,22 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.inventory.itemB == null || busy)
                 return;
 
-            if (stats.inventory.itemB.type.Equals(ItemType.UsesFuelCharge))
+            if (controls.ItemBPressed())
+            {
+                stats.inventory.itemB.Press(this);
+            }
+
+            if (controls.ItemBHeld())
+            {
+                stats.inventory.itemB.Hold(this);
+            }
+
+            if (controls.ItemBReleased())
+            {
+                stats.inventory.itemB.Release(this);
+            }
+
+            /*if (stats.inventory.itemB.type.Equals(ItemType.UsesFuelCharge))
             {
                 if (controls.ItemBHeld())
                 {
@@ -303,7 +334,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 stats.inventory.useItem(stats.inventory.itemB, this, 0);
                 itemBChargeLevel = 0;
-            }
+            }*/
         }
 
         protected void UpdateDirection(bool strafe)

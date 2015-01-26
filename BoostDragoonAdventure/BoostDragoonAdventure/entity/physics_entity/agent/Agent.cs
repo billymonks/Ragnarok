@@ -429,7 +429,29 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public virtual void TakeSkill(ActionSkill action)
         {
-            action.
+
+            foreach(KeyValuePair<string, int> pair in action.statIncrement)
+            {
+                if (stats.numbersContainsKey(pair.Key))
+                {
+                    stats.addTo(pair.Key, pair.Value);
+                }
+                else
+                {
+                    stats.set(pair.Key, pair.Value);
+                }
+            }
+
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians((float)action.force.Key)),
+                (float)Math.Sin(MathHelper.ToRadians((float)action.force.Key)));
+
+            v.X += unitVector.X * (float)action.force.Value;
+            v.Y += unitVector.Y * (float)action.force.Value;
+
+            bodies["body"].LinearVelocity = v;
         }
 
         public virtual void TakeHit(Attack attack)

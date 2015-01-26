@@ -22,6 +22,8 @@ namespace wickedcrush.display._3d
         public List<WCVertex>[,] gridVertices;
         public List<WCVertex> solidGeomVertices;
 
+        public int startVertex, vertCount;
+
         protected int height;
 
         public DynamicVertexBuffer buffer;

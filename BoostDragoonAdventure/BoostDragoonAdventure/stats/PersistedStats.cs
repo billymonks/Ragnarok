@@ -52,12 +52,26 @@ namespace wickedcrush.stats
                 numbers.Add(key, value);
             }
         }
+
+        public bool numbersContainsKey(String key)
+        {
+            return numbers.ContainsKey(key);
+        }
         
         public void addTo(String key, int number)
         {
             checkExists(key);
 
             numbers[key] += number;
+        }
+
+        public bool requirementMet(String key, int value)
+        {
+            if (!numbersContainsKey(key))
+                return false;
+
+            return (get(key) > value);
+                
         }
 
         // -1: number smaller than value, 0: number equal to value, 1: number greater than value

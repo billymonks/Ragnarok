@@ -56,13 +56,19 @@ namespace wickedcrush.inventory
             return 0;
         }
 
-        public void useItem(Item i, Agent a, int charge)
+        public void pressItem(Item i, Agent a)
         {
-            if (inventory.ContainsKey(i) && inventory[i] > 0)
-            {
-                i.useItem(a, charge);
+            i.Press(a);
+        }
 
-            }
+        public void holdItem(Item i, Agent a)
+        {
+            i.Hold(a);
+        }
+
+        public void releaseItem(Item i, Agent a)
+        {
+            i.Release(a);
         }
 
         public void removeItem(Item i)
