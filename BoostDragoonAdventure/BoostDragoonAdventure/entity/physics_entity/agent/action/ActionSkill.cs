@@ -15,25 +15,38 @@ namespace wickedcrush.entity.physics_entity.agent.action
         int duration;
 
         public List<KeyValuePair<String, int>> statIncrement;
-        List<KeyValuePair<Timer, ActionSkill>> blows;
+        List<KeyValuePair<Timer, SkillStruct>> blows;
 
         public KeyValuePair<int, float> force; //direction, force amount
 
         protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
 
-        public ActionSkill(Vector2 pos, Vector2 size, Vector2 center, int duration, GameBase game, GameplayManager gameplay) 
-            : base(gameplay.w, pos, size, center, false, gameplay.factory, game.soundManager) 
+        private Vector2 velocity = new Vector2(0f, 0f);
+
+        GameplayManager gameplay;
+
+        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Agent parent)
+            : base(gameplay.w, skillStruct.pos, skillStruct.size, skillStruct.center, false, gameplay.factory, game.soundManager) 
         {
+            this.duration = skillStruct.duration;
             timers.Add("duration", new utility.Timer(duration));
             timers["duration"].resetAndStart();
 
+            skillName = skillStruct.name;
+            this.parent = parent;
+
+            this.gameplay = gameplay;
+
+            LoadBlows(skillStruct.blows, gameplay);
         }
 
-        protected void LoadBlows(List<KeyValuePair<int, ActionSkill>> blows)
+        protected void LoadBlows(List<KeyValuePair<int, SkillStruct>> blows, GameplayManager gameplay)
         {
-            foreach(KeyValuePair<int, ActionSkill> blow in blows)
+            foreach (KeyValuePair<int, SkillStruct> blow in blows)
             {
-                this.blows.Add(new KeyValuePair<Timer, ActionSkill>(new Timer(blow.Key), blow.Value));
+                Timer t = new Timer(blow.Key);
+                t.resetAndStart();
+                this.blows.Add(new KeyValuePair<Timer, SkillStruct>(t, blow.Value));
             }
         }
 
@@ -47,6 +60,15 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            for (int i = blows.Count - 1; i >= 0; i--)
+            {
+                if (blows[i].Key.isDone())
+                {
+                    gameplay.factory.addActionSkill(blows[i].Value, this);
+                    blows.Remove(blows[i]);
+                }
+            }
         }
 
         protected override void HandleCollisions()

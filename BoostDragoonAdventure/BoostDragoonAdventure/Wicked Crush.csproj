@@ -146,7 +146,8 @@
     <Compile Include="editor\tool\EditorTool.cs" />
     <Compile Include="editor\tool\TerrainTool.cs" />
     <Compile Include="editor\tool\Toolbox.cs" />
-    <Compile Include="entity\physics_entity\agent\action\Action.cs" />
+    <Compile Include="entity\physics_entity\agent\action\ActionSkill.cs" />
+    <Compile Include="entity\physics_entity\agent\action\SkillServer.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\AimedProjectile.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Fireball.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />

@@ -30,6 +30,8 @@ using wickedcrush.entity.physics_entity.agent.npc;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
+using wickedcrush.entity.physics_entity.agent.action;
+using wickedcrush.utility;
 
 namespace wickedcrush.factory.entity
 {
@@ -211,6 +213,13 @@ namespace wickedcrush.factory.entity
             a.stats.set("staggerDuration", 1);
             a.stats.set("staggerDistance", 0);
             
+            _em.addEntity(a);
+        }
+
+        public void addActionSkill(SkillStruct skillStruct, Agent parent)
+        {
+            ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent);
+
             _em.addEntity(a);
         }
 
