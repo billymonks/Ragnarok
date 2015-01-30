@@ -26,6 +26,7 @@ using wickedcrush.manager.screen;
 using wickedcrush.manager.task;
 using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
+using wickedcrush.entity.physics_entity.agent.action;
 
 namespace wickedcrush
 {
@@ -121,6 +122,7 @@ namespace wickedcrush
             panelFactory = new PanelFactory();
 
             ItemServer.Initialize();
+            SkillServer.Initialize();
 
             spriterManager = new SpriterManager(this);
 

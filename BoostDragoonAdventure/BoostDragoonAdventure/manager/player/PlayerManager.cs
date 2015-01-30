@@ -232,6 +232,7 @@ namespace wickedcrush.manager.player
             XElement rootElement = new XElement("character");
             XElement statsElement = new XElement("stats");
             XElement inventoryElement = new XElement("inventory");
+            XElement equipmentElement = new XElement("equipment");
 
             XElement temp;
 
@@ -253,11 +254,24 @@ namespace wickedcrush.manager.player
                 inventoryElement.Add(temp);
             }
 
+            if (p.getStats().inventory.itemA != null)
+            {
+                temp = new XElement("itemA", p.getStats().inventory.itemA.name);
+                equipmentElement.Add(temp);
+            }
+
+            if (p.getStats().inventory.itemB != null)
+            {
+                temp = new XElement("itemB", p.getStats().inventory.itemB.name);
+                equipmentElement.Add(temp);
+            }
+
             inventoryElement.Add(new XAttribute("gold", p.getStats().inventory.currency));
 
             doc.Add(rootElement);
             rootElement.Add(statsElement);
             rootElement.Add(inventoryElement);
+            rootElement.Add(equipmentElement);
 
             doc.Save(path);
         }
@@ -273,6 +287,8 @@ namespace wickedcrush.manager.player
             XElement rootElement = new XElement(doc.Element("character"));
             XElement statsElement = new XElement(rootElement.Element("stats"));
             XElement inventoryElement = new XElement(rootElement.Element("inventory"));
+            XElement equipmentElement = new XElement(rootElement.Element("equipment"));
+            
 
             PersistedStats stats = new PersistedStats();
 
@@ -286,6 +302,16 @@ namespace wickedcrush.manager.player
             foreach (XElement itemElement in inventoryElement.Elements("item"))
             {
                 stats.inventory.receiveItem(ItemServer.getItem(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
+            }
+
+            foreach (XElement itemAElement in equipmentElement.Elements("itemA"))
+            {
+                stats.inventory.itemA = ItemServer.getItem(itemAElement.Value);
+            }
+
+            foreach (XElement itemBElement in equipmentElement.Elements("itemB"))
+            {
+                stats.inventory.itemB = ItemServer.getItem(itemBElement.Value);
             }
 
 

@@ -106,6 +106,7 @@ namespace wickedcrush.player
 
             stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
             stats.inventory.receiveItem(ItemServer.getItem("Spellbook: Fireball"), 1);
+            stats.inventory.receiveItem(ItemServer.getItem("Spear"), 1);
         }
 
 

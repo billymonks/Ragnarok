@@ -496,6 +496,11 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
+        public void useActionSkill(SkillStruct skill)
+        {
+            factory.addActionSkill(skill, this);
+        }
+
         public void fireBolt()
         {
             factory.addBolt(

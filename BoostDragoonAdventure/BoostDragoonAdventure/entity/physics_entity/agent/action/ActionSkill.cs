@@ -15,9 +15,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
         int duration;
 
         public List<KeyValuePair<String, int>> statIncrement;
-        List<KeyValuePair<Timer, SkillStruct>> blows;
+        List<KeyValuePair<Timer, SkillStruct>> blows = new List<KeyValuePair<Timer, SkillStruct>>();
 
-        public KeyValuePair<int, float> force; //direction, force amount
+        public KeyValuePair<int, int> force; //direction, force amount
 
         protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
 
@@ -26,7 +26,13 @@ namespace wickedcrush.entity.physics_entity.agent.action
         GameplayManager gameplay;
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Agent parent)
-            : base(gameplay.w, skillStruct.pos, skillStruct.size, skillStruct.center, false, gameplay.factory, game.soundManager) 
+            : base(gameplay.w,
+            new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing)))), 
+            skillStruct.size, 
+            skillStruct.center, 
+            false, 
+            gameplay.factory, game.soundManager) 
         {
             this.duration = skillStruct.duration;
             timers.Add("duration", new utility.Timer(duration));
@@ -34,8 +40,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skillName = skillStruct.name;
             this.parent = parent;
-
+            this.facing = parent.facing;
             this.gameplay = gameplay;
+
+            this.statIncrement = skillStruct.statIncrement;
+
+            this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
 
             LoadBlows(skillStruct.blows, gameplay);
         }
@@ -63,12 +73,16 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             for (int i = blows.Count - 1; i >= 0; i--)
             {
+                blows[i].Key.Update(gameTime);
                 if (blows[i].Key.isDone())
                 {
                     gameplay.factory.addActionSkill(blows[i].Value, this);
                     blows.Remove(blows[i]);
                 }
             }
+
+            if (timers["duration"].isDone())
+                this.Remove();
         }
 
         protected override void HandleCollisions()
@@ -100,6 +114,14 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
                 c = c.Next;
             }
+        }
+
+        protected override void Dispose()
+        {
+            base.Dispose();
+
+
+
         }
     }
 }
