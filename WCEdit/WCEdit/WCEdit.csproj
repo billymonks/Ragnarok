@@ -119,6 +119,12 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SkillGeneratorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SkillGeneratorForm.Designer.cs">
+      <DependentUpon>SkillGeneratorForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

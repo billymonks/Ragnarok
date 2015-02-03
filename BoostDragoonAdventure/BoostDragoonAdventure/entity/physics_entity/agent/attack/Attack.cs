@@ -69,10 +69,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack
                     ((Agent)c.Other.UserData).TakeHit(this);
                     
                     if (!piercing)
-                        Remove();
+                        this.remove = true;
                 } else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
-                    Remove();
+                    this.remove = true;
                 }
 
                 c = c.Next;

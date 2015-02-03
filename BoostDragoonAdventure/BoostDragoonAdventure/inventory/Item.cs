@@ -73,6 +73,8 @@ namespace wickedcrush.inventory
             pressReady = false;
             holdReady = true;
             releaseReady = true;
+
+            
         }
 
         public void Hold(Agent a)

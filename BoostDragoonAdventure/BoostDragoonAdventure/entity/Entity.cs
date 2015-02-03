@@ -36,7 +36,7 @@ namespace wickedcrush.entity
         public List<Entity> subEntityList;
         public List<Entity> removeList;
 
-        protected bool remove = false;
+        public bool remove = false;
         protected bool initialized = false;
         public bool dead = false;
         public bool immortal = false;
@@ -51,6 +51,8 @@ namespace wickedcrush.entity
         public AudioEmitter emitter;
 
         public int id = Helper.getUID();
+
+        public int height = 0;
         #endregion
 
         #region Initialization
@@ -187,6 +189,11 @@ namespace wickedcrush.entity
                 return 0;
             }
             else return 1;
+        }
+
+        public void PlayCue(String name)
+        {
+            _sound.playCue(name, emitter);
         }
     }
         

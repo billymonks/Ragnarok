@@ -5,6 +5,7 @@ using System.Text;
 using wickedcrush.manager.gameplay;
 using Microsoft.Xna.Framework;
 using wickedcrush.utility;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.action
 {
@@ -19,16 +20,16 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
+        protected bool reactToWall = false, piercing = true, ignoreSameParent = true, just_for_show = false;
 
-        private Vector2 velocity = new Vector2(0f, 0f);
+        private Vector2 velocity;
 
         GameplayManager gameplay;
 
-        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Agent parent)
+        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent)
             : base(gameplay.w,
             new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
-                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing)))), 
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing)))), 
             skillStruct.size, 
             skillStruct.center, 
             false, 
@@ -47,7 +48,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
 
+            velocity = new Vector2((float)( skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
+                (float) (skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing))));
+
             LoadBlows(skillStruct.blows, gameplay);
+
+            Initialize();
         }
 
         protected void LoadBlows(List<KeyValuePair<int, SkillStruct>> blows, GameplayManager gameplay)
@@ -60,33 +66,66 @@ namespace wickedcrush.entity.physics_entity.agent.action
             }
         }
 
-        private void Initialize(int damage, int force)
+        private void Initialize()
         {
             airborne = true;
             immortal = true;
             this.name = "ActionSkill";
+
+            _sound.playCue("whsh", emitter); // play activate sound
+
+            //_sound.addCueInstance("hurt", id + "hurt", false);
+            
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            bodies["body"].LinearVelocity = velocity;
+
             for (int i = blows.Count - 1; i >= 0; i--)
             {
                 blows[i].Key.Update(gameTime);
                 if (blows[i].Key.isDone())
                 {
-                    gameplay.factory.addActionSkill(blows[i].Value, this);
+                    gameplay.factory.addActionSkill(blows[i].Value, this.parent);
                     blows.Remove(blows[i]);
                 }
             }
 
             if (timers["duration"].isDone())
-                this.Remove();
+                this.remove = true;
+
+            //just_for_show = true;
+        }
+
+        public void PlayTakeSound()
+        {
+            
+            //_sound.playCueInstance(id + "hurt", emitter);
+
+            _sound.playCue("hurt", emitter);
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.loaders["loader1"]));
+
+            sPlayer = sPlayers["actionskill"];
+            //sPlayer.setAnimation("whitetored", 0, 0);
+            sPlayer.setFrameSpeed(60);
+            sPlayer.setScale(((float)size.X) / 10f);
+            height = 30;
+
         }
 
         protected override void HandleCollisions()
         {
+            if (just_for_show)
+                return;
+
             var c = bodies["body"].ContactList;
             while (c != null)
             {
@@ -105,11 +144,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     ((Agent)c.Other.UserData).TakeSkill(this);
 
                     if (!piercing)
-                        Remove();
+                        this.remove = true;
                 }
                 else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
-                    Remove();
+                    this.remove = true;
                 }
 
                 c = c.Next;
@@ -119,8 +158,6 @@ namespace wickedcrush.entity.physics_entity.agent.action
         protected override void Dispose()
         {
             base.Dispose();
-
-
 
         }
     }

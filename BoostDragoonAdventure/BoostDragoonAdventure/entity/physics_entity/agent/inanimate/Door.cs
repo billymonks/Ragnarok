@@ -25,7 +25,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
             this._gameplayManager = gm;
             this.connection = connection;
             this.visible = false;
-            
+            this.immortal = true;
         }
 
         protected override void HandleCollisions()

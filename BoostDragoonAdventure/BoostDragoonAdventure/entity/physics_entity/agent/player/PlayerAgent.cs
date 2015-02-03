@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 100f;
         private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
-        private int chargeLevel = 0, itemAChargeLevel = 0, itemBChargeLevel = 0;
+        private int chargeLevel = 0;
 
         public bool busy = false;
 
@@ -46,7 +46,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.player = player;
             Initialize(name, pos, size, center, solid, controls);
 
-
+            this.stats = stats;
         }
 
         private void Initialize(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
@@ -62,8 +62,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
 
-            stats.inventory.itemA = ItemServer.getItem("Healthsweed");
-            stats.inventory.itemB = ItemServer.getItem("Spellbook: Fireball");
+            //stats.inventory.itemA = ItemServer.getItem("Healthsweed");
+            //stats.inventory.itemB = ItemServer.getItem("Spellbook: Fireball");
 
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);
@@ -73,8 +73,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["neku"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
-            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["neku"].getSpriterData(), 1, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.loaders["loader1"]));
             //sPlayer.setAnimation("standing_north", 0, 0);
             sPlayer = sPlayers["standing"];
             sPlayer.setFrameSpeed(20);
@@ -246,8 +246,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private void CancelCharge()
         {
             chargeLevel = 0;
-            itemAChargeLevel = 0;
-            itemBChargeLevel = 0;
 
             inCharge = false;
         }

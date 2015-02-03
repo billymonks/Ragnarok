@@ -327,14 +327,6 @@ namespace wickedcrush.screen
             u.ready = true;
         }
 
-        private void addPlayer(String name, Controls controls, int playerNumber) //needs a new home
-        {
-            Player p = new Player((game.playerManager.getPlayerList().Count + 1) + " " + name, playerNumber, controls, new PersistedStats(15, 15), game.panelFactory);
-            p.initializeAgentStats();
-            //p.GenerateAgent(new Vector2(12, 320), new Vector2(24, 24), new Vector2(12, 12), true, this);
-            game.playerManager.addPlayer(p);
-        }
-
         private void derpReadyTimer(User u)
         {
             if(!readyTimer.ContainsKey(u))

@@ -63,12 +63,9 @@ namespace wickedcrush.entity.physics_entity
 
         public override void Remove()
         {
+            removeBodies();
             dead = true;
-            if (remove == false)
-            {
-                base.Remove();
-                removeBodies();
-            }
+            base.Remove();
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
@@ -109,6 +106,8 @@ namespace wickedcrush.entity.physics_entity
             {
                 _w.RemoveBody(pair.Value);
             }
+
+            bodies.Clear();
         }
     }
 }

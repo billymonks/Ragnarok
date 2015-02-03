@@ -37,7 +37,7 @@ namespace wickedcrush.player
 
         public Door respawnPoint;
 
-        private bool remove = false;
+        public bool remove = false;
 
         public Player(String name, int playerNumber, Controls c, PersistedStats stats, PanelFactory pf)
         {
@@ -114,6 +114,9 @@ namespace wickedcrush.player
         public void Remove()
         {
             remove = true;
+
+            if (agent != null)
+                agent.remove = true;
         }
 
         public bool readyForRemoval()

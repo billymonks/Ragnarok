@@ -69,7 +69,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             {
 
                 cluster();
-                Remove();
+                this.remove = true;
             }
         }
 
@@ -125,13 +125,13 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
                     ((Agent)c.Other.UserData).TakeHit(this);
 
-                    
-                    Remove();
+
+                    this.remove = true;
                 }
                 else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
                     cluster();
-                    Remove();
+                    this.remove = true;
                 }
 
                 c = c.Next;

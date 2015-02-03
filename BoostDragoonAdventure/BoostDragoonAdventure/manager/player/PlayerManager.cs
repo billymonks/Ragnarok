@@ -174,6 +174,8 @@ namespace wickedcrush.manager.player
             {
                 foreach (Player p in removeList)
                 {
+                    if (p.getAgent() != null)
+                        p.getAgent().Remove();
                     playerList.Remove(p);
                 }
 

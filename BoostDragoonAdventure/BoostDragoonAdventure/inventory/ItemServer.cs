@@ -87,11 +87,11 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("spear charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Strong Attack"]);
+                       a.useActionSkill(SkillServer.skills["Spear Attack Weak"]);
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.skills["Spear Attack"]);
+                       a.useActionSkill(SkillServer.skills["Spear Attack Full"]);
                    }
                    a.stats.addTo("boost", -100);
                    a.stats.set("spear charge", 0);
@@ -100,10 +100,45 @@ namespace wickedcrush.inventory
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>()));
 
-            /*items.Add("Spellbook: Fireball", new Item("Spellbook: Fireball", ItemType.UsesFuelCharge,
-                (a, i) => {
-                    a.fireFireball(2, 10f, 20, 300);
-                }, 200, 400, 300));*/
+            items.Add(
+               "Longsword",
+               new Item("Longsword", (a, i) =>
+               {
+                   a.PlayCue("volleyball");
+                   a.stats.set("longsword charge", 0);
+               },
+               (a, i) =>
+               {
+                   a.stats.addTo("boost", -3);
+                   a.stats.addTo("longsword charge", 1);
+
+                   if (a.stats.compare("longsword charge", 25) == 0)
+                       a.PlayCue("squash");
+
+                   if (a.stats.compare("longsword charge", 50) == 0)
+                       a.PlayCue("ping2");
+               },
+               (a, i) =>
+               {
+                   a.PlayCue("smash");
+
+                   if (a.stats.compare("longsword charge", 25) < 0)
+                   {
+                       a.useActionSkill(SkillServer.skills["Longsword Attack Weak"]);
+                   }
+                   else if (a.stats.compare("longsword charge", 50) < 0)
+                   {
+                       a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
+                   } else
+                   {
+                       a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
+                   }
+                   a.stats.addTo("boost", -100);
+                   a.stats.set("longsword charge", 0);
+               },
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
+               new List<KeyValuePair<string, int>>()));
         }
         
         public static Item getItem(String name)

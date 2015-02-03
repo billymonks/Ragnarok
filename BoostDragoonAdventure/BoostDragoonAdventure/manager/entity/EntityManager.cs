@@ -51,10 +51,10 @@ namespace wickedcrush.manager.entity
         {
             foreach (Entity e in entityList)
             {
-                e.Update(gameTime);
-
                 if (e.readyForRemoval())
                     removeList.Add(e);
+                else
+                    e.Update(gameTime);
             }
 
             performRemoval();
@@ -108,8 +108,8 @@ namespace wickedcrush.manager.entity
             {
                 foreach (Entity e in removeList)
                 {
+                    e.Remove();
                     entityList.Remove(e);
-                    
                 }
 
                 removeList.Clear();

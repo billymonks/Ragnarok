@@ -91,6 +91,8 @@ namespace wickedcrush
             //SetFrameRate(120);
             graphics.ApplyChanges();
 
+            spriterManager = new SpriterManager(this);
+
             
         }
 
@@ -124,7 +126,7 @@ namespace wickedcrush
             ItemServer.Initialize();
             SkillServer.Initialize();
 
-            spriterManager = new SpriterManager(this);
+            //spriterManager = new SpriterManager(this);
 
             networkManager = new NetworkManager(this);
 
@@ -147,6 +149,8 @@ namespace wickedcrush
             initializeWhiteTexture(GraphicsDevice);
 
             PrimitiveDrawer.LoadContent(GraphicsDevice);
+
+            spriterManager.LoadContent();
 
             
         }

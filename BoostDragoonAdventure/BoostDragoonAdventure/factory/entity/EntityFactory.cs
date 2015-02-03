@@ -216,7 +216,7 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
-        public void addActionSkill(SkillStruct skillStruct, Agent parent)
+        public void addActionSkill(SkillStruct skillStruct, Entity parent)
         {
             ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent);
 

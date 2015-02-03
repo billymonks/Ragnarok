@@ -107,7 +107,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected virtual void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["cursor"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.loaders["loader1"]));
 
             sPlayer = sPlayers["cursor"];
             sPlayer.setAnimation("hover", 0, 0);
@@ -146,7 +146,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 bodies["activeArea"].Position = bodies["body"].WorldCenter;
 
             if (stats.get("hp") <= 0 && immortal == false)
-                Remove();
+                this.remove = true;
 
             if (target != null && target.dead)
                 target = null;
@@ -309,12 +309,12 @@ namespace wickedcrush.entity.physics_entity.agent
         public override void Draw()
         {
             Vector2 spritePos = new Vector2(bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X, 
-                bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y);
+                bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height);
 
             float near = -200f;
             float far = 800f;
 
-            float depth = 1f - (((spritePos.Y * 1.03f - near - center.Y)) / (far - near));
+            float depth = 1f - ((((spritePos.Y + height) * 1.03f - near - center.Y)) / (far - near));
 
             //float depth = 0f;
 
@@ -429,6 +429,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public virtual void TakeSkill(ActionSkill action)
         {
+            if (this.immortal)
+                return;
 
             foreach(KeyValuePair<string, int> pair in action.statIncrement)
             {
@@ -452,6 +454,8 @@ namespace wickedcrush.entity.physics_entity.agent
             v.Y += unitVector.Y * (float)action.force.Value;
 
             bodies["body"].LinearVelocity = v;
+
+            action.PlayTakeSound();
         }
 
         public virtual void TakeHit(Attack attack)

@@ -37,9 +37,9 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
 
         protected override void HandleCollisions()
         {
-            base.HandleCollisions();    
+            base.HandleCollisions();
 
-            Remove();
+            this.remove = true;
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
