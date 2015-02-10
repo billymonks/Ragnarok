@@ -68,6 +68,33 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);
             SetupStateMachine();
+
+            InitializeHpBar();
+            UpdateHpBar();
+        }
+
+        protected void InitializeHpBar()
+        {
+            AddHudElement("hp_bar", "hp_bar", 4, Vector2.Zero);
+            AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
+        }
+
+        protected void RemoveHpBar()
+        {
+            RemoveHudElement("hp_bar");
+            RemoveHudElement("fuel_bar");
+        }
+
+        protected void UpdateHpBar()
+        {
+            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("maxHP"))) * 99.0);
+            long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
+            hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
+            hudSpriters["fuel_bar"].player.setFrame(fuelSunday);
+            
+            
+
+            //hudSpriters["hp_bar"].setFrame(1);
         }
 
         protected override void SetupSpriterPlayer()
@@ -76,9 +103,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
             sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.loaders["loader1"]));
             //sPlayer.setAnimation("standing_north", 0, 0);
-            sPlayer = sPlayers["standing"];
-            sPlayer.setFrameSpeed(20);
-            
+            bodySpriter = sPlayers["standing"];
+            bodySpriter.setFrameSpeed(20);
+
         }
 
         private void applyStats()
@@ -133,6 +160,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 overheating = true;
                 stats.set("boost", 0);
             }
+
+            UpdateHpBar();
         }
 
         private void SetupStateMachine()
@@ -158,18 +187,20 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             timers["boostRecharge"].resetAndStart();
 
                         UpdateDirection(false);
-                        sPlayer = sPlayers["boosting"];
+                        bodySpriter = sPlayers["boosting"];
                         UpdateAnimation();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
 
-                        if (controls.ActionPressed())
+                        UpdateItems();
+
+                        /*if (controls.ActionPressed())
                         {
                             stats.addTo("boost", -100);
                             attackForward(new Vector2(36, 36), 6, 70);
                             //_sound.playSound("whsh");
                             _sound.playCue("whsh", emitter);
-                        }
+                        }*/
                         inCharge = false;
 
                         //sPlayer.
@@ -184,7 +215,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateDirection(inCharge && lockChargeDirection);
                         
                         WalkForward();
-                        sPlayer = sPlayers["standing"];
+                        bodySpriter = sPlayers["standing"];
                         UpdateAnimation();
                         inCharge = false;
 
@@ -195,7 +226,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         _sound.stopCueInstance(id + "blast off", emitter);
 
 
-                        if ((canAttackWhileOverheating || !overheating) && !busy)
+                        /*if ((canAttackWhileOverheating || !overheating) && !busy)
                         {
                             if (controls.ActionPressed())
                             {
@@ -236,7 +267,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             }
 
                             //put below in item update method
-                        }
+                        }*/
 
                     }));
 
@@ -254,6 +285,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             UpdateItemA();
             UpdateItemB();
+            UpdateItemC();
         }
 
         private void UpdateItemA()
@@ -299,6 +331,28 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         }
 
+        private void UpdateItemC()
+        {
+            if (stats.inventory.itemC == null || busy)
+                return;
+
+            if (controls.ItemCPressed())
+            {
+                stats.inventory.itemC.Press(this);
+            }
+
+            if (controls.ItemCHeld())
+            {
+                stats.inventory.itemC.Hold(this);
+            }
+
+            if (controls.ItemCReleased())
+            {
+                stats.inventory.itemC.Release(this);
+            }
+
+        }
+
         protected void UpdateDirection(bool strafe)
         {
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
@@ -325,35 +379,35 @@ namespace wickedcrush.entity.physics_entity.agent.player
             switch (facing)
             {
                 case Direction.East:
-                    sPlayer.setAnimation("east", 0, 0);
+                    bodySpriter.setAnimation("east", 0, 0);
                     break;
 
                 case Direction.North:
-                    sPlayer.setAnimation("north", 0, 0);
+                    bodySpriter.setAnimation("north", 0, 0);
                     break;
 
                 case Direction.South:
-                    sPlayer.setAnimation("south", 0, 0);
+                    bodySpriter.setAnimation("south", 0, 0);
                     break;
 
                 case Direction.West:
-                    sPlayer.setAnimation("west", 0, 0);
+                    bodySpriter.setAnimation("west", 0, 0);
                     break;
 
                 case Direction.NorthEast:
-                    sPlayer.setAnimation("northeast", 0, 0);
+                    bodySpriter.setAnimation("northeast", 0, 0);
                     break;
 
                 case Direction.NorthWest:
-                    sPlayer.setAnimation("northwest", 0, 0);
+                    bodySpriter.setAnimation("northwest", 0, 0);
                     break;
 
                 case Direction.SouthEast:
-                    sPlayer.setAnimation("southeast", 0, 0);
+                    bodySpriter.setAnimation("southeast", 0, 0);
                     break;
 
                 case Direction.SouthWest:
-                    sPlayer.setAnimation("southwest", 0, 0);
+                    bodySpriter.setAnimation("southwest", 0, 0);
                     break;
             }
         }

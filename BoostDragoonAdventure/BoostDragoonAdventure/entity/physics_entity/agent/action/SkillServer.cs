@@ -14,8 +14,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public int duration, force;
         public List<KeyValuePair<int, SkillStruct>> blows;
         public List<KeyValuePair<String, int>> statIncrement;
+        public String cue;
 
-        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, int duration, int force, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement)
+        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, int duration, int force, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue)
         {
             this.name = name;
             this.pos = pos;
@@ -26,6 +27,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.force = force;
             this.blows = blows;
             this.statIncrement = statIncrement;
+            this.cue = cue;
         }
     }
     public static class SkillServer
@@ -47,7 +49,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     160,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10) },
+                    ""));
 
             skills.Add(
                 "Strong Attack",
@@ -59,7 +62,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -20) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -20) },
+                    ""));
 
             skills.Add("Vertical Blow 1",
                 new SkillStruct("Vertical Blow 1",
@@ -70,7 +74,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Vertical Blow 2",
                 new SkillStruct("Vertical Blow 2",
@@ -81,7 +86,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Vertical Blow 3",
                 new SkillStruct("Vertical Blow 3",
@@ -92,7 +98,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Vertical Blow 4",
                 new SkillStruct("Vertical Blow 4",
@@ -103,7 +110,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Vertical Blow 5",
                 new SkillStruct("Vertical Blow 5",
@@ -114,7 +122,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add(
                 "Spear Attack Weak",
@@ -132,7 +141,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     
                     
                     },
-                    new List<KeyValuePair<String, int>>()));
+                    new List<KeyValuePair<String, int>>(),
+                    ""));
 
             skills.Add(
                 "Spear Attack Full",
@@ -152,7 +162,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     
                     
                     },
-                    new List<KeyValuePair<String, int>>()));
+                    new List<KeyValuePair<String, int>>(),
+                    "whsh"));
 
             skills.Add("Horizontal Blow 1",
                 new SkillStruct("Horizontal Blow 1",
@@ -163,7 +174,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     500,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Horizontal Blow 2",
                 new SkillStruct("Horizontal Blow 2",
@@ -174,7 +186,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     500,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Horizontal Blow 3",
                 new SkillStruct("Horizontal Blow 3",
@@ -185,7 +198,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     500,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Horizontal Blow 4",
                 new SkillStruct("Horizontal Blow 4",
@@ -196,7 +210,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     500,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Horizontal Blow 5",
                 new SkillStruct("Horizontal Blow 5",
@@ -207,7 +222,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     300,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh"));
 
             skills.Add("Horizontal Extension Blow 1",
                 new SkillStruct("Horizontal Extension Blow 1",
@@ -218,7 +234,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     700,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "explosion"));
 
             skills.Add("Horizontal Extension Blow 2",
                 new SkillStruct("Horizontal Extension Blow 2",
@@ -229,7 +246,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     700,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "explosion"));
 
             skills.Add("Horizontal Extension Blow 3",
                 new SkillStruct("Horizontal Extension Blow 3",
@@ -240,7 +258,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     700,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "explosion"));
 
             skills.Add("Horizontal Extension Blow 4",
                 new SkillStruct("Horizontal Extension Blow 4",
@@ -251,7 +270,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     700,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "explosion"));
 
             skills.Add("Horizontal Extension Blow 5",
                 new SkillStruct("Horizontal Extension Blow 5",
@@ -262,7 +282,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     120,
                     700,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) }));
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "explosion"));
 
             skills.Add(
                 "Longsword Attack Full",
@@ -287,7 +308,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     
                     
                     },
-                    new List<KeyValuePair<String, int>>()));
+                    new List<KeyValuePair<String, int>>(),
+                    "ping"));
 
             skills.Add(
                 "Longsword Attack Medium",
@@ -307,7 +329,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     
                     
                     },
-                    new List<KeyValuePair<String, int>>()));
+                    new List<KeyValuePair<String, int>>(),
+                    "ping"));
 
             skills.Add(
                 "Longsword Attack Weak",
@@ -325,7 +348,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     
                     
                     },
-                    new List<KeyValuePair<String, int>>()));
+                    new List<KeyValuePair<String, int>>(),
+                    "ping"));
 
         }
 

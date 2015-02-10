@@ -48,7 +48,7 @@ namespace wickedcrush.editor.tool
             base.Update(gameTime, controls, pos, map, toolReady);
 
             prevHold = hold;
-            hold = controls.ActionHeld() || controls.InteractHeld();
+            hold = controls.InteractHeld();
 
 
 

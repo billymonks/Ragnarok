@@ -99,6 +99,11 @@ namespace wickedcrush.screen
                 updateCharList = false;
             }
 
+            if (!ReadyTimersDone())
+            {
+                return;
+            }
+
             UpdateUsers();
             checkForNewPlayers();
 
@@ -110,7 +115,7 @@ namespace wickedcrush.screen
 
             foreach (User u in userList)
             {
-                if (!readyTimer.ContainsKey(u) || !readyTimer[u].isDone() || u.p == null)
+                if (u.p == null)
                     return;
 
                 if (u.ready == false)
@@ -187,16 +192,25 @@ namespace wickedcrush.screen
 
         private void UpdateUsers()
         {
+
             foreach (User u in userList)
             {
                 UpdateUser(u);
             }
         }
 
+        private bool ReadyTimersDone()
+        {
+            foreach (User u in userList)
+            {
+                if (!readyTimer[u].isDone())
+                    return false;
+            }
+            return true;
+        }
+
         private void UpdateUser(User u)
         {
-            if (!readyTimer[u].isDone())
-                return;
 
             if (u.p == null)
             {
@@ -317,7 +331,10 @@ namespace wickedcrush.screen
         private void addNewPlayer(User u)
         {
             updateCharList = true;
+            derpReadyTimer(u);
+            game.controlsManager.joinAllowed = false;
             game.screenManager.AddScreen(new CharCreationScreen(game, u));
+            
             //u.p = game.playerManager.addNewPlayer(u.name, u.id, u.controls);
         }
 

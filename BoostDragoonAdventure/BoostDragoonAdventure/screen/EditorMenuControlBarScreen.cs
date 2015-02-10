@@ -221,7 +221,7 @@ namespace wickedcrush.screen
                     game.screenManager.RemoveScreen(this);
                 }
 
-                if (keyboard.ActionPressed())
+                if (keyboard.InteractPressed())
                 {
                     bar.Click();
                 }

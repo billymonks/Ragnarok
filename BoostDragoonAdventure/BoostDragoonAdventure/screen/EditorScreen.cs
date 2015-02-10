@@ -263,13 +263,13 @@ namespace wickedcrush.screen
 
                 
 
-                if (keyboard.ActionPressed())
+                if (keyboard.InteractPressed())
                 {
                     //menu.Click();
                     //tool = menu.currentTool();
                 }
 
-                if (keyboard.InteractReleased() || keyboard.ActionReleased())
+                if (keyboard.InteractReleased())
                 {
                     toolReady = true;
                 }
@@ -289,7 +289,7 @@ namespace wickedcrush.screen
                 GamepadControls gamepad = (GamepadControls)user.c;
                 UpdateCursorPosition(gamepad);
 
-                if (gamepad.ActionReleased() || gamepad.InteractReleased())
+                if (gamepad.InteractReleased())
                 {
                     toolReady = true;
                 }

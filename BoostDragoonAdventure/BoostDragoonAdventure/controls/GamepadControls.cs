@@ -13,11 +13,14 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons interactButton = Buttons.A, actionButton = Buttons.X, itemAButton = Buttons.B, itemBButton = Buttons.Y, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
+        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
 
         public GamepadControls(PlayerIndex playerIndex)
         {
             this.playerIndex = playerIndex;
+
+            keyState = new KeyboardState();
+            prevKeyState = keyState;
 
             padState = new GamePadState();
             prevPadState = padState;
@@ -25,6 +28,9 @@ namespace wickedcrush.controls
 
         public override void Update()
         {
+            prevKeyState = keyState;
+            keyState = Keyboard.GetState();
+
             prevPadState = padState;
             padState = GamePad.GetState(playerIndex);
         }
@@ -47,29 +53,6 @@ namespace wickedcrush.controls
         public override bool InteractReleased()
         {
             if (padState.IsButtonUp(interactButton))
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ActionHeld()
-        {
-            if (padState.IsButtonDown(actionButton))
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ActionPressed()
-        {
-            if (padState.IsButtonDown(actionButton) && prevPadState.IsButtonUp(actionButton))
-                return true;
-            else
-                return false;
-        }
-        public override bool ActionReleased()
-        {
-            if (padState.IsButtonUp(actionButton))
                 return true;
             else
                 return false;
@@ -118,6 +101,30 @@ namespace wickedcrush.controls
         public override bool ItemBReleased()
         {
             if (padState.IsButtonUp(itemBButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCHeld()
+        {
+            if (padState.IsButtonDown(itemCButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCPressed()
+        {
+            if (padState.IsButtonDown(itemCButton) && prevPadState.IsButtonUp(itemCButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCReleased()
+        {
+            if (padState.IsButtonUp(itemCButton))
                 return true;
             else
                 return false;

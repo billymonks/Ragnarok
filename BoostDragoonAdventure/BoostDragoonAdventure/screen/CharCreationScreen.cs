@@ -22,8 +22,8 @@ namespace wickedcrush.screen
 
         public CharCreationScreen(GameBase g, User u)
         {
-            Initialize(g);
             this.u = u;
+            Initialize(g);
         }
 
         public override void Initialize(GameBase g)
@@ -42,7 +42,7 @@ namespace wickedcrush.screen
                 localId = Guid.NewGuid().ToString();
             } while (File.Exists("characters/" + localId + ".xml"));
 
-            textInput = new TextInput(g.controlsManager.getKeyboard());
+            textInput = new TextInput(u.controls);
         }
 
         

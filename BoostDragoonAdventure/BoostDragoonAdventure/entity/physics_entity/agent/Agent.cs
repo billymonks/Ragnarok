@@ -26,6 +26,17 @@ using wickedcrush.entity.physics_entity.agent.action;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
+    public struct SpriterOffsetStruct
+    {
+        public SpriterPlayer player;
+        public Vector2 offset;
+
+        public SpriterOffsetStruct(SpriterPlayer player, Vector2 offset)
+        {
+            this.player = player;
+            this.offset = offset;
+        }
+    }
 
     public class Agent : PhysicsEntity
     {
@@ -50,7 +61,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public Dictionary<String,SpriterPlayer> sPlayers;
 
-        public SpriterPlayer sPlayer;
+        public SpriterPlayer bodySpriter;
+        public Dictionary<String, SpriterOffsetStruct> hudSpriters;
+
+        
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -76,6 +90,7 @@ namespace wickedcrush.entity.physics_entity.agent
             timers = new Dictionary<String, Timer>();
             triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
+            hudSpriters = new Dictionary<String, SpriterOffsetStruct>();
             this.name = "Agent";
 
             SetupSpriterPlayer();
@@ -108,10 +123,26 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
             sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("hud", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 4, factory._spriterManager.loaders["loader1"]));
 
-            sPlayer = sPlayers["cursor"];
-            sPlayer.setAnimation("hover", 0, 0);
-            sPlayer.setFrameSpeed(20);
+            bodySpriter = sPlayers["cursor"];
+            bodySpriter.setAnimation("hover", 0, 0);
+            bodySpriter.setFrameSpeed(20);
+        }
+
+        public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file cuz what a shit program with lots of bugs
+        {
+            int hud = entityId;
+            SpriterOffsetStruct temp = new SpriterOffsetStruct(
+                new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), hud, factory._spriterManager.loaders["loader1"]), 
+                offset);
+            temp.player.setAnimation(elementName, 0, 0);
+            hudSpriters.Add(key, temp);
+        }
+
+        public void RemoveHudElement(string key)
+        {
+            hudSpriters.Remove(key);
         }
 
 
@@ -146,10 +177,16 @@ namespace wickedcrush.entity.physics_entity.agent
                 bodies["activeArea"].Position = bodies["body"].WorldCenter;
 
             if (stats.get("hp") <= 0 && immortal == false)
-                this.remove = true;
+                Die();
 
             if (target != null && target.dead)
                 target = null;
+        }
+
+        protected virtual void Die()
+        {
+            PlayCue("horrible death");
+            this.remove = true;
         }
 
         private void UpdateTimers(GameTime gameTime)
@@ -308,8 +345,14 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Draw()
         {
+
             Vector2 spritePos = new Vector2(bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X, 
                 bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height);
+
+            if (spritePos.Y <= -200f && spritePos.Y >= 800f)
+            {
+                return;
+            }
 
             float near = -200f;
             float far = 800f;
@@ -318,17 +361,30 @@ namespace wickedcrush.entity.physics_entity.agent
 
             //float depth = 0f;
 
-            sPlayer.SetDepth(depth);
+            bodySpriter.SetDepth(depth);
 
-            sPlayer.update(spritePos.X * 2.25f,
+            bodySpriter.update(spritePos.X * 2.25f,
                 (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100));
-
 
 
             //float top = sPlayer.getBoundingBox().top;
             //float bottom = sPlayer.getBoundingBox().bottom;
-            if(spritePos.Y > -200f && spritePos.Y < 800f)
-                _spriterManager.DrawPlayer(sPlayer);
+            
+            _spriterManager.DrawPlayer(bodySpriter);
+
+            float hudDepthIncrement = 0.0001f;
+
+            foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
+            {
+                s.Value.player.update(spritePos.X * 2.25f + s.Value.offset.X,
+                    (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100) + s.Value.offset.Y);
+                s.Value.player.SetDepth(0.1f - hudDepthIncrement);
+                _spriterManager.DrawPlayer(s.Value.player);
+
+                //hudDepthIncrement += 0.0001f;
+            }
+
+
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)

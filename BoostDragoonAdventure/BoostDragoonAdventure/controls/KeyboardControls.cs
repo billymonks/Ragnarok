@@ -9,15 +9,27 @@ namespace wickedcrush.controls
 {
     public class KeyboardControls : Controls
     {
-        private KeyboardState keyState, prevKeyState;
-        private MouseState mouseState, prevMouseState;
 
-        private Keys interactKey = Keys.E, actionKey = Keys.J, itemAKey = Keys.L, itemBKey = Keys.H, boostKey = Keys.Space,
-            strafeKey = Keys.K, downKey = Keys.S, upKey = Keys.W, leftKey = Keys.A, rightKey = Keys.D,
-            altDownKey = Keys.Down, altUpKey = Keys.Up, altLeftKey = Keys.Left, altRightKey = Keys.Right,
-            startKey = Keys.Enter, selectKey = Keys.Escape, walkKey = Keys.LeftShift;
+        private Keys 
+            interactKey = Keys.E,
+            itemAKey = Keys.J, 
+            itemBKey = Keys.K, 
+            itemCKey = Keys.L, 
+            boostKey = Keys.Space,
+            strafeKey = Keys.LeftControl, 
+            downKey = Keys.S, 
+            upKey = Keys.W, 
+            leftKey = Keys.A, 
+            rightKey = Keys.D,
+            altDownKey = Keys.Down, 
+            altUpKey = Keys.Up, 
+            altLeftKey = Keys.Left, 
+            altRightKey = Keys.Right,
+            startKey = Keys.Enter, 
+            selectKey = Keys.Escape, 
+            walkKey = Keys.LeftShift;
 
-        private List<char> inputKeys = new List<char>();
+        
 
         public KeyboardControls()
         {
@@ -59,33 +71,6 @@ namespace wickedcrush.controls
         public override bool InteractReleased()
         {
             if (keyState.IsKeyUp(interactKey) && mouseState.LeftButton == ButtonState.Released)
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ActionHeld()
-        {
-            if (keyState.IsKeyDown(actionKey) || mouseState.LeftButton == ButtonState.Pressed)
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ActionPressed()
-        {
-            if (
-                (keyState.IsKeyDown(actionKey) && prevKeyState.IsKeyUp(actionKey))
-                || 
-                (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-               )
-                return true;
-            else
-                return false;
-        }
-        public override bool ActionReleased()
-        {
-            if (keyState.IsKeyUp(actionKey) && mouseState.LeftButton == ButtonState.Released)
                 return true;
             else
                 return false;
@@ -134,6 +119,30 @@ namespace wickedcrush.controls
         public override bool ItemBReleased()
         {
             if (keyState.IsKeyUp(itemBKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCHeld()
+        {
+            if (keyState.IsKeyDown(itemCKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCPressed()
+        {
+            if (keyState.IsKeyDown(itemCKey) && prevKeyState.IsKeyUp(itemCKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ItemCReleased()
+        {
+            if (keyState.IsKeyUp(itemCKey))
                 return true;
             else
                 return false;
@@ -322,37 +331,7 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public String GetInput()
-        {
-            String output = "";
-
-            List<Keys> keys = keyState.GetPressedKeys().ToList<Keys>();
-            
-            
-            bool shiftPressed = (keys.Contains<Keys>(Keys.LeftShift) || keys.Contains<Keys>(Keys.RightShift));
-
-            foreach (Keys k in prevKeyState.GetPressedKeys().ToList<Keys>())
-                keys.Remove(k);
-
-            foreach (Keys k in keys)
-            {
-                if (k >= Keys.A && k <= Keys.Z || k >= Keys.D0 && k <= Keys.D9)
-                    output += k.ToString();
-
-                if (k == Keys.Space)
-                    output += " ";
-
-                if (k == Keys.Back)
-                    output += "\b";
-            }
-
-            if (shiftPressed)
-                output = output.ToUpper();
-            else
-                output = output.ToLower();
-
-            return output;
-        }
+        
         
     }
 }

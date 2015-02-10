@@ -110,9 +110,9 @@ namespace wickedcrush.menu.panel
                 inventory.itemB = itemList[i];
             }
 
-            if (controls.ActionPressed())
+            if (controls.ItemCPressed())
             {
-                //inventory.useItem()
+                inventory.itemC = itemList[i];
             }
 
             if(controls.UpPressed())

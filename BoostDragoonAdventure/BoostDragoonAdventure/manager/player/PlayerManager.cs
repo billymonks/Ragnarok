@@ -268,6 +268,12 @@ namespace wickedcrush.manager.player
                 equipmentElement.Add(temp);
             }
 
+            if (p.getStats().inventory.itemC != null)
+            {
+                temp = new XElement("itemC", p.getStats().inventory.itemC.name);
+                equipmentElement.Add(temp);
+            }
+
             inventoryElement.Add(new XAttribute("gold", p.getStats().inventory.currency));
 
             doc.Add(rootElement);
@@ -316,6 +322,11 @@ namespace wickedcrush.manager.player
                 stats.inventory.itemB = ItemServer.getItem(itemBElement.Value);
             }
 
+            foreach (XElement itemCElement in equipmentElement.Elements("itemC"))
+            {
+                stats.inventory.itemC = ItemServer.getItem(itemCElement.Value);
+            }
+
 
             Player p = new Player(rootElement.Attribute("name").Value, playerNumber, c, stats, g.panelFactory);
 
@@ -358,8 +369,11 @@ namespace wickedcrush.manager.player
                 if (p.getStats().inventory.itemB != null)
                     hud += "\nItem B: " + p.getStats().inventory.itemB.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemB);
 
-                if (p.getAgent() != null)
-                    hud += "\nPos: " + p.getAgent().pos.X + ", " + p.getAgent().pos.Y;
+                if (p.getStats().inventory.itemC != null)
+                    hud += "\nItem C: " + p.getStats().inventory.itemC.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemC);
+
+                //if (p.getAgent() != null)
+                    //hud += "\nPos: " + p.getAgent().pos.X + ", " + p.getAgent().pos.Y;
 
                 sb.DrawString(f,
                     hud,

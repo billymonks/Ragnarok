@@ -14,6 +14,8 @@ namespace wickedcrush.menu.input
         private Controls controls;
         private String input;
 
+        int limit = 32;
+
         public bool finished = false, cancelled = false;
 
         public TextInput(Controls controls)
@@ -24,23 +26,20 @@ namespace wickedcrush.menu.input
 
         public void Update(GameTime gameTime)
         {
-            //controls.Update();
-            if (controls is GamepadControls)
-                return;
 
 
-            if (((KeyboardControls)controls).GetInput().Contains("\b"))
+            if (controls.GetInput().Contains("\b"))
             {
                 if (input.Length > 0)
                     input = input.Remove(input.Length - 1);
             }
             else
-                input += ((KeyboardControls)controls).GetInput();
+                input += controls.GetInput();
 
-            if (controls.StartPressed())
+            if (controls.StartPressed() || controls.EnterPressed())
                 finished = true;
 
-            if (controls.SelectPressed())
+            if (controls.SelectPressed() || controls.EscapePressed())
                 cancelled = true;
         }
 

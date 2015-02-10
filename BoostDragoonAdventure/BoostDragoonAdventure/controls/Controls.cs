@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Input;
 
 namespace wickedcrush.controls
 {
     public abstract class Controls
     {
         public bool remove = false;
+
+        protected KeyboardState keyState, prevKeyState;
+        protected MouseState mouseState, prevMouseState;
+        protected List<char> inputKeys = new List<char>();
 
         public abstract void Update();
         
@@ -25,10 +30,6 @@ namespace wickedcrush.controls
         public abstract bool InteractPressed();
         public abstract bool InteractReleased();
 
-        public abstract bool ActionHeld();
-        public abstract bool ActionPressed();
-        public abstract bool ActionReleased();
-
         public abstract bool ItemAHeld();
         public abstract bool ItemAPressed();
         public abstract bool ItemAReleased();
@@ -36,6 +37,10 @@ namespace wickedcrush.controls
         public abstract bool ItemBHeld();
         public abstract bool ItemBPressed();
         public abstract bool ItemBReleased();
+
+        public abstract bool ItemCHeld();
+        public abstract bool ItemCPressed();
+        public abstract bool ItemCReleased();
 
         public abstract bool BoostHeld();
         public abstract bool BoostPressed();
@@ -46,6 +51,53 @@ namespace wickedcrush.controls
 
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
+
+        public virtual bool EnterPressed()
+        {
+            if (keyState.IsKeyDown(Keys.Enter) && prevKeyState.IsKeyUp(Keys.Enter))
+                return true;
+
+            return false;
+        }
+
+        public virtual bool EscapePressed()
+        {
+            if (keyState.IsKeyDown(Keys.Escape) && prevKeyState.IsKeyUp(Keys.Escape))
+                return true;
+
+            return false;
+        }
+
+        public virtual String GetInput()
+        {
+            String output = "";
+
+            List<Keys> keys = keyState.GetPressedKeys().ToList<Keys>();
+
+            bool shiftPressed = (keys.Contains<Keys>(Keys.LeftShift) || keys.Contains<Keys>(Keys.RightShift));
+
+            foreach (Keys k in prevKeyState.GetPressedKeys().ToList<Keys>())
+                keys.Remove(k);
+
+            foreach (Keys k in keys)
+            {
+                if (k >= Keys.A && k <= Keys.Z || k >= Keys.D0 && k <= Keys.D9)
+                    output += k.ToString();
+
+                if (k == Keys.Space)
+                    output += " ";
+
+                if (k == Keys.Back)
+                    output += "\b";
+            }
+
+            if (shiftPressed)
+                output = output.ToUpper();
+            else
+                output = output.ToLower();
+
+            return output;
+        }
 
     }
 }

@@ -34,22 +34,14 @@ namespace wickedcrush.editor.tool
             
 
 
-            if (controls is controls.KeyboardControls)
-            {
-                if (controls.ActionPressed())
-                    primaryAction(pos, map);
-                if (controls.StrafePressed())
-                    secondaryAction(pos, map);
-            }
-            else
-            {
-                if (controls.InteractPressed())
-                    primaryAction(pos, map);
-                if (controls.StrafePressed())
-                    f.preview.rotateCCW();
-                if (controls.BoostPressed())
-                    f.preview.rotateCW();
-            }
+            
+            if (controls.InteractPressed())
+                primaryAction(pos, map);
+            if (controls.StrafePressed())
+                f.preview.rotateCCW();
+            if (controls.BoostPressed())
+                f.preview.rotateCW();
+            
         }
 
         public override void primaryAction(Vector2 pos, EditorRoom map)

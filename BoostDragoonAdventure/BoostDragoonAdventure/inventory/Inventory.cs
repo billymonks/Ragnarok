@@ -12,7 +12,7 @@ namespace wickedcrush.inventory
         private Dictionary<Item, int> inventory;
         public int currency;
 
-        public Item itemA, itemB;
+        public Item itemA, itemB, itemC;
 
         public bool changed = false;
 

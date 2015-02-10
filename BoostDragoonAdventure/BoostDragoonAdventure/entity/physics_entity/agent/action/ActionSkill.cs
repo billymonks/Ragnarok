@@ -26,6 +26,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         GameplayManager gameplay;
 
+        String cue;
+
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent)
             : base(gameplay.w,
             new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
@@ -53,6 +55,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             LoadBlows(skillStruct.blows, gameplay);
 
+            cue = skillStruct.cue;
+
             Initialize();
         }
 
@@ -72,7 +76,10 @@ namespace wickedcrush.entity.physics_entity.agent.action
             immortal = true;
             this.name = "ActionSkill";
 
-            _sound.playCue("whsh", emitter); // play activate sound
+            if (cue != "")
+            {
+                _sound.playCue(cue, emitter); // play activate sound
+            }
 
             //_sound.addCueInstance("hurt", id + "hurt", false);
             
@@ -113,11 +120,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
             sPlayers = new Dictionary<string, SpriterPlayer>();
             sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.loaders["loader1"]));
 
-            sPlayer = sPlayers["actionskill"];
+            bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
-            sPlayer.setFrameSpeed(60);
-            sPlayer.setScale(((float)size.X) / 10f);
-            height = 30;
+            bodySpriter.setFrameSpeed(60);
+            bodySpriter.setScale(((float)size.X) / 10f);
+            height = 10;
 
         }
 

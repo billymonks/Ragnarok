@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using wickedcrush.entity.physics_entity.agent.action;
+using Microsoft.Xna.Framework;
 
 namespace wickedcrush.inventory
 {
@@ -106,6 +107,7 @@ namespace wickedcrush.inventory
                {
                    a.PlayCue("volleyball");
                    a.stats.set("longsword charge", 0);
+                   a.AddHudElement("warning", "warning", 4, Vector2.Zero);
                },
                (a, i) =>
                {
@@ -120,6 +122,7 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
+                   a.RemoveHudElement("warning");
                    a.PlayCue("smash");
 
                    if (a.stats.compare("longsword charge", 25) < 0)

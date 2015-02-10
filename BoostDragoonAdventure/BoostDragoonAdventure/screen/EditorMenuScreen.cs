@@ -262,7 +262,7 @@ namespace wickedcrush.screen
                     highlightedTool = ((MenuElement)menu.highlighted).tool;
                 }
 
-                if (keyboard.ActionPressed())
+                if (keyboard.InteractPressed())
                 {
                     if (menu.currentTool() == highlightedTool)
                     {

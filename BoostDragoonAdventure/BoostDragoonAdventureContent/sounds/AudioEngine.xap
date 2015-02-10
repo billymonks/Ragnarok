@@ -16,8 +16,8 @@ Global Settings
     Header File = AudioEngine.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 2978633082;
-    Last Modified High = 30401552;
+    Last Modified Low = 130455457;
+    Last Modified High = 30425890;
 
     Category
     {
@@ -221,7 +221,7 @@ Global Settings
 
         RPC Curve
         {
-            Name = Sound::59f7a770-5120-45b7-b641-f2abf282d7fe;
+            Name = Sound::df06ee3c-acca-4c81-9b65-9c7b21fc913a;
             Property = 0;
             Sound = 1;
             Line Color = 4291128674;
@@ -295,10 +295,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1221564872;
-    PC Bank Last Modified High = 30401552;
-    Bank Last Revised Low = 1221554874;
-    Bank Last Revised High = 30401552;
+    PC Bank Last Modified Low = 130685963;
+    PC Bank Last Modified High = 30425890;
+    Bank Last Revised Low = 130565462;
+    Bank Last Revised High = 30425890;
 
     Wave
     {
@@ -1150,6 +1150,75 @@ Wave Bank
             Last Modified High = 30395967;
         }
     }
+
+    Wave
+    {
+        Name = horrible death;
+        File = C:\Users\William\SkyDrive\Documents\sfx\old\horrible death.wav;
+        Build Settings Last Modified Low = 1705105674;
+        Build Settings Last Modified High = 30425888;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 314238;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 3610506112;
+            Last Modified High = 30392628;
+        }
+    }
+
+    Wave
+    {
+        Name = explosion;
+        File = C:\Users\William\SkyDrive\Documents\sfx\explosion.wav;
+        Build Settings Last Modified Low = 1689652881;
+        Build Settings Last Modified High = 30425889;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 23276;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 1323054108;
+            Last Modified High = 30425889;
+        }
+    }
+
+    Wave
+    {
+        Name = ready ping;
+        File = C:\Users\William\SkyDrive\Documents\sfx\ready ping.wav;
+        Build Settings Last Modified Low = 1689662888;
+        Build Settings Last Modified High = 30425889;
+
+        Cache
+        {
+            Format Tag = 0;
+            Channels = 1;
+            Sampling Rate = 44100;
+            Bits Per Sample = 1;
+            Play Region Offset = 44;
+            Play Region Length = 248420;
+            Loop Region Offset = 0;
+            Loop Region Length = 0;
+            File Type = 1;
+            Last Modified Low = 379240110;
+            Last Modified High = 30425888;
+        }
+    }
 }
 
 Sound Bank
@@ -1159,8 +1228,8 @@ Sound Bank
     Windows File = Win\bfxr sound bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 3349592635;
-    Bank Last Modified High = 30401549;
+    Bank Last Modified Low = 132445592;
+    Bank Last Modified High = 30425890;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
@@ -2910,6 +2979,147 @@ Sound Bank
         }
     }
 
+    Sound
+    {
+        Name = horrible death;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = bfxr wave bank;
+                    Bank Index = 0;
+                    Entry Name = horrible death;
+                    Entry Index = 37;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = ready ping;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = bfxr wave bank;
+                    Bank Index = 0;
+                    Entry Name = ready ping;
+                    Entry Index = 39;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
+    Sound
+    {
+        Name = explosion;
+        Volume = -1200;
+        Pitch = 0;
+        Priority = 0;
+
+        Category Entry
+        {
+            Name = Default;
+        }
+
+        Track
+        {
+            Volume = 0;
+            Use Filter = 0;
+
+            Play Wave Event
+            {
+                Break Loop = 0;
+                Use Speaker Position = 0;
+                Use Center Speaker = 1;
+                New Speaker Position On Loop = 1;
+                Speaker Position Angle = 0.000000;
+                Speaker Position Arc = 0.000000;
+
+                Event Header
+                {
+                    Timestamp = 0;
+                    Relative = 0;
+                    Random Recurrence = 0;
+                    Random Offset = 0;
+                }
+
+                Wave Entry
+                {
+                    Bank Name = bfxr wave bank;
+                    Bank Index = 0;
+                    Entry Name = explosion;
+                    Entry Index = 38;
+                    Weight = 255;
+                    Weight Min = 0;
+                }
+            }
+        }
+    }
+
     Cue
     {
         Name = beam me down;
@@ -3412,7 +3622,7 @@ Sound Bank
 
     Cue
     {
-        Name = Randomize10;
+        Name = vanquished;
 
         Variation
         {
@@ -3645,6 +3855,66 @@ Sound Bank
         {
             Name = abraisive laser;
             Index = 36;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = horrible death;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = horrible death;
+            Index = 37;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = ready ping;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = ready ping;
+            Index = 38;
+            Weight Min = 0;
+            Weight Max = 255;
+        }
+    }
+
+    Cue
+    {
+        Name = explosion;
+
+        Variation
+        {
+            Variation Type = 3;
+            Variation Table Type = 1;
+            New Variation on Loop = 0;
+        }
+
+        Sound Entry
+        {
+            Name = explosion;
+            Index = 39;
             Weight Min = 0;
             Weight Max = 255;
         }

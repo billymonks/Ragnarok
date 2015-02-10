@@ -27,7 +27,7 @@ namespace wickedcrush.editor.tool
             if (!toolReady)
                 return;
 
-            if (controls.ActionHeld() || controls.InteractHeld())
+            if (controls.InteractHeld())
                 primaryAction(pos, map);
 
             if (controls.StrafeHeld() || controls is controls.GamepadControls && controls.ItemAHeld())
