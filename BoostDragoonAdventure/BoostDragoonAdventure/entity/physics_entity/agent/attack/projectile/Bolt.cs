@@ -9,6 +9,7 @@ using wickedcrush.stats;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.factory.entity;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
@@ -41,6 +42,19 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         {
             base.Update(gameTime);
             moveForward(speed);
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.loaders["loader1"]));
+
+            bodySpriter = sPlayers["actionskill"];
+            //sPlayer.setAnimation("whitetored", 0, 0);
+            bodySpriter.setFrameSpeed(60);
+            bodySpriter.setScale(((float)size.X) / 10f);
+            height = 30;
+
         }
 
         protected void moveForward(float speed)

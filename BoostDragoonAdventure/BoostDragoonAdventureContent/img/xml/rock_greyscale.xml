@@ -1,0 +1,9 @@
+﻿<tileset name="rock_pink" x="90" y="90">
+  <tex>rock_greyscale</tex>
+  <normal>brick_normal2</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="30" height="30"></tilepos>
+    <tilepos id="1" x="30" y="30" width="30" height="30"></tilepos>
+    <tilepos id="2" x="60" y="60" width="30" height="30"></tilepos>
+  </tilesize>
+</tileset>

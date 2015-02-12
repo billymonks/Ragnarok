@@ -27,6 +27,11 @@ namespace wickedcrush.display.spriter
 
             
         }
+        public void AddSpriter(String spriter)
+        {
+
+        }
+
         public void LoadContent()
         {
             loaders.Add("loader1", new SpriterLoader(g));

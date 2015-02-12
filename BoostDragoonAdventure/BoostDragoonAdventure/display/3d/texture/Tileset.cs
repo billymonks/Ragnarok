@@ -41,13 +41,16 @@ namespace wickedcrush.display._3d.texture
                 size = new Point(int.Parse(rootElement.Attribute("x").Value), 
                     int.Parse(rootElement.Attribute("y").Value));
 
-                tiles = new Rectangle[size.X];
+                List<Rectangle> tempList = new List<Rectangle>();
 
                 foreach(XElement e in rootElement.Element("tilesize").Elements("tilepos"))
                 {
-                    tiles[int.Parse(e.Attribute("id").Value)] = new Rectangle(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value), 
-                        int.Parse(e.Attribute("width").Value), int.Parse(e.Attribute("height").Value));
+                    tempList.Add(new Rectangle(int.Parse(e.Attribute("x").Value), int.Parse(e.Attribute("y").Value), 
+                        int.Parse(e.Attribute("width").Value), int.Parse(e.Attribute("height").Value)));
                 }
+
+                tiles = tempList.ToArray();
+
             }
 
         }

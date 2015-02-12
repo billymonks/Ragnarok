@@ -190,6 +190,7 @@
     <Compile Include="menu\panel\Panel.cs" />
     <Compile Include="menu\IClickable.cs" />
     <Compile Include="menu\input\TextInput.cs" />
+    <Compile Include="particle\Particle.cs" />
     <Compile Include="screen\CharCreationScreen.cs" />
     <Compile Include="screen\editor\DevMapEditorScreen.cs" />
     <Compile Include="screen\EditorMenuControlBarScreen.cs" />

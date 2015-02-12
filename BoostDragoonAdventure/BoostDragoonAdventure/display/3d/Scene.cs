@@ -11,6 +11,25 @@ using wickedcrush.display._3d.texture;
 
 namespace wickedcrush.display._3d
 {
+    public class PointLightStruct
+    {
+        public Vector4 DiffuseColor;
+        public float DiffuseIntensity;
+        public Vector4 SpecularColor;
+        public float SpecularIntensity;
+        public Vector3 PointLightPosition;
+        public float PointLightRange;
+
+        public PointLightStruct(Vector4 DiffuseColor, float DiffuseIntensity, Vector4 SpecularColor, float SpecularIntensity, Vector3 PointLightPosition, float PointLightRange)
+        {
+            this.DiffuseColor = DiffuseColor;
+            this.DiffuseIntensity = DiffuseIntensity;
+            this.SpecularColor = SpecularColor;
+            this.SpecularIntensity = SpecularIntensity;
+            this.PointLightPosition = PointLightPosition;
+            this.PointLightRange = PointLightRange;
+        }
+    }
     public class Scene
     {
         const int ART_GRID_SIZE = 10;
@@ -33,7 +52,7 @@ namespace wickedcrush.display._3d
         SurfaceTileLayer wallSurfaceOuterLayer, wallSurfaceInnerLayer; // todo: group variable number of layers in a parent class
         WallTileLayer wallLayer, cliffLayer;
 
-        
+        public Dictionary<string, PointLightStruct> lightList = new Dictionary<string,PointLightStruct>();
 
         public Scene(GameBase game)
         {
@@ -49,21 +68,24 @@ namespace wickedcrush.display._3d
             //bool[,] data = map.layerList[LayerType.DEATHSOUP].data;
             data = ScaleLayer(data, 2);
 
-            wallLayer = new WallTileLayer(game, ScaleLayer(map.layerList[LayerType.WALL].data, 2), 3, 0, "pink_outer");
-            cliffLayer = new WallTileLayer(game, InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2)), 0, -1, "pink_outer");
+            wallLayer = new WallTileLayer(game, ScaleLayer(map.layerList[LayerType.WALL].data, 2), 2, 0, "wall16");
+            cliffLayer = new WallTileLayer(game, InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2)), 0, -1, "cliff16");
 
-            data = InvertLayer(data);
-            floorOuterLayer = new SurfaceTileLayer(game, data, 0, "pink_outer", true);
-            data = ShrinkLayer(data, 1);
-            floorInnerLayer = new SurfaceTileLayer(game, data, 0, "pink_inner", false);
+            data = InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2));
+            floorOuterLayer = new SurfaceTileLayer(game, data, 0, "dungeon_floor_4x4", false);
+            //data = ShrinkLayer(data, 1);
+            //floorInnerLayer = new SurfaceTileLayer(game, data, 0, "dungeon_floor_4x4", false);
 
             data = ScaleLayer(map.layerList[LayerType.WALL].data, 2);
-            wallSurfaceOuterLayer = new SurfaceTileLayer(game, data, 3, "pink_outer", true);
-            wallSurfaceInnerLayer = new SurfaceTileLayer(game, ShrinkLayer(data, 1), 3, "pink_inner", false);
+            wallSurfaceOuterLayer = new SurfaceTileLayer(game, data, 2, "dungeon_floor_4x4", false);
+            //wallSurfaceInnerLayer = new SurfaceTileLayer(game, ShrinkLayer(data, 1), 3, "rock_blue", false);
             
 
             SetEffectParameters();
+
             
+            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 1000f));
+            lightList.Add("character", new PointLightStruct(new Vector4(0.9f, 0.75f, 0.9f, 1f), 0.9f, new Vector4(0.9f, 0.75f, 0.9f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 100f));
         }
 
         public bool[,] ScaleLayer(bool[,] a, int scale) //must be power of 2, makes bigger
@@ -170,8 +192,18 @@ namespace wickedcrush.display._3d
 
             game.GraphicsDevice.BlendState = BlendState.Additive;
 
-            normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
+            foreach (KeyValuePair<string, PointLightStruct> s in lightList)
+            {
+                normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
+                normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
+                normalMappingEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
+                normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
+                normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
+                normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+
+                normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+                game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
+            }
             //game.GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 
         }
 
@@ -184,21 +216,17 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["EyePosition"].SetValue(cameraPosition);
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"]; //geom has normal map (some sprites do not)
 
-            normalMappingEffect.Parameters["DiffuseColor"].SetValue(new Vector4(0.7f, 0.75f, 0.9f, 1f));
-            normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(0.9f);
-            normalMappingEffect.Parameters["SpecularColor"].SetValue(new Vector4(0.7f, 0.75f, 0.9f, 1f));
-            normalMappingEffect.Parameters["SpecularIntensity"].SetValue(1f);
-            normalMappingEffect.Parameters["PointLightPosition"].SetValue(new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300));
-            normalMappingEffect.Parameters["PointLightRange"].SetValue(1000);
+            
+            lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
+            lightList["character"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120);
 
             DrawLayer(game, gameplay, cliffLayer);
             DrawLayer(game, gameplay, wallLayer);
             DrawLayer(game, gameplay, floorOuterLayer);
-            DrawLayer(game, gameplay, floorInnerLayer);
+            //DrawLayer(game, gameplay, floorInnerLayer);
             DrawLayer(game, gameplay, wallSurfaceOuterLayer);
-            DrawLayer(game, gameplay, wallSurfaceInnerLayer);
+            //DrawLayer(game, gameplay, wallSurfaceInnerLayer);
 
-            
             
 
             game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
@@ -212,12 +240,12 @@ namespace wickedcrush.display._3d
 
             sceneDimensions = new Vector2(480 * game.aspectRatio, 480);
             normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(480 * game.aspectRatio, 480, -200, 400));
-            //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32 * game.aspectRatio, 16, 10, 1600));
+            //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32, 16, 10, 1600));
             
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
             normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.115f);
 
-            normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0f, 0f, 0f, 1f));
+            normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
 
         }
 

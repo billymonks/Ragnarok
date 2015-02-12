@@ -1,0 +1,10 @@
+﻿<tileset name="dungeon_floor_4x4" x="80" y="80">
+  <tex>dungeon_floor_4x4</tex>
+  <normal>dungeon_floor_4x4_normal</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="20" height="20"></tilepos>
+    <tilepos id="1" x="20" y="20" width="20" height="20"></tilepos>
+    <tilepos id="2" x="40" y="40" width="20" height="20"></tilepos>
+	<tilepos id="3" x="60" y="60" width="20" height="20"></tilepos>
+  </tilesize>
+</tileset>

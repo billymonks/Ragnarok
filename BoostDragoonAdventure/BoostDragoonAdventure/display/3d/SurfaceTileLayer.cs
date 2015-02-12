@@ -14,6 +14,9 @@ namespace wickedcrush.display._3d
 
         bool edgeTilesOnly;
 
+        Random random = new Random();
+        Double rand;
+
         public SurfaceTileLayer(GameBase game, bool[,] data, int height, String tilesetPath, bool edgeOnly) : base(game, data, height, tilesetPath)
         {
             edgeTilesOnly = edgeOnly;
@@ -49,6 +52,8 @@ namespace wickedcrush.display._3d
             {
                 return;
             }
+
+            rand = random.NextDouble();
 
             Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 1f));
             Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f, 0f));
@@ -106,16 +111,39 @@ namespace wickedcrush.display._3d
 
         private Vector2 GetFloorCoordinate(int floorTexInt, Vector2 coordinate)
         {
+            double flexibility = tileset.tiles.Length - 3;
             Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt);
-            Vector2 result = coordFromFragment + coordinate * new Vector2(1f / 3f, 1f / 3f);
+            Vector2 result = coordFromFragment + coordinate * new Vector2((1f / (3f + (float)flexibility)), (1f / (3f + (float)flexibility)));
             return result;
         }
 
         private Vector2 ConvertTextureIntToCoordinate(int num)
         {
+            double flexibility = tileset.tiles.Length - 3;
             int i = (num % 3);
             int j = (num / 3);
-            Vector2 result = new Vector2((1f / 3f) * i, (1f / 3f) * j);
+
+            if (i == 1)
+            {
+                i += (int)Math.Round((double)flexibility * rand);
+            } else if (i == 2)
+            {
+                i += (int)flexibility;
+            }
+
+            if (j == 1)
+            {
+                j += (int)Math.Round((double)flexibility * rand);
+            }
+            else if (j == 2)
+            {
+                j += (int)flexibility;
+            }
+            
+            Vector2 result = new Vector2((1f / (3f + (float)flexibility)) * i, (1f / (3f + (float)flexibility)) * j);
+
+            
+
             return result;
         }
 

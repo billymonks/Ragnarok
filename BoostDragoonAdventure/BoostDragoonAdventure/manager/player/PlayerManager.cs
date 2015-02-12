@@ -372,6 +372,12 @@ namespace wickedcrush.manager.player
                 if (p.getStats().inventory.itemC != null)
                     hud += "\nItem C: " + p.getStats().inventory.itemC.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemC);
 
+                p.getAgent().bodySpriter.calcBoundingBox(null);
+                hud += "\nX: " + p.getAgent().bodySpriter.getBoundingBox().left;
+                hud += " Y: " + p.getAgent().bodySpriter.getBoundingBox().top;
+                hud += " W: " + p.getAgent().bodySpriter.getBoundingBox().width;
+                hud += " H: " + p.getAgent().bodySpriter.getBoundingBox().height;
+
                 //if (p.getAgent() != null)
                     //hud += "\nPos: " + p.getAgent().pos.X + ", " + p.getAgent().pos.Y;
 
