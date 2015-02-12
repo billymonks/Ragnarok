@@ -85,7 +85,7 @@ namespace wickedcrush.display._3d
 
             
             lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 1000f));
-            lightList.Add("character", new PointLightStruct(new Vector4(0.9f, 0.75f, 0.9f, 1f), 0.9f, new Vector4(0.9f, 0.75f, 0.9f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 100f));
+            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 100f));
         }
 
         public bool[,] ScaleLayer(bool[,] a, int scale) //must be power of 2, makes bigger
