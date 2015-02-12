@@ -16,8 +16,8 @@ Global Settings
     Header File = AudioEngine.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 3712435479;
-    Last Modified High = 30426910;
+    Last Modified Low = 1101271881;
+    Last Modified High = 30426911;
 
     Category
     {
@@ -221,7 +221,7 @@ Global Settings
 
         RPC Curve
         {
-            Name = Sound::24d8f446-d123-44a3-b040-402d5f8a6f90;
+            Name = Sound::1cd8f363-8080-4e53-8de3-63b288a20630;
             Property = 0;
             Sound = 1;
             Line Color = 4291128674;
@@ -295,10 +295,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 3712575487;
-    PC Bank Last Modified High = 30426910;
-    Bank Last Revised Low = 3638454980;
-    Bank Last Revised High = 30426910;
+    PC Bank Last Modified Low = 1101351888;
+    PC Bank Last Modified High = 30426911;
+    Bank Last Revised Low = 1035505283;
+    Bank Last Revised High = 30426911;
 
     Wave
     {
@@ -1177,9 +1177,9 @@ Wave Bank
     Wave
     {
         Name = explosion;
-        File = C:\Users\William\SkyDrive\Documents\sfx\explosion.wav;
-        Build Settings Last Modified Low = 1689652881;
-        Build Settings Last Modified High = 30425889;
+        File = bfxr\explosion.wav;
+        Build Settings Last Modified Low = 953482937;
+        Build Settings Last Modified High = 30426911;
 
         Cache
         {
@@ -1200,9 +1200,9 @@ Wave Bank
     Wave
     {
         Name = ready ping;
-        File = C:\Users\William\SkyDrive\Documents\sfx\ready ping.wav;
-        Build Settings Last Modified Low = 1689662888;
-        Build Settings Last Modified High = 30425889;
+        File = bfxr\ready ping.wav;
+        Build Settings Last Modified Low = 1035505283;
+        Build Settings Last Modified High = 30426911;
 
         Cache
         {
@@ -1228,8 +1228,8 @@ Sound Bank
     Windows File = Win\bfxr sound bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 3715851034;
-    Bank Last Modified High = 30426910;
+    Bank Last Modified Low = 1102919168;
+    Bank Last Modified High = 30426911;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
