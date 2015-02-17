@@ -14,7 +14,7 @@ namespace wickedcrush.display.spriter
     {
         GameBase g;
 
-        SpriterDrawer drawer;
+        public SpriterDrawer drawer;
         public Dictionary<String, SpriterLoader> loaders;
         public Dictionary<String, Spriter> spriters;
 

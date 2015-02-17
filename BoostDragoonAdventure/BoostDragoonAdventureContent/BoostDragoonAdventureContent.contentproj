@@ -196,26 +196,38 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Content Include="img\xml\cliff16.xml">
+    <Content Include="img\layer\cavefloor.xml">
+      <Name>cavefloor</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\layer\cavewall.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>cavewall</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Content>
+    <Content Include="img\tileset\cliff16.xml">
       <Name>cliff16</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="img\xml\dungeon_floor_4x4.xml">
+    <Content Include="img\tileset\dungeon_floor_4x4.xml">
       <Name>dungeon_floor_4x4</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="img\xml\pink_inner.xml">
+    <Content Include="img\tileset\pink_inner.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>pink_inner</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Content>
-    <Content Include="img\xml\pink_outer.xml">
+    <Content Include="img\tileset\pink_outer.xml">
       <Name>pink_outer</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
@@ -227,34 +239,34 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Content Include="img\xml\rock_blue.xml">
+    <Content Include="img\tileset\rock_blue.xml">
       <Name>rock_blue</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="img\xml\rock_green.xml">
+    <Content Include="img\tileset\rock_green.xml">
       <Name>rock_green</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="img\xml\rock_greyscale.xml">
+    <Content Include="img\tileset\rock_greyscale.xml">
       <Name>rock_greyscale</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="img\xml\rock_pink.xml">
+    <Content Include="img\tileset\rock_pink.xml">
       <Name>rock_pink</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="img\xml\wall16.xml">
+    <Content Include="img\tileset\wall16.xml">
       <Name>wall16</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>

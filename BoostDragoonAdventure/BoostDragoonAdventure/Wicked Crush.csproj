@@ -124,6 +124,7 @@
   <ItemGroup>
     <Compile Include="behavior\StateMachine.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="display\3d\ArtLayer.cs" />
     <Compile Include="display\3d\Camera.cs" />
     <Compile Include="display\3d\Scene.cs" />
     <Compile Include="display\3d\SurfaceTileLayer.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TimerTrigger.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
+    <Compile Include="entity\TextEntity.cs" />
     <Compile Include="factory\editor\EditorEntityFactory.cs" />
     <Compile Include="factory\editor\menu\NodeFactory.cs" />
     <Compile Include="factory\menu\panel\PanelFactory.cs" />

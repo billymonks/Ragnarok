@@ -48,9 +48,7 @@ namespace wickedcrush.display._3d
 
         Vector2 sceneDimensions;
 
-        SurfaceTileLayer floorOuterLayer, floorInnerLayer; // todo: group variable number of layers in a parent class
-        SurfaceTileLayer wallSurfaceOuterLayer, wallSurfaceInnerLayer; // todo: group variable number of layers in a parent class
-        WallTileLayer wallLayer, cliffLayer;
+        List<ArtLayer> artLayers = new List<ArtLayer>();
 
         public Dictionary<string, PointLightStruct> lightList = new Dictionary<string,PointLightStruct>();
 
@@ -64,148 +62,26 @@ namespace wickedcrush.display._3d
 
         public void BuildScene(GameBase game, Map map)
         {
-            bool[,] data = GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.DEATHSOUP].data, true);
-            //bool[,] data = map.layerList[LayerType.DEATHSOUP].data;
-            data = ScaleLayer(data, 2);
-
-            wallLayer = new WallTileLayer(game, ScaleLayer(map.layerList[LayerType.WALL].data, 2), 2, 0, "wall16");
-            cliffLayer = new WallTileLayer(game, InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2)), 0, -1, "cliff16");
-
-            data = InvertLayer(ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2));
-            floorOuterLayer = new SurfaceTileLayer(game, data, 0, "dungeon_floor_4x4", false);
-            //data = ShrinkLayer(data, 1);
-            //floorInnerLayer = new SurfaceTileLayer(game, data, 0, "dungeon_floor_4x4", false);
-
-            data = ScaleLayer(map.layerList[LayerType.WALL].data, 2);
-            wallSurfaceOuterLayer = new SurfaceTileLayer(game, data, 2, "dungeon_floor_4x4", false);
-            //wallSurfaceInnerLayer = new SurfaceTileLayer(game, ShrinkLayer(data, 1), 3, "rock_blue", false);
+            artLayers.Add(new ArtLayer(game, LayerTransformations.InvertLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2)), -1, 0, "cavefloor"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "cavewall"));
             
 
             SetEffectParameters();
 
             
             lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 1000f));
-            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 100f));
-        }
-
-        public bool[,] ScaleLayer(bool[,] a, int scale) //must be power of 2, makes bigger
-        {
-            bool[,] b = new bool[(a.GetLength(0) * scale), (a.GetLength(1) * scale)];
-
-            for (int i = 0; i < a.GetLength(0); i++)
-            {
-                for (int j = 0; j < a.GetLength(1); j++)
-                {
-                    for (int k = 0; k < scale; k++)
-                    {
-                        b[i * scale, j * scale] = a[i, j];
-                        b[i * scale + k, j * scale] = a[i, j];
-                        b[i * scale, j * scale + k] = a[i, j];
-                        b[i * scale + k, j * scale + k] = a[i, j];
-                    }
-                }
-            }
-
-            return b;
-        }
-
-        public bool[,] GetCompositeLayer(bool[,] a, bool[,] b, bool or) //or = ||, and = &&
-        {
-            bool[,] result = new bool[a.GetLength(0), a.GetLength(1)];
-            for (int i = 0; i < a.GetLength(0); i++)
-            {
-                for (int j = 0; j < a.GetLength(1); j++)
-                {
-                    if (or)
-                        result[i, j] = a[i, j] || b[i, j];
-                    else
-                        result[i, j] = a[i, j] && b[i, j];
-                }
-            }
-
-            return result;
-        }
-
-        public bool[,] ShrinkLayer(bool[,] a, int count)
-        {
-            bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];
-
-            if (count > 0)
-            {
-                count--;
-                
-                for (int i = 1; i < a.GetLength(0)-1; i++)
-                {
-                    for (int j = 1; j < a.GetLength(1)-1; j++)
-                    {
-                        b[i, j] = (a[i, j] && a[i, j - 1]);
-                        b[i, j] = (b[i, j] && a[i, j + 1]);
-                        b[i, j] = (b[i, j] && a[i - 1, j]);
-                        b[i, j] = (b[i, j] && a[i + 1, j]);
-                    }
-                }
-            }
-
-            if (count == 0)
-                return b;
-            else
-                return ShrinkLayer(b, count);
-        }
-
-        public bool[,] InvertLayer(bool[,] a)
-        {
-            bool[,] result = new bool[a.GetLength(0), a.GetLength(1)];
-            for (int i = 0; i < a.GetLength(0); i++)
-            {
-                for (int j = 0; j < a.GetLength(1); j++)
-                {
-                    result[i, j] = !a[i, j];
-                }
-            }
-
-            return result;
-        }
-
-        public void DrawLayer(GameBase game, GameplayManager gameplay, TileLayer layer)
-        {
-            //PrepareVertices(gameplay, layer);
-
-            if (layer.solidGeomVertices.Count <= 0)
-                return;
-
+            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1000f));
+            lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
+            lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
+            lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
+            lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
+            lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
             
-            //buffer.SetData(solidGeomVertices.ToArray());
-
-            game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
-            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-
-            normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
-            normalMappingEffect.Parameters["NormalMap"].SetValue(layer.normalTexture);
-
-            game.GraphicsDevice.SetVertexBuffer(layer.buffer);
-
-            game.GraphicsDevice.BlendState = BlendState.Opaque;
-
-            normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
-
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
-
-            game.GraphicsDevice.BlendState = BlendState.Additive;
-
-            foreach (KeyValuePair<string, PointLightStruct> s in lightList)
-            {
-                normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
-                normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
-                normalMappingEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
-                normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
-                normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
-                normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
-
-                normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
-                game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, layer.solidGeomVertices.Count / 3);
-            }
-            //game.GraphicsDevice.DrawInstancedPrimitives(PrimitiveType.TriangleList, 0, 
         }
+
+        
+
+        
 
         public void DrawScene(GameBase game, GameplayManager gameplay)
         {
@@ -220,12 +96,10 @@ namespace wickedcrush.display._3d
             lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
             lightList["character"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120);
 
-            DrawLayer(game, gameplay, cliffLayer);
-            DrawLayer(game, gameplay, wallLayer);
-            DrawLayer(game, gameplay, floorOuterLayer);
-            //DrawLayer(game, gameplay, floorInnerLayer);
-            DrawLayer(game, gameplay, wallSurfaceOuterLayer);
-            //DrawLayer(game, gameplay, wallSurfaceInnerLayer);
+            foreach (ArtLayer artLayer in artLayers)
+            {
+                artLayer.DrawLayer(game, gameplay, normalMappingEffect, lightList);
+            }
 
             
 
@@ -243,7 +117,7 @@ namespace wickedcrush.display._3d
             //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32, 16, 10, 1600));
             
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
-            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.115f);
+            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
 
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
 

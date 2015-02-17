@@ -506,8 +506,8 @@ namespace wickedcrush.entity.physics_entity.agent
                 (float)Math.Cos(MathHelper.ToRadians((float)action.force.Key)),
                 (float)Math.Sin(MathHelper.ToRadians((float)action.force.Key)));
 
-            v.X += unitVector.X * (float)action.force.Value;
-            v.Y += unitVector.Y * (float)action.force.Value;
+            v.X += unitVector.X * (float)action.force.Value * 15f;
+            v.Y += unitVector.Y * (float)action.force.Value * 15f;
 
             bodies["body"].LinearVelocity = v;
 
@@ -601,6 +601,30 @@ namespace wickedcrush.entity.physics_entity.agent
                     damage,
                     force,
                     clusters);
+        }
+
+        protected void InitializeHpBar()
+        {
+            AddHudElement("hp_bar", "hp_bar", 4, Vector2.Zero);
+            AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
+        }
+
+        protected void RemoveHpBar()
+        {
+            RemoveHudElement("hp_bar");
+            RemoveHudElement("fuel_bar");
+        }
+
+        protected void UpdateHpBar()
+        {
+            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("maxHP"))) * 99.0);
+            long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
+            hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
+            hudSpriters["fuel_bar"].player.setFrame(fuelSunday);
+
+
+
+            //hudSpriters["hp_bar"].setFrame(1);
         }
     }
 }

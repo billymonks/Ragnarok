@@ -38,7 +38,8 @@ namespace wickedcrush.stats
             if(numbers.ContainsKey(key))
                 return numbers[key];
 
-            throw new InvalidOperationException("That number... " + key + "... does not exist!!! I cannot return it! Sorry.");
+            return 0;
+            //throw new InvalidOperationException("That number... " + key + "... does not exist!!! I cannot return it! Sorry.");
         }
 
         public void set(String key, int value)

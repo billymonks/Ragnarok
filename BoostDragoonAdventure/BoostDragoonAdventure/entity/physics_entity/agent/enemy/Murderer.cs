@@ -45,7 +45,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             activeRange = 300f;
 
             SetupStateMachine();
-            
+
+            InitializeHpBar();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            UpdateHpBar();
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)

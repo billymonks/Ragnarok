@@ -1,0 +1,6 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="true" edgeonly="false">dungeon_floor_4x4<transformations /></tileset>
+    <tileset surface="false" edgeonly="false">wall16<transformations /></tileset>
+  </tilelayers>
+</artlayer>

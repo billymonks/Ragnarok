@@ -16,7 +16,7 @@ namespace wickedcrush.display._3d.texture
 
         public Tileset(String path)
         {
-            LoadXml("Content/img/xml/"+path+".xml");
+            LoadXml("Content/img/tileset/"+path+".xml");
         }
 
         public Rectangle GetTextureCoordinates(int i, int j)

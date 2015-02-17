@@ -73,29 +73,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             UpdateHpBar();
         }
 
-        protected void InitializeHpBar()
-        {
-            AddHudElement("hp_bar", "hp_bar", 4, Vector2.Zero);
-            AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
-        }
-
-        protected void RemoveHpBar()
-        {
-            RemoveHudElement("hp_bar");
-            RemoveHudElement("fuel_bar");
-        }
-
-        protected void UpdateHpBar()
-        {
-            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("maxHP"))) * 99.0);
-            long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
-            hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
-            hudSpriters["fuel_bar"].player.setFrame(fuelSunday);
-            
-            
-
-            //hudSpriters["hp_bar"].setFrame(1);
-        }
+        
 
         protected override void SetupSpriterPlayer()
         {
@@ -118,6 +96,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
             {
                 dodgeSuccess = true;
+                stats.addTo("boost", 300);
+                timers["iFrameTime"].resetAndStart();
                 _sound.playCue("ping3", emitter);
             }
             else

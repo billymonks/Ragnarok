@@ -107,9 +107,9 @@ namespace wickedcrush.factory.entity
         {
             PersistedStats fuckStats = new PersistedStats();
             Murderer a = new Murderer(_w, pos, size, center, solid, this, fuckStats, _sm);
-            a.stats.set("hp", 80);
-            a.stats.set("maxHP", 80);
-            a.stats.set("staggerLimit", 100);
+            a.stats.set("hp", 40);
+            a.stats.set("maxHP", 40);
+            a.stats.set("staggerLimit", 50);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 30);
             a.stats.set("staggerDistance", 1);
