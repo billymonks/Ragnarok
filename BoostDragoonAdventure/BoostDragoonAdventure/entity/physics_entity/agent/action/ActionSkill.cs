@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         String cue;
 
-        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent)
+        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
             new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
                         (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing)))), 
@@ -42,7 +42,15 @@ namespace wickedcrush.entity.physics_entity.agent.action
             timers["duration"].resetAndStart();
 
             skillName = skillStruct.name;
-            this.parent = parent;
+            
+            if (null != actingParent)
+            {
+                this.parent = actingParent;
+            } 
+            else
+            {
+                this.parent = parent;
+            }
             this.facing = parent.facing;
             this.gameplay = gameplay;
 
@@ -96,7 +104,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 blows[i].Key.Update(gameTime);
                 if (blows[i].Key.isDone())
                 {
-                    gameplay.factory.addActionSkill(blows[i].Value, this.parent);
+                    gameplay.factory.addActionSkill(blows[i].Value, this, this.parent);
                     blows.Remove(blows[i]);
                 }
             }

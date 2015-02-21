@@ -182,6 +182,24 @@ namespace wickedcrush.display._3d
             return result;
         }
 
+        public static bool[,] SubtractLayer(bool[,] a, bool[,] b) //c = a - b
+        {
+            bool[,] result = new bool[a.GetLength(0), a.GetLength(1)];
+
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (b[i, j])
+                        result[i, j] = false;
+                    else
+                        result[i, j] = a[i, j];
+                }
+            }
+
+            return result;
+        }
+
         public static bool[,] ShrinkLayer(bool[,] a, int count)
         {
             bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];

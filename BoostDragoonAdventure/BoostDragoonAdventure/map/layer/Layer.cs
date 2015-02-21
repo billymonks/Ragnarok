@@ -14,6 +14,7 @@ namespace wickedcrush.map.layer
     {
         public bool[,] data;
         public Body[,] bodyList;
+        public Body layerBody;
         public LayerType layerType;
 
         public int width, height;
@@ -88,6 +89,26 @@ namespace wickedcrush.map.layer
                 y * gridHeight, 
                 gridWidth, 
                 gridHeight);
+        }
+
+        public void generateLayerBody(World w, int width, int height, bool solid)
+        {
+            int gridWidth = width / getWidth();
+            int gridHeight = height / getHeight();
+
+            Body body = new Body(w, Vector2.Zero);
+
+            for (int i = 0; i < data.GetLength(0); i++)
+                for (int j = 0; j < data.GetLength(1); j++)
+                    if (getCoordinate(i, j))
+                        FixtureFactory.AttachRectangle(gridWidth, gridHeight, 1f, new Vector2(gridWidth * 0.5f + i * gridWidth, gridHeight * 0.5f + j * gridHeight), body);
+
+            body.UserData = layerType;
+
+            if (!solid)
+                body.IsSensor = true;
+
+            layerBody = body;
         }
 
         private Body createBodyFromLayerCoordinate(World w, int width, int height, int x, int y, bool solid) //width/height = map size in pixels

@@ -288,7 +288,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skills.Add(
                 "Longsword Attack Full",
                 new SkillStruct("Longsword Attack Full",
-                    new Microsoft.Xna.Framework.Vector2(25f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(5f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
@@ -314,7 +314,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skills.Add(
                 "Longsword Attack Medium",
                 new SkillStruct("Longsword Attack Medium",
-                    new Microsoft.Xna.Framework.Vector2(25f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(5f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
@@ -335,7 +335,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skills.Add(
                 "Longsword Attack Weak",
                 new SkillStruct("Longsword Attack Weak",
-                    new Microsoft.Xna.Framework.Vector2(25f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(5f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,

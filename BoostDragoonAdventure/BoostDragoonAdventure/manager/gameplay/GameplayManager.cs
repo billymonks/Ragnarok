@@ -72,7 +72,7 @@ namespace wickedcrush.manager.gameplay
             scene = new Scene(_game);
 
             camera = new Camera(_game.playerManager);
-            camera.cameraPosition = new Vector3(320f, 240f, 75f);
+            
 
             _game.soundManager.setCam(camera);
 
@@ -86,8 +86,6 @@ namespace wickedcrush.manager.gameplay
             _playerManager = _game.playerManager;
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
-
-            
 
             factory = new EntityFactory(_game, this, entityManager, _roomManager, w);
 
@@ -139,6 +137,10 @@ namespace wickedcrush.manager.gameplay
             map = new Map(mapStats.filename);
             _game.mapManager.LoadMap(this, map, mapStats);
             scene.BuildScene(_game, map);
+
+            camera.maxCamPos = new Vector2(map.width /2, map.height /2);
+            
+
         }
 
         private void EnqueueMapTransition()
@@ -163,6 +165,7 @@ namespace wickedcrush.manager.gameplay
                         factory.spawnPlayers(activeConnection.doorIndex);
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
+                        camera.cameraPosition = new Vector3(_playerManager.getMeanPlayerPos().X - 320, _playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
                     }
                 ));
         }

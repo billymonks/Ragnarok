@@ -79,22 +79,24 @@ namespace wickedcrush.display._3d
             cameraPosition += velocity;
             cameraTarget += velocity;*/
 
-            cameraPosition.X = _players.getMeanPlayerPos().X - 320; //todo: change everything
-            cameraPosition.Y = _players.getMeanPlayerPos().Y - 240;
+            float looseness = 10f;
+
+            cameraPosition.X = ((cameraPosition.X * looseness) + (_players.getMeanPlayerPos().X - 320)) / (looseness+1f); //todo: change everything
+            cameraPosition.Y = ((cameraPosition.Y * looseness) + (_players.getMeanPlayerPos().Y - 240)) / (looseness + 1f);
 
             //adhereToBounds();
         }
         private void adhereToBounds()
         {
-            if (cameraPosition.X > maxCamPos.X)
+            if (cameraPosition.X + minCamPos.X > maxCamPos.X)
             {
-                cameraPosition.X = maxCamPos.X;
-                cameraTarget.X = maxCamPos.X;
+                cameraPosition.X = maxCamPos.X - minCamPos.X;
+                cameraTarget.X = maxCamPos.X - minCamPos.X;
             }
-            if (cameraPosition.Y > maxCamPos.Y)
+            if (cameraPosition.Y + minCamPos.Y > maxCamPos.Y)
             {
-                cameraPosition.Y = maxCamPos.Y;
-                cameraTarget.Y = maxCamPos.Y;
+                cameraPosition.Y = maxCamPos.Y - minCamPos.Y;
+                cameraTarget.Y = maxCamPos.Y - minCamPos.Y;
             }
             if (cameraPosition.X < minCamPos.X)
             {

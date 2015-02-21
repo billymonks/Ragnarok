@@ -12,6 +12,10 @@
     <connection id="0" doorIndex="0">big kahuna burger</connection>
     <connection id="1" doorIndex="1">variety</connection>
   </map>
+  <map name="longmap" filename="Content/maps/full/longmap.xml">
+    <connection id="0" doorIndex="1">longmap</connection>
+    <connection id="1" doorIndex="0">longmap</connection>
+  </map>
   <map name="testMap" filename="Content/maps/full/testMap.xml">
     <connection id="0" doorIndex="0">variety</connection>
   </map>

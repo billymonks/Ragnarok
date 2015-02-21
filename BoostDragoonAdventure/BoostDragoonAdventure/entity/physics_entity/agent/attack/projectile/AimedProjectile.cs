@@ -9,11 +9,14 @@ using wickedcrush.display._3d;
 using wickedcrush.factory.entity;
 using wickedcrush.manager.audio;
 using wickedcrush.stats;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 {
     public class AimedProjectile : Attack
     {
+        float angle = 0f;
+
         public AimedProjectile(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, int aimedDirection, SoundManager sound, EntityFactory factory)
             : base(w, pos, size, center, damage, force, sound, factory)
         {
@@ -48,6 +51,23 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         {
             base.Update(gameTime);
             moveForward(speed);
+
+            bodySpriter.setAngle(angle);
+
+            angle += gameTime.ElapsedGameTime.Milliseconds;
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 5, factory._spriterManager.loaders["loader1"]));
+
+            bodySpriter = sPlayers["actionskill"];
+            //sPlayer.setAnimation("whitetored", 0, 0);
+            bodySpriter.setFrameSpeed(60);
+            bodySpriter.setScale(((float)size.X) / 10f);
+            height = 10;
+
         }
 
         protected void moveForward(float speed)

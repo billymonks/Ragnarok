@@ -35,7 +35,9 @@ namespace wickedcrush
         WALL = 0,
         DEATHSOUP = 1,
         WIRING = 2,
-        ENTITY = 3
+        ENTITY = 3,
+        ART1 = 4,
+        ART2 = 5
     };
 
     public class GameBase : Microsoft.Xna.Framework.Game

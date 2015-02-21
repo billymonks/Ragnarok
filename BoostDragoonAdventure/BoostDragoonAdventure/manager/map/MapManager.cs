@@ -69,6 +69,8 @@ namespace wickedcrush.manager.map
             XElement deathSoup = rootElement.Element("DEATHSOUP");
             XElement wiring = rootElement.Element("WIRING");
             XElement objects = rootElement.Element("OBJECTS");
+            XElement art1 = rootElement.Element("ART1");
+            XElement art2 = rootElement.Element("ART2");
 
             map.name = mapStats.name;
             map.width = int.Parse(rootElement.Attribute("width").Value);
@@ -104,6 +106,26 @@ namespace wickedcrush.manager.map
             else
             {
                 map.addEmptyLayer(gm.w, LayerType.WIRING);
+            }
+
+            if (art1 != null)
+            {
+                data = getLayerData(art1.Value);
+                map.addLayer(gm.w, data, LayerType.ART1);
+            }
+            else
+            {
+                map.addEmptyLayer(gm.w, LayerType.ART1);
+            }
+
+            if (art2 != null)
+            {
+                data = getLayerData(art2.Value);
+                map.addLayer(gm.w, data, LayerType.ART2);
+            }
+            else
+            {
+                map.addEmptyLayer(gm.w, LayerType.ART2);
             }
 
             if (objects != null)
@@ -196,9 +218,14 @@ namespace wickedcrush.manager.map
                 foreach (KeyValuePair<LayerType, Layer> pair in map.layerList)
                 {
                     if (pair.Key.Equals(LayerType.WALL))
-                        pair.Value.generateBodies(gm.w, map.width, map.height, true);
-                    else
+                        pair.Value.generateLayerBody(gm.w, map.width, map.height, true);
+                    else if (pair.Key.Equals(LayerType.WIRING))
+                    {
                         pair.Value.generateBodies(gm.w, map.width, map.height, false);
+                    }
+                    else
+                        pair.Value.generateLayerBody(gm.w, map.width, map.height, false);
+                    
                 }
 
                 makeCircuits(map);

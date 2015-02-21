@@ -97,6 +97,10 @@ namespace wickedcrush.display._3d
 
             AddGeometry();
             PrepareVertices();
+            
+            if (solidGeomVertices.Count == 0)
+                return;
+
             buffer = new DynamicVertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
             buffer.SetData(solidGeomVertices.ToArray());
         }
