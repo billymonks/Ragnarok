@@ -54,6 +54,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.facing = parent.facing;
             this.gameplay = gameplay;
 
+            bodySpriter.setAngle(-(float)this.parent.facing);
+
             this.statIncrement = skillStruct.statIncrement;
 
             this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
@@ -131,6 +133,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
+            
             bodySpriter.setScale(((float)size.X) / 10f);
             height = 10;
 

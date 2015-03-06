@@ -1,6 +1,6 @@
 ﻿<artlayer>
   <tilelayers>
-    <tileset surface="true" edgeonly="false">blocks_blue<transformations /></tileset>
-    <tileset surface="false" edgeonly="false">blocks_blue<transformations /></tileset>
+    <tileset surface="true" edgeonly="false" path="blocks_blue"><transformations /></tileset>
+    <tileset surface="false" edgeonly="false" path="blocks_blue"><transformations /></tileset>
   </tilelayers>
 </artlayer>

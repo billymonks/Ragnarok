@@ -47,17 +47,17 @@ namespace wickedcrush.display._3d
 
             int floorTexture = GetWallTextureInt(x, y, z);
 
-            Vector2 topRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f, 1f));
-            Vector2 bottomRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f, 0f));
-            Vector2 topLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f, 1f));
-            Vector2 bottomLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f, 0f));
+            Vector2 topRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.03f, 0.97f));
+            Vector2 bottomRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.03f, 0.03f));
+            Vector2 topLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.97f, 0.97f));
+            Vector2 bottomLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.97f, 0.03f));
 
             Vector4 topRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 0) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
             Vector4 bottomRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 1) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
             Vector4 topLeftVertPos = new Vector4((x + 1) * ART_GRID_SIZE, (y + 0) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
             Vector4 bottomLeftVertPos = new Vector4((x + 1) * ART_GRID_SIZE, (y + 1) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 bottomRightVertPos,
                 normal,
                 bottomRightTexCoord,
@@ -65,7 +65,7 @@ namespace wickedcrush.display._3d
                 tangent,
                 binormal));
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 bottomLeftVertPos,
                 normal,
                 bottomLeftTexCoord,
@@ -73,7 +73,7 @@ namespace wickedcrush.display._3d
                 tangent,
                 binormal));
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 topRightVertPos,
                 normal,
                 topRightTexCoord,
@@ -81,7 +81,7 @@ namespace wickedcrush.display._3d
                 tangent,
                 binormal));
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 bottomLeftVertPos,
                 normal,
                 bottomLeftTexCoord,
@@ -89,7 +89,7 @@ namespace wickedcrush.display._3d
                 tangent,
                 binormal));
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 topLeftVertPos,
                 normal,
                 topLeftTexCoord,
@@ -97,7 +97,7 @@ namespace wickedcrush.display._3d
                 tangent,
                 binormal));
 
-            gridVertices[x, z].Add(new WCVertex(
+            solidGeomVertices.Add(new WCVertex(
                 topRightVertPos,
                 normal,
                 topRightTexCoord,

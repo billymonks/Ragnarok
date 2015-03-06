@@ -1,0 +1,6 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="true" edgeonly="false" path="blocks_combo1_a"><transformations /></tileset>
+    <tileset surface="false" edgeonly="false" path="blocks_purple_a"><transformations /></tileset>
+  </tilelayers>
+</artlayer>

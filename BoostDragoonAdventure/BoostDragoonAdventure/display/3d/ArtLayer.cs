@@ -12,7 +12,7 @@ namespace wickedcrush.display._3d
 {
     public class ArtLayer
     {
-        List<TileLayer> tileLayers;
+        public List<TileLayer> tileLayers;
         //List<SurfaceTileLayer> surfaceTileLayers;
 
         public ArtLayer(GameBase game, Map map, int baseHeight, int height)
@@ -51,24 +51,28 @@ namespace wickedcrush.display._3d
         {
             foreach (XElement e in tileElement.Element("transformations").Elements("transformation"))
             {
-                if (e.Attribute("mode").Value.Equals("scale"))
+                foreach (XElement scale in e.Elements("scale"))
                 {
-                    data = LayerTransformations.ScaleLayer(data, int.Parse(e.Value));
+                    data = LayerTransformations.ScaleLayer(data, int.Parse(scale.Value));
                 }
-                else if (e.Attribute("mode").Value.Equals("shrink"))
+                foreach (XElement shrink in e.Elements("shrink"))
                 {
-                    data = LayerTransformations.ShrinkLayer(data, int.Parse(e.Value));
+                    data = LayerTransformations.ShrinkLayer(data, int.Parse(shrink.Value), bool.Parse(shrink.Attribute("includeDiagonals").Value));
                 }
-                else if (e.Attribute("mode").Value.Equals("invert"))
+                foreach (XElement grow in e.Elements("grow"))
+                {
+                    data = LayerTransformations.GrowLayer(data, int.Parse(grow.Value), bool.Parse(grow.Attribute("includeDiagonals").Value));
+                }
+                foreach (XElement invert in e.Elements("invert"))
                 {
                     data = LayerTransformations.InvertLayer(data);
                 }
             }
 
             if (Boolean.Parse(tileElement.Attribute("surface").Value))
-                tileLayers.Add(new SurfaceTileLayer(game, data, height, tileElement.Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
+                tileLayers.Add(new SurfaceTileLayer(game, data, height, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
             else
-                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Value));
+                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Attribute("path").Value));
         }
 
         private void LoadCaveTileLayers(GameBase game, Map map, int baseHeight, int height)
@@ -116,7 +120,7 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["ColorMap"].SetValue(layer.colorTexture);
             normalMappingEffect.Parameters["NormalMap"].SetValue(layer.normalTexture);
 
-            game.GraphicsDevice.SetVertexBuffer(layer.buffer);
+            //game.GraphicsDevice.SetVertexBuffer(layer.buffer);
 
             game.GraphicsDevice.BlendState = BlendState.Opaque;
 
@@ -200,7 +204,61 @@ namespace wickedcrush.display._3d
             return result;
         }
 
-        public static bool[,] ShrinkLayer(bool[,] a, int count)
+        public static bool[,] ShrinkLayer(bool[,] a, int count, bool includeDiagonals)
+        {
+            bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];
+
+            if (count > 0)
+            {
+                count--;
+
+                for (int i = 1; i < a.GetLength(0) - 1; i++)
+                {
+                    b[i, 0] = (a[i, 0] && a[i - 1, 0]);
+                    b[i, 0] = (b[i, 0] && a[i + 1, 0]);
+                    b[i, a.GetLength(1) - 1] = (a[i, a.GetLength(1) - 1] && a[i - 1, a.GetLength(1) - 1]);
+                    b[i, a.GetLength(1) - 1] = (b[i, a.GetLength(1) - 1] && a[i + 1, a.GetLength(1) - 1]);
+                }
+
+                for (int i = 1; i < a.GetLength(1) - 1; i++)
+                {
+                    b[0, i] = (a[0, i] && a[0, i - 1]);
+                    b[0, i] = (b[0, i] && a[0, i + 1]);
+
+                    b[a.GetLength(0) - 1, i] = (a[a.GetLength(0) - 1, i] && a[a.GetLength(0) - 1, i - 1]);
+                    b[a.GetLength(0) - 1, i] = (b[a.GetLength(0) - 1, i] && a[a.GetLength(0) - 1, i + 1]);
+                }
+
+                for (int i = 1; i < a.GetLength(0) - 1; i++)
+                {
+                    for (int j = 1; j < a.GetLength(1) - 1; j++)
+                    {
+                        b[i, j] = (a[i, j] && a[i, j - 1]);
+                        b[i, j] = (b[i, j] && a[i, j + 1]);
+                        b[i, j] = (b[i, j] && a[i - 1, j]);
+                        b[i, j] = (b[i, j] && a[i + 1, j]);
+                        if (includeDiagonals)
+                        {
+                            b[i, j] = (b[i, j] && a[i + 1, j + 1]);
+                            b[i, j] = (b[i, j] && a[i - 1, j + 1]);
+                            b[i, j] = (b[i, j] && a[i + 1, j - 1]);
+                            b[i, j] = (b[i, j] && a[i - 1, j - 1]);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return a;
+            }
+
+            if (count == 0)
+                return b;
+            else
+                return ShrinkLayer(b, count, true);
+        }
+
+        public static bool[,] GrowLayer(bool[,] a, int count, bool includeDiagonals)
         {
             bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];
 
@@ -212,19 +270,35 @@ namespace wickedcrush.display._3d
                 {
                     for (int j = 1; j < a.GetLength(1) - 1; j++)
                     {
-                        b[i, j] = (a[i, j] && a[i, j - 1]);
-                        b[i, j] = (b[i, j] && a[i, j + 1]);
-                        b[i, j] = (b[i, j] && a[i - 1, j]);
-                        b[i, j] = (b[i, j] && a[i + 1, j]);
+                        b[i, j] = (a[i, j] || a[i, j - 1]);
+                        b[i, j] = (b[i, j] || a[i, j + 1]);
+                        b[i, j] = (b[i, j] || a[i - 1, j]);
+                        b[i, j] = (b[i, j] || a[i + 1, j]);
+                        if (includeDiagonals)
+                        {
+                            b[i, j] = (b[i, j] || a[i + 1, j + 1]);
+                            b[i, j] = (b[i, j] || a[i - 1, j + 1]);
+                            b[i, j] = (b[i, j] || a[i + 1, j - 1]);
+                            b[i, j] = (b[i, j] || a[i - 1, j - 1]);
+                        }
                     }
                 }
+            }
+            else
+            {
+                return a;
             }
 
             if (count == 0)
                 return b;
             else
-                return ShrinkLayer(b, count);
+                return GrowLayer(b, count, true);
         }
+
+        //public static bool[,] OutlineLayer(bool[,] a, int count, bool includeDiagonals)
+        //{
+            //bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];
+        //}
 
         public static bool[,] InvertLayer(bool[,] a)
         {

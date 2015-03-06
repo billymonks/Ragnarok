@@ -1,8 +1,8 @@
 ﻿<artlayer>
   <tilelayers>
-    <tileset surface="true" edgeonly="false">rock_green<transformations />
+    <tileset surface="true" edgeonly="false" path="rock_green"><transformations />
     </tileset>
-    <tileset surface="false" edgeonly="false">rock_green<transformations />
+    <tileset surface="false" edgeonly="false" path="rock_green"><transformations />
     </tileset>
   </tilelayers>
 </artlayer>

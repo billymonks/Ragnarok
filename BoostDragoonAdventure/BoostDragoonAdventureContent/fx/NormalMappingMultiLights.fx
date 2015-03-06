@@ -22,17 +22,8 @@ texture2D ColorMap;
 sampler ColorMapSampler = sampler_state
 {
 	Texture = <ColorMap>;
-	MinFilter = Anisotropic;
-	MagFilter = Anisotropic;
-	MipFilter = Linear;
-};
-
-texture2D NormalMap;
-sampler NormalMapSampler = sampler_state
-{
-	Texture = <NormalMap>;
-	MinFilter = Anisotropic;
-	MagFilter = Anisotropic;
+	MinFilter = Linear;
+	MagFilter = Linear;
 	MipFilter = Linear;
 };
 
@@ -121,7 +112,7 @@ PerPixelVertexShaderOutput PerPixelVertexShaderFunctionSpecial(VertexShaderInput
 float4 PerPixelPixelShaderFunction(PerPixelVertexShaderOutput input) : COLOR0
 {
 	float4 color = tex2D(ColorMapSampler, input.TexCoord);
-	float3 normalMap = 2.0 * (tex2D(NormalMapSampler, input.NormCoord)) - 1.0;
+	float3 normalMap = 2.0 * (tex2D(ColorMapSampler, input.NormCoord)) - 1.0;
 
 	if(color.a < 0.8f)
 	  {
@@ -202,7 +193,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 		clip(-1);
 	  }
 
-	float3 normalMap = 2.0 * (tex2D(NormalMapSampler, input.NormCoord)) - 1.0;
+	float3 normalMap = 2.0 * (tex2D(ColorMapSampler, input.NormCoord)) - 1.0;
 	normalMap = normalize(mul(normalMap, input.WorldToTangentSpace));
 	float4 normal = float4(normalMap,1.0);
 

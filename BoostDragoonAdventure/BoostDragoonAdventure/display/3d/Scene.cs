@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.gameplay;
 using wickedcrush.display._3d.texture;
+using wickedcrush.display._3d.atlas;
 
 namespace wickedcrush.display._3d
 {
@@ -52,6 +53,15 @@ namespace wickedcrush.display._3d
 
         public Dictionary<string, PointLightStruct> lightList = new Dictionary<string,PointLightStruct>();
 
+        //combined scene texture and normal
+        public Texture2D colorTexture;
+        public Texture2D normalTexture;
+
+        public List<WCVertex> solidGeomVertices;
+        public VertexBuffer buffer;
+
+        TextureAtlas textureAtlas;
+
         public Scene(GameBase game)
         {
             this.game = game;
@@ -62,30 +72,74 @@ namespace wickedcrush.display._3d
 
         public void BuildScene(GameBase game, Map map)
         {
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -1, 0, "cavefloor"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 2, "cavewall"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -1, 0, "blue_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 2, "blue_a"));
 
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data,false), 2), -1, 0, "blocks_tan"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 5, "blocks_blue"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), 0, 1, "blocks_blue"));
-            
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -1, 0, "pink_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 5, "lime_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), 0, 1, "pink_a"));
+
+            CreateTextureAtlas();
+            CombineVertices();
 
             SetEffectParameters();
 
             
-            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 1000f));
-            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1000f));
-            //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
-            //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
-            //lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
-            //lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
-            //lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
+            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 2000f));
+            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
+            lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
+            lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
+            lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
+            lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
+            lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
             
         }
 
-        
+        protected void CreateTextureAtlas()
+        {
 
-        
+            Dictionary<String, Texture2D> textures = new Dictionary<String, Texture2D>();
+            Dictionary<String, Rectangle> tempAtlas = new Dictionary<String, Rectangle>();
+
+            foreach (ArtLayer artLayer in artLayers)
+            {
+                foreach (TileLayer tileLayer in artLayer.tileLayers)
+                {
+                    if(!textures.ContainsKey(tileLayer.tileset.tex))
+                        textures.Add(tileLayer.tileset.tex, tileLayer.colorTexture);
+                    if (!textures.ContainsKey(tileLayer.tileset.normal))
+                        textures.Add(tileLayer.tileset.normal, tileLayer.normalTexture);
+                }
+            }
+
+            textureAtlas = new TextureAtlas(textures, game.GraphicsDevice);
+            solidGeomVertices = new List<WCVertex>();
+
+        }
+
+        protected void CombineVertices()
+        {
+            foreach (ArtLayer artLayer in artLayers)
+            {
+                foreach (TileLayer tileLayer in artLayer.tileLayers)
+                {
+                    foreach (WCVertex vert in tileLayer.solidGeomVertices)
+                    {
+                        WCVertex tempVert = new WCVertex(vert.Position, vert.Normal,
+                            textureAtlas.GetConvertedCoordinate(tileLayer.tileset.tex, vert.TextureCoordinate),
+                            textureAtlas.GetConvertedCoordinate(tileLayer.tileset.normal, vert.NormalCoordinate),
+                            vert.Tangent, vert.Binormal);
+
+                        solidGeomVertices.Add(tempVert);
+
+                    }
+                    tileLayer.solidGeomVertices.Clear();
+                }
+            }
+
+            buffer = new VertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
+            buffer.SetData(solidGeomVertices.ToArray());
+        }
 
         public void DrawScene(GameBase game, GameplayManager gameplay)
         {
@@ -100,9 +154,44 @@ namespace wickedcrush.display._3d
             lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
             lightList["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
 
-            foreach (ArtLayer artLayer in artLayers)
+            //foreach (ArtLayer artLayer in artLayers)
+            //{
+                //artLayer.DrawLayer(game, gameplay, normalMappingEffect, lightList);
+            //}
+
+            if (solidGeomVertices.Count <= 0)
+                return;
+
+
+            //buffer.SetData(solidGeomVertices.ToArray());
+
+            game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+            game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+            normalMappingEffect.Parameters["ColorMap"].SetValue(textureAtlas.texture);
+            //normalMappingEffect.Parameters["NormalMap"].SetValue(textureAtlas.texture);
+
+            game.GraphicsDevice.SetVertexBuffer(buffer);
+
+            game.GraphicsDevice.BlendState = BlendState.Opaque;
+
+            normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
+
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+
+            game.GraphicsDevice.BlendState = BlendState.Additive;
+
+            foreach (KeyValuePair<string, PointLightStruct> s in lightList)
             {
-                artLayer.DrawLayer(game, gameplay, normalMappingEffect, lightList);
+                normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
+                normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
+                normalMappingEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
+                normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
+                normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
+                normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+
+                normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+                game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
             }
 
             
@@ -116,11 +205,11 @@ namespace wickedcrush.display._3d
         {
             normalMappingEffect.Parameters["World"].SetValue(Matrix.Identity);
 
-            sceneDimensions = new Vector2(480 * game.aspectRatio, 480);
-            normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(480 * game.aspectRatio, 480, -200, 400));
+            sceneDimensions = new Vector2(240 * 2f * game.aspectRatio, 240 * 2f);
+            normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(240 * game.aspectRatio * 2f, 240 * 2f, -200, 400));
             //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32, 16, 10, 1600));
-            
-            normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(1f, 1f, 1f, 1f));
+
+            normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 0.8f, 1f, 1f));
             normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
 
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
