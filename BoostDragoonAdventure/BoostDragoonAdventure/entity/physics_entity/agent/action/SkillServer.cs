@@ -167,7 +167,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Blow 1",
                 new SkillStruct("Horizontal Blow 1",
-                    new Microsoft.Xna.Framework.Vector2(12f, -20f),
+                    new Microsoft.Xna.Framework.Vector2(12f, 20f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(35f, 0f),
@@ -179,7 +179,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Blow 2",
                 new SkillStruct("Horizontal Blow 2",
-                    new Microsoft.Xna.Framework.Vector2(13f, -10f),
+                    new Microsoft.Xna.Framework.Vector2(13f, 10f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(38f, 0f),
@@ -203,7 +203,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Blow 4",
                 new SkillStruct("Horizontal Blow 4",
-                    new Microsoft.Xna.Framework.Vector2(13f, 10f),
+                    new Microsoft.Xna.Framework.Vector2(13f, -10f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(38f, 0f),
@@ -215,7 +215,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Blow 5",
                 new SkillStruct("Horizontal Blow 5",
-                    new Microsoft.Xna.Framework.Vector2(12f, 20f),
+                    new Microsoft.Xna.Framework.Vector2(12f, -20f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(35f, 0f),
@@ -227,7 +227,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Extension Blow 1",
                 new SkillStruct("Horizontal Extension Blow 1",
-                    new Microsoft.Xna.Framework.Vector2(18f, -40f),
+                    new Microsoft.Xna.Framework.Vector2(18f, 40f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(50f, 0f),
@@ -239,7 +239,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Extension Blow 2",
                 new SkillStruct("Horizontal Extension Blow 2",
-                    new Microsoft.Xna.Framework.Vector2(20f, -20f),
+                    new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(60f, 0f),
@@ -263,7 +263,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Extension Blow 4",
                 new SkillStruct("Horizontal Extension Blow 4",
-                    new Microsoft.Xna.Framework.Vector2(20f, 20f),
+                    new Microsoft.Xna.Framework.Vector2(20f, -20f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(60f, 0f),
@@ -275,7 +275,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skills.Add("Horizontal Extension Blow 5",
                 new SkillStruct("Horizontal Extension Blow 5",
-                    new Microsoft.Xna.Framework.Vector2(18f, 40f),
+                    new Microsoft.Xna.Framework.Vector2(18f, -40f),
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     new Vector2(50f, 0f),

@@ -43,8 +43,8 @@ namespace wickedcrush.entity.physics_entity.agent.npc
             //base.setupBody(w, pos, size, center, solid);
             bodies = new Dictionary<String, Body>();
             bodies.Add("body", BodyFactory.CreateBody(w, pos - center));
-            bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
-            bodies["hotspot"].IsSensor = true;
+            //bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
+            //bodies["hotspot"].IsSensor = true;
 
             FixtureFactory.AttachRectangle(size.X, size.Y, 1f, center, bodies["body"]);
             bodies["body"].FixedRotation = true;
@@ -54,11 +54,11 @@ namespace wickedcrush.entity.physics_entity.agent.npc
             bodies["body"].UserData = this;
             bodies["body"].IsSensor = false;
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
-            bodies["hotspot"].FixedRotation = true;
-            bodies["hotspot"].LinearVelocity = Vector2.Zero;
-            bodies["hotspot"].BodyType = BodyType.Static;
-            bodies["hotspot"].IsSensor = true;
+            //FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
+            //bodies["hotspot"].FixedRotation = true;
+            //bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            //bodies["hotspot"].BodyType = BodyType.Static;
+            //bodies["hotspot"].IsSensor = true;
 
         }
 

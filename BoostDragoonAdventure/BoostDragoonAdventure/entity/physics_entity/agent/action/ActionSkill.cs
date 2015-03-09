@@ -133,8 +133,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
-            
-            bodySpriter.setScale(((float)size.X) / 10f);
+
+            bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
             height = 10;
 
         }

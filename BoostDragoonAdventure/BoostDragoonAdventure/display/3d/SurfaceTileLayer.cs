@@ -55,10 +55,12 @@ namespace wickedcrush.display._3d
 
             rand = random.NextDouble();
 
-            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0.03f, 0.97f));
-            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0.03f, 0.03f));
-            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(0.97f, 0.97f));
-            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(0.97f, 0.03f));
+            float padding = 0.03f;
+
+            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 1f - padding));
+            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 0f + padding));
+            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 1f - padding));
+            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 0f + padding));
 
             solidGeomVertices.Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),

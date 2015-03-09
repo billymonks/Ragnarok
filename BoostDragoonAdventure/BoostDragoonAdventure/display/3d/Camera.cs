@@ -22,10 +22,11 @@ namespace wickedcrush.display._3d
         public float fov, minX, minY;
         public Entity target;
         public CameraMode camMode = CameraMode.Still;
-        public float smoothVal = 7f;
+        public float smoothVal = 10f;
 
         public ControlsManager _controls;
         public PlayerManager _players;
+        public float zoom = 2f; //1f = zoomed in, 2f = zoomed out
         #endregion
 
         public Camera(PlayerManager players)

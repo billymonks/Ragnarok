@@ -52,7 +52,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             pressed = false;
             triggered = false;
 
-            var c = bodies["hotspot"].ContactList;
+            var c = bodies["body"].ContactList;
             while (c != null)
             {
                 if (c.Contact.IsTouching

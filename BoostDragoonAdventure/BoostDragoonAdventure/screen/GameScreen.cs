@@ -25,7 +25,7 @@ namespace wickedcrush.screen
             game = g;
         }
         public abstract void Update(GameTime gameTime);
-        public virtual void Render() { }
+        public virtual void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget) { }
         public virtual void Draw() { }
         public virtual void DebugDraw() { }
         public virtual void FullScreenDraw() { }

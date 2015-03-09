@@ -66,7 +66,9 @@ namespace wickedcrush.map.layer
 
         public bool collision(Rectangle r)
         {
-            for (int i = r.X; i <= r.Width; i++)
+            return getCoordinate(r.X / getGridSize(), r.Y / getGridSize());
+
+            /*for (int i = r.X; i <= r.Width; i++)
             {
                 for (int j = r.Y; j <= r.Height; j++)
                 {
@@ -75,7 +77,7 @@ namespace wickedcrush.map.layer
                         return true;
                     }
                 }
-            }
+            }*/
             return false;
         }
 

@@ -155,9 +155,9 @@ namespace wickedcrush.screen
 
         }
 
-        public override void Render()
+        public override void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget)
         {
-            gameplayManager.scene.DrawScene(game, gameplayManager);
+            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget);
         }
 
         public override void Draw()

@@ -41,12 +41,12 @@ namespace wickedcrush.entity.physics_entity
         {
             bodies = new Dictionary<String, Body>();
             bodies.Add("body", BodyFactory.CreateBody(w, pos - center));
-            bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
+            //bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
 
             if (!solid)
                 bodies["body"].IsSensor = true;
 
-            bodies["hotspot"].IsSensor = true;
+            //bodies["hotspot"].IsSensor = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -79,7 +79,7 @@ namespace wickedcrush.entity.physics_entity
 
                 DrawName(spriteBatch, f, camera);
 
-                spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
+                //spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             }
             foreach (Entity e in subEntityList)
                 e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);

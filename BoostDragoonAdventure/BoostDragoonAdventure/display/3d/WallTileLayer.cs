@@ -47,10 +47,12 @@ namespace wickedcrush.display._3d
 
             int floorTexture = GetWallTextureInt(x, y, z);
 
-            Vector2 topRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.03f, 0.97f));
-            Vector2 bottomRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.03f, 0.03f));
-            Vector2 topLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.97f, 0.97f));
-            Vector2 bottomLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(0.97f, 0.03f));
+            float padding = 0.03f;
+
+            Vector2 topRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f + padding, 1f - padding));
+            Vector2 bottomRightTexCoord = GetWallCoordinate(floorTexture, new Vector2(0f + padding, 0f + padding));
+            Vector2 topLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f - padding, 1f - padding));
+            Vector2 bottomLeftTexCoord = GetWallCoordinate(floorTexture, new Vector2(1f - padding, 0f + padding));
 
             Vector4 topRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 0) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);
             Vector4 bottomRightVertPos = new Vector4((x + 0) * ART_GRID_SIZE, (y + 1) * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE, 1);

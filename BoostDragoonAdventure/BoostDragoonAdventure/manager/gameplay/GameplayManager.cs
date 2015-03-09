@@ -136,7 +136,7 @@ namespace wickedcrush.manager.gameplay
             MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
             map = new Map(mapStats.filename);
             _game.mapManager.LoadMap(this, map, mapStats);
-            scene.BuildScene(_game, map);
+            scene.BuildScene(_game, map, this);
 
             camera.maxCamPos = new Vector2(map.width /2, map.height /2);
             

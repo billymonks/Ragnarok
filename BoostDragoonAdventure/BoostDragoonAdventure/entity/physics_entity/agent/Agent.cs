@@ -110,10 +110,10 @@ namespace wickedcrush.entity.physics_entity.agent
             if (!solid)
                 bodies["body"].IsSensor = true;
 
-            FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
-            bodies["hotspot"].FixedRotation = true;
-            bodies["hotspot"].LinearVelocity = Vector2.Zero;
-            bodies["hotspot"].BodyType = BodyType.Dynamic;
+            //FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
+            //bodies["hotspot"].FixedRotation = true;
+            //bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            //bodies["hotspot"].BodyType = BodyType.Dynamic;
 
             
 
@@ -170,8 +170,8 @@ namespace wickedcrush.entity.physics_entity.agent
             
             HandleCollisions();
 
-            if(bodies.ContainsKey("hotspot"))
-                bodies["hotspot"].Position = bodies["body"].WorldCenter;
+            //if(bodies.ContainsKey("hotspot"))
+                //bodies["hotspot"].Position = bodies["body"].WorldCenter;
 
             if(bodies.ContainsKey("activeArea"))
                 bodies["activeArea"].Position = bodies["body"].WorldCenter;
@@ -328,13 +328,11 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void HandleCollisions()
         {
-            var c = bodies["hotspot"].ContactList;
-            while(c != null)
-            {
-                if (c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.DEATHSOUP) && !airborne)
-                    stats.set("hp", 0);
+            
 
-                c = c.Next;
+            if (factory._gm.map.getLayer(LayerType.DEATHSOUP).collision(new Rectangle((int)(this.pos.X + this.center.X - 1), (int)(this.pos.Y + this.center.Y - 1), 2, 2)) && !this.airborne)
+            {
+                stats.set("hp", 0);
             }
         }
 
@@ -346,25 +344,27 @@ namespace wickedcrush.entity.physics_entity.agent
         public override void Draw()
         {
 
-            Vector2 spritePos = new Vector2(bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X, 
-                bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height);
+            Vector2 spritePos = new Vector2((bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X ),
+                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height));
 
-            if (spritePos.Y <= -200f && spritePos.Y >= 800f)
-            {
-                return;
-            }
+            //if (spritePos.Y <= -200f && spritePos.Y >= 800f)
+            //{
+               // return;
+            //}
 
-            float near = -200f;
+            float near = -800f;
             float far = 800f;
 
-            float depth = 1f - ((((spritePos.Y + height) * 1.03f - near - center.Y)) / (far - near));
+            float depth = 1f - ((((spritePos.Y + height) - near - center.Y)) / (far - near));
 
             //float depth = 0f;
 
+            bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+
             bodySpriter.SetDepth(depth);
 
-            bodySpriter.update(spritePos.X * 2.25f,
-                (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100));
+            bodySpriter.update(spritePos.X * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
+                (spritePos.Y * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 200 * (2f - factory._gm.camera.zoom) - 100));
 
 
             //float top = sPlayer.getBoundingBox().top;
@@ -506,8 +506,8 @@ namespace wickedcrush.entity.physics_entity.agent
                 (float)Math.Cos(MathHelper.ToRadians((float)action.force.Key)),
                 (float)Math.Sin(MathHelper.ToRadians((float)action.force.Key)));
 
-            v.X += unitVector.X * (float)action.force.Value * 15f;
-            v.Y += unitVector.Y * (float)action.force.Value * 15f;
+            v.X += unitVector.X * (float)action.force.Value * 30f;
+            v.Y += unitVector.Y * (float)action.force.Value * 30f;
 
             bodies["body"].LinearVelocity = v;
 
