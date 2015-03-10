@@ -6,6 +6,8 @@ using wickedcrush.manager.gameplay;
 using Microsoft.Xna.Framework;
 using wickedcrush.utility;
 using Com.Brashmonkey.Spriter.player;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics.Factories;
 
 namespace wickedcrush.entity.physics_entity.agent.action
 {
@@ -68,6 +70,29 @@ namespace wickedcrush.entity.physics_entity.agent.action
             cue = skillStruct.cue;
 
             Initialize();
+        }
+
+        protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        {
+            base.setupBody(w, pos, size, center, solid);
+            FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
+            bodies["body"].FixedRotation = true;
+            bodies["body"].LinearVelocity = Vector2.Zero;
+            bodies["body"].BodyType = BodyType.Dynamic;
+            bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
+
+            bodies["body"].UserData = this;
+
+            if (!solid)
+                bodies["body"].IsSensor = true;
+
+            //FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
+            //bodies["hotspot"].FixedRotation = true;
+            //bodies["hotspot"].LinearVelocity = Vector2.Zero;
+            //bodies["hotspot"].BodyType = BodyType.Dynamic;
+
+
+
         }
 
         protected void LoadBlows(List<KeyValuePair<int, SkillStruct>> blows, GameplayManager gameplay)

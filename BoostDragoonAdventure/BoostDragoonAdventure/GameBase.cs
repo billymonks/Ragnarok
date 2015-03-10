@@ -90,7 +90,7 @@ namespace wickedcrush
             graphics.SynchronizeWithVerticalRetrace = true;
             
             IsFixedTimeStep = true;
-            //SetFrameRate(120);
+            SetFrameRate(60);
             graphics.ApplyChanges();
 
             spriterManager = new SpriterManager(this);

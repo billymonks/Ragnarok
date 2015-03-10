@@ -60,11 +60,11 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("shortsword charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Strong Attack"]);
+                       a.useActionSkill(SkillServer.skills["Weak Attack"]);
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.skills["Weak Attack"]);
+                       a.useActionSkill(SkillServer.skills["Strong Attack"]);
                    }
                    a.stats.addTo("boost", -100);
                    a.stats.set("shortsword charge", 0);
