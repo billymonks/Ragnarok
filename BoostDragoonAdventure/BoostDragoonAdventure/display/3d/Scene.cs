@@ -42,7 +42,7 @@ namespace wickedcrush.display._3d
 
         //private DynamicVertexBuffer buffer;
 
-        Effect normalMappingEffect;
+        Effect normalMappingEffect, parallaxEffect;
 
         Matrix viewMatrix;
 
@@ -61,6 +61,9 @@ namespace wickedcrush.display._3d
         public List<WCVertex> solidGeomVertices;
         public VertexBuffer buffer;
 
+        public List<VertexPositionColor> parallaxVertices;
+        public VertexBuffer parallaxBuffer;
+
         TextureAtlas textureAtlas;
 
         
@@ -70,6 +73,7 @@ namespace wickedcrush.display._3d
             this.game = game;
             
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
+            parallaxEffect = game.Content.Load<Effect>(@"fx/ParallaxEffect");
 
             
             
@@ -87,6 +91,8 @@ namespace wickedcrush.display._3d
             CreateTextureAtlas();
             CombineVertices();
 
+            CreateParallaxVertices(map);
+
             SetEffectParameters(gameplay);
 
             
@@ -98,6 +104,54 @@ namespace wickedcrush.display._3d
             lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
             lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
             
+        }
+
+        protected void CreateParallaxVertices(Map map)
+        {
+            parallaxVertices = new List<VertexPositionColor>();
+
+            bool[,] data = LayerTransformations.ScaleLayer(map.getLayer(LayerType.DEATHSOUP).data, 2);
+
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    if (data[i, j])
+                    {
+                        AddParallaxVertices(i, 0, j);
+                    }
+                }
+            }
+
+            parallaxBuffer = new VertexBuffer(game.GraphicsDevice, typeof(VertexPositionColor), parallaxVertices.Count, BufferUsage.WriteOnly);
+            parallaxBuffer.SetData(parallaxVertices.ToArray());
+        }
+
+        private void AddParallaxVertices(int x, int y, int z)
+        {
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE),
+                Color.White));
+
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE),
+                Color.White));
+
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE),
+                Color.White));
+
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE),
+                Color.White));
+
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3((x + 1) * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE),
+                Color.White));
+
+            parallaxVertices.Add(new VertexPositionColor(
+                new Vector3(x * ART_GRID_SIZE, y * ART_GRID_SIZE, (z + 1) * ART_GRID_SIZE),
+                Color.White));
         }
 
         protected void CreateTextureAtlas()
@@ -155,6 +209,9 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["EyePosition"].SetValue(cameraPosition);
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"]; //geom has normal map (some sprites do not)
 
+            parallaxEffect.Parameters["View"].SetValue(viewMatrix);
+            parallaxEffect.Parameters["EyePosition"].SetValue(cameraPosition);
+
             
             lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
             lightList["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
@@ -188,6 +245,13 @@ namespace wickedcrush.display._3d
 
             game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
 
+            game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
+            parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
+            parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
+            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
+
+            game.GraphicsDevice.SetVertexBuffer(buffer);
+
             game.GraphicsDevice.SetRenderTarget(renderTarget);
             game.GraphicsDevice.Clear(Color.Black);
 
@@ -218,7 +282,7 @@ namespace wickedcrush.display._3d
             if (game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F1))
             {
                 DateTime date = DateTime.Now; //Get the date for the file name
-                Stream stream = File.Create("scene" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+                Stream stream = File.Create("depth" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
 
                 game.GraphicsDevice.SetRenderTarget(null);
                 depthTarget.SaveAsPng(stream, depthTarget.Width, depthTarget.Height);
@@ -242,6 +306,9 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
 
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
+
+            parallaxEffect.Parameters["World"].SetValue(Matrix.Identity);
+            parallaxEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(240 * game.aspectRatio * gameplay.camera.zoom, 240 * gameplay.camera.zoom, -400, 400));
 
         }
 

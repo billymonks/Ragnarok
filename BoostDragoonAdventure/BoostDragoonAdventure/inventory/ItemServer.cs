@@ -142,6 +142,34 @@ namespace wickedcrush.inventory
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>()));
+
+            items.Add(
+               "Generation Sword",
+               new Item("Generation Sword", (a, i) =>
+               {
+                   a.stats.set("gen charge", 0);
+               },
+               (a, i) =>
+               {
+                   a.stats.addTo("boost", -3);
+                   a.stats.addTo("gen charge", 1);
+               },
+               (a, i) =>
+               {
+                   if (a.stats.compare("gen charge", 25) < 0)
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct());
+                   }
+                   else
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct());
+                   }
+                   a.stats.addTo("boost", -100);
+                   a.stats.set("gen charge", 0);
+               },
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
+               new List<KeyValuePair<string, int>>()));
         }
         
         public static Item getItem(String name)

@@ -293,7 +293,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     250,
-                    1,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 1"] ), 
                         new KeyValuePair<int, SkillStruct>(30, skills["Horizontal Blow 2"] ),
@@ -319,7 +319,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     130,
-                    1,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 1"] ), 
                         new KeyValuePair<int, SkillStruct>(30, skills["Horizontal Blow 2"] ),
@@ -340,7 +340,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     70,
-                    1,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 2"] ), 
                         new KeyValuePair<int, SkillStruct>(30, skills["Horizontal Blow 3"] ),
@@ -351,6 +351,24 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>(),
                     ""));
 
+        }
+
+        public static SkillStruct GenerateSkillStruct()
+        {
+            SkillStruct skill = new SkillStruct();
+
+            skill.name = "Generated Skill";
+            skill.pos = new Vector2(5f, 0f);
+            skill.size = new Vector2(20f, 20f);
+            skill.center = new Vector2(10f, 10f);
+            skill.blows = new List<KeyValuePair<int, SkillStruct>>();
+            skill.statIncrement = new List<KeyValuePair<String, int>>();
+            skill.velocity = new Vector2(185f, 0f);
+            skill.duration = 300;
+            skill.force = 100;
+            skill.cue = "";
+            
+            return skill;
         }
 
         private static void LoadSkillStruct(string path)
