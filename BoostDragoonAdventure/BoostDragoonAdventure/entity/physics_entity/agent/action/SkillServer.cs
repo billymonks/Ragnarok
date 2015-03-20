@@ -11,12 +11,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
     {
         public String name;
         public Vector2 pos, size, center, velocity; //relative to parent
-        public int duration, force;
+        public int duration, force, directionChange;
         public List<KeyValuePair<int, SkillStruct>> blows;
         public List<KeyValuePair<String, int>> statIncrement;
         public String cue;
 
-        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, int duration, int force, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue)
+        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue)
         {
             this.name = name;
             this.pos = pos;
@@ -25,6 +25,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.velocity = velocity;
             this.duration = duration;
             this.force = force;
+            this.directionChange = directionChange;
             this.blows = blows;
             this.statIncrement = statIncrement;
             this.cue = cue;
@@ -48,6 +49,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     160,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10) },
                     "whsh"));
@@ -61,6 +63,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -20) },
                     "whsh"));
@@ -73,6 +76,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "whsh"));
@@ -85,6 +89,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "whsh"));
@@ -97,6 +102,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "whsh"));
@@ -109,6 +115,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "whsh"));
@@ -121,6 +128,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     120,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "whsh"));
@@ -133,6 +141,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     90,
+                    0,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Vertical Blow 1"] ), 
@@ -152,6 +161,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     130,
+                    0,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Vertical Blow 1"] ), 
@@ -173,6 +183,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(35f, 0f),
                     60,
                     500,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh"));
@@ -185,6 +196,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(38f, 0f),
                     60,
                     500,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh"));
@@ -197,6 +209,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(41f, 0f),
                     60,
                     500,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh"));
@@ -209,6 +222,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(38f, 0f),
                     60,
                     500,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh"));
@@ -221,6 +235,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(35f, 0f),
                     60,
                     300,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh"));
@@ -233,6 +248,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(50f, 0f),
                     120,
                     700,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion"));
@@ -245,6 +261,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(60f, 0f),
                     120,
                     700,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion"));
@@ -257,6 +274,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(65f, 0f),
                     120,
                     700,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion"));
@@ -269,6 +287,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(60f, 0f),
                     120,
                     700,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion"));
@@ -281,6 +300,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Vector2(50f, 0f),
                     120,
                     700,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>(),
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion"));
@@ -293,6 +313,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
                     250,
+                    0,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 1"] ), 
@@ -320,6 +341,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     130,
                     0,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 1"] ), 
                         new KeyValuePair<int, SkillStruct>(30, skills["Horizontal Blow 2"] ),
@@ -341,6 +363,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     Vector2.Zero,
                     70,
                     0,
+                    0,
                     new List<KeyValuePair<int, SkillStruct>>() { 
                         new KeyValuePair<int, SkillStruct>(0, skills["Horizontal Blow 2"] ), 
                         new KeyValuePair<int, SkillStruct>(30, skills["Horizontal Blow 3"] ),
@@ -353,21 +376,46 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         }
 
-        public static SkillStruct GenerateSkillStruct()
+        public static SkillStruct GenerateSkillStruct(int a, int b, int c, int d, int e)
         {
             SkillStruct skill = new SkillStruct();
 
             skill.name = "Generated Skill";
             skill.pos = new Vector2(5f, 0f);
-            skill.size = new Vector2(20f, 20f);
-            skill.center = new Vector2(10f, 10f);
+            skill.size = new Vector2(10f, 10f);
+            skill.center = new Vector2(5f, 5f);
             skill.blows = new List<KeyValuePair<int, SkillStruct>>();
             skill.statIncrement = new List<KeyValuePair<String, int>>();
-            skill.velocity = new Vector2(185f, 0f);
-            skill.duration = 300;
+            skill.velocity = new Vector2(185f + b * 10f, 0f);
+            skill.duration = 300 + a * 100;
             skill.force = 100;
+            skill.directionChange = 0;
             skill.cue = "";
+
+            for (int i = 0; i < d; i++)
+            {
+                skill.blows.Add(new KeyValuePair<int, SkillStruct>((i + 1) * 100, GenerateSkillStructDirectionChange(45, i, e)));
+            }
             
+            return skill;
+        }
+
+        private static SkillStruct GenerateSkillStructDirectionChange(int spread, int n, int m)
+        {
+            SkillStruct skill = new SkillStruct();
+
+            skill.name = "Generated Skill DC";
+            skill.pos = new Vector2(5f, 0f);
+            skill.size = new Vector2(10f, 10f);
+            skill.center = new Vector2(5f, 5f);
+            skill.blows = new List<KeyValuePair<int, SkillStruct>>();
+            skill.statIncrement = new List<KeyValuePair<String, int>>();
+            skill.velocity = new Vector2(185f + 15 * 10f, 0f);
+            skill.duration = 700;
+            skill.force = 100;
+            skill.directionChange = m != 1 ? -(spread / 2) + (n % m) * (spread / (m - 1)) : 0;
+            skill.cue = "";
+
             return skill;
         }
 

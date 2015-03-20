@@ -108,6 +108,9 @@ namespace wickedcrush.display._3d
 
         protected void CreateParallaxVertices(Map map)
         {
+
+            
+
             parallaxVertices = new List<VertexPositionColor>();
 
             bool[,] data = LayerTransformations.ScaleLayer(map.getLayer(LayerType.DEATHSOUP).data, 2);
@@ -122,6 +125,9 @@ namespace wickedcrush.display._3d
                     }
                 }
             }
+
+            if (parallaxVertices.Count == 0)
+                return;
 
             parallaxBuffer = new VertexBuffer(game.GraphicsDevice, typeof(VertexPositionColor), parallaxVertices.Count, BufferUsage.WriteOnly);
             parallaxBuffer.SetData(parallaxVertices.ToArray());
@@ -248,6 +254,7 @@ namespace wickedcrush.display._3d
             game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
             parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
             parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
+            if(parallaxVertices.Count>0)
             game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
 
             game.GraphicsDevice.SetVertexBuffer(buffer);

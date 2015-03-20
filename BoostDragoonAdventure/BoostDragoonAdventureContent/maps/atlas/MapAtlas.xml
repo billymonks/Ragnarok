@@ -19,4 +19,7 @@
   <map name="testMap" filename="Content/maps/full/testMap.xml">
     <connection id="0" doorIndex="0">variety</connection>
   </map>
+  <map name="big empty test" filename="Content/maps/full/big_empty_test.xml">
+    <connection id="0" doorIndex="0">big empty test</connection>
+  </map>
 </atlas>

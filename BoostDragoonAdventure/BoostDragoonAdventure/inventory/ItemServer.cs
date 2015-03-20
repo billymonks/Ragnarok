@@ -158,11 +158,11 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("gen charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct());
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 5, 0, 6, 3));
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct());
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 15, 0, 6, 3));
                    }
                    a.stats.addTo("boost", -100);
                    a.stats.set("gen charge", 0);

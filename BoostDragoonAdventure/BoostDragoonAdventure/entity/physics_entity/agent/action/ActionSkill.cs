@@ -32,8 +32,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
-            new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
-                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing)))), 
+            new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)))), 
             skillStruct.size, 
             skillStruct.center, 
             false, 
@@ -54,16 +54,17 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 this.parent = parent;
             }
             this.facing = parent.facing;
+            this.movementDirection = parent.movementDirection + skillStruct.directionChange;
             this.gameplay = gameplay;
 
-            bodySpriter.setAngle(-(float)this.parent.facing);
+            bodySpriter.setAngle(-(float)(this.movementDirection%360));
 
             this.statIncrement = skillStruct.statIncrement;
 
             this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
 
-            velocity = new Vector2((float)( skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)parent.facing)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)parent.facing))),
-                (float) (skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)parent.facing)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)parent.facing))));
+            velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
+                (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
 
             LoadBlows(skillStruct.blows, gameplay);
 

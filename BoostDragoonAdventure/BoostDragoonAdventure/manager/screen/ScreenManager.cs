@@ -28,8 +28,11 @@ namespace wickedcrush.manager.screen
         RenderTarget2D renderTargetBlurred2;
         RenderTarget2D renderTargetDepth;
 
+        RenderTarget2D spriteTarget;
+
         Effect effectPostDoF;
         Effect gaussianBlurEffect;
+        Effect spriteEffect;
 
         float focusDistance = 0;
         float focusRange = 0;
@@ -77,8 +80,18 @@ namespace wickedcrush.manager.screen
                 _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 _game.GraphicsDevice.PresentationParameters.DepthStencilFormat);
 
+            spriteTarget = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                _game.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+
             effectPostDoF = _game.Content.Load<Effect>("fx/PostProcessDoF");
             gaussianBlurEffect = _game.Content.Load<Effect>("fx/GaussianBlur");
+            spriteEffect = _game.Content.Load<Effect>("fx/SpriteEffect");
+            //spriteEffect = new BasicEffect(_game.GraphicsDevice);
 
             
 
@@ -172,12 +185,16 @@ namespace wickedcrush.manager.screen
         public void Draw(GameTime gameTime)
         {
             
-            //basicEffect.
-
             
-            //_game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            _game.GraphicsDevice.SetRenderTarget(spriteTarget);
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
+            
+            
             _game.GraphicsDevice.SetRenderTarget(renderTarget);
             _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+
+            
+
             
             int screenIndex = 0;
 
@@ -193,7 +210,7 @@ namespace wickedcrush.manager.screen
             for (int i = screenIndex; i < screenList.Count; i++)
             {
 
-                screenList[i].Render(renderTarget, renderTargetDepth);
+                screenList[i].Render(renderTarget, renderTargetDepth, spriteTarget);
 
 
 
@@ -202,9 +219,18 @@ namespace wickedcrush.manager.screen
                 
             }
 
-            //_game.GraphicsDevice.SetRenderTarget(renderTargetBlurred);
+            _game.GraphicsDevice.SetRenderTarget(renderTarget);
+            _game.spriteBatch.Begin(0, BlendState.AlphaBlend, null, null, null, spriteEffect);
+            _game.spriteBatch.Draw(spriteTarget, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
+            _game.spriteBatch.End();
 
-            //_game.GraphicsDevice.Clear(Color.Black);
+            _game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
+            
+
+            //DrawFullscreenQuad(spriteTarget, renderTarget,
+                               //spriteEffect,
+                               //IntermediateBuffer.PreBloom);
 
             // Pass 2: draw from rendertarget 1 into rendertarget 2,
             // using a shader to apply a horizontal gaussian blur filter.
@@ -247,6 +273,14 @@ namespace wickedcrush.manager.screen
                 Stream stream = File.Create("blurred" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
 
                 renderTargetBlurred.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F4))
+            {
+                DateTime date = DateTime.Now; //Get the date for the file name
+                Stream stream = File.Create("sprites" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+
+                spriteTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
             }
 
             SetShaderParameters(355, 215, 150, 850);

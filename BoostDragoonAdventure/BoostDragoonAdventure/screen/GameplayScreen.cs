@@ -44,6 +44,8 @@ namespace wickedcrush.screen
         private bool testMode;
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
+
+        public Effect spriteEffect;
         
         public GameplayScreen(GameBase game, String mapName)
         {
@@ -56,6 +58,7 @@ namespace wickedcrush.screen
             Initialize(game, mapName, false);
 
         }
+
 
         public GameplayScreen(GameBase game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
         {
@@ -132,7 +135,8 @@ namespace wickedcrush.screen
 
         private void LoadContent(GameBase game)
         {
-            
+            spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
+            //spriteEffect = new BasicEffect(game.GraphicsDevice);
         }
 
         public override void Update(GameTime gameTime)
@@ -155,18 +159,20 @@ namespace wickedcrush.screen
 
         }
 
-        public override void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget)
+        public override void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget);
+            RenderSprites(renderTarget, depthTarget, spriteTarget);
         }
 
-        public override void Draw()
+        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
             //game.GraphicsDevice.Clear(Color.Black);
+            game.GraphicsDevice.SetRenderTarget(renderTarget);
+
             game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
             gameplayManager.entityManager.Draw();
             game.spriteBatch.End();
-            
             
         }
 

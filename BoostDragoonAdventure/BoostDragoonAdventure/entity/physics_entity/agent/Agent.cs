@@ -344,44 +344,31 @@ namespace wickedcrush.entity.physics_entity.agent
         public override void Draw()
         {
 
-            Vector2 spritePos = new Vector2((bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X ),
-                (bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height));
+            Vector2 spritePos = new Vector2(
+                (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
+                ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 200 * (2f - factory._gm.camera.zoom) - 100)
+                );
 
-            //if (spritePos.Y <= -200f && spritePos.Y >= 800f)
-            //{
-               // return;
-            //}
 
-            float near = -800f;
-            float far = 800f;
 
-            float depth = 1f - ((((spritePos.Y + height) - near - center.Y)) / (far - near));
-
-            //float depth = 0f;
+            float depth = MathHelper.Lerp(0.97f, 0.37f, spritePos.Y / -1080f); //so bad
 
             bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
 
             bodySpriter.SetDepth(depth);
 
-            bodySpriter.update(spritePos.X * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                (spritePos.Y * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 200 * (2f - factory._gm.camera.zoom) - 100));
+            bodySpriter.update(spritePos.X ,
+                spritePos.Y );
 
-
-            //float top = sPlayer.getBoundingBox().top;
-            //float bottom = sPlayer.getBoundingBox().bottom;
             
             _spriterManager.DrawPlayer(bodySpriter);
-
-            float hudDepthIncrement = 0.0001f;
 
             foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
             {
                 s.Value.player.update(spritePos.X * 2.25f + s.Value.offset.X,
                     (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100) + s.Value.offset.Y);
-                s.Value.player.SetDepth(0.1f - hudDepthIncrement);
-                _spriterManager.DrawPlayer(s.Value.player);
 
-                //hudDepthIncrement += 0.0001f;
+                _spriterManager.DrawPlayer(s.Value.player);
             }
 
 
