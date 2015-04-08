@@ -22,7 +22,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall = false, piercing = true, ignoreSameParent = true, just_for_show = false;
+        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, relative = false;
 
         private Vector2 velocity;
 
@@ -69,6 +69,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             LoadBlows(skillStruct.blows, gameplay);
 
             cue = skillStruct.cue;
+
+            this.relative = skillStruct.relative;
 
             Initialize();
         }
@@ -137,6 +139,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 }
             }
 
+            if (relative)
+            {
+                SetPos(parent.pos);
+            }
+
             if (timers["duration"].isDone())
                 this.remove = true;
 
@@ -156,7 +163,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
             sPlayers = new Dictionary<string, SpriterPlayer>();
             sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.loaders["loader1"]));
 
+            sPlayers["actionskill"].setAnimation("attack1", 0, 0);
             bodySpriter = sPlayers["actionskill"];
+            
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
 
@@ -202,7 +211,6 @@ namespace wickedcrush.entity.physics_entity.agent.action
         protected override void Dispose()
         {
             base.Dispose();
-
         }
     }
 }

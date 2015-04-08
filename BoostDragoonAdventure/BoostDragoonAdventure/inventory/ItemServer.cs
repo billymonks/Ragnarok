@@ -148,6 +148,7 @@ namespace wickedcrush.inventory
                new Item("Generation Sword", (a, i) =>
                {
                    a.stats.set("gen charge", 0);
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
                },
                (a, i) =>
                {
@@ -158,11 +159,11 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("gen charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 5, 0, 6, 3));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 3, 3, 1));
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 15, 0, 6, 3));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 0, 5, 5, 1));
                    }
                    a.stats.addTo("boost", -100);
                    a.stats.set("gen charge", 0);

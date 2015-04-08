@@ -61,6 +61,12 @@ namespace wickedcrush.entity.physics_entity
             pos.Y = bodies["body"].Position.Y;
         }
 
+        public void SetPos(Vector2 pos)
+        {
+            this.pos = pos;
+            this.bodies["body"].Position = pos;
+        }
+
         public override void Remove()
         {
             removeBodies();

@@ -365,8 +365,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
             foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
             {
-                s.Value.player.update(spritePos.X * 2.25f + s.Value.offset.X,
-                    (spritePos.Y * -2.25f * (float)(Math.Sqrt(2) / 2) - 100) + s.Value.offset.Y);
+                s.Value.player.SetDepth(0f);
+                s.Value.player.update(spritePos.X + s.Value.offset.X,
+                    (spritePos.Y + s.Value.offset.Y));
 
                 _spriterManager.DrawPlayer(s.Value.player);
             }
