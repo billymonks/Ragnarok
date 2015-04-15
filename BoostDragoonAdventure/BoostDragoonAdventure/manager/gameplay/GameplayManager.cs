@@ -75,7 +75,8 @@ namespace wickedcrush.manager.gameplay
             
 
             _game.soundManager.setCam(camera);
-
+            _game.soundManager.addCueInstance("music", "musicInstance", true);
+            _game.soundManager.playCueInstance("musicInstance");
             
             
             if (entityManager == null)
@@ -98,11 +99,18 @@ namespace wickedcrush.manager.gameplay
             
         }
 
+        public void Dispose()
+        {
+            _game.soundManager.stopCueInstance("musicInstance");
+        }
+
         public void Update(GameTime gameTime)
         {
             //entityManager.DepthSort();
             _playerManager.Update(gameTime); //nothing but panels
             factory.Update();
+
+            _game.soundManager.setGlobalVariable("InCombat", 0f);
 
             entityManager.Update(gameTime);
             camera.Update();

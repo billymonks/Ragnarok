@@ -52,7 +52,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 5, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 5, factory._spriterManager.spriters["all"].loader));
 
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);

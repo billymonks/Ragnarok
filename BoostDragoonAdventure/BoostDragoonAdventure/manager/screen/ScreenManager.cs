@@ -191,7 +191,7 @@ namespace wickedcrush.manager.screen
             
             
             _game.GraphicsDevice.SetRenderTarget(renderTarget);
-            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             
 

@@ -229,12 +229,16 @@ namespace wickedcrush.screen
 
         public override void Dispose()
         {
+            
             if (testMode)
             {
                 game.playerManager.LoadTempStats();
             } else {
                 game.playerManager.saveAllPlayers();
             }
+
+            gameplayManager.Dispose();
+
             game.screenManager.RemoveScreen(this);
         }
     }

@@ -161,7 +161,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.spriters["all"].loader));
 
             sPlayers["actionskill"].setAnimation("attack1", 0, 0);
             bodySpriter = sPlayers["actionskill"];

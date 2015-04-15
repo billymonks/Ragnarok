@@ -122,8 +122,8 @@ namespace wickedcrush.entity.physics_entity.agent
         protected virtual void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.loaders["loader1"]));
-            sPlayers.Add("hud", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 4, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.spriters["all"].loader));
+            sPlayers.Add("hud", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 4, factory._spriterManager.spriters["all"].loader));
 
             bodySpriter = sPlayers["cursor"];
             bodySpriter.setAnimation("hover", 0, 0);
@@ -134,7 +134,7 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             int hud = entityId;
             SpriterOffsetStruct temp = new SpriterOffsetStruct(
-                new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), hud, factory._spriterManager.loaders["loader1"]), 
+                new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), hud, factory._spriterManager.spriters["all"].loader), 
                 offset);
             temp.player.setAnimation(elementName, 0, 0);
             hudSpriters.Add(key, temp);
@@ -346,7 +346,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             Vector2 spritePos = new Vector2(
                 (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 200 * (2f - factory._gm.camera.zoom) - 100)
+                ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                 );
 
 
@@ -485,6 +485,11 @@ namespace wickedcrush.entity.physics_entity.agent
                 else
                 {
                     stats.set(pair.Key, pair.Value);
+                }
+
+                if (pair.Key.Equals("hp"))
+                {
+                    factory.addText(pair.Value.ToString(), pos, 1000);
                 }
             }
 

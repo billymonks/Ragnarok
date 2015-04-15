@@ -78,8 +78,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.loaders["loader1"]));
-            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.loaders["loader1"]));
+            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
+            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
             //sPlayer.setAnimation("standing_north", 0, 0);
             bodySpriter = sPlayers["standing"];
             bodySpriter.setFrameSpeed(20);
@@ -203,7 +203,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         //UpdateItemA();
                         //UpdateItemB();
 
-                        _sound.stopCueInstance(id + "blast off", emitter);
+                        _sound.stopCueInstance(id + "blast off");
 
 
                         /*if ((canAttackWhileOverheating || !overheating) && !busy)

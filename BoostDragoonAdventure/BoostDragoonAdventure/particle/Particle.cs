@@ -46,8 +46,8 @@ namespace wickedcrush.particle
             animation = new SpriterOffsetStruct(
                 new SpriterPlayer(
                     factory._spriterManager.spriters[p.spriterName].getSpriterData(), 
-                    p.entityIndex, 
-                    factory._spriterManager.loaders["loader1"]), 
+                    p.entityIndex,
+                    factory._spriterManager.spriters[p.spriterName].loader), 
                     Vector2.Zero);
 
             this.factory = factory;

@@ -230,6 +230,12 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
+        public void addText(String text, Vector2 pos, int duration)
+        {
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this);
+            _em.addEntity(textEnt);
+        }
+
         public void spawnPlayers(int doorIndex)
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();

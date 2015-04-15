@@ -51,6 +51,11 @@ namespace wickedcrush.manager.audio
             audioEngine.Update();
         }
 
+        public void setGlobalVariable(String name, float value)
+        {
+            audioEngine.SetGlobalVariable(name, value);
+        }
+
         public void setCam(Camera gameCam)
         {
             _gameCam = gameCam;
@@ -85,18 +90,24 @@ namespace wickedcrush.manager.audio
 
         }
 
+        public void playCueInstance(String instanceKey)
+        {
+            if (cueList.ContainsKey(instanceKey) && cueList[instanceKey].IsPrepared)
+            {
+                cueList[instanceKey].Play();
+            }
+        }
+
         public void playCueInstance(String instanceKey, AudioEmitter emitter)
         {
             if (cueList.ContainsKey(instanceKey) && cueList[instanceKey].IsPrepared)
             {
                 cueList[instanceKey].Apply3D(listener, emitter);
-                //if (cueList[instanceKey].IsStopped)
-                //cueList[instanceKey].Resume();
                 cueList[instanceKey].Play();
             }
         }
 
-        public void stopCueInstance(String instanceKey, AudioEmitter emitter)
+        public void stopCueInstance(String instanceKey)
         {
             if (cueList.ContainsKey(instanceKey))
             {

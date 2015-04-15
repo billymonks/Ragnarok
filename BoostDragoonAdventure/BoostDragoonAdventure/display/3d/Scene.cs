@@ -66,7 +66,7 @@ namespace wickedcrush.display._3d
 
         TextureAtlas textureAtlas;
 
-        
+        public Texture2D background;
 
         public Scene(GameBase game)
         {
@@ -74,7 +74,7 @@ namespace wickedcrush.display._3d
             
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
             parallaxEffect = game.Content.Load<Effect>(@"fx/ParallaxEffect");
-
+            background = game.Content.Load<Texture2D>(@"img/tex/rock_normal2");
             
             
         }
@@ -226,12 +226,12 @@ namespace wickedcrush.display._3d
             //{
                 //artLayer.DrawLayer(game, gameplay, normalMappingEffect, lightList);
             //}
+            
 
             if (solidGeomVertices.Count <= 0)
                 return;
 
-            //game.GraphicsDevice.SetRenderTarget(renderTarget);
-
+            
             game.GraphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
             game.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
@@ -244,7 +244,7 @@ namespace wickedcrush.display._3d
             game.GraphicsDevice.BlendState = BlendState.Opaque;
 
             game.GraphicsDevice.SetRenderTarget(depthTarget);
-            game.GraphicsDevice.Clear(Color.Black);
+            //game.GraphicsDevice.Clear(Color.Black);
 
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["DisplayDepth"];
             normalMappingEffect.CurrentTechnique.Passes["Depth"].Apply();
@@ -261,6 +261,8 @@ namespace wickedcrush.display._3d
 
             game.GraphicsDevice.SetRenderTarget(renderTarget);
             game.GraphicsDevice.Clear(Color.Black);
+
+            
 
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"];
             normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();

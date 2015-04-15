@@ -13,6 +13,9 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 {
     public class AimTurret : Agent
     {
+
+        public int fireSpeed = 1000;
+
         public AimTurret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
@@ -26,10 +29,10 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
             this.facing = facing;
 
-            timers.Add("firing", new Timer(1500));
+            timers.Add("firing", new Timer(fireSpeed));
             
 
-            activeRange = 200f;
+            activeRange = 400f;
         }
 
         public override void Update(GameTime gameTime)
@@ -49,10 +52,16 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             {
                 fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
                 timers["firing"].resetAndStart();
+                _sound.setGlobalVariable("InCombat", 1f);
             }
             else if (!timers["firing"].isActive())
             {
                 timers["firing"].resetAndStart();
+                _sound.setGlobalVariable("InCombat", 1f);
+            }
+            else
+            {
+                _sound.setGlobalVariable("InCombat", 1f);
             }
         }
 

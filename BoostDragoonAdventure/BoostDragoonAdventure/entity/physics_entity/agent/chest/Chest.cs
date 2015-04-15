@@ -102,7 +102,9 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     if(((PlayerAgent)e).InteractPressed())
                     {
                         opened = true;
-                        ((PlayerAgent)e).stats.inventory.receiveItem(ItemServer.getRandomItem());
+                        Item temp = ItemServer.getRandomItem();
+                        factory.addText("Oh, WOW!!! You got " + temp.name + "!", this.pos, 3000);
+                        ((PlayerAgent)e).stats.inventory.receiveItem(temp);
                     }
                 }
             }

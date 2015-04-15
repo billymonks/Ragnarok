@@ -21,7 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500;
+        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, aggroDistance = 70;
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)
@@ -77,6 +77,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         testColor = Color.White;
                         ResetAllTimers();
+
+                        _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("post_attack",
                 new State("post_attack",
@@ -88,6 +90,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         {
                             timers["post_attack"].reset();
                         }
+
+                        _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("attack_tell",
                 new State("attack_tell",
@@ -107,10 +111,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             timers["post_attack"].resetAndStart();
                             timers["attack_tell"].reset();
                         }
+
+                        _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("chase",
                 new State("chase",
-                    c => distanceToTarget() > 40,
+                    c => distanceToTarget() > aggroDistance,
                     c =>
                     {
                         if (!timers["navigation"].isActive())
@@ -126,10 +132,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         FollowPath(false);
 
-                        if (distanceToTarget() < 40)
+                        if (distanceToTarget() < aggroDistance)
                             timers["attack_tell"].resetAndStart();
 
                         testColor = Color.Green;
+
+                        _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("idle",
                 new State("idle",
@@ -138,8 +146,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         if(target==null)
                             setTargetToClosestPlayer();
-                        else if(distanceToTarget() < 40)
+                        else if (distanceToTarget() < aggroDistance)
+                        {
                             timers["attack_tell"].resetAndStart();
+                            _sound.setGlobalVariable("InCombat", 1f);
+                        }
+                        else
+                        {
+                            _sound.setGlobalVariable("InCombat", 1f);
+                        }
                         
                     }));
             sm = new StateMachine(ctrl);
