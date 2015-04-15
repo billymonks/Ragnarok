@@ -136,8 +136,9 @@
       <Name>Wicked Crush</Name>
     </ProjectReference>
     <ProjectReference Include="..\WCEditContent\WCEditContent.contentproj">
-      <Name>WCEditContent</Name>
+      <Name>WCEditContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{91D833F6-EFF9-46D0-A753-7C0E5D5DF317}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

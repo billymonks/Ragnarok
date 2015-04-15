@@ -247,8 +247,8 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\SpriterXNATest\SpriterTest\Spriter\Spriter.csproj">
-      <Project>{77AC0DDD-09FB-4025-95BE-018E2269D3D4}</Project>
+    <ProjectReference Include="..\..\Spriter\Spriter.csproj">
+      <Project>{E217FFE8-BECB-4A1C-8407-64D128517318}</Project>
       <Name>Spriter</Name>
     </ProjectReference>
     <ProjectReference Include="..\BoostDragoonAdventureContent\BoostDragoonAdventureContent.contentproj">
