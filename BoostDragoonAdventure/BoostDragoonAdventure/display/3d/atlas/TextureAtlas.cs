@@ -42,7 +42,7 @@ namespace wickedcrush.display._3d.atlas
                 gd,
                 bounding.Width,
                 bounding.Height,
-                false,
+                true,
                 gd.PresentationParameters.BackBufferFormat,
                 DepthFormat.None);
 
