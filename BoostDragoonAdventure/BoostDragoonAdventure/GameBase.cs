@@ -180,7 +180,7 @@ namespace wickedcrush
 
             double fps = (1000 / gameTime.ElapsedGameTime.TotalMilliseconds);
             fps = Math.Round(fps, 0);
-            Window.Title = "Wicked Crush " + fps.ToString() + " FPS";
+            Window.Title = "Wicked Crush";
         }
 
         
