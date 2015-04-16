@@ -58,6 +58,9 @@ namespace Com.Brashmonkey.Spriter.objects
 
 		public virtual void setRef(Com.Brashmonkey.Spriter.file.Reference @ref)
 		{
+            if (null == @ref)
+                return;
+
 			this.@ref = @ref;
 			this.rect.set(@ref.dimensions);
 		}
