@@ -24,6 +24,7 @@ using wickedcrush.task;
 using wickedcrush.manager.map;
 using wickedcrush.screen;
 using wickedcrush.display.spriter;
+using wickedcrush.manager.particle;
 
 namespace wickedcrush.manager.gameplay
 {
@@ -33,9 +34,12 @@ namespace wickedcrush.manager.gameplay
         public Map map;
 
         public EntityManager entityManager;
+        public ParticleManager particleManager;
+
         public PlayerManager _playerManager; //replace with panelManager
         public NetworkManager _networkManager;
         public RoomManager _roomManager;
+        
 
         
 
@@ -84,11 +88,16 @@ namespace wickedcrush.manager.gameplay
             else
                 entityManager.RemoveAll();
 
+            if (particleManager == null)
+                particleManager = new ParticleManager(_game);
+            else
+                particleManager.RemoveAll();
+
             _playerManager = _game.playerManager;
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
 
-            factory = new EntityFactory(_game, this, entityManager, _roomManager, w);
+            factory = new EntityFactory(_game, this, entityManager, particleManager, _roomManager, w);
 
             LoadContent();
 
@@ -113,6 +122,7 @@ namespace wickedcrush.manager.gameplay
             _game.soundManager.setGlobalVariable("InCombat", 0f);
 
             entityManager.Update(gameTime);
+            particleManager.Update(gameTime);
             camera.Update();
 
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));

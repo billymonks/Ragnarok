@@ -23,6 +23,7 @@ using wickedcrush.entity.physics_entity.agent.attack;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
+using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -47,6 +48,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected StateMachine sm;
         protected EntityFactory factory;
         protected SpriterManager _spriterManager;
+        protected ParticleEmitter particleEmitter;
 
         public List<Entity> proximity;
         protected Entity target;
@@ -61,10 +63,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public Dictionary<String,SpriterPlayer> sPlayers;
 
-        public SpriterPlayer bodySpriter;
+        public SpriterPlayer bodySpriter, overlaySpriter;
         public Dictionary<String, SpriterOffsetStruct> hudSpriters;
 
-        
+        Random random = new Random();
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -92,6 +94,8 @@ namespace wickedcrush.entity.physics_entity.agent
             proximity = new List<Entity>();
             hudSpriters = new Dictionary<String, SpriterOffsetStruct>();
             this.name = "Agent";
+
+            this.particleEmitter = new ParticleEmitter(factory._particleManager);
 
             SetupSpriterPlayer();
         }
@@ -363,6 +367,18 @@ namespace wickedcrush.entity.physics_entity.agent
             
             _spriterManager.DrawPlayer(bodySpriter);
 
+            if (null != overlaySpriter)
+            {
+                overlaySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+                overlaySpriter.SetDepth(depth + 0.001f);
+                overlaySpriter.update(spritePos.X,
+                spritePos.Y);
+
+                _spriterManager.DrawPlayer(overlaySpriter); // todo: depth offset
+
+            }
+
+
             foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
             {
                 s.Value.player.SetDepth(0f);
@@ -489,9 +505,12 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 if (pair.Key.Equals("hp"))
                 {
-                    factory.addText(pair.Value.ToString(), pos, 1000);
+                    factory.addText(pair.Value.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
                 }
             }
+
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X, this.height, this.pos.Y), new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit");
+            particleEmitter.EmitParticles(ps, this.factory, 3);
 
             Vector2 v = bodies["body"].LinearVelocity;
 

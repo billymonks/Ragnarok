@@ -176,13 +176,14 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void HandleCollisions()
         {
-            if (just_for_show)
+            if (just_for_show || this.remove)
                 return;
 
             var c = bodies["body"].ContactList;
             while (c != null)
             {
                 if (c.Contact.IsTouching
+                    && !this.remove
                     && c.Other.UserData != null
                     && c.Other.UserData is Agent
                     && !((Agent)c.Other.UserData).noCollision
@@ -194,6 +195,14 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         && ignoreSameParent)
                         break;
 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     ((Agent)c.Other.UserData).TakeSkill(this);
 
                     if (!piercing)

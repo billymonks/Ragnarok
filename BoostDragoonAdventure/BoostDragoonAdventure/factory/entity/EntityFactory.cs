@@ -32,6 +32,7 @@ using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility;
+using wickedcrush.manager.particle;
 
 namespace wickedcrush.factory.entity
 {
@@ -42,25 +43,31 @@ namespace wickedcrush.factory.entity
         private PlayerManager _pm;
         public GameplayManager _gm;
         private ControlsManager _cm;
+        public ParticleManager _particleManager;
         private SoundManager _sm;
         public World _w;
         public RoomManager _rm;
         public SpriterManager _spriterManager;
 
+        public Random random;
+
         private List<Door> doorList;
 
-        public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, RoomManager rm, World w)
+        public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, ParticleManager particleManager, RoomManager rm, World w)
         {
 
             this._game = game;
             this._em = em;
             this._pm = _game.playerManager;
             this._gm = gm;
+            this._particleManager = particleManager;
             this._cm = _game.controlsManager;
             this._sm = _game.soundManager;
             this._rm = rm;
             this._w = w;
             this._spriterManager = game.spriterManager;
+
+            random = new Random();
 
             doorList = new List<Door>();
         }

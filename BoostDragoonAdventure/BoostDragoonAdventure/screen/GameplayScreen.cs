@@ -172,6 +172,7 @@ namespace wickedcrush.screen
 
             game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
             gameplayManager.entityManager.Draw();
+            gameplayManager.particleManager.Draw();
             game.spriteBatch.End();
             
         }

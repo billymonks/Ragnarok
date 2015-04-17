@@ -18,6 +18,7 @@ using Microsoft.Xna.Framework.Audio;
 using wickedcrush.inventory;
 using wickedcrush.player;
 using Com.Brashmonkey.Spriter.player;
+using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -36,6 +37,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         //pollable gameplay stuff:
         private bool dodgeSuccess = false;
+
+        private Vector2 unitVector = Vector2.Zero;
 
         #endregion
 
@@ -174,16 +177,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateItems();
 
-                        /*if (controls.ActionPressed())
-                        {
-                            stats.addTo("boost", -100);
-                            attackForward(new Vector2(36, 36), 6, 70);
-                            //_sound.playSound("whsh");
-                            _sound.playCue("whsh", emitter);
-                        }*/
+                        
                         inCharge = false;
 
-                        //sPlayer.
+                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                        particleEmitter.EmitParticles(ps, this.factory, 1);
+
+                        
                     }));
 
 
@@ -200,54 +200,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         inCharge = false;
 
                         UpdateItems();
-                        //UpdateItemA();
-                        //UpdateItemB();
+                        
 
                         _sound.stopCueInstance(id + "blast off");
 
 
-                        /*if ((canAttackWhileOverheating || !overheating) && !busy)
-                        {
-                            if (controls.ActionPressed())
-                            {
-                                stats.addTo("boost", -70);
-                                attackForward(new Vector2(36, 36), 5, 50);
-                                //_sound.playSound("whsh");
-                                _sound.playCue("whsh", emitter);
-                            }
-
-                            if (controls.ActionHeld())
-                            {
-                                inCharge = true;
-                                chargeLevel++;
-
-                                if (chargeLevel > 25)
-                                    _sound.playCueInstance(id + "charging", emitter);
-
-                                if (chargeLevel == 75)
-                                    _sound.playCue("ping2", emitter);
-                            }
-                            else
-                            {
-                                if (chargeLevel >= 75)
-                                {
-                                    stats.addTo("boost", -170);
-                                    attackForward(new Vector2(36, 36), 8, 200);
-                                    _sound.playCue("smash", emitter);
-                                }
-                                else if (chargeLevel > 25)
-                                {
-                                    stats.addTo("boost", -120);
-                                    attackForward(new Vector2(36, 36), 6, 100);
-                                    _sound.playCue("smash", emitter);
-                                }
-
-                                _sound.stopCueInstance(id + "charging", emitter);
-                                chargeLevel = 0;
-                            }
-
-                            //put below in item update method
-                        }*/
+                        
 
                     }));
 
@@ -398,7 +356,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
 
-            Vector2 unitVector = new Vector2(
+            unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
                 (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
             );

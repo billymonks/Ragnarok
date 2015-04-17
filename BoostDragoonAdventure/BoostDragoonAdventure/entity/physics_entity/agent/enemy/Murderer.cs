@@ -21,7 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, aggroDistance = 70;
+        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30;
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)
@@ -116,7 +116,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("chase",
                 new State("chase",
-                    c => distanceToTarget() > aggroDistance,
+                    c => distanceToTarget() > attackRange,
                     c =>
                     {
                         if (!timers["navigation"].isActive())
@@ -132,7 +132,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         FollowPath(false);
 
-                        if (distanceToTarget() < aggroDistance)
+                        if (distanceToTarget() < attackRange)
                             timers["attack_tell"].resetAndStart();
 
                         testColor = Color.Green;
@@ -146,7 +146,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         if(target==null)
                             setTargetToClosestPlayer();
-                        else if (distanceToTarget() < aggroDistance)
+                        else if (distanceToTarget() < attackRange)
                         {
                             timers["attack_tell"].resetAndStart();
                             _sound.setGlobalVariable("InCombat", 1f);
