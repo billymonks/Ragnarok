@@ -81,10 +81,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
-            sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
+            //sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
+            //sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
+            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
             //sPlayer.setAnimation("standing_north", 0, 0);
-            bodySpriter = sPlayers["standing"];
+            bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
 
         }
@@ -114,6 +115,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             if (dodgeSuccess)
             {
+                factory.addText("Perfect Dodge!", pos + center, 1000);
                 dodgeSuccess = false;
                 return true;
             }
@@ -170,7 +172,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             timers["boostRecharge"].resetAndStart();
 
                         UpdateDirection(false);
-                        bodySpriter = sPlayers["boosting"];
+                        //bodySpriter = sPlayers["boosting"];
                         UpdateAnimation();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
@@ -195,7 +197,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         UpdateDirection(inCharge && lockChargeDirection);
                         
                         WalkForward();
-                        bodySpriter = sPlayers["standing"];
+                        //bodySpriter = sPlayers["standing"];
                         UpdateAnimation();
                         inCharge = false;
 
@@ -314,40 +316,62 @@ namespace wickedcrush.entity.physics_entity.agent.player
             //if (sPlayer == null)
                 //return;
 
+            String bad = "";
+
             switch (facing)
             {
                 case Direction.East:
-                    bodySpriter.setAnimation("east", 0, 0);
+                    bad += "east";
+                    
+                    //bodySpriter.setAnimation("east", 0, 0);
                     break;
 
                 case Direction.North:
-                    bodySpriter.setAnimation("north", 0, 0);
+                    bad += "north";
+                    //bodySpriter.setAnimation("north", 0, 0);
                     break;
 
                 case Direction.South:
-                    bodySpriter.setAnimation("south", 0, 0);
+                    bad += "south";
+                    //bodySpriter.setAnimation("south", 0, 0);
                     break;
 
                 case Direction.West:
-                    bodySpriter.setAnimation("west", 0, 0);
+                    bad += "west";
+                    //bodySpriter.setAnimation("west", 0, 0);
                     break;
 
                 case Direction.NorthEast:
-                    bodySpriter.setAnimation("northeast", 0, 0);
+                    bad += "northeast";
+                    //bodySpriter.setAnimation("northeast", 0, 0);
                     break;
 
                 case Direction.NorthWest:
-                    bodySpriter.setAnimation("northwest", 0, 0);
+                    bad += "northwest";
+                    //bodySpriter.setAnimation("northwest", 0, 0);
                     break;
 
                 case Direction.SouthEast:
-                    bodySpriter.setAnimation("southeast", 0, 0);
+                    bad += "southeast";
+                    //bodySpriter.setAnimation("southeast", 0, 0);
                     break;
 
                 case Direction.SouthWest:
-                    bodySpriter.setAnimation("southwest", 0, 0);
+                    bad += "southwest";
+                    //bodySpriter.setAnimation("southwest", 0, 0);
                     break;
             }
+
+            if (bodies["body"].LinearVelocity.Length() >= 1f)
+            {
+                bad += "_run_000";
+            }
+            else
+            {
+                bad += "_stand_000";
+            }
+
+            bodySpriter.setAnimation(bad, 0, 0);
         }
 
         protected void WalkForward()

@@ -14,6 +14,7 @@ using wickedcrush.helper;
 using FarseerPhysics.Factories;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -54,6 +55,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             base.Update(gameTime);
 
             UpdateHpBar();
+            UpdateAnimation();
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -158,6 +160,81 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         
                     }));
             sm = new StateMachine(ctrl);
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            //sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
+            //sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
+            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
+            //sPlayer.setAnimation("standing_north", 0, 0);
+            bodySpriter = sPlayers["you"];
+            bodySpriter.setFrameSpeed(20);
+
+        }
+
+        protected void UpdateAnimation()
+        {
+            //if (sPlayer == null)
+            //return;
+
+            String bad = "";
+
+            switch (facing)
+            {
+                case Direction.East:
+                    bad += "east";
+
+                    //bodySpriter.setAnimation("east", 0, 0);
+                    break;
+
+                case Direction.North:
+                    bad += "north";
+                    //bodySpriter.setAnimation("north", 0, 0);
+                    break;
+
+                case Direction.South:
+                    bad += "south";
+                    //bodySpriter.setAnimation("south", 0, 0);
+                    break;
+
+                case Direction.West:
+                    bad += "west";
+                    //bodySpriter.setAnimation("west", 0, 0);
+                    break;
+
+                case Direction.NorthEast:
+                    bad += "northeast";
+                    //bodySpriter.setAnimation("northeast", 0, 0);
+                    break;
+
+                case Direction.NorthWest:
+                    bad += "northwest";
+                    //bodySpriter.setAnimation("northwest", 0, 0);
+                    break;
+
+                case Direction.SouthEast:
+                    bad += "southeast";
+                    //bodySpriter.setAnimation("southeast", 0, 0);
+                    break;
+
+                case Direction.SouthWest:
+                    bad += "southwest";
+                    //bodySpriter.setAnimation("southwest", 0, 0);
+                    break;
+            }
+
+            if (bodies["body"].LinearVelocity.Length() >= 1f)
+            {
+                bad += "_run_000";
+            }
+            else
+            {
+                bad += "_stand_000";
+            }
+
+            bodySpriter.setAnimation(bad, 0, 0);
         }
 
         public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)

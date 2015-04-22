@@ -225,6 +225,7 @@ namespace wickedcrush.entity.physics_entity.agent
             }
             if (stats.get("stagger") >= stats.get("staggerLimit"))
             {
+                factory.addText("Staggered!", this.pos, 1000);
                 staggered = true;
                 stats.set("stagger", stats.get("staggerDuration"));
             }
@@ -354,12 +355,13 @@ namespace wickedcrush.entity.physics_entity.agent
                 );
 
 
-
-            float depth = MathHelper.Lerp(0.97f, 0.37f, spritePos.Y / -1080f); //so bad
+            float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
+            float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
 
             bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
 
             bodySpriter.SetDepth(depth);
+            //bodySpriter.SetDepth(0f);
 
             bodySpriter.update(spritePos.X ,
                 spritePos.Y );
@@ -517,6 +519,9 @@ namespace wickedcrush.entity.physics_entity.agent
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians((float)action.force.Key)),
                 (float)Math.Sin(MathHelper.ToRadians((float)action.force.Key)));
+
+            if(!staggered)
+                stats.addTo("stagger", action.force.Value);
 
             v.X += unitVector.X * (float)action.force.Value * 30f;
             v.Y += unitVector.Y * (float)action.force.Value * 30f;

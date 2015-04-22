@@ -56,20 +56,6 @@ namespace wickedcrush.entity.physics_entity.agent.chest
             bodies["body"].UserData = this;
             bodies["body"].IsSensor = false;
 
-            //FixtureFactory.AttachRectangle(1f, 1f, 1f, Vector2.Zero, bodies["hotspot"]);
-            //bodies["hotspot"].FixedRotation = true;
-            //bodies["hotspot"].LinearVelocity = Vector2.Zero;
-            //bodies["hotspot"].BodyType = BodyType.Static;
-            //bodies["hotspot"].IsSensor = true;
-
-            //bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - (center + new Vector2(20f, 20f))));
-            //FixtureFactory.AttachRectangle(size.X + 40f, size.Y + 40f, 1f, center + new Vector2(20f, 20f), bodies["activeArea"]);
-            //bodies["activeArea"].IsSensor = true;
-            //bodies["activeArea"].BodyType = BodyType.Static;
-            //bodies["activeArea"].LinearVelocity = Vector2.Zero;
-
-
-
         }
 
         private void SetupStateMachine()
@@ -103,7 +89,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     {
                         opened = true;
                         Item temp = ItemServer.getRandomItem();
-                        factory.addText("Oh, WOW!!! You got " + temp.name + "!", this.pos, 3000);
+                        factory.addText("You got " + temp.name + "!", this.pos, 3000);
                         ((PlayerAgent)e).stats.inventory.receiveItem(temp);
                     }
                 }

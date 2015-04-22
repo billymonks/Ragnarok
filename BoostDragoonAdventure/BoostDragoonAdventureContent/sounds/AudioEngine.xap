@@ -16,8 +16,8 @@ Global Settings
     Header File = AudioEngine.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 4054860235;
-    Last Modified High = 30439162;
+    Last Modified Low = 3724054955;
+    Last Modified High = 30439823;
 
     Category
     {
@@ -238,7 +238,7 @@ Global Settings
 
         RPC Curve
         {
-            Name = Sound::96f8fe25-f58a-43ee-a5df-d095eddda42f;
+            Name = Sound::3e744606-da01-4a0c-bd4c-099946d1686c;
             Property = 0;
             Sound = 1;
             Line Color = 4291128674;
@@ -309,8 +309,8 @@ Global Settings
         Find Best Quality = 0;
         High Freq Cut = 0;
         Loop = 0;
-        PC Format Tag = 2;
-        Samples Per Block = 128;
+        PC Format Tag = 353;
+        WMA Quality = 60;
     }
 }
 
@@ -322,20 +322,20 @@ Wave Bank
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
-    Compression Preset Name = <none>;
+    Compression Preset Name = Compression Preset;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 4055559160;
-    PC Bank Last Modified High = 30439162;
-    Bank Last Revised Low = 2521020343;
-    Bank Last Revised High = 30439162;
+    PC Bank Last Modified Low = 3782923418;
+    PC Bank Last Modified High = 30439823;
+    Bank Last Revised Low = 3782923418;
+    Bank Last Revised High = 30439823;
 
     Wave
     {
         Name = abraisive laser;
         File = bfxr\abraisive laser.wav;
-        Build Settings Last Modified Low = 2486991244;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308332039;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -357,8 +357,8 @@ Wave Bank
     {
         Name = beam me down;
         File = bfxr\beam me down.wav;
-        Build Settings Last Modified Low = 2486991244;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308342036;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -380,8 +380,8 @@ Wave Bank
     {
         Name = blast off;
         File = bfxr\blast off.wav;
-        Build Settings Last Modified Low = 2487001253;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308342036;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -403,8 +403,8 @@ Wave Bank
     {
         Name = charging;
         File = bfxr\charging.wav;
-        Build Settings Last Modified Low = 2487001253;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308342036;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -426,8 +426,8 @@ Wave Bank
     {
         Name = chime;
         File = bfxr\chime.wav;
-        Build Settings Last Modified Low = 2487001253;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308342036;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -449,8 +449,8 @@ Wave Bank
     {
         Name = crazy tweeting;
         File = bfxr\crazy tweeting.wav;
-        Build Settings Last Modified Low = 2487001253;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308352034;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -472,8 +472,8 @@ Wave Bank
     {
         Name = defeated;
         File = bfxr\defeated.wav;
-        Build Settings Last Modified Low = 2487011255;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308352034;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -495,8 +495,8 @@ Wave Bank
     {
         Name = dizzy mosquito;
         File = bfxr\dizzy mosquito.wav;
-        Build Settings Last Modified Low = 2487011255;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308352034;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -518,8 +518,8 @@ Wave Bank
     {
         Name = dizzy2;
         File = bfxr\dizzy2.wav;
-        Build Settings Last Modified Low = 2487011255;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308352034;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -541,8 +541,8 @@ Wave Bank
     {
         Name = do do do do do do do do do;
         File = bfxr\do do do do do do do do do.wav;
-        Build Settings Last Modified Low = 2487011255;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308362037;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -564,8 +564,8 @@ Wave Bank
     {
         Name = down the stairs;
         File = bfxr\down the stairs.wav;
-        Build Settings Last Modified Low = 2487011255;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308362037;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -587,8 +587,8 @@ Wave Bank
     {
         Name = Hit_Hurt20;
         File = bfxr\Hit_Hurt20.wav;
-        Build Settings Last Modified Low = 2487021264;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308362037;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -610,8 +610,8 @@ Wave Bank
     {
         Name = hurt;
         File = bfxr\hurt.wav;
-        Build Settings Last Modified Low = 2487021264;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308362037;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -633,8 +633,8 @@ Wave Bank
     {
         Name = laser fart;
         File = bfxr\laser fart.wav;
-        Build Settings Last Modified Low = 2487021264;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308372040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -656,8 +656,8 @@ Wave Bank
     {
         Name = lasers;
         File = bfxr\lasers.wav;
-        Build Settings Last Modified Low = 2487021264;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308372040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -679,8 +679,8 @@ Wave Bank
     {
         Name = monkey want a banana;
         File = bfxr\monkey want a banana.wav;
-        Build Settings Last Modified Low = 2487031273;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308372040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -702,8 +702,8 @@ Wave Bank
     {
         Name = oof;
         File = bfxr\oof.wav;
-        Build Settings Last Modified Low = 2487031273;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308372040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -725,8 +725,8 @@ Wave Bank
     {
         Name = Paste11;
         File = bfxr\Paste11.wav;
-        Build Settings Last Modified Low = 2487031273;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308382150;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -748,8 +748,8 @@ Wave Bank
     {
         Name = Paste12;
         File = bfxr\Paste12.wav;
-        Build Settings Last Modified Low = 2487041468;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308382150;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -771,8 +771,8 @@ Wave Bank
     {
         Name = Pickup_Coin11;
         File = bfxr\Pickup_Coin11.wav;
-        Build Settings Last Modified Low = 2487041468;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308382150;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -794,8 +794,8 @@ Wave Bank
     {
         Name = Pickup_Coin13;
         File = bfxr\Pickup_Coin13.wav;
-        Build Settings Last Modified Low = 2487041468;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308382150;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -817,8 +817,8 @@ Wave Bank
     {
         Name = ping;
         File = bfxr\ping.wav;
-        Build Settings Last Modified Low = 2487051466;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308392035;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -840,8 +840,8 @@ Wave Bank
     {
         Name = powerup;
         File = bfxr\powerup.wav;
-        Build Settings Last Modified Low = 2487051466;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308392035;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -863,8 +863,8 @@ Wave Bank
     {
         Name = Randomize6;
         File = bfxr\Randomize6.wav;
-        Build Settings Last Modified Low = 2487061300;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308392035;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -886,8 +886,8 @@ Wave Bank
     {
         Name = Randomize7;
         File = bfxr\Randomize7.wav;
-        Build Settings Last Modified Low = 2487061300;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308392035;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -909,8 +909,8 @@ Wave Bank
     {
         Name = Randomize9;
         File = bfxr\Randomize9.wav;
-        Build Settings Last Modified Low = 2487061300;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308402038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -932,8 +932,8 @@ Wave Bank
     {
         Name = Randomize10;
         File = bfxr\Randomize10.wav;
-        Build Settings Last Modified Low = 2487061300;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308402038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -955,8 +955,8 @@ Wave Bank
     {
         Name = Randomize13;
         File = bfxr\Randomize13.wav;
-        Build Settings Last Modified Low = 2487071484;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308402038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -978,8 +978,8 @@ Wave Bank
     {
         Name = Randomize14;
         File = bfxr\Randomize14.wav;
-        Build Settings Last Modified Low = 2487071484;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308402038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1001,8 +1001,8 @@ Wave Bank
     {
         Name = rapid mana;
         File = bfxr\rapid mana.wav;
-        Build Settings Last Modified Low = 2487071484;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308412040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1024,8 +1024,8 @@ Wave Bank
     {
         Name = ruff ruff;
         File = bfxr\ruff ruff.wav;
-        Build Settings Last Modified Low = 2487071484;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308412040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1047,8 +1047,8 @@ Wave Bank
     {
         Name = smash;
         File = bfxr\smash.wav;
-        Build Settings Last Modified Low = 2487081485;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308412040;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1070,8 +1070,8 @@ Wave Bank
     {
         Name = splooshoo;
         File = bfxr\splooshoo.wav;
-        Build Settings Last Modified Low = 2487081485;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308422038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1093,8 +1093,8 @@ Wave Bank
     {
         Name = squash;
         File = bfxr\squash.wav;
-        Build Settings Last Modified Low = 2487081485;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308422038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1116,8 +1116,8 @@ Wave Bank
     {
         Name = ufo;
         File = bfxr\ufo.wav;
-        Build Settings Last Modified Low = 2487081485;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308422038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1139,8 +1139,8 @@ Wave Bank
     {
         Name = volleyball;
         File = bfxr\volleyball.wav;
-        Build Settings Last Modified Low = 2487091498;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308422038;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1162,8 +1162,8 @@ Wave Bank
     {
         Name = whsh;
         File = bfxr\whsh.wav;
-        Build Settings Last Modified Low = 2487091498;
-        Build Settings Last Modified High = 30401330;
+        Build Settings Last Modified Low = 3308432041;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1185,8 +1185,8 @@ Wave Bank
     {
         Name = horrible death;
         File = bfxr\horrible death.wav;
-        Build Settings Last Modified Low = 3638454980;
-        Build Settings Last Modified High = 30426910;
+        Build Settings Last Modified Low = 3308432041;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1208,8 +1208,8 @@ Wave Bank
     {
         Name = explosion;
         File = bfxr\explosion.wav;
-        Build Settings Last Modified Low = 953482937;
-        Build Settings Last Modified High = 30426911;
+        Build Settings Last Modified Low = 3308432041;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1231,8 +1231,8 @@ Wave Bank
     {
         Name = ready ping;
         File = bfxr\ready ping.wav;
-        Build Settings Last Modified Low = 1035505283;
-        Build Settings Last Modified High = 30426911;
+        Build Settings Last Modified Low = 3308432041;
+        Build Settings Last Modified High = 30439823;
 
         Cache
         {
@@ -1254,8 +1254,8 @@ Wave Bank
     {
         Name = 313 Lucia [A];
         File = music\313 Lucia [A].wav;
-        Build Settings Last Modified Low = 676876054;
-        Build Settings Last Modified High = 30439162;
+        Build Settings Last Modified Low = 3308442044;
+        Build Settings Last Modified High = 30439823;
         Compression Preset Name = Compression Preset;
 
         Cache
@@ -1278,8 +1278,8 @@ Wave Bank
     {
         Name = 314 Lucia [B];
         File = music\314 Lucia [B].wav;
-        Build Settings Last Modified Low = 649824000;
-        Build Settings Last Modified High = 30439162;
+        Build Settings Last Modified Low = 3308442044;
+        Build Settings Last Modified High = 30439823;
         Compression Preset Name = Compression Preset;
 
         Cache
@@ -1306,8 +1306,8 @@ Sound Bank
     Windows File = Win\bfxr sound bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 4079661468;
-    Bank Last Modified High = 30439162;
+    Bank Last Modified Low = 3786528661;
+    Bank Last Modified High = 30439823;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 

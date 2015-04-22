@@ -116,7 +116,7 @@ namespace wickedcrush.factory.entity
             Murderer a = new Murderer(_w, pos, size, center, solid, this, fuckStats, _sm);
             a.stats.set("hp", 280);
             a.stats.set("maxHP", 280);
-            a.stats.set("staggerLimit", 50);
+            a.stats.set("staggerLimit", 500);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 30);
             a.stats.set("staggerDistance", 1);
