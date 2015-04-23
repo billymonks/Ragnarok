@@ -8,6 +8,7 @@ using wickedcrush.utility;
 using Com.Brashmonkey.Spriter.player;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
+using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent.action
 {
@@ -113,6 +114,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
             airborne = true;
             immortal = true;
             this.name = "ActionSkill";
+            
+            //ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-0.5f, 2f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
+            //particleEmitter.EmitParticles(ps, factory, 3);
 
             if (cue != "")
             {

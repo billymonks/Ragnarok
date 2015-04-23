@@ -41,6 +41,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             timers.Add("attack_tell", new Timer(attackTellLength));
             timers.Add("post_attack", new Timer(postAttackLength));
+            //timers.Add("falling", new Timer(500));
 
 
             activeRange = 300f;
@@ -72,6 +73,13 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private void SetupStateMachine()
         {
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
+            ctrl.Add("falling",
+                new State("falling",
+                    c => ((Murderer)c).timers["falling"].isActive(),
+                    c =>
+                    {
+                        this.height -= 3;
+                    }));
             ctrl.Add("staggered",
                 new State("staggered",
                     c => ((Murderer)c).staggered,
@@ -180,6 +188,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             //return;
 
             String bad = "";
+
+            if (timers["falling"].isActive())
+            {
+                bodySpriter.setAnimation("fall_000", 0, 0);
+                return;
+            }
 
             switch (facing)
             {

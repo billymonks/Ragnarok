@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using wickedcrush.entity.physics_entity.agent.action;
 using Microsoft.Xna.Framework;
+using wickedcrush.particle;
 
 namespace wickedcrush.inventory
 {
@@ -23,6 +24,8 @@ namespace wickedcrush.inventory
                 {
                     a.stats.set("hp", a.stats.get("maxHP"));
                     a.stats.inventory.removeItem(i);
+                    ParticleStruct ps = new ParticleStruct(new Vector3(a.pos.X + a.center.X, 20, a.pos.Y + a.center.Y), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_green");
+                    a.EmitParticles(ps, 10);
                 }, 
                 (a, i) => { },
                 (a, i) => { },

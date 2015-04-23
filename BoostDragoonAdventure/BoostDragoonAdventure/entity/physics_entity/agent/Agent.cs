@@ -98,6 +98,8 @@ namespace wickedcrush.entity.physics_entity.agent
             this.particleEmitter = new ParticleEmitter(factory._particleManager);
 
             SetupSpriterPlayer();
+
+            timers.Add("falling", new Timer(500));
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -187,10 +189,26 @@ namespace wickedcrush.entity.physics_entity.agent
                 target = null;
         }
 
+        public void EmitParticles(ParticleStruct ps, int count)
+        {
+            particleEmitter.EmitParticles(ps, factory, count);
+        }
+
         protected virtual void Die()
         {
-            PlayCue("horrible death");
-            this.remove = true;
+
+
+            if (!timers["falling"].isActive() || timers["falling"].isDone())
+            {
+                this.remove = true;
+                PlayCue("horrible death");
+
+
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-0.5f, 3f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                particleEmitter.EmitParticles(ps, factory, 10);
+                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(0f, 5f, 0f), new Vector3(0f, 1f, 0f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                particleEmitter.EmitParticles(ps, factory, 1);
+            }
         }
 
         private void UpdateTimers(GameTime gameTime)
@@ -335,9 +353,10 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             
 
-            if (factory._gm.map.getLayer(LayerType.DEATHSOUP).collision(new Rectangle((int)(this.pos.X + this.center.X - 1), (int)(this.pos.Y + this.center.Y - 1), 2, 2)) && !this.airborne)
+            if (stats.get("hp") > 0 && factory._gm.map.getLayer(LayerType.DEATHSOUP).collision(new Rectangle((int)(this.pos.X + this.center.X - 1), (int)(this.pos.Y + this.center.Y - 1), 2, 2)) && !this.airborne)
             {
                 stats.set("hp", 0);
+                timers["falling"].resetAndStart();
             }
         }
 
@@ -511,7 +530,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 }
             }
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X, this.height, this.pos.Y), new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit");
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit");
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             Vector2 v = bodies["body"].LinearVelocity;

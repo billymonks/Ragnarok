@@ -37,15 +37,13 @@ namespace wickedcrush.display.spriter
             //loaders.Add("loader1", new SpriterLoader(g));
             loaders.Add("loader2", new SpriterLoader(g));
             loaders.Add("loader3", new SpriterLoader(g));
-
-            //spriters.Add("fuck", new Spriter("Content/sprites/fuck/ass_legacy.scml", loaders["loader1"]));
-            //spriters.Add("cursor", new Spriter("Content/sprites/cursor/cursor.scml", loaders["loader1"]));
-            
-            //spriters.Add("neku", new Spriter("Content/sprites/ui/ui.scml", loaders["loader1"]));
+            loaders.Add("particles", new SpriterLoader(g));
 
             spriters.Add("all", new Spriter("Content/sprites/all/all.scml", loaders["loader2"]));
 
             spriters.Add("you", new Spriter("Content/sprites/you/you.scml", loaders["loader3"]));
+
+            spriters.Add("particles", new Spriter("Content/sprites/particles/particles.scml", loaders["particles"]));
             
 
             this.drawer = new SpriterDrawer(g.graphics);

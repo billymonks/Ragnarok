@@ -147,11 +147,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
 
             UpdateHpBar();
+            UpdateAnimation();
         }
 
         private void SetupStateMachine()
         {
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
+
+            ctrl.Add("falling",
+                new State("falling",
+                    c => ((PlayerAgent)c).timers["falling"].isActive(),
+                    c =>
+                    {
+                        this.height-=3;
+                    }));
+
             ctrl.Add("boosting",
                 new State("boosting",
                     c => !((PlayerAgent)c).timers["boostRecharge"].isDone()
@@ -173,7 +183,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         //bodySpriter = sPlayers["boosting"];
-                        UpdateAnimation();
                         BoostForward();
                         stats.addTo("boost", -stats.get("useSpeed"));
 
@@ -182,8 +191,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         
                         inCharge = false;
 
-                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_red");
                         particleEmitter.EmitParticles(ps, this.factory, 1);
+
+                        //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), new Vector3(-0.3f, -1f, -0.3f), new Vector3(0.6f, 2f, 0.6f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_red");
+                        //particleEmitter.EmitParticles(ps, this.factory, 1);
 
                         
                     }));
@@ -198,7 +210,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         
                         WalkForward();
                         //bodySpriter = sPlayers["standing"];
-                        UpdateAnimation();
+                        
                         inCharge = false;
 
                         UpdateItems();
@@ -317,6 +329,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 //return;
 
             String bad = "";
+
+            if (timers["falling"].isActive())
+            {
+                bodySpriter.setAnimation("fall_000", 0, 0);
+                return;
+            }
 
             switch (facing)
             {
