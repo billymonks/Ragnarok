@@ -118,7 +118,7 @@ namespace wickedcrush.factory.entity
             a.stats.set("maxHP", 280);
             a.stats.set("staggerLimit", 500);
             a.stats.set("stagger", 0);
-            a.stats.set("staggerDuration", 30);
+            a.stats.set("staggerDuration", 60);
             a.stats.set("staggerDistance", 1);
             if (_gm.map != null)
             {

@@ -130,6 +130,32 @@ namespace wickedcrush.manager.map
 
             if (objects != null)
             {
+                foreach (XElement e in objects.Elements("ROOM"))
+                {
+                    if (gm.testMode)
+                    {
+                        loadSubMap(gm, map, gm._roomManager.getGameplayRoom(gm._screen.GetRoom()),
+                        new Point(int.Parse(e.Attribute("x").Value),
+                        int.Parse(e.Attribute("y").Value)),
+                        (Direction)int.Parse(e.Attribute("angle").Value), false);
+                    }
+                    else
+                    {
+                        loadSubMap(gm, map, getRandomRoom(),
+                            new Point(int.Parse(e.Attribute("x").Value),
+                            int.Parse(e.Attribute("y").Value)),
+                            (Direction)int.Parse(e.Attribute("angle").Value), false);
+                    }
+                }
+
+                foreach (XElement e in objects.Elements("ROOM_MIRROR"))
+                {
+                    loadSubMap(gm, map, getRandomRoom(),
+                        new Point(int.Parse(e.Attribute("x").Value),
+                        int.Parse(e.Attribute("y").Value)),
+                        (Direction)int.Parse(e.Attribute("angle").Value), true);
+                }
+
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
                     gm.factory.addTurret(
@@ -189,31 +215,7 @@ namespace wickedcrush.manager.map
                         new Vector2(24, 24), new Vector2(12, 12), true);
                 }
 
-                foreach (XElement e in objects.Elements("ROOM"))
-                {
-                    if (gm.testMode)
-                    {
-                        loadSubMap(gm, map, gm._roomManager.getGameplayRoom(gm._screen.GetRoom()),
-                        new Point(int.Parse(e.Attribute("x").Value),
-                        int.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value), false);
-                    }
-                    else
-                    {
-                        loadSubMap(gm, map, getRandomRoom(),
-                            new Point(int.Parse(e.Attribute("x").Value),
-                            int.Parse(e.Attribute("y").Value)),
-                            (Direction)int.Parse(e.Attribute("angle").Value), false);
-                    }
-                }
-
-                foreach (XElement e in objects.Elements("ROOM_MIRROR"))
-                {
-                    loadSubMap(gm, map, getRandomRoom(),
-                        new Point(int.Parse(e.Attribute("x").Value),
-                        int.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value), true);
-                }
+                
 
                 foreach (KeyValuePair<LayerType, Layer> pair in map.layerList)
                 {

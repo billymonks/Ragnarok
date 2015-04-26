@@ -42,7 +42,7 @@ namespace wickedcrush.display._3d
 
         //private DynamicVertexBuffer buffer;
 
-        Effect normalMappingEffect, parallaxEffect;
+        Effect normalMappingEffect, parallaxEffect, spriteEffect;
 
         Matrix viewMatrix;
 
@@ -74,6 +74,7 @@ namespace wickedcrush.display._3d
             
             normalMappingEffect = game.Content.Load<Effect>(@"fx/NormalMappingMultiLights");
             parallaxEffect = game.Content.Load<Effect>(@"fx/ParallaxEffect");
+            spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
             background = game.Content.Load<Texture2D>(@"img/tex/rock_normal2");
             
             
@@ -98,11 +99,11 @@ namespace wickedcrush.display._3d
             
             lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 2000f));
             lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
-            lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
-            lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
-            lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
-            lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
-            lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
+            //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
+            //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
+            //lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
+            //lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
+            //lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
             
         }
 
@@ -206,7 +207,7 @@ namespace wickedcrush.display._3d
             buffer.SetData(solidGeomVertices.ToArray());
         }
 
-        public void DrawScene(GameBase game, GameplayManager gameplay, RenderTarget2D renderTarget, RenderTarget2D depthTarget)
+        public void DrawScene(GameBase game, GameplayManager gameplay, RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
             cameraPosition = new Vector3(gameplay.camera.cameraPosition.X + 320, 100f, gameplay.camera.cameraPosition.Y + 380);
             viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(cameraPosition.X, 0f, cameraPosition.Z - 100), new Vector3(0f, 0.5f, -0.5f));
@@ -237,32 +238,42 @@ namespace wickedcrush.display._3d
 
             normalMappingEffect.Parameters["ColorMap"].SetValue(textureAtlas.texture);
 
+            
+
             game.GraphicsDevice.SetVertexBuffer(buffer);
 
             
 
             game.GraphicsDevice.BlendState = BlendState.Opaque;
 
+
+            //return;
             game.GraphicsDevice.SetRenderTarget(depthTarget);
             //game.GraphicsDevice.Clear(Color.Black);
 
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["DisplayDepth"];
             normalMappingEffect.CurrentTechnique.Passes["Depth"].Apply();
-
+            
             game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
 
-            game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
-            parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
-            parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
-            if(parallaxVertices.Count>0)
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
-
-            game.GraphicsDevice.SetVertexBuffer(buffer);
-
-            game.GraphicsDevice.SetRenderTarget(renderTarget);
-            game.GraphicsDevice.Clear(Color.Black);
+            //game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
+            //parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
+            //parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
+            //if(parallaxVertices.Count>0)
+            //game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
 
             
+
+            game.GraphicsDevice.SetRenderTarget(renderTarget);
+            //game.GraphicsDevice.Clear(Color.Black);
+
+            //game.spriteBatch.Begin(0, BlendState.Opaque, null, null, null, spriteEffect);
+            //game.spriteBatch.Begin();
+            //game.spriteBatch.Draw(background, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), null, Color.White);
+            //game.spriteBatch.End();
+
+            game.GraphicsDevice.SetVertexBuffer(buffer);
+            game.GraphicsDevice.BlendState = BlendState.Opaque;
 
             normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"];
             normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();

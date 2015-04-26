@@ -64,7 +64,7 @@ namespace wickedcrush.entity.physics_entity
         public void SetPos(Vector2 pos)
         {
             this.pos = pos;
-            this.bodies["body"].Position = pos;
+            this.bodies["body"].Position = pos - center;
         }
 
         public override void Remove()

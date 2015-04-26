@@ -115,7 +115,6 @@ float4 PixelShaderFunctionAmbient(PerPixelVertexShaderOutput input) : COLOR0
 
 float4 PixelShaderFunctionDepth(PerPixelVertexShaderOutput input) : COLOR0
 {
-
 	return input.Depth.r;
 }
 

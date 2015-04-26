@@ -12,7 +12,7 @@ namespace wickedcrush.particle
 {
     public struct ParticleStruct
     {
-        public Vector3 pos, velocity, velocityVariance, acceleration;
+        public Vector3 pos, posVariance, velocity, velocityVariance, acceleration;
         public float rotation, rotationSpeed;
 
         public double milliseconds;
@@ -21,7 +21,8 @@ namespace wickedcrush.particle
         public int entityIndex;
 
         public ParticleStruct(
-            Vector3 pos, 
+            Vector3 pos,
+            Vector3 posVariance,
             Vector3 velocity,
             Vector3 velocityVariance,
             Vector3 acceleration, 
@@ -33,6 +34,7 @@ namespace wickedcrush.particle
             String animationName)
         {
             this.pos = pos;
+            this.posVariance = posVariance;
             this.velocity = velocity;
             this.velocityVariance = velocityVariance;
             this.acceleration = acceleration;
@@ -58,7 +60,9 @@ namespace wickedcrush.particle
 
         public Particle(ParticleStruct p, EntityFactory factory)
         {
-            this.pos = p.pos;
+            this.pos = p.pos + new Vector3(p.posVariance.X * (float)factory.random.NextDouble(),
+                    p.posVariance.Y * (float)factory.random.NextDouble(),
+                    p.posVariance.Z * (float)factory.random.NextDouble());
             this.velocity = p.velocity 
                 + new Vector3(p.velocityVariance.X * (float)factory.random.NextDouble(), 
                     p.velocityVariance.Y * (float)factory.random.NextDouble(), 

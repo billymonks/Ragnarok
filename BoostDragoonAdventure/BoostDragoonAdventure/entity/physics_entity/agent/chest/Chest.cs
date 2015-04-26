@@ -93,7 +93,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                         factory.addText("You got " + temp.name + "!", this.pos, 3000);
                         ((PlayerAgent)e).stats.inventory.receiveItem(temp);
 
-                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 10, this.pos.Y + this.center.Y), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
+                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 10, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
                         EmitParticles(ps, 10);
                     }
                 }

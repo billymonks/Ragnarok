@@ -39,6 +39,8 @@ namespace wickedcrush.manager.screen
         float nearClip = 0;
         float farClip = 0;
 
+        //public Texture2D background;
+
         public ScreenManager(GameBase game, GameScreen rootScreen)
         {
             this._game = game;
@@ -48,6 +50,8 @@ namespace wickedcrush.manager.screen
 
         private void Initialize(GameScreen rootScreen)
         {
+            //background = _game.Content.Load<Texture2D>(@"img/tex/rock_normal2");
+
             renderTarget = new RenderTarget2D(
                 _game.GraphicsDevice,
                 _game.GraphicsDevice.PresentationParameters.BackBufferWidth,
@@ -193,8 +197,16 @@ namespace wickedcrush.manager.screen
             _game.GraphicsDevice.SetRenderTarget(renderTarget);
             _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
-            
 
+            //_game.GraphicsDevice.SetRenderTarget(renderTarget);
+            //_game.GraphicsDevice.SetRenderTarget(spriteTarget);
+            //_game.GraphicsDevice.SetRenderTarget(spriteTarget);
+            //_game.spriteBatch.Begin(0, BlendState.AlphaBlend, null, null, null, spriteEffect);
+            //_game.spriteBatch.Begin();
+            //_game.spriteBatch.Draw(background, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
+            //_game.spriteBatch.End();
+
+            //DrawFullscreenQuad(spriteTarget, renderTarget, spriteEffect, IntermediateBuffer.PreBloom);
             
             int screenIndex = 0;
 
@@ -219,10 +231,9 @@ namespace wickedcrush.manager.screen
                 
             }
 
-            _game.GraphicsDevice.SetRenderTarget(renderTarget);
-            _game.spriteBatch.Begin(0, BlendState.AlphaBlend, null, null, null, spriteEffect);
-            _game.spriteBatch.Draw(spriteTarget, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
-            _game.spriteBatch.End();
+            
+
+            
 
             _game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 

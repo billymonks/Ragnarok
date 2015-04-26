@@ -23,13 +23,15 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, relative = false;
+        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false;
 
         private Vector2 velocity;
 
         GameplayManager gameplay;
 
         String cue;
+
+        SkillStruct skillStruct;
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
@@ -40,6 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             false, 
             gameplay.factory, game.soundManager) 
         {
+            this.skillStruct = skillStruct;
             this.duration = skillStruct.duration;
             timers.Add("duration", new utility.Timer(duration));
             timers["duration"].resetAndStart();
@@ -58,7 +61,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.movementDirection = parent.movementDirection + skillStruct.directionChange;
             this.gameplay = gameplay;
 
-            bodySpriter.setAngle(-(float)(this.movementDirection%360));
+            
 
             this.statIncrement = skillStruct.statIncrement;
 
@@ -71,7 +74,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             cue = skillStruct.cue;
 
-            this.relative = skillStruct.relative;
+            this.followParent = skillStruct.followParent;
 
             Initialize();
         }
@@ -123,6 +126,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 _sound.playCue(cue, emitter); // play activate sound
             }
 
+            SetupActionSkillSpriter();
+
+
             //_sound.addCueInstance("hurt", id + "hurt", false);
             
         }
@@ -143,9 +149,16 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 }
             }
 
-            if (relative)
+            if (followParent)
             {
-                SetPos(parent.pos);
+                SetPos(parent.pos + parent.center);
+            }
+
+            if (skillStruct.particle.HasValue)
+            {
+                ParticleStruct tempParticle = skillStruct.particle.Value;
+                tempParticle.pos = new Vector3(pos.X, this.height, pos.Y);
+                this.EmitParticles(tempParticle, 1);
             }
 
             if (timers["duration"].isDone())
@@ -165,17 +178,31 @@ namespace wickedcrush.entity.physics_entity.agent.action
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 3, factory._spriterManager.spriters["all"].loader));
 
-            sPlayers["actionskill"].setAnimation("attack1", 0, 0);
-            bodySpriter = sPlayers["actionskill"];
             
+
+        }
+
+        protected void SetupActionSkillSpriter()
+        {
+            if (skillStruct.spriterName == "")
+            {
+                this.visible = false;
+                return;
+            }
+
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters[skillStruct.spriterName].getSpriterData(), skillStruct.spriterEntityIndex, factory._spriterManager.spriters[skillStruct.spriterName].loader));
+
+            sPlayers["actionskill"].setAnimation(skillStruct.spriterAnimationName, 0, 0);
+            bodySpriter = sPlayers["actionskill"];
+
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
 
             bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
             height = 10;
 
+            bodySpriter.setAngle(-(float)(this.movementDirection % 360));
         }
 
         protected override void HandleCollisions()

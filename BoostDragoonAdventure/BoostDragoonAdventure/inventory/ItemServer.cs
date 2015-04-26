@@ -24,7 +24,7 @@ namespace wickedcrush.inventory
                 {
                     a.stats.set("hp", a.stats.get("maxHP"));
                     a.stats.inventory.removeItem(i);
-                    ParticleStruct ps = new ParticleStruct(new Vector3(a.pos.X + a.center.X, 20, a.pos.Y + a.center.Y), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_green");
+                    ParticleStruct ps = new ParticleStruct(new Vector3(a.pos.X + a.center.X, 20, a.pos.Y + a.center.Y), Vector3.Zero, new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_green");
                     a.EmitParticles(ps, 10);
                 }, 
                 (a, i) => { },
@@ -41,7 +41,7 @@ namespace wickedcrush.inventory
                 },
                 (a, i) => { a.stats.addTo("boost", -5); },
                 (a, i) => {
-                    a.fireFireball(2, 10f, 20, 300);
+                    a.fireFireball(2, 10f, 20, 500);
                     a.stats.addTo("boost", -100);
                 },
                 new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100)}),
@@ -147,29 +147,61 @@ namespace wickedcrush.inventory
                new List<KeyValuePair<string, int>>()));
 
             items.Add(
-               "Generation Sword",
-               new Item("Generation Sword", (a, i) =>
+               "Scattershot",
+               new Item("Scattershot", (a, i) =>
                {
-                   a.stats.set("gen charge", 0);
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
+                   a.stats.set("scatter charge", 0);
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 10, 1, 1, 0, 0));
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("gen charge", 1);
+                   a.stats.addTo("scatter charge", 1);
                },
                (a, i) =>
                {
-                   if (a.stats.compare("gen charge", 25) < 0)
+                   if (a.stats.compare("scatter charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 3, 3, 1));
+                       //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 45));
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 0, 5, 5, 1));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 45));
                    }
-                   a.stats.addTo("boost", -100);
-                   a.stats.set("gen charge", 0);
+                   a.stats.addTo("boost", -150);
+                   a.stats.set("scatter charge", 0);
+               },
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
+               new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
+               new List<KeyValuePair<string, int>>()));
+
+            items.Add(
+               "Rifle",
+               new Item("Rifle", (a, i) =>
+               {
+                   a.stats.set("rifle charge", 0);
+                   //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
+               },
+               (a, i) =>
+               {
+                   a.stats.addTo("boost", -3);
+                   a.stats.addTo("rifle charge", 1);
+               },
+               (a, i) =>
+               {
+                   if (a.stats.compare("rifle charge", 25) < 0)
+                   {
+
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 15));
+                   }
+                   else
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 0));
+                   }
+                   a.stats.addTo("boost", -200);
+                   a.stats.set("rifle charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),

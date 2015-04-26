@@ -136,7 +136,7 @@ namespace wickedcrush.entity.physics_entity.agent
             bodySpriter.setFrameSpeed(20);
         }
 
-        public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file cuz what a shit program with lots of bugs
+        public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file
         {
             int hud = entityId;
             SpriterOffsetStruct temp = new SpriterOffsetStruct(
@@ -204,9 +204,9 @@ namespace wickedcrush.entity.physics_entity.agent
                 PlayCue("horrible death");
 
 
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-0.5f, 3f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.5f, 3f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
                 particleEmitter.EmitParticles(ps, factory, 10);
-                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(0f, 5f, 0f), new Vector3(0f, 1f, 0f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
+                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(0f, 5f, 0f), new Vector3(0f, 1f, 0f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit");
                 particleEmitter.EmitParticles(ps, factory, 1);
             }
         }
@@ -367,46 +367,49 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Draw()
         {
-
-            Vector2 spritePos = new Vector2(
-                (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
-                );
-
-
-            float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
-            float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
-
-            bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
-
-            bodySpriter.SetDepth(depth);
-            //bodySpriter.SetDepth(0f);
-
-            bodySpriter.update(spritePos.X ,
-                spritePos.Y );
-
-            
-            _spriterManager.DrawPlayer(bodySpriter);
-
-            if (null != overlaySpriter)
+            if (visible)
             {
-                overlaySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
-                overlaySpriter.SetDepth(depth + 0.001f);
-                overlaySpriter.update(spritePos.X,
-                spritePos.Y);
 
-                _spriterManager.DrawPlayer(overlaySpriter); // todo: depth offset
-
-            }
+                Vector2 spritePos = new Vector2(
+                    (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
+                    ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
+                    );
 
 
-            foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
-            {
-                s.Value.player.SetDepth(0f);
-                s.Value.player.update(spritePos.X + s.Value.offset.X,
-                    (spritePos.Y + s.Value.offset.Y));
+                float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
+                float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
 
-                _spriterManager.DrawPlayer(s.Value.player);
+                bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+
+                bodySpriter.SetDepth(depth);
+                //bodySpriter.SetDepth(0f);
+
+                bodySpriter.update(spritePos.X,
+                    spritePos.Y);
+
+
+                _spriterManager.DrawPlayer(bodySpriter);
+
+                if (null != overlaySpriter)
+                {
+                    overlaySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+                    overlaySpriter.SetDepth(depth + 0.001f);
+                    overlaySpriter.update(spritePos.X,
+                    spritePos.Y);
+
+                    _spriterManager.DrawPlayer(overlaySpriter); // todo: depth offset
+
+                }
+
+
+                foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
+                {
+                    s.Value.player.SetDepth(0f);
+                    s.Value.player.update(spritePos.X + s.Value.offset.X,
+                        (spritePos.Y + s.Value.offset.Y));
+
+                    _spriterManager.DrawPlayer(s.Value.player);
+                }
             }
 
 
@@ -515,22 +518,30 @@ namespace wickedcrush.entity.physics_entity.agent
 
             foreach(KeyValuePair<string, int> pair in action.statIncrement)
             {
-                if (stats.numbersContainsKey(pair.Key))
-                {
-                    stats.addTo(pair.Key, pair.Value);
-                }
-                else
-                {
-                    stats.set(pair.Key, pair.Value);
-                }
+                int amount = pair.Value;
 
                 if (pair.Key.Equals("hp"))
                 {
-                    factory.addText(pair.Value.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+                    if (this.staggered)
+                    {
+                        amount *= 2;
+                    }
+                    factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
                 }
+
+                if (stats.numbersContainsKey(pair.Key))
+                {
+                    stats.addTo(pair.Key, amount);
+                }
+                else
+                {
+                    stats.set(pair.Key, amount);
+                }
+
+                
             }
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit");
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit");
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             Vector2 v = bodies["body"].LinearVelocity;
@@ -576,7 +587,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             bodies["body"].LinearVelocity = v;
 
-            
+            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+            _sound.playCue("hurt", emitter);
         }
 
         private void drawPath()
@@ -606,8 +618,8 @@ namespace wickedcrush.entity.physics_entity.agent
                 new Vector2(10f, 10f),
                 new Vector2(5f, 5f),
                 this,
-                1,
-                1);
+                10,
+                500);
         }
 
         public void fireAimedProjectile(int aimDirection)
@@ -619,8 +631,8 @@ namespace wickedcrush.entity.physics_entity.agent
                 new Vector2(10f, 10f),
                 new Vector2(5f, 5f),
                 this,
-                1,
-                1,
+                10,
+                500,
                 aimDirection);
         }
 

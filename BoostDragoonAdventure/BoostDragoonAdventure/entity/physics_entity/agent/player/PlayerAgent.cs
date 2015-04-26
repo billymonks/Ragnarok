@@ -116,6 +116,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (dodgeSuccess)
             {
                 factory.addText("Perfect Dodge!", pos + center, 1000);
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
+                particleEmitter.EmitParticles(ps, this.factory, 10);
                 dodgeSuccess = false;
                 return true;
             }
@@ -134,14 +136,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.compare("boost", "maxBoost") == -1)
                 stats.addTo("boost", stats.get("fillSpeed"));
 
-            if (stats.compare("boost", "maxBoost") >= 0)
+            if (stats.compare("boost", "maxBoost") == 1)
+                stats.set("boost", stats.get("maxBoost"));
+
+            if (stats.get("boost") >= 200)
             {
                 overheating = false;
-                stats.set("boost", stats.get("maxBoost"));
+                //stats.set("boost", stats.get("maxBoost"));
             }
 
             if (stats.get("boost") <= 0)
             {
+                factory.addText("Overheating!!", this.pos, 600);
                 overheating = true;
                 stats.set("boost", 0);
             }
@@ -171,11 +177,16 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     && !((PlayerAgent)c).busy,
                     c =>
                     {
-
+                        ParticleStruct ps;
                         if (sm.previousControlState != null && sm.previousControlState.name != "boosting")
                         {
                             timers["iFrameTime"].resetAndStart();
                             _sound.playCueInstance(id + "blast off", emitter);
+
+                            //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
+                            //particleEmitter.EmitParticles(ps, this.factory, 5);
+                            //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
+                            //particleEmitter.EmitParticles(ps, this.factory, 5);
                         }
 
                         if (((PlayerAgent)c).controls.BoostPressed())
@@ -191,8 +202,15 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         
                         inCharge = false;
 
-                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_red");
-                        particleEmitter.EmitParticles(ps, this.factory, 1);
+                        if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+                        {
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
+                        }
+                        else
+                        {
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
+                        }
+                            particleEmitter.EmitParticles(ps, this.factory, 1);
 
                         //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), new Vector3(-0.3f, -1f, -0.3f), new Vector3(0.6f, 2f, 0.6f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_red");
                         //particleEmitter.EmitParticles(ps, this.factory, 1);

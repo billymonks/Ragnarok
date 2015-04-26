@@ -46,6 +46,8 @@ namespace wickedcrush.screen
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
 
         public Effect spriteEffect;
+
+        public Texture2D background;
         
         public GameplayScreen(GameBase game, String mapName)
         {
@@ -63,7 +65,7 @@ namespace wickedcrush.screen
         public GameplayScreen(GameBase game, RoomInfo roomToTest) // needs to be expanded to to child class RoomTestScreen or something
         {
             gameplayManager = new GameplayManager(game, this, true);
-
+            
             LoadContent(game);
             this.game = game;
             _roomToTest = roomToTest;
@@ -136,6 +138,7 @@ namespace wickedcrush.screen
         private void LoadContent(GameBase game)
         {
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
+            background = game.Content.Load<Texture2D>(@"img/tex/rock_greyscale");
             //spriteEffect = new BasicEffect(game.GraphicsDevice);
         }
 
@@ -161,16 +164,27 @@ namespace wickedcrush.screen
 
         public override void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
-            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget);
+            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget);
             RenderSprites(renderTarget, depthTarget, spriteTarget);
         }
 
         public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
-            //game.GraphicsDevice.Clear(Color.Black);
+
             game.GraphicsDevice.SetRenderTarget(renderTarget);
 
+            game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+            
+            game.spriteBatch.Draw(
+                background, 
+                new Rectangle(0, 0, renderTarget.Width, renderTarget.Height),
+                new Rectangle((int)(gameplayManager.camera.cameraPosition.X /* game.aspectRatio*/), (int)(gameplayManager.camera.cameraPosition.Y), 640, 480), 
+                Color.White, 0f, 
+                Vector2.Zero, SpriteEffects.None, 1f);
+            game.spriteBatch.End();
+
             game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
+            
             gameplayManager.entityManager.Draw();
             gameplayManager.particleManager.Draw();
             game.spriteBatch.End();
@@ -180,8 +194,6 @@ namespace wickedcrush.screen
         public override void DebugDraw()
         {
             
-            //gameplayManager.map.DebugDraw(game.whiteTexture, game.GraphicsDevice, game.spriteBatch, game.testFont, gameplayManager.camera);
-            //gameplayManager.entityManager.DebugDraw(game.GraphicsDevice, game.spriteBatch, game.whiteTexture, game.arrowTexture, game.testFont, gameplayManager.camera);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
 
             DrawHud();

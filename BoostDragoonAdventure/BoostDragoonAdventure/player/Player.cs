@@ -85,8 +85,8 @@ namespace wickedcrush.player
 
         public void initializeAgentStats()
         {
-            stats.set("hp", 15);
-            stats.set("maxHP", 15);
+            stats.set("hp", 120);
+            stats.set("maxHP", 120);
             stats.set("maxBoost", 1000);
             stats.set("boost", 1000);
             stats.set("fillSpeed", 3);
