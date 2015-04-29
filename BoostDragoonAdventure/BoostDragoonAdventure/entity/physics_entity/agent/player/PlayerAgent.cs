@@ -27,7 +27,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #region Variables
         protected Controls controls;
 
-        private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 100f;
+        private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 120f;
         private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
         private int chargeLevel = 0;
 
@@ -92,7 +92,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void applyStats()
         {
-            boostSpeed = 100f * (1 + (float)stats.get("boostSpeedMod") * (0.01f));
+            boostSpeed = 100f * (1 + (float)stats.get("boostSpeedMod") * (1f));
         }
 
         public override void TakeHit(Attack attack)
@@ -154,6 +154,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             UpdateHpBar();
             UpdateAnimation();
+            applyStats();
         }
 
         private void SetupStateMachine()
@@ -428,7 +429,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             v += unitVector * magnitude * speed * startingFriction;
 
-            bodies["body"].LinearVelocity = v;
+            bodies["body"].LinearVelocity += v;
 
             airborne = false;
         }
@@ -444,7 +445,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             v += unitVector * boostSpeed;
 
-            bodies["body"].LinearVelocity = v;
+            bodies["body"].LinearVelocity += v;
 
             airborne = true;
         }

@@ -79,6 +79,8 @@ namespace wickedcrush
 
         public float aspectRatio;
 
+        public bool instantAction = true;
+
         public GameBase()
         {
             debugMode = true;

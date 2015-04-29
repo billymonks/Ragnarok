@@ -145,8 +145,8 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
-            game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y;
-
+            //game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y;
+            game.diag += gameTime.ElapsedGameTime.Milliseconds;
             
             readyTimer.Update(gameTime);
 
@@ -164,41 +164,74 @@ namespace wickedcrush.screen
 
         public override void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
         {
-            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget);
-            RenderSprites(renderTarget, depthTarget, spriteTarget);
+            //spriteEffect.Parameters["depth"].SetValue(0.5f);
+
+            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, true);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, true);
+
+            
+            gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, false);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, false);
         }
 
-        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
+        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass)
         {
+            if (!depthPass)
+            {
+                //game.GraphicsDevice.SetRenderTarget(renderTarget);
 
-            game.GraphicsDevice.SetRenderTarget(renderTarget);
+                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
 
-            game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
-            
-            game.spriteBatch.Draw(
-                background, 
+                game.spriteBatch.Draw(
+                background,
                 new Rectangle(0, 0, renderTarget.Width, renderTarget.Height),
-                new Rectangle((int)(gameplayManager.camera.cameraPosition.X /* game.aspectRatio*/), (int)(gameplayManager.camera.cameraPosition.Y), 640, 480), 
-                Color.White, 0f, 
+                new Rectangle((int)(gameplayManager.camera.cameraPosition.X /* game.aspectRatio*/), (int)(gameplayManager.camera.cameraPosition.Y), 640, 480),
+                Color.White, 0f,
                 Vector2.Zero, SpriteEffects.None, 1f);
+                game.spriteBatch.End();
+
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
+            }
+            else
+            {
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, spriteEffect, game.spriteScale);
+            }
+            
+            
+
+            //game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
+
+            gameplayManager.entityManager.Draw(depthPass);
+            gameplayManager.particleManager.Draw(depthPass);
+
             game.spriteBatch.End();
 
-            game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
-            
-            gameplayManager.entityManager.Draw();
-            gameplayManager.particleManager.Draw();
-            game.spriteBatch.End();
+            //game.GraphicsDevice.SetRenderTarget(depthTarget);
+
+            //game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, spriteEffect, game.spriteScale);
+
+            //gameplayManager.entityManager.Draw(true);
+            //gameplayManager.particleManager.Draw(true);
+
+            //game.spriteBatch.End();
             
         }
 
-        public override void DebugDraw()
+        public override void Draw()
         {
-            
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
-
-            DrawHud();
-
+            game.spriteBatch.End();
         }
+
+        //public override void DebugDraw()
+        //{
+            
+            //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
+
+            //DrawHud();
+
+        //}
 
         public override void FreeDraw()
         {
@@ -235,6 +268,9 @@ namespace wickedcrush.screen
             
             if (game.controlsManager.SelectPressed())
             {
+                if (game.instantAction)
+                    game.Exit();
+
                 Dispose();
             }
             

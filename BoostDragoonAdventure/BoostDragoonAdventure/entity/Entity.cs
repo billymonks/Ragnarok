@@ -137,7 +137,7 @@ namespace wickedcrush.entity
             return true;
         }
 
-        public virtual void Draw()
+        public virtual void Draw(bool depthPass)
         {
             
         }

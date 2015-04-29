@@ -97,7 +97,7 @@ namespace wickedcrush.particle
             velocity += acceleration * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f);
         }
 
-        public void Draw()
+        public void Draw(bool depthPass)
         {
 
             Vector2 spritePos = new Vector2(
@@ -117,8 +117,13 @@ namespace wickedcrush.particle
 
             animation.player.SetDepth(depth);
 
-            animation.player.update(spritePos.X,
-                spritePos.Y);
+            if (depthPass)
+            {
+                //factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
+
+                animation.player.update(spritePos.X,
+                    spritePos.Y);
+            }
 
             //float top = sPlayer.getBoundingBox().top;
             //float bottom = sPlayer.getBoundingBox().bottom;

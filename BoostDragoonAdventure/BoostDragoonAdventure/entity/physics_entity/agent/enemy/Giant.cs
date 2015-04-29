@@ -2,30 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using wickedcrush.factory.entity;
-using wickedcrush.utility;
-using Microsoft.Xna.Framework;
-using wickedcrush.stats;
 using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
+using wickedcrush.factory.entity;
+using wickedcrush.stats;
+using wickedcrush.manager.audio;
+using wickedcrush.utility;
+using Com.Brashmonkey.Spriter.player;
 using wickedcrush.behavior;
 using wickedcrush.behavior.state;
-using Microsoft.Xna.Framework.Graphics;
-using wickedcrush.helper;
-using FarseerPhysics.Factories;
-using wickedcrush.manager.audio;
-using wickedcrush.display._3d;
-using Com.Brashmonkey.Spriter.player;
 using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
-    public class Murderer : Agent
+    class Giant : Agent
     {
-        private Color testColor = Color.Green;
+        private const int attackTellLength = 700, postAttackLength = 1000, navigationResetLength = 500, attackRange = 60;
 
-        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30;
-
-        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
+        public Giant(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)
         {
             Initialize();
@@ -44,12 +38,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             timers.Add("post_attack", new Timer(postAttackLength));
             //timers.Add("falling", new Timer(500));
 
-            startingFriction = 0.5f;
-            stoppingFriction = 0.2f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
-
+            this.speed = 120;
 
             activeRange = 300f;
-            this.speed = 70f;
 
             SetupStateMachine();
 
@@ -80,35 +71,35 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((Murderer)c).timers["falling"].isActive(),
+                    c => ((Giant)c).timers["falling"].isActive(),
                     c =>
                     {
                         this.height -= 3;
                     }));
             ctrl.Add("staggered",
                 new State("staggered",
-                    c => ((Murderer)c).staggered,
+                    c => ((Giant)c).staggered,
                     c =>
                     {
                         if (!sm.previousControlState.name.Equals("staggered"))
                         {
                             this.PlayCue("vanquished");
                         }
-                        testColor = Color.White;
+                        
                         ResetAllTimers();
 
                         _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("post_attack",
                 new State("post_attack",
-                    c => ((Murderer)c).timers["post_attack"].isActive(),
+                    c => ((Giant)c).timers["post_attack"].isActive(),
                     c =>
                     {
                         if (!sm.previousControlState.name.Equals("post_attack"))
                         {
                             this.PlayCue("explosion");
                         }
-                        testColor = Color.Violet;
+                        
                         if (timers["post_attack"].isDone())
                         {
                             timers["post_attack"].reset();
@@ -118,22 +109,20 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("attack_tell",
                 new State("attack_tell",
-                    c => ((Murderer)c).timers["attack_tell"].isActive(),
+                    c => ((Giant)c).timers["attack_tell"].isActive(),
                     c =>
                     {
                         if (!sm.previousControlState.name.Equals("attack_tell"))
                         {
                             faceTarget();
-                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");  
+                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");
                             this.EmitParticles(ps, 5);
                             PlayCue("chime");
                         }
 
-                        testColor = Color.Yellow;
-                        if(timers["attack_tell"].isDone())
+                        if (timers["attack_tell"].isDone())
                         {
-                            attackForward(new Vector2(48, 48), 30, 500);
-                            testColor = Color.Red;
+                            attackForward(new Vector2(96, 96), 40, 1000);
                             timers["post_attack"].resetAndStart();
                             timers["attack_tell"].reset();
                         }
@@ -161,7 +150,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         if (distanceToTarget() < attackRange)
                             timers["attack_tell"].resetAndStart();
 
-                        testColor = Color.Green;
 
                         _sound.setGlobalVariable("InCombat", 1f);
                     }));
@@ -170,7 +158,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => true,
                     c =>
                     {
-                        if(target==null)
+                        if (target == null)
                             setTargetToClosestPlayer();
                         else if (distanceToTarget() < attackRange)
                         {
@@ -181,7 +169,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         {
                             _sound.setGlobalVariable("InCombat", 1f);
                         }
-                        
+
                     }));
             sm = new StateMachine(ctrl);
         }
@@ -265,22 +253,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             }
 
             bodySpriter.setAnimation(bad, 0, 0);
-        }
-
-        public override void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
-        {
-            //if (navigator != null)
-            //{
-                //navigator.DebugDraw(wTex, gd, spriteBatch, f);
-            //}
-
-            spriteBatch.Draw(wTex, bodies["body"].Position - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, testColor, bodies["body"].Rotation, Vector2.Zero, size, SpriteEffects.None, 0f);
-            spriteBatch.Draw(aTex, pos + center - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, testColor, MathHelper.ToRadians((float)facing), center, size / new Vector2(aTex.Width, aTex.Height), SpriteEffects.None, 0f);
-            //spriteBatch.Draw(tex, hotSpot.WorldCenter, null, Color.Yellow, hotSpot.Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
-            
-            DrawName(spriteBatch, f, camera);
-
-            DebugDrawHealth(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
     }
 }

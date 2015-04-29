@@ -110,6 +110,22 @@ namespace wickedcrush.factory.entity
             return agent;
         }
 
+        public void addGiant(Vector2 pos)
+        {
+            Giant g = new Giant(_w, pos, new Vector2(48, 48), new Vector2(24, 24), true, this, new PersistedStats(), _sm);
+            g.stats.set("hp", 2000);
+            g.stats.set("maxHP", 2000);
+            g.stats.set("staggerLimit", 4500);
+            g.stats.set("stagger", 0);
+            g.stats.set("staggerDuration", 240);
+            g.stats.set("staggerDistance", 0);
+            if (_gm.map != null)
+            {
+                g.activateNavigator(_gm.map);
+            }
+            _em.addEntity(g);
+        }
+
         public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             PersistedStats fuckStats = new PersistedStats();

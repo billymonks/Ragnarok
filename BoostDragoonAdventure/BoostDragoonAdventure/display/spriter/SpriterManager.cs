@@ -7,6 +7,7 @@ using Com.Brashmonkey.Spriter.player;
 using Com.Brashmonkey.Spriter;
 using wickedcrush.entity;
 using wickedcrush.manager.gameplay;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.display.spriter
 {
@@ -69,6 +70,12 @@ namespace wickedcrush.display.spriter
 
         }
         public void DrawPlayer(SpriterPlayer player)
+        {
+            this.drawer.loader = player.loader;
+            drawer.draw(player);
+        }
+
+        public void DrawPlayer(SpriterPlayer player, Effect effect)
         {
             this.drawer.loader = player.loader;
             drawer.draw(player);

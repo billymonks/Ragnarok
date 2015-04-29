@@ -33,11 +33,11 @@ namespace wickedcrush.manager.particle
             base.Update(gameTime);
         }
 
-        public void Draw()
+        public void Draw(bool depthPass)
         {
             foreach (Particle p in particleList)
             {
-                p.Draw();
+                p.Draw(depthPass);
             }
         }
 

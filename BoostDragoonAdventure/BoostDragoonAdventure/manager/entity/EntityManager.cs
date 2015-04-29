@@ -148,12 +148,12 @@ namespace wickedcrush.manager.entity
             }
         }
 
-        public void Draw()
+        public void Draw(bool depthPass)
         {
             
             foreach (Entity e in entityList)
             {
-                e.Draw();
+                e.Draw(depthPass);
             }
         }
 

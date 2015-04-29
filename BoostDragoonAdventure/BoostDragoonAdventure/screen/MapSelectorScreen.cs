@@ -46,6 +46,9 @@ namespace wickedcrush.screen
 
             LoadMapListFromAtlas();
 
+
+            
+
             //game.mapName = "Temple Halls V4";
         }
 
@@ -89,6 +92,13 @@ namespace wickedcrush.screen
 
         private void DebugControls()
         {
+            if (game.instantAction)
+            {
+                selectionIndex = 0;
+                game.screenManager.AddScreen(new GameplayScreen(game, mapList[selectionIndex]));
+
+            }
+
             foreach (Player p in game.playerManager.getPlayerList())
             {
                 if (p.c.UpPressed())

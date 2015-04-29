@@ -17,8 +17,8 @@ namespace wickedcrush.entity
         Timer duration;
         EntityFactory factory;
 
-        float zoomLevel = 3f;
-        float desiredZoomLevel = 5f;
+        float zoomLevel = 1f;
+        float desiredZoomLevel = 2f;
 
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory) //duration time?
             : base(pos, Vector2.Zero, Vector2.Zero, sound)
@@ -47,18 +47,17 @@ namespace wickedcrush.entity
             zoomLevel = (zoomLevel + desiredZoomLevel) / 2f;
             desiredZoomLevel += 0.01f;
         }
-        public override void Draw()
+        public override void Draw(bool depthPass)
         {
-            /*Vector2 textPos = new Vector2(
-                (pos.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                ((pos.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 200 * (2f - factory._gm.camera.zoom) - 100)
-                );*/
 
             Vector2 textPos = new Vector2((pos.X - factory._gm.camera.cameraPosition.X) * 2.25f, (pos.Y - factory._gm.camera.cameraPosition.Y) * 2.25f * (float)(Math.Sqrt(2) / 2));
 
-            //g.spriteBatch.DrawString(g.testFont, text, textPos, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos - Vector2.One, Color.Black, 0f, new Vector2(text.Length, 0f), zoomLevel + 0.1f, SpriteEffects.None, 0.001f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos, Color.White, 0f, new Vector2(text.Length, 0f), zoomLevel, SpriteEffects.None, 0f);
+            
+            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.testFont, text, textPos - new Vector2(2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(-2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(2, -2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.testFont, text, textPos, Color.White, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0f);
 
         }
     }

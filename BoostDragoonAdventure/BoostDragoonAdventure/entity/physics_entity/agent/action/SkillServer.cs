@@ -47,6 +47,10 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public static Dictionary<String, SkillStruct> skills = new Dictionary<String, SkillStruct>();
         public static Random random = new Random();
 
+        static List<ParticleStruct> temp = new List<ParticleStruct>();
+        
+        //temp.Add(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow"));
+
         public static void Initialize()
         {
             skills = new Dictionary<String, SkillStruct>();
@@ -321,6 +325,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     3,
                     "attack1"));
 
+                    
             skills.Add("Horizontal Extension Blow 1",
                 new SkillStruct("Horizontal Extension Blow 1",
                     new Microsoft.Xna.Framework.Vector2(18f, 40f),
@@ -334,7 +339,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "explosion",
                     false,
-                    new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow")), 
+                    null, 
                     "all",
                     3,
                     "attack1"));
@@ -352,7 +357,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "explosion",
                     false,
-                    new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow")), 
+                    null, 
                     "all",
                     3,
                     "attack1"));
@@ -370,7 +375,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "explosion",
                     false,
-                    new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow")), 
+                    null, 
                     "all",
                     3,
                     "attack1"));
@@ -388,7 +393,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "explosion",
                     false,
-                    new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow")), 
+                    null,
                     "all",
                     3,
                     "attack1"));
@@ -406,7 +411,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "explosion",
                     false,
-                    new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, 2f, -0.3f), new Vector3(0.6f, 1f, 0.6f), new Vector3(0f, -0.3f, 0f), 0f, 0f, 400, "particles", 0, "white_to_yellow")), 
+                    null,
                     "all",
                     3,
                     "attack1"));

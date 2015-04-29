@@ -1,11 +1,6 @@
 ﻿<artlayer>
   <tilelayers>
-    <tileset surface="true" edgeonly="false" path="blocks_blue_a"><transformations>
-      <transformation>
-        <shrink includeDiagonals="false">1</shrink>
-      </transformation>
-    </transformations></tileset>
-    <tileset surface="true" edgeonly="true" path="blocks_blue_a">
+    <tileset surface="true" edgeonly="false" path="blocks_blue_a">
       <transformations />
     </tileset>
     <tileset surface="false" edgeonly="true" path="blocks_blue_a"><transformations /></tileset>

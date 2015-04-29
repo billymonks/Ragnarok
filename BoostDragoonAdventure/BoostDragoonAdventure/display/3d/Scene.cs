@@ -82,11 +82,15 @@ namespace wickedcrush.display._3d
 
         public void BuildScene(GameBase game, Map map, GameplayManager gameplay)
         {
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -2, 0, "blue_a"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 2, "blue_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -1, 0, "cavefloor"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 2, "cavewall"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 2, true), 0, 3, "cavewall"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 3, true), 0, 5, "cavewall"));
+
 
             artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "pink_a"));
             artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 8, "lime_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "lime_a"));
             artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), 0, 1, "pink_a"));
 
             CreateTextureAtlas();
@@ -207,7 +211,7 @@ namespace wickedcrush.display._3d
             buffer.SetData(solidGeomVertices.ToArray());
         }
 
-        public void DrawScene(GameBase game, GameplayManager gameplay, RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget)
+        public void DrawScene(GameBase game, GameplayManager gameplay, RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass)
         {
             cameraPosition = new Vector3(gameplay.camera.cameraPosition.X + 320, 100f, gameplay.camera.cameraPosition.Y + 380);
             viewMatrix = Matrix.CreateLookAt(cameraPosition, new Vector3(cameraPosition.X, 0f, cameraPosition.Z - 100), new Vector3(0f, 0.5f, -0.5f));
@@ -222,11 +226,6 @@ namespace wickedcrush.display._3d
             
             lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
             lightList["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
-
-            //foreach (ArtLayer artLayer in artLayers)
-            //{
-                //artLayer.DrawLayer(game, gameplay, normalMappingEffect, lightList);
-            //}
             
 
             if (solidGeomVertices.Count <= 0)
@@ -242,74 +241,79 @@ namespace wickedcrush.display._3d
 
             game.GraphicsDevice.SetVertexBuffer(buffer);
 
-            
 
-            game.GraphicsDevice.BlendState = BlendState.Opaque;
-
-
-            //return;
-            game.GraphicsDevice.SetRenderTarget(depthTarget);
-            //game.GraphicsDevice.Clear(Color.Black);
-
-            normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["DisplayDepth"];
-            normalMappingEffect.CurrentTechnique.Passes["Depth"].Apply();
-            
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
-
-            //game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
-            //parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
-            //parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
-            //if(parallaxVertices.Count>0)
-            //game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
-
-            
-
-            game.GraphicsDevice.SetRenderTarget(renderTarget);
-            //game.GraphicsDevice.Clear(Color.Black);
-
-            //game.spriteBatch.Begin(0, BlendState.Opaque, null, null, null, spriteEffect);
-            //game.spriteBatch.Begin();
-            //game.spriteBatch.Draw(background, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), null, Color.White);
-            //game.spriteBatch.End();
-
-            game.GraphicsDevice.SetVertexBuffer(buffer);
-            game.GraphicsDevice.BlendState = BlendState.Opaque;
-
-            normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"];
-            normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
-
-            game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
-
-            game.GraphicsDevice.BlendState = BlendState.Additive;
-
-            
-
-            foreach (KeyValuePair<string, PointLightStruct> s in lightList)
+            if (depthPass)
             {
-                normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
-                normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
-                normalMappingEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
-                normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
-                normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
-                normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+                game.GraphicsDevice.BlendState = BlendState.Opaque;
 
-                normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+
+                //return;
+                game.GraphicsDevice.SetRenderTarget(depthTarget);
+                //game.GraphicsDevice.Clear(Color.Black);
+
+                normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["DisplayDepth"];
+                normalMappingEffect.CurrentTechnique.Passes["Depth"].Apply();
+
                 game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+
+                //game.GraphicsDevice.SetVertexBuffer(parallaxBuffer);
+                //parallaxEffect.CurrentTechnique = parallaxEffect.Techniques["DisplayDepth"];
+                //parallaxEffect.CurrentTechnique.Passes["Depth"].Apply();
+                //if(parallaxVertices.Count>0)
+                //game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, parallaxVertices.Count / 3);
+
             }
-
-            
-
-            if (game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F1))
+            else
             {
-                DateTime date = DateTime.Now; //Get the date for the file name
-                Stream stream = File.Create("depth" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
 
-                game.GraphicsDevice.SetRenderTarget(null);
-                depthTarget.SaveAsPng(stream, depthTarget.Width, depthTarget.Height);
                 game.GraphicsDevice.SetRenderTarget(renderTarget);
-            }
+                //game.GraphicsDevice.Clear(Color.Black);
 
-            game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+                //game.spriteBatch.Begin(0, BlendState.Opaque, null, null, null, spriteEffect);
+                //game.spriteBatch.Begin();
+                //game.spriteBatch.Draw(background, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), null, Color.White);
+                //game.spriteBatch.End();
+
+                game.GraphicsDevice.SetVertexBuffer(buffer);
+                game.GraphicsDevice.BlendState = BlendState.Opaque;
+
+                normalMappingEffect.CurrentTechnique = normalMappingEffect.Techniques["MultiPassLight"];
+                normalMappingEffect.CurrentTechnique.Passes["Ambient"].Apply();
+
+                game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+
+                game.GraphicsDevice.BlendState = BlendState.Additive;
+
+
+
+                foreach (KeyValuePair<string, PointLightStruct> s in lightList)
+                {
+                    normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
+                    normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
+                    normalMappingEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
+                    normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
+                    normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
+                    normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+
+                    normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+                    game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+                }
+
+
+
+                //if (game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F1))
+                //{
+                    //DateTime date = DateTime.Now; //Get the date for the file name
+                    //Stream stream = File.Create("depth" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+
+                    //game.GraphicsDevice.SetRenderTarget(null);
+                    //depthTarget.SaveAsPng(stream, depthTarget.Width, depthTarget.Height);
+                    //game.GraphicsDevice.SetRenderTarget(renderTarget);
+                //}
+
+                //game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+
+            }
             
             
         }

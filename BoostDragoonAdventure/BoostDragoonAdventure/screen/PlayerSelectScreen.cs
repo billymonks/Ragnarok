@@ -132,7 +132,10 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            
+            game.GraphicsDevice.Clear(Color.Black);
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
+            game.spriteBatch.DrawString(game.testFont, "Press Start / Enter!", new Vector2(260, 460), Color.White);
+            game.spriteBatch.End();
         }
 
         public override void DebugDraw()
@@ -211,9 +214,16 @@ namespace wickedcrush.screen
 
         private void UpdateUser(User u)
         {
-
             if (u.p == null)
             {
+
+                if (game.instantAction && charList.Count > 0)
+                {
+                    u.selection = 0;
+                    SelectCharacter(u);
+                    
+                }
+
                 if (u.controls.DownPressed())
                 {
                     u.selection++;

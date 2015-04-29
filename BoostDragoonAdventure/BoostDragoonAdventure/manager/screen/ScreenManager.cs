@@ -32,12 +32,13 @@ namespace wickedcrush.manager.screen
 
         Effect effectPostDoF;
         Effect gaussianBlurEffect;
-        Effect spriteEffect;
+        //Effect spriteEffect;
 
-        float focusDistance = 0;
-        float focusRange = 0;
-        float nearClip = 0;
-        float farClip = 0;
+        float focusDistance = 375;
+        float focusRange = 145;
+        float nearClip = 150;
+        float farClip = 1.21428f;
+        //355, 215, 150, 850
 
         //public Texture2D background;
 
@@ -94,7 +95,7 @@ namespace wickedcrush.manager.screen
 
             effectPostDoF = _game.Content.Load<Effect>("fx/PostProcessDoF");
             gaussianBlurEffect = _game.Content.Load<Effect>("fx/GaussianBlur");
-            spriteEffect = _game.Content.Load<Effect>("fx/SpriteEffect");
+            //spriteEffect = _game.Content.Load<Effect>("fx/SpriteEffect");
             //spriteEffect = new BasicEffect(_game.GraphicsDevice);
 
             
@@ -197,6 +198,8 @@ namespace wickedcrush.manager.screen
             _game.GraphicsDevice.SetRenderTarget(renderTarget);
             _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
+            _game.GraphicsDevice.SetRenderTarget(renderTargetDepth);
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             //_game.GraphicsDevice.SetRenderTarget(renderTarget);
             //_game.GraphicsDevice.SetRenderTarget(spriteTarget);
@@ -226,7 +229,7 @@ namespace wickedcrush.manager.screen
 
 
 
-                screenList[i].Draw();
+                
                 
                 
             }
@@ -294,7 +297,9 @@ namespace wickedcrush.manager.screen
                 spriteTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
             }
 
-            SetShaderParameters(355, 215, 150, 850);
+            SetShaderParameters(focusDistance, focusRange, nearClip, farClip);
+            //SetShaderParameters(355, 215, 150, 850);
+            //SetShaderParametersAlt(
 
             _game.GraphicsDevice.BlendState = BlendState.Additive;
             _game.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, effectPostDoF);
@@ -306,9 +311,11 @@ namespace wickedcrush.manager.screen
 
             for (int i = screenIndex; i < screenList.Count; i++)
             {
-                _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.debugSpriteScale);
-                screenList[i].DebugDraw();
-                _game.spriteBatch.End();
+                screenList[i].Draw();
+
+                //_game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.debugSpriteScale);
+                //screenList[i].DebugDraw();
+                //_game.spriteBatch.End();
 
                 _game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.fullSpriteScale);
 
@@ -320,19 +327,22 @@ namespace wickedcrush.manager.screen
             }
         }
 
-        void SetShaderParameters()
-        {
-
-        }
-
         void SetShaderParameters(float fD, float fR, float nC, float fC)
         {
             focusDistance = fD;
             focusRange = fR;
             nearClip = nC;
             farClip = fC;
-            farClip = farClip / (farClip - nearClip);
+            //farClip = farClip / (farClip - nearClip);
 
+            effectPostDoF.Parameters["Distance"].SetValue(focusDistance);
+            effectPostDoF.Parameters["Range"].SetValue(focusRange);
+            effectPostDoF.Parameters["Near"].SetValue(nearClip);
+            effectPostDoF.Parameters["Far"].SetValue(farClip);
+        }
+
+        void SetShaderParametersAlt(float focusDistance, float focusRange, float nearClip, float farClip)
+        {
             effectPostDoF.Parameters["Distance"].SetValue(focusDistance);
             effectPostDoF.Parameters["Range"].SetValue(focusRange);
             effectPostDoF.Parameters["Near"].SetValue(nearClip);

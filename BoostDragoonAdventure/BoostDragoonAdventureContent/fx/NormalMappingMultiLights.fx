@@ -115,6 +115,13 @@ float4 PixelShaderFunctionAmbient(PerPixelVertexShaderOutput input) : COLOR0
 
 float4 PixelShaderFunctionDepth(PerPixelVertexShaderOutput input) : COLOR0
 {
+	float4 color = tex2D(ColorMapSampler, input.TexCoord);
+
+	if(color.a < 0.8f)
+	{
+		clip(-1);
+	}
+
 	return input.Depth.r;
 }
 

@@ -229,7 +229,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         private void ApplyStoppingFriction(GameTime gameTime)
         {
-            bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 16f); //is this ok???
+            //bodies["body"].LinearVelocity /= (1f + stoppingFriction) * ((float)gameTime.ElapsedGameTime.Milliseconds / 17f); //is this ok???
+            bodies["body"].LinearVelocity /= (1f + stoppingFriction) * 2f * ((float)gameTime.ElapsedGameTime.Milliseconds / 17f);
         }
 
         private void UpdateStagger(GameTime gameTime)
@@ -365,7 +366,7 @@ namespace wickedcrush.entity.physics_entity.agent
             //_spriterManager.DrawPlayer(sPlayer);
         }
 
-        public override void Draw()
+        public override void Draw(bool depthPass)
         {
             if (visible)
             {
@@ -379,24 +380,34 @@ namespace wickedcrush.entity.physics_entity.agent
                 float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
                 float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
 
+                
+
                 bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
 
                 bodySpriter.SetDepth(depth);
                 //bodySpriter.SetDepth(0f);
 
-                bodySpriter.update(spritePos.X,
-                    spritePos.Y);
+                if (depthPass)
+                {
+                    
 
+                    bodySpriter.update(spritePos.X,
+                        spritePos.Y);
 
+                    
+                }
+
+                factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
                 _spriterManager.DrawPlayer(bodySpriter);
 
                 if (null != overlaySpriter)
                 {
                     overlaySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
                     overlaySpriter.SetDepth(depth + 0.001f);
-                    overlaySpriter.update(spritePos.X,
-                    spritePos.Y);
+                    if(depthPass)
+                        overlaySpriter.update(spritePos.X, spritePos.Y);
 
+                    factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
                     _spriterManager.DrawPlayer(overlaySpriter); // todo: depth offset
 
                 }
@@ -408,6 +419,7 @@ namespace wickedcrush.entity.physics_entity.agent
                     s.Value.player.update(spritePos.X + s.Value.offset.X,
                         (spritePos.Y + s.Value.offset.Y));
 
+                    factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
                     _spriterManager.DrawPlayer(s.Value.player);
                 }
             }
@@ -553,8 +565,8 @@ namespace wickedcrush.entity.physics_entity.agent
             if(!staggered)
                 stats.addTo("stagger", action.force.Value);
 
-            v.X += unitVector.X * (float)action.force.Value * 30f;
-            v.Y += unitVector.Y * (float)action.force.Value * 30f;
+            v.X += unitVector.X * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
+            v.Y += unitVector.Y * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
 
             bodies["body"].LinearVelocity = v;
 
@@ -582,8 +594,8 @@ namespace wickedcrush.entity.physics_entity.agent
                 (float)Math.Cos(MathHelper.ToRadians((float)attack.facing)),
                 (float)Math.Sin(MathHelper.ToRadians((float)attack.facing)));
 
-            v.X += unitVector.X * (float)attack.force * staggerMultiply * (float)stats.get("staggerDistance");
-            v.Y += unitVector.Y * (float)attack.force * staggerMultiply * (float)stats.get("staggerDistance");
+            v.X += unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
+            v.Y += unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
 
             bodies["body"].LinearVelocity = v;
 
