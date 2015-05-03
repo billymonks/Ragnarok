@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using wickedcrush.manager.screen;
 using wickedcrush.screen;
+using wickedcrush.utility.config;
 
 namespace wickedcrush
 {
@@ -12,7 +13,8 @@ namespace wickedcrush
         public WinGame()
             : base()
         {
-            if (fullscreen)
+            
+            if (settings.fullscreen)
             {
                 graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
                 graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
@@ -20,8 +22,8 @@ namespace wickedcrush
             }
             else
             {
-                graphics.PreferredBackBufferWidth = 1920;
-                graphics.PreferredBackBufferHeight = 1080;
+                graphics.PreferredBackBufferWidth = settings.resolution.X;
+                graphics.PreferredBackBufferHeight = settings.resolution.Y;
                 graphics.IsFullScreen = false;
             }
 

@@ -27,6 +27,7 @@ using wickedcrush.manager.task;
 using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
+using wickedcrush.utility.config;
 
 namespace wickedcrush
 {
@@ -80,6 +81,8 @@ namespace wickedcrush
         public float aspectRatio;
 
         public bool instantAction = true;
+
+        public GameSettings settings = new GameSettings();
 
         public GameBase()
         {
