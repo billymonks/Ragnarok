@@ -87,7 +87,7 @@ namespace wickedcrush.entity.physics_entity.agent
             this.factory = factory;
             this.stats = stats;
 
-            stats.set("staggerDistance", 0);
+            //stats.set("staggerDistance", 0);
 
             timers = new Dictionary<String, Timer>();
             triggers = new Dictionary<String, Trigger>();
@@ -588,20 +588,22 @@ namespace wickedcrush.entity.physics_entity.agent
             else
                 stats.addTo("stagger", attack.force);
 
-            Vector2 v = bodies["body"].LinearVelocity;
+            Vector2 v = new Vector2();
 
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians((float)attack.facing)),
                 (float)Math.Sin(MathHelper.ToRadians((float)attack.facing)));
 
-            v.X += unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
-            v.Y += unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
+            v.X = unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
+            v.Y = unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
 
-            bodies["body"].LinearVelocity = v;
+            bodies["body"].LinearVelocity += v;
 
             factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
             _sound.playCue("hurt", emitter);
         }
+
+        
 
         private void drawPath()
         {

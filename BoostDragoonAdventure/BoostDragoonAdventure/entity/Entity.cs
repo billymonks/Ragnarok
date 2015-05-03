@@ -195,6 +195,11 @@ namespace wickedcrush.entity
         {
             _sound.playCue(name, emitter);
         }
+
+        public virtual void AddLinearVelocity(Vector2 v)
+        {
+            
+        }
     }
         
 }

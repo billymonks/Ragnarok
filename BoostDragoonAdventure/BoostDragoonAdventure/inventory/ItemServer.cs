@@ -150,26 +150,39 @@ namespace wickedcrush.inventory
                "Scattershot",
                new Item("Scattershot", (a, i) =>
                {
+                   a.PlayCue("volleyball");
                    a.stats.set("scatter charge", 0);
                    a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 10, 1, 1, 0, 0));
+                   a.stats.addTo("boost", -100);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
                    a.stats.addTo("scatter charge", 1);
+
+                   if(a.stats.compare("scatter charge", 25) == 0)
+                       a.PlayCue("squash");
+
+                   if (a.stats.compare("scatter charge", 50) == 0)
+                       a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("scatter charge", 25) < 0)
+                   if (a.stats.compare("scatter charge", 50) > 0)
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 45));
+                       a.stats.addTo("boost", -150);
+                       a.stats.set("scatter charge", 0);
+                   }
+                   else if (a.stats.compare("scatter charge", 25) > 0)
                    {
                        //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
                        a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 45));
+                       a.stats.addTo("boost", -100);
+                       a.stats.set("scatter charge", 0);
+
                    }
-                   else
-                   {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 45));
-                   }
-                   a.stats.addTo("boost", -150);
+                   
                    a.stats.set("scatter charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
@@ -180,27 +193,37 @@ namespace wickedcrush.inventory
                "Rifle",
                new Item("Rifle", (a, i) =>
                {
+                   a.PlayCue("volleyball");
                    a.stats.set("rifle charge", 0);
                    //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
                    a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
+                   a.stats.addTo("boost", -100);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
                    a.stats.addTo("rifle charge", 1);
+
+                   if (a.stats.compare("rifle charge", 25) == 0)
+                       a.PlayCue("squash");
+
+                   if (a.stats.compare("rifle charge", 50) == 0)
+                       a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("rifle charge", 25) < 0)
+                   if (a.stats.compare("rifle charge", 50) > 0)
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 0));
+                       a.stats.addTo("boost", -200);
+                   }
+                   else if (a.stats.compare("rifle charge", 25) > 0)
                    {
 
                        a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 15));
+                       a.stats.addTo("boost", -150);
                    }
-                   else
-                   {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 0));
-                   }
-                   a.stats.addTo("boost", -200);
+                   
                    a.stats.set("rifle charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),

@@ -33,6 +33,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         SkillStruct skillStruct;
 
+        //Agent agentParent;
+
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
             new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
@@ -152,6 +154,13 @@ namespace wickedcrush.entity.physics_entity.agent.action
             if (followParent)
             {
                 SetPos(parent.pos + parent.center);
+                
+            }
+
+            if (null != parent)
+            {
+                parent.AddLinearVelocity(new Vector2((float)(skillStruct.parentVelocity.X * Math.Cos(MathHelper.ToRadians((float)this.facing)) + skillStruct.parentVelocity.Y * Math.Sin(MathHelper.ToRadians((float)this.facing))),
+                        (float)(skillStruct.parentVelocity.X * Math.Sin(MathHelper.ToRadians((float)this.facing)) - skillStruct.parentVelocity.Y * Math.Cos(MathHelper.ToRadians((float)this.facing)))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f));
             }
 
             if (skillStruct.particle.HasValue)

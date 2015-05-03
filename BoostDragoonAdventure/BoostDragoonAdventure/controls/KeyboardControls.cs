@@ -16,7 +16,7 @@ namespace wickedcrush.controls
             itemBKey = Keys.K, 
             itemCKey = Keys.L, 
             boostKey = Keys.Space,
-            strafeKey = Keys.LeftControl, 
+            reverseBoostKey = Keys.LeftShift, 
             downKey = Keys.S, 
             upKey = Keys.W, 
             leftKey = Keys.A, 
@@ -27,7 +27,7 @@ namespace wickedcrush.controls
             altRightKey = Keys.Right,
             startKey = Keys.Enter, 
             selectKey = Keys.Escape, 
-            walkKey = Keys.LeftShift;
+            walkKey = Keys.LeftControl;
 
         
 
@@ -172,7 +172,31 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool StrafeHeld()
+        public override bool ReverseBoostHeld()
+        {
+            if (keyState.IsKeyDown(reverseBoostKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ReverseBoostPressed()
+        {
+            if (keyState.IsKeyDown(reverseBoostKey) && prevKeyState.IsKeyUp(reverseBoostKey))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ReverseBoostReleased()
+        {
+            if (keyState.IsKeyUp(reverseBoostKey))
+                return true;
+            else
+                return false;
+        }
+
+        /*public override bool StrafeHeld()
         {
             if (keyState.IsKeyDown(strafeKey) || mouseState.RightButton == ButtonState.Pressed)
                 return true;
@@ -190,7 +214,7 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
-        }
+        }*/
 
         public override bool DownPressed()
         {

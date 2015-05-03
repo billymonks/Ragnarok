@@ -11,7 +11,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
     public struct SkillStruct
     {
         public String name;
-        public Vector2 pos, size, center, velocity; //relative to parent
+        public Vector2 pos, size, center, velocity, parentVelocity; //relative to parent
         public int duration, force, directionChange;
         public List<KeyValuePair<int, SkillStruct>> blows;
         public List<KeyValuePair<String, int>> statIncrement;
@@ -22,13 +22,14 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public int spriterEntityIndex;
         public String spriterAnimationName;
 
-        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName)
+        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, Vector2 parentVelocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName)
         {
             this.name = name;
             this.pos = pos;
             this.size = size;
             this.center = center;
             this.velocity = velocity;
+            this.parentVelocity = parentVelocity;
             this.duration = duration;
             this.force = force;
             this.directionChange = directionChange;
@@ -62,6 +63,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
+                    Vector2.Zero,
                     120,
                     160,
                     0,
@@ -81,6 +83,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(15f, 15f),
                     Vector2.Zero,
+                    Vector2.Zero,
                     120,
                     300,
                     0,
@@ -98,6 +101,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
+                    Vector2.Zero,
                     Vector2.Zero,
                     120,
                     300,
@@ -117,6 +121,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
+                    Vector2.Zero,
                     120,
                     300,
                     0,
@@ -134,6 +139,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(30f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
+                    Vector2.Zero,
                     Vector2.Zero,
                     120,
                     300,
@@ -153,6 +159,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     Vector2.Zero,
+                    Vector2.Zero,
                     120,
                     300,
                     0,
@@ -170,6 +177,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(50f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
+                    Vector2.Zero,
                     Vector2.Zero,
                     120,
                     300,
@@ -189,6 +197,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 0f),
                     new Microsoft.Xna.Framework.Vector2(2f, 2f),
                     new Microsoft.Xna.Framework.Vector2(1f, 1f),
+                    Vector2.Zero,
                     Vector2.Zero,
                     90,
                     0,
@@ -214,6 +223,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 0f),
                     new Microsoft.Xna.Framework.Vector2(2f, 2f),
                     new Microsoft.Xna.Framework.Vector2(1f, 1f),
+                    Vector2.Zero,
                     Vector2.Zero,
                     130,
                     0,
@@ -241,6 +251,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
                     new Vector2(35f, 0f),
+                    Vector2.Zero,
                     60,
                     500,
                     0,
@@ -259,6 +270,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
                     new Vector2(38f, 0f),
+                    Vector2.Zero,
                     60,
                     500,
                     0,
@@ -277,6 +289,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
                     new Vector2(41f, 0f),
+                    Vector2.Zero,
                     60,
                     500,
                     0,
@@ -295,6 +308,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
                     new Vector2(38f, 0f),
+                    Vector2.Zero,
                     60,
                     500,
                     0,
@@ -313,6 +327,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
                     new Vector2(35f, 0f),
+                    Vector2.Zero,
                     60,
                     300,
                     0,
@@ -332,6 +347,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(50f, 0f),
+                    Vector2.Zero,
                     120,
                     1000,
                     0,
@@ -350,6 +366,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(60f, 0f),
+                    Vector2.Zero,
                     120,
                     1000,
                     0,
@@ -368,6 +385,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(65f, 0f),
+                    Vector2.Zero,
                     120,
                     1000,
                     0,
@@ -386,6 +404,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(60f, 0f),
+                    Vector2.Zero,
                     120,
                     1000,
                     0,
@@ -404,6 +423,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Vector2(50f, 0f),
+                    Vector2.Zero,
                     120,
                     1000,
                     0,
@@ -423,6 +443,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(2f, 2f),
                     new Microsoft.Xna.Framework.Vector2(1f, 1f),
                     Vector2.Zero,
+                    new Vector2(70f, 0f),
                     250,
                     1000,
                     0,
@@ -455,6 +476,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(2f, 2f),
                     new Microsoft.Xna.Framework.Vector2(1f, 1f),
                     Vector2.Zero,
+                    new Vector2(70f, 0f),
                     130,
                     1000,
                     0,
@@ -482,6 +504,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(2f, 2f),
                     new Microsoft.Xna.Framework.Vector2(1f, 1f),
                     Vector2.Zero,
+                    new Vector2(70f, 0f),
                     70,
                     1000,
                     0,
@@ -502,7 +525,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         }
 
-        public static SkillStruct GenerateSkillStruct(int durationModifier, int velocity, int c, int d, int e, int f, int spread)
+        public static SkillStruct GenerateSkillStruct(int durationModifier, int velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -514,7 +537,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             
             skill.statIncrement = new List<KeyValuePair<String, int>>();
             skill.velocity = new Vector2(velocity * 100f, 0f);
-            skill.duration = 300 + durationModifier * 100;
+            skill.duration = spreadDuration * blowCount;
             skill.force = 50;
             skill.directionChange = 0;
             skill.cue = "";
@@ -523,33 +546,34 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterAnimationName = "";
             skill.spriterEntityIndex = 0;
             skill.spriterName = "";
+            skill.parentVelocity = new Vector2(-40f, 0f);
             
-            AddBlowsToSkillStruct(skill, d, e, f, c, spread);
+            AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread);
                 
             
             
             return skill;
         }
 
-        private static void AddBlowsToSkillStruct(SkillStruct skill, int a, int b, int c, int blowsSpreadDuration, int spread)
+        private static void AddBlowsToSkillStruct(SkillStruct skill, int blowCount, int blowPerSpread, int scatterCount, int spreadDuration, int spread)
         {
             SkillStruct temp;
-            for (int i = 0; i < a; i++)
+            for (int i = 0; i < blowCount; i++)
             {
-                if (a % 2 == 0)
+                if (blowCount % 2 == 0)
                 {
-                    temp = GenerateSkillStructDirectionChange(spread, i, b);
+                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread);
                 }
                 else
                 {
-                    temp = GenerateSkillStructDirectionChange(spread, i, b);
+                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread);
                 }
 
-                if(c>0)
-                    AddBlowsToSkillStruct(temp, a + 1, b, c - 1, blowsSpreadDuration, spread);
+                if(scatterCount>0)
+                    AddBlowsToSkillStruct(temp, blowCount + 1, blowPerSpread, scatterCount - 1, spreadDuration, spread);
 
 
-                skill.blows.Add(new KeyValuePair<int, SkillStruct>(100 + (i + 1) * blowsSpreadDuration, temp));
+                skill.blows.Add(new KeyValuePair<int, SkillStruct>(i * spreadDuration, temp));
             }
         }
 

@@ -67,6 +67,11 @@ namespace wickedcrush.entity.physics_entity
             this.bodies["body"].Position = pos - center;
         }
 
+        public override void AddLinearVelocity(Vector2 v)
+        {
+            bodies["body"].LinearVelocity += v;
+        }
+
         public override void Remove()
         {
             removeBodies();

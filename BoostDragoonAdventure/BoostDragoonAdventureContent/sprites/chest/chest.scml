@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="chest_parts">
+        <file id="0" name="chest_parts/chest_base.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="chest_parts/chest_top.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="chest">
+        <animation id="0" name="closed" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="chest_base">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-49" y="93" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="chest_top">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-49.038462" y="100.269231" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="closed_000" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="chest_base">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-14.700001" y="27.900001" angle="0" scale_x="0.3" scale_y="0.3"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="chest_top">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-14.711539" y="30.08077" angle="0" scale_x="0.3" scale_y="0.3"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="open" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="chest_base">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-49" y="93" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="open_000" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="chest_base">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-14.700001" y="27.900001" angle="0" scale_x="0.3" scale_y="0.3"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

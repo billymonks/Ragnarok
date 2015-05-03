@@ -13,7 +13,7 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, strafeButton = Buttons.LeftTrigger;
+        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger;
 
         public GamepadControls(PlayerIndex playerIndex)
         {
@@ -130,6 +130,30 @@ namespace wickedcrush.controls
                 return false;
         }
 
+        public override bool ReverseBoostHeld()
+        {
+            if (padState.IsButtonDown(reverseBoostButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ReverseBoostPressed()
+        {
+            if (padState.IsButtonDown(reverseBoostButton) && prevPadState.IsButtonUp(reverseBoostButton))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool ReverseBoostReleased()
+        {
+            if (padState.IsButtonUp(reverseBoostButton))
+                return true;
+            else
+                return false;
+        }
+
         public override bool BoostHeld()
         {
             if (padState.IsButtonDown(boostButton))
@@ -154,7 +178,7 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool StrafeHeld()
+        /*public override bool StrafeHeld()
         {
             if (padState.IsButtonDown(strafeButton))
                 return true;
@@ -168,7 +192,7 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
-        }
+        }*/
 
         public override bool DownPressed()
         {

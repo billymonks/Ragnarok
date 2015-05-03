@@ -42,12 +42,16 @@ namespace wickedcrush.controls
         public abstract bool ItemCPressed();
         public abstract bool ItemCReleased();
 
+        public abstract bool ReverseBoostHeld();
+        public abstract bool ReverseBoostPressed();
+        public abstract bool ReverseBoostReleased();
+
         public abstract bool BoostHeld();
         public abstract bool BoostPressed();
         public abstract bool BoostReleased();
 
-        public abstract bool StrafeHeld();
-        public abstract bool StrafePressed();
+        /*public abstract bool StrafeHeld();
+        public abstract bool StrafePressed();*/
 
         public abstract bool StartPressed();
         public abstract bool SelectPressed();

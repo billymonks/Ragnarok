@@ -37,7 +37,7 @@ namespace wickedcrush.editor.tool
             
             if (controls.InteractPressed())
                 primaryAction(pos, map);
-            if (controls.StrafePressed())
+            if (controls.ReverseBoostPressed())
                 f.preview.rotateCCW();
             if (controls.BoostPressed())
                 f.preview.rotateCW();

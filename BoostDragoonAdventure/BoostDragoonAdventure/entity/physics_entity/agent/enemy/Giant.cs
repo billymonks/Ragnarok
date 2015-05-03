@@ -177,10 +177,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            //sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
-            //sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
             sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
-            //sPlayer.setAnimation("standing_north", 0, 0);
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
 

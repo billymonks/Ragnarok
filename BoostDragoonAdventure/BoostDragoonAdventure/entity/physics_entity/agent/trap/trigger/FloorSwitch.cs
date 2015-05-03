@@ -8,6 +8,7 @@ using wickedcrush.factory.entity;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.manager.audio;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -35,6 +36,15 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 
             //bodies["body"].BodyType = BodyType.Static;
             bodies["body"].IsSensor = true;
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("trap", new SpriterPlayer(factory._spriterManager.spriters["trap"].getSpriterData(), 0, factory._spriterManager.spriters["trap"].loader));
+            bodySpriter = sPlayers["trap"];
+            bodySpriter.setFrameSpeed(20);
+
         }
 
         public override bool isTriggered()
@@ -74,6 +84,15 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (pressed)
+            {
+                bodySpriter.setAnimation("pressed_001", 0, 0);
+            }
+            else
+            {
+                bodySpriter.setAnimation("unpressed_001", 0, 0);
+            }
         }
     }
 }

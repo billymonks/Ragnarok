@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.manager.audio;
 using wickedcrush.display._3d;
 using wickedcrush.particle;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.chest
 {
@@ -67,17 +68,29 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     c => !((Chest)c).opened,
                     c =>
                     {
+                        bodySpriter.setAnimation("closed_000", 0, 0);
                         testColor = Color.Green;
                         CheckForOpen();
+
                     }));
             ctrl.Add("opened",
                 new State("opened",
                     c => true,
                     c =>
                     {
+                        bodySpriter.setAnimation("open_000", 0, 0);
                         testColor = Color.Blue;
                     }));
             sm = new StateMachine(ctrl);
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("chest", new SpriterPlayer(factory._spriterManager.spriters["chest"].getSpriterData(), 0, factory._spriterManager.spriters["chest"].loader));
+            bodySpriter = sPlayers["chest"];
+            bodySpriter.setFrameSpeed(20);
+
         }
 
         private void CheckForOpen()
@@ -93,7 +106,11 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                         factory.addText("You got " + temp.name + "!", this.pos + this.center, 3000);
                         ((PlayerAgent)e).stats.inventory.receiveItem(temp);
 
-                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 10, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
+                        ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - 5, 20, this.pos.Y + this.center.Y - 5), new Vector3(10, 0, 10), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
+                        EmitParticles(ps, 10);
+                        ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - 5, 20, this.pos.Y + this.center.Y - 5), new Vector3(10, 0, 10), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
+                        EmitParticles(ps, 10);
+                        ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - 5, 20, this.pos.Y + this.center.Y - 5), new Vector3(10, 0, 10), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
                         EmitParticles(ps, 10);
                     }
                 }

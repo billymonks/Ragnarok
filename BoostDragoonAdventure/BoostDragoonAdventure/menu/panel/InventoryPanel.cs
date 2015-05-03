@@ -18,15 +18,15 @@ namespace wickedcrush.menu.panel
         {
             this.inventory = inventory;
 
-            children.Add("slot0", new ItemPanel(Color.SlateGray, new Point(-240, -90), new Point(50, 50)));
-            children.Add("slot1", new ItemPanel(Color.SlateGray, new Point(-180, -90), new Point(50, 50)));
-            children.Add("slot2", new ItemPanel(Color.SlateGray, new Point(-120, -90), new Point(50, 50)));
-            children.Add("slot3", new ItemPanel(Color.SlateGray, new Point(-240, -30), new Point(50, 50)));
-            children.Add("slot4", new ItemPanel(Color.SlateGray, new Point(-180, -30), new Point(50, 50)));
-            children.Add("slot5", new ItemPanel(Color.SlateGray, new Point(-120, -30), new Point(50, 50)));
-            children.Add("slot6", new ItemPanel(Color.SlateGray, new Point(-240, 30), new Point(50, 50)));
-            children.Add("slot7", new ItemPanel(Color.SlateGray, new Point(-180, 30), new Point(50, 50)));
-            children.Add("slot8", new ItemPanel(Color.SlateGray, new Point(-120, 30), new Point(50, 50)));
+            children.Add("slot0", new ItemPanel(Color.SlateGray, new Point(-240, -90), new Point(50, 50), inventory));
+            children.Add("slot1", new ItemPanel(Color.SlateGray, new Point(-180, -90), new Point(50, 50), inventory));
+            children.Add("slot2", new ItemPanel(Color.SlateGray, new Point(-120, -90), new Point(50, 50), inventory));
+            children.Add("slot3", new ItemPanel(Color.SlateGray, new Point(-240, -30), new Point(50, 50), inventory));
+            children.Add("slot4", new ItemPanel(Color.SlateGray, new Point(-180, -30), new Point(50, 50), inventory));
+            children.Add("slot5", new ItemPanel(Color.SlateGray, new Point(-120, -30), new Point(50, 50), inventory));
+            children.Add("slot6", new ItemPanel(Color.SlateGray, new Point(-240, 30), new Point(50, 50), inventory));
+            children.Add("slot7", new ItemPanel(Color.SlateGray, new Point(-180, 30), new Point(50, 50), inventory));
+            children.Add("slot8", new ItemPanel(Color.SlateGray, new Point(-120, 30), new Point(50, 50), inventory));
             children.Add("commands", new Panel(Color.SlateGray, new Point(-240, 90), new Point(170, 20)));
 
             itemList = inventory.GetItemList();
