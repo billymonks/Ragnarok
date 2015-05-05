@@ -153,7 +153,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             if (followParent)
             {
-                SetPos(parent.pos + parent.center);
+                SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)))));
                 
             }
 

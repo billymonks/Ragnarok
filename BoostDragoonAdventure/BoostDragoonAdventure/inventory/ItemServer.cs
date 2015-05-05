@@ -81,23 +81,32 @@ namespace wickedcrush.inventory
                new Item("Spear", (a, i) =>
                {
                    a.stats.set("spear charge", 0);
+                   a.useActionSkill(SkillServer.skills["Forward Attack"]);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
                    a.stats.addTo("spear charge", 1);
+
+                   if (a.stats.compare("spear charge", 25) == 0)
+                       a.PlayCue("squash");
+
+                   if (a.stats.compare("spear charge", 50) == 0)
+                       a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("spear charge", 25) < 0)
+                   if (a.stats.compare("spear charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Spear Attack Weak"]);
+                       a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
+                       a.stats.addTo("boost", -100);
                    }
-                   else
+                   else if (a.stats.compare("spear charge", 25) > 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Spear Attack Full"]);
+                       a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
+                       a.stats.addTo("boost", -100);
                    }
-                   a.stats.addTo("boost", -100);
+                   
                    a.stats.set("spear charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),

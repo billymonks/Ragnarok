@@ -191,6 +191,25 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     3,
                     "attack1"));
 
+            skills.Add("Forward Attack",
+                new SkillStruct("Forward Attack",
+                    new Microsoft.Xna.Framework.Vector2(10f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(20f, 20f),
+                    new Microsoft.Xna.Framework.Vector2(10f, 10f),
+                    Vector2.Zero,
+                    new Vector2(50f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    "whsh",
+                    true,
+                    null,
+                    "all",
+                    3,
+                    "attack1"));
+
             skills.Add(
                 "Spear Attack Weak",
                 new SkillStruct("Spear Attack Full",
