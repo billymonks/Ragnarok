@@ -72,7 +72,8 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                     {
                         CheckForUse();
                     }));
-            sm = new StateMachine(ctrl);
+            stateTree = new StateTree();
+            stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
         private void CheckForUse()

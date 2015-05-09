@@ -122,7 +122,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="behavior\StateMachine.cs" />
+    <Compile Include="behavior\StateBranch.cs" />
+    <Compile Include="behavior\StateTree.cs" />
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="display\3d\ArtLayer.cs" />
     <Compile Include="display\3d\atlas\TextureAtlas.cs" />

@@ -81,7 +81,8 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                         bodySpriter.setAnimation("open_000", 0, 0);
                         testColor = Color.Blue;
                     }));
-            sm = new StateMachine(ctrl);
+            stateTree = new StateTree();
+            stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
         protected override void SetupSpriterPlayer()

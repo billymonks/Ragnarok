@@ -81,7 +81,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Giant)c).staggered,
                     c =>
                     {
-                        if (!sm.previousControlState.name.Equals("staggered"))
+                        if (!stateTree.previousControlState.name.Equals("staggered"))
                         {
                             this.PlayCue("vanquished");
                         }
@@ -95,7 +95,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Giant)c).timers["post_attack"].isActive(),
                     c =>
                     {
-                        if (!sm.previousControlState.name.Equals("post_attack"))
+                        if (!stateTree.previousControlState.name.Equals("post_attack"))
                         {
                             this.PlayCue("explosion");
                         }
@@ -112,7 +112,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Giant)c).timers["attack_tell"].isActive(),
                     c =>
                     {
-                        if (!sm.previousControlState.name.Equals("attack_tell"))
+                        if (!stateTree.previousControlState.name.Equals("attack_tell"))
                         {
                             faceTarget();
                             ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");
@@ -171,7 +171,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         }
 
                     }));
-            sm = new StateMachine(ctrl);
+            stateTree = new StateTree();
+            stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
         protected override void SetupSpriterPlayer()

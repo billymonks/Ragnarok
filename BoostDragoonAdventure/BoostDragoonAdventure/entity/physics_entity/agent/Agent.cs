@@ -45,7 +45,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected Stack<PathNode> path;
         protected Dictionary<String, Timer> timers;
         protected Dictionary<String, Trigger> triggers;
-        protected StateMachine sm;
+        protected StateTree stateTree;
         protected EntityFactory factory;
         protected SpriterManager _spriterManager;
         protected ParticleEmitter particleEmitter;
@@ -169,9 +169,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
             ApplyStoppingFriction(gameTime);
 
-            if (sm != null)
+            if (stateTree != null)
             {
-                sm.Update(gameTime, this);
+                stateTree.Update(gameTime, this);
             }
             
             HandleCollisions();

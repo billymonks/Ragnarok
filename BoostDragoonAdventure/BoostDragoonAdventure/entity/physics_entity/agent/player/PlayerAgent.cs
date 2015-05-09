@@ -176,7 +176,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
                         ParticleStruct ps;
-                        if (sm.previousControlState != null && sm.previousControlState.name != "boosting")
+                        if (stateTree.previousControlState != null && stateTree.previousControlState.name != "boosting")
                         {
                             timers["iFrameTime"].resetAndStart();
                             _sound.playCueInstance(id + "blast off", emitter);
@@ -227,7 +227,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c =>
                     {
                         ParticleStruct ps;
-                        if (sm.previousControlState != null && sm.previousControlState.name != "reverse_boosting")
+                        if (stateTree.previousControlState != null && stateTree.previousControlState.name != "reverse_boosting")
                         {
                             timers["iFrameTime"].resetAndStart();
                             _sound.playCueInstance(id + "blast off", emitter);
@@ -286,7 +286,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                     }));
 
-            sm = new StateMachine(ctrl);
+            stateTree = new StateTree();
+            stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
         private void CancelCharge()
