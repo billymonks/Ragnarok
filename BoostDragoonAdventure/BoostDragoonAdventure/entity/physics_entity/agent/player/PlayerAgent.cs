@@ -201,13 +201,18 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
                         {
+                            //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 20, this.pos.Y + this.center.Y), Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, 0, 0, 1000, "particles", 2, "red_small");
+                            //particleEmitter.EmitParticles(ps, this.factory, 1);
+
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
+                            particleEmitter.EmitParticles(ps, this.factory, 1);
                         }
                         else
                         {
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
-                        }
                             particleEmitter.EmitParticles(ps, this.factory, 1);
+                        }
+                            
 
                         
                     }));

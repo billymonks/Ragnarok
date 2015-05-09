@@ -33,6 +33,12 @@
         <file id="2" name="white_to_orange/c.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
         <file id="3" name="white_to_orange/d.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
     </folder>
+    <folder id="6" name="circles">
+        <file id="0" name="circles/white_large.png" width="24" height="24" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="circles/white_small.png" width="12" height="12" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="circles/red_large.png" width="24" height="24" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="circles/red_small.png" width="12" height="12" pivot_x="0" pivot_y="1"/>
+    </folder>
     <entity id="0" name="white_to_color">
         <animation id="0" name="white_to_red" length="1000" interval="100">
             <mainline>
@@ -126,22 +132,22 @@
             </mainline>
             <timeline id="0" name="a_003">
                 <key id="0" spin="0">
-                    <object folder="4" file="0" x="-12.5" y="12.34472"/>
+                    <object folder="4" file="0" x="-12.5" y="12.34472" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="b_002">
                 <key id="0" time="100" spin="0">
-                    <object folder="4" file="1" x="-12.57764" y="12.38354"/>
+                    <object folder="4" file="1" x="-12.57764" y="12.38354" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="c_002">
                 <key id="0" time="200" spin="0">
-                    <object folder="4" file="2" x="-12.46118" y="12.38354"/>
+                    <object folder="4" file="2" x="-12.46118" y="12.38354" angle="0"/>
                 </key>
             </timeline>
             <timeline id="3" name="d_002">
                 <key id="0" time="300" spin="0">
-                    <object folder="4" file="3" x="-12.42236" y="12.53882"/>
+                    <object folder="4" file="3" x="-12.42236" y="12.53882" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -163,22 +169,22 @@
             </mainline>
             <timeline id="0" name="a_004">
                 <key id="0" spin="0">
-                    <object folder="5" file="0" x="-12.53882" y="12.034161"/>
+                    <object folder="5" file="0" x="-12.53882" y="12.034161" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="b_003">
                 <key id="0" time="100" spin="0">
-                    <object folder="5" file="1" x="-12.61646" y="12.305901"/>
+                    <object folder="5" file="1" x="-12.61646" y="12.305901" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="c_003">
                 <key id="0" time="200" spin="0">
-                    <object folder="5" file="2" x="-12.694099" y="12.34472"/>
+                    <object folder="5" file="2" x="-12.694099" y="12.34472" angle="0"/>
                 </key>
             </timeline>
             <timeline id="3" name="d_003">
                 <key id="0" time="300" spin="0">
-                    <object folder="5" file="3" x="-12.305901" y="12.46118"/>
+                    <object folder="5" file="3" x="-12.305901" y="12.46118" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -253,6 +259,192 @@
             <timeline id="3" name="d_001">
                 <key id="0" time="300" spin="0">
                     <object folder="2" file="3" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="still_circle">
+        <animation id="0" name="white_large" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="6" file="0" x="-12.475687" y="12.744186" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="white_small" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_small">
+                <key id="0" spin="0">
+                    <object folder="6" file="1" x="-6.328197" y="6.447512" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="pulsing_circle">
+        <animation id="0" name="red_large" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="6" file="2" x="0.435288" y="-0.043283" pivot_x="0.516179" pivot_y="0.468039" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="6" file="2" x="0.435288" y="-0.043283" pivot_x="0.516179" pivot_y="0.468039" angle="0" scale_x="0.659394" scale_y="0.798988"/>
+                </key>
+                <key id="2" time="200" spin="0">
+                    <object folder="6" file="2" x="0.435288" y="-0.043283" pivot_x="0.516179" pivot_y="0.468039" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="red_small" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_small_001">
+                <key id="0" spin="0">
+                    <object folder="6" file="3" x="0.039517" y="0.03082" pivot_x="0.543609" pivot_y="0.46918" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="6" file="3" x="0.039517" y="0.03082" pivot_x="0.543609" pivot_y="0.46918" angle="0" scale_x="0.758344" scale_y="0.806218"/>
+                </key>
+                <key id="2" time="200" spin="0">
+                    <object folder="6" file="3" x="0.039517" y="0.03082" pivot_x="0.543609" pivot_y="0.46918" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="3" name="gore">
+        <animation id="0" name="bloodspurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="58">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="100">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="899">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="1000">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_small">
+                <key id="0" spin="0">
+                    <object folder="6" file="3" x="0.029637" y="-0.007659" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.067283" scale_y="0.067283"/>
+                </key>
+                <key id="1" time="58" spin="0">
+                    <object folder="6" file="3" x="0.029637" y="-0.007659" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.193289" scale_y="0.197407"/>
+                </key>
+                <key id="2" time="100" spin="0">
+                    <object folder="6" file="3" x="0.029637" y="-0.007659" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.119828" scale_y="0.119828"/>
+                </key>
+                <key id="3" time="899" spin="0">
+                    <object folder="6" file="3" x="0.029637" y="-0.007659" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.012947" scale_y="0.011647"/>
+                </key>
+                <key id="4" time="1000" spin="0">
+                    <object folder="6" file="3" x="0.00064" y="-0.00066" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.00272" scale_y="0.00143"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="bloodspurt_000" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="58">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="100">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="899">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="1000">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_small">
+                <key id="0" spin="0">
+                    <object folder="6" file="3" x="0.059274" y="-0.015318" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.134566" scale_y="0.134566"/>
+                </key>
+                <key id="1" time="58" spin="0">
+                    <object folder="6" file="3" x="0.059274" y="-0.015318" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.386578" scale_y="0.394814"/>
+                </key>
+                <key id="2" time="100" spin="0">
+                    <object folder="6" file="3" x="0.059274" y="-0.015318" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.239656" scale_y="0.239656"/>
+                </key>
+                <key id="3" time="899" spin="0">
+                    <object folder="6" file="3" x="0.059274" y="-0.015318" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.025894" scale_y="0.023294"/>
+                </key>
+                <key id="4" time="1000" spin="0">
+                    <object folder="6" file="3" x="0.00128" y="-0.00132" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.00544" scale_y="0.00286"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="bloodspurt_001" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="58">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="100">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="899">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="1000">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_small">
+                <key id="0" spin="0">
+                    <object folder="6" file="3" x="0.118548" y="-0.030636" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.269132" scale_y="0.269132"/>
+                </key>
+                <key id="1" time="58" spin="0">
+                    <object folder="6" file="3" x="0.118548" y="-0.030636" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.773156" scale_y="0.789628"/>
+                </key>
+                <key id="2" time="100" spin="0">
+                    <object folder="6" file="3" x="0.118548" y="-0.030636" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.479312" scale_y="0.479312"/>
+                </key>
+                <key id="3" time="899" spin="0">
+                    <object folder="6" file="3" x="0.118548" y="-0.030636" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.051788" scale_y="0.046588"/>
+                </key>
+                <key id="4" time="1000" spin="0">
+                    <object folder="6" file="3" x="0.00256" y="-0.00264" pivot_x="0.535298" pivot_y="0.486014" angle="0" scale_x="0.01088" scale_y="0.00572"/>
                 </key>
             </timeline>
         </animation>

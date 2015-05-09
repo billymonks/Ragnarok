@@ -31,7 +31,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         String cue;
 
-        SkillStruct skillStruct;
+        public SkillStruct skillStruct;
 
         //Agent agentParent;
 
@@ -155,7 +155,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
             {
                 SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
                         (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)))));
+
+                this.facing = parent.facing;
                 
+                if(bodySpriter != null)
+                    bodySpriter.setAngle(-(float)((int)parent.facing % 360));
             }
 
             if (null != parent)

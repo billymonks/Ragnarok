@@ -82,6 +82,7 @@ namespace wickedcrush.inventory
                {
                    a.stats.set("spear charge", 0);
                    a.useActionSkill(SkillServer.skills["Forward Attack"]);
+                   a.stats.addTo("boost", -50);
                },
                (a, i) =>
                {
