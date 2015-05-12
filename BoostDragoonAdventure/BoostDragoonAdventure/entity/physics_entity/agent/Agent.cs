@@ -27,6 +27,12 @@ using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
+    public enum StateName
+    {
+        Standing,
+        Moving
+    }
+
     public struct SpriterOffsetStruct
     {
         public SpriterPlayer player;
@@ -187,6 +193,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
             if (target != null && target.dead)
                 target = null;
+
+            facing = Helper.constrainDirection(facing);
+
         }
 
         public void EmitParticles(ParticleStruct ps, int count)
@@ -249,7 +258,20 @@ namespace wickedcrush.entity.physics_entity.agent
                 stats.set("stagger", stats.get("staggerDuration"));
             }
         }
-        
+
+        protected void MoveForward(bool strafe, float amount)
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            v += new Vector2((float)(amount * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + 0 * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
+                        (float)(amount * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - 0 * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
+
+            if (!strafe)
+                facing = (Direction)
+                    Helper.radiansToDirection(MathHelper.ToRadians((float)movementDirection));
+
+            bodies["body"].LinearVelocity = v;
+        }
 
         protected void FollowPath(bool strafe)
         {
@@ -277,7 +299,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 if(!strafe)
                     facing = (Direction)
-                        Helper.degreeToDirection((float)Math.Atan2(v.Y, v.X));
+                        Helper.radiansToDirection((float)Math.Atan2(v.Y, v.X));
 
                 bodies["body"].LinearVelocity = v;
             }
@@ -468,7 +490,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected void faceTarget()
         {
             if(target!=null)
-                facing = Helper.degreeToDirection(angleToEntity(target));
+                facing = Helper.radiansToDirection(angleToEntity(target));
         }
 
         protected bool hasLineOfSightToAgent(Agent a)

@@ -143,6 +143,37 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
+        public void addWeakling(Vector2 pos, Vector2 size, Vector2 center)
+        {
+            PersistedStats fuckStats = new PersistedStats();
+            Murderer a = new Murderer(_w, pos, size, center, true, this, fuckStats, _sm);
+            a.stats.set("hp", 100);
+            a.stats.set("maxHP", 100);
+            a.stats.set("staggerLimit", 300);
+            a.stats.set("stagger", 0);
+            a.stats.set("staggerDuration", 60);
+            a.stats.set("staggerDistance", 1);
+            if (_gm.map != null)
+            {
+                a.activateNavigator(_gm.map);
+            }
+            _em.addEntity(a);
+        }
+
+        public void addShiftyShooter(Vector2 pos, Vector2 size, Vector2 center)
+        {
+            PersistedStats fuckStats = new PersistedStats();
+            ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm);
+            s.stats.set("hp", 100);
+            s.stats.set("maxHP", 100);
+            s.stats.set("staggerLimit", 500);
+            s.stats.set("stagger", 0);
+            s.stats.set("staggerDuration", 60);
+            s.stats.set("staggerDistance", 1);
+
+            _em.addEntity(s);
+        }
+
         public void addTurret(Vector2 pos, Direction facing)
         {
             Turret t = new Turret(_w, pos, this, facing, _sm);

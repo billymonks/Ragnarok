@@ -217,7 +217,7 @@ namespace wickedcrush.screen
             if (u.p == null)
             {
 
-                if (game.instantAction && charList.Count > 0)
+                if (true && charList.Count > 0)
                 {
                     u.selection = 0;
                     SelectCharacter(u);

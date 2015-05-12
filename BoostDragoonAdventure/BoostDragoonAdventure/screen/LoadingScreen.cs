@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.screen
 {
@@ -23,6 +24,13 @@ namespace wickedcrush.screen
         public override void FullScreenDraw() 
         { 
         
+        }
+
+        public override void Draw()
+        {
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
+            DebugDraw();
+            game.spriteBatch.End();
         }
 
         public override void DebugDraw()

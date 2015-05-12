@@ -215,6 +215,20 @@ namespace wickedcrush.manager.map
                         new Vector2(24, 24), new Vector2(12, 12), true);
                 }
 
+                foreach (XElement e in objects.Elements("WEAKLING"))
+                {
+                    gm.factory.addWeakling(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(12, 12), new Vector2(12, 12));
+                }
+
+                foreach (XElement e in objects.Elements("SHIFTYSHOOTER"))
+                {
+                    gm.factory.addShiftyShooter(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(24, 24), new Vector2(12, 12));
+                }
+
                 foreach (XElement e in objects.Elements("GIANT"))
                 {
                     gm.factory.addGiant(

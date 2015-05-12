@@ -105,7 +105,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            //DebugDraw();
+            DebugDraw();
         }
 
         public override void DebugDraw()

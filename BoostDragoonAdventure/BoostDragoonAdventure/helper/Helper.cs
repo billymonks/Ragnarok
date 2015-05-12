@@ -50,9 +50,14 @@ namespace wickedcrush.helper
             return (((int)MathHelper.ToDegrees(radians) + 360) % 360);
         }
 
-        public static Direction degreeToDirection(float radians) // makes radian angle positive and converts to decimals in 45 degree intervals, for 8 directional things
+        public static Direction radiansToDirection(float radians) // makes radian angle positive and converts to decimals in 45 degree intervals, for 8 directional things
         {
-            return((Direction)(((((int)MathHelper.ToDegrees(radians) + 360) % 360) / 45) * 45));
+            return((Direction)(((((int)MathHelper.ToDegrees(radians) + 360f) % 360f) / 45f) * 45f));
+        }
+
+        public static Direction constrainDirection(Direction direction)
+        {
+            return (Direction)(((((int)direction + 360) % 360) / 45) * 45);
         }
 
         public static Point convertPositionToCoordinate(Vector2 pos, EditorRoom map, LayerType layerType)

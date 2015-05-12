@@ -156,6 +156,7 @@
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Giant.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />

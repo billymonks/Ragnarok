@@ -245,7 +245,7 @@
     <DOOR id="2" x="40" y="200" angle="0" />
     <DOOR id="3" x="120" y="920" angle="270" />
     <MURDERER id="4" x="1070" y="520" />
-    <GIANT id="5" x="1180" y="450" />
+    <MURDERER id="5" x="1180" y="450" />
     <MURDERER id="6" x="1200" y="520" />
   </OBJECTS>
   <ART1 exportMode="Bitstring">0000000000000000000000000000000000000000000000000000000000000000

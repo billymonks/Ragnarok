@@ -482,7 +482,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     },
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
                     "ping",
-                    false,
+                    true,
                     null,
                     "",
                     0,
@@ -510,7 +510,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     },
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
                     "",
-                    false,
+                    true,
                     null,
                     "",
                     0,
@@ -536,7 +536,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     },
                     new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10) },
                     "",
-                    false,
+                    true,
                     null,
                     "",
                     0,
@@ -544,7 +544,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         }
 
-        public static SkillStruct GenerateSkillStruct(int durationModifier, int velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread)
+        public static SkillStruct GenerateSkillStruct(int durationModifier, int velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -560,7 +560,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.force = 50;
             skill.directionChange = 0;
             skill.cue = "";
-            skill.followParent = true;
+            skill.followParent = followParent;
             skill.particle = null;
             skill.spriterAnimationName = "";
             skill.spriterEntityIndex = 0;

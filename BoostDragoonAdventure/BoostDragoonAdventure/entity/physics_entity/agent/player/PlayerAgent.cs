@@ -108,6 +108,22 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
         }
 
+        public override void TakeSkill(action.ActionSkill action)
+        {
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                dodgeSuccess = true;
+                stats.addTo("boost", 300);
+                timers["iFrameTime"].resetAndStart();
+                _sound.playCue("ping3", emitter);
+            }
+            else
+            {
+                base.TakeSkill(action);
+            }
+            
+        }
+
         public bool pollDodgeSuccess()
         {
             if (dodgeSuccess)
@@ -377,7 +393,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 return;
 
             Direction temp = (Direction)
-                        Helper.degreeToDirection((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
+                        Helper.radiansToDirection((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
             //strafe = controls.StrafeHeld();
 

@@ -162,7 +162,7 @@ namespace wickedcrush.inventory
                {
                    a.PlayCue("volleyball");
                    a.stats.set("scatter charge", 0);
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 10, 1, 1, 0, 0));
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 10, 1, 1, 0, 0, true));
                    a.stats.addTo("boost", -100);
                },
                (a, i) =>
@@ -180,14 +180,14 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("scatter charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 45));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 45, true));
                        a.stats.addTo("boost", -150);
                        a.stats.set("scatter charge", 0);
                    }
                    else if (a.stats.compare("scatter charge", 25) > 0)
                    {
                        //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 45));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 45, true));
                        a.stats.addTo("boost", -100);
                        a.stats.set("scatter charge", 0);
 
@@ -206,7 +206,7 @@ namespace wickedcrush.inventory
                    a.PlayCue("volleyball");
                    a.stats.set("rifle charge", 0);
                    //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0, true));
                    a.stats.addTo("boost", -100);
                },
                (a, i) =>
@@ -224,13 +224,13 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("rifle charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 0));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(20, 0, 70, 8, 8, 0, 0, true));
                        a.stats.addTo("boost", -200);
                    }
                    else if (a.stats.compare("rifle charge", 25) > 0)
                    {
 
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 15));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 3, 3, 0, 15, true));
                        a.stats.addTo("boost", -150);
                    }
                    
