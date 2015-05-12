@@ -19,6 +19,7 @@ namespace wickedcrush.display._3d
         #region fields
         public Vector3 cameraPosition, cameraTarget, upVector, velocity;
         public Vector2 minCamPos, maxCamPos;
+        //public Vector2
         public float fov, minX, minY;
         public Entity target;
         public CameraMode camMode = CameraMode.Still;

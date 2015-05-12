@@ -95,6 +95,7 @@ namespace wickedcrush.screen
             readyTimer = new Timer(20);
             readyTimer.start();
 
+            //wow i'm stupid this will cause problems:
             gameplayManager.camera.cameraPosition = new Vector3(game.playerManager.getMeanPlayerPos().X - 320, game.playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
 
             

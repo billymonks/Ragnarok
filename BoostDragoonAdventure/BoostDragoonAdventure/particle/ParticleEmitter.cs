@@ -23,7 +23,9 @@ namespace wickedcrush.particle
             for (int i = 0; i < count; i++)
             {
                 Particle p = new Particle(ps, factory);
-                _pm.AddParticle(p);
+
+                if (Math.Abs((factory._gm.camera.cameraPosition.X + 320) - ps.pos.X) < (600 * factory._gm.camera.fov) && Math.Abs((factory._gm.camera.cameraPosition.Y + 240) - ps.pos.Z) < 480)
+                    _pm.AddParticle(p);
             }
         }
 
