@@ -69,7 +69,8 @@ namespace wickedcrush.entity.physics_entity
 
         public override void AddLinearVelocity(Vector2 v)
         {
-            bodies["body"].LinearVelocity += v;
+            foreach(KeyValuePair<string, Body> body in bodies)
+                body.Value.LinearVelocity += v;
         }
 
         public override void Remove()

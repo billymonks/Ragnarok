@@ -227,9 +227,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
                             particleEmitter.EmitParticles(ps, this.factory, 1);
+                            factory._gm.camera.ShakeScreen(1f);
                         }
-                            
 
+                        factory._gm.camera.targetLooseness = 5f;
+                        
                         
                     }));
 
@@ -273,9 +275,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         else
                         {
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, 0, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
+                            factory._gm.camera.ShakeScreen(1f);
                         }
                         particleEmitter.EmitParticles(ps, this.factory, 1);
 
+                        factory._gm.camera.targetLooseness = 5f;
+                        
 
                     }));
 
@@ -297,7 +302,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         _sound.stopCueInstance(id + "blast off");
 
-
+                        factory._gm.camera.targetLooseness = 50f;
                         
 
                     }));

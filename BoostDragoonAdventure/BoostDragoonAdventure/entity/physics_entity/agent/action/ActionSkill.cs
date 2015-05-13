@@ -9,6 +9,7 @@ using Com.Brashmonkey.Spriter.player;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.particle;
+using wickedcrush.helper;
 
 namespace wickedcrush.entity.physics_entity.agent.action
 {
@@ -23,9 +24,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false;
+        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false, aimed=false;
 
         private Vector2 velocity;
+
+        int aimDirection;
 
         GameplayManager gameplay;
 
@@ -34,6 +37,53 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public SkillStruct skillStruct;
 
         //Agent agentParent;
+        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent, int aimDirection)
+            : base(gameplay.w,
+                new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
+                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection)))),
+                skillStruct.size,
+                skillStruct.center,
+                false,
+                gameplay.factory, game.soundManager) 
+        {
+            this.aimDirection = aimDirection;
+            aimed = true;
+            this.skillStruct = skillStruct;
+            this.duration = skillStruct.duration;
+            timers.Add("duration", new utility.Timer(duration));
+            timers["duration"].resetAndStart();
+
+            skillName = skillStruct.name;
+            
+            if (null != actingParent)
+            {
+                this.parent = actingParent;
+            } 
+            else
+            {
+                this.parent = parent;
+            }
+            this.facing = Helper.constrainDirection((Direction)aimDirection);
+            this.movementDirection = aimDirection + skillStruct.directionChange;
+            this.gameplay = gameplay;
+
+            
+
+            this.statIncrement = skillStruct.statIncrement;
+
+            this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
+
+            velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
+                (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection))));
+
+            LoadBlows(skillStruct.blows, gameplay);
+
+            cue = skillStruct.cue;
+
+            this.followParent = skillStruct.followParent;
+
+            Initialize();
+        }
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
@@ -146,20 +196,41 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 blows[i].Key.Update(gameTime);
                 if (blows[i].Key.isDone())
                 {
-                    gameplay.factory.addActionSkill(blows[i].Value, this, this.parent);
+                    //if (aimed)
+                    //{
+                        //gameplay.factory.addActionSkill(blows[i].Value, this, this.parent, aimDirection);
+                    //}
+                    //else
+                    //{
+                        gameplay.factory.addActionSkill(blows[i].Value, this, this.parent);
+                    //}
                     blows.Remove(blows[i]);
                 }
             }
 
             if (followParent)
             {
-                SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
-                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)))));
+                if (aimed)
+                {
+                    SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
+                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection)))));
 
-                this.facing = parent.facing;
+                    this.facing = Helper.constrainDirection((Direction)aimDirection);
+
+                    if (bodySpriter != null)
+                        bodySpriter.setAngle(-(float)((int)parent.facing % 360));
+                }
+                else
+                {
+                    SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection))),
+                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection)))));
                 
-                if(bodySpriter != null)
-                    bodySpriter.setAngle(-(float)((int)parent.facing % 360));
+                    this.facing = parent.facing;
+                
+                    if(bodySpriter != null)
+                        bodySpriter.setAngle(-(float)((int)parent.facing % 360));
+
+                }
             }
 
             if (null != parent)

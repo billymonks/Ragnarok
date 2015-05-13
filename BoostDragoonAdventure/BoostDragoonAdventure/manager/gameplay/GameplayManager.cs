@@ -123,7 +123,7 @@ namespace wickedcrush.manager.gameplay
 
             entityManager.Update(gameTime);
             particleManager.Update(gameTime);
-            camera.Update();
+            camera.Update(gameTime);
 
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 

@@ -599,6 +599,8 @@ namespace wickedcrush.entity.physics_entity.agent
             bodies["body"].LinearVelocity = v;
 
             action.PlayTakeSound();
+
+            factory._gm.camera.ShakeScreen(5f);
         }
 
         public virtual void TakeHit(Attack attack)
@@ -632,6 +634,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
             particleEmitter.EmitParticles(ps, this.factory, 3);
+
+            factory._gm.camera.ShakeScreen(5f);
         }
 
         

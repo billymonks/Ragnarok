@@ -21,11 +21,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 
         private void Initialize()
         {
-            immortal = true;
+            immortal = false;
             this.name = "Timer";
             trigger.repeat = true;
 
-            timers.Add("timer", new Timer(1000));
+            timers.Add("timer", new Timer(1500));
             timers["timer"].start();
         }
 

@@ -23,7 +23,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         
 
-        private const int moveLength = 500, standLength = 1000, attackRange = 700;
+        private const int moveLength = 750, standLength = 1000, standToShootLength = 500, attackRange = 700;
 
         private StateName state;
 
@@ -47,9 +47,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             timers.Add("done_moving", new Timer(moveLength));
             timers.Add("done_standing", new Timer(standLength));
+            timers.Add("shoot", new Timer(standToShootLength));
 
-            startingFriction = 0.5f;
-            stoppingFriction = 0.2f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
+            startingFriction = 0.3f;
+            stoppingFriction = 0.1f; //1+ is friction city, 1 is a lotta friction, 0.1 is a little slippery, 0.01 is quite slip
 
             state = StateName.Moving;
             timers["done_moving"].resetAndStart();
@@ -81,16 +82,17 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                             //decide direction to move
                             c.movementDirection += 90;
-                            c.facing = (Direction)(((int)c.facing + 90) % 360);
+                            
 
                             if (target == null)
                                 setTargetToClosestPlayer();
                             else if (distanceToTarget() < attackRange)
                             {
-                                fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
+                                faceTarget();
+                                
                             }
                             //start timer to change
-                            
+                            faceTarget();
                         }
 
 
@@ -120,7 +122,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         {
                             //timers["done_moving"].resetAndStart();
                         }
-                        MoveForward(false, 100f);
+                        MoveForward(false, 70f);
+                        faceTarget();
+                        //faceTarget();
                     }
                     ));
 
@@ -141,6 +145,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 timers["done_moving"].reset();
                 state = StateName.Standing;
                 timers["done_standing"].resetAndStart();
+                if (target != null)
+                {
+                    timers["shoot"].resetAndStart();
+                }
             }
 
             if (timers["done_standing"].isDone())
@@ -148,6 +156,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 timers["done_standing"].reset();
                 state = StateName.Moving;
                 timers["done_moving"].resetAndStart();
+            }
+
+            if (timers["shoot"].isDone())
+            {
+                timers["shoot"].reset();
+                //_sound.playCue("whsh", emitter);
+                //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
+                factory.addActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 16, 8, 0, 30, true), this, null, Helper.degreeConversion(angleToEntity(target)));
             }
         }
 
@@ -165,6 +181,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected void UpdateAnimation()
         {
 
+
+            
             String bad = "";
 
             if (timers["falling"].isActive())
@@ -173,7 +191,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 return;
             }
 
-            /*switch (facing)
+            faceTarget();
+            facing = Helper.constrainDirection(facing);
+
+            switch (facing)
             {
                 case Direction.East:
                     bad += "east";
@@ -224,9 +245,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             else
             {
                 bad += "_stand_000";
-            }*/
+            }
 
-            bad = "south_stand_000";
+            //bad = "south_stand_000";
 
             bodySpriter.setAnimation(bad, 0, 0);
         }

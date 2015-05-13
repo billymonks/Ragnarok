@@ -51,6 +51,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             else if (timers["firing"].isDone())
             {
                 fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
+                _sound.playCue("whsh", emitter);
                 timers["firing"].resetAndStart();
                 _sound.setGlobalVariable("InCombat", 1f);
             }

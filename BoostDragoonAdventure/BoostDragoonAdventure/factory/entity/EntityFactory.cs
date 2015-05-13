@@ -253,7 +253,8 @@ namespace wickedcrush.factory.entity
         public void addTimerTrigger(Vector2 pos)
         {
             TimerTrigger t = new TimerTrigger(_w, pos, this, _sm);
-
+            t.stats.set("hp", 20);
+            t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             
@@ -273,6 +274,13 @@ namespace wickedcrush.factory.entity
         public void addActionSkill(SkillStruct skillStruct, Entity parent)
         {
             ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, null);
+
+            _em.addEntity(a);
+        }
+
+        public void addActionSkill(SkillStruct skillStruct, Entity parent, Entity actingParent, int aimDirection)
+        {
+            ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, actingParent, aimDirection);
 
             _em.addEntity(a);
         }
