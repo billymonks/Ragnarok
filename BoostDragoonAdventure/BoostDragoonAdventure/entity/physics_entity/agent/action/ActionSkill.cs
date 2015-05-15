@@ -175,7 +175,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             if (cue != "")
             {
-                _sound.playCue(cue, emitter); // play activate sound
+                _sound.playCue(cue, parent.emitter); // play activate sound
             }
 
             SetupActionSkillSpriter();

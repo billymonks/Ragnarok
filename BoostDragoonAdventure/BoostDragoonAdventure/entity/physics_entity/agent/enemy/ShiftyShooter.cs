@@ -163,7 +163,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 timers["shoot"].reset();
                 //_sound.playCue("whsh", emitter);
                 //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
-                factory.addActionSkill(SkillServer.GenerateSkillStruct(10, 0, 100, 16, 8, 0, 30, true), this, null, Helper.degreeConversion(angleToEntity(target)));
+                factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), 0, 100, 16, 8, 0, 30, true, 600f, 1200), this, null, Helper.degreeConversion(angleToEntity(target)));
             }
         }
 

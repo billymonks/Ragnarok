@@ -544,7 +544,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         }
 
-        public static SkillStruct GenerateSkillStruct(int durationModifier, int velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent)
+        public static SkillStruct GenerateSkillStruct(Vector2 parentVelocity, int velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent, float blowVelocity, int blowDuration)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -555,7 +555,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.blows = new List<KeyValuePair<int, SkillStruct>>();
             
             skill.statIncrement = new List<KeyValuePair<String, int>>();
-            skill.velocity = new Vector2(velocity * 100f, 0f);
+            skill.velocity = new Vector2(0f, 0f);
             skill.duration = spreadDuration * blowCount;
             skill.force = 50;
             skill.directionChange = 0;
@@ -565,38 +565,38 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterAnimationName = "";
             skill.spriterEntityIndex = 0;
             skill.spriterName = "";
-            skill.parentVelocity = new Vector2(-40f, 0f);
-            
-            AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread);
+            skill.parentVelocity = parentVelocity;
+
+            AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowVelocity, blowDuration);
                 
             
             
             return skill;
         }
 
-        private static void AddBlowsToSkillStruct(SkillStruct skill, int blowCount, int blowPerSpread, int scatterCount, int spreadDuration, int spread)
+        private static void AddBlowsToSkillStruct(SkillStruct skill, int blowCount, int blowPerSpread, int scatterCount, int spreadDuration, int spread, float velocity, int duration)
         {
             SkillStruct temp;
             for (int i = 0; i < blowCount; i++)
             {
                 if (blowCount % 2 == 0)
                 {
-                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread);
+                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread, velocity, duration);
                 }
                 else
                 {
-                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread);
+                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread, velocity, duration);
                 }
 
                 if(scatterCount>0)
-                    AddBlowsToSkillStruct(temp, blowCount + 1, blowPerSpread, scatterCount - 1, spreadDuration, spread);
+                    AddBlowsToSkillStruct(temp, blowCount + 1, blowPerSpread, scatterCount - 1, spreadDuration, spread, velocity, duration);
 
 
                 skill.blows.Add(new KeyValuePair<int, SkillStruct>(i * spreadDuration, temp));
             }
         }
 
-        private static SkillStruct GenerateSkillStructDirectionChange(int spread, int n, int m)
+        private static SkillStruct GenerateSkillStructDirectionChange(int spread, int n, int m, float velocity, int duration)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -607,8 +607,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.blows = new List<KeyValuePair<int, SkillStruct>>();
             skill.statIncrement = new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10) } ;
             
-            skill.velocity = new Vector2(185f + 15 * 10f, 0f);
-            skill.duration = 700;
+            skill.velocity = new Vector2(velocity, 0f);
+            skill.duration = duration;
             skill.force = 50;
             skill.directionChange = m != 1 ? -(spread / 2) + (n % m) * (spread / (m - 1)) : 0;
             skill.cue = "whsh";
