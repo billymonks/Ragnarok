@@ -99,7 +99,7 @@ namespace wickedcrush
             graphics.ApplyChanges();
 
             spriterManager = new SpriterManager(this);
-
+            playerManager = new PlayerManager(this);
             
         }
 
@@ -128,7 +128,7 @@ namespace wickedcrush
 
             CalculateDimensionScale();
 
-            panelFactory = new PanelFactory();
+            panelFactory = new PanelFactory(spriterManager);
 
             ItemServer.Initialize();
             SkillServer.Initialize();
@@ -140,10 +140,10 @@ namespace wickedcrush
             taskManager = new TaskManager(this);
             soundManager = new SoundManager(Content);
             controlsManager = new ControlsManager(this);
-            playerManager = new PlayerManager(this);
+            
             mapManager = new MapManager(this);
             roomManager = new RoomManager();
-            
+            playerManager.Initialize();
 
         }
 
@@ -158,6 +158,7 @@ namespace wickedcrush
             PrimitiveDrawer.LoadContent(GraphicsDevice);
 
             spriterManager.LoadContent();
+            playerManager.LoadContent();
 
             
         }

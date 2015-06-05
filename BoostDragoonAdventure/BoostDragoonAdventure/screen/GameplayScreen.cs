@@ -146,8 +146,10 @@ namespace wickedcrush.screen
         public override void Update(GameTime gameTime)
         {
             game.diag = "";
-            //game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y;
-            game.diag += gameTime.ElapsedGameTime.Milliseconds;
+            //game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y + ", " + gameplayManager.camera.cameraPosition.Z + "\n";
+            //game.diag += "fov: " + gameplayManager.camera.fov + "\n";
+            //game.diag += gameTime.ElapsedGameTime.Milliseconds;
+            //game.diag += "\n" + 
             
             readyTimer.Update(gameTime);
 
@@ -222,6 +224,10 @@ namespace wickedcrush.screen
         {
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
+            game.spriteBatch.End();
+
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
+            game.playerManager.DrawHud();
             game.spriteBatch.End();
         }
 

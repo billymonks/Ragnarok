@@ -244,10 +244,10 @@
     <DOOR id="1" x="960" y="40" angle="0" />
     <DOOR id="2" x="40" y="520" angle="0" />
     <CHEST id="3" x="540" y="190" />
-    <MURDERER id="4" x="1130" y="580" />
-    <MURDERER id="5" x="1060" y="830" />
+    <MURDERER id="4" x="1120" y="580" width="22" height="22" />
+    <MURDERER id="5" x="1060" y="820" width="22" height="22" />
     <CHEST id="6" x="1200" y="690" />
-    <MURDERER id="8" x="170" y="140" />
+    <MURDERER id="8" x="170" y="140" width="12" height="12" />
   </OBJECTS>
   <ART1 exportMode="Bitstring">1111111111111111111111111111111111111111111100000000011111111000
 1111111111111111111111111111111111111111111100000000011111111000

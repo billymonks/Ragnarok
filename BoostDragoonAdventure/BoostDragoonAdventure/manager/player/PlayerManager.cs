@@ -17,6 +17,7 @@ using System.IO;
 using wickedcrush.stats;
 using wickedcrush.inventory;
 using wickedcrush.manager.network;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.manager.player
 {
@@ -32,20 +33,26 @@ namespace wickedcrush.manager.player
 
         private Dictionary<Player, PersistedStats> tempSavedStats = new Dictionary<Player,PersistedStats>();
 
+        
+
         public PlayerManager(GameBase game)
             : base(game)
         {
             g = game;
 
-            _cm = game.controlsManager;
-            _nm = game.networkManager;
+            
 
             Initialize();
         }
 
         public override void Initialize()
         {
+            _cm = g.controlsManager;
+            _nm = g.networkManager;
+
             base.Initialize();
+
+
         }
 
         public void Update(GameTime gameTime)
@@ -53,7 +60,14 @@ namespace wickedcrush.manager.player
             updatePlayers(gameTime);
             
 
+
+
             base.Update(gameTime);
+        }
+
+        public void LoadContent()
+        {
+            //
         }
 
         private void updatePlayers(GameTime gameTime)
@@ -61,6 +75,8 @@ namespace wickedcrush.manager.player
             foreach (Player p in playerList)
             {
                 p.Update(gameTime);
+
+                
 
                 if (p.readyForRemoval())
                     removeList.Add(p);
@@ -165,6 +181,7 @@ namespace wickedcrush.manager.player
             foreach (Player p in playerList)
             {
                 p.UpdatePanels(gameTime);
+                
             }
         }
 
@@ -351,6 +368,27 @@ namespace wickedcrush.manager.player
             foreach (Player p in playerList)
             {
                 p.DebugDrawPanels(sb, camera, font);
+
+
+                
+                
+            }
+        }
+
+        public void DrawHud()
+        {
+            foreach (Player p in playerList)
+            {
+                p.hudChargeSpriter.update(0f, -960f);
+                p.hpSpriter.update(120f, -1030f);
+                p.fuelSpriter.update(120f, -1050f);
+                p.hpSpriter.SetDepth(0.1f);
+                p.fuelSpriter.SetDepth(0.1f);
+                p.hudChargeSpriter.SetDepth(0.1f);
+                g.spriterManager.DrawPlayer(p.hudChargeSpriter);
+                g.spriterManager.DrawPlayer(p.hpSpriter);
+                g.spriterManager.DrawPlayer(p.fuelSpriter);
+
             }
         }
 

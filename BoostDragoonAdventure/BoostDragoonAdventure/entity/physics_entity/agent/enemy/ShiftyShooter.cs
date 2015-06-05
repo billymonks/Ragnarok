@@ -23,24 +23,43 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         
 
-        private const int moveLength = 750, standLength = 1000, standToShootLength = 500, attackRange = 700;
+        private int moveLength = 750, standLength = 1000, standToShootLength = 500, attackRange = 700, 
+            spreadDuration = 10, blowCount = 4, blowPerSpread = 4, scatterCount = 1, spread = 360, blowDuration = 600, blowReleaseDelay = 500;
+
+        private float blowVelocity = 600f, skillVelocity = 400f;
 
         private StateName state;
 
-        public ShiftyShooter(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
+        public ShiftyShooter(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, 
+            int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay,
+            int moveLength, int standLength, int standToShootLength, float skillVelocity)
             : base(w, pos, size, center, solid, factory, sound)
         {
-            Initialize();
+            Initialize(spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
             this.stats = stats;
         }
 
-        private void Initialize()
+        private void Initialize(int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay,
+            int moveLength, int standLength, int standToShootLength, float skillVelocity)
         {
             //stats = new PersistedStats(10, 10, 5);
             this.name = "ShiftyShooter";
 
             //timers.Add("navigation", new Timer(navigationResetLength));
             //timers["navigation"].start();
+
+            this.spreadDuration = spreadDuration;
+            this.blowCount = blowCount;
+            this.blowPerSpread = blowPerSpread;
+            this.scatterCount = scatterCount;
+            this.spread = spread;
+            this.blowVelocity = blowVelocity;
+            this.blowDuration = blowDuration;
+            this.blowReleaseDelay = blowReleaseDelay;
+            this.moveLength = moveLength;
+            this.standLength = standLength;
+            this.standToShootLength = standToShootLength;
+            this.skillVelocity = skillVelocity;
 
             movementDirection = 0;
             facing = (Direction)0;
@@ -163,7 +182,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 timers["shoot"].reset();
                 //_sound.playCue("whsh", emitter);
                 //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
-                factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), 0, 100, 16, 8, 0, 30, true, 600f, 1200), this, null, Helper.degreeConversion(angleToEntity(target)));
+                factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(skillVelocity, 0f), 
+                    spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green"))), this, null, Helper.degreeConversion(angleToEntity(target)));
             }
         }
 

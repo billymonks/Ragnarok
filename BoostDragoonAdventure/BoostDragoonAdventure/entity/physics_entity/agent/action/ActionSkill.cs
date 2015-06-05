@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall = true, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false, aimed=false;
+        protected bool reactToWall, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false, aimed=false;
 
         private Vector2 velocity;
 
@@ -82,6 +82,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             this.followParent = skillStruct.followParent;
 
+            if (followParent)
+                reactToWall = false;
+            else
+                reactToWall = true;
+
             Initialize();
         }
 
@@ -127,6 +132,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
             cue = skillStruct.cue;
 
             this.followParent = skillStruct.followParent;
+
+            if (followParent)
+                reactToWall = false;
+            else
+                reactToWall = true;
 
             Initialize();
         }
@@ -210,6 +220,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             if (followParent)
             {
+                skillStruct.pos += skillStruct.velocity;
                 if (aimed)
                 {
                     SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
@@ -285,7 +296,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             bodySpriter.setFrameSpeed(60);
 
             bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
-            height = 10;
+            height = 15;
 
             bodySpriter.setAngle(-(float)(this.movementDirection % 360));
         }

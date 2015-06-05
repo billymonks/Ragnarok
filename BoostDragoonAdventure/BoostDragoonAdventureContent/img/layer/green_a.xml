@@ -1,0 +1,15 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="true" edgeonly="true" path="blocks_green_a">
+      <transformations></transformations>
+    </tileset>
+    <tileset surface="true" edgeonly="false" path="blocks_green_b">
+      <transformations>
+        <transformation>
+          <shrink includeDiagonals="false">1</shrink>
+        </transformation>
+      </transformations>
+    </tileset>
+    <tileset surface="false" edgeonly="false" path="blocks_green_a"><transformations /></tileset>
+  </tilelayers>
+</artlayer>

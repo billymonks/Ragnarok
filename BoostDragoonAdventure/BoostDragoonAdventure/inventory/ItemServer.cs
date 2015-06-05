@@ -39,10 +39,12 @@ namespace wickedcrush.inventory
                 {
                     
                 },
-                (a, i) => { a.stats.addTo("boost", -5); },
+                (a, i) => { a.stats.addTo("boost", -3); },
                 (a, i) => {
-                    a.fireFireball(2, 10f, 20, 500);
-                    a.stats.addTo("boost", -100);
+                    //a.fireFireball(2, 10f, 20, 500);
+                    a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(400f, 0f), 10, 4, 4, 1, 180, false, 600f, 600, 400, null));
+                    a.stats.addTo("boost", -10);
+                    //a.stats.inventory.removeItem(i);
                 },
                 new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100)}),
                 new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
@@ -52,16 +54,16 @@ namespace wickedcrush.inventory
                "Shortsword",
                new Item("Shortsword", (a, i) =>
                {
-                   a.stats.set("shortsword charge", 0);
+                   a.stats.set("charge", 0);
                },
                (a, i) => 
                { 
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("shortsword charge", 1);
+                   a.stats.addTo("charge", 1);
                },
                (a, i) =>
                {
-                   if (a.stats.compare("shortsword charge", 25) < 0)
+                   if (a.stats.compare("charge", 25) < 0)
                    {
                        a.useActionSkill(SkillServer.skills["Weak Attack"]);
                    }
@@ -70,7 +72,7 @@ namespace wickedcrush.inventory
                        a.useActionSkill(SkillServer.skills["Strong Attack"]);
                    }
                    a.stats.addTo("boost", -100);
-                   a.stats.set("shortsword charge", 0);
+                   a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
@@ -80,35 +82,41 @@ namespace wickedcrush.inventory
                "Spear",
                new Item("Spear", (a, i) =>
                {
-                   a.stats.set("spear charge", 0);
+                   a.stats.set("charge", 0);
                    a.useActionSkill(SkillServer.skills["Forward Attack"]);
                    a.stats.addTo("boost", -50);
+                   
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("spear charge", 1);
+                   a.stats.addTo("charge", 1);
 
-                   if (a.stats.compare("spear charge", 25) == 0)
+                   if (a.stats.compare("charge", 25) == 0)
+                   {
                        a.PlayCue("squash");
+                       a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 2f);
+                   }
 
-                   if (a.stats.compare("spear charge", 50) == 0)
+                   if (a.stats.compare("charge", 50) == 0)
                        a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("spear charge", 50) > 0)
+                   if (a.stats.compare("charge", 50) > 0)
                    {
                        a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                        a.stats.addTo("boost", -100);
+                       a.RemoveOverheadWeapon("knife");
                    }
-                   else if (a.stats.compare("spear charge", 25) > 0)
+                   else if (a.stats.compare("charge", 25) > 0)
                    {
                        a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                        a.stats.addTo("boost", -100);
+                       a.RemoveOverheadWeapon("knife");
                    }
                    
-                   a.stats.set("spear charge", 0);
+                   a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
@@ -119,30 +127,33 @@ namespace wickedcrush.inventory
                new Item("Longsword", (a, i) =>
                {
                    a.PlayCue("volleyball");
-                   a.stats.set("longsword charge", 0);
+                   a.stats.set("charge", 0);
                    a.AddHudElement("warning", "warning", 4, Vector2.Zero);
+                   a.AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 80f), 3f);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("longsword charge", 1);
+                   a.stats.addTo("charge", 1);
 
-                   if (a.stats.compare("longsword charge", 25) == 0)
+                   if (a.stats.compare("charge", 25) == 0)
                        a.PlayCue("squash");
 
-                   if (a.stats.compare("longsword charge", 50) == 0)
+                   if (a.stats.compare("charge", 50) == 0)
                        a.PlayCue("ping2");
                },
                (a, i) =>
                {
                    a.RemoveHudElement("warning");
+                   a.RemoveOverheadWeapon("longsword");
                    a.PlayCue("smash");
 
-                   if (a.stats.compare("longsword charge", 25) < 0)
+                   if (a.stats.compare("charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Longsword Attack Weak"]);
+                       a.useActionSkill(SkillServer.skills["Sword Attack"]);
+                       //a.useActionSkill(SkillServer.skills["Longsword Attack Weak"]);
                    }
-                   else if (a.stats.compare("longsword charge", 50) < 0)
+                   else if (a.stats.compare("charge", 50) < 0)
                    {
                        a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                    } else
@@ -150,7 +161,7 @@ namespace wickedcrush.inventory
                        a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                    }
                    a.stats.addTo("boost", -100);
-                   a.stats.set("longsword charge", 0);
+                   a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
@@ -161,39 +172,39 @@ namespace wickedcrush.inventory
                new Item("Scattershot", (a, i) =>
                {
                    a.PlayCue("volleyball");
-                   a.stats.set("scatter charge", 0);
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 10, 1, 1, 0, 0, true, 300f, 600));
+                   a.stats.set("charge", 0);
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 0, true, 300f, 300, 0, null));
                    a.stats.addTo("boost", -100);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("scatter charge", 1);
+                   a.stats.addTo("charge", 1);
 
-                   if(a.stats.compare("scatter charge", 25) == 0)
+                   if(a.stats.compare("charge", 25) == 0)
                        a.PlayCue("squash");
 
-                   if (a.stats.compare("scatter charge", 50) == 0)
+                   if (a.stats.compare("charge", 50) == 0)
                        a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("scatter charge", 50) > 0)
+                   if (a.stats.compare("charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 70, 8, 8, 0, 45, true, 300f, 600));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 70, 8, 8, 0, 45, true, 300f, 100, 0, null));
                        a.stats.addTo("boost", -150);
-                       a.stats.set("scatter charge", 0);
+                       a.stats.set("charge", 0);
                    }
-                   else if (a.stats.compare("scatter charge", 25) > 0)
+                   else if (a.stats.compare("charge", 25) > 0)
                    {
                        //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0, 0));
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 100, 3, 3, 0, 45, true, 300f, 600));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3, 3, 0, 45, true, 300f, 100, 0, null));
                        a.stats.addTo("boost", -100);
-                       a.stats.set("scatter charge", 0);
+                       a.stats.set("charge", 0);
 
                    }
                    
-                   a.stats.set("scatter charge", 0);
+                   a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
@@ -204,37 +215,41 @@ namespace wickedcrush.inventory
                new Item("Rifle", (a, i) =>
                {
                    a.PlayCue("volleyball");
-                   a.stats.set("rifle charge", 0);
+                   a.stats.set("charge", 0);
                    //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 0, 1, 1, 0, 0, true, 300f, 1200));
-                   a.stats.addTo("boost", -100);
+                   //a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 1, 1, 1, 0, 0, true, 300f, 1200, 0, null));
+                   //a.stats.addTo("boost", -100);
                },
                (a, i) =>
                {
                    a.stats.addTo("boost", -3);
-                   a.stats.addTo("rifle charge", 1);
+                   a.stats.addTo("charge", 1);
 
-                   if (a.stats.compare("rifle charge", 25) == 0)
+                   if (a.stats.compare("charge", 25) == 0)
                        a.PlayCue("squash");
 
-                   if (a.stats.compare("rifle charge", 50) == 0)
+                   if (a.stats.compare("charge", 50) == 0)
                        a.PlayCue("ping2");
                },
                (a, i) =>
                {
-                   if (a.stats.compare("rifle charge", 50) > 0)
+                   if (a.stats.compare("charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 70, 5, 5, 0, 0, true, 300f, 1200));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 70, 5, 5, 0, 0, true, 500f, 500, 0, null));
                        a.stats.addTo("boost", -200);
                    }
-                   else if (a.stats.compare("rifle charge", 25) > 0)
+                   else if (a.stats.compare("charge", 25) > 0)
                    {
 
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), 0, 100, 3, 3, 0, 15, true, 300f, 1200));
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3, 3, 0, 15, true, 500f, 500, 0, null));
                        a.stats.addTo("boost", -150);
                    }
+                   else
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 1, 1, 0, 15, true, 500f, 500, 0, null));
+                   }
                    
-                   a.stats.set("rifle charge", 0);
+                   a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),

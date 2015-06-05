@@ -16,6 +16,7 @@ using wickedcrush.factory.menu.panel;
 using wickedcrush.helper;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.entity.physics_entity.agent.inanimate;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.player
 {
@@ -39,6 +40,8 @@ namespace wickedcrush.player
 
         public bool remove = false;
 
+        public SpriterPlayer hudChargeSpriter, hpSpriter, fuelSpriter;
+
         public Player(String name, int playerNumber, Controls c, PersistedStats stats, PanelFactory pf)
         {
             this.name = name;
@@ -49,6 +52,18 @@ namespace wickedcrush.player
             this.pf = pf;
             panels = new Stack<Panel>();
             inventoryPanel = pf.getInventory(stats.inventory);
+
+            hudChargeSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 0, pf._sm.spriters["hud"].loader);
+            hudChargeSpriter.setFrameSpeed(60);
+
+            hpSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            hpSpriter.setAnimation("hp", 0, 0);
+            hpSpriter.setFrameSpeed(0);
+            
+
+            fuelSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            fuelSpriter.setAnimation("fuel", 0, 0);
+            fuelSpriter.setFrameSpeed(0);
         }
 
         private int getPlayerNumber()
@@ -149,6 +164,34 @@ namespace wickedcrush.player
         public void Update(GameTime gameTime)
         {
             UpdatePanels(gameTime);
+
+            if (stats.get("charge") == 0)
+            {
+                hudChargeSpriter.setAnimation("0", 0, 0);
+            }
+            else if (stats.get("charge") < 25)
+            {
+                hudChargeSpriter.setAnimation("1", 0, 0);
+            }
+            else if (stats.get("charge") < 50)
+            {
+                hudChargeSpriter.setAnimation("2", 0, 0);
+            }
+            else
+            {
+                hudChargeSpriter.setAnimation("3", 0, 0);
+            }
+
+            if (!agent.dead)
+            {
+                hpSpriter.setFrame((long)(999f * ((float)stats.get("hp") / (float)stats.get("maxHP"))));
+                fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
+            }
+            else
+            {
+                hpSpriter.setFrame(0);
+                fuelSpriter.setFrame(0);
+            }
         }
 
         public void UpdatePanels(GameTime gameTime)

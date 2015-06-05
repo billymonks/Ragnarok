@@ -88,10 +88,15 @@ namespace wickedcrush.display._3d
             artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 3, true), 0, 5, "cavewall"));
 
 
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "pink_a"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 8, "lime_a"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "lime_a"));
-            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), 0, 1, "pink_a"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "pink_a_surface"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.DEATHSOUP].data, map.layerList[LayerType.WALL].data, true)), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "pink_a_wall"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "green_a_surface"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "pink_a_wall"));
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 8, "blue_a"));
+            
+            artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "blue_a"));
+            //artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "blue_a_wall"));
+            
 
             CreateTextureAtlas();
             CombineVertices();
@@ -100,8 +105,8 @@ namespace wickedcrush.display._3d
 
             SetEffectParameters(gameplay);
 
-            
-            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 2000f));
+
+            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
             lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
             //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
             //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
@@ -223,8 +228,8 @@ namespace wickedcrush.display._3d
             parallaxEffect.Parameters["View"].SetValue(viewMatrix);
             parallaxEffect.Parameters["EyePosition"].SetValue(cameraPosition);
 
-            
-            lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300);
+
+            lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300 - 430);
             lightList["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
             
 

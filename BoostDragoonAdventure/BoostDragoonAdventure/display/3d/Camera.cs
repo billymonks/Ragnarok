@@ -35,17 +35,24 @@ namespace wickedcrush.display._3d
         public float targetLooseness = 50f;
         #endregion
 
-        public Camera(PlayerManager players)
+        public Camera(PlayerManager players, float fov)
         {
             cameraPosition = new Vector3(0f, 0f, 0f);
             cameraTarget = new Vector3(0f, 0f, 0f);
             velocity = new Vector3(0f, 0f, 0f);
             upVector = Vector3.Up;
-            fov = MathHelper.PiOver4;
-            minCamPos = new Vector2(120f, 64f);
-            maxCamPos = new Vector2(524f, 320f);
+            this.fov = fov;
+
+            minCamPos = Vector2.Zero;
+            maxCamPos = Vector2.Zero;
 
             _players = players;
+        }
+
+        public void UpdateCameraBounds(int gridx, int gridy)
+        {
+            minCamPos = new Vector2((fov - 1.3333333f) * 240f, 65f);
+            maxCamPos = new Vector2(((float)gridx * 20f - 640f) - ((fov - 1.3333333f) * 240f), MathHelper.Lerp(320, 1280, ((float)(gridy-48))/48f));
         }
 
         public void SetTarget(Entity e)
@@ -101,7 +108,7 @@ namespace wickedcrush.display._3d
             cameraPosition.Y = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 100f)))) + (((cameraPosition.Y * looseness) + (_players.getMeanPlayerPos().Y - 240)) / (looseness + 1f));
 
             screenShakeAmount /= 2f;
-            //adhereToBounds();
+            adhereToBounds();
         }
 
         public static float Generate(float x)
@@ -168,7 +175,23 @@ namespace wickedcrush.display._3d
 
         private void adhereToBounds()
         {
-            if (cameraPosition.X + minCamPos.X > maxCamPos.X)
+            if (cameraPosition.X < minCamPos.X)
+            {
+                cameraPosition.X = minCamPos.X;
+            }
+            if (cameraPosition.Y < minCamPos.Y)
+            {
+                cameraPosition.Y = minCamPos.Y;
+            }
+            if (cameraPosition.X > maxCamPos.X)
+            {
+                cameraPosition.X = maxCamPos.X;
+            }
+            if (cameraPosition.Y > maxCamPos.Y)
+            {
+                cameraPosition.Y = maxCamPos.Y;
+            }
+            /*if (cameraPosition.X + minCamPos.X > maxCamPos.X)
             {
                 cameraPosition.X = maxCamPos.X - minCamPos.X;
                 cameraTarget.X = maxCamPos.X - minCamPos.X;
@@ -187,7 +210,7 @@ namespace wickedcrush.display._3d
             {
                 cameraPosition.Y = minCamPos.Y;
                 cameraTarget.Y = minCamPos.Y;
-            }
+            }*/
         }
         public void MoveCamLeft(float speed)
         {

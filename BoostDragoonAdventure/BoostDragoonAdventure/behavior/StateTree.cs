@@ -43,6 +43,7 @@ namespace wickedcrush.behavior
                 if (branch.Value.testBranchCondition(e))
                 {
                     branch.Value.Update(gameTime, e, this);
+                    return;
                 }
             }
 

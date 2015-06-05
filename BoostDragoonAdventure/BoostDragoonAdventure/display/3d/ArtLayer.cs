@@ -57,7 +57,16 @@ namespace wickedcrush.display._3d
                 }
                 foreach (XElement shrink in e.Elements("shrink"))
                 {
-                    data = LayerTransformations.ShrinkLayer(data, int.Parse(shrink.Value), bool.Parse(shrink.Attribute("includeDiagonals").Value));
+                    if (Boolean.Parse(tileElement.Attribute("surface").Value))
+                    {
+                        data = LayerTransformations.ShrinkLayer(data, int.Parse(shrink.Value), bool.Parse(shrink.Attribute("includeDiagonals").Value));
+                    }
+                    else
+                    {
+                        data = LayerTransformations.ShrinkLayerX(data, int.Parse(shrink.Value));
+                        baseHeight += int.Parse(shrink.Value);
+                        height -= int.Parse(shrink.Value);
+                    }
                 }
                 foreach (XElement grow in e.Elements("grow"))
                 {
@@ -69,10 +78,13 @@ namespace wickedcrush.display._3d
                 }
             }
 
+            //if (height < baseHeight)
+                //return;
+
             if (Boolean.Parse(tileElement.Attribute("surface").Value))
                 tileLayers.Add(new SurfaceTileLayer(game, data, height, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
             else
-                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Attribute("path").Value));
+                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
         }
 
         private void LoadCaveTileLayers(GameBase game, Map map, int baseHeight, int height)
@@ -86,11 +98,11 @@ namespace wickedcrush.display._3d
 
 
             data = LayerTransformations.InvertLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2));
-            tileLayers.Add(new WallTileLayer(game, data, baseHeight, baseHeight - 1, "cliff16"));
+            tileLayers.Add(new WallTileLayer(game, data, baseHeight, baseHeight - 1, "cliff16", false));
             tileLayers.Add(new SurfaceTileLayer(game, data, baseHeight, "dungeon_floor_4x4", false));
 
             data = LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2);
-            tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, "wall16"));
+            tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, "wall16", false));
             tileLayers.Add(new SurfaceTileLayer(game, data, height, "dungeon_floor_4x4", false));
         }
 
@@ -202,6 +214,54 @@ namespace wickedcrush.display._3d
             }
 
             return result;
+        }
+
+        public static bool[,] ShrinkLayerX(bool[,] a, int count)
+        {
+            
+            bool[,] b = new bool[a.GetLength(0), a.GetLength(1)];
+            if (count > 0)
+            {
+                count--;
+
+                for (int i = 1; i < a.GetLength(1) - 1; i++)
+                {
+                    b[0, i] = (a[0, i] && a[0, i - 1]);
+                    b[0, i] = (b[0, i] && a[0, i + 1]);
+
+                    b[a.GetLength(0) - 1, i] = (a[a.GetLength(0) - 1, i] && a[a.GetLength(0) - 1, i - 1]);
+                    b[a.GetLength(0) - 1, i] = (b[a.GetLength(0) - 1, i] && a[a.GetLength(0) - 1, i + 1]);
+                }
+
+                for (int i = 1; i < a.GetLength(0) - 1; i++)
+                {
+                    for (int j = 0; j < a.GetLength(1); j++)
+                    {
+                        //b[i, j] = (a[i, j] && a[i, j - 1]);
+                        //b[i, j] = (b[i, j] && a[i, j + 1]);
+                        b[i, j] = (b[i, j] && a[i - 1, j]);
+                        b[i, j] = (b[i, j] && a[i + 1, j]);
+                        //if (includeDiagonals)
+                        //{
+                            //b[i, j] = (b[i, j] && a[i + 1, j + 1]);
+                            //b[i, j] = (b[i, j] && a[i - 1, j + 1]);
+                            //b[i, j] = (b[i, j] && a[i + 1, j - 1]);
+                            //b[i, j] = (b[i, j] && a[i - 1, j - 1]);
+                        //}
+                    }
+                }
+
+
+            }
+            else
+            {
+                return a;
+            }
+
+            if (count == 0)
+                return b;
+            else
+                return ShrinkLayerX(b, count);
         }
 
         public static bool[,] ShrinkLayer(bool[,] a, int count, bool includeDiagonals)

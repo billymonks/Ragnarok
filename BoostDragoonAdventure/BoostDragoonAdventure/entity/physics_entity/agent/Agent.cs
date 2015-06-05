@@ -152,6 +152,22 @@ namespace wickedcrush.entity.physics_entity.agent
             hudSpriters.Add(key, temp);
         }
 
+        public void AddOverheadWeapon(String key, String spriterName, String animationName, int entityIndex, Vector2 offset, float scale)
+        {
+            SpriterOffsetStruct temp = new SpriterOffsetStruct(
+                new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
+                offset);
+            temp.player.setAnimation(animationName, 0, 0);
+            temp.player.setAngle(90f);
+            temp.player.setScale(scale);
+            hudSpriters.Add(key, temp);
+        }
+
+        public void RemoveOverheadWeapon(string key)
+        {
+            hudSpriters.Remove(key);
+        }
+
         public void RemoveHudElement(string key)
         {
             hudSpriters.Remove(key);
@@ -703,21 +719,21 @@ namespace wickedcrush.entity.physics_entity.agent
         protected void InitializeHpBar()
         {
             AddHudElement("hp_bar", "hp_bar", 4, Vector2.Zero);
-            AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
+            //AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
         }
 
         protected void RemoveHpBar()
         {
             RemoveHudElement("hp_bar");
-            RemoveHudElement("fuel_bar");
+            //RemoveHudElement("fuel_bar");
         }
 
         protected void UpdateHpBar()
         {
             long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("maxHP"))) * 99.0);
-            long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
+            //long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
             hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
-            hudSpriters["fuel_bar"].player.setFrame(fuelSunday);
+            //hudSpriters["fuel_bar"].player.setFrame(fuelSunday);
 
 
 

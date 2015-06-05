@@ -25,6 +25,8 @@ namespace wickedcrush.display._3d
 
         protected int height;
 
+        protected bool edgeTilesOnly;
+
         //public DynamicVertexBuffer buffer;
 
         public TileLayer(GameBase game, bool[,] data, int height, String tilesetPath)

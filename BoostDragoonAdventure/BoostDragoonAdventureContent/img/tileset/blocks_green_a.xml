@@ -1,0 +1,9 @@
+﻿<tileset name="blocks_blue" x="48" y="48">
+  <tex>etqws3_green_a</tex>
+  <normal>etqws3_normals_d</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="16" height="16"></tilepos>
+    <tilepos id="1" x="16" y="16" width="16" height="16"></tilepos>
+    <tilepos id="2" x="32" y="32" width="16" height="16"></tilepos>
+  </tilesize>
+</tileset>

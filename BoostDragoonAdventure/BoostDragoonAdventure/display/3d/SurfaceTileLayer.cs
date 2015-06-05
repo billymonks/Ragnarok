@@ -12,7 +12,7 @@ namespace wickedcrush.display._3d
     public class SurfaceTileLayer : TileLayer
     {
 
-        bool edgeTilesOnly;
+        
 
         Random random = new Random();
         Double rand;

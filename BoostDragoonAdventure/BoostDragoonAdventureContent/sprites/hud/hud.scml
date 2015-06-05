@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="charge-parts">
+        <file id="0" name="charge-parts/charge3-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="charge-parts/charge2-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="charge-parts/charge1-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="charge-parts/charge1-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="charge-parts/charge2-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="charge-parts/charge3-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="bar-parts">
+        <file id="0" name="bar-parts/hp.png" width="240" height="30" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="bar-parts/fuel.png" width="240" height="30" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="charge">
+        <animation id="0" name="0" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="1" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="3" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-glow">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="charge1-unglow_000">
+                <key id="0" time="100" spin="0">
+                    <object folder="0" file="2" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="2" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="1" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-glow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-glow_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="charge2-unglow_000">
+                <key id="0" time="100" spin="0">
+                    <object folder="0" file="1" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="3" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="0" z_index="2"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="3" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                    <object_ref id="2" timeline="0" key="1" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge1-glow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-glow">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" angle="0"/>
+                </key>
+                <key id="1" time="100" spin="0">
+                    <object folder="0" file="4" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge3-unglow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="charge3-glow">
+                <key id="0" time="100" spin="0">
+                    <object folder="0" file="5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="bars">
+        <animation id="0" name="hp" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="hp">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" scale_x="0" scale_y="0.5"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="1" file="0" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="fuel" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="fuel">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" scale_x="0" scale_y="0.5"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="1" file="1" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

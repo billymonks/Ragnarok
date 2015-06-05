@@ -188,8 +188,14 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("TIMER"))
                 {
+                    int time = 1500;
+
+                    if (e.Attribute("time") != null)
+                        time = int.Parse(e.Attribute("time").Value);
+
                     gm.factory.addTimerTrigger(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        time);
                 }
 
                 foreach (XElement e in objects.Elements("DOOR"))
@@ -212,21 +218,25 @@ namespace wickedcrush.manager.map
                 {
                     gm.factory.addMurderer(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(24, 24), new Vector2(12, 12), true);
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true);
                 }
 
                 foreach (XElement e in objects.Elements("WEAKLING"))
                 {
                     gm.factory.addWeakling(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(12, 12), new Vector2(12, 12));
+                        new Vector2(12, 12), new Vector2(6, 6));
                 }
 
                 foreach (XElement e in objects.Elements("SHIFTYSHOOTER"))
                 {
                     gm.factory.addShiftyShooter(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(24, 24), new Vector2(12, 12));
+                        new Vector2(24, 24), new Vector2(12, 12),
+                        int.Parse(e.Attribute("spreadDuration").Value), int.Parse(e.Attribute("blowCount").Value), int.Parse(e.Attribute("blowPerSpread").Value),
+                        int.Parse(e.Attribute("scatterCount").Value), int.Parse(e.Attribute("spread").Value), float.Parse(e.Attribute("blowVelocity").Value), int.Parse(e.Attribute("blowDuration").Value),
+                        int.Parse(e.Attribute("blowReleaseDelay").Value), int.Parse(e.Attribute("moveLength").Value), int.Parse(e.Attribute("standLength").Value), int.Parse(e.Attribute("standToShootLength").Value),
+                        int.Parse(e.Attribute("skillVelocity").Value));
                 }
 
                 foreach (XElement e in objects.Elements("GIANT"))
@@ -385,10 +395,16 @@ namespace wickedcrush.manager.map
                     if (flipped)
                         tempX *= -1;
 
+                    int time = 1500;
+
+                    if (e.Attribute("time") != null)
+                        time = int.Parse(e.Attribute("time").Value);
+
                     gm.factory.addTimerTrigger(
                         new Vector2(
                             320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
-                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));
+                            240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),
+                            time);
                 }
             }
         }

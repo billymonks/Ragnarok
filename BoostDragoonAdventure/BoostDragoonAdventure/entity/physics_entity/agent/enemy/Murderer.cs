@@ -23,7 +23,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        private const int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30;
+        private int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30;
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)
@@ -42,6 +42,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             timers.Add("attack_tell", new Timer(attackTellLength));
             timers.Add("post_attack", new Timer(postAttackLength));
+
+            attackRange = (int)size.X + 12;
             //timers.Add("falling", new Timer(500));
 
             startingFriction = 0.5f;
@@ -132,7 +134,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         testColor = Color.Yellow;
                         if(timers["attack_tell"].isDone())
                         {
-                            attackForward(new Vector2(48, 48), 30, 500);
+                            attackForward(size*2f, 30, 500);
                             testColor = Color.Red;
                             timers["post_attack"].resetAndStart();
                             timers["attack_tell"].reset();
@@ -190,10 +192,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            //sPlayers.Add("standing", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 0, factory._spriterManager.spriters["all"].loader));
-            //sPlayers.Add("boosting", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 1, factory._spriterManager.spriters["all"].loader));
             sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
-            //sPlayer.setAnimation("standing_north", 0, 0);
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
 

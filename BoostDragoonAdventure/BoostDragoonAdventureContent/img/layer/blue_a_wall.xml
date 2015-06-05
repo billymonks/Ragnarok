@@ -1,0 +1,5 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="blocks_blue_a"><transformations /></tileset>
+  </tilelayers>
+</artlayer>

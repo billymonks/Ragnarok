@@ -13,13 +13,20 @@
     <connection id="1" doorIndex="1">variety</connection>
   </map>
   <map name="longmap" filename="Content/maps/full/longmap.xml">
+    <connection id="0" doorIndex="1">scenic view</connection>
+    <connection id="1" doorIndex="0">scenic view</connection>
+  </map>
+  <map name="scenic view" filename="Content/maps/full/scenic_view.xml">
     <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">longmap</connection>
-  </map>
-  <map name="testMap" filename="Content/maps/full/testMap.xml">
-    <connection id="0" doorIndex="0">variety</connection>
+    <connection id="2" doorIndex="1">longmap</connection>
+    <connection id="3" doorIndex="0">longmap</connection>
   </map>
   <map name="big empty test" filename="Content/maps/full/big_empty_test.xml">
     <connection id="0" doorIndex="0">big empty test</connection>
+  </map>
+  <map name="timer test" filename="Content/maps/full/big_timer_test.xml">
+    <connection id="0" doorIndex="1">big_timer_test.xml</connection>
+    <connection id="1" doorIndex="0">big_timer_test.xml</connection>
   </map>
 </atlas>

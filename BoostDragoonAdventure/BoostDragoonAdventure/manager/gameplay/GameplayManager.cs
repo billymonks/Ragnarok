@@ -75,7 +75,7 @@ namespace wickedcrush.manager.gameplay
 
             scene = new Scene(_game);
 
-            camera = new Camera(_game.playerManager);
+            camera = new Camera(_game.playerManager, ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height));
             
 
             _game.soundManager.setCam(camera);
@@ -156,7 +156,9 @@ namespace wickedcrush.manager.gameplay
             _game.mapManager.LoadMap(this, map, mapStats);
             scene.BuildScene(_game, map, this);
 
-            camera.maxCamPos = new Vector2(map.width /2, map.height /2);
+            camera.UpdateCameraBounds(map.getLayer(LayerType.WALL).getWidth(), map.getLayer(LayerType.WALL).getHeight());
+
+            //camera.maxCamPos = new Vector2(map.width /2, map.height /2);
             
 
         }

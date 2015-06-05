@@ -126,10 +126,10 @@ namespace wickedcrush.factory.entity
             _em.addEntity(g);
         }
 
-        public void addMurderer(Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        public void addMurderer(Vector2 pos, Vector2 size, bool solid)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(_w, pos, size, center, solid, this, fuckStats, _sm);
+            Murderer a = new Murderer(_w, pos, size, size/2f, solid, this, fuckStats, _sm);
             a.stats.set("hp", 280);
             a.stats.set("maxHP", 280);
             a.stats.set("staggerLimit", 500);
@@ -160,10 +160,10 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
-        public void addShiftyShooter(Vector2 pos, Vector2 size, Vector2 center)
+        public void addShiftyShooter(Vector2 pos, Vector2 size, Vector2 center, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay, int moveLength, int standLength, int standToShootLength, float skillVelocity)
         {
             PersistedStats fuckStats = new PersistedStats();
-            ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm);
+            ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm, spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
             s.stats.set("hp", 100);
             s.stats.set("maxHP", 100);
             s.stats.set("staggerLimit", 500);
@@ -250,9 +250,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(f);
         }
 
-        public void addTimerTrigger(Vector2 pos)
+        public void addTimerTrigger(Vector2 pos, int time)
         {
-            TimerTrigger t = new TimerTrigger(_w, pos, this, _sm);
+            TimerTrigger t = new TimerTrigger(_w, pos, this, _sm, time);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);

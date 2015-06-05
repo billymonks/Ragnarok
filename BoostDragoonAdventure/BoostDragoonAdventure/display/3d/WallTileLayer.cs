@@ -14,9 +14,10 @@ namespace wickedcrush.display._3d
 
         int baseHeight; //height = height of top, baseheight = height of base, aka baseheight = 3, height = 4 means 1 grid high
 
-        public WallTileLayer(GameBase game, bool[,] data, int height, int baseHeight, String tilesetPath)
+        public WallTileLayer(GameBase game, bool[,] data, int height, int baseHeight, String tilesetPath, bool edgeOnly)
             : base(game, data, height, tilesetPath)
         {
+            edgeTilesOnly = edgeOnly;
             this.baseHeight = baseHeight;
             BuildScene(game);
             
@@ -46,6 +47,11 @@ namespace wickedcrush.display._3d
             int quarter = x % 2 + 2 * (z % 2);
 
             int floorTexture = GetWallTextureInt(x, y, z);
+
+            if (floorTexture == 4 && edgeTilesOnly)
+            {
+                return;
+            }
 
             float padding = 0.03f;
 
@@ -133,10 +139,10 @@ namespace wickedcrush.display._3d
             if (x < data.GetLength(0) - 1 && !data[x + 1, z])
                 result++;
 
-            if (y == baseHeight)
+            if (y == baseHeight && y != height - 1)
                 result += 3;
-            
-            if (y == height-1)
+
+            if (y == height - 1 && y != baseHeight)
                 result -= 3;
 
             return result;

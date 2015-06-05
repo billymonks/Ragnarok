@@ -244,9 +244,9 @@
     <ROOM_MIRROR id="1" x="620" y="720" angle="0" />
     <DOOR id="2" x="40" y="200" angle="0" />
     <DOOR id="3" x="120" y="920" angle="270" />
-    <MURDERER id="4" x="1070" y="520" />
-    <MURDERER id="5" x="1180" y="450" />
-    <MURDERER id="6" x="1200" y="520" />
+    <MURDERER id="4" x="1070" y="520" width="24" height="24" />
+    <MURDERER id="5" x="1180" y="450" width="24" height="24" />
+    <MURDERER id="6" x="1200" y="520" width="24" height="24" />
   </OBJECTS>
   <ART1 exportMode="Bitstring">0000000000000000000000000000000000000000000000000000000000000000
 0000000000000000000000000000000000000000000000000000000000000000

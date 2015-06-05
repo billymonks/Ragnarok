@@ -12,10 +12,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
     public class TimerTrigger : TriggerBase
     {
-
-        public TimerTrigger(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
+        int time;
+        public TimerTrigger(World w, Vector2 pos, EntityFactory factory, SoundManager sound, int time)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
+            this.time = time;
             Initialize();
         }
 
@@ -25,7 +26,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             this.name = "Timer";
             trigger.repeat = true;
 
-            timers.Add("timer", new Timer(1500));
+            timers.Add("timer", new Timer(time));
             timers["timer"].start();
         }
 
