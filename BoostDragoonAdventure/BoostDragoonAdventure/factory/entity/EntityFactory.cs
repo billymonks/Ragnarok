@@ -33,6 +33,8 @@ using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility;
 using wickedcrush.manager.particle;
+using wickedcrush.screen;
+using wickedcrush.screen.dialog;
 
 namespace wickedcrush.factory.entity
 {
@@ -53,6 +55,8 @@ namespace wickedcrush.factory.entity
 
         private List<Door> doorList;
 
+        public Dictionary<String, bool> savedBools = new Dictionary<String, bool>();
+
         public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, ParticleManager particleManager, RoomManager rm, World w)
         {
 
@@ -70,6 +74,116 @@ namespace wickedcrush.factory.entity
             random = new Random();
 
             doorList = new List<Door>();
+        }
+
+        public bool checkBool(string key)
+        {
+            if (savedBools.ContainsKey(key))
+                return savedBools[key];
+
+            return false;
+        }
+
+        public void createTextScreen(String text, Vector2 pos)
+        {
+            _game.screenManager.AddScreen(new TextDisplayScreen(_game, _pm.getPlayerList()[0], text, pos));
+        }
+
+        //needs some kind of screen manager / dialog manager
+        public void createDialog(String dialog, Vector2 pos)
+        {
+            Player p = _pm.getPlayerList()[0];
+            GameScreen root = new TextDisplayScreen(_game, p, "", pos);
+            GameScreen pointer = root;
+            
+
+            dialog = dialog.Replace("\r\n", "¥");
+
+            dialog = dialog.Replace("\\n", "\n");
+
+            string[] text = dialog.Split('¥');
+
+            string[] temps;
+            string temp1, temp2;
+            //int tempInt;
+
+            //bool inBranch = false;
+            Stack<StatBranchScreen> branch = new Stack<StatBranchScreen>();
+            
+
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i].StartsWith("say"))
+                {
+                    setNextScreen(branch, ref pointer, new TextDisplayScreen(_game, p, text[i].Substring(4, text[i].Length - 5), pos));
+                    //pointer = pointer.nextScreen;
+                    //((TextDisplayScreen)pointer).text = text[i].Substring(4, text[i].Length - 5);
+                }
+                else if (text[i].StartsWith("setvar"))
+                {
+                    temps = text[i].Split('|');
+                    temp1 = temps[0].Substring(temps[0].IndexOf('[')+1, temps[0].Length - temps[0].IndexOf('[')-1);
+                    temp2 = temps[1].Substring(0, temps[1].IndexOf(']'));
+                    setNextScreen(branch, ref pointer, new StatSetScreen(_game, p, temp1, int.Parse(temp2)));
+                    //pointer = pointer.nextScreen;
+                }
+                else if (text[i].StartsWith("branch"))
+                {
+                    temps = text[i].Split('|');
+                    temp1 = temps[0].Substring(temps[0].IndexOf('[') + 1, temps[0].Length - temps[0].IndexOf('[') - 1);
+                    temp2 = temps[1].Substring(0, temps[1].IndexOf(']'));
+                    branch.Push(new StatBranchScreen(_game, p, temp1, int.Parse(temp2)));
+                    pointer.nextScreen = branch.Peek();
+                    //pointer = 
+                }
+                else if (text[i].StartsWith("yes"))
+                {
+                    branch.Peek().branchInt = 0;
+                }
+                else if (text[i].StartsWith("no"))
+                {
+                    branch.Peek().branchInt = 1;
+                }
+                else if (text[i].StartsWith("end"))
+                {
+                    branch.Peek().branchInt = -1;
+                }
+            }
+            _game.screenManager.AddScreen(root.nextScreen);
+        }
+
+        private void setNextScreen(Stack<StatBranchScreen> branchStack, ref GameScreen pointer, GameScreen nextScreen)
+        {
+            StatBranchScreen temp;
+            if (branchStack.Count > 0 && branchStack.Peek().branchInt == -1)
+            {
+                temp = branchStack.Pop();
+                temp.AddToNo(nextScreen);
+                temp.AddToYes(nextScreen);
+                pointer = nextScreen;
+            }
+            else if (branchStack.Count > 0 && branchStack.Peek().branchInt == 0)
+            {
+                temp = branchStack.Peek();
+                temp.AddToYes(nextScreen);
+            }
+            else if (branchStack.Count > 0 && branchStack.Peek().branchInt == 1)
+            {
+                temp = branchStack.Peek();
+                temp.AddToNo(nextScreen);
+            }
+            else
+            {
+                pointer.nextScreen = nextScreen;
+                pointer = pointer.nextScreen;
+            }
+        }
+
+        public void createBooleanChoiceScreen(String text, Vector2 pos, string key)
+        {
+            //if(!savedBools.ContainsKey(key))
+                //savedBools.Add(key, false);
+            //_game.screenManager.AddScreen(new BooleanChoiceScreen(_game, _pm.getPlayerList()[0], text, pos, key, this));
         }
 
         public void createEntity(Vector2 pos, Vector2 size, Vector2 center)
@@ -200,6 +314,14 @@ namespace wickedcrush.factory.entity
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
             _em.addEntity(c);
+        }
+
+        public void addNPC(Vector2 pos, Vector2 size, String dialog)
+        {
+            NPC npc = new NPC(pos, size, dialog, _game, _gm);
+            npc.stats.set("staggerDuration", 1);
+            npc.stats.set("staggerDistance", 0);
+            _em.addEntity(npc);
         }
 
         public void addTerminal(Vector2 pos)

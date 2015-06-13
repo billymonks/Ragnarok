@@ -85,6 +85,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
 
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
         }
 
         private void applyStats()
@@ -311,13 +316,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
             stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
-        private void CancelCharge()
-        {
-            chargeLevel = 0;
-
-            inCharge = false;
-        }
-
         private void UpdateItems()
         {
             UpdateItemA();
@@ -418,8 +416,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (timers["falling"].isActive())
             {
                 bodySpriter.setAnimation("fall_000", 0, 0);
+                drawShadow = false;
                 return;
             }
+
+            drawShadow = true;
 
             switch (facing)
             {
@@ -468,10 +469,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (bodies["body"].LinearVelocity.Length() >= 1f)
             {
                 bad += "_run_000";
+                shadowSpriter.setAnimation("moving", 0, 0);
             }
             else
             {
                 bad += "_stand_000";
+                shadowSpriter.setAnimation("still", 0, 0);
             }
 
             bodySpriter.setAnimation(bad, 0, 0);

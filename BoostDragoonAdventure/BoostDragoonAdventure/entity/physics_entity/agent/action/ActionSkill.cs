@@ -36,6 +36,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public SkillStruct skillStruct;
 
+        bool rootSkill = false;
+
         //Agent agentParent;
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent, int aimDirection)
             : base(gameplay.w,
@@ -62,6 +64,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             else
             {
                 this.parent = parent;
+                rootSkill = true;
             }
             this.facing = Helper.constrainDirection((Direction)aimDirection);
             this.movementDirection = aimDirection + skillStruct.directionChange;
@@ -113,6 +116,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             else
             {
                 this.parent = parent;
+                rootSkill = true;
             }
             this.facing = parent.facing;
             this.movementDirection = parent.movementDirection + skillStruct.directionChange;
@@ -199,7 +203,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
         {
             base.Update(gameTime);
 
-            bodies["body"].LinearVelocity = velocity;
+            if (bodies.ContainsKey("body"))
+                bodies["body"].LinearVelocity = velocity;
 
             for (int i = blows.Count - 1; i >= 0; i--)
             {
@@ -258,7 +263,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             }
 
             if (timers["duration"].isDone())
-                this.remove = true;
+                Remove();
 
             //just_for_show = true;
         }
@@ -299,6 +304,15 @@ namespace wickedcrush.entity.physics_entity.agent.action
             height = 15;
 
             bodySpriter.setAngle(-(float)(this.movementDirection % 360));
+
+            if (!followParent)
+            {
+                sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+                shadowSpriter = sPlayers["shadow"];
+                shadowSpriter.setAnimation("still", 0, 0);
+                shadowSpriter.setFrameSpeed(20);
+                drawShadow = true;
+            }
         }
 
         protected override void HandleCollisions()
@@ -333,11 +347,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     ((Agent)c.Other.UserData).TakeSkill(this);
 
                     if (!piercing)
-                        this.remove = true;
+                        Remove();
                 }
                 else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
-                    this.remove = true;
+                    Remove();
                 }
 
                 c = c.Next;
@@ -346,7 +360,16 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void Dispose()
         {
+            parent.itemInUse = null;
             base.Dispose();
+        }
+
+        public override void Remove()
+        {
+            if(rootSkill)
+                parent.itemInUse = null;
+            this.remove = true;
+            base.Remove();
         }
     }
 }

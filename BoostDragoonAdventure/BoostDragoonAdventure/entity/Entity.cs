@@ -11,6 +11,7 @@ using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.attack;
 using Microsoft.Xna.Framework.Audio;
 using wickedcrush.display._3d;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity
 {
@@ -53,6 +54,10 @@ namespace wickedcrush.entity
         public int id = Helper.getUID();
 
         public int height = 0;
+
+        public Item itemInUse = null;
+
+        
         #endregion
 
         #region Initialization

@@ -16,6 +16,8 @@ namespace wickedcrush.screen
         public bool disposed = false;
         public bool finished = false;
 
+        public GameScreen nextScreen;
+
         public event EventHandler<EventArgs> Disposed;
 
         public abstract void Dispose();

@@ -9,6 +9,8 @@ using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using wickedcrush.manager.audio;
 using Com.Brashmonkey.Spriter.player;
+using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.utility;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 {
@@ -70,15 +72,20 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
                     && (c.Other.UserData is Agent)
                     && !c.Other.UserData.Equals(this))
                 {
-                    if(!((Agent)c.Other.UserData).airborne)
+                    if (!((Agent)c.Other.UserData).airborne)
+                    {
                         pressed = true;
+                    }
                 }
 
                 c = c.Next;
             }
 
             if (pressed && ready)
+            {
                 triggered = true;
+                //factory.createBooleanChoiceScreen("Are you you?", new Vector2(200f, 200f), "choiceX");
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -92,6 +99,13 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             else
             {
                 bodySpriter.setAnimation("unpressed_001", 0, 0);
+            }
+
+            if (factory.checkBool("choiceX"))
+            {
+                //factory.createTextScreen("Now you did it!", new Vector2(200f, 200f));
+                
+                //factory.savedBools.Remove("choiceX");
             }
         }
     }

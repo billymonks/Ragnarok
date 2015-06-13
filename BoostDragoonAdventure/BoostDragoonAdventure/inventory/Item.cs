@@ -53,13 +53,16 @@ namespace wickedcrush.inventory
 
         public void Press(Agent a)
         {
-            if (pressAction == null || !pressReady)
+            if (pressAction == null || !pressReady || a.itemInUse != null)
                 return;
+
+            a.itemInUse = this;
 
             foreach (KeyValuePair<string, int> req in pressRequirements)
             {
                 if (!a.stats.requirementMet(req.Key, req.Value))
                 {
+                    a.itemInUse = null;
                     return;
                 }
             }
@@ -79,13 +82,16 @@ namespace wickedcrush.inventory
 
         public void Hold(Agent a)
         {
-            if (holdAction == null || !holdReady)
+            if (holdAction == null || !holdReady || (a.itemInUse != this && a.itemInUse != null))
                 return;
+
+            a.itemInUse = this;
 
             foreach (KeyValuePair<string, int> req in holdRequirements)
             {
                 if (!a.stats.requirementMet(req.Key, req.Value))
                 {
+                    a.itemInUse = null;
                     return;
                 }
             }
@@ -103,13 +109,14 @@ namespace wickedcrush.inventory
 
         public void Release(Agent a)
         {
-            if (releaseAction == null || !releaseReady)
+            if (releaseAction == null || !releaseReady || (a.itemInUse != this && a.itemInUse != null))
                 return;
 
             foreach (KeyValuePair<string, int> req in releaseRequirements)
             {
                 if (!a.stats.requirementMet(req.Key, req.Value))
                 {
+                    a.itemInUse = null;
                     return;
                 }
             }

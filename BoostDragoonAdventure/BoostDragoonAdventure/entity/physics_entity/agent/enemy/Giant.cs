@@ -58,12 +58,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
             base.setupBody(w, pos, size, center, solid);
-
-            //bodies.Add("activeArea", BodyFactory.CreateBody(w, pos - new Vector2(300f, 300f)));
-            //FixtureFactory.AttachCircle(300f, 1f, bodies["activeArea"], center);
-            //bodies["activeArea"].IsSensor = true;
-            //bodies["activeArea"].BodyType = BodyType.Dynamic;
-            //bodies["activeArea"].LinearVelocity = Vector2.Zero;
         }
 
         private void SetupStateMachine()

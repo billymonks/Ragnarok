@@ -26,9 +26,10 @@ namespace wickedcrush.inventory
                     a.stats.inventory.removeItem(i);
                     ParticleStruct ps = new ParticleStruct(new Vector3(a.pos.X + a.center.X, 20, a.pos.Y + a.center.Y), Vector3.Zero, new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_green");
                     a.EmitParticles(ps, 10);
-                }, 
-                (a, i) => { },
-                (a, i) => { },
+                    a.itemInUse = null;
+                },
+                (a, i) => { a.itemInUse = null; },
+                (a, i) => { a.itemInUse = null; },
                 new List<KeyValuePair<string, int>>(),
                 new List<KeyValuePair<string, int>>(),
                 new List<KeyValuePair<string, int>>()));
@@ -107,15 +108,18 @@ namespace wickedcrush.inventory
                    {
                        a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                        a.stats.addTo("boost", -100);
-                       a.RemoveOverheadWeapon("knife");
                    }
                    else if (a.stats.compare("charge", 25) > 0)
                    {
                        a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                        a.stats.addTo("boost", -100);
-                       a.RemoveOverheadWeapon("knife");
                    }
-                   
+                   else
+                   {
+                       a.itemInUse = null;
+                   }
+
+                   a.RemoveOverheadWeapon("knife");
                    a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
@@ -173,8 +177,7 @@ namespace wickedcrush.inventory
                {
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
-                   a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 0, true, 300f, 300, 0, null));
-                   a.stats.addTo("boost", -100);
+                   
                },
                (a, i) =>
                {
@@ -203,6 +206,11 @@ namespace wickedcrush.inventory
                        a.stats.set("charge", 0);
 
                    }
+                   else
+                   {
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 0, true, 300f, 300, 0, null));
+                       a.stats.addTo("boost", -100);
+                   }
                    
                    a.stats.set("charge", 0);
                },
@@ -216,6 +224,7 @@ namespace wickedcrush.inventory
                {
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
+                   a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 15, true, 500f, 500, 0, null));
                    //a.useActionSkill(SkillServer.GenerateSkillStruct(10, 0, 0, 1, 1, 0));
                    //a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 1, 1, 1, 0, 0, true, 300f, 1200, 0, null));
                    //a.stats.addTo("boost", -100);
@@ -246,7 +255,8 @@ namespace wickedcrush.inventory
                    }
                    else
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 1, 1, 0, 15, true, 500f, 500, 0, null));
+                       a.itemInUse = null;
+
                    }
                    
                    a.stats.set("charge", 0);

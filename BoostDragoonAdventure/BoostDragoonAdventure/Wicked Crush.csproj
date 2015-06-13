@@ -159,6 +159,7 @@
     <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
+    <Compile Include="entity\physics_entity\agent\npc\NPC.cs" />
     <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />
     <Compile Include="entity\physics_entity\agent\trap\AimTurret.cs" />
     <Compile Include="entity\physics_entity\agent\trap\triggerable\Triggerable.cs" />
@@ -199,7 +200,10 @@
     <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="particle\Particle.cs" />
     <Compile Include="particle\ParticleEmitter.cs" />
+    <Compile Include="screen\dialog\BooleanChoiceScreen.cs" />
     <Compile Include="screen\CharCreationScreen.cs" />
+    <Compile Include="screen\dialog\StatBranchScreen.cs" />
+    <Compile Include="screen\dialog\StatSetScreen.cs" />
     <Compile Include="screen\editor\DevMapEditorScreen.cs" />
     <Compile Include="screen\EditorMenuControlBarScreen.cs" />
     <Compile Include="screen\EditorScreen.cs" />
@@ -237,10 +241,12 @@
     <Compile Include="GameBase.cs" />
     <Compile Include="screen\PlayerSelectScreen.cs" />
     <Compile Include="screen\TestCompleteScreen.cs" />
+    <Compile Include="screen\dialog\TextDisplayScreen.cs" />
     <Compile Include="screen\transition\SolidColorFadeTransition.cs" />
     <Compile Include="screen\transition\Transition.cs" />
     <Compile Include="stats\PersistedStats.cs" />
     <Compile Include="task\GameTask.cs" />
+    <Compile Include="utility\Choice.cs" />
     <Compile Include="utility\config\GameSettings.cs" />
     <Compile Include="utility\Timer.cs" />
     <Compile Include="utility\trigger\TimedTrigger.cs" />

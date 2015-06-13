@@ -69,10 +69,18 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public Dictionary<String,SpriterPlayer> sPlayers;
 
-        public SpriterPlayer bodySpriter, overlaySpriter;
+        public SpriterPlayer bodySpriter, overlaySpriter, shadowSpriter;
         public Dictionary<String, SpriterOffsetStruct> hudSpriters;
 
+        public bool drawShadow = false;
+
         Random random = new Random();
+
+        //public bool itemInPress = false;
+        //public bool itemInHold = false;
+        //public bool itemInUse = false;
+
+        
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -136,10 +144,17 @@ namespace wickedcrush.entity.physics_entity.agent
             sPlayers = new Dictionary<string, SpriterPlayer>();
             sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.spriters["all"].loader));
             sPlayers.Add("hud", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 4, factory._spriterManager.spriters["all"].loader));
+            
 
             bodySpriter = sPlayers["cursor"];
             bodySpriter.setAnimation("hover", 0, 0);
             bodySpriter.setFrameSpeed(20);
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
         }
 
         public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file
@@ -198,11 +213,6 @@ namespace wickedcrush.entity.physics_entity.agent
             
             HandleCollisions();
 
-            //if(bodies.ContainsKey("hotspot"))
-                //bodies["hotspot"].Position = bodies["body"].WorldCenter;
-
-            if(bodies.ContainsKey("activeArea"))
-                bodies["activeArea"].Position = bodies["body"].WorldCenter;
 
             if (stats.get("hp") <= 0 && immortal == false)
                 Die();
@@ -272,6 +282,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 factory.addText("Staggered!", this.pos, 1000);
                 staggered = true;
                 stats.set("stagger", stats.get("staggerDuration"));
+                stats.set("charge", 0);
             }
         }
 
@@ -406,7 +417,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Draw(bool depthPass)
         {
-            if (visible)
+            if (visible && bodies.ContainsKey("body"))
             {
 
                 Vector2 spritePos = new Vector2(
@@ -448,6 +459,26 @@ namespace wickedcrush.entity.physics_entity.agent
                     factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
                     _spriterManager.DrawPlayer(overlaySpriter); // todo: depth offset
 
+                }
+
+                if (null != shadowSpriter && drawShadow)
+                {
+                    shadowSpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+                    shadowSpriter.SetDepth(depth + 0.001f);
+
+                    if (depthPass)
+                    {
+                        Vector2 shadowPos = new Vector2(
+                            (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
+                            ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
+                    );
+                        shadowSpriter.update(shadowPos.X, shadowPos.Y);
+                    }
+                    else
+                    {
+                        factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(depth);
+                        _spriterManager.DrawPlayer(shadowSpriter); // todo: depth offset
+                    }
                 }
 
 
@@ -612,7 +643,8 @@ namespace wickedcrush.entity.physics_entity.agent
             v.X += unitVector.X * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
             v.Y += unitVector.Y * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
 
-            bodies["body"].LinearVelocity = v;
+            if (bodies.ContainsKey("body"))
+                bodies["body"].LinearVelocity = v;
 
             action.PlayTakeSound();
 
@@ -643,7 +675,8 @@ namespace wickedcrush.entity.physics_entity.agent
             v.X = unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
             v.Y = unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
 
-            bodies["body"].LinearVelocity += v;
+            if(bodies.ContainsKey("body"))
+                bodies["body"].LinearVelocity += v;
 
             factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
             _sound.playCue("hurt", emitter);

@@ -1186,6 +1186,12 @@
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="sprites\shadow\shadow_parts\shadow.png">
+      <Name>shadow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="sprites\trap\trap_parts\pressed.png">
       <Name>pressed</Name>
       <Importer>TextureImporter</Importer>
@@ -1457,6 +1463,12 @@
   <ItemGroup>
     <Content Include="sprites\weapons\weapons.scml">
       <Name>weapons</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sprites\shadow\shadow.scml">
+      <Name>shadow</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
