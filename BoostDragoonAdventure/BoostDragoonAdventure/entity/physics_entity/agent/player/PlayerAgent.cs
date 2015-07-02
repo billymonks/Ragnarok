@@ -150,6 +150,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (remove)
+                return;
 
             if (stats.compare("boost", "maxBoost") == -1)
                 stats.addTo("boost", stats.get("fillSpeed"));
@@ -173,6 +175,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             UpdateHpBar();
             UpdateAnimation();
             applyStats();
+
+            
         }
 
         private void SetupStateMachine()
@@ -408,6 +412,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         protected void UpdateAnimation()
         {
+            
             //if (sPlayer == null)
                 //return;
 
@@ -544,7 +549,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void Dispose()
         {
             base.Dispose();
-
+            _sound.stopCueInstance(id + "blast off");
+            _sound.stopCueInstance(id + "charging");
             _sound.removeCueInstance(id + "blast off");
             _sound.removeCueInstance(id + "charging");
 

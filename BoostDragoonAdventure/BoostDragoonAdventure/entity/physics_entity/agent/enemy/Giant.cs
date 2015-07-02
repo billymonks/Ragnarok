@@ -53,6 +53,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             UpdateHpBar();
             UpdateAnimation();
+
+            
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -153,7 +155,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         if (target == null)
-                            setTargetToClosestPlayer();
+                            setTargetToClosestPlayer(true);
                         else if (distanceToTarget() < attackRange)
                         {
                             timers["attack_tell"].resetAndStart();

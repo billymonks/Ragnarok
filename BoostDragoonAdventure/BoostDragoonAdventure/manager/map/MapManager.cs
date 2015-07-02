@@ -30,7 +30,7 @@ namespace wickedcrush.manager.map
 
     public struct MapStats
     {
-        public String name, filename;
+        public String name, filename, theme;
         public List<Connection> connections;
 
         public MapStats(String name, String filename, List<Connection> connections)
@@ -38,6 +38,15 @@ namespace wickedcrush.manager.map
             this.name = name;
             this.filename = filename;
             this.connections = connections;
+            this.theme = "default";
+        }
+
+        public MapStats(String name, String filename, List<Connection> connections, String theme)
+        {
+            this.name = name;
+            this.filename = filename;
+            this.connections = connections;
+            this.theme = theme;
         }
     }
 
@@ -285,11 +294,19 @@ namespace wickedcrush.manager.map
 
             foreach (XElement e in rootElement.Elements("map"))
             {
-                String name, fileName;
+                String name, fileName, theme;
                 List<Connection> connections = new List<Connection>();
 
                 name = e.Attribute("name").Value;
                 fileName = e.Attribute("filename").Value;
+                if (e.Attribute("theme") != null)
+                {
+                    theme = e.Attribute("theme").Value;
+                }
+                else
+                {
+                    theme = "default";
+                }
 
                 foreach (XElement connection in e.Elements("connection"))
                 {
@@ -298,7 +315,7 @@ namespace wickedcrush.manager.map
                             int.Parse(connection.Attribute("doorIndex").Value)));
                 }
 
-                MapStats temp = new MapStats(name, fileName, connections);
+                MapStats temp = new MapStats(name, fileName, connections, theme);
 
 
                 atlas.Add(name, temp);

@@ -25,6 +25,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         {
             base.Update(gameTime);
             trigger.Update(gameTime);
+
+            
         }
 
         public void clearWiring()

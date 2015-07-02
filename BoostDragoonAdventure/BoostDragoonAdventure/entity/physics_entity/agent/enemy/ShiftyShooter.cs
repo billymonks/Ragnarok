@@ -104,7 +104,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             
 
                             if (target == null)
-                                setTargetToClosestPlayer();
+                                setTargetToClosestPlayer(true);
                             else if (distanceToTarget() < attackRange)
                             {
                                 faceTarget();
@@ -185,6 +185,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(skillVelocity, 0f), 
                     spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green"))), this, null, Helper.degreeConversion(angleToEntity(target)));
             }
+
+            
         }
 
         protected override void SetupSpriterPlayer()

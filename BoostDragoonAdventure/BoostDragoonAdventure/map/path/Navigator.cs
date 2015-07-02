@@ -15,7 +15,7 @@ namespace wickedcrush.map.path
         private PathNode[,] pathNodeGrid;
         private int agentSize;
 
-        private int closedListLimit = 256; // keep the game from freezing when can't find a path
+        private int closedListLimit = 384; // keep the game from freezing when can't find a path
 
         public Navigator(Map m, int agentSize)
         {

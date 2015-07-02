@@ -56,6 +56,14 @@ namespace wickedcrush.controls
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
 
+        public virtual bool KeyPressed(Keys key)
+        {
+            if (keyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))
+                return true;
+
+            return false;
+        }
+
         public virtual bool EnterPressed()
         {
             if (keyState.IsKeyDown(Keys.Enter) && prevKeyState.IsKeyUp(Keys.Enter))

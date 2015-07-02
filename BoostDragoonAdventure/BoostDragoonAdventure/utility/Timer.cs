@@ -81,6 +81,11 @@ namespace wickedcrush.utility
             interval = TimeSpan.FromMilliseconds(milliseconds);
         }
 
+        public double getInterval()
+        {
+            return interval.TotalMilliseconds;
+        }
+
         public float getPercent()
         {
             return ((float)currentTime.TotalMilliseconds) / ((float)interval.TotalMilliseconds);

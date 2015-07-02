@@ -56,6 +56,14 @@ namespace wickedcrush.manager.audio
             audioEngine.SetGlobalVariable(name, value);
         }
 
+        public void setCueVariable(String name, float value, String instanceKey)
+        {
+            if (cueList.ContainsKey(instanceKey))
+            {
+                cueList[instanceKey].SetVariable(name, value);
+            }//audioEngine.SetCueVariable
+        }
+
         public void setCam(Camera gameCam)
         {
             _gameCam = gameCam;

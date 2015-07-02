@@ -107,6 +107,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
             timers.Add("duration", new utility.Timer(duration));
             timers["duration"].resetAndStart();
 
+            timers.Add("particle_emission", new utility.Timer(10));
+            timers["particle_emission"].resetAndStart();
+
             skillName = skillStruct.name;
             
             if (null != actingParent)
@@ -255,17 +258,20 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         (float)(skillStruct.parentVelocity.X * Math.Sin(MathHelper.ToRadians((float)this.facing)) - skillStruct.parentVelocity.Y * Math.Cos(MathHelper.ToRadians((float)this.facing)))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f));
             }
 
-            if (skillStruct.particle.HasValue)
+            if (timers["particle_emission"].isDone() && skillStruct.particle.HasValue)
             {
                 ParticleStruct tempParticle = skillStruct.particle.Value;
-                tempParticle.pos = new Vector3(pos.X, this.height, pos.Y);
+                tempParticle.pos = new Vector3(pos.X+center.X, this.height, pos.Y+center.Y);
                 this.EmitParticles(tempParticle, 1);
+                timers["particle_emission"].resetAndStart();
             }
 
             if (timers["duration"].isDone())
                 Remove();
 
             //just_for_show = true;
+
+            
         }
 
         public void PlayTakeSound()

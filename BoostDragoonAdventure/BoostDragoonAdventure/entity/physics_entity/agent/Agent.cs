@@ -24,6 +24,7 @@ using Com.Brashmonkey.Spriter.player;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.particle;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -58,6 +59,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public List<Entity> proximity;
         protected Entity target;
+        protected Vector2 searchPosition = Vector2.Zero, initialPosition = Vector2.Zero;
 
         public PersistedStats stats;
 
@@ -80,11 +82,12 @@ namespace wickedcrush.entity.physics_entity.agent
         //public bool itemInHold = false;
         //public bool itemInUse = false;
 
-        
+        float poopNear = -0.236f, poopFar = 0.06199996f;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
+            initialPosition = pos;
             _spriterManager = factory._spriterManager;
             Initialize(new PersistedStats(5, 5), factory);
         }
@@ -92,6 +95,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
+            initialPosition = pos;
             _spriterManager = factory._spriterManager;
             Initialize(stats, factory);
         }
@@ -139,6 +143,18 @@ namespace wickedcrush.entity.physics_entity.agent
 
         }
 
+        public void TriggerInProximity()
+        {
+            foreach (Entity e in proximity)
+            {
+                if (e is Triggerable)
+                {
+                    //((Triggerable)e).activate();
+                    ((Triggerable)e).delayedActivate(this.distanceToEntity(e) * 5);
+                }
+            }
+        }
+
         protected virtual void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
@@ -167,13 +183,23 @@ namespace wickedcrush.entity.physics_entity.agent
             hudSpriters.Add(key, temp);
         }
 
-        public void AddOverheadWeapon(String key, String spriterName, String animationName, int entityIndex, Vector2 offset, float scale)
+        public void ScaleOverheadWeapon(String key, float scale)
+        {
+            hudSpriters[key].player.setScale(scale);
+        }
+
+        public void ScaleOverheadWeapon(String key, Vector2 scale)
+        {
+            hudSpriters[key].player.setScale(scale.X, scale.Y);
+        }
+
+        public void AddOverheadWeapon(String key, String spriterName, String animationName, int entityIndex, Vector2 offset, float scale, float angle)
         {
             SpriterOffsetStruct temp = new SpriterOffsetStruct(
                 new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
                 offset);
             temp.player.setAnimation(animationName, 0, 0);
-            temp.player.setAngle(90f);
+            temp.player.setAngle(angle);
             temp.player.setScale(scale);
             hudSpriters.Add(key, temp);
         }
@@ -215,12 +241,17 @@ namespace wickedcrush.entity.physics_entity.agent
 
 
             if (stats.get("hp") <= 0 && immortal == false)
+            {
                 Die();
+                return;
+            }
 
             if (target != null && target.dead)
                 target = null;
 
             facing = Helper.constrainDirection(facing);
+
+            
 
         }
 
@@ -235,7 +266,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             if (!timers["falling"].isActive() || timers["falling"].isDone())
             {
-                this.remove = true;
+                //this.remove = true;
+                Remove();
                 PlayCue("horrible death");
 
 
@@ -363,6 +395,18 @@ namespace wickedcrush.entity.physics_entity.agent
                     Math.Abs(this.pos.Y + this.size.Y - target.pos.Y)));*/
         }
 
+        public int distanceToPosition(Vector2 searchPos)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (searchPos.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (searchPos.Y), 2));
+        }
+
+        public int distanceToSearchPos()
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (searchPosition.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (searchPosition.Y), 2));
+        }
+
         protected void createPathToTarget()
         {
             if (target != null)
@@ -425,11 +469,33 @@ namespace wickedcrush.entity.physics_entity.agent
                     ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                     );
 
+                
 
                 float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
-                float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
+                //float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
+                float depth = MathHelper.Lerp(0.97f + poopNear, 0.37f + poopFar, temp / -1080f); //so bad
 
-                
+                /*if (factory._gm._playerManager.getPlayerList()[0].c.KeyPressed(Microsoft.Xna.Framework.Input.Keys.U)) {
+                    poopNear += 0.001f;
+                    Console.Out.WriteLine("near: " + poopNear);
+                }
+
+                if (factory._gm._playerManager.getPlayerList()[0].c.KeyPressed(Microsoft.Xna.Framework.Input.Keys.I)) {
+                    poopNear -= 0.001f;
+                    Console.Out.WriteLine("near: " + poopNear);
+                }
+
+                if (factory._gm._playerManager.getPlayerList()[0].c.KeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+                {
+                    poopFar += 0.001f;
+                    Console.Out.WriteLine("far: " + poopFar);
+                }
+
+                if (factory._gm._playerManager.getPlayerList()[0].c.KeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+                {
+                    poopFar -= 0.001f;
+                    Console.Out.WriteLine("far: " + poopFar);
+                }*/
 
                 bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
 
@@ -540,10 +606,10 @@ namespace wickedcrush.entity.physics_entity.agent
                 facing = Helper.radiansToDirection(angleToEntity(target));
         }
 
-        protected bool hasLineOfSightToAgent(Agent a)
+        protected bool hasLineOfSightToEntity(Entity e)
         {
             bool sight = true;
-            List<Fixture> fList = _w.RayCast(pos + center, a.pos + a.center);
+            List<Fixture> fList = _w.RayCast(pos + center, e.pos + e.center);
 
             foreach (Fixture f in fList)
             {
@@ -563,7 +629,7 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        protected void setTargetToClosestPlayer()
+        protected void setTargetToClosestPlayer(bool lineOfSight)
         {
             List<PlayerAgent> players = new List<PlayerAgent>();
             int lowestDistance;
@@ -571,7 +637,17 @@ namespace wickedcrush.entity.physics_entity.agent
             foreach (Entity e in proximity)
             {
                 if (e is PlayerAgent)
-                    players.Add((PlayerAgent)e);
+                {
+                    if (lineOfSight)
+                    {
+                        if(hasLineOfSightToEntity(e))
+                            players.Add((PlayerAgent)e);
+                    }
+                    else
+                    {
+                        players.Add((PlayerAgent)e);
+                    }
+                }
             }
 
             if (players.Count == 0)
@@ -594,7 +670,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public virtual void TakeSkill(ActionSkill action)
         {
-            if (this.immortal)
+            if (this.immortal || remove)
                 return;
 
             foreach(KeyValuePair<string, int> pair in action.statIncrement)

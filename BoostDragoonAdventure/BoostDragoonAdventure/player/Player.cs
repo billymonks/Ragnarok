@@ -131,7 +131,8 @@ namespace wickedcrush.player
             remove = true;
 
             if (agent != null)
-                agent.remove = true;
+                agent.Remove();
+                //agent.remove = true;
         }
 
         public bool readyForRemoval()

@@ -154,7 +154,7 @@ namespace wickedcrush.manager.gameplay
             MapStats mapStats = _game.mapManager.getMapStatsFromAtlas(mapName);
             map = new Map(mapStats.filename);
             _game.mapManager.LoadMap(this, map, mapStats);
-            scene.BuildScene(_game, map, this);
+            scene.BuildScene(_game, map, this, mapStats);
 
             camera.UpdateCameraBounds(map.getLayer(LayerType.WALL).getWidth(), map.getLayer(LayerType.WALL).getHeight());
 

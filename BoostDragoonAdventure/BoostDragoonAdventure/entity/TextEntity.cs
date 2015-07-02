@@ -46,6 +46,8 @@ namespace wickedcrush.entity
 
             zoomLevel = (zoomLevel + desiredZoomLevel) / 2f;
             desiredZoomLevel += 0.01f;
+
+            
         }
         public override void Draw(bool depthPass)
         {

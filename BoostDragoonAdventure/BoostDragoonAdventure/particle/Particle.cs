@@ -110,8 +110,9 @@ namespace wickedcrush.particle
                 return;
             }
 
+            float poopNear = -0.236f, poopFar = 0.06199996f;
             float temp = ((pos.Z + animation.offset.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
-            float depth = MathHelper.Lerp(0.97f, 0.37f, temp / -1080f); //so bad
+            float depth = MathHelper.Lerp(0.97f + poopNear, 0.37f + poopFar, temp / -1080f); //so bad
 
             //depth = 0f;
 

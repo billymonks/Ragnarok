@@ -23,11 +23,23 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         private Color testColor = Color.Green;
 
-        private int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30;
+        private int attackTellLength = 500, postAttackLength = 900, navigationResetLength = 500, attackRange = 30, returnLength = 500;
+
+        public EnemyState enemyState = EnemyState.Idle;
+
+        public enum EnemyState
+        {
+            Idle,
+            Patrol,
+            Alert,
+            Search,
+            Return
+        }
 
         public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, factory, stats, sound)
         {
+            
             Initialize();
             this.stats = stats;
         }
@@ -62,8 +74,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         {
             base.Update(gameTime);
 
+            if (remove)
+            {
+                return;
+            }
+
             UpdateHpBar();
             UpdateAnimation();
+
+            
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -136,6 +155,78 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         _sound.setGlobalVariable("InCombat", 1f);
                     }));
+            ctrl.Add("search",
+                new State("search",
+                    c => ((Murderer)c).enemyState == EnemyState.Search,
+                    c =>
+                    {
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        if (timers["navigation"].isDone())
+                        {
+                            createPathToLocation(searchPosition);
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        FollowPath(false);
+
+                        if (target == null)
+                        {
+                            setTargetToClosestPlayer(true);
+                            if (target != null)
+                            {
+                                enemyState = EnemyState.Alert;
+                                _sound.playCue("0x53");
+                            }
+                        }
+
+                        if (distanceToSearchPos() < 30)
+                        {
+                            enemyState = EnemyState.Return;
+                            _sound.playCue("0x84");
+                        }
+
+                    }
+            ));
+            ctrl.Add("return",
+                new State("return",
+                    c => ((Murderer)c).enemyState == EnemyState.Return,
+                    c =>
+                    {
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        if (timers["navigation"].isDone())
+                        {
+                            createPathToLocation(initialPosition);
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        FollowPath(false);
+
+                        if (target == null)
+                        {
+                            setTargetToClosestPlayer(true);
+                            if (target != null)
+                            {
+                                enemyState = EnemyState.Alert;
+                                _sound.playCue("0x53");
+                            }
+                        }
+
+                        if (distanceToPosition(initialPosition) < 30)
+                        {
+                            enemyState = EnemyState.Idle;
+                            //_sound.playCue("0x84");
+                        }
+
+                    }
+            ));
             ctrl.Add("chase",
                 new State("chase",
                     c => distanceToTarget() > attackRange,
@@ -160,14 +251,29 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         testColor = Color.Green;
 
                         _sound.setGlobalVariable("InCombat", 1f);
+
+                        if (distanceToTarget() > activeRange || !hasLineOfSightToEntity(target))
+                        {
+                            searchPosition = target.pos;
+                            target = null;
+                            enemyState = EnemyState.Search;
+                            
+                            _sound.playCue("0x88");
+                        }
                     }));
             ctrl.Add("idle",
                 new State("idle",
                     c => true,
                     c =>
                     {
-                        if(target==null)
-                            setTargetToClosestPlayer();
+                        if (target == null)
+                        {
+                            setTargetToClosestPlayer(true);
+                            if (target != null)
+                            {
+                                _sound.playCue("0x53");
+                            }
+                        }
                         else if (distanceToTarget() < attackRange)
                         {
                             timers["attack_tell"].resetAndStart();
@@ -194,6 +300,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         protected void UpdateAnimation()
         {
+            
             //if (sPlayer == null)
             //return;
 

@@ -107,6 +107,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
                 
                 //factory.savedBools.Remove("choiceX");
             }
+
+            
         }
     }
 }

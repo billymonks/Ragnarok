@@ -26,8 +26,28 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
             this.name = "Timer";
             trigger.repeat = true;
 
+            activeRange = 300f;
+
             timers.Add("timer", new Timer(time));
-            timers["timer"].start();
+            //timers["timer"].start();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (target == null)
+            {
+                setTargetToClosestPlayer(false);
+                timers["timer"].resetAndStart();
+            }
+            else if (distanceToTarget() > activeRange /*|| !hasLineOfSightToEntity(target)*/)
+            {
+                target = null;
+                timers["timer"].reset();
+            }
+
+            
         }
 
         public override bool isTriggered()

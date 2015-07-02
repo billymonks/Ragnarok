@@ -28,6 +28,7 @@ using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility.config;
+using wickedcrush.display._3d.atlas;
 
 namespace wickedcrush
 {

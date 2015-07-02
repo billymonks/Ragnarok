@@ -57,6 +57,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             particleEmitter.EmitParticles(ps, this.factory, 1);
 
             checkTimer();
+
+            
         }
 
         protected void moveForward(float speed)

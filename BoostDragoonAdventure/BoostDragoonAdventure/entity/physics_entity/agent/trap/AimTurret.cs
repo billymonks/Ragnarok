@@ -40,7 +40,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             base.Update(gameTime);
 
             target = null;
-            setTargetToClosestPlayer();
+            setTargetToClosestPlayer(true);
 
             faceTarget();
 
@@ -64,6 +64,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             {
                 _sound.setGlobalVariable("InCombat", 1f);
             }
+
+            
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)

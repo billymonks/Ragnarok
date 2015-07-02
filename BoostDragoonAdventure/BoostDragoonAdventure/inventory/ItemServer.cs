@@ -29,7 +29,78 @@ namespace wickedcrush.inventory
                     a.itemInUse = null;
                 },
                 (a, i) => { a.itemInUse = null; },
-                (a, i) => { a.itemInUse = null; },
+                (a, i) => 
+                { 
+                    a.itemInUse = null;
+                    
+                
+                },
+                new List<KeyValuePair<string, int>>(),
+                new List<KeyValuePair<string, int>>(),
+                new List<KeyValuePair<string, int>>()));
+
+            items.Add("Remote Transmitter",
+                new Item("Remote Transmitter", (a, i) =>
+                {
+                    a.PlayCue("volleyball");
+                    a.stats.set("charge", 0);
+                    a.AddHudElement("warning", "warning", 4, Vector2.Zero);
+                    a.AddOverheadWeapon("remote", "trap", "unpressed_000", 0, new Vector2(0f, 0f), 1f, 0f);
+                },
+                (a, i) =>
+                {
+                    a.stats.addTo("boost", -3);
+                    a.stats.addTo("charge", 1);
+
+                    if (a.stats.compare("charge", 25) == 0)
+                    {
+                        a.PlayCue("squash");
+                        //a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 2f);
+                    }
+
+                    if (a.stats.compare("charge", 50) == 0)
+                        a.PlayCue("ping2");
+
+                    if (a.stats.get("charge") < 50)
+                    {
+                        a.activeRange = a.stats.get("charge") * 10;
+                        a.ScaleOverheadWeapon("remote", new Vector2(a.activeRange / 4.3f, 1f));
+                    }
+                    else
+                    {
+                        a.activeRange = 500;
+                        a.ScaleOverheadWeapon("remote", a.activeRange / 4.3f);
+                    }
+                },
+                (a, i) =>
+                {
+                    a.RemoveHudElement("warning");
+                    a.RemoveOverheadWeapon("remote");
+                    //a.PlayCue("smash");
+                    
+
+                    if (a.stats.compare("charge", 25) < 0)
+                    {
+                        //a.useActionSkill(SkillServer.skills["Sword Attack"]);
+                        //a.TriggerInProximity();
+                        
+                    }
+                    else if (a.stats.compare("charge", 50) < 0)
+                    {
+                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
+                        //a.TriggerInProximity();
+                    }
+                    else
+                    {
+                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
+                        
+                    }
+                    a.PlayCue("Jump7");
+                    a.TriggerInProximity();
+                    a.stats.addTo("boost", -100);
+                    a.stats.set("charge", 0);
+                    a.itemInUse = null;
+                },
                 new List<KeyValuePair<string, int>>(),
                 new List<KeyValuePair<string, int>>(),
                 new List<KeyValuePair<string, int>>()));
@@ -96,7 +167,7 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 25) == 0)
                    {
                        a.PlayCue("squash");
-                       a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 2f);
+                       a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 2f, 90f);
                    }
 
                    if (a.stats.compare("charge", 50) == 0)
@@ -133,7 +204,8 @@ namespace wickedcrush.inventory
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
                    a.AddHudElement("warning", "warning", 4, Vector2.Zero);
-                   a.AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 80f), 3f);
+                   a.AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 80f), 3f, 90f);
+                  
                },
                (a, i) =>
                {

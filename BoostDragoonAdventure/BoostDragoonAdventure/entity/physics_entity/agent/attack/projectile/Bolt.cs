@@ -43,6 +43,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (remove)
+                return;
+
             moveForward(speed);
 
             bodySpriter.setAngle(angle);
@@ -51,6 +55,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             particleEmitter.EmitParticles(ps, this.factory, 1);
 
             angle += gameTime.ElapsedGameTime.Milliseconds;
+
+            
         }
 
         protected override void SetupSpriterPlayer()

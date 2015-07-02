@@ -8,7 +8,7 @@
     <connection id="0" doorIndex="1">big kahuna burger</connection>
     <connection id="1" doorIndex="1">uturn</connection>
   </map>
-  <map name="uturn" filename="Content/maps/full/uturn.xml">
+  <map name="uturn" filename="Content/maps/full/uturn.xml" theme="reverse">
     <connection id="0" doorIndex="0">big kahuna burger</connection>
     <connection id="1" doorIndex="1">variety</connection>
   </map>

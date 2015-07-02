@@ -23,7 +23,8 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 		clip(-1);
 	  }
 
-    //return lerp(0.37, 0.97, input.TexCoord.y/1440);
+    
+	//return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
 	return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
 }
 
