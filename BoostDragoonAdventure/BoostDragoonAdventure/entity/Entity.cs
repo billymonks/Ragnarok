@@ -34,8 +34,8 @@ namespace wickedcrush.entity
         protected String name;
 
         public Entity parent;
-        public List<Entity> subEntityList;
-        public List<Entity> removeList;
+        public Dictionary<String, Entity> subEntityList;
+        public List<String> removeList;
 
         public bool remove = false;
         protected bool initialized = false;
@@ -77,8 +77,8 @@ namespace wickedcrush.entity
 
             this.name = "Entity";
 
-            subEntityList = new List<Entity>();
-            removeList = new List<Entity>();
+            subEntityList = new Dictionary<String, Entity>();
+            removeList = new List<String>();
         }
         #endregion
 
@@ -87,15 +87,15 @@ namespace wickedcrush.entity
         {
             emitter.Position = new Vector3(pos.X+center.X, pos.Y+center.Y, 0f);
 
-            foreach (Entity e in subEntityList)
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
             {
-                e.Update(gameTime);
+                e.Value.Update(gameTime);
                 
-                if (e.remove)
-                    removeList.Add(e);
+                if (e.Value.remove)
+                    removeList.Add(e.Key);
             }
 
-            foreach (Entity e in removeList)
+            foreach (String e in removeList)
                 subEntityList.Remove(e);
 
             removeList.Clear();
@@ -110,9 +110,9 @@ namespace wickedcrush.entity
         {
             if (remove == false)
             {
-                foreach (Entity e in subEntityList)
+                foreach (KeyValuePair<String, Entity> e in subEntityList)
                 {
-                    e.Remove();
+                    e.Value.Remove();
                 }
 
                 Dispose();
@@ -144,7 +144,10 @@ namespace wickedcrush.entity
 
         public virtual void Draw(bool depthPass)
         {
-            
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+            {
+                e.Value.Draw(depthPass);
+            }
         }
 
         public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
@@ -157,8 +160,8 @@ namespace wickedcrush.entity
                     camera.cameraPosition.Y), 
                 Color.Black);
 
-            foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+                e.Value.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
 
         public virtual void FreeDraw()
@@ -171,6 +174,13 @@ namespace wickedcrush.entity
             return new Vector2(
                 (this.pos.X + this.center.X) - (e.pos.X + e.center.X),
                 (this.pos.Y + this.center.Y) - (e.pos.Y + e.center.Y));
+        }
+
+        protected Vector2 vectorToPos(Vector2 pos)
+        {
+            return new Vector2(
+                (this.pos.X + this.center.X) - (pos.X),
+                (this.pos.Y + this.center.Y) - (pos.Y));
         }
 
         protected float directionVectorToAngle(Vector2 v)

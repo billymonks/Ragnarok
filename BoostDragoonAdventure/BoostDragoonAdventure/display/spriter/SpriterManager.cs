@@ -38,6 +38,7 @@ namespace wickedcrush.display.spriter
             //loaders.Add("loader1", new SpriterLoader(g));
             loaders.Add("loader2", new SpriterLoader(g));
             loaders.Add("loader3", new SpriterLoader(g));
+            loaders.Add("loader4", new SpriterLoader(g));
             loaders.Add("particles", new SpriterLoader(g));
             loaders.Add("chest", new SpriterLoader(g));
             loaders.Add("trap", new SpriterLoader(g));
@@ -48,6 +49,7 @@ namespace wickedcrush.display.spriter
             spriters.Add("all", new Spriter("Content/sprites/all/all.scml", loaders["loader2"]));
 
             spriters.Add("you", new Spriter("Content/sprites/you/you.scml", loaders["loader3"]));
+            spriters.Add("you_pink", new Spriter("Content/sprites/you_pink/you.scml", loaders["loader4"]));
 
             spriters.Add("particles", new Spriter("Content/sprites/particles/particles.scml", loaders["particles"]));
 

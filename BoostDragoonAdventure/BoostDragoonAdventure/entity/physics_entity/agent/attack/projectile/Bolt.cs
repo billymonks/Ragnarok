@@ -34,7 +34,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             this.force = force;
             this.name = "Bolt";
 
-            speed = 150f;
+            speed = 10f;
+            targetSpeed = 150f;
 
             reactToWall = true;
             piercing = false;
@@ -56,6 +57,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
 
             angle += gameTime.ElapsedGameTime.Milliseconds;
 
+            //speed = (speed + targetSpeed) / 2f;
+
             
         }
 
@@ -67,7 +70,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
-            bodySpriter.setScale(((float)size.X) / 10f);
+            bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
             height = 10;
 
         }

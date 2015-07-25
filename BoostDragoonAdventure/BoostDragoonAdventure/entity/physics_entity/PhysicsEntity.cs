@@ -94,8 +94,8 @@ namespace wickedcrush.entity.physics_entity
 
                 //spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             }
-            foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+                e.Value.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
         }
 

@@ -183,7 +183,7 @@ namespace wickedcrush.screen
             {
                 //game.GraphicsDevice.SetRenderTarget(renderTarget);
 
-                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null);
 
                 game.spriteBatch.Draw(
                 background,
@@ -193,11 +193,11 @@ namespace wickedcrush.screen
                 Vector2.Zero, SpriteEffects.None, 1f);
                 game.spriteBatch.End();
 
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, game.spriteScale);
             }
             else
             {
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, spriteEffect, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, spriteEffect, game.spriteScale);
             }
             
             

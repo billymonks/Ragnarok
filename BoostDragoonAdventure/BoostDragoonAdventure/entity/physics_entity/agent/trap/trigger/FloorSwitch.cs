@@ -94,19 +94,19 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 
             if (pressed)
             {
-                bodySpriter.setAnimation("pressed_001", 0, 0);
+                bodySpriter.setAnimation("pressed", 0, 0);
             }
             else
             {
-                bodySpriter.setAnimation("unpressed_001", 0, 0);
+                bodySpriter.setAnimation("unpressed", 0, 0);
             }
 
-            if (factory.checkBool("choiceX"))
-            {
+            //if (factory.checkBool("choiceX"))
+            //{
                 //factory.createTextScreen("Now you did it!", new Vector2(200f, 200f));
                 
                 //factory.savedBools.Remove("choiceX");
-            }
+            //}
 
             
         }

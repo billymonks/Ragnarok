@@ -104,7 +104,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             
 
                             if (target == null)
-                                setTargetToClosestPlayer(true);
+                                setTargetToClosestPlayer(true, 360);
                             else if (distanceToTarget() < attackRange)
                             {
                                 faceTarget();
@@ -155,6 +155,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
+            if (remove)
+                return;
 
             UpdateHpBar();
             UpdateAnimation();
@@ -183,7 +186,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 //_sound.playCue("whsh", emitter);
                 //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
                 factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(skillVelocity, 0f), 
-                    spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green"))), this, null, Helper.degreeConversion(angleToEntity(target)));
+                    spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, 1f, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green")), "", 0, "",
+                    SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero)), 
+                    this, null, Helper.degreeConversion(angleToEntity(target)));
             }
 
             

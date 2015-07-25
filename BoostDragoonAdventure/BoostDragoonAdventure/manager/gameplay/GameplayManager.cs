@@ -120,10 +120,10 @@ namespace wickedcrush.manager.gameplay
             factory.Update();
 
             _game.soundManager.setGlobalVariable("InCombat", 0f);
-
+            camera.Update(gameTime);
             entityManager.Update(gameTime);
             particleManager.Update(gameTime);
-            camera.Update(gameTime);
+            
 
             w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
 

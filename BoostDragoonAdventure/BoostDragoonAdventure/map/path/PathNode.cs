@@ -16,10 +16,10 @@ namespace wickedcrush.map.path
 
         public Rectangle box;
 
-        public PathNode(Point gridPos, Vector2 pos, int gridSize)
+        public PathNode(Point gridPos, int gridSize)
         {
             this.gridPos = gridPos;
-            this.pos = pos;
+            this.pos = new Vector2(gridPos.X * gridSize, gridPos.Y * gridSize);
 
             this.gridSize = gridSize;
 

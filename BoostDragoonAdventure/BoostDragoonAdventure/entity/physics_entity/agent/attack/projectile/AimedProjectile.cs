@@ -36,13 +36,15 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             stats = new PersistedStats(1, 1);
             facing = parent.facing;
             immortal = false;
-
+            visible = false;
+            
             this.damage = damage;
             this.force = force;
             this.movementDirection = aimedDirection;
             this.name = "AimProj";
 
-            speed = 150f;
+            speed = 0f;
+            targetSpeed = 50f;
 
             reactToWall = true;
             piercing = false;
@@ -51,6 +53,11 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (remove)
+                return;
+
+            visible = true;
 
             moveForward(speed);
 
@@ -72,16 +79,24 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
-            bodySpriter.setScale(((float)size.X) / 10f);
+            bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
             height = 10;
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
+
+            UpdateSpriters();
 
         }
 
         protected void moveForward(float speed)
         {
             Vector2 v = bodies["body"].LinearVelocity;
-            v.X = (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)) * speed;
-            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)movementDirection)) * speed;
+            v.X += (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)) * speed;
+            v.Y += (float)Math.Sin(MathHelper.ToRadians((float)movementDirection)) * speed;
             bodies["body"].LinearVelocity = v;
         }
 

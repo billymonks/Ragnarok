@@ -155,7 +155,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         if (target == null)
-                            setTargetToClosestPlayer(true);
+                            setTargetToClosestPlayer(true, 360);
                         else if (distanceToTarget() < attackRange)
                         {
                             timers["attack_tell"].resetAndStart();

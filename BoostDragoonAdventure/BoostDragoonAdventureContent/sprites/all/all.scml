@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r3">
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
     <folder id="0" name="neku_standing">
         <file id="0" name="neku_standing/standing_north.png" width="42" height="114" pivot_x="0" pivot_y="1"/>
         <file id="1" name="neku_standing/standing_west.png" width="40" height="119" pivot_x="0" pivot_y="1"/>
@@ -241,7 +241,7 @@
         </animation>
     </entity>
     <entity id="2" name="cursor">
-        <animation id="0" name="hover" length="1000" interval="100">
+        <animation id="0" name="hover_original" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -273,9 +273,41 @@
                 </key>
             </timeline>
         </animation>
+        <animation id="1" name="hover" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="499">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="1000">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="2" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="cursor">
+                <key id="0" spin="0">
+                    <object folder="3" file="0" x="-91.6241" y="180.60686" angle="0" scale_x="4.6146" scale_y="4.53087"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="marble">
+                <key id="0" spin="0">
+                    <object folder="3" file="1" x="-40.74941" y="289.34426" angle="0" scale_x="3.74707" scale_y="3.59251"/>
+                </key>
+                <key id="1" time="499" spin="0">
+                    <object folder="3" file="1" x="-40.07374" y="249.4794" angle="0" scale_x="3.74707" scale_y="3.59251"/>
+                </key>
+                <key id="2" time="1000" spin="0">
+                    <object folder="3" file="1" x="-40.74941" y="289.34426" angle="0" scale_x="3.74707" scale_y="3.59251"/>
+                </key>
+            </timeline>
+        </animation>
     </entity>
     <entity id="3" name="bunz">
-        <animation id="0" name="attack1" length="1000" interval="100">
+        <animation id="0" name="attack1_original" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -317,7 +349,49 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="hit" length="1000" interval="100">
+        <animation id="1" name="attack1" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="200">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="399">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+                <key id="3" time="600">
+                    <object_ref id="0" timeline="0" key="3" z_index="0"/>
+                </key>
+                <key id="4" time="800">
+                    <object_ref id="0" timeline="0" key="4" z_index="0"/>
+                </key>
+                <key id="5" time="1000">
+                    <object_ref id="0" timeline="0" key="5" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red flame">
+                <key id="0" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+                <key id="1" time="200" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+                <key id="2" time="399" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+                <key id="3" time="600" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+                <key id="4" time="800" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+                <key id="5" time="1000" spin="0">
+                    <object folder="6" file="2" x="18.49489" y="-3.25122" pivot_x="0.509247" pivot_y="0.453374" angle="0" scale_x="1.02453" scale_y="1.02453"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hit_original" length="1000" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -351,6 +425,43 @@
             <timeline id="3" name="3">
                 <key id="0" time="300" spin="0">
                     <object folder="4" file="3" x="-12" y="12" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="hit" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="100">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                </key>
+                <key id="2" time="200">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                </key>
+                <key id="3" time="300">
+                    <object_ref id="0" timeline="3" key="0" z_index="0"/>
+                </key>
+                <key id="4" time="400"/>
+            </mainline>
+            <timeline id="0" name="0">
+                <key id="0" spin="0">
+                    <object folder="4" file="0" x="-120" y="120" angle="0" scale_x="10" scale_y="10"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="1">
+                <key id="0" time="100" spin="0">
+                    <object folder="4" file="1" x="-120" y="120" angle="0" scale_x="10" scale_y="10"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="2">
+                <key id="0" time="200" spin="0">
+                    <object folder="4" file="2" x="-120" y="120" angle="0" scale_x="10" scale_y="10"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="3">
+                <key id="0" time="300" spin="0">
+                    <object folder="4" file="3" x="-120" y="120" angle="0" scale_x="10" scale_y="10"/>
                 </key>
             </timeline>
         </animation>
@@ -426,35 +537,35 @@
             </mainline>
             <timeline id="0" name="yellow flame">
                 <key id="0">
-                    <object folder="6" file="0" x="-11.489728" y="9.813224" angle="0" scale_x="0.113365" scale_y="0.110118"/>
+                    <object folder="6" file="0" x="-114.89728" y="98.13224" angle="0" scale_x="1.13365" scale_y="1.10118"/>
                 </key>
                 <key id="1" time="501" spin="-1">
-                    <object folder="6" file="0" x="-9.756572" y="7.849774" angle="7.890695" scale_x="0.092982" scale_y="0.088433"/>
+                    <object folder="6" file="0" x="-97.56572" y="78.49774" angle="7.890695" scale_x="0.92982" scale_y="0.88433"/>
                 </key>
                 <key id="2" time="1000" spin="0">
-                    <object folder="6" file="0" x="-7.517926" y="7.057604" angle="0" scale_x="0.080174" scale_y="0.077807"/>
+                    <object folder="6" file="0" x="-75.17926" y="70.57604" angle="0" scale_x="0.80174" scale_y="0.77807"/>
                 </key>
             </timeline>
             <timeline id="1" name="orange flame">
                 <key id="0">
-                    <object folder="6" file="1" x="-11.039634" y="11.673304" angle="0" scale_x="0.111121" scale_y="0.118112"/>
+                    <object folder="6" file="1" x="-110.39634" y="116.73304" angle="0" scale_x="1.11121" scale_y="1.18112"/>
                 </key>
                 <key id="1" time="501" spin="-1">
-                    <object folder="6" file="1" x="-6.802808" y="6.84126" angle="6.672635" scale_x="0.076003" scale_y="0.079379"/>
+                    <object folder="6" file="1" x="-68.02808" y="68.4126" angle="6.672635" scale_x="0.76003" scale_y="0.79379"/>
                 </key>
                 <key id="2" time="1000" spin="0">
-                    <object folder="6" file="1" x="-7.199613" y="8.371896" angle="0" scale_x="0.078586" scale_y="0.083455"/>
+                    <object folder="6" file="1" x="-71.99613" y="83.71896" angle="0" scale_x="0.78586" scale_y="0.83455"/>
                 </key>
             </timeline>
             <timeline id="2" name="red flame">
                 <key id="0">
-                    <object folder="6" file="2" x="-7.002259" y="7.74759" angle="0" scale_x="0.063978" scale_y="0.068332"/>
+                    <object folder="6" file="2" x="-70.02259" y="77.4759" angle="0" scale_x="0.63978" scale_y="0.68332"/>
                 </key>
                 <key id="1" time="501" spin="-1">
-                    <object folder="6" file="2" x="-3.751239" y="3.615851" angle="8.597951" scale_x="0.041973" scale_y="0.043232"/>
+                    <object folder="6" file="2" x="-37.51239" y="36.15851" angle="8.597951" scale_x="0.41973" scale_y="0.43232"/>
                 </key>
                 <key id="2" time="1000" spin="0">
-                    <object folder="6" file="2" x="-4.344315" y="5.598071" angle="0" scale_x="0.045247" scale_y="0.048282"/>
+                    <object folder="6" file="2" x="-43.44315" y="55.98071" angle="0" scale_x="0.45247" scale_y="0.48282"/>
                 </key>
             </timeline>
         </animation>

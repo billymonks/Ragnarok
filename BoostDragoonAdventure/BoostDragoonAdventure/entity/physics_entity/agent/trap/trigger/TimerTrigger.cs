@@ -38,7 +38,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
 
             if (target == null)
             {
-                setTargetToClosestPlayer(false);
+                setTargetToClosestPlayer(false, 360);
                 timers["timer"].resetAndStart();
             }
             else if (distanceToTarget() > activeRange /*|| !hasLineOfSightToEntity(target)*/)

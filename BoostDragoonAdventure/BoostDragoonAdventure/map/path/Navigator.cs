@@ -15,7 +15,7 @@ namespace wickedcrush.map.path
         private PathNode[,] pathNodeGrid;
         private int agentSize;
 
-        private int closedListLimit = 384; // keep the game from freezing when can't find a path
+        private int closedListLimit = 512; // keep the game from freezing when can't find a path
 
         public Navigator(Map m, int agentSize)
         {
@@ -86,9 +86,28 @@ namespace wickedcrush.map.path
             List<PathNode> openList = new List<PathNode>();
             List<PathNode> closedList = new List<PathNode>();
             Stack<PathNode> path = new Stack<PathNode>();
-            PathNode curr = null; 
+            PathNode curr = null;
+
+            if (!nodeAvailable(goal.X, goal.Y))
+            {
+                PathNode temp = getCloseNode(goal.X, goal.Y);
+                if (temp != null)
+                {
+                    goal = temp.gridPos;
+                }
+                else
+                {
+                    return null;
+                }
+            }
             
             addNodeToOpenList(start.X, start.Y, start, goal, curr, openList, closedList);
+
+            if (openList.Count == 0)
+            {
+                becomeUnstuck(start.X, start.Y, path);
+                return path;
+            }
 
             while (openList.Count > 0)
             {
@@ -145,9 +164,16 @@ namespace wickedcrush.map.path
             return null;
         }
 
-        private void addNodeToOpenList(int x, int y, Point start, Point goal, PathNode curr, List<PathNode> openList, List<PathNode> closedList)
+        private bool nodeAvailable(int x, int y)
         {
             if (x < 0 || y < 0 || x >= pathNodeGrid.GetLength(0) || y >= pathNodeGrid.GetLength(1) || pathNodeGrid[x, y] == null)
+                return false;
+            return true;
+        }
+
+        private void addNodeToOpenList(int x, int y, Point start, Point goal, PathNode curr, List<PathNode> openList, List<PathNode> closedList)
+        {
+            if (!nodeAvailable(x, y))
                 return;
 
             if (!openList.Contains(pathNodeGrid[x, y])
@@ -158,13 +184,106 @@ namespace wickedcrush.map.path
             }
         }
 
+        private PathNode getCloseNode(int x, int y)
+        {
+            if (x < 0 && pathNodeGrid[0, y] != null)
+            {
+                return pathNodeGrid[0, y];
+            }
+            else if (x >= pathNodeGrid.GetLength(0) && pathNodeGrid[pathNodeGrid.GetLength(0) - 1, y] != null)
+            {
+                return pathNodeGrid[pathNodeGrid.GetLength(0) - 1, y];
+                
+            }
+            else if (y < 0 && pathNodeGrid[x, 0] != null)
+            {
+                return pathNodeGrid[x, 0];
+            }
+            else if (y >= pathNodeGrid.GetLength(1) && pathNodeGrid[x, pathNodeGrid.GetLength(1) - 1] != null)
+            {
+                return pathNodeGrid[x, pathNodeGrid.GetLength(1) - 1];
+            }
+            else if (x > 0 && y > 0 && x < pathNodeGrid.GetLength(0) - 1 || y < pathNodeGrid.GetLength(1) - 1)
+            {
+
+                if (pathNodeGrid[x - 1, y] != null)
+                {
+                    return pathNodeGrid[x - 1, y];
+                }
+                else if (pathNodeGrid[x + 1, y] != null)
+                {
+                    return pathNodeGrid[x + 1, y];
+                }
+                else if (pathNodeGrid[x, y - 1] != null)
+                {
+                    return pathNodeGrid[x, y - 1];
+                }
+                else if (pathNodeGrid[x, y + 1] != null)
+                {
+                    return pathNodeGrid[x, y + 1];
+                }
+            }
+            return null;
+        }
+
+        private void becomeUnstuck(int x, int y, Stack<PathNode> path)
+        {
+            if (x < 0 && pathNodeGrid[0, y] != null)
+            {
+                path.Push(pathNodeGrid[0, y]);
+                return;
+            }
+            else if (x >= pathNodeGrid.GetLength(0) && pathNodeGrid[pathNodeGrid.GetLength(0) - 1, y] != null)
+            {
+                path.Push(pathNodeGrid[pathNodeGrid.GetLength(0) - 1, y]);
+                return;
+            } else if (y < 0 && pathNodeGrid[x, 0] != null) 
+            {
+                path.Push(pathNodeGrid[x, 0]);
+                return;
+            }
+            else if (y >= pathNodeGrid.GetLength(1) && pathNodeGrid[x, pathNodeGrid.GetLength(1) - 1] != null)
+            {
+                path.Push(pathNodeGrid[x, pathNodeGrid.GetLength(1) - 1]);
+                return;
+            }
+            else if(x > 0 && y > 0 && x < pathNodeGrid.GetLength(0)-1 || y < pathNodeGrid.GetLength(1)-1)
+            {
+                
+                if (pathNodeGrid[x-1, y] != null)
+                {
+                    path.Push(pathNodeGrid[x - 1, y]);
+                    return;
+                }
+                else if (pathNodeGrid[x + 1, y] != null)
+                {
+                    path.Push(pathNodeGrid[x + 1, y]);
+                    return;
+                }
+                else if (pathNodeGrid[x, y - 1] != null)
+                {
+                    path.Push(pathNodeGrid[x, y - 1]);
+                    return;
+                }
+                else if (pathNodeGrid[x, y + 1] != null)
+                {
+                    path.Push(pathNodeGrid[x, y + 1]);
+                    return;
+                }
+            }
+        }
+
         private PathNode getNodeFromCoordinate(int x, int y)
         {
-            return new PathNode(
+            /*return new PathNode(
                 new Point(x, y),
                 new Vector2(
                     (map.width / pathNodeGrid.GetLength(0)) * x,
                     (map.height / pathNodeGrid.GetLength(1)) * y),
+                    map.width / pathNodeGrid.GetLength(0));*/
+
+            return new PathNode(
+                new Point(x, y),
                     map.width / pathNodeGrid.GetLength(0));
         }
 

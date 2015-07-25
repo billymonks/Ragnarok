@@ -81,8 +81,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
-            bodySpriter = sPlayers["you"];
+            sPlayers.Add("you_pink", new SpriterPlayer(factory._spriterManager.spriters["you_pink"].getSpriterData(), 0, factory._spriterManager.spriters["you_pink"].loader));
+            bodySpriter = sPlayers["you_pink"];
             bodySpriter.setFrameSpeed(20);
 
             sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
@@ -150,6 +150,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
             if (remove)
                 return;
 
@@ -175,7 +176,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             UpdateHpBar();
             UpdateAnimation();
             applyStats();
-
+            
             
         }
 
@@ -420,7 +421,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             if (timers["falling"].isActive())
             {
-                bodySpriter.setAnimation("fall_000", 0, 0);
+                bodySpriter.setAnimation("fall", 0, 0);
                 drawShadow = false;
                 return;
             }
@@ -431,54 +432,61 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 case Direction.East:
                     bad += "east";
-                    
+                    bodySpriter.setFlipX(1);
                     //bodySpriter.setAnimation("east", 0, 0);
                     break;
 
                 case Direction.North:
                     bad += "north";
+                    bodySpriter.setFlipX(1);
                     //bodySpriter.setAnimation("north", 0, 0);
                     break;
 
                 case Direction.South:
                     bad += "south";
+                    bodySpriter.setFlipX(1);
                     //bodySpriter.setAnimation("south", 0, 0);
                     break;
 
                 case Direction.West:
-                    bad += "west";
+                    bad += "east";
+                    bodySpriter.setFlipX(-1);
                     //bodySpriter.setAnimation("west", 0, 0);
                     break;
 
                 case Direction.NorthEast:
-                    bad += "northeast";
+                    bad += "northwest";
+                    bodySpriter.setFlipX(-1);
                     //bodySpriter.setAnimation("northeast", 0, 0);
                     break;
 
                 case Direction.NorthWest:
                     bad += "northwest";
+                    bodySpriter.setFlipX(1);
                     //bodySpriter.setAnimation("northwest", 0, 0);
                     break;
 
                 case Direction.SouthEast:
                     bad += "southeast";
+                    bodySpriter.setFlipX(1);
                     //bodySpriter.setAnimation("southeast", 0, 0);
                     break;
 
                 case Direction.SouthWest:
-                    bad += "southwest";
+                    bad += "southeast";
+                    bodySpriter.setFlipX(-1);
                     //bodySpriter.setAnimation("southwest", 0, 0);
                     break;
             }
 
             if (bodies["body"].LinearVelocity.Length() >= 1f)
             {
-                bad += "_run_000";
+                bad += "_run";
                 shadowSpriter.setAnimation("moving", 0, 0);
             }
             else
             {
-                bad += "_stand_000";
+                bad += "_stand";
                 shadowSpriter.setAnimation("still", 0, 0);
             }
 

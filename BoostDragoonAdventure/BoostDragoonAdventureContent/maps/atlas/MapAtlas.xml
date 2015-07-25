@@ -26,7 +26,11 @@
     <connection id="0" doorIndex="0">big empty test</connection>
   </map>
   <map name="timer test" filename="Content/maps/full/big_timer_test.xml">
-    <connection id="0" doorIndex="1">big_timer_test.xml</connection>
-    <connection id="1" doorIndex="0">big_timer_test.xml</connection>
+    <connection id="0" doorIndex="1">timer test</connection>
+    <connection id="1" doorIndex="0">timer test</connection>
+  </map>
+  <map name="stealth grid" filename="Content/maps/full/stealth_grid.oel">
+    <connection id="0" doorIndex="1">stealth grid</connection>
+    <connection id="1" doorIndex="0">stealth grid</connection>
   </map>
 </atlas>

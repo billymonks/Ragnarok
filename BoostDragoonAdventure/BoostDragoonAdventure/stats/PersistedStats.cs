@@ -61,9 +61,10 @@ namespace wickedcrush.stats
         
         public void addTo(String key, int number)
         {
-            checkExists(key);
-
-            numbers[key] += number;
+            if (checkExists(key))
+                numbers[key] += number;
+            else
+                numbers.Add(key, number);
         }
 
         public bool requirementMet(String key, int value)
@@ -78,7 +79,8 @@ namespace wickedcrush.stats
         // -1: number smaller than value, 0: number equal to value, 1: number greater than value
         public int compare(String key, int value) 
         {
-            checkExists(key);
+            if (!checkExists(key))
+                return -2;
 
             return get(key).CompareTo(value);
         }
@@ -86,19 +88,20 @@ namespace wickedcrush.stats
         // -1: first smaller than second, 0: first equal to second, 1: first greater than second
         public int compare(String key, String otherKey)
         {
-            checkExists(key);
+            if (!checkExists(key) || !checkExists(otherKey))
+                return -2;
 
             return get(key).CompareTo(get(otherKey));
         }
 
-        private void checkExists(String key)
+        private bool checkExists(String key)
         {
             if (numbers.ContainsKey(key))
             {
-                return;
+                return true;
             }
-
-            throw new InvalidOperationException("That number... " + key + "... does not exist!!! Sorry.");
+            return false;
+            //throw new InvalidOperationException("That number... " + key + "... does not exist!!! Sorry.");
         }
     }
 }

@@ -13,6 +13,7 @@ using wickedcrush.map.layer;
 using wickedcrush.map.circuit;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.display._3d.texture;
+using wickedcrush.map.path;
 
 namespace wickedcrush.manager.map
 {
@@ -229,18 +230,56 @@ namespace wickedcrush.manager.map
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
+                foreach (XElement e in objects.Elements("PATH_OF_DEATH"))
+                {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
+                    //int angle = 0;
+
+                    foreach (XElement n in e.Elements("node"))
+                    {
+                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                    }
+                    patrol.Reverse<PathNode>();
+
+                    //if (e.Attribute("angle") != null)
+                    //{
+                        //angle = int.Parse(e.Attribute("angle").Value);
+                    //}
+
+                    /*gm.factory.addMurderer(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);*/
+                    gm.factory.addPathOfDeath(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), patrol);
+                }
+
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
+                    int angle = 0;
+
+                    foreach (XElement n in e.Elements("node"))
+                    {
+                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                    }
+                    patrol.Reverse<PathNode>();
+
+                    if (e.Attribute("angle") != null)
+                    {
+                        angle = int.Parse(e.Attribute("angle").Value);
+                    }
+
                     gm.factory.addMurderer(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true);
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);
                 }
 
                 foreach (XElement e in objects.Elements("WEAKLING"))
                 {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
                     gm.factory.addWeakling(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(12, 12), new Vector2(6, 6));
+                        new Vector2(12, 12), new Vector2(6, 6), patrol);
                 }
 
                 foreach (XElement e in objects.Elements("SHIFTYSHOOTER"))

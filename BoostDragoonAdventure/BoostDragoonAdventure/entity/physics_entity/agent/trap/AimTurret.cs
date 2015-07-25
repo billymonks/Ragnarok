@@ -14,7 +14,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
     public class AimTurret : Agent
     {
 
-        public int fireSpeed = 1000;
+        public int fireSpeed = 500;
 
         public AimTurret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound)
             : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
@@ -40,7 +40,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             base.Update(gameTime);
 
             target = null;
-            setTargetToClosestPlayer(true);
+            setTargetToClosestPlayer(true, 360);
 
             faceTarget();
 

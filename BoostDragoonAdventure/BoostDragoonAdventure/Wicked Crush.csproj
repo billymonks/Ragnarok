@@ -150,6 +150,7 @@
     <Compile Include="editor\tool\EditorTool.cs" />
     <Compile Include="editor\tool\TerrainTool.cs" />
     <Compile Include="editor\tool\Toolbox.cs" />
+    <Compile Include="entity\holder\BlowReleaser.cs" />
     <Compile Include="entity\physics_entity\agent\action\ActionSkill.cs" />
     <Compile Include="entity\physics_entity\agent\action\SkillServer.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\AimedProjectile.cs" />
@@ -157,13 +158,16 @@
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Giant.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\PathOfDeath.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="entity\physics_entity\agent\npc\NPC.cs" />
     <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />
     <Compile Include="entity\physics_entity\agent\trap\AimTurret.cs" />
-    <Compile Include="entity\physics_entity\agent\trap\triggerable\Triggerable.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\triggerable\FloorTrap.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\triggerable\turret\Triggerable.cs" />
+    <Compile Include="entity\physics_entity\agent\trap\triggerable\turret\StandaloneTurret.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\FloorSwitch.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TimerTrigger.cs" />
     <Compile Include="entity\physics_entity\agent\trap\trigger\TriggerBase.cs" />
@@ -201,6 +205,7 @@
     <Compile Include="menu\input\TextInput.cs" />
     <Compile Include="particle\Particle.cs" />
     <Compile Include="particle\ParticleEmitter.cs" />
+    <Compile Include="particle\ParticleServer.cs" />
     <Compile Include="screen\dialog\BooleanChoiceScreen.cs" />
     <Compile Include="screen\CharCreationScreen.cs" />
     <Compile Include="screen\dialog\StatBranchScreen.cs" />

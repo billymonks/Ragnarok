@@ -68,7 +68,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     c => !((Chest)c).opened,
                     c =>
                     {
-                        bodySpriter.setAnimation("closed_000", 0, 0);
+                        bodySpriter.setAnimation("closed", 0, 0);
                         testColor = Color.Green;
                         CheckForOpen();
 
@@ -78,7 +78,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     c => true,
                     c =>
                     {
-                        bodySpriter.setAnimation("open_000", 0, 0);
+                        bodySpriter.setAnimation("open", 0, 0);
                         testColor = Color.Blue;
                     }));
             stateTree = new StateTree();

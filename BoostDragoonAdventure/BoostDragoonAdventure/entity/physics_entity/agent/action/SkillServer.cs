@@ -21,9 +21,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public String spriterName;
         public int spriterEntityIndex;
         public String spriterAnimationName;
-        public bool freeItemInUse;
+        //public bool freeItemInUse;
 
-        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, Vector2 parentVelocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName, bool freeItemInUse)
+        //public Nullable<SkillStruct> blowStruct;
+
+        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, Vector2 parentVelocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName)
         {
             this.name = name;
             this.pos = pos;
@@ -42,8 +44,11 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.spriterName = spriterName;
             this.spriterEntityIndex = spriterEntityIndex;
             this.spriterAnimationName = spriterAnimationName;
-            this.freeItemInUse = freeItemInUse;
+            //this.freeItemInUse = freeItemInUse;
+            //this.blowStruct = null;
         }
+
+        
     }
     public static class SkillServer
     {
@@ -76,8 +81,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    true));
+                    "attack1"));
 
             skills.Add(
                 "Strong Attack",
@@ -97,8 +101,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    true));
+                    "attack1"));
 
             skills.Add("Vertical Blow 1",
                 new SkillStruct("Vertical Blow 1",
@@ -117,8 +120,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Vertical Blow 2",
                 new SkillStruct("Vertical Blow 2",
@@ -137,8 +139,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Vertical Blow 3",
                 new SkillStruct("Vertical Blow 3",
@@ -157,8 +158,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Vertical Blow 4",
                 new SkillStruct("Vertical Blow 4",
@@ -177,8 +177,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Vertical Blow 5",
                 new SkillStruct("Vertical Blow 5",
@@ -197,8 +196,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Forward Attack",
                 new SkillStruct("Forward Attack",
@@ -217,8 +215,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife",
-                    false));
+                    "knife"));
 
             skills.Add("Sword Attack",
                 new SkillStruct("Sword Attack",
@@ -226,7 +223,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     new Microsoft.Xna.Framework.Vector2(30f, 30f),
                     new Microsoft.Xna.Framework.Vector2(0f, 15f),
                     Vector2.Zero,
-                    new Vector2(20f, 0f),
+                    new Vector2(40f, 0f),
                     240,
                     300,
                     0,
@@ -237,8 +234,64 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "sword",
-                    false));
+                    "sword"));
+
+            skills.Add("Swordz Attack",
+                new SkillStruct("Swordz Attack",
+                    new Microsoft.Xna.Framework.Vector2(30f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(50f, 50f),
+                    new Microsoft.Xna.Framework.Vector2(0f, 25f),
+                    Vector2.Zero,
+                    new Vector2(20f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -40) },
+                    "whsh",
+                    true,
+                    null,
+                    "weapons",
+                    0,
+                    "sword"));
+
+            skills.Add("Bigger Sword Attack",
+                new SkillStruct("Sword Attack",
+                    new Microsoft.Xna.Framework.Vector2(20f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(45f, 45f),
+                    new Microsoft.Xna.Framework.Vector2(0f, 22.5f),
+                    Vector2.Zero,
+                    new Vector2(20f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -30) },
+                    "whsh",
+                    true,
+                    null,
+                    "weapons",
+                    0,
+                    "sword"));
+
+            skills.Add("Biggest Sword Attack",
+                new SkillStruct("Sword Attack",
+                    new Microsoft.Xna.Framework.Vector2(20f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(60f, 60f),
+                    new Microsoft.Xna.Framework.Vector2(0f, 30f),
+                    Vector2.Zero,
+                    new Vector2(20f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -50) },
+                    "whsh",
+                    true,
+                    null,
+                    "weapons",
+                    0,
+                    "sword"));
 
             skills.Add(
                 "Spear Attack Weak",
@@ -264,8 +317,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    "",
-                    true));
+                    ""));
 
             skills.Add(
                 "Spear Attack Full",
@@ -293,209 +345,198 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    "",
-                    true));
+                    ""));
 
             skills.Add("Horizontal Blow 1",
                 new SkillStruct("Horizontal Blow 1",
                     new Microsoft.Xna.Framework.Vector2(15f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
-                    new Vector2(35f, 0f),
+                    new Vector2(5f, 0f),
                     Vector2.Zero,
                     60,
-                    500,
+                    50,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh",
-                    false,
+                    true,
                     null,
-                    "all",
-                    3,
-                    "attack1",
-                    false));
+                    "weapons",
+                    0,
+                    "knife"));
 
             skills.Add("Horizontal Blow 2",
                 new SkillStruct("Horizontal Blow 2",
                     new Microsoft.Xna.Framework.Vector2(17f, 10f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
-                    new Vector2(38f, 0f),
+                    new Vector2(8f, 0f),
                     Vector2.Zero,
                     60,
-                    500,
+                    50,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh",
-                    false,
+                    true,
                     null,
-                    "all",
-                    3,
-                    "attack1",
-                    false));
+                    "weapons",
+                    0,
+                    "knife"));
 
             skills.Add("Horizontal Blow 3",
                 new SkillStruct("Horizontal Blow 3",
                     new Microsoft.Xna.Framework.Vector2(20f, 0f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
-                    new Vector2(41f, 0f),
+                    new Vector2(8f, 0f),
                     Vector2.Zero,
                     60,
-                    500,
+                    50,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh",
-                    false,
+                    true,
                     null,
-                    "all",
-                    3,
-                    "attack1",
-                    false));
+                    "weapons",
+                    0,
+                    "knife"));
 
             skills.Add("Horizontal Blow 4",
                 new SkillStruct("Horizontal Blow 4",
                     new Microsoft.Xna.Framework.Vector2(17f, -10f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
-                    new Vector2(38f, 0f),
+                    new Vector2(8f, 0f),
                     Vector2.Zero,
                     60,
-                    500,
+                    50,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh",
-                    false,
+                    true,
                     null,
-                    "all",
-                    3,
-                    "attack1",
-                    false));
+                    "weapons",
+                    0,
+                    "knife"));
 
             skills.Add("Horizontal Blow 5",
                 new SkillStruct("Horizontal Blow 5",
                     new Microsoft.Xna.Framework.Vector2(15f, -20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
                     new Microsoft.Xna.Framework.Vector2(5f, 5f),
-                    new Vector2(35f, 0f),
+                    new Vector2(5f, 0f),
                     Vector2.Zero,
                     60,
-                    300,
+                    30,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -5) },
                     "whsh",
-                    false,
+                    true,
                     null,
-                    "all",
-                    3,
-                    "attack1",
-                    false));
+                    "weapons",
+                    0,
+                    "knife"));
 
                     
             skills.Add("Horizontal Extension Blow 1",
                 new SkillStruct("Horizontal Extension Blow 1",
-                    new Microsoft.Xna.Framework.Vector2(18f, 40f),
+                    new Microsoft.Xna.Framework.Vector2(38f, 40f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
-                    new Vector2(50f, 0f),
+                    new Vector2(5f, 0f),
                     Vector2.Zero,
                     120,
-                    1000,
+                    100,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion",
-                    false,
+                    true,
                     null, 
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Horizontal Extension Blow 2",
                 new SkillStruct("Horizontal Extension Blow 2",
                     new Microsoft.Xna.Framework.Vector2(40f, 20f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
-                    new Vector2(60f, 0f),
+                    new Vector2(6f, 0f),
                     Vector2.Zero,
                     120,
-                    1000,
+                    100,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion",
-                    false,
+                    true,
                     null, 
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Horizontal Extension Blow 3",
                 new SkillStruct("Horizontal Extension Blow 3",
                     new Microsoft.Xna.Framework.Vector2(42f, 0f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
-                    new Vector2(65f, 0f),
+                    new Vector2(6f, 0f),
                     Vector2.Zero,
                     120,
-                    1000,
+                    100,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion",
-                    false,
+                    true,
                     null, 
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Horizontal Extension Blow 4",
                 new SkillStruct("Horizontal Extension Blow 4",
                     new Microsoft.Xna.Framework.Vector2(40f, -20f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
-                    new Vector2(60f, 0f),
+                    new Vector2(6f, 0f),
                     Vector2.Zero,
                     120,
-                    1000,
+                    100,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion",
-                    false,
+                    true,
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add("Horizontal Extension Blow 5",
                 new SkillStruct("Horizontal Extension Blow 5",
-                    new Microsoft.Xna.Framework.Vector2(18f, -40f),
+                    new Microsoft.Xna.Framework.Vector2(38f, -40f),
                     new Microsoft.Xna.Framework.Vector2(20f, 20f),
                     new Microsoft.Xna.Framework.Vector2(10f, 10f),
-                    new Vector2(50f, 0f),
+                    new Vector2(5f, 0f),
                     Vector2.Zero,
                     120,
-                    1000,
+                    100,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
-                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -18) },
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -8) },
                     "explosion",
-                    false,
+                    true,
                     null,
                     "all",
                     3,
-                    "attack1",
-                    false));
+                    "attack1"));
 
             skills.Add(
                 "Longsword Attack Full",
@@ -528,8 +569,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    "",
-                    true));
+                    ""));
 
             skills.Add(
                 "Longsword Attack Medium",
@@ -557,8 +597,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    "",
-                    true));
+                    ""));
 
             skills.Add(
                 "Longsword Attack Weak",
@@ -584,8 +623,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    "",
-                    true));
+                    ""));
 
         }
 
@@ -611,44 +649,106 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterEntityIndex = 3;
             skill.spriterName = "all";
             skill.parentVelocity = parentVelocity;
-            skill.freeItemInUse = true;
+            //skill.freeItemInUse = true;
 
-            AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowVelocity, spreadDuration * blowCount + blowReleaseDelay + blowDuration, blowReleaseDelay, 1f);
+            //if (skill.blowStruct.HasValue)
+                //AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowVelocity, spreadDuration * blowCount + blowReleaseDelay + blowDuration, blowReleaseDelay, 1f);
                 
             
             
             return skill;
         }
 
-        private static void AddBlowsToSkillStruct(SkillStruct skill, int blowCount, int blowPerSpread, int scatterCount, int spreadDuration, int spread, float velocity, int duration, int blowReleaseDelay, float releaseModifier)
+        public static SkillStruct GenerateSkillStruct(Vector2 parentVelocity, Vector2 velocity, int spreadDuration, 
+            int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent, float blowVelocity, 
+            int blowDuration, int blowReleaseDelay, float releaseModifier, Nullable<ParticleStruct> particle,
+            String spriterAnimationName, int spriterEntityIndex, String spriterName, SkillStruct blowStruct)
+        {
+            SkillStruct skill = new SkillStruct();
+
+            skill.name = "Generated Skill";
+            skill.pos = new Vector2(5f, 0f);
+            skill.size = new Vector2(2f, 2f);
+            skill.center = new Vector2(1f, 1f);
+            skill.blows = new List<KeyValuePair<int, SkillStruct>>();
+
+            //skill.statIncrement = new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10 * blowCount) };
+            skill.statIncrement = blowStruct.statIncrement;
+            skill.velocity = velocity;
+            skill.duration = spreadDuration * blowCount + blowReleaseDelay;
+            skill.force = 50;
+            skill.directionChange = 0;
+            skill.cue = "";
+            skill.followParent = followParent;
+            skill.particle = particle;
+            skill.spriterAnimationName = spriterAnimationName;
+            skill.spriterEntityIndex = spriterEntityIndex;
+            skill.spriterName = spriterName;
+            skill.parentVelocity = parentVelocity;
+
+
+            AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowReleaseDelay, releaseModifier, blowStruct);
+
+
+
+            return skill;
+        }
+
+        public static SkillStruct GenerateProjectile(Vector2 size, Vector2 velocity, int hpIncrement, int force, int duration, Nullable<ParticleStruct> particle, String cue,
+            String spriterAnimationName, int spriterEntityIndex, String spriterName, Vector2 parentVelocity)
+        {
+            SkillStruct skill = new SkillStruct();
+            skill.name = "Generated Projectile";
+            skill.pos = new Vector2(size.X / 2f, 0f);
+            skill.size = size;
+            skill.center = size / 2f;
+            skill.blows = new List<KeyValuePair<int, SkillStruct>>();
+            skill.statIncrement = new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", hpIncrement) };
+            skill.velocity = velocity;
+            skill.duration = duration;
+            skill.force = force;
+            skill.directionChange = 0;
+            skill.cue = cue;
+            skill.followParent = false;
+            skill.particle = particle;
+            skill.spriterAnimationName = spriterAnimationName;
+            skill.spriterEntityIndex = spriterEntityIndex;
+            skill.spriterName = spriterName;
+            skill.parentVelocity = parentVelocity;
+
+            return skill;
+        }
+
+        private static void AddBlowsToSkillStruct(SkillStruct skill, int blowCount, int blowPerSpread, int scatterCount, int spreadDuration, int spread, 
+            int blowReleaseDelay, float releaseModifier, SkillStruct blowStruct)
         {
             SkillStruct temp;
             for (int i = 0; i < blowCount; i++)
             {
                 
-                if (blowCount % 2 == 0)
-                {
-                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread, velocity, duration);
+                
+                   
+                temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread, blowStruct);
+                
+
+                
+                if (scatterCount > 0)
+                {    
+                    AddBlowsToSkillStruct(temp, blowCount, blowPerSpread, (scatterCount - 1), spreadDuration, spread, (int)(blowReleaseDelay * releaseModifier), releaseModifier, blowStruct);
                 }
-                else
-                {
-                    temp = GenerateSkillStructDirectionChange(spread, i, blowPerSpread, velocity, duration);
-                }
 
-                if(scatterCount>0)
-                    AddBlowsToSkillStruct(temp, blowCount, blowPerSpread, scatterCount-1, spreadDuration, spread, velocity, duration, (int)(blowReleaseDelay * releaseModifier), releaseModifier);
-
-
+               
+                
                 skill.blows.Add(new KeyValuePair<int, SkillStruct>(i * spreadDuration + blowReleaseDelay, temp));
             }
         }
 
-        private static SkillStruct GenerateSkillStructDirectionChange(int spread, int n, int m, float velocity, int duration)
+        private static SkillStruct GenerateSkillStructDirectionChange(int spread, int n, int m, SkillStruct blowStruct)
         {
             SkillStruct skill = new SkillStruct();
 
             skill.name = "Generated Skill DC";
-            skill.pos = new Vector2(5f, 0f);
+            /*skill.pos = new Vector2(5f, 0f);
             skill.size = new Vector2(10f, 10f);
             skill.center = new Vector2(5f, 5f);
             skill.blows = new List<KeyValuePair<int, SkillStruct>>();
@@ -660,14 +760,32 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.directionChange = m != 1 ? -(spread / 2) + (n % m) * (spread / (m - 1)) : 0;
             skill.cue = "whsh";
             skill.followParent = false;
-            skill.particle = new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_blue"));
-            skill.spriterAnimationName = "attack1";
-            skill.spriterEntityIndex = 3;
-            skill.spriterName = "all";
-            skill.freeItemInUse = false;
+            skill.particle = new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_blue"));*/
+
+            skill.pos = blowStruct.pos;
+            skill.size = blowStruct.size;
+            skill.center = blowStruct.center;
+            skill.blows = new List<KeyValuePair<int, SkillStruct>>();
+            skill.statIncrement = blowStruct.statIncrement;
+            skill.velocity = blowStruct.velocity;
+            skill.duration = blowStruct.duration;
+            skill.force = blowStruct.force;
+
+            skill.directionChange = m != 1 ? -(spread / 2) + (n % m) * (spread / (m - 1)) : 0;
+
+            skill.cue = blowStruct.cue;
+            skill.followParent = blowStruct.followParent;
+            skill.particle = blowStruct.particle;
+
+            skill.spriterAnimationName = blowStruct.spriterAnimationName;
+            skill.spriterEntityIndex = blowStruct.spriterEntityIndex;
+            skill.spriterName = blowStruct.spriterName;
+            skill.parentVelocity = blowStruct.parentVelocity;
+            //skill.freeItemInUse = false;
 
             return skill;
         }
+        
 
         private static void LoadSkillStruct(string path)
         {

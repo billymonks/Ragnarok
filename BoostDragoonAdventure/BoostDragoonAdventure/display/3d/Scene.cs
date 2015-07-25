@@ -88,7 +88,7 @@ namespace wickedcrush.display._3d
             CreateTextureAtlas();
             CombineVertices();
 
-            CreateParallaxVertices(map);
+            //CreateParallaxVertices(map);
 
             SetEffectParameters(gameplay);
 

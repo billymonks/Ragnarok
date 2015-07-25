@@ -12,13 +12,14 @@ namespace wickedcrush.entity
 {
     public class TextEntity : Entity
     {
-        String text;
+        public String text;
         GameBase g;
         Timer duration;
         EntityFactory factory;
 
         float zoomLevel = 1f;
         float desiredZoomLevel = 2f;
+        float zoomIncrement = 0.01f;
 
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory) //duration time?
             : base(pos, Vector2.Zero, Vector2.Zero, sound)
@@ -34,18 +35,29 @@ namespace wickedcrush.entity
             this.factory = factory;
         }
 
+        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, float zoomLevel, float desiredZoomLevel, float zoomIncrement) //duration time?
+            : this(text, pos, sound, g, duration, factory)
+        {
+            this.zoomLevel = zoomLevel;
+            this.desiredZoomLevel = desiredZoomLevel;
+            this.zoomIncrement = zoomIncrement;
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            duration.Update(gameTime);
-            if (duration.isDone())
+            if (duration != null)
             {
-                Remove();
+                duration.Update(gameTime);
+                if (duration.isDone())
+                {
+                    Remove();
+                }
             }
 
             zoomLevel = (zoomLevel + desiredZoomLevel) / 2f;
-            desiredZoomLevel += 0.01f;
+            desiredZoomLevel += zoomIncrement;
 
             
         }

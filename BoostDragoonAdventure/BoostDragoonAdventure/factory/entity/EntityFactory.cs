@@ -35,12 +35,15 @@ using wickedcrush.utility;
 using wickedcrush.manager.particle;
 using wickedcrush.screen;
 using wickedcrush.screen.dialog;
+using wickedcrush.entity.holder;
+using wickedcrush.map.path;
+using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 
 namespace wickedcrush.factory.entity
 {
     public class EntityFactory
     {
-        private GameBase _game; //lol what r u gonna do about it ;) jk pls be nice
+        public GameBase _game; //lol what r u gonna do about it ;) jk pls be nice
         private EntityManager _em;
         private PlayerManager _pm;
         public GameplayManager _gm;
@@ -240,16 +243,23 @@ namespace wickedcrush.factory.entity
             _em.addEntity(g);
         }
 
-        public void addMurderer(Vector2 pos, Vector2 size, bool solid)
+        public void addPathOfDeath(Vector2 pos, Vector2 size, Stack<PathNode> patrol)
+        {
+            PathOfDeath p = new PathOfDeath(_w, pos, size, size / 2f, true, this, _sm, patrol, 15, 100);
+            _em.addEntity(p);
+        }
+
+        public void addMurderer(Vector2 pos, Vector2 size, bool solid, Stack<PathNode> patrol, int facing)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(_w, pos, size, size/2f, solid, this, fuckStats, _sm);
+            Murderer a = new Murderer(_w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 280);
             a.stats.set("maxHP", 280);
             a.stats.set("staggerLimit", 500);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 60);
             a.stats.set("staggerDistance", 1);
+            a.facing = helper.Helper.constrainDirection((Direction)facing);
             if (_gm.map != null)
             {
                 a.activateNavigator(_gm.map);
@@ -257,10 +267,10 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
-        public void addWeakling(Vector2 pos, Vector2 size, Vector2 center)
+        public void addWeakling(Vector2 pos, Vector2 size, Vector2 center, Stack<PathNode> patrol)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(_w, pos, size, center, true, this, fuckStats, _sm);
+            Murderer a = new Murderer(_w, pos, size, center, true, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 100);
             a.stats.set("maxHP", 100);
             a.stats.set("staggerLimit", 300);
@@ -290,7 +300,7 @@ namespace wickedcrush.factory.entity
 
         public void addTurret(Vector2 pos, Direction facing)
         {
-            Turret t = new Turret(_w, pos, this, facing, _sm);
+            StandaloneTurret t = new StandaloneTurret(_w, pos, this, facing, _sm);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
@@ -364,7 +374,7 @@ namespace wickedcrush.factory.entity
 
         public void addFloorSwitch(Vector2 pos)
         {
-            FloorSwitch f = new FloorSwitch(_w, pos, this, _sm);
+            FloorTrap f = new FloorTrap(_w, pos, this, _sm);
 
             f.stats.set("staggerDuration", 1);
             f.stats.set("staggerDistance", 0);
@@ -412,6 +422,13 @@ namespace wickedcrush.factory.entity
             ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, actingParent);
 
             _em.addEntity(a);
+        }
+
+        public void addBlowReleaser(Entity parent, Entity actingParent, List<KeyValuePair<Timer, SkillStruct>> orphanedBlows)
+        {
+            BlowReleaser releaser = new BlowReleaser(parent, actingParent, orphanedBlows, _sm, _gm);
+
+            _em.addEntity(releaser);
         }
 
         public void addText(String text, Vector2 pos, int duration)

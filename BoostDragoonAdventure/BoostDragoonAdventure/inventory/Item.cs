@@ -70,12 +70,13 @@ namespace wickedcrush.inventory
             if (a.stats.inventory.getItemCount(this) <= 0)
                 return;
 
-
-            pressAction(a, this);
-
             pressReady = false;
             holdReady = true;
             releaseReady = true;
+
+            pressAction(a, this);
+
+            
 
             
         }
@@ -99,12 +100,13 @@ namespace wickedcrush.inventory
             if (a.stats.inventory.getItemCount(this) <= 0)
                 return;
 
-
-            holdAction(a, this);
-
             pressReady = false;
             holdReady = true;
             releaseReady = true;
+
+            holdAction(a, this);
+
+            
         }
 
         public void Release(Agent a)
@@ -126,11 +128,13 @@ namespace wickedcrush.inventory
                 return;
             }
 
-            releaseAction(a, this);
-
             pressReady = true;
             holdReady = false;
             releaseReady = false;
+
+            releaseAction(a, this);
+
+            
         }
     }
 }

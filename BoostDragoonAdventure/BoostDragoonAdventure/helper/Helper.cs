@@ -5,12 +5,42 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using wickedcrush.editor;
 using wickedcrush.entity;
+using wickedcrush.map.path;
 
 namespace wickedcrush.helper
 {
     public static class Helper
     {
         static int uid = 0;
+
+        public static bool angleInFov(int facing, int angle, int fovSize)
+        {
+            facing = (facing + 360) % 360;
+            angle = (angle + 360) % 360;
+
+            int halfFov = fovSize / 2;
+
+            if (angle - halfFov < facing && angle + halfFov > facing)
+                return true;
+
+            if (facing - halfFov < 0)
+            {
+                if (angle < facing + halfFov)
+                    return true;
+                else if (facing - halfFov + 360 < angle)
+                    return true;
+            }
+
+            if (facing + halfFov > 360)
+            {
+                if (angle > facing - halfFov)
+                    return true;
+                else if ((facing + halfFov) % 360 > angle)
+                    return true;
+            }
+
+            return false;
+        }
 
         public static int smallestNumber(int[] list)
         {
@@ -75,6 +105,27 @@ namespace wickedcrush.helper
         public static bool CharToBool(Char c)
         {
             return (c == '1');
+        }
+
+        public static Vector2 GetDirectionVectorFromDegrees(float Degrees)
+        {
+            //Vector2 North = new Vector2(0, -1);
+            float Angle = MathHelper.ToRadians(Degrees);
+            return new Vector2((float)Math.Cos(Angle), (float)Math.Sin(Angle));
+            //float Radians = MathHelper.ToRadians(Degrees);
+
+            //var RotationMatrix = Matrix.CreateRotationZ(Radians);
+            //return Vector2.Transform(North, RotationMatrix);
+        }
+
+        public static float GetRadiansFromVector(Vector2 vector)
+        {
+            return (float)Math.Atan2(vector.Y, vector.X);
+        }
+
+        public static float GetDegreesFromVector(Vector2 vector)
+        {
+            return MathHelper.ToDegrees((float)Math.Atan2(vector.Y, vector.X));
         }
     }
 }

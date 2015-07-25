@@ -42,7 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             timers.Add("flightTime", new Timer(flightTime));
             timers["flightTime"].resetAndStart();
 
-            speed = 150f;
+            targetSpeed = 150f;
 
             reactToWall = true;
             piercing = false;
@@ -64,8 +64,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         protected void moveForward(float speed)
         {
             Vector2 v = bodies["body"].LinearVelocity;
-            v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
-            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
+            v.X += (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
+            v.Y += (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
             bodies["body"].LinearVelocity = v;
         }
 
