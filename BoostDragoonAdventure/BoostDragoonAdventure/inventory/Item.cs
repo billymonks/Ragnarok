@@ -28,7 +28,7 @@ namespace wickedcrush.inventory
         public List<KeyValuePair<string, int>> holdRequirements;
         public List<KeyValuePair<string, int>> releaseRequirements;
 
-        public bool pressReady = true, holdReady = false, releaseReady = false;
+        
 
         public Item(
             String name,
@@ -49,11 +49,23 @@ namespace wickedcrush.inventory
             this.releaseRequirements = releaseRequirements;
         }
 
+        public Item(Item i)
+        {
+            this.name = i.name;
+            this.pressAction = i.pressAction;
+            this.holdAction = i.holdAction;
+            this.releaseAction = i.releaseAction;
+
+            this.pressRequirements = i.pressRequirements;
+            this.holdRequirements = i.holdRequirements;
+            this.releaseRequirements = i.releaseRequirements;
+        }
+
 
 
         public void Press(Agent a)
         {
-            if (pressAction == null || !pressReady || a.itemInUse != null)
+            if (pressAction == null || !a.pressReady || a.itemInUse != null)
                 return;
 
             a.itemInUse = this;
@@ -70,9 +82,9 @@ namespace wickedcrush.inventory
             if (a.stats.inventory.getItemCount(this) <= 0)
                 return;
 
-            pressReady = false;
-            holdReady = true;
-            releaseReady = true;
+            a.pressReady = false;
+            a.holdReady = true;
+            a.releaseReady = true;
 
             pressAction(a, this);
 
@@ -83,7 +95,7 @@ namespace wickedcrush.inventory
 
         public void Hold(Agent a)
         {
-            if (holdAction == null || !holdReady || (a.itemInUse != this && a.itemInUse != null))
+            if (holdAction == null || !a.holdReady || (a.itemInUse != this && a.itemInUse != null))
                 return;
 
             a.itemInUse = this;
@@ -100,9 +112,9 @@ namespace wickedcrush.inventory
             if (a.stats.inventory.getItemCount(this) <= 0)
                 return;
 
-            pressReady = false;
-            holdReady = true;
-            releaseReady = true;
+            a.pressReady = false;
+            a.holdReady = true;
+            a.releaseReady = true;
 
             holdAction(a, this);
 
@@ -111,7 +123,7 @@ namespace wickedcrush.inventory
 
         public void Release(Agent a)
         {
-            if (releaseAction == null || !releaseReady || (a.itemInUse != this && a.itemInUse != null))
+            if (releaseAction == null || !a.releaseReady || (a.itemInUse != this && a.itemInUse != null))
                 return;
 
             foreach (KeyValuePair<string, int> req in releaseRequirements)
@@ -128,13 +140,23 @@ namespace wickedcrush.inventory
                 return;
             }
 
-            pressReady = true;
-            holdReady = false;
-            releaseReady = false;
+            a.pressReady = true;
+            a.holdReady = false;
+            a.releaseReady = false;
 
             releaseAction(a, this);
 
             
+        }
+
+        public void Cancel(Agent a)
+        {
+            if (a.itemInUse == this)
+                a.itemInUse = null;
+
+            a.pressReady = true;
+            a.holdReady = false;
+            a.releaseReady = false;
         }
     }
 }

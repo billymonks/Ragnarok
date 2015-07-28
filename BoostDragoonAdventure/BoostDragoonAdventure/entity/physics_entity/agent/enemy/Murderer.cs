@@ -97,8 +97,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
 
-            
-            item = ItemServer.getItem("Scattershot");
+
+            item = ItemServer.getItem("Spellbook: Fireball");
             stats.inventory.receiveItem(item);
 
             subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f));
@@ -139,6 +139,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             }
 
             stats.set("boost", 1000);
+            //stats.set("charge", 1000);
 
             subEntityList["status"].pos = this.pos;
             ((TextEntity)subEntityList["status"]).text = enemyState.ToString();
@@ -158,7 +159,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Murderer)c).timers["falling"].isActive(),
                     c =>
                     {
-                        ((Murderer)c).RemoveOverheadWeapon("longsword");
+                        //((Murderer)c).RemoveOverheadWeapon("longsword");
                         this.height -= 3;
                     }));
             ctrl.Add("staggered",
@@ -168,9 +169,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         if (!stateTree.previousControlState.name.Equals("staggered"))
                         {
-                            ((Murderer)c).RemoveOverheadWeapon("longsword");
+                            //((Murderer)c).RemoveOverheadWeapon("longsword");
                             this.PlayCue("vanquished");
+                            item.Cancel((Agent)c);
                         }
+                        
                         testColor = Color.White;
                         ResetAllTimers();
 
@@ -197,8 +200,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (!stateTree.previousControlState.name.Equals("post_attack"))
                         {
-                            ((Murderer)c).RemoveOverheadWeapon("longsword");
-                            this.PlayCue("explosion");
+                            //((Murderer)c).RemoveOverheadWeapon("longsword");
+                            //this.PlayCue("explosion");
                         }
                         testColor = Color.Violet;
                         if (timers["post_attack"].isDone())
@@ -215,7 +218,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         if (!stateTree.previousControlState.name.Equals("attack_tell"))
                         {
-                            ((Murderer)c).AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 120f), .5f, 90f);
+                            //((Murderer)c).AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 120f), .5f, 90f);
                             faceTarget();
                             ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");  
                             this.EmitParticles(ps, 5);
@@ -274,7 +277,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (target == null)
                         {
-                            setTargetToClosestPlayer(true, 90);
+                            setTargetToClosestPlayer(true, 120);
                             if (target != null)
                             {
                                 factory.addText("!", pos + center + new Vector2(0, -10), 500);
@@ -331,7 +334,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (target == null)
                         {
-                            setTargetToClosestPlayer(true, 90);
+                            setTargetToClosestPlayer(true, 110);
                             if (target != null)
                             {
                                 factory.addText("!", pos + center + new Vector2(0, -10), 500);
@@ -418,7 +421,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (target == null)
                         {
-                            setTargetToClosestPlayer(true, 60);
+                            setTargetToClosestPlayer(true, 90);
                             if (target != null)
                             {
                                 factory.addText("!", pos + center + new Vector2(0, -10), 500);
@@ -450,7 +453,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         
-                            setTargetToClosestPlayer(true, 60);
+                            setTargetToClosestPlayer(true, 90);
                             if (target != null)
                             {
                                 factory.addText("!", pos + center + new Vector2(0, -10), 500);

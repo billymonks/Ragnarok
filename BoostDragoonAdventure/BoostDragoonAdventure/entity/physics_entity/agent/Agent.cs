@@ -80,6 +80,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected Random random = new Random();
 
+        //item stuff
+        public bool pressReady = true, holdReady = false, releaseReady = false;
+
         //public bool itemInPress = false;
         //public bool itemInHold = false;
         //public bool itemInUse = false;
