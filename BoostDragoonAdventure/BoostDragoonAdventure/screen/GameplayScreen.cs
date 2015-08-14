@@ -45,7 +45,7 @@ namespace wickedcrush.screen
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
 
-        public Effect spriteEffect;
+        public Effect spriteEffect, unlitSpriteEffect;
 
         public Texture2D background;
         
@@ -139,6 +139,7 @@ namespace wickedcrush.screen
         private void LoadContent(GameBase game)
         {
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
+            unlitSpriteEffect = game.Content.Load<Effect>("fx/UnlitSprite");
             background = game.Content.Load<Texture2D>(@"img/tex/rock_greyscale");
             //spriteEffect = new BasicEffect(game.GraphicsDevice);
         }
@@ -193,7 +194,7 @@ namespace wickedcrush.screen
                 Vector2.Zero, SpriteEffects.None, 1f);
                 game.spriteBatch.End();
 
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
             }
             else
             {
@@ -222,11 +223,11 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.debugSpriteScale);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
             game.spriteBatch.End();
 
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
             game.playerManager.DrawHud();
             game.spriteBatch.End();
         }

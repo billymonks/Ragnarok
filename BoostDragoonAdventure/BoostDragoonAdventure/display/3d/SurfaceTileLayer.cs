@@ -17,7 +17,8 @@ namespace wickedcrush.display._3d
         Random random = new Random();
         Double rand;
 
-        public SurfaceTileLayer(GameBase game, bool[,] data, int height, String tilesetPath, bool edgeOnly) : base(game, data, height, tilesetPath)
+        public SurfaceTileLayer(GameBase game, bool[,] data, int height, String tilesetPath, bool edgeOnly, bool[,] excludeData)
+            : base(game, data, height, tilesetPath, excludeData)
         {
             edgeTilesOnly = edgeOnly;
 
@@ -30,7 +31,7 @@ namespace wickedcrush.display._3d
             {
                 for (int j = 0; j < data.GetLength(1); j++)
                 {
-                    if (data[i, j])
+                    if (data[i, j] && !excludeData[i,j])
                     {
                         AddFloorVertices(i, height, j);
                     }

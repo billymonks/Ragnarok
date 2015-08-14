@@ -87,6 +87,8 @@ namespace wickedcrush.entity.physics_entity.agent
         //public bool itemInHold = false;
         //public bool itemInUse = false;
 
+        public float _depth = 0f;
+
         const float poopNear = -0.236f, poopFar = 0.06199996f;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
@@ -511,6 +513,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
 
+                _depth = depth;
                 bodySpriter.SetDepth(depth);
 
                 bodySpriter.update(spritePos.X,
@@ -539,7 +542,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
                 {
-                    s.Value.player.SetDepth(0f);
+                    s.Value.player.SetDepth(_depth-0.03f);
                     s.Value.player.update(spritePos.X + s.Value.offset.X,
                         (spritePos.Y + s.Value.offset.Y));
                 }

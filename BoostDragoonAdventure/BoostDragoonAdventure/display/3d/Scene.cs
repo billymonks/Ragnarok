@@ -85,8 +85,8 @@ namespace wickedcrush.display._3d
         {
             ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme); 
 
-            CreateTextureAtlas();
-            CombineVertices();
+            CreateTextureAtlas(game, map);
+            CombineVertices(map);
 
             //CreateParallaxVertices(map);
 
@@ -94,7 +94,7 @@ namespace wickedcrush.display._3d
 
 
             lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            lightList.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.3f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            lightList.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
             lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
             //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
             //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
@@ -158,7 +158,7 @@ namespace wickedcrush.display._3d
                 Color.White));
         }
 
-        protected void CreateTextureAtlas()
+        protected void CreateTextureAtlas(GameBase game, Map map)
         {
 
             Dictionary<String, Texture2D> textures = new Dictionary<String, Texture2D>();
@@ -175,12 +175,20 @@ namespace wickedcrush.display._3d
                 }
             }
 
+            foreach (ArtTile artTile in map.artTileList)
+            {
+                if (!textures.ContainsKey(artTile.color))
+                    textures.Add(artTile.color, game.Content.Load<Texture2D>(@"img/tex/big/"+artTile.color));
+                if (!textures.ContainsKey(artTile.normal))
+                    textures.Add(artTile.normal, game.Content.Load<Texture2D>(@"img/tex/big/" + artTile.normal ));
+            }
+
             textureAtlas = new TextureAtlas(textures, game.GraphicsDevice);
             solidGeomVertices = new List<WCVertex>();
 
         }
 
-        protected void CombineVertices()
+        protected void CombineVertices(Map map)
         {
             foreach (ArtLayer artLayer in artLayers)
             {
@@ -200,8 +208,94 @@ namespace wickedcrush.display._3d
                 }
             }
 
+            foreach (ArtTile artTile in map.artTileList)
+            {
+                AddArtTile(artTile);
+            }
+
             buffer = new VertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
             buffer.SetData(solidGeomVertices.ToArray());
+        }
+
+        private void AddArtTile(ArtTile artTile)
+        {
+            Vector3 normal = Vector3.Backward;
+            Vector3 tangent = Vector3.Up;
+            Vector3 binormal = Vector3.Cross(tangent, normal);
+
+            //int quarter = x % 2 + 2 * (z % 2);
+
+            //int floorTexture = GetWallTextureInt(x, y, z);
+
+            //if (floorTexture == 4 && edgeTilesOnly)
+            //{
+                //return;
+            //}
+
+            float padding = 0.03f;
+
+            Vector2 topRightTexCoord = textureAtlas.GetConvertedCoordinate(artTile.color, new Vector2(0f + padding, 1f - padding));
+            Vector2 bottomRightTexCoord = textureAtlas.GetConvertedCoordinate(artTile.color, new Vector2(0f + padding, 0f + padding));
+            Vector2 topLeftTexCoord = textureAtlas.GetConvertedCoordinate(artTile.color, new Vector2(1f - padding, 1f - padding));
+            Vector2 bottomLeftTexCoord = textureAtlas.GetConvertedCoordinate(artTile.color, new Vector2(1f - padding, 0f + padding));
+
+            Vector2 topRightNormalCoord = textureAtlas.GetConvertedCoordinate(artTile.normal, new Vector2(0f + padding, 1f - padding));
+            Vector2 bottomRightNormalCoord = textureAtlas.GetConvertedCoordinate(artTile.normal, new Vector2(0f + padding, 0f + padding));
+            Vector2 topLeftNormalCoord = textureAtlas.GetConvertedCoordinate(artTile.normal, new Vector2(1f - padding, 1f - padding));
+            Vector2 bottomLeftNormalCoord = textureAtlas.GetConvertedCoordinate(artTile.normal, new Vector2(1f - padding, 0f + padding));
+
+            Vector4 topRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            Vector4 bottomRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            Vector4 topLeftVertPos = new Vector4((artTile.pos.X + artTile.size.X), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            Vector4 bottomLeftVertPos = new Vector4((artTile.pos.X + artTile.size.X), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomRightVertPos,
+                normal,
+                bottomRightTexCoord,
+                bottomRightNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomLeftVertPos,
+                normal,
+                bottomLeftTexCoord,
+                bottomLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topRightVertPos,
+                normal,
+                topRightTexCoord,
+                topRightNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomLeftVertPos,
+                normal,
+                bottomLeftTexCoord,
+                bottomLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topLeftVertPos,
+                normal,
+                topLeftTexCoord,
+                topLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topRightVertPos,
+                normal,
+                topRightTexCoord,
+                topRightNormalCoord,
+                tangent,
+                binormal));
         }
 
         public void DrawScene(GameBase game, GameplayManager gameplay, RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass)

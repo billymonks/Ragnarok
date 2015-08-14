@@ -34,10 +34,12 @@ namespace wickedcrush.manager.screen
         Effect gaussianBlurEffect;
         //Effect spriteEffect;
 
-        float focusDistance = 375;
-        float focusRange = 60;
+        float focusDistance = 365;
+        float focusRange = 90;
         float nearClip = 150;
         float farClip = 1.01428f;
+
+        public bool loading = false;
         //355, 215, 150, 850
 
         //public Texture2D background;
@@ -129,10 +131,12 @@ namespace wickedcrush.manager.screen
         {
             //AddScreen(new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f)));
             AddScreen(loadingScreen);
+            loading = true;
         }
 
         public void EndLoading()
         {
+            //loading = false;
             RemoveScreen(loadingScreen);
             if (screensToAdd.Contains(loadingScreen))
                 screensToAdd.Remove(loadingScreen);

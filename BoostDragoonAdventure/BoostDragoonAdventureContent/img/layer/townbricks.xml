@@ -1,0 +1,10 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="townbricks">
+      <transformations />
+    </tileset>
+    <tileset surface="true" edgeonly="false" path="townbricks">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

@@ -33,4 +33,24 @@
     <connection id="0" doorIndex="1">stealth grid</connection>
     <connection id="1" doorIndex="0">stealth grid</connection>
   </map>
+  <map name="gauntlet" filename="Content/maps/full/gauntlet.oel">
+    <connection id="0" doorIndex="1">gauntlet</connection>
+    <connection id="1" doorIndex="0">gauntlet</connection>
+  </map>
+  <map name="iunno" filename="Content/maps/full/iunno.oel" theme="new1">
+    <connection id="0" doorIndex="1">iunno</connection>
+    <connection id="1" doorIndex="0">iunno</connection>
+    <connection id="2" doorIndex="0">iunno</connection>
+  </map>
+  <map name="forest intersection" filename="Content/maps/full/forest_intersection.oel">
+    <connection id="0" doorIndex="2">forest intersection</connection>
+    <connection id="1" doorIndex="3">forest intersection</connection>
+    <connection id="2" doorIndex="0">forest intersection</connection>
+    <connection id="3" doorIndex="1">forest intersection</connection>
+  </map>
+  <map name="narrow paths" filename="Content/maps/full/narrow_paths.oel">
+    <connection id="0" doorIndex="1">narrow paths</connection>
+    <connection id="1" doorIndex="0">narrow paths</connection>
+    <connection id="2" doorIndex="0">narrow paths</connection>
+  </map>
 </atlas>

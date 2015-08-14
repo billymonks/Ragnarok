@@ -19,6 +19,22 @@ using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.map
 {
+    public struct ArtTile
+    {
+        public Vector2 pos, size;
+        public string color, normal;
+        public float height, rotation;
+
+        public ArtTile(Vector2 pos, Vector2 size, string color, string normal, float height, float rotation)
+        {
+            this.pos = pos;
+            this.size = size;
+            this.color = color;
+            this.normal = normal;
+            this.height = height;
+            this.rotation = rotation;
+        }
+    }
     public class Map
     {
 
@@ -26,12 +42,14 @@ namespace wickedcrush.map
         public Dictionary<LayerType, Layer> layerList;
         public List<Circuit> circuitList;
         public List<Door> doorList;
+        public List<ArtTile> artTileList;
         public String name;
 
         public Map(String MAP_NAME)
         {
             layerList = new Dictionary<LayerType, Layer>();
             doorList = new List<Door>();
+            artTileList = new List<ArtTile>();
         }
 
         public void addLayer(World w, Boolean[,] data, LayerType layerType) // need map factory for this?

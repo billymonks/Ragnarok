@@ -97,8 +97,22 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
 
-
-            item = ItemServer.getItem("Spellbook: Fireball");
+            double weaponChoice = random.NextDouble();
+            if (weaponChoice < 0.6)
+            {
+                item = ItemServer.getItem("Longsword");
+                attackRange = 30;
+            }
+            else if (weaponChoice < 0.8)
+            {
+                item = ItemServer.getItem("Scattershot");
+                attackRange = 120;
+            }
+            else
+            {
+                item = ItemServer.getItem("Spellbook: Fireball");
+                attackRange = 170;
+            }
             stats.inventory.receiveItem(item);
 
             subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f));
@@ -142,7 +156,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             //stats.set("charge", 1000);
 
             subEntityList["status"].pos = this.pos;
-            ((TextEntity)subEntityList["status"]).text = enemyState.ToString();
+            //((TextEntity)subEntityList["status"]).text = enemyState.ToString();
+            ((TextEntity)subEntityList["status"]).text = _depth.ToString();
             
         }
 
@@ -507,6 +522,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
 
         }
 

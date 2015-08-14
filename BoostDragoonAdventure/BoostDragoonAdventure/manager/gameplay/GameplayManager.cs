@@ -169,25 +169,40 @@ namespace wickedcrush.manager.gameplay
 
             SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));
             SolidColorFadeTransition fadeInTransition = new SolidColorFadeTransition(_game, 1000, false, new Color(0f, 0f, 0f, 1f), new Color(0f, 0f, 0f, 0f));
-            _game.taskManager.EnqueueTask(
-                new GameTask(
+
+            GameTask beginFadeOut = new GameTask(
                     g => true,
                     g => { g.screenManager.AddScreen(fadeOutTransition); }
-                ));
+                );
 
-            _game.taskManager.EnqueueTask(
-                new GameTask(
-                    g => fadeOutTransition.finished,
-                    g => {
-                        fadeOutTransition.Dispose();
-                        g.screenManager.StartLoading();
+            GameTask startMapLoad = new GameTask(
+                    g => true,
+                    g =>
+                    {
                         LoadMap(activeConnection.mapName);
                         factory.spawnPlayers(activeConnection.doorIndex);
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
                         camera.cameraPosition = new Vector3(_playerManager.getMeanPlayerPos().X - 320, _playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
                     }
-                ));
+                );
+
+            GameTask startLoadScreen = new GameTask(
+                    g => fadeOutTransition.finished,
+                    g =>
+                    {
+                        fadeOutTransition.Dispose();
+                        g.screenManager.StartLoading();
+                        g.taskManager.EnqueueTask(startMapLoad);
+                    }
+                );
+
+            
+
+            _game.taskManager.EnqueueTask(beginFadeOut);
+
+            _game.taskManager.EnqueueTask(startLoadScreen);
+            //_game.taskManager.EnqueueTask(startMapLoad);
         }
 
         

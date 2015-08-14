@@ -166,6 +166,21 @@ namespace wickedcrush.manager.map
                         (Direction)int.Parse(e.Attribute("angle").Value), true);
                 }
 
+                foreach (XElement e in objects.Elements("WALLTILE"))
+                {
+                    map.artTileList.Add(
+                        new ArtTile(
+                            new Vector2(float.Parse(e.Attribute("x").Value),
+                                float.Parse(e.Attribute("y").Value)),
+                            new Vector2(float.Parse(e.Attribute("width").Value),
+                                float.Parse(e.Attribute("height").Value)),
+                            e.Attribute("Color").Value,
+                            e.Attribute("Normal").Value,
+                            float.Parse(e.Attribute("Height").Value),
+                            float.Parse(e.Attribute("angle").Value)));
+
+                }
+
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
                     gm.factory.addTurret(

@@ -1,4 +1,3 @@
-float depth;
 
 // TODO: add effect parameters here.
 
@@ -18,17 +17,14 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 {
     float4 color = tex2D(ColorMapSampler, input.TexCoord);
 
-	if(color.a < 0.8f)
-	  {
-		color.a = 0;
-		clip(-1);
-	  }
+	//if(color.a < 0.8f)
+	  //{
+		//color.a = 0;
+		//clip(-1);
+	  //}
 
     
-	//return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
-	//return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
-	//return float4(lerp(0.432, 0.734, input.Color.r), 0, 0, 1);
-	return float4(lerp(0, 1, input.Color.a-0.15), 0, 0, 1);
+	return color;
 }
 
 technique Technique1
