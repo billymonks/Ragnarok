@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
-  <map name="big kahuna burger" filename="Content/maps/full/big kahuna burger.xml">
+  <map name="big kahuna burger" filename="Content/maps/full/big kahuna burger.xml" theme="rocky2">
     <connection id="0" doorIndex="0">uturn</connection>
     <connection id="1" doorIndex="0">variety</connection>
   </map>
-  <map name="variety" filename="Content/maps/full/variety.xml">
+  <map name="variety" filename="Content/maps/full/variety.xml" theme="rocky2">
     <connection id="0" doorIndex="1">big kahuna burger</connection>
     <connection id="1" doorIndex="1">uturn</connection>
   </map>
-  <map name="uturn" filename="Content/maps/full/uturn.xml" theme="reverse">
+  <map name="uturn" filename="Content/maps/full/uturn.xml" theme="rocky2">
     <connection id="0" doorIndex="0">big kahuna burger</connection>
     <connection id="1" doorIndex="1">variety</connection>
   </map>
-  <map name="longmap" filename="Content/maps/full/longmap.xml">
+  <map name="longmap" filename="Content/maps/full/longmap.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">scenic view</connection>
     <connection id="1" doorIndex="0">scenic view</connection>
   </map>
-  <map name="scenic view" filename="Content/maps/full/scenic_view.xml">
+  <map name="scenic view" filename="Content/maps/full/scenic_view.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">longmap</connection>
     <connection id="2" doorIndex="1">longmap</connection>
@@ -33,7 +33,7 @@
     <connection id="0" doorIndex="1">stealth grid</connection>
     <connection id="1" doorIndex="0">stealth grid</connection>
   </map>
-  <map name="gauntlet" filename="Content/maps/full/gauntlet.oel">
+  <map name="gauntlet" filename="Content/maps/full/gauntlet.oel" theme="rocky2">
     <connection id="0" doorIndex="1">gauntlet</connection>
     <connection id="1" doorIndex="0">gauntlet</connection>
   </map>
@@ -48,7 +48,7 @@
     <connection id="2" doorIndex="0">forest intersection</connection>
     <connection id="3" doorIndex="1">forest intersection</connection>
   </map>
-  <map name="narrow paths" filename="Content/maps/full/narrow_paths.oel">
+  <map name="narrow paths" filename="Content/maps/full/narrow_paths.oel" theme="rocky2">
     <connection id="0" doorIndex="1">narrow paths</connection>
     <connection id="1" doorIndex="0">narrow paths</connection>
     <connection id="2" doorIndex="0">narrow paths</connection>

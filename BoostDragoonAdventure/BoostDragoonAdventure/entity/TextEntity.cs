@@ -7,6 +7,8 @@ using wickedcrush.manager.audio;
 using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.utility;
 using wickedcrush.factory.entity;
+using wickedcrush.display._3d;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity
 {
@@ -61,7 +63,7 @@ namespace wickedcrush.entity
 
             
         }
-        public override void Draw(bool depthPass)
+        public override void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
 
             Vector2 textPos = new Vector2((pos.X - factory._gm.camera.cameraPosition.X) * 2.25f, (pos.Y - factory._gm.camera.cameraPosition.Y) * 2.25f * (float)(Math.Sqrt(2) / 2));

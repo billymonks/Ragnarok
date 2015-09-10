@@ -1,0 +1,10 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="rocky_desaturated">
+      <transformations />
+    </tileset>
+    <tileset surface="true" edgeonly="false" path="rocky_saturated">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

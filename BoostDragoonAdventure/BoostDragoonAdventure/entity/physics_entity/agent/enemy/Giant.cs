@@ -67,7 +67,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((Giant)c).timers["falling"].isActive(),
+                    c => ((Giant)c).timers["falling"].isActive() || ((Giant)c).timers["falling"].isDone(),
                     c =>
                     {
                         this.height -= 3;
@@ -88,7 +88,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("post_attack",
                 new State("post_attack",
-                    c => ((Giant)c).timers["post_attack"].isActive(),
+                    c => ((Giant)c).timers["post_attack"].isActive() || ((Giant)c).timers["post_attack"].isDone(),
                     c =>
                     {
                         if (!stateTree.previousControlState.name.Equals("post_attack"))
@@ -105,7 +105,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("attack_tell",
                 new State("attack_tell",
-                    c => ((Giant)c).timers["attack_tell"].isActive(),
+                    c => ((Giant)c).timers["attack_tell"].isActive() || ((Giant)c).timers["attack_tell"].isDone(),
                     c =>
                     {
                         if (!stateTree.previousControlState.name.Equals("attack_tell"))
@@ -130,16 +130,18 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => distanceToTarget() > attackRange,
                     c =>
                     {
-                        if (!timers["navigation"].isActive())
-                        {
-                            timers["navigation"].resetAndStart();
-                        }
-
                         if (timers["navigation"].isDone())
                         {
                             createPathToTarget();
                             timers["navigation"].resetAndStart();
                         }
+
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        
 
                         FollowPath(false);
 
@@ -187,7 +189,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             String bad = "";
 
-            if (timers["falling"].isActive())
+            if (timers["falling"].isActive() || timers["falling"].isDone())
             {
                 bodySpriter.setAnimation("fall_000", 0, 0);
                 return;

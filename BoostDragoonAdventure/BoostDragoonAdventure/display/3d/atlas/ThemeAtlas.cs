@@ -71,6 +71,47 @@ namespace wickedcrush.display._3d.atlas
 
 
                     break;
+
+                case "rocky":
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -1, 0, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 6, "rocky"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.DEATHSOUP].data, map.layerList[LayerType.WALL].data, true)), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 8, "rocky"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "rocky"));
+
+
+                    break;
+
+                case "woodandbrick":
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART1].data, map.layerList[LayerType.ART2].data, true)), 2), -1, 0, "woodandbrick"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.SubtractLayer(map.layerList[LayerType.WALL].data, LayerTransformations.GetCompositeLayer(map.layerList[LayerType.ART2].data, map.layerList[LayerType.ART2].data, true)), 2), 0, 6, "steelandbrick"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "woodandbrick"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(LayerTransformations.InvertLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.DEATHSOUP].data, map.layerList[LayerType.WALL].data, true)), map.layerList[LayerType.ART2].data, false), 2), -2, 0, "woodandbrick"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "steelandbrick"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART2].data, false), 2), -2, 1, "steelandbrick"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 2, 8, "steelandbrick"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.ART1].data, false), 2), 1, true), 7, 10, "steelandbrick"));
+
+
+                    break;
+
+                case "rocky2":
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -6, -4, "rocky_desaturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -4, -2, "rocky_saturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -2, 0, "rocky_desaturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -2, 0, "rocky"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
+
+                    break;
             }
         }
 

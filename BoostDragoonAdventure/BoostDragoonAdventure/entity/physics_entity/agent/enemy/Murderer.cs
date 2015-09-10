@@ -156,8 +156,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             //stats.set("charge", 1000);
 
             subEntityList["status"].pos = this.pos;
-            //((TextEntity)subEntityList["status"]).text = enemyState.ToString();
-            ((TextEntity)subEntityList["status"]).text = _depth.ToString();
+            ((TextEntity)subEntityList["status"]).text = enemyState.ToString();
+            //((TextEntity)subEntityList["status"]).text = _depth.ToString();
             
         }
 
@@ -171,10 +171,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((Murderer)c).timers["falling"].isActive(),
+                    c => ((Murderer)c).timers["falling"].isActive() || ((Murderer)c).timers["falling"].isDone(),
                     c =>
                     {
-                        //((Murderer)c).RemoveOverheadWeapon("longsword");
+                        //((Murderer)c).RemoveOverheadWeapon("Longsword");
                         this.height -= 3;
                     }));
             ctrl.Add("staggered",
@@ -184,9 +184,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     {
                         if (!stateTree.previousControlState.name.Equals("staggered"))
                         {
-                            //((Murderer)c).RemoveOverheadWeapon("longsword");
+                            //((Murderer)c).RemoveOverheadWeapon("Longsword");
                             this.PlayCue("vanquished");
                             item.Cancel((Agent)c);
+                            RemoveOverheadWeapon(item.name);
                         }
                         
                         testColor = Color.White;
@@ -196,7 +197,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("post_attack",
                 new State("post_attack",
-                    c => ((Murderer)c).timers["post_attack"].isActive(),
+                    c => ((Murderer)c).timers["post_attack"].isActive() || ((Murderer)c).timers["post_attack"].isDone(),
                     c =>
                     {
                         /*if (!timers["navigation"].isActive())
@@ -215,7 +216,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (!stateTree.previousControlState.name.Equals("post_attack"))
                         {
-                            //((Murderer)c).RemoveOverheadWeapon("longsword");
+                            //((Murderer)c).RemoveOverheadWeapon("Longsword");
                             //this.PlayCue("explosion");
                         }
                         testColor = Color.Violet;
@@ -228,12 +229,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("attack_tell",
                 new State("attack_tell",
-                    c => ((Murderer)c).timers["attack_tell"].isActive(),
+                    c => ((Murderer)c).timers["attack_tell"].isActive() || ((Murderer)c).timers["attack_tell"].isDone(),
                     c =>
                     {
                         if (!stateTree.previousControlState.name.Equals("attack_tell"))
                         {
-                            //((Murderer)c).AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 120f), .5f, 90f);
+                            //((Murderer)c).AddOverheadWeapon("Longsword", "weapons", "sword", 0, new Vector2(0f, 120f), .5f, 90f);
                             faceTarget();
                             ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");  
                             this.EmitParticles(ps, 5);
@@ -275,20 +276,29 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Murderer)c).enemyState == EnemyState.Search,
                     c =>
                     {
-                        if (!timers["navigation"].isActive())
-                        {
-                            timers["navigation"].resetAndStart();
-                        }
-
                         if (timers["navigation"].isDone())
                         {
                             createPathToLocation(searchPosition);
                             timers["navigation"].resetAndStart();
                         }
+
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        
                         this.targetSpeed = walkSpeed;
 
-
-                        FollowPath(false);
+                        if (pathToLocationIsClear(searchPosition))
+                        {
+                            this.facePosition(searchPosition);
+                            MoveForward(false, Math.Min(distanceToPosition(searchPosition), speed));
+                        }
+                        else
+                        {
+                            FollowPath(false);
+                        }
 
                         if (target == null)
                         {
@@ -302,8 +312,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             }
                         }
 
-                        if (distanceToSearchPos() < 40)
+                        if (distanceToPosition(searchPosition) < 40)
                         {
+                            if (timers["search_return"].isDone())
+                            {
+                                enemyState = EnemyState.Return;
+                                _sound.playCue("0x84");
+                                timers["search_return"].reset();
+                            }
+
                             if (!timers["search_return"].isActive())
                             {
                                 timers["turn_around"].resetAndStart();
@@ -311,12 +328,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 factory.addText("?", pos + center + new Vector2(0, -10), 500);
                             }
 
-                            if (timers["search_return"].isDone())
-                            {
-                                enemyState = EnemyState.Return;
-                                _sound.playCue("0x84");
-                                timers["search_return"].reset();
-                            }
+                            
                             if (timers["turn_around"].isDone())
                             {
                                 facing = Helper.constrainDirection(facing + 135);
@@ -333,19 +345,29 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Murderer)c).enemyState == EnemyState.Return,
                     c =>
                     {
-                        if (!timers["navigation"].isActive())
-                        {
-                            timers["navigation"].resetAndStart();
-                        }
-
                         if (timers["navigation"].isDone())
                         {
                             createPathToLocation(initialPosition);
                             timers["navigation"].resetAndStart();
                         }
 
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+
                         this.targetSpeed = walkSpeed;
-                        FollowPath(false);
+
+                        if (pathToLocationIsClear(initialPosition))
+                        {
+                            this.facePosition(initialPosition);
+                            MoveForward(false, Math.Min(distanceToPosition(initialPosition), speed));
+                        }
+                        else
+                        {
+                            FollowPath(false);
+                        }
 
                         if (target == null)
                         {
@@ -374,11 +396,6 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c => ((Murderer)c).enemyState == EnemyState.Alert,
                     c =>
                     {
-                        if (!timers["navigation"].isActive())
-                        {
-                            timers["navigation"].resetAndStart();
-                        }
-
                         if (timers["navigation"].isDone())
                         {
                             TellProximityTarget(target);
@@ -386,12 +403,25 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             timers["navigation"].resetAndStart();
                         }
 
+                        if (!timers["navigation"].isActive())
+                        {
+                            timers["navigation"].resetAndStart();
+                        }
+
+                        
                         this.targetSpeed = runSpeed;
 
                         if (distanceToTarget() > attackRange)
                         {
-
-                            FollowPath(false);
+                            if (pathToLocationIsClear(target.pos + target.center))
+                            {
+                                this.facePosition(target.pos + target.center);
+                                MoveForward(false, speed);
+                            }
+                            else
+                            {
+                                FollowPath(false);
+                            }
 
 
                             testColor = Color.Green;
@@ -407,7 +437,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         if (target == null)
                         {
-                            enemyState = EnemyState.Idle;
+                            enemyState = EnemyState.Return;
                         }
                         else if (distanceToTarget() > activeRange || !hasLineOfSightToEntity(target))
                         {
@@ -446,15 +476,17 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             }
                             else
                             {
-                                if (!timers["patrol"].isActive())
-                                {
-                                    timers["patrol"].resetAndStart();
-                                }
                                 if (timers["patrol"].isDone())
                                 {
                                     timers["patrol"].reset();
                                     enemyState = EnemyState.Idle;
                                 }
+
+                                if (!timers["patrol"].isActive())
+                                {
+                                    timers["patrol"].resetAndStart();
+                                }
+                                
                             }
                         }
 
@@ -488,17 +520,18 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             {
                                 if (patrol.Count > 0)
                                 {
+                                    if (timers["node_wait"].isDone())
+                                    {
+                                        timers["node_wait"].reset();
+                                        enemyState = EnemyState.Patrol;
+                                    }
 
                                     if (!timers["node_wait"].isActive())
                                     {
                                         timers["turn_around"].resetAndStart();
                                         timers["node_wait"].resetAndStart();
                                     }
-                                    if (timers["node_wait"].isDone())
-                                    {
-                                        timers["node_wait"].reset();
-                                        enemyState = EnemyState.Patrol;
-                                    }
+                                    
                                     if (timers["turn_around"].isDone())
                                     {
                                         facing = Helper.constrainDirection(facing + 135);
@@ -553,7 +586,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             String bad = "";
 
-            if (timers["falling"].isActive())
+            if (timers["falling"].isActive() || timers["falling"].isDone())
             {
                 bodySpriter.setAnimation("fall", 0, 0);
                 return;

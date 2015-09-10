@@ -215,7 +215,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             
             String bad = "";
 
-            if (timers["falling"].isActive())
+            if (timers["falling"].isActive() || timers["falling"].isDone())
             {
                 bodySpriter.setAnimation("fall", 0, 0);
                 return;

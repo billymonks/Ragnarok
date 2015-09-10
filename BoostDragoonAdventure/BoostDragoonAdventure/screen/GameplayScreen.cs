@@ -45,7 +45,7 @@ namespace wickedcrush.screen
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
 
-        public Effect spriteEffect, unlitSpriteEffect;
+        public Effect spriteEffect, unlitSpriteEffect, litSpriteEffect;
 
         public Texture2D background;
         
@@ -140,6 +140,7 @@ namespace wickedcrush.screen
         {
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
             unlitSpriteEffect = game.Content.Load<Effect>("fx/UnlitSprite");
+            litSpriteEffect = game.Content.Load<Effect>("fx/LitSprite");
             background = game.Content.Load<Texture2D>(@"img/tex/rock_greyscale");
             //spriteEffect = new BasicEffect(game.GraphicsDevice);
         }
@@ -171,14 +172,14 @@ namespace wickedcrush.screen
             //spriteEffect.Parameters["depth"].SetValue(0.5f);
 
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, true);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, true);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, true, gameplayManager.scene.lightList);
 
             
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, false);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, false);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, false, gameplayManager.scene.lightList);
         }
 
-        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass)
+        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass, Dictionary<string, PointLightStruct> lightList)
         {
             if (!depthPass)
             {
@@ -194,7 +195,7 @@ namespace wickedcrush.screen
                 Vector2.Zero, SpriteEffects.None, 1f);
                 game.spriteBatch.End();
 
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, litSpriteEffect, game.spriteScale);
             }
             else
             {
@@ -205,8 +206,8 @@ namespace wickedcrush.screen
 
             //game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
 
-            gameplayManager.entityManager.Draw(depthPass);
-            gameplayManager.particleManager.Draw(depthPass);
+            gameplayManager.entityManager.Draw(depthPass, lightList, gameplayManager);
+            gameplayManager.particleManager.Draw(depthPass, lightList, gameplayManager);
 
             game.spriteBatch.End();
 
@@ -223,7 +224,7 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.debugSpriteScale);
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
             game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
             game.spriteBatch.End();
 

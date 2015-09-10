@@ -43,7 +43,7 @@ namespace wickedcrush.display._3d
 
         //private DynamicVertexBuffer buffer;
 
-        Effect normalMappingEffect, parallaxEffect, spriteEffect;
+        public Effect normalMappingEffect, parallaxEffect, spriteEffect;
 
         Matrix viewMatrix;
 

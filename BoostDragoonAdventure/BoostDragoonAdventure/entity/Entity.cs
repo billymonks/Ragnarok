@@ -12,6 +12,7 @@ using wickedcrush.entity.physics_entity.agent.attack;
 using Microsoft.Xna.Framework.Audio;
 using wickedcrush.display._3d;
 using wickedcrush.inventory;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity
 {
@@ -53,7 +54,7 @@ namespace wickedcrush.entity
 
         public int id = Helper.getUID();
 
-        public int height = 0;
+        public int height = 0, skillHeight = 0;
 
         public Item itemInUse = null;
 
@@ -142,11 +143,11 @@ namespace wickedcrush.entity
             return true;
         }
 
-        public virtual void Draw(bool depthPass)
+        public virtual void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
             foreach (KeyValuePair<String, Entity> e in subEntityList)
             {
-                e.Value.Draw(depthPass);
+                e.Value.Draw(depthPass, lightList, gameplay);
             }
         }
 

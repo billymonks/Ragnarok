@@ -47,7 +47,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
                     _sound.playCue("0x53");
                 }
             }
-            else if (!timers["shot"].isActive())
+            else if (!timers["shot"].isActive() && !timers["shot"].isDone())
             {
                 timers["shot"].resetAndStart();
             }

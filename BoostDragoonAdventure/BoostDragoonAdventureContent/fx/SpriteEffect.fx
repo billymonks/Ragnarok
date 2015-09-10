@@ -31,9 +31,9 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 	return float4(lerp(0, 1, input.Color.a-0.15), 0, 0, 1);
 }
 
-technique Technique1
+technique Depth
 {
-    pass Pass1
+    pass Depth
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

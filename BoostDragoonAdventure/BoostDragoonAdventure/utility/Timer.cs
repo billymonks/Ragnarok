@@ -96,6 +96,7 @@ namespace wickedcrush.utility
             if (currentTime > interval)
             {
                 done = true;
+                active = false;
             }
         }
     }

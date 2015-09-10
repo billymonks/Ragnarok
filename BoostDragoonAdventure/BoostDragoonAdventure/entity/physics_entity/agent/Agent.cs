@@ -25,6 +25,7 @@ using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.particle;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity.physics_entity.agent
 {
@@ -125,6 +126,8 @@ namespace wickedcrush.entity.physics_entity.agent
             SetupSpriterPlayer();
 
             timers.Add("falling", new Timer(500));
+
+            skillHeight = 15;
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -263,6 +266,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             UpdateSpriters();
 
+            skillHeight = height + 15;
+
         }
 
         public void EmitParticles(ParticleStruct ps, int count)
@@ -347,7 +352,12 @@ namespace wickedcrush.entity.physics_entity.agent
             if (path == null || path.Count == 0)
                 return;
 
-            if (path.Peek().box.Contains(new Point((int)(pos.X), (int)(pos.Y))))
+            /*if (path.Peek().box.Intersects(new Rectangle((int)pos.X, (int)pos.Y, (int)size.X, (int)size.Y)))
+            {
+                path.Pop();
+            }*/
+
+            if (path.Peek().box.Contains(new Point((int)pos.X, (int)pos.Y)))
             {
                 path.Pop();
             }
@@ -371,6 +381,9 @@ namespace wickedcrush.entity.physics_entity.agent
                         Helper.radiansToDirection((float)Math.Atan2(v.Y, v.X));
 
                 bodies["body"].LinearVelocity = v;
+
+                /*facePosition(path.Peek().pos + new Vector2(5, 5));
+                MoveForward(strafe, speed);*/
             }
 
             
@@ -424,13 +437,34 @@ namespace wickedcrush.entity.physics_entity.agent
                 Point start = new Point((int)Math.Floor((pos.X + 1) / 10f), (int)Math.Floor((pos.Y + 1) / 10f)); //convert pos to gridPos for start
                 Point goal = new Point((int)Math.Floor((target.pos.X + 0f) / 10f), (int)Math.Floor((target.pos.Y + 0f) / 10f)); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
                 path = navigator.getPath(start, goal);
+                //optimizePath();
             }
+        }
+
+        protected void optimizePath()
+        {
+            if (path == null)
+                return;
+            
+            while (path.Count > 1)
+            {
+                if (pathToLocationIsClear(path.ElementAt<PathNode>(1).pos))
+                {
+                    path.Pop();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            
         }
 
         protected void createPathToLocation(Point goal)
         {
             Point start = new Point((int)(pos.X / 10f), (int)(pos.Y / 10f)); //convert pos to gridPos for start
             path = navigator.getPath(start, goal);
+            //optimizePath();
         }
 
         protected void createPathToLocation(Vector2 loc)
@@ -438,6 +472,35 @@ namespace wickedcrush.entity.physics_entity.agent
             Point start = new Point((int)Math.Floor((pos.X + 1) / 10f), (int)Math.Floor((pos.Y + 1) / 10f)); //convert pos to gridPos for start
             Point goal = new Point((int)Math.Floor(loc.X / 10f), (int)Math.Floor(loc.Y / 10f)); //convert target pos to gridPos for goal //hard coded in 10 for navigator gridSize (half of wall layer gridSize, matches object layer)
             path = navigator.getPath(start, goal);
+            //optimizePath();
+        }
+
+        protected bool pathToLocationIsClear(Vector2 loc)
+        {
+            bool sight = true;
+            List<Fixture> fList = _w.RayCast(pos + center, loc);
+            foreach (Fixture f in fList)
+            {
+                if (f.Body.UserData.Equals(LayerType.WALL) || f.Body.UserData.Equals(LayerType.DEATHSOUP))
+                    sight = false;
+            }
+
+
+            return sight;
+        }
+
+        protected bool pathBetweenPointsIsClear(Vector2 a, Vector2 b)
+        {
+            bool sight = true;
+            List<Fixture> fList = _w.RayCast(a, b);
+
+            foreach (Fixture f in fList)
+            {
+                if (f.Body.UserData.Equals(LayerType.WALL) || f.Body.UserData.Equals(LayerType.DEATHSOUP))
+                    sight = false;
+            }
+
+            return sight;
         }
 
         protected void attackForward(Vector2 attackSize, int damage, int force)
@@ -549,14 +612,44 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        public override void Draw(bool depthPass)
+        public override void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
-            base.Draw(depthPass);
+            base.Draw(depthPass, lightList, gameplay);
             if (visible && bodies.ContainsKey("body"))
             {
 
                 factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(bodySpriter.depth);
-                _spriterManager.DrawPlayer(bodySpriter);
+                if (depthPass)
+                {
+                    gameplay.scene.spriteEffect.CurrentTechnique.Passes["Depth"].Apply();
+                    _spriterManager.DrawPlayer(bodySpriter);
+                }
+                else
+                {
+                    gameplay._screen.litSpriteEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 0.8f, 1f, 1f));
+                    gameplay._screen.litSpriteEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
+                    gameplay._screen.litSpriteEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
+
+                    gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
+                    _spriterManager.DrawPlayer(bodySpriter);
+
+                    /*foreach (KeyValuePair<string, PointLightStruct> s in lightList)
+                    {
+                        gameplay._screen.litSpriteEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
+                        gameplay._screen.litSpriteEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
+                        gameplay._screen.litSpriteEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
+                        gameplay._screen.litSpriteEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
+                        gameplay._screen.litSpriteEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
+                        gameplay._screen.litSpriteEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+
+                        //gameplay.scene.spriteEffect.CurrentTechnique.Passes["Point"].Apply();
+                        //_spriterManager.DrawPlayer(bodySpriter);
+                        //game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+                    }*/
+                }
+
+                
+                
 
                 if (null != overlaySpriter)
                 {
@@ -571,6 +664,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                     if (!depthPass)
                     {
+                        gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
                         factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(shadowSpriter.depth);
                         _spriterManager.DrawPlayer(shadowSpriter); // todo: depth offset
                     }
@@ -579,6 +673,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
                 {
+                    gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
                     factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(s.Value.player.depth);
                     _spriterManager.DrawPlayer(s.Value.player);
                 }
@@ -629,6 +724,12 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             if(target!=null)
                 facing = Helper.radiansToDirection(angleToEntity(target));
+        }
+
+        protected void facePosition(Vector2 pos)
+        {
+
+            movementDirection = (int)MathHelper.ToDegrees(directionVectorToAngle(vectorToPos(pos)));
         }
 
         protected bool hasLineOfSightToEntity(Entity e)

@@ -40,6 +40,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         bool wallCollision = false;
 
+        int maxHeight = 25, tempHeight = 0;
+
         //Agent agentParent;
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent, int aimDirection)
             : base(gameplay.w,
@@ -117,6 +119,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
             timers["particle_emission"].resetAndStart();
 
             skillName = skillStruct.name;
+
+            if(parent!=null)
+                height = parent.skillHeight;
             
             if (null != actingParent)
             {
@@ -258,6 +263,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             }
             else if (bodySpriter != null)
             {
+                this.height = (int)(MathHelper.Lerp((float)tempHeight, 0f, timers["duration"].getPercent()) + (Math.Sin(timers["duration"].getPercent() * Math.PI) * maxHeight));
                 bodySpriter.setAngle(-(float)(movementDirection % 360));
             }
 
@@ -281,7 +287,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
             velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
                 (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
 
-            //just_for_show = true;
+
+            skillHeight = height;
+            //this.height = (int)(MathHelper.Lerp((float)tempHeight, 0f, timers["duration"].getPercent()) + (Math.Sin(timers["duration"].getPercent() * Math.PI) * maxHeight));
 
             
         }
@@ -319,7 +327,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
             bodySpriter.setFrameSpeed(60);
 
             bodySpriter.setScale((((float)size.X) / 1f) * (2f / factory._gm.camera.zoom));
-            height = 15;
+
+            //height = 15;
+            //if (parent != null)
+                //height = parent.height;
+            
+            tempHeight = height;
 
             bodySpriter.setAngle(-(float)(this.movementDirection % 360));
 

@@ -516,7 +516,17 @@
       <node x="670" y="490" />
       <node x="620" y="490" />
     </MURDERER>
-    <WALLTILE id="8" x="230" y="650" width="20" height="40" angle="0" Color="windowfancy" Normal="windowfancy_normal" Height="0" />
+    <WALLTILE id="8" x="230" y="650" width="20" height="40" angle="0" Color="windowfancy" Normal="flat_120" Height="10" />
+    <WALLTILE id="12" x="280" y="400" width="30" height="50" angle="0" Color="door2" Normal="flat_120" Height="0" />
+    <WALLTILE id="13" x="1020" y="400" width="20" height="50" angle="0" Color="door1" Normal="flat_120" Height="0" />
+    <WALLTILE id="14" x="1080" y="420" width="20" height="30" angle="0" Color="window1smashed" Normal="flat_120" Height="10" />
+    <WALLTILE id="15" x="1140" y="420" width="20" height="30" angle="0" Color="window1" Normal="flat_120" Height="10" />
+    <WALLTILE id="16" x="1200" y="420" width="20" height="30" angle="0" Color="window1smashed" Normal="flat_120" Height="10" />
+    <WALLTILE id="17" x="810" y="420" width="20" height="30" angle="0" Color="window1" Normal="flat_120" Height="10" />
+    <WALLTILE id="18" x="730" y="420" width="20" height="30" angle="0" Color="window1" Normal="flat_120" Height="10" />
+    <WALLTILE id="19" x="960" y="420" width="20" height="30" angle="0" Color="window1" Normal="flat_120" Height="10" />
+    <WALLTILE id="20" x="1520" y="940" width="50" height="50" angle="0" Color="largeshopwindow2" Normal="flat_120" Height="5" />
+    <WALLTILE id="21" x="1610" y="940" width="50" height="50" angle="0" Color="largewindow1" Normal="flat_120" Height="5" />
   </OBJECTS>
   <ART1 exportMode="Bitstring">00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

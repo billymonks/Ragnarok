@@ -45,7 +45,7 @@ namespace wickedcrush.inventory
                     a.PlayCue("volleyball");
                     a.stats.set("charge", 0);
                     a.AddHudElement("warning", "warning", 4, Vector2.Zero);
-                    a.AddOverheadWeapon("remote", "trap", "unpressed_002", 0, new Vector2(0f, 0f), 0.1f, 0f);
+                    a.AddOverheadWeapon("Remote", "trap", "unpressed_002", 0, new Vector2(0f, 0f), 0.1f, 0f);
                 },
                 (a, i) =>
                 {
@@ -55,7 +55,7 @@ namespace wickedcrush.inventory
                     if (a.stats.compare("charge", 25) == 0)
                     {
                         a.PlayCue("squash");
-                        //a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 2f);
+                        //a.AddOverheadWeapon("Knife", "weapons", "Knife", 0, new Vector2(0f, 80f), 2f);
                     }
 
                     if (a.stats.compare("charge", 50) == 0)
@@ -64,12 +64,12 @@ namespace wickedcrush.inventory
                     if (a.stats.get("charge") < 50)
                     {
                         a.activeRange = a.stats.get("charge") * 5;
-                        a.ScaleOverheadWeapon("remote", a.activeRange / 43f);
+                        a.ScaleOverheadWeapon("Remote", a.activeRange / 43f);
                     }
                     else
                     {
                         a.activeRange = 250;
-                        a.ScaleOverheadWeapon("remote", a.activeRange / 43f);
+                        a.ScaleOverheadWeapon("Remote", a.activeRange / 43f);
                     }
 
                     if (a.stats.compare("charge", 75) == 0)
@@ -80,7 +80,7 @@ namespace wickedcrush.inventory
                 (a, i) =>
                 {
                     a.RemoveHudElement("warning");
-                    a.RemoveOverheadWeapon("remote");
+                    a.RemoveOverheadWeapon("Remote");
                     //a.PlayCue("smash");
                     
 
@@ -275,7 +275,7 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 25) == 0)
                    {
                        a.PlayCue("squash");
-                       a.AddOverheadWeapon("knife", "weapons", "knife", 0, new Vector2(0f, 80f), 0.2f, 90f);
+                       a.AddOverheadWeapon("Knife", "weapons", "knife", 0, new Vector2(0f, 80f), 0.2f, 90f);
                    }
 
                    if (a.stats.compare("charge", 50) == 0)
@@ -313,7 +313,7 @@ namespace wickedcrush.inventory
                        a.itemInUse = null;
                    }
 
-                   a.RemoveOverheadWeapon("knife");
+                   a.RemoveOverheadWeapon("Knife");
                    a.stats.set("charge", 0);
                },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 100) }),
@@ -327,7 +327,7 @@ namespace wickedcrush.inventory
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
                    //a.AddHudElement("warning", "warning", 4, Vector2.Zero);
-                   a.AddOverheadWeapon("longsword", "weapons", "sword", 0, new Vector2(0f, 80f), .3f, 90f);
+                   a.AddOverheadWeapon("Longsword", "weapons", "sword", 0, new Vector2(0f, 80f), .3f, 90f);
                   
                },
                (a, i) =>
@@ -350,7 +350,7 @@ namespace wickedcrush.inventory
                (a, i) =>
                {
                    //a.RemoveHudElement("warning");
-                   a.RemoveOverheadWeapon("longsword");
+                   a.RemoveOverheadWeapon("Longsword");
                    a.PlayCue("smash");
 
                    if (a.stats.compare("charge", 25) < 0)

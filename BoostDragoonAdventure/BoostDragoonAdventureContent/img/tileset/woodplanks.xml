@@ -1,0 +1,10 @@
+﻿<tileset name="woodplanks" x="160" y="160">
+  <tex>woodplanks_color</tex>
+  <normal>woodplanks_normal</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="40" height="40"></tilepos>
+    <tilepos id="1" x="40" y="40" width="40" height="40"></tilepos>
+    <tilepos id="2" x="80" y="80" width="40" height="40"></tilepos>
+    <tilepos id="3" x="120" y="120" width="40" height="40"></tilepos>
+  </tilesize>
+</tileset>

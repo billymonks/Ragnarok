@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using wickedcrush.particle;
 using Microsoft.Xna.Framework;
+using wickedcrush.display._3d;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.manager.particle
 {
@@ -33,7 +35,7 @@ namespace wickedcrush.manager.particle
             base.Update(gameTime);
         }
 
-        public void Draw(bool depthPass)
+        public void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
             foreach (Particle p in particleList)
             {

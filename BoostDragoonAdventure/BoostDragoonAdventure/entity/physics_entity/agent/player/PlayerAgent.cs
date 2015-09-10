@@ -40,6 +40,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private Vector2 unitVector = Vector2.Zero;
 
+        int standHeight = 0, maxHeight = 10, tempHeight = 0;
+        float driftDirection = 0;
+
         #endregion
 
         #region Initialization
@@ -60,7 +63,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
             this.facing = Direction.East;
             movementDirection = (int)facing;
 
-            timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
+            //timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
+            //timers.Add("boostLift", new utility.Timer(stats.get("boostRecharge")));
+            timers.Add("boostRecharge", new utility.Timer(150));
+            timers.Add("boostLift", new utility.Timer(stats.get("boostRecharge")));
+            timers["boostRecharge"].resetAndStart();
+            timers["boostLift"].resetAndStart();
 
             timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
@@ -134,7 +142,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (dodgeSuccess)
             {
                 factory.addText("Perfect Dodge!", pos + center, 1000);
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
                 particleEmitter.EmitParticles(ps, this.factory, 10);
                 dodgeSuccess = false;
                 return true;
@@ -186,7 +194,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((PlayerAgent)c).timers["falling"].isActive(),
+                    c => ((PlayerAgent)c).timers["falling"].isActive() || ((PlayerAgent)c).timers["falling"].isDone(),
                     c =>
                     {
                         this.height-=3;
@@ -194,24 +202,27 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("boosting",
                 new State("boosting",
-                    c => !((PlayerAgent)c).timers["boostRecharge"].isDone()
-                        && ((PlayerAgent)c).timers["boostRecharge"].isActive()
-                    || ((PlayerAgent)c).controls.BoostHeld()
-                    && !((PlayerAgent)c).overheating
-                    && !((PlayerAgent)c).busy,
+                    c => ((PlayerAgent)c).timers["boostRecharge"].isDone() 
+                        && ((PlayerAgent)c).controls.BoostHeld()
+                        && !((PlayerAgent)c).overheating
+                        && !((PlayerAgent)c).busy,
                     c =>
                     {
                         ParticleStruct ps;
-                        if (stateTree.previousControlState != null && stateTree.previousControlState.name != "boosting")
+                        if (stateTree.previousControlState != null && !stateTree.previousControlState.name.Contains("boosting"))
                         {
+                            timers["boostLift"].resetAndStart();
                             timers["iFrameTime"].resetAndStart();
                             _sound.playCueInstance(id + "blast off", emitter);
+                            tempHeight = height;
 
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
                             //particleEmitter.EmitParticles(ps, this.factory, 5);
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
                             //particleEmitter.EmitParticles(ps, this.factory, 5);
                         }
+
+                        this.height = standHeight + (int)(Math.Sin(timers["boostLift"].getPercent() * Math.PI / 2.0) * maxHeight);
 
                         //if (((PlayerAgent)c).controls.BoostPressed())
                             //timers["boostRecharge"].resetAndStart();
@@ -230,12 +241,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 20, this.pos.Y + this.center.Y), Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, 0, 0, 1000, "particles", 2, "red_small");
                             //particleEmitter.EmitParticles(ps, this.factory, 1);
 
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
                             particleEmitter.EmitParticles(ps, this.factory, 1);
                         }
                         else
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X, 1f, -unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
                             particleEmitter.EmitParticles(ps, this.factory, 1);
                             factory._gm.camera.ShakeScreen(1f);
                         }
@@ -247,24 +258,27 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("reverse_boosting",
                 new State("reverse_boosting",
-                    c => !((PlayerAgent)c).timers["boostRecharge"].isDone()
-                        && ((PlayerAgent)c).timers["boostRecharge"].isActive()
-                    || ((PlayerAgent)c).controls.ReverseBoostHeld()
+                    c => ((PlayerAgent)c).timers["boostRecharge"].isDone() 
+                    && ((PlayerAgent)c).controls.ReverseBoostHeld()
                     && !((PlayerAgent)c).overheating
                     && !((PlayerAgent)c).busy,
                     c =>
                     {
                         ParticleStruct ps;
-                        if (stateTree.previousControlState != null && stateTree.previousControlState.name != "reverse_boosting")
+                        if (stateTree.previousControlState != null && !stateTree.previousControlState.name.Contains("boosting"))
                         {
+                            timers["boostLift"].resetAndStart();
                             timers["iFrameTime"].resetAndStart();
                             _sound.playCueInstance(id + "blast off", emitter);
+                            tempHeight = height;
 
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
                             //particleEmitter.EmitParticles(ps, this.factory, 5);
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
                             //particleEmitter.EmitParticles(ps, this.factory, 5);
                         }
+
+                        this.height = standHeight + (int)(Math.Sin(timers["boostLift"].getPercent() * Math.PI / 2.0) * maxHeight);
 
                         //if (((PlayerAgent)c).controls.ReverseBoostPressed())
                             //timers["boostRecharge"].resetAndStart();
@@ -280,11 +294,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, 0, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, this.height, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_orange");
                         }
                         else
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, 0, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, height, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "pink_to_red");
                             factory._gm.camera.ShakeScreen(1f);
                         }
                         particleEmitter.EmitParticles(ps, this.factory, 1);
@@ -300,10 +314,31 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     c => true,
                     c =>
                     {
+                        if (stateTree.previousControlState != null && stateTree.previousControlState.name.Contains("boosting"))
+                        {
+                            timers["boostRecharge"].resetAndStart();
+                            tempHeight = height;
+                        }
+
+                        this.height = standHeight + (int)(Math.Cos(timers["boostRecharge"].getPercent() * Math.PI / 2.0) * tempHeight);
+
+                        //if (timers["boostRecharge"].isDone() && timers["boostRecharge"].isActive())
+                        //{
+                          //  _sound.playCue("Hit_Hurt20");
+                        //}
+
                         UpdateDirection(inCharge && lockChargeDirection);
-                        
-                        WalkForward();
-                        //bodySpriter = sPlayers["standing"];
+
+                        if (height > 0)
+                        {
+                            AirDrift();
+                        }
+                        else
+                        {
+                            WalkForward();
+                        }
+
+                        //WalkForward();
                         
                         inCharge = false;
 
@@ -419,7 +454,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             String bad = "";
 
-            if (timers["falling"].isActive())
+            if (timers["falling"].isActive() || timers["falling"].isDone())
             {
                 bodySpriter.setAnimation("fall", 0, 0);
                 drawShadow = false;
@@ -513,17 +548,40 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             bodies["body"].LinearVelocity += v;
 
+            if(airborne)
+                _sound.playCue("Hit_Hurt20");
+
             airborne = false;
+        }
+
+        protected void AirDrift()
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
+                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
+            );
+
+            v += unitVector * boostSpeed;
+
+            bodies["body"].LinearVelocity += v;
+
+            airborne = true;
         }
 
         protected void BoostForward()
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
+            driftDirection = (float)movementDirection;
+
             Vector2 unitVector = new Vector2(
-                (float)Math.Cos(MathHelper.ToRadians((float)movementDirection)),
-                (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
+                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
+                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
             );
+
+            
 
             v += unitVector * boostSpeed;
 
@@ -536,9 +594,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
+            driftDirection = (float)movementDirection + 180;
+
             Vector2 unitVector = new Vector2(
-                (float)Math.Cos(MathHelper.ToRadians((float)movementDirection + 180)),
-                (float)Math.Sin(MathHelper.ToRadians((float)movementDirection + 180))
+                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
+                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
             );
 
             v += unitVector * boostSpeed;

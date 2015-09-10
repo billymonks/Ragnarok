@@ -1,0 +1,10 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="rocky">
+      <transformations />
+    </tileset>
+    <tileset surface="true" edgeonly="false" path="dungeon_floor_4x4">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

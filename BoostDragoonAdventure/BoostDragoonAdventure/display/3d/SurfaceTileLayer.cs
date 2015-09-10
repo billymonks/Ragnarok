@@ -58,10 +58,10 @@ namespace wickedcrush.display._3d
 
             float padding = 0.03f;
 
-            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 1f - padding));
-            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 0f + padding));
-            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 1f - padding));
-            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 0f + padding));
+            Vector2 topRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 1f - padding), new Point(x, z));
+            Vector2 bottomRight = GetFloorCoordinate(floorTexture, new Vector2(0f + padding, 0f + padding), new Point(x, z));
+            Vector2 topLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 1f - padding), new Point(x, z));
+            Vector2 bottomLeft = GetFloorCoordinate(floorTexture, new Vector2(1f - padding, 0f + padding), new Point(x, z));
 
             solidGeomVertices.Add(new WCVertex(
                 new Vector4(x * ART_GRID_SIZE, y * ART_GRID_SIZE, z * ART_GRID_SIZE, 1),
@@ -112,10 +112,11 @@ namespace wickedcrush.display._3d
                 binormal));
         }
 
-        private Vector2 GetFloorCoordinate(int floorTexInt, Vector2 coordinate)
+        private Vector2 GetFloorCoordinate(int floorTexInt, Vector2 coordinate, Point gridPoint)
         {
             double flexibility = tileset.tiles.Length - 3;
-            Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt);
+            //Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt);
+            Vector2 coordFromFragment = ConvertTextureIntToCoordinate(floorTexInt, gridPoint);
             Vector2 result = coordFromFragment + coordinate * new Vector2((1f / (3f + (float)flexibility)), (1f / (3f + (float)flexibility)));
             return result;
         }
@@ -146,6 +147,42 @@ namespace wickedcrush.display._3d
             Vector2 result = new Vector2((1f / (3f + (float)flexibility)) * i, (1f / (3f + (float)flexibility)) * j);
 
             
+
+            return result;
+        }
+
+        private Vector2 ConvertTextureIntToCoordinate(int num, Point gridPoint)
+        {
+            int flexibility = tileset.tiles.Length - 3;
+            int i = (num % 3);
+            int j = (num / 3);
+
+            //if (flexibility > 0)
+            //{
+                if (i == 1)
+                {
+                    i += gridPoint.X % (flexibility + 1);
+
+                }
+                else if (i == 2)
+                {
+                    i += flexibility;
+                }
+
+                if (j == 1)
+                {
+                    j += gridPoint.Y % (flexibility + 1);
+
+                }
+                else if (j == 2)
+                {
+                    j += flexibility;
+                }
+            //}
+
+            Vector2 result = new Vector2((1f / (3f + (float)flexibility)) * i, (1f / (3f + (float)flexibility)) * j);
+
+
 
             return result;
         }
