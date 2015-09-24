@@ -30,6 +30,7 @@ using wickedcrush.menu.panel;
 using wickedcrush.utility;
 using wickedcrush.manager.gameplay;
 using wickedcrush.editor;
+using Com.Brashmonkey.Spriter.player;
 
 
 namespace wickedcrush.screen
@@ -48,6 +49,12 @@ namespace wickedcrush.screen
         public Effect spriteEffect, unlitSpriteEffect, litSpriteEffect;
 
         public Texture2D background;
+
+        private List<SpriterPlayer> spriters = new List<SpriterPlayer>();
+        private List<SpriterPlayer> addList = new List<SpriterPlayer>();
+        private List<SpriterPlayer> removeList = new List<SpriterPlayer>();
+
+        private List<TextEntity> screenText = new List<TextEntity>();
         
         public GameplayScreen(GameBase game, String mapName)
         {
@@ -101,6 +108,45 @@ namespace wickedcrush.screen
             
         }
 
+        public void AddText(TextEntity text)
+        {
+            screenText.Add(text);
+        }
+
+        public void RemoveText(TextEntity text)
+        {
+            screenText.Remove(text);
+        }
+
+        public void AddSpriter(SpriterPlayer spriter)
+        {
+            if(!spriters.Contains(spriter) && !addList.Contains(spriter) && !removeList.Contains(spriter))
+                addList.Add(spriter);
+        }
+
+        public void RemoveSpriter(SpriterPlayer spriter)
+        {
+            removeList.Add(spriter);
+        }
+
+        private void UpdateSpriters()
+        {
+            foreach (SpriterPlayer s in addList)
+            {
+                spriters.Add(s);
+            }
+
+            foreach (SpriterPlayer s in removeList)
+            {
+                spriters.Remove(s);
+            }
+
+            addList.Clear();
+            removeList.Clear();
+
+
+        }
+
         public RoomInfo GetRoom()
         {
             return _roomToTest;
@@ -152,6 +198,7 @@ namespace wickedcrush.screen
             //game.diag += "fov: " + gameplayManager.camera.fov + "\n";
             //game.diag += gameTime.ElapsedGameTime.Milliseconds;
             //game.diag += "\n" + 
+            UpdateSpriters();
             
             readyTimer.Update(gameTime);
 
@@ -230,6 +277,20 @@ namespace wickedcrush.screen
 
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
             game.playerManager.DrawHud();
+            game.spriteBatch.End();
+
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
+            
+            foreach (TextEntity t in screenText)
+            {
+                t.HudDraw();
+            }
+
+            foreach (SpriterPlayer s in spriters)
+            {
+                game.spriterManager.DrawPlayer(s);
+            }
+
             game.spriteBatch.End();
         }
 

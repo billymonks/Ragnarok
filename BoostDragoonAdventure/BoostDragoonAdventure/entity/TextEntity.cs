@@ -19,11 +19,29 @@ namespace wickedcrush.entity
         Timer duration;
         EntityFactory factory;
 
-        float zoomLevel = 1f;
-        float desiredZoomLevel = 2f;
-        float zoomIncrement = 0.01f;
+        public float zoomLevel = 1f;
+        public float desiredZoomLevel = 1f;
+        public float zoomIncrement = 0.0f;
 
-        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory) //duration time?
+        public Color textColor = Color.White;
+        //public SpriteFont font;
+
+        public String fontName = "Khula";
+
+        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel, String fontName)
+            : this(text, pos, sound, g, duration, factory, textColor, zoomLevel)
+        {
+            this.fontName = fontName;
+        }
+
+        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel)
+            : this(text, pos, sound, g, duration, factory, zoomLevel)
+        {
+            this.textColor = textColor;
+            
+        }
+
+        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, float zoomLevel) //duration time?
             : base(pos, Vector2.Zero, Vector2.Zero, sound)
         {
             this.g = g;
@@ -35,10 +53,15 @@ namespace wickedcrush.entity
             }
 
             this.factory = factory;
+            this.zoomLevel = zoomLevel;
+            //font = g.fonts[fontName];
+
+            factory._gm._screen.AddText(this);
+
         }
 
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, float zoomLevel, float desiredZoomLevel, float zoomIncrement) //duration time?
-            : this(text, pos, sound, g, duration, factory)
+            : this(text, pos, sound, g, duration, factory, zoomLevel)
         {
             this.zoomLevel = zoomLevel;
             this.desiredZoomLevel = desiredZoomLevel;
@@ -66,15 +89,34 @@ namespace wickedcrush.entity
         public override void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
 
+            //Vector2 textPos = new Vector2((pos.X - factory._gm.camera.cameraPosition.X) * 2.25f, (pos.Y - factory._gm.camera.cameraPosition.Y) * 2.25f * (float)(Math.Sqrt(2) / 2));
+
+
+            //g.spriteBatch.DrawString(font, text, textPos + new Vector2(2, 2), textColor, 0f, font.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            //g.spriteBatch.DrawString(font, text, textPos - new Vector2(2, 2), textColor, 0f, font.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            //g.spriteBatch.DrawString(font, text, textPos + new Vector2(-2, 2), textColor, 0f, font.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            //g.spriteBatch.DrawString(font, text, textPos + new Vector2(2, -2), textColor, 0f, font.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            //g.spriteBatch.DrawString(font, text, textPos, textColor, 0f, font.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0f);
+
+        }
+
+        public void HudDraw()
+        {
             Vector2 textPos = new Vector2((pos.X - factory._gm.camera.cameraPosition.X) * 2.25f, (pos.Y - factory._gm.camera.cameraPosition.Y) * 2.25f * (float)(Math.Sqrt(2) / 2));
 
-            
-            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos - new Vector2(2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(-2, 2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos + new Vector2(2, -2), Color.Black, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
-            g.spriteBatch.DrawString(g.testFont, text, textPos, Color.White, 0f, g.testFont.MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0f);
 
+            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(2, 2), Color.Black, 0f, g.fonts[fontName].MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos - new Vector2(2, 2), Color.Black, 0f, g.fonts[fontName].MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(-2, 2), Color.Black, 0f, g.fonts[fontName].MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(2, -2), Color.Black, 0f, g.fonts[fontName].MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0.001f);
+            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos, textColor, 0f, g.fonts[fontName].MeasureString(text) / 2f, zoomLevel, SpriteEffects.None, 0f);
+        }
+
+        protected override void Dispose()
+        {
+            base.Dispose();
+
+            factory._gm._screen.RemoveText(this);
         }
     }
 }

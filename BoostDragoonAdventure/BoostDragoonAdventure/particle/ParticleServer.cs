@@ -30,5 +30,17 @@ namespace wickedcrush.particle
                 "particles", 0, "white_to_yellow");
 
         }
+
+        public static ParticleStruct GenerateSmoke(Vector3 pos)
+        {
+            return new ParticleStruct(
+                pos, Vector3.Zero,
+                new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 1.6f, 0.6f),
+                new Vector3(0f, -0.03f, 0f),
+                0f, 0f,
+                500,
+                "particles", 0, "white_to_blue");
+
+        }
     }
 }

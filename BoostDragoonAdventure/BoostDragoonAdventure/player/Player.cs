@@ -186,7 +186,10 @@ namespace wickedcrush.player
             if (!agent.dead)
             {
                 hpSpriter.setFrame((long)(999f * ((float)stats.get("hp") / (float)stats.get("maxHP"))));
-                fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
+                if (stats.get("boost") <= 0)
+                    fuelSpriter.setFrame(0);
+                else
+                    fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
             }
             else
             {

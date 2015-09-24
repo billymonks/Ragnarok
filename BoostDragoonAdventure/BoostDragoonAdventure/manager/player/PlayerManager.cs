@@ -390,6 +390,8 @@ namespace wickedcrush.manager.player
                 g.spriterManager.DrawPlayer(p.fuelSpriter);
 
             }
+
+            
         }
 
         public void DrawPlayerHud(SpriteBatch sb, SpriteFont f)

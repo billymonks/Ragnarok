@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected Controls controls;
 
         private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 120f;
-        private bool overheating = false, inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
+        private bool inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
         private int chargeLevel = 0;
 
         public bool busy = false;
@@ -42,6 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         int standHeight = 0, maxHeight = 10, tempHeight = 0;
         float driftDirection = 0;
+        protected bool targetLock = false;
 
         #endregion
 
@@ -62,6 +63,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             this.facing = Direction.East;
             movementDirection = (int)facing;
+            aimDirection = (int)facing;
 
             //timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
             //timers.Add("boostLift", new utility.Timer(stats.get("boostRecharge")));
@@ -78,10 +80,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);
+            _sound.addCueInstance("VP_Jet1", id + "VP_Jet1", true);
             SetupStateMachine();
 
             InitializeHpBar();
             UpdateHpBar();
+
+            //factory._gm.cursor.SetPlayerPos(this.pos + this.center);
         }
 
         
@@ -162,13 +167,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (remove)
                 return;
 
-            if (stats.compare("boost", "maxBoost") == -1)
+            if (stats.compare("boost", "maxBoost") == -1 && itemInUse == null)
                 stats.addTo("boost", stats.get("fillSpeed"));
 
             if (stats.compare("boost", "maxBoost") == 1)
                 stats.set("boost", stats.get("maxBoost"));
 
-            if (stats.get("boost") >= 200)
+            if (stats.get("boost") >= 50)
             {
                 overheating = false;
                 //stats.set("boost", stats.get("maxBoost"));
@@ -177,15 +182,59 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.get("boost") <= 0)
             {
                 factory.addText("Overheating!!", this.pos, 600);
+                particleEmitter.EmitParticles(ParticleServer.GenerateSmoke(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y)), factory, 1);
                 overheating = true;
-                stats.set("boost", 0);
+                //stats.set("boost", 0);
             }
 
             UpdateHpBar();
             UpdateAnimation();
             applyStats();
-            
-            
+
+            if (factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
+            {
+                PollCursor();
+            }
+            //factory._game.diag += "Player Pos: " + pos.X + ", " + pos.Y + "\n";
+        }
+
+        private void PollCursor()
+        {
+            factory._gm.cursor.SetPlayerPos(this.pos + this.center);
+
+            if (target == null)
+            {
+                targetLock = false;
+                factory._gm.cursor.targetLock = false;
+
+                if (controls.LockOnPressed() && factory._gm.cursor.cursorTarget != null)
+                {
+                    target = factory._gm.cursor.cursorTarget;
+                    targetLock = true;
+                    factory._gm.cursor.targetLock = true;
+                }
+
+            }
+            else
+            {
+                if (controls.LockOnPressed())
+                {
+                    targetLock = false;
+                    factory._gm.cursor.targetLock = false;
+                    target = null;
+                }
+            }
+
+            if (targetLock)
+            {
+                faceEntity(target);
+                aimDirection = Helper.degreeConversion(angleToEntity(target));
+            }
+            else
+            {
+                faceEntity(factory._gm.cursor);
+                aimDirection = Helper.degreeConversion(angleToEntity(factory._gm.cursor));
+            }
         }
 
         private void SetupStateMachine()
@@ -213,7 +262,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             timers["boostLift"].resetAndStart();
                             timers["iFrameTime"].resetAndStart();
-                            _sound.playCueInstance(id + "blast off", emitter);
+                            //_sound.playCueInstance(id + "blast off", emitter);
+                            _sound.playCue("blast off");
+                            _sound.playCueInstance(id + "VP_Jet1", emitter);
                             tempHeight = height;
 
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
@@ -269,7 +320,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             timers["boostLift"].resetAndStart();
                             timers["iFrameTime"].resetAndStart();
-                            _sound.playCueInstance(id + "blast off", emitter);
+                            //_sound.playCueInstance(id + "blast off", emitter);
+                            _sound.playCue("blast off");
+                            _sound.playCueInstance(id + "VP_Jet1", emitter);
                             tempHeight = height;
 
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
@@ -343,11 +396,14 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         inCharge = false;
 
                         UpdateItems();
-                        
+
+                        this.facing = Helper.constrainDirection((Direction)aimDirection);
 
                         _sound.stopCueInstance(id + "blast off");
+                        _sound.stopCueInstance(id + "VP_Jet1");
 
                         factory._gm.camera.targetLooseness = 50f;
+                        
                         
 
                     }));
@@ -368,20 +424,43 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.inventory.itemA == null || busy)
                 return;
 
-            if (controls.ItemAPressed())
+            if (controls is KeyboardControls)
             {
-                stats.inventory.itemA.Press(this);
+                if ( ((KeyboardControls)controls).LeftMousePress())
+                {
+                    stats.inventory.itemA.Press(this);
+                }
+
+                if ( ((KeyboardControls)controls).LeftMouseHold())
+                {
+                    stats.inventory.itemA.Hold(this);
+                }
+
+                if ( ((KeyboardControls)controls).LeftMouseRelease())
+                {
+                    stats.inventory.itemA.Release(this);
+                }
+            }
+            else
+            {
+                if (controls.ItemAPressed())
+                {
+                    stats.inventory.itemA.Press(this);
+                }
+
+                if (controls.ItemAHeld())
+                {
+                    stats.inventory.itemA.Hold(this);
+                }
+
+                if (controls.ItemAReleased())
+                {
+                    stats.inventory.itemA.Release(this);
+                }
             }
 
-            if (controls.ItemAHeld())
-            {
-                stats.inventory.itemA.Hold(this);
-            }
 
-            if (controls.ItemAReleased())
-            {
-                stats.inventory.itemA.Release(this);
-            }
+
         }
 
         private void UpdateItemB()
@@ -444,6 +523,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 facing = temp;
 
             movementDirection = (int)temp;
+
+            if(!strafe && (factory._game.settings.controlMode != utility.config.ControlMode.MouseAndKeyboard))
+                aimDirection = movementDirection;
         }
 
         protected void UpdateAnimation()
@@ -549,7 +631,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             bodies["body"].LinearVelocity += v;
 
             if(airborne)
-                _sound.playCue("Hit_Hurt20");
+                _sound.playCue("VP_Jet2");
 
             airborne = false;
         }
@@ -574,7 +656,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
-            driftDirection = (float)movementDirection;
+            driftDirection = (float)aimDirection;
 
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
@@ -594,7 +676,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
-            driftDirection = (float)movementDirection + 180;
+            driftDirection = (float)aimDirection + 180;
 
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
@@ -618,9 +700,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             base.Dispose();
             _sound.stopCueInstance(id + "blast off");
+            _sound.stopCueInstance(id + "VP_Jet1");
             _sound.stopCueInstance(id + "charging");
             _sound.removeCueInstance(id + "blast off");
             _sound.removeCueInstance(id + "charging");
+            _sound.removeCueInstance(id + "VP_Jet1");
 
         }
     }

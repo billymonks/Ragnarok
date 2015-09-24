@@ -64,8 +64,13 @@ namespace wickedcrush.entity.physics_entity
         public void SetPos(Vector2 pos)
         {
             this.pos = pos;
-            if(this.bodies.ContainsKey("body"))
+            if (this.bodies.ContainsKey("body"))
+            {
                 this.bodies["body"].Position = pos - center;
+                this.bodies["body"].Awake = true;
+            }
+
+            
         }
 
         public override void AddLinearVelocity(Vector2 v)

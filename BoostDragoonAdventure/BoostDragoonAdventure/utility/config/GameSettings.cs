@@ -8,10 +8,17 @@ using System.Xml.Linq;
 
 namespace wickedcrush.utility.config
 {
+    public enum ControlMode
+    {
+        KeyboardOnly = 1,
+        MouseAndKeyboard = 2,
+        Gamepad = 3
+    }
     public class GameSettings
     {
         public Point resolution;
         public bool fullscreen;
+        public ControlMode controlMode = ControlMode.MouseAndKeyboard;
 
         public GameSettings()
         {

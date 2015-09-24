@@ -68,6 +68,7 @@ namespace wickedcrush
 
         public Texture2D whiteTexture, arrowTexture;
         public SpriteFont testFont;
+        public Dictionary<String, SpriteFont> fonts;
 
         public bool transitionFinished;
 
@@ -152,6 +153,10 @@ namespace wickedcrush
         {
             //Content.RootDirectory = "Content";
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
+            fonts = new Dictionary<string, SpriteFont>();
+            fonts.Add("Khula", Content.Load<SpriteFont>("fonts/Khula"));
+            fonts.Add("Rubik Mono One", Content.Load<SpriteFont>("fonts/Rubik Mono One"));
+            fonts.Add("Bonbon", Content.Load<SpriteFont>("fonts/Bonbon"));
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);

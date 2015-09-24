@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         private Vector2 velocity;
 
-        int aimDirection;
+        //int aimDirection;
 
         GameplayManager gameplay;
 
@@ -75,6 +75,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             }
             this.facing = Helper.constrainDirection((Direction)aimDirection);
             this.movementDirection = aimDirection + skillStruct.directionChange;
+            this.aimDirection = aimDirection + skillStruct.directionChange;
             this.gameplay = gameplay;
 
             
@@ -102,8 +103,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(gameplay.w,
-            new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange))),
-                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)))), 
+            new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange))),
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)))), 
             skillStruct.size, 
             skillStruct.center,
             !skillStruct.followParent, 
@@ -133,7 +134,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 rootSkill = true;
             }
             this.facing = parent.facing;
-            this.movementDirection = parent.movementDirection + skillStruct.directionChange;
+            this.movementDirection = parent.aimDirection + skillStruct.directionChange;
+            this.aimDirection = parent.aimDirection + skillStruct.directionChange;
             this.gameplay = gameplay;
 
             
@@ -251,8 +253,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 }
                 else
                 {
-                    SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange))),
-                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.movementDirection + skillStruct.directionChange)))));
+                    SetPos(new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange))),
+                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)))));
 
                     this.facing = Helper.constrainDirection(parent.facing + skillStruct.directionChange);
 
@@ -264,7 +266,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             else if (bodySpriter != null)
             {
                 this.height = (int)(MathHelper.Lerp((float)tempHeight, 0f, timers["duration"].getPercent()) + (Math.Sin(timers["duration"].getPercent() * Math.PI) * maxHeight));
-                bodySpriter.setAngle(-(float)(movementDirection % 360));
+                bodySpriter.setAngle(-(float)(aimDirection % 360));
             }
 
             if (null != parent)
@@ -393,6 +395,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         movementVector = -2f * Vector2.Dot(movementVector, c.Contact.Manifold.LocalNormal) * c.Contact.Manifold.LocalNormal + movementVector;
                         
                         movementDirection = (int)Helper.GetDegreesFromVector(movementVector);
+                        aimDirection = (int)Helper.GetDegreesFromVector(movementVector);
+
                         velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
                             (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
                         _sound.playCue("ready ping");

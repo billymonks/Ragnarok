@@ -18,7 +18,7 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 {
     float4 color = tex2D(ColorMapSampler, input.TexCoord);
 
-	if(color.a < 0.8f)
+	if(color.a < 0.1f)
 	  {
 		color.a = 0;
 		clip(-1);

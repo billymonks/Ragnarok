@@ -36,6 +36,7 @@ namespace wickedcrush.manager.screen
 
         float focusDistance = 365;
         float focusRange = 90;
+        //float focusRange = 190;
         float nearClip = 150;
         float farClip = 1.01428f;
 

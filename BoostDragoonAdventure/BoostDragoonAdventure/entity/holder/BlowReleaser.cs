@@ -29,6 +29,7 @@ namespace wickedcrush.entity.holder
             this.actingParent = actingParent;
             this.facing = parent.facing;
             this.movementDirection = parent.movementDirection;
+            this.aimDirection = parent.aimDirection;
 
 
             //for (int i = 0; i < orphanedBlows.Count; i++)

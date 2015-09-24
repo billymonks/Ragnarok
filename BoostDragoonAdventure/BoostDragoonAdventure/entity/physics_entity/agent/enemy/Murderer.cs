@@ -131,6 +131,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             UpdateAnimation();
 
             movementDirection = (int)facing;
+            aimDirection = (int)facing;
 
             if (!this.staggered)
             {

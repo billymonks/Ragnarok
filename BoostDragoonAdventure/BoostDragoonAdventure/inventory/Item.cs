@@ -65,7 +65,7 @@ namespace wickedcrush.inventory
 
         public void Press(Agent a)
         {
-            if (pressAction == null || !a.pressReady || a.itemInUse != null)
+            if (pressAction == null || !a.pressReady || a.itemInUse != null || a.overheating)
                 return;
 
             a.itemInUse = this;

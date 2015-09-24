@@ -60,7 +60,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
                     && (c.Other.UserData is Agent)
-                    && !c.Other.UserData.Equals(this))
+                    && !c.Other.UserData.Equals(this)
+                    && !((Agent)c.Other.UserData).noCollision)
                 {
                     if (!((Agent)c.Other.UserData).airborne)
                     {

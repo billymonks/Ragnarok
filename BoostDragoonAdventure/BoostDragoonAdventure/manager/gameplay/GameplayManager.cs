@@ -59,6 +59,10 @@ namespace wickedcrush.manager.gameplay
 
         public Scene scene;
 
+        public CursorEntity cursor;
+
+        
+
         public GameplayManager(GameBase game, GameplayScreen screen, bool testMode)
         {
             _game = game;
@@ -76,6 +80,7 @@ namespace wickedcrush.manager.gameplay
             scene = new Scene(_game);
 
             camera = new Camera(_game.playerManager, ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height));
+
             
 
             _game.soundManager.setCam(camera);
@@ -98,6 +103,9 @@ namespace wickedcrush.manager.gameplay
             _roomManager = _game.roomManager;
 
             factory = new EntityFactory(_game, this, entityManager, particleManager, _roomManager, w);
+
+            if(factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
+                cursor = factory.addCursor();
 
             LoadContent();
 

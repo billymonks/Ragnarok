@@ -48,6 +48,7 @@ namespace wickedcrush.entity
 
         public Direction facing;
         public int movementDirection;
+        public int aimDirection;
 
         public SoundManager _sound;
         public AudioEmitter emitter;

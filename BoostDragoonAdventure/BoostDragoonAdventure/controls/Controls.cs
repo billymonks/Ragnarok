@@ -56,6 +56,8 @@ namespace wickedcrush.controls
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
 
+        public abstract bool LockOnPressed();
+
         public virtual bool KeyPressed(Keys key)
         {
             if (keyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))
@@ -110,6 +112,9 @@ namespace wickedcrush.controls
 
             return output;
         }
+
+        public abstract bool WeaponScrollUp();
+        public abstract bool WeaponScrollDown();
 
     }
 }

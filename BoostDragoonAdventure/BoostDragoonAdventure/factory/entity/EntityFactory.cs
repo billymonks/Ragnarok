@@ -38,6 +38,7 @@ using wickedcrush.screen.dialog;
 using wickedcrush.entity.holder;
 using wickedcrush.map.path;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.factory.entity
 {
@@ -49,7 +50,7 @@ namespace wickedcrush.factory.entity
         public GameplayManager _gm;
         private ControlsManager _cm;
         public ParticleManager _particleManager;
-        private SoundManager _sm;
+        public SoundManager _sm;
         public World _w;
         public RoomManager _rm;
         public SpriterManager _spriterManager;
@@ -194,6 +195,25 @@ namespace wickedcrush.factory.entity
             Entity e = new Entity(pos, size, center, _sm);
             
             _em.addEntity(e);
+        }
+
+        public void AddSpriterToHud(SpriterPlayer s)
+        {
+            _gm._screen.AddSpriter(s);
+        }
+
+        public void RemoveSpriterFromHud(SpriterPlayer s)
+        {
+            _gm._screen.RemoveSpriter(s);
+        }
+
+        public CursorEntity addCursor()
+        {
+            CursorEntity c = new CursorEntity(_w, _sm, _game, this);
+
+            _em.addEntity(c);
+
+            return c;
         }
 
         public void addDoor(Vector2 pos, Direction facing, Connection connection)
@@ -431,10 +451,28 @@ namespace wickedcrush.factory.entity
             _em.addEntity(releaser);
         }
 
-        public void addText(String text, Vector2 pos, int duration)
+        public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel, String font)
         {
-            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this);
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, font);
             _em.addEntity(textEnt);
+
+            return textEnt;
+        }
+
+        public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel)
+        {
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel);
+            _em.addEntity(textEnt);
+
+            return textEnt;
+        }
+
+        public TextEntity addText(String text, Vector2 pos, int duration)
+        {
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, 1f);
+            _em.addEntity(textEnt);
+
+            return textEnt;
         }
 
         public void spawnPlayers(int doorIndex)

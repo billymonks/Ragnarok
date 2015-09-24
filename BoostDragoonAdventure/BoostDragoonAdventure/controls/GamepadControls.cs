@@ -13,7 +13,7 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger;
+        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger, lockOnButton = Buttons.RightShoulder;
 
         public GamepadControls(PlayerIndex playerIndex)
         {
@@ -292,6 +292,32 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
+        }
+
+        public override bool LockOnPressed()
+        {
+            if (padState.IsButtonDown(lockOnButton) && prevPadState.IsButtonUp(lockOnButton))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool WeaponScrollUp()
+        {
+            //if (mouseState.ScrollWheelValue > prevMouseState.ScrollWheelValue)
+                //return true;
+
+            return false;
+        }
+
+        public override bool WeaponScrollDown()
+        {
+            //if (mouseState.ScrollWheelValue < prevMouseState.ScrollWheelValue)
+                //return true;
+
+            return false;
         }
         
     }

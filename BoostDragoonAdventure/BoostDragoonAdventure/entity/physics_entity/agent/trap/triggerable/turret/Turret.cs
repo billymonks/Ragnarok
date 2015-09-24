@@ -57,6 +57,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
 
             this.facing = facing;
             this.movementDirection = (int)facing;
+            this.aimDirection = (int)facing;
 
             timers.Add("shot", new Timer(1));
         }

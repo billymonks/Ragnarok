@@ -81,8 +81,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected Random random = new Random();
 
+
         //item stuff
-        public bool pressReady = true, holdReady = false, releaseReady = false;
+        public bool pressReady = true, holdReady = false, releaseReady = false, overheating = false;
 
         //public bool itemInPress = false;
         //public bool itemInHold = false;
@@ -91,6 +92,8 @@ namespace wickedcrush.entity.physics_entity.agent
         public float _depth = 0f;
 
         const float poopNear = -0.236f, poopFar = 0.06199996f;
+
+        public float spriteScaleAmount = 100f;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -574,7 +577,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 //bodySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
                 //
 
-                bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
+                bodySpriter.setScale((((float)size.X) / spriteScaleAmount) * (2f / factory._gm.camera.zoom));
 
                 _depth = depth;
                 bodySpriter.SetDepth(depth);
@@ -722,14 +725,24 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void faceTarget()
         {
-            if(target!=null)
+            if (target != null)
+            {
                 facing = Helper.radiansToDirection(angleToEntity(target));
+                aimDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+            }
+        }
+
+        protected void faceEntity(Entity e)
+        {
+            facing = Helper.radiansToDirection(angleToEntity(e));
+            aimDirection = (int)MathHelper.ToDegrees(angleToEntity(e));
         }
 
         protected void facePosition(Vector2 pos)
         {
 
             movementDirection = (int)MathHelper.ToDegrees(directionVectorToAngle(vectorToPos(pos)));
+            aimDirection = (int)MathHelper.ToDegrees(directionVectorToAngle(vectorToPos(pos)));
         }
 
         protected bool hasLineOfSightToEntity(Entity e)

@@ -45,8 +45,10 @@ namespace wickedcrush.display.spriter
             loaders.Add("hud", new SpriterLoader(g));
             loaders.Add("weapons", new SpriterLoader(g));
             loaders.Add("shadow", new SpriterLoader(g));
+            loaders.Add("cursor", new SpriterLoader(g));
 
             spriters.Add("all", new Spriter("Content/sprites/all/all.scml", loaders["loader2"]));
+            spriters.Add("cursor", new Spriter("Content/sprites/all/cursor.scml", loaders["cursor"]));
 
             spriters.Add("you", new Spriter("Content/sprites/you/you.scml", loaders["loader3"]));
             spriters.Add("you_pink", new Spriter("Content/sprites/you_pink/you.scml", loaders["loader4"]));

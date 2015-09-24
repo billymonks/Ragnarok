@@ -150,6 +150,7 @@
     <Compile Include="editor\tool\EditorTool.cs" />
     <Compile Include="editor\tool\TerrainTool.cs" />
     <Compile Include="editor\tool\Toolbox.cs" />
+    <Compile Include="entity\CursorEntity.cs" />
     <Compile Include="entity\holder\BlowReleaser.cs" />
     <Compile Include="entity\physics_entity\agent\action\ActionSkill.cs" />
     <Compile Include="entity\physics_entity\agent\action\SkillServer.cs" />
