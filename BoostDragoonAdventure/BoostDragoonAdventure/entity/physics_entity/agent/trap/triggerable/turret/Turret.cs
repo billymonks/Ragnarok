@@ -40,7 +40,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
                     spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, 1f,
                     new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green")),
                     "", 0, "", 
-                    SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 50, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero)));
+                    SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 50, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                 
                 _sound.addCueInstance("Jump7", "Jump7" + this.id, false);
                 _sound.setCueVariable("PitchIncrease", MathHelper.Lerp(0f, 100f, (float)(timers["shot"].getInterval() / 1000.0)), "Jump7" + this.id);

@@ -30,9 +30,9 @@ namespace wickedcrush.controls
         public abstract bool InteractPressed();
         public abstract bool InteractReleased();
 
-        public abstract bool ItemAHeld();
-        public abstract bool ItemAPressed();
-        public abstract bool ItemAReleased();
+        public abstract bool WeaponHeld();
+        public abstract bool WeaponPressed();
+        public abstract bool WeaponReleased();
 
         public abstract bool ItemBHeld();
         public abstract bool ItemBPressed();

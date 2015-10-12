@@ -42,7 +42,7 @@
     <connection id="1" doorIndex="0">iunno</connection>
     <connection id="2" doorIndex="0">iunno</connection>
   </map>
-  <map name="forest intersection" filename="Content/maps/full/forest_intersection.oel">
+  <map name="forest intersection" filename="Content/maps/full/forest_intersection.oel" theme="dust">
     <connection id="0" doorIndex="2">forest intersection</connection>
     <connection id="1" doorIndex="3">forest intersection</connection>
     <connection id="2" doorIndex="0">forest intersection</connection>

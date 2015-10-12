@@ -71,6 +71,7 @@ namespace wickedcrush.manager.map
         public void LoadMap(GameplayManager gm, Map map, MapStats mapStats)
         {
             int doorCount = 0;
+            int rank = 3;
 
             XDocument doc = XDocument.Load(mapStats.filename);
 
@@ -183,15 +184,27 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     gm.factory.addTurret(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value));
+                        (Direction)int.Parse(e.Attribute("angle").Value),
+                        rank);
                 }
 
                 foreach (XElement e in objects.Elements("AIM_TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     gm.factory.addAimTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        rank);
                 }
 
                 foreach (XElement e in objects.Elements("CHEST"))
@@ -379,6 +392,8 @@ namespace wickedcrush.manager.map
 
         private void loadSubMap(GameplayManager gm, Map map, String SUB_MAP_PATH, Point pos, Direction rotation, bool flipped)
         {
+            int rank = 3;
+
             XDocument doc = XDocument.Load(SUB_MAP_PATH);
 
             XElement rootElement = new XElement(doc.Element("level"));
@@ -417,6 +432,11 @@ namespace wickedcrush.manager.map
             {
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     tempX = float.Parse(e.Attribute("x").Value) - 320f;
                     tempY = float.Parse(e.Attribute("y").Value) - 240f;
                     tempRotation = int.Parse(e.Attribute("angle").Value);
@@ -432,7 +452,8 @@ namespace wickedcrush.manager.map
                         new Vector2(
                             320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
                             240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),
-                            (Direction)((tempRotation + (int)rotation) % 360));
+                            (Direction)((tempRotation + (int)rotation) % 360),
+                            rank);
 
                 }
 

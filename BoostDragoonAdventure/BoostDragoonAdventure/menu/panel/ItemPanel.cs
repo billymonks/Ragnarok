@@ -13,7 +13,7 @@ namespace wickedcrush.menu.panel
     public class ItemPanel : Panel
     {
         Inventory inventory;
-        public Item item;
+        public Weapon item;
         public bool selected = false;
         String itemName = "";
 
@@ -23,7 +23,7 @@ namespace wickedcrush.menu.panel
             this.inventory = inventory;
         }
 
-        public void setItem(Item item)
+        public void setItem(Weapon item)
         {
             this.item = item;
         }
@@ -41,22 +41,10 @@ namespace wickedcrush.menu.panel
             {
                 itemName = item.name;
 
-                if (inventory.itemA.Equals(item))
+                if (inventory.equippedWeapon.Equals(item))
                 {
                     PrimitiveDrawer.DrawFilledRectangle(sb, new Rectangle(pos.X + origin.X, pos.Y + origin.Y, 10, 10), Color.Red);
                     sb.DrawString(font, "J", new Vector2(pos.X + origin.X + 1, pos.Y + origin.Y - 1), Color.White);
-                }
-
-                if (inventory.itemB.Equals(item))
-                {
-                    PrimitiveDrawer.DrawFilledRectangle(sb, new Rectangle(pos.X + origin.X, pos.Y + origin.Y + 15, 10, 10), Color.Green);
-                    sb.DrawString(font, "K", new Vector2(pos.X + origin.X + 1, pos.Y + origin.Y - 1 + 15), Color.White);
-                }
-
-                if (inventory.itemC.Equals(item))
-                {
-                    PrimitiveDrawer.DrawFilledRectangle(sb, new Rectangle(pos.X + origin.X, pos.Y + origin.Y + 30, 10, 10), Color.Blue);
-                    sb.DrawString(font, "L", new Vector2(pos.X + origin.X + 1, pos.Y + origin.Y - 1 + 30), Color.White);
                 }
 
                 String itemCount = inventory.getItemCount(item).ToString();

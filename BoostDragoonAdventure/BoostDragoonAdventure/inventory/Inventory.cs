@@ -9,91 +9,133 @@ namespace wickedcrush.inventory
     public class Inventory
     {
 
-        private Dictionary<Item, int> inventory;
+        private Dictionary<Weapon, int> weapons;
         public int currency;
 
-        public Item itemA, itemB, itemC;
+        public Weapon equippedWeapon;
 
         public bool changed = false;
 
         public Inventory()
         {
-            inventory = new Dictionary<Item, int>();
+            weapons = new Dictionary<Weapon, int>();
             currency = 0;
         }
 
-        public void receiveItem(Item i)
+        public void nextItem(Agent a)
         {
-            if (inventory.ContainsKey(i))
+            
+
+            List<Weapon> itemList = weapons.Keys.ToList<Weapon>();
+
+            if (equippedWeapon == null)
             {
-                inventory[i]++;
+                equippedWeapon = itemList[0];
+                return;
+            }
+
+            equippedWeapon.Cancel(a);
+
+            int index = itemList.IndexOf(equippedWeapon) + 1;
+
+            if (index >= itemList.Count)
+                index = 0;
+
+            equippedWeapon = itemList[index];
+        }
+
+        public void prevItem(Agent a)
+        {
+            List<Weapon> itemList = weapons.Keys.ToList<Weapon>();
+
+            if (equippedWeapon == null)
+            {
+                equippedWeapon = itemList[0];
+                return;
+            }
+
+            equippedWeapon.Cancel(a);
+
+            int index = itemList.IndexOf(equippedWeapon) - 1;
+
+            if (index < 0)
+                index = itemList.Count-1;
+
+            equippedWeapon = itemList[index];
+        }
+
+        public void receiveItem(Weapon i)
+        {
+            if (weapons.ContainsKey(i))
+            {
+                weapons[i]++;
             }
             else
             {
-                inventory.Add(i, 1);
+                weapons.Add(i, 1);
                 changed = true;
             }
         }
 
-        public void receiveItem(Item i, int count)
+        public void receiveItem(Weapon i, int count)
         {
-            if (inventory.ContainsKey(i))
+            if (weapons.ContainsKey(i))
             {
-                inventory[i] += count;
+                weapons[i] += count;
             }
             else
             {
-                inventory.Add(i, count);
+                weapons.Add(i, count);
                 changed = true;
             }
         }
 
-        public int getItemCount(Item i)
+        public int getItemCount(Weapon i)
         {
-            if(inventory.ContainsKey(i))
-                return inventory[i];
+            if(weapons.ContainsKey(i))
+                return weapons[i];
 
             return 0;
         }
 
-        public void removeItem(Item i)
+        public void removeItem(Weapon i)
         {
-            if (inventory.ContainsKey(i))
+            if (weapons.ContainsKey(i))
             {
-                inventory[i]--;
-                if (inventory[i] <= 0)
+                weapons[i]--;
+                if (weapons[i] <= 0)
                 {
-                    inventory.Remove(i);
+                    weapons.Remove(i);
                     changed = true;
                 }
             }
         }
 
-        public void removeItem(Item i, int count)
+        public void removeItem(Weapon i, int count)
         {
-            if (inventory.ContainsKey(i))
+            if (weapons.ContainsKey(i))
             {
-                inventory[i] -= count;
-                if (inventory[i] <= 0)
+                weapons[i] -= count;
+                if (weapons[i] <= 0)
                 {
-                    inventory.Remove(i);
+                    weapons.Remove(i);
                     changed = true;
                 }
             }
         }
 
-        public void removeAllOfItem(Item i)
+        public void removeAllOfItem(Weapon i)
         {
-            if (inventory.ContainsKey(i))
+            if (weapons.ContainsKey(i))
             {
-                inventory.Remove(i);
+                weapons.Remove(i);
                 changed = true;
             }
         }
 
         public void clearInventory()
         {
-            inventory.Clear();
+            weapons.Clear();
             changed = true;
         }
 
@@ -104,10 +146,10 @@ namespace wickedcrush.inventory
                 currency = 0;
         }
 
-        public List<Item> GetItemList()
+        public List<Weapon> GetItemList()
         {
             changed = false;
-            return inventory.Keys.ToList<Item>();
+            return weapons.Keys.ToList<Weapon>();
         }
     }
 }

@@ -93,7 +93,7 @@ namespace wickedcrush.editor.tool
             }
             else
             {
-                if (controls.ItemAPressed())
+                if (controls.WeaponPressed())
                 {
                     RemoveSelection();
                 }

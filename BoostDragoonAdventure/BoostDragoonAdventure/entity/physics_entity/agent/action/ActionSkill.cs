@@ -96,7 +96,10 @@ namespace wickedcrush.entity.physics_entity.agent.action
             if (followParent)
                 reactToWall = false;
             else
+            {
                 reactToWall = true;
+                this.bounce = skillStruct.bounce;
+            }
 
             Initialize();
         }
@@ -156,7 +159,10 @@ namespace wickedcrush.entity.physics_entity.agent.action
             if (followParent)
                 reactToWall = false;
             else
+            {
                 reactToWall = true;
+                this.bounce = skillStruct.bounce;
+            }
 
             Initialize();
         }
@@ -417,7 +423,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void Dispose()
         {
-            parent.itemInUse = null;
+            parent.weaponInUse = null;
             base.Dispose();
         }
 
@@ -425,7 +431,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         {
             releaseBlows();
             if(rootSkill)
-                parent.itemInUse = null;
+                parent.weaponInUse = null;
             this.remove = true;
             base.Remove();
         }

@@ -1,0 +1,18 @@
+﻿<tileset name="dust_surface" x="300" y="300">
+  <tex>dust_surface_color</tex>
+  <normal>dust_surface_normal</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="25" height="25"></tilepos>
+    <tilepos id="1" x="25" y="25" width="25" height="25"></tilepos>
+    <tilepos id="2" x="50" y="50" width="25" height="25"></tilepos>
+    <tilepos id="3" x="75" y="75" width="25" height="25"></tilepos>
+    <tilepos id="4" x="100" y="100" width="25" height="25"></tilepos>
+    <tilepos id="5" x="125" y="125" width="25" height="25"></tilepos>
+    <tilepos id="6" x="150" y="150" width="25" height="25"></tilepos>
+    <tilepos id="7" x="175" y="175" width="25" height="25"></tilepos>
+    <tilepos id="8" x="200" y="200" width="25" height="25"></tilepos>
+    <tilepos id="9" x="225" y="225" width="25" height="25"></tilepos>
+    <tilepos id="10" x="250" y="250" width="25" height="25"></tilepos>
+    <tilepos id="11" x="275" y="275" width="25" height="25"></tilepos>
+  </tilesize>
+</tileset>

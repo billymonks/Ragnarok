@@ -1,0 +1,7 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="dust_wall">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

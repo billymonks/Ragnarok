@@ -54,6 +54,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             Initialize(name, pos, size, center, solid, controls);
 
             this.stats = stats;
+
+            if (controls is GamepadControls)
+                factory._game.settings.controlMode = utility.config.ControlMode.Gamepad;
         }
 
         private void Initialize(String name, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls)
@@ -137,6 +140,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
             else
             {
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+                particleEmitter.EmitParticles(ps, this.factory, 3);
+
+                FlashColor(Color.Red, 240);
+
                 base.TakeSkill(action);
             }
             
@@ -167,23 +175,31 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (remove)
                 return;
 
-            if (stats.compare("boost", "maxBoost") == -1 && itemInUse == null)
+            if (stats.compare("boost", "maxBoost") == -1 && weaponInUse == null && !controls.BoostHeld() && !controls.ReverseBoostHeld())
                 stats.addTo("boost", stats.get("fillSpeed"));
 
             if (stats.compare("boost", "maxBoost") == 1)
                 stats.set("boost", stats.get("maxBoost"));
 
-            if (stats.get("boost") >= 50)
+            if (stats.get("boost") > 0)
             {
                 overheating = false;
-                //stats.set("boost", stats.get("maxBoost"));
             }
 
             if (stats.get("boost") <= 0)
             {
-                factory.addText("Overheating!!", this.pos, 600);
+                if (overheating == false)
+                {
+                    factory.addText("Overheating!!", this.pos, 600);
+                    overheating = true;
+                    if (weaponInUse != null)
+                    {
+                        weaponInUse.Release(this);
+                    }
+                }
+                
                 particleEmitter.EmitParticles(ParticleServer.GenerateSmoke(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y)), factory, 1);
-                overheating = true;
+                
                 //stats.set("boost", 0);
             }
 
@@ -261,7 +277,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         if (stateTree.previousControlState != null && !stateTree.previousControlState.name.Contains("boosting"))
                         {
                             timers["boostLift"].resetAndStart();
-                            timers["iFrameTime"].resetAndStart();
+                            if(timers["iFrameTime"].isDone())
+                                timers["iFrameTime"].resetAndStart();
                             //_sound.playCueInstance(id + "blast off", emitter);
                             _sound.playCue("blast off");
                             _sound.playCueInstance(id + "VP_Jet1", emitter);
@@ -319,7 +336,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         if (stateTree.previousControlState != null && !stateTree.previousControlState.name.Contains("boosting"))
                         {
                             timers["boostLift"].resetAndStart();
-                            timers["iFrameTime"].resetAndStart();
+                            if (timers["iFrameTime"].isDone())
+                                timers["iFrameTime"].resetAndStart();
                             //_sound.playCueInstance(id + "blast off", emitter);
                             _sound.playCue("blast off");
                             _sound.playCueInstance(id + "VP_Jet1", emitter);
@@ -414,118 +432,100 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void UpdateItems()
         {
+            if (weaponInUse == null && controls.WeaponScrollUp())
+            {
+                stats.inventory.prevItem(this);
+                factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
+                _sound.playCue("abraisive laser");
+            }
+            else if (weaponInUse == null && controls.WeaponScrollDown())
+            {
+                stats.inventory.nextItem(this);
+                factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
+                _sound.playCue("abraisive laser");
+            }
+
             UpdateItemA();
-            UpdateItemB();
-            UpdateItemC();
+            //UpdateItemB();
+            //UpdateItemC();
         }
 
         private void UpdateItemA()
         {
-            if (stats.inventory.itemA == null || busy)
+            if (stats.inventory.equippedWeapon == null || busy)
                 return;
 
-            if (controls is KeyboardControls)
+            if (controls is KeyboardControls && factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
             {
                 if ( ((KeyboardControls)controls).LeftMousePress())
                 {
-                    stats.inventory.itemA.Press(this);
+                    stats.inventory.equippedWeapon.Press(this);
                 }
 
                 if ( ((KeyboardControls)controls).LeftMouseHold())
                 {
-                    stats.inventory.itemA.Hold(this);
+                    stats.inventory.equippedWeapon.Hold(this);
                 }
 
                 if ( ((KeyboardControls)controls).LeftMouseRelease())
                 {
-                    stats.inventory.itemA.Release(this);
+                    stats.inventory.equippedWeapon.Release(this);
                 }
             }
             else
             {
-                if (controls.ItemAPressed())
+                if (controls.WeaponPressed())
                 {
-                    stats.inventory.itemA.Press(this);
+                    stats.inventory.equippedWeapon.Press(this);
                 }
 
-                if (controls.ItemAHeld())
+                if (controls.WeaponHeld())
                 {
-                    stats.inventory.itemA.Hold(this);
+                    stats.inventory.equippedWeapon.Hold(this);
                 }
 
-                if (controls.ItemAReleased())
+                if (controls.WeaponReleased())
                 {
-                    stats.inventory.itemA.Release(this);
+                    stats.inventory.equippedWeapon.Release(this);
                 }
             }
 
 
-
-        }
-
-        private void UpdateItemB()
-        {
-            if (stats.inventory.itemB == null || busy)
-                return;
-
-            if (controls.ItemBPressed())
-            {
-                stats.inventory.itemB.Press(this);
-            }
-
-            if (controls.ItemBHeld())
-            {
-                stats.inventory.itemB.Hold(this);
-            }
-
-            if (controls.ItemBReleased())
-            {
-                stats.inventory.itemB.Release(this);
-            }
-
-        }
-
-        private void UpdateItemC()
-        {
-            if (stats.inventory.itemC == null || busy)
-                return;
-
-            if (controls.ItemCPressed())
-            {
-                stats.inventory.itemC.Press(this);
-            }
-
-            if (controls.ItemCHeld())
-            {
-                stats.inventory.itemC.Hold(this);
-            }
-
-            if (controls.ItemCReleased())
-            {
-                stats.inventory.itemC.Release(this);
-            }
 
         }
 
         protected void UpdateDirection(bool strafe)
         {
-            float magnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
+            float lStickMagnitude = Math.Max(Math.Abs(controls.LStickYAxis()), Math.Abs(controls.LStickXAxis()));
+            float rStickMagnitude = Math.Max(Math.Abs(controls.RStickYAxis()), Math.Abs(controls.RStickXAxis()));
+            if (rStickMagnitude > 0f)
+            {
+                aimDirection = (int)MathHelper.ToDegrees((float)Math.Atan2(-controls.RStickYAxis(), controls.RStickXAxis()));
+                facing = Helper.constrainDirection((Direction)aimDirection);
+            }
+            else if (!strafe && (factory._game.settings.controlMode != utility.config.ControlMode.MouseAndKeyboard) && lStickMagnitude > 0f)
+            {
+                aimDirection = movementDirection;
+                facing = Helper.constrainDirection((Direction)aimDirection);
+            }
 
-            if (magnitude == 0f)
+            
+
+            if (lStickMagnitude == 0f)
                 return;
 
             Direction temp = (Direction)
                         Helper.radiansToDirection((float)Math.Atan2(controls.LStickYAxis(), controls.LStickXAxis()));
 
-            //strafe = controls.StrafeHeld();
 
             if (!strafe)
                 facing = temp;
 
             movementDirection = (int)temp;
 
-            if(!strafe && (factory._game.settings.controlMode != utility.config.ControlMode.MouseAndKeyboard))
-                aimDirection = movementDirection;
+
+
+            
         }
 
         protected void UpdateAnimation()

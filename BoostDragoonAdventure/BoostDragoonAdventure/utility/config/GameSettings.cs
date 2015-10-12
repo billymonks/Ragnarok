@@ -19,10 +19,12 @@ namespace wickedcrush.utility.config
         public Point resolution;
         public bool fullscreen;
         public ControlMode controlMode = ControlMode.MouseAndKeyboard;
+        public float mouseSensitivity = 1.5f;
 
         public GameSettings()
         {
-            if (File.Exists("settings.xml"))
+            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml");
+            if (File.Exists(path))
                 LoadSettings();
             else
             {
@@ -32,26 +34,65 @@ namespace wickedcrush.utility.config
 
         private void LoadSettings()
         {
-            XDocument doc = XDocument.Load("settings.xml");
-            resolution = new Point(int.Parse(doc.Element("settings").Element("resolution").Attribute("x").Value), int.Parse(doc.Element("settings").Element("resolution").Attribute("y").Value));
-            fullscreen = bool.Parse(doc.Element("settings").Element("resolution").Attribute("fullscreen").Value);
+            XDocument doc = XDocument.Load(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml"));
+            
+            if (doc.Element("settings").Elements("resolution").Count<XElement>() > 0)
+            {
+                resolution = new Point(int.Parse(doc.Element("settings").Element("resolution").Attribute("x").Value), int.Parse(doc.Element("settings").Element("resolution").Attribute("y").Value));
+                fullscreen = bool.Parse(doc.Element("settings").Element("resolution").Attribute("fullscreen").Value);
+            }
+            else
+            {
+                resolution = new Point(1280, 720);
+                fullscreen = false;
+            }
+            
+            if (doc.Element("settings").Elements("controlMode").Count<XElement>() > 0)
+            {
+                controlMode = (ControlMode)int.Parse(doc.Element("settings").Element("controlMode").Value);
+            }
+            else
+            {
+                controlMode = ControlMode.MouseAndKeyboard;
+            }
+
+            if (doc.Element("settings").Elements("mouseSensitivity").Count<XElement>() > 0)
+            {
+                mouseSensitivity = float.Parse(doc.Element("settings").Element("mouseSensitivity").Value);
+            }
+            else
+            {
+                mouseSensitivity = 1.5f;
+            }
+
+            SaveSettings();
         }
 
         private void SetDefaultSettings()
         {
             resolution = new Point(1280, 720);
             fullscreen = false;
+            controlMode = ControlMode.MouseAndKeyboard;
 
+            SaveSettings();
+        }
+
+        private void SaveSettings()
+        {
             XDocument doc = new XDocument();
             XElement root = new XElement("settings");
             XElement resNode = new XElement("resolution");
             resNode.Add(new XAttribute("x", resolution.X));
             resNode.Add(new XAttribute("y", resolution.Y));
             resNode.Add(new XAttribute("fullscreen", fullscreen));
+            root.Add(new XElement("controlMode", (int)controlMode));
+            root.Add(new XElement("mouseSensitivity", (float)mouseSensitivity));
             root.Add(resNode);
             doc.Add(root);
 
-            doc.Save("settings.xml");
+            if (!System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp")))
+                System.IO.Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp"));
+            doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml"));
         }
     }
 }

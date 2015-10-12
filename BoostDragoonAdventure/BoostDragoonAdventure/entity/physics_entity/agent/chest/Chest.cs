@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
 
         private bool opened = false;
 
-        private List<Item> contents;
+        private List<Weapon> contents;
         private int currency;
 
         public Chest(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
@@ -103,7 +103,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     if(((PlayerAgent)e).InteractPressed())
                     {
                         opened = true;
-                        Item temp = ItemServer.getRandomItem();
+                        Weapon temp = InventoryServer.getRandomWeapon();
                         factory.addText("You got " + temp.name + "!", this.pos + this.center, 3000);
                         ((PlayerAgent)e).stats.inventory.receiveItem(temp);
 

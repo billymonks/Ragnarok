@@ -318,9 +318,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(s);
         }
 
-        public void addTurret(Vector2 pos, Direction facing)
+        public void addTurret(Vector2 pos, Direction facing, int rank)
         {
-            StandaloneTurret t = new StandaloneTurret(_w, pos, this, facing, _sm);
+            StandaloneTurret t = new StandaloneTurret(_w, pos, this, facing, _sm, rank);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);
@@ -328,9 +328,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(t);
         }
 
-        public void addAimTurret(Vector2 pos)
+        public void addAimTurret(Vector2 pos, int rank)
         {
-            AimTurret t = new AimTurret(_w, pos, this, Direction.East, _sm);
+            AimTurret t = new AimTurret(_w, pos, this, Direction.East, _sm, rank);
             t.stats.set("hp", 20);
             t.stats.set("maxHP", 20);
             t.stats.set("staggerDuration", 1);

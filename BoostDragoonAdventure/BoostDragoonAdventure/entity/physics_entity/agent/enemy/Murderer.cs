@@ -48,7 +48,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         List<PositionReaction> reactions = new List<PositionReaction>();
 
-        Item item;
+        Weapon item;
 
         public enum EnemyState
         {
@@ -100,17 +100,17 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             double weaponChoice = random.NextDouble();
             if (weaponChoice < 0.6)
             {
-                item = ItemServer.getItem("Longsword");
+                item = InventoryServer.getWeapon("Longsword");
                 attackRange = 30;
             }
             else if (weaponChoice < 0.8)
             {
-                item = ItemServer.getItem("Scattershot");
+                item = InventoryServer.getWeapon("Scattershot");
                 attackRange = 120;
             }
             else
             {
-                item = ItemServer.getItem("Spellbook: Fireball");
+                item = InventoryServer.getWeapon("Spellbook: Fireball");
                 attackRange = 170;
             }
             stats.inventory.receiveItem(item);

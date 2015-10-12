@@ -95,6 +95,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public float spriteScaleAmount = 100f;
 
+        protected KeyValuePair<Color, Timer> flashColor = new KeyValuePair<Color, Timer>(Color.Red, new Timer(240));
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
@@ -302,6 +304,8 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 t.Value.Update(gameTime);
             }
+
+            flashColor.Value.Update(gameTime);
         }
 
         private void UpdateTriggers(GameTime gameTime)
@@ -617,6 +621,15 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
+            if (flashColor.Value.isActive())
+            {
+                factory._gm._screen.litSpriteEffect.Parameters["solidColor"].SetValue(new Vector4(flashColor.Key.R, flashColor.Key.G, flashColor.Key.B, 1));
+            }
+            else
+            {
+                factory._gm._screen.litSpriteEffect.Parameters["solidColor"].SetValue(new Vector4(0, 0, 0, 1));
+            }
+
             base.Draw(depthPass, lightList, gameplay);
             if (visible && bodies.ContainsKey("body"))
             {
@@ -627,28 +640,32 @@ namespace wickedcrush.entity.physics_entity.agent
                     gameplay.scene.spriteEffect.CurrentTechnique.Passes["Depth"].Apply();
                     _spriterManager.DrawPlayer(bodySpriter);
                 }
-                else
+                else 
                 {
+
                     gameplay._screen.litSpriteEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 0.8f, 1f, 1f));
                     gameplay._screen.litSpriteEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
                     gameplay._screen.litSpriteEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
 
+                    /*if (flashColor.Value.isActive())
+                    {
+                        //factory._gm._screen.litSpriteEffect.CurrentTechnique = factory._gm._screen.litSpriteEffect.Techniques["SolidColor"];
+                        factory._gm._screen.litSpriteEffect.Parameters["solidColor"].SetValue(new Vector4(flashColor.Key.R, flashColor.Key.G, flashColor.Key.B, 1));
+                        //gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["SolidColor"].Apply();
+
+                        //_spriterManager.DrawPlayer(bodySpriter);
+
+                        //factory._gm._screen.litSpriteEffect.CurrentTechnique = factory._gm._screen.litSpriteEffect.Techniques["MultiPassLight"];
+                    }
+                    else
+                    {
+                        factory._gm._screen.litSpriteEffect.Parameters["solidColor"].SetValue(new Vector4(0, 0, 0, 1));
+                        
+                    }*/
+
                     gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
                     _spriterManager.DrawPlayer(bodySpriter);
-
-                    /*foreach (KeyValuePair<string, PointLightStruct> s in lightList)
-                    {
-                        gameplay._screen.litSpriteEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
-                        gameplay._screen.litSpriteEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
-                        gameplay._screen.litSpriteEffect.Parameters["SpecularColor"].SetValue(s.Value.SpecularColor);
-                        gameplay._screen.litSpriteEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
-                        gameplay._screen.litSpriteEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
-                        gameplay._screen.litSpriteEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
-
-                        //gameplay.scene.spriteEffect.CurrentTechnique.Passes["Point"].Apply();
-                        //_spriterManager.DrawPlayer(bodySpriter);
-                        //game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
-                    }*/
+                    
                 }
 
                 
@@ -1030,6 +1047,38 @@ namespace wickedcrush.entity.physics_entity.agent
 
 
             //hudSpriters["hp_bar"].setFrame(1);
+        }
+
+        public void addTimer(String key, int ms)
+        {
+            if(timers.ContainsKey(key))
+            {
+                timers[key].setInterval(ms);
+                timers[key].reset();
+            } else {
+                timers.Add(key, new Timer(ms));
+            }
+        }
+
+        public void FlashColor(Color color, int ms)
+        {
+            flashColor = new KeyValuePair<Color, Timer>(color, new Timer(ms));
+            flashColor.Value.resetAndStart();
+        }
+
+        public void removeTimer(String key)
+        {
+            timers.Remove(key);
+        }
+
+        public Timer getTimer(String key)
+        {
+            if (timers.ContainsKey(key))
+            {
+                return timers[key];
+            }
+
+            throw new Exception("No timer exists!");
         }
     }
 }

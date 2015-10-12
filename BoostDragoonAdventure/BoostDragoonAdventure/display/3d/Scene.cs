@@ -93,8 +93,8 @@ namespace wickedcrush.display._3d
             SetEffectParameters(gameplay);
 
 
-            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            lightList.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.75f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.75f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            lightList.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
             lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
             //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
             //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
@@ -389,15 +389,15 @@ namespace wickedcrush.display._3d
 
 
 
-                //if (game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F1))
-                //{
-                    //DateTime date = DateTime.Now; //Get the date for the file name
-                    //Stream stream = File.Create("depth" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+                if (game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F1))
+                {
+                    DateTime date = DateTime.Now; //Get the date for the file name
+                    Stream stream = File.Create("depth" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
 
-                    //game.GraphicsDevice.SetRenderTarget(null);
-                    //depthTarget.SaveAsPng(stream, depthTarget.Width, depthTarget.Height);
-                    //game.GraphicsDevice.SetRenderTarget(renderTarget);
-                //}
+                    game.GraphicsDevice.SetRenderTarget(null);
+                    depthTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
+                    game.GraphicsDevice.SetRenderTarget(renderTarget);
+                }
 
                 //game.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
@@ -414,10 +414,10 @@ namespace wickedcrush.display._3d
             normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(240 * game.aspectRatio * gameplay.camera.zoom, 240 * gameplay.camera.zoom, -800, 800));
             //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32, 16, 10, 1600));
 
-            normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 0.8f, 1f, 1f));
+            normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 1f, 1f, 1f));
             normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
 
-            normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.02f, 0.05f, 1f));
+            normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.05f, 0.05f, 1f));
 
             parallaxEffect.Parameters["World"].SetValue(Matrix.Identity);
             parallaxEffect.Parameters["Projection"].SetValue(Matrix.CreateOrthographic(240 * game.aspectRatio * gameplay.camera.zoom, 240 * gameplay.camera.zoom, -800, 800));

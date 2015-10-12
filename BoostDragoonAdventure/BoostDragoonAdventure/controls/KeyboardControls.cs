@@ -76,7 +76,7 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemAHeld()
+        public override bool WeaponHeld()
         {
             if (keyState.IsKeyDown(itemAKey))
                 return true;
@@ -84,7 +84,7 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemAPressed()
+        public override bool WeaponPressed()
         {
             if (keyState.IsKeyDown(itemAKey) && prevKeyState.IsKeyUp(itemAKey))
                 return true;
@@ -92,7 +92,7 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemAReleased()
+        public override bool WeaponReleased()
         {
             if (keyState.IsKeyUp(itemAKey))
                 return true;

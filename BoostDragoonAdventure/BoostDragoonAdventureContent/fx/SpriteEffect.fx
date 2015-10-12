@@ -1,4 +1,5 @@
 float depth;
+float3 solidColor;
 
 // TODO: add effect parameters here.
 
@@ -25,10 +26,21 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 	  }
 
     
-	//return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
-	//return float4(lerp(0.37, 0.97, input.TexCoord.y/1440), 0, 0, 1);
-	//return float4(lerp(0.432, 0.734, input.Color.r), 0, 0, 1);
 	return float4(lerp(0, 1, input.Color.a-0.15), 0, 0, 1);
+}
+
+float4 SolidColorPixelShaderFunction(PixelShaderInput input) : COLOR0
+{
+	float4 color = tex2D(ColorMapSampler, input.TexCoord);
+
+	if(color.a < 0.1f)
+	  {
+		color.a = 0;
+		clip(-1);
+	  }
+
+    
+	return float4(solidColor.r, solidColor.g, solidColor.b, 1);
 }
 
 technique Depth
@@ -37,4 +49,12 @@ technique Depth
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }
+}
+
+technique SolidColor
+{
+	pass SolidColor
+	{
+		PixelShader = compile ps_2_0 SolidColorPixelShaderFunction();
+	}
 }

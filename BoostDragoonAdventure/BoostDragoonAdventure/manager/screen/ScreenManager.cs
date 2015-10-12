@@ -35,12 +35,14 @@ namespace wickedcrush.manager.screen
         //Effect spriteEffect;
 
         float focusDistance = 365;
-        float focusRange = 90;
+        float focusRange = 120;
         //float focusRange = 190;
         float nearClip = 150;
         float farClip = 1.01428f;
 
         public bool loading = false;
+
+        public float cameraDifference = 1f;
         //355, 215, 150, 850
 
         //public Texture2D background;
@@ -204,7 +206,10 @@ namespace wickedcrush.manager.screen
             _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             _game.GraphicsDevice.SetRenderTarget(renderTargetDepth);
-            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, new Color(0.5f, 0f, 0f), 1.0f, 0);
+            //_game.spriteBatch.Draw(
+
+            
 
             //_game.GraphicsDevice.SetRenderTarget(renderTarget);
             //_game.GraphicsDevice.SetRenderTarget(spriteTarget);
@@ -349,8 +354,8 @@ namespace wickedcrush.manager.screen
                 farClip -= 0.1f;
                 Console.Out.WriteLine("farClip: " + farClip);
             }*/
-
-            SetShaderParameters(focusDistance, focusRange, nearClip, farClip);
+            //_game.diag += "Camera Diff " + cameraDifference + "\n";
+            SetShaderParametersAlt(focusDistance * cameraDifference, focusRange, nearClip, farClip);
             //SetShaderParameters(355, 215, 150, 850);
             //SetShaderParametersAlt(
 
@@ -361,6 +366,8 @@ namespace wickedcrush.manager.screen
             effectPostDoF.Parameters["BlurScene"].SetValue(renderTargetBlurred);
             _game.spriteBatch.Draw(renderTarget, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
             _game.spriteBatch.End();
+
+            
 
             for (int i = screenIndex; i < screenList.Count; i++)
             {
@@ -377,6 +384,16 @@ namespace wickedcrush.manager.screen
                 _game.spriteBatch.End();
 
                 screenList[i].FreeDraw();
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F2))
+            {
+                DateTime date = DateTime.Now; //Get the date for the file name
+                Stream stream = File.Create("screenshot" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+
+                //_game.GraphicsDevice.SetRenderTarget(null);
+                renderTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
+                //_game.GraphicsDevice.SetRenderTarget(renderTarget);
             }
         }
 

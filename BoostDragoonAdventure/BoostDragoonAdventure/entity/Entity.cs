@@ -57,7 +57,7 @@ namespace wickedcrush.entity
 
         public int height = 0, skillHeight = 0;
 
-        public Item itemInUse = null;
+        public Weapon weaponInUse = null;
 
         
         #endregion

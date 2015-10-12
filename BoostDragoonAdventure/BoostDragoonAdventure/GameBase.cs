@@ -132,7 +132,7 @@ namespace wickedcrush
 
             panelFactory = new PanelFactory(spriterManager);
 
-            ItemServer.Initialize();
+            InventoryServer.Initialize();
             SkillServer.Initialize();
 
             //spriterManager = new SpriterManager(this);

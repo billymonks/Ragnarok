@@ -266,28 +266,16 @@ namespace wickedcrush.manager.player
                 statsElement.Add(temp);
             }
 
-            foreach (Item i in p.getStats().inventory.GetItemList())
+            foreach (Weapon i in p.getStats().inventory.GetItemList())
             {
                 temp = new XElement("item", i.name);
                 temp.Add(new XAttribute("count", p.getStats().inventory.getItemCount(i)));
                 inventoryElement.Add(temp);
             }
 
-            if (p.getStats().inventory.itemA != null)
+            if (p.getStats().inventory.equippedWeapon != null)
             {
-                temp = new XElement("itemA", p.getStats().inventory.itemA.name);
-                equipmentElement.Add(temp);
-            }
-
-            if (p.getStats().inventory.itemB != null)
-            {
-                temp = new XElement("itemB", p.getStats().inventory.itemB.name);
-                equipmentElement.Add(temp);
-            }
-
-            if (p.getStats().inventory.itemC != null)
-            {
-                temp = new XElement("itemC", p.getStats().inventory.itemC.name);
+                temp = new XElement("itemA", p.getStats().inventory.equippedWeapon.name);
                 equipmentElement.Add(temp);
             }
 
@@ -326,22 +314,12 @@ namespace wickedcrush.manager.player
 
             foreach (XElement itemElement in inventoryElement.Elements("item"))
             {
-                stats.inventory.receiveItem(ItemServer.getItem(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
+                stats.inventory.receiveItem(InventoryServer.getWeapon(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
             }
 
             foreach (XElement itemAElement in equipmentElement.Elements("itemA"))
             {
-                stats.inventory.itemA = ItemServer.getItem(itemAElement.Value);
-            }
-
-            foreach (XElement itemBElement in equipmentElement.Elements("itemB"))
-            {
-                stats.inventory.itemB = ItemServer.getItem(itemBElement.Value);
-            }
-
-            foreach (XElement itemCElement in equipmentElement.Elements("itemC"))
-            {
-                stats.inventory.itemC = ItemServer.getItem(itemCElement.Value);
+                stats.inventory.equippedWeapon = InventoryServer.getWeapon(itemAElement.Value);
             }
 
 
@@ -403,14 +381,8 @@ namespace wickedcrush.manager.player
                 hud += p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
                     + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost");
 
-                if (p.getStats().inventory.itemA != null)
-                    hud += "\nItem A: " + p.getStats().inventory.itemA.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemA);
-
-                if (p.getStats().inventory.itemB != null)
-                    hud += "\nItem B: " + p.getStats().inventory.itemB.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemB);
-
-                if (p.getStats().inventory.itemC != null)
-                    hud += "\nItem C: " + p.getStats().inventory.itemC.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.itemC);
+                if (p.getStats().inventory.equippedWeapon != null)
+                    hud += "\nItem A: " + p.getStats().inventory.equippedWeapon.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.equippedWeapon);
 
                 p.getAgent().bodySpriter.calcBoundingBox(null);
                 hud += "\nX: " + p.getAgent().bodySpriter.getBoundingBox().left;

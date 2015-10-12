@@ -21,11 +21,13 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public String spriterName;
         public int spriterEntityIndex;
         public String spriterAnimationName;
+
+        public bool bounce;
         //public bool freeItemInUse;
 
         //public Nullable<SkillStruct> blowStruct;
 
-        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, Vector2 parentVelocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName)
+        public SkillStruct(String name, Vector2 pos, Vector2 size, Vector2 center, Vector2 velocity, Vector2 parentVelocity, int duration, int force, int directionChange, List<KeyValuePair<int, SkillStruct>> blows, List<KeyValuePair<String, int>> statIncrement, String cue, bool followParent, Nullable<ParticleStruct> particle, String spriterName, int spriterEntityIndex, String spriterAnimationName, bool bounce)
         {
             this.name = name;
             this.pos = pos;
@@ -44,6 +46,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.spriterName = spriterName;
             this.spriterEntityIndex = spriterEntityIndex;
             this.spriterAnimationName = spriterAnimationName;
+
+            this.bounce = bounce;
             //this.freeItemInUse = freeItemInUse;
             //this.blowStruct = null;
         }
@@ -81,7 +85,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add(
                 "Strong Attack",
@@ -101,7 +106,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Vertical Blow 1",
                 new SkillStruct("Vertical Blow 1",
@@ -120,7 +126,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Vertical Blow 2",
                 new SkillStruct("Vertical Blow 2",
@@ -139,7 +146,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Vertical Blow 3",
                 new SkillStruct("Vertical Blow 3",
@@ -158,7 +166,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Vertical Blow 4",
                 new SkillStruct("Vertical Blow 4",
@@ -177,7 +186,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Vertical Blow 5",
                 new SkillStruct("Vertical Blow 5",
@@ -196,7 +206,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Forward Attack",
                 new SkillStruct("Forward Attack",
@@ -215,7 +226,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
             skills.Add("Sword Attack",
                 new SkillStruct("Sword Attack",
@@ -234,7 +246,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "sword"));
+                    "sword",
+                    false));
 
             skills.Add("Swordz Attack",
                 new SkillStruct("Swordz Attack",
@@ -253,7 +266,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "sword"));
+                    "sword",
+                    false));
 
             skills.Add("Bigger Sword Attack",
                 new SkillStruct("Sword Attack",
@@ -272,7 +286,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "sword"));
+                    "sword",
+                    false));
 
             skills.Add("Biggest Sword Attack",
                 new SkillStruct("Sword Attack",
@@ -291,7 +306,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "sword"));
+                    "sword",
+                    false));
 
             skills.Add(
                 "Spear Attack Weak",
@@ -317,7 +333,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    ""));
+                    "",
+                    false));
 
             skills.Add(
                 "Spear Attack Full",
@@ -345,7 +362,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    ""));
+                    "",
+                    false));
 
             skills.Add("Horizontal Blow 1",
                 new SkillStruct("Horizontal Blow 1",
@@ -364,7 +382,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
             skills.Add("Horizontal Blow 2",
                 new SkillStruct("Horizontal Blow 2",
@@ -383,7 +402,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
             skills.Add("Horizontal Blow 3",
                 new SkillStruct("Horizontal Blow 3",
@@ -402,7 +422,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
             skills.Add("Horizontal Blow 4",
                 new SkillStruct("Horizontal Blow 4",
@@ -421,7 +442,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
             skills.Add("Horizontal Blow 5",
                 new SkillStruct("Horizontal Blow 5",
@@ -440,7 +462,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "weapons",
                     0,
-                    "knife"));
+                    "knife",
+                    false));
 
                     
             skills.Add("Horizontal Extension Blow 1",
@@ -460,7 +483,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null, 
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Horizontal Extension Blow 2",
                 new SkillStruct("Horizontal Extension Blow 2",
@@ -479,7 +503,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null, 
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Horizontal Extension Blow 3",
                 new SkillStruct("Horizontal Extension Blow 3",
@@ -498,7 +523,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null, 
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Horizontal Extension Blow 4",
                 new SkillStruct("Horizontal Extension Blow 4",
@@ -517,7 +543,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add("Horizontal Extension Blow 5",
                 new SkillStruct("Horizontal Extension Blow 5",
@@ -536,7 +563,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "all",
                     3,
-                    "attack1"));
+                    "attack1",
+                    false));
 
             skills.Add(
                 "Longsword Attack Full",
@@ -569,7 +597,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    ""));
+                    "",
+                    false));
 
             skills.Add(
                 "Longsword Attack Medium",
@@ -597,7 +626,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    ""));
+                    "",
+                    false));
 
             skills.Add(
                 "Longsword Attack Weak",
@@ -623,11 +653,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     null,
                     "",
                     0,
-                    ""));
+                    "",
+                    false));
 
         }
 
-        public static SkillStruct GenerateSkillStruct(Vector2 parentVelocity, Vector2 velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent, float blowVelocity, int blowDuration, int blowReleaseDelay, Nullable<ParticleStruct> particle)
+        public static SkillStruct GenerateSkillStruct(Vector2 parentVelocity, Vector2 velocity, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent, float blowVelocity, int blowDuration, int blowReleaseDelay, Nullable<ParticleStruct> particle, bool bounce)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -649,6 +680,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterEntityIndex = 3;
             skill.spriterName = "all";
             skill.parentVelocity = parentVelocity;
+
+            skill.bounce = bounce;
             //skill.freeItemInUse = true;
 
             //if (skill.blowStruct.HasValue)
@@ -662,7 +695,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public static SkillStruct GenerateSkillStruct(Vector2 parentVelocity, Vector2 velocity, int spreadDuration, 
             int blowCount, int blowPerSpread, int scatterCount, int spread, bool followParent, float blowVelocity, 
             int blowDuration, int blowReleaseDelay, float releaseModifier, Nullable<ParticleStruct> particle,
-            String spriterAnimationName, int spriterEntityIndex, String spriterName, SkillStruct blowStruct)
+            String spriterAnimationName, int spriterEntityIndex, String spriterName, SkillStruct blowStruct, bool bounce)
         {
             SkillStruct skill = new SkillStruct();
 
@@ -685,7 +718,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterEntityIndex = spriterEntityIndex;
             skill.spriterName = spriterName;
             skill.parentVelocity = parentVelocity;
-
+            skill.bounce = bounce;
 
             AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowReleaseDelay, releaseModifier, blowStruct);
 
@@ -695,7 +728,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         }
 
         public static SkillStruct GenerateProjectile(Vector2 size, Vector2 velocity, int hpIncrement, int force, int duration, Nullable<ParticleStruct> particle, String cue,
-            String spriterAnimationName, int spriterEntityIndex, String spriterName, Vector2 parentVelocity)
+            String spriterAnimationName, int spriterEntityIndex, String spriterName, Vector2 parentVelocity, bool bounce)
         {
             SkillStruct skill = new SkillStruct();
             skill.name = "Generated Projectile";
@@ -715,6 +748,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterEntityIndex = spriterEntityIndex;
             skill.spriterName = spriterName;
             skill.parentVelocity = parentVelocity;
+
+            skill.bounce = bounce;
 
             return skill;
         }
@@ -781,6 +816,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterEntityIndex = blowStruct.spriterEntityIndex;
             skill.spriterName = blowStruct.spriterName;
             skill.parentVelocity = blowStruct.parentVelocity;
+            skill.bounce = blowStruct.bounce;
             //skill.freeItemInUse = false;
 
             return skill;

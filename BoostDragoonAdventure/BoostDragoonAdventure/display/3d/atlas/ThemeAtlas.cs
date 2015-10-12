@@ -112,6 +112,28 @@ namespace wickedcrush.display._3d.atlas
                     artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
 
                     break;
+
+                case "dust":
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -6, -4, "rocky_desaturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -4, -2, "rocky_saturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -2, 0, "rocky_desaturated"));
+                    //artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
+                        LayerTransformations.GetCompositeLayer(
+                            map.layerList[LayerType.ART1].data,
+                            LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data),
+                            false), 
+                            2), -3, 0, "dust_surface"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
+                        LayerTransformations.SubtractLayer(
+                            LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data),
+                            map.layerList[LayerType.ART1].data),
+                            2), -3, 0, "grass_surface"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -3, 0, "dust_wall"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
+
+                    break;
             }
         }
 

@@ -214,14 +214,18 @@ namespace wickedcrush.entity
             g.diag += "4:3 Cursor Position: " + scaledCursorPosition.X + ", " + scaledCursorPosition.Y + "\n";
             g.diag += "Cursor World Position: " + (pos.X + center.X) + ", " + (pos.Y + center.Y) + "\n";
             g.diag += "Camera Position: " + factory._gm.camera.cameraPosition.X + ", " + factory._gm.camera.cameraPosition.Y + "\n";
+            g.diag += "Camera Target: " + factory._gm.camera.cameraTarget.X + ", " + factory._gm.camera.cameraTarget.Y + "\n";
+            g.diag += "Camera Difference: " + factory._gm.camera.cameraDifference + "\n";
+            g.diag += "Camera Shake: " + factory._gm.camera.screenShakeAmount + "\n";
             g.diag += "Le Cursor Pos: " + cursorPos.X + ", " + cursorPos.Y + "\n";
+            g.diag += "FOV: " + factory._gm.camera.fov + "\n";
             //g.diag += "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
             //g.diag += "Prev Cursor Position: " + prevCursorPosition.X + ", " + prevCursorPosition.Y + "\n";
 
             //pos = scaledCursorPosition;
             
 
-            cursorPos += (cursorPosition - prevCursorPosition) * new Vector2(1f, (float)(2.0/Math.Sqrt(2))) * 1.5f;
+            cursorPos += (cursorPosition - prevCursorPosition) * new Vector2(1f, (float)(2.0/Math.Sqrt(2))) * factory._game.settings.mouseSensitivity;
 
             ConstrainCursorPos();
 

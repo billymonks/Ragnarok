@@ -11,7 +11,7 @@ namespace wickedcrush.menu.panel
     public class InventoryPanel : Panel
     {
         Inventory inventory;
-        List<Item> itemList;
+        List<Weapon> itemList;
         int i = 0, row = 0, col = 0, rowScroll = 0;
 
         public InventoryPanel(Inventory inventory) : base(Color.DarkSlateGray, new Point(-250, -100), new Point(190, 220))
@@ -100,19 +100,9 @@ namespace wickedcrush.menu.panel
 
         public override void UpdateControls(Controls controls)
         {
-            if (controls.ItemAPressed())
+            if (controls.WeaponPressed())
             {
-                inventory.itemA = itemList[i];
-            }
-
-            if (controls.ItemBPressed())
-            {
-                inventory.itemB = itemList[i];
-            }
-
-            if (controls.ItemCPressed())
-            {
-                inventory.itemC = itemList[i];
+                inventory.equippedWeapon = itemList[i];
             }
 
             if(controls.UpPressed())
