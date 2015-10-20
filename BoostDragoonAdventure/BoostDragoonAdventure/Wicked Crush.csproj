@@ -157,8 +157,10 @@
     <Compile Include="entity\physics_entity\agent\attack\projectile\AimedProjectile.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Fireball.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\BounceCentipede.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\WeaveCentipede.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Giant.cs" />
-    <Compile Include="entity\physics_entity\agent\enemy\Murderer.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\KnightEnemy.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\PathOfDeath.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
@@ -177,8 +179,11 @@
     <Compile Include="factory\editor\menu\NodeFactory.cs" />
     <Compile Include="factory\menu\panel\PanelFactory.cs" />
     <Compile Include="factory\sprite\SpriteFactory.cs" />
+    <Compile Include="inventory\Consumable.cs" />
+    <Compile Include="inventory\Gear.cs" />
     <Compile Include="inventory\Item.cs" />
     <Compile Include="inventory\Inventory.cs" />
+    <Compile Include="inventory\Part.cs" />
     <Compile Include="inventory\Weapon.cs" />
     <Compile Include="inventory\ItemServer.cs" />
     <Compile Include="manager\audio\SoundManager.cs" />

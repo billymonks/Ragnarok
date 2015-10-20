@@ -137,6 +137,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 stats.addTo("boost", 300);
                 timers["iFrameTime"].resetAndStart();
                 _sound.playCue("ping3", emitter);
+                action.StealParent(this);
             }
             else
             {
@@ -218,28 +219,28 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             factory._gm.cursor.SetPlayerPos(this.pos + this.center);
 
-            if (target == null)
-            {
-                targetLock = false;
-                factory._gm.cursor.targetLock = false;
+            //if (target == null)
+            //{
+                //targetLock = false;
+                //factory._gm.cursor.targetLock = false;
 
-                if (controls.LockOnPressed() && factory._gm.cursor.cursorTarget != null)
-                {
-                    target = factory._gm.cursor.cursorTarget;
-                    targetLock = true;
-                    factory._gm.cursor.targetLock = true;
-                }
+                //if (controls.LockOnPressed() && factory._gm.cursor.cursorTarget != null)
+                //{
+                    //target = factory._gm.cursor.cursorTarget;
+                    //targetLock = true;
+                    //factory._gm.cursor.targetLock = true;
+                //}
 
-            }
-            else
-            {
-                if (controls.LockOnPressed())
-                {
-                    targetLock = false;
-                    factory._gm.cursor.targetLock = false;
-                    target = null;
-                }
-            }
+            //}
+            //else
+            //{
+                //if (controls.LockOnPressed())
+                //{
+                    //targetLock = false;
+                    //factory._gm.cursor.targetLock = false;
+                    //target = null;
+                //}
+            //}
 
             if (targetLock)
             {
@@ -434,13 +435,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             if (weaponInUse == null && controls.WeaponScrollUp())
             {
-                stats.inventory.prevItem(this);
+                stats.inventory.prevWeapon(this);
                 factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
                 _sound.playCue("abraisive laser");
             }
             else if (weaponInUse == null && controls.WeaponScrollDown())
             {
-                stats.inventory.nextItem(this);
+                stats.inventory.nextWeapon(this);
                 factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
                 _sound.playCue("abraisive laser");
             }

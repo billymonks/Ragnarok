@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
-    <folder id="0" name="cursor_parts">
-        <file id="0" name="cursor_parts/cursor.png" width="40" height="40" pivot_x="0" pivot_y="1"/>
-        <file id="1" name="cursor_parts/marble.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
-        <file id="2" name="cursor_parts/selection.png" width="640" height="400" pivot_x="0" pivot_y="1"/>
+    <folder id="0" name="parts">
+        <file id="0" name="parts/cursor.png" width="40" height="40" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="parts/marble.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="parts/selection.png" width="640" height="400" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="parts/spotlight.png" width="128" height="128" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="parts/crosshair.png" width="73" height="73" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="cursor">
         <animation id="0" name="hover" length="1000" interval="100">
@@ -101,6 +103,30 @@
                 </key>
                 <key id="2" time="1000" spin="0">
                     <object folder="0" file="2" x="23.490813" y="-117.566868" angle="90.956646" scale_x="0.1857" scale_y="0.196196"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="spotlight" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="spotlight_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-1.734743" y="15.338936" angle="0" scale_x="0.028267" scale_y="0.134982"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="crosshair" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="crosshair">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.5" scale_y="0.5"/>
                 </key>
             </timeline>
         </animation>

@@ -55,7 +55,8 @@ namespace wickedcrush.entity
             this.cursorText = "";
             this.textEntity = factory.addText(cursorText, this.pos, -1, Color.White, 1f, "Rubik Mono One");
 
-            this.spriteScaleAmount = 50f;
+            this.spriteScaleAmount = 5f;
+            visible = false;
             
             SetupSpriterPlayer();
             Mouse.SetPosition(g.GraphicsDevice.Viewport.Width / 2, g.GraphicsDevice.Viewport.Height / 2);
@@ -107,20 +108,21 @@ namespace wickedcrush.entity
                 
             }
 
-            if (targetLock)
-            {
-                textEntity.text = "Target Locked";
-            }
-            else
-            {
+            //if (targetLock)
+            //{
+                //textEntity.text = "Target Locked";
+            //}
+            //else
+            //{
                 textEntity.text = "";
-            }
+            //}
 
             Vector2 cursorPos = new Vector2(
                     (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
                     ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                     );
 
+            crosshairSpriter.setScale(2f);
             crosshairSpriter.update(cursorPos.X, cursorPos.Y);
             crosshairSpriter.SetDepth(0.03f);
         }
@@ -136,9 +138,8 @@ namespace wickedcrush.entity
                     && !(c.Other.UserData is PlayerAgent)
                     && (c.Other.UserData is Agent))
                 {
-                    //bodySpriter = sPlayers["cursor"];
-                    //bodySpriter.setAnimation("selected", 0, 0);
-                    if (cursorTarget == null || !targetLock)
+                    //if (cursorTarget == null || !targetLock)
+                    if(((Agent)c.Other.UserData).targetable)
                     {
                         factory.AddSpriterToHud(softTargetSpriter);
                         cursorTarget = (Entity)c.Other.UserData;
@@ -152,7 +153,7 @@ namespace wickedcrush.entity
             if (!selectionFound && !targetLock)
             {
                 factory.RemoveSpriterFromHud(softTargetSpriter);
-                bodySpriter.setAnimation("spotlight", 0, 0);
+                //bodySpriter.setAnimation("spotlight", 0, 0);
                 cursorTarget = null;
             }
         }

@@ -83,6 +83,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
             UpdateHpBar();
+
+            targetable = true;
         }
 
         private void SetupStateMachine()

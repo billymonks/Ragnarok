@@ -289,7 +289,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 timers["particle_emission"].resetAndStart();
             }
 
-            if (timers["duration"].isDone() || hitConnected)
+            if (timers["duration"].isDone() || (hitConnected && !followParent))
                 Remove();
 
             velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
@@ -356,7 +356,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void HandleCollisions()
         {
-            if (just_for_show || this.remove)
+            if (just_for_show || this.remove || hitConnected)
                 return;
 
             bool tempWallCollision = false;
@@ -378,13 +378,6 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         && ignoreSameParent)
                         break;
 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     
                     ((Agent)c.Other.UserData).TakeSkill(this);
                     hitConnected = true;
@@ -419,6 +412,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             //if (tempWallCollision)
             wallCollision = tempWallCollision;
+        }
+
+        public void StealParent(Entity e)
+        {
+            parent.weaponInUse = null;
+            this.parent = e;
         }
 
         protected override void Dispose()

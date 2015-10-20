@@ -53,4 +53,7 @@
     <connection id="1" doorIndex="0">narrow paths</connection>
     <connection id="2" doorIndex="0">narrow paths</connection>
   </map>
+  <map name="boss room a" filename="Content/maps/full/boss_room_a.oel" theme="dust">
+    <connection id="0" doorIndex="0">boss room a</connection>
+  </map>
 </atlas>

@@ -26,7 +26,7 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 	  }
 
     
-	return float4(lerp(0, 1, input.Color.a-0.15), 0, 0, 1);
+	return float4(lerp(0, 1, input.Color.r-0.15), 0, 0, 1);
 }
 
 float4 SolidColorPixelShaderFunction(PixelShaderInput input) : COLOR0

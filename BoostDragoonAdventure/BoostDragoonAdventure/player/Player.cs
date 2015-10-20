@@ -164,7 +164,7 @@ namespace wickedcrush.player
 
         public void Update(GameTime gameTime)
         {
-            UpdatePanels(gameTime);
+            //UpdatePanels(gameTime);
 
             if (stats.get("charge") == 0)
             {

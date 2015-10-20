@@ -96,7 +96,7 @@ namespace wickedcrush
 
             graphics.SynchronizeWithVerticalRetrace = true;
             
-            IsFixedTimeStep = true;
+            IsFixedTimeStep = false;
             SetFrameRate(60);
             graphics.ApplyChanges();
 

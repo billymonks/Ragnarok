@@ -10,6 +10,8 @@ namespace wickedcrush.inventory
     {
 
         private Dictionary<Weapon, int> weapons;
+        private Dictionary<Consumable, int> consumables;
+        private Dictionary<Part, int> parts;
         public int currency;
 
         public Weapon equippedWeapon;
@@ -19,32 +21,32 @@ namespace wickedcrush.inventory
         public Inventory()
         {
             weapons = new Dictionary<Weapon, int>();
+            consumables = new Dictionary<Consumable, int>();
+            parts = new Dictionary<Part, int>();
             currency = 0;
         }
 
-        public void nextItem(Agent a)
+        public void nextWeapon(Agent a)
         {
-            
-
-            List<Weapon> itemList = weapons.Keys.ToList<Weapon>();
+            List<Weapon> weaponList = weapons.Keys.ToList<Weapon>();
 
             if (equippedWeapon == null)
             {
-                equippedWeapon = itemList[0];
+                equippedWeapon = weaponList[0];
                 return;
             }
 
             equippedWeapon.Cancel(a);
 
-            int index = itemList.IndexOf(equippedWeapon) + 1;
+            int index = weaponList.IndexOf(equippedWeapon) + 1;
 
-            if (index >= itemList.Count)
+            if (index >= weaponList.Count)
                 index = 0;
 
-            equippedWeapon = itemList[index];
+            equippedWeapon = weaponList[index];
         }
 
-        public void prevItem(Agent a)
+        public void prevWeapon(Agent a)
         {
             List<Weapon> itemList = weapons.Keys.ToList<Weapon>();
 
@@ -64,78 +66,215 @@ namespace wickedcrush.inventory
             equippedWeapon = itemList[index];
         }
 
-        public void receiveItem(Weapon i)
+
+        public void receiveItem(Item i)
         {
-            if (weapons.ContainsKey(i))
+            if (i is Weapon)
             {
-                weapons[i]++;
+                if (weapons.ContainsKey((Weapon)i))
+                {
+                    weapons[(Weapon)i]++;
+                }
+                else
+                {
+                    weapons.Add((Weapon)i, 1);
+                    changed = true;
+                }
             }
-            else
+            else if (i is Consumable)
             {
-                weapons.Add(i, 1);
-                changed = true;
+                if (consumables.ContainsKey((Consumable)i))
+                {
+                    consumables[(Consumable)i]++;
+                }
+                else
+                {
+                    consumables.Add((Consumable)i, 1);
+                    changed = true;
+                }
             }
+            else if (i is Part)
+            {
+                if (parts.ContainsKey((Part)i))
+                {
+                    parts[(Part)i]++;
+                }
+                else
+                {
+                    parts.Add((Part)i, 1);
+                    changed = true;
+                }
+            }
+            
         }
 
-        public void receiveItem(Weapon i, int count)
+        public void receiveItem(Item i, int count)
         {
-            if (weapons.ContainsKey(i))
+            if (i is Weapon)
             {
-                weapons[i] += count;
+                if (weapons.ContainsKey((Weapon)i))
+                {
+                    weapons[(Weapon)i] += count;
+                }
+                else
+                {
+                    weapons.Add((Weapon)i, count);
+                    changed = true;
+                }
             }
-            else
+            else if (i is Consumable)
             {
-                weapons.Add(i, count);
-                changed = true;
+                if (consumables.ContainsKey((Consumable)i))
+                {
+                    consumables[(Consumable)i] += count;
+                }
+                else
+                {
+                    consumables.Add((Consumable)i, count);
+                    changed = true;
+                }
             }
+            else if (i is Part)
+            {
+                if (parts.ContainsKey((Part)i))
+                {
+                    parts[(Part)i] += count;
+                }
+                else
+                {
+                    parts.Add((Part)i, count);
+                    changed = true;
+                }
+            }
+            
         }
 
-        public int getItemCount(Weapon i)
+        public int getItemCount(Item i)
         {
-            if(weapons.ContainsKey(i))
-                return weapons[i];
+            if (i is Weapon)
+            {
+                if (weapons.ContainsKey((Weapon)i))
+                    return weapons[(Weapon)i];
+            }
+            else if (i is Consumable)
+            {
+                if (consumables.ContainsKey((Consumable)i))
+                    return consumables[(Consumable)i];
+            }
+            else if (i is Part)
+            {
+                if (parts.ContainsKey((Part)i))
+                    return parts[(Part)i];
+            }
 
             return 0;
         }
 
-        public void removeItem(Weapon i)
+        public void removeItem(Item i)
         {
-            if (weapons.ContainsKey(i))
+            if (i is Weapon)
             {
-                weapons[i]--;
-                if (weapons[i] <= 0)
+                if (weapons.ContainsKey((Weapon)i))
                 {
-                    weapons.Remove(i);
+                    weapons[(Weapon)i]--;
+                    if (weapons[(Weapon)i] <= 0)
+                    {
+                        weapons.Remove((Weapon)i);
+                        changed = true;
+                    }
+                }
+            }
+            else if (i is Consumable)
+            {
+                if (consumables.ContainsKey((Consumable)i))
+                {
+                    consumables[(Consumable)i]--;
+                    if (consumables[(Consumable)i] <= 0)
+                    {
+                        consumables.Remove((Consumable)i);
+                        changed = true;
+                    }
+                }
+            }
+            else if (i is Part)
+            {
+                if (parts.ContainsKey((Part)i))
+                {
+                    parts[(Part)i]--;
+                    if (parts[(Part)i] <= 0)
+                    {
+                        parts.Remove((Part)i);
+                        changed = true;
+                    }
+                }
+            }
+        }
+
+        public void removeItem(Item i, int count)
+        {
+            if (i is Weapon)
+            {
+                weapons[(Weapon)i] -= count;
+                if (weapons[(Weapon)i] <= 0)
+                {
+                    weapons.Remove((Weapon)i);
+                    changed = true;
+                }
+            }
+            else if (i is Consumable)
+            {
+                consumables[(Consumable)i] -= count;
+                if (consumables[(Consumable)i] <= 0)
+                {
+                    consumables.Remove((Consumable)i);
+                    changed = true;
+                }
+            }
+            else if (i is Part)
+            {
+                parts[(Part)i] -= count;
+                if (parts[(Part)i] <= 0)
+                {
+                    parts.Remove((Part)i);
                     changed = true;
                 }
             }
         }
 
-        public void removeItem(Weapon i, int count)
+        public void removeAllOfItem(Item i)
         {
-            if (weapons.ContainsKey(i))
+            if (i is Weapon)
             {
-                weapons[i] -= count;
-                if (weapons[i] <= 0)
+                if (weapons.ContainsKey((Weapon)i))
                 {
-                    weapons.Remove(i);
+                    weapons.Remove((Weapon)i);
                     changed = true;
                 }
             }
-        }
-
-        public void removeAllOfItem(Weapon i)
-        {
-            if (weapons.ContainsKey(i))
+            else if (i is Consumable)
             {
-                weapons.Remove(i);
-                changed = true;
+                if (consumables.ContainsKey((Consumable)i))
+                {
+                    consumables.Remove((Consumable)i);
+                    changed = true;
+                }
             }
+            else if (i is Part)
+            {
+                if (parts.ContainsKey((Part)i))
+                {
+                    parts.Remove((Part)i);
+                    changed = true;
+                }
+            }
+            
         }
 
         public void clearInventory()
         {
             weapons.Clear();
+            consumables.Clear();
+            parts.Clear();
             changed = true;
         }
 
@@ -150,6 +289,23 @@ namespace wickedcrush.inventory
         {
             changed = false;
             return weapons.Keys.ToList<Weapon>();
+        }
+
+        public bool SellItem(Item i, int count)
+        {
+            if (getItemCount(i) > count)
+            {
+                addCurrency(i.value * count);
+                removeItem(i, count);
+
+                return true;
+                //play cha-ching.wav
+            }
+            else
+            {
+                //play buzzer.wav, shouldn't be able to ask to sell for more than you have
+                return false;
+            }
         }
     }
 }

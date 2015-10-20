@@ -247,6 +247,19 @@ namespace wickedcrush.factory.entity
             return agent;
         }
 
+        public void addCentipede(Vector2 pos)
+        {
+            WeaveCentipede c = new WeaveCentipede(_w, pos, this, new PersistedStats(), _sm);
+            c.stats.set("hp", 2000);
+            c.stats.set("maxHP", 2000);
+            c.stats.set("staggerLimit", 2500);
+            c.stats.set("stagger", 0);
+            c.stats.set("staggerDuration", 60);
+            c.stats.set("staggerDistance", 0);
+
+            _em.addEntity(c);
+        }
+
         public void addGiant(Vector2 pos)
         {
             Giant g = new Giant(_w, pos, new Vector2(48, 48), new Vector2(24, 24), true, this, new PersistedStats(), _sm);
@@ -272,12 +285,12 @@ namespace wickedcrush.factory.entity
         public void addMurderer(Vector2 pos, Vector2 size, bool solid, Stack<PathNode> patrol, int facing)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(_w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
+            KnightEnemy a = new KnightEnemy(_w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 280);
             a.stats.set("maxHP", 280);
             a.stats.set("staggerLimit", 500);
             a.stats.set("stagger", 0);
-            a.stats.set("staggerDuration", 60);
+            a.stats.set("staggerDuration", 40);
             a.stats.set("staggerDistance", 1);
             a.facing = helper.Helper.constrainDirection((Direction)facing);
             if (_gm.map != null)
@@ -290,7 +303,7 @@ namespace wickedcrush.factory.entity
         public void addWeakling(Vector2 pos, Vector2 size, Vector2 center, Stack<PathNode> patrol)
         {
             PersistedStats fuckStats = new PersistedStats();
-            Murderer a = new Murderer(_w, pos, size, center, true, this, fuckStats, _sm, patrol);
+            KnightEnemy a = new KnightEnemy(_w, pos, size, center, true, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 100);
             a.stats.set("maxHP", 100);
             a.stats.set("staggerLimit", 300);

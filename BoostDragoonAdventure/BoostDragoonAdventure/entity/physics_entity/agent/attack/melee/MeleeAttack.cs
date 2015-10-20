@@ -16,7 +16,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
         //private bool deployed = false;
 
         public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, parent, damage, force, sound, factory)
+            : base(w, pos, size, center, false, parent, damage, force, sound, factory)
         {
             Initialize(damage, force);
         }
@@ -28,6 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
             this.force = force;
             this.name = "Melee";
             facing = parent.facing;
+            //this.visible = false;
         }
 
         public override void Update(GameTime gameTime)

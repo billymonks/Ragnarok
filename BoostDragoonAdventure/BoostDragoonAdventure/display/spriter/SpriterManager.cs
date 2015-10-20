@@ -46,6 +46,7 @@ namespace wickedcrush.display.spriter
             loaders.Add("weapons", new SpriterLoader(g));
             loaders.Add("shadow", new SpriterLoader(g));
             loaders.Add("cursor", new SpriterLoader(g));
+            loaders.Add("monster_a", new SpriterLoader(g));
 
             spriters.Add("all", new Spriter("Content/sprites/all/all.scml", loaders["loader2"]));
             spriters.Add("cursor", new Spriter("Content/sprites/all/cursor.scml", loaders["cursor"]));
@@ -64,6 +65,8 @@ namespace wickedcrush.display.spriter
             spriters.Add("weapons", new Spriter("Content/sprites/weapons/weapons.scml", loaders["weapons"]));
 
             spriters.Add("shadow", new Spriter("Content/sprites/shadow/shadow.scml", loaders["shadow"]));
+
+            spriters.Add("monster_a", new Spriter("Content/sprites/enemy/monster_a.scml", loaders["monster_a"]));
 
             this.drawer = new SpriterDrawer(g.graphics);
             this.drawer.batch = g.spriteBatch;

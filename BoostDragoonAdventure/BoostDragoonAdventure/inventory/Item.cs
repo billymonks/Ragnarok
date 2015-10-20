@@ -12,40 +12,20 @@ namespace wickedcrush.inventory
 
     public enum ItemType
     {
-        Consumable = 0,
-        UsesFuel = 1,
-        UsesAmmo = 2,
-        UsesFuelCharge = 3
+        Unknown = 0,
+        Consumable = 1,
+        Part = 2
     }
 
     public class Item
     {
         public String name;
-        protected ItemAction action;
-        public ItemType type;
+        public ItemType type = ItemType.Unknown;
+        public int value = 10;
 
-        public Item(
-            String name,
-            ItemAction action
-            )
+        public Item(String name)
         {
             this.name = name;
-            this.action = action;
-
-        }
-
-        public Item(Item i)
-        {
-            this.name = i.name;
-            this.action = i.action;
-        }
-
-        public void Use(Agent a)
-        {
-            //if (a.stats.inventory.getItemCount(this) <= 0)
-                //return;
-
-            action(a, this);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         float angle = 0f;
 
         public PathOfDeath(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound, Stack<PathNode> patrol, int damage, int force)
-            : base(w, pos, size, center, damage, force, sound, factory)
+            : base(w, pos, size, center, false, damage, force, sound, factory)
         {
             Initialize();
             //this.stats = stats;

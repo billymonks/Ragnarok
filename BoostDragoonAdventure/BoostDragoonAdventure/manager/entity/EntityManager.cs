@@ -132,7 +132,7 @@ namespace wickedcrush.manager.entity
             addList.Add(e);
         }
 
-        public void addEntity(Murderer e)
+        public void addEntity(KnightEnemy e)
         {
             addList.Add(e);
         }

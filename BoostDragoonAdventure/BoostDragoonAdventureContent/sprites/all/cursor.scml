@@ -114,7 +114,7 @@
             </mainline>
             <timeline id="0" name="spotlight_001">
                 <key id="0" spin="0">
-                    <object folder="0" file="3" x="-1.734743" y="1.574188" scale_x="0.028267" scale_y="0.027863"/>
+                    <object folder="0" file="3" x="-1.734743" y="15.338936" angle="0" scale_x="0.028267" scale_y="0.134982"/>
                 </key>
             </timeline>
         </animation>
@@ -126,7 +126,7 @@
             </mainline>
             <timeline id="0" name="crosshair">
                 <key id="0" spin="0">
-                    <object folder="0" file="4" pivot_x="0.5" pivot_y="0.5" scale_x="0.5" scale_y="0.5"/>
+                    <object folder="0" file="4" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.5" scale_y="0.5"/>
                 </key>
             </timeline>
         </animation>

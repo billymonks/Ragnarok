@@ -82,6 +82,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
             this.aimDirection = (int)facing;
 
             timers.Add("shot", new Timer(shotTimer * rank));
+
+            targetable = true;
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)

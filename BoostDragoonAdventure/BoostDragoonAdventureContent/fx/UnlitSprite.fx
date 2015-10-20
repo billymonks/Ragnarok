@@ -24,7 +24,7 @@ float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 	  //}
 
     
-	return color;
+	return float4(color.r, color.g, color.b, color.a * input.Color.a);
 }
 
 technique Technique1

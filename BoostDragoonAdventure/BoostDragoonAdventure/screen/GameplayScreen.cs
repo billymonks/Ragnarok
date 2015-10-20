@@ -314,12 +314,18 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
-            game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
-            game.spriteBatch.End();
+            //game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
+            //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
+            //game.spriteBatch.End();
 
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
             game.playerManager.DrawHud();
+
+            foreach (SpriterPlayer s in spriters)
+            {
+                game.spriterManager.DrawPlayer(s);
+            }
+
             game.spriteBatch.End();
 
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
@@ -329,10 +335,7 @@ namespace wickedcrush.screen
                 t.HudDraw();
             }
 
-            foreach (SpriterPlayer s in spriters)
-            {
-                game.spriterManager.DrawPlayer(s);
-            }
+            
 
             game.spriteBatch.End();
         }

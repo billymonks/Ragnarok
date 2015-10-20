@@ -63,8 +63,8 @@ float4 UnlitPixelShaderFunction(PixelShaderInput input) : COLOR0
 		clip(-1);
 	  }
 
-	//return solidColor;
-	return float4(color.r + solidColor.r, color.g + solidColor.g, color.b + solidColor.g, color.a);
+	return color;
+	//return float4(color.r + solidColor.r, color.g + solidColor.g, color.b + solidColor.g, color.a);
 }
 
 float4 SolidColorPixelShaderFunction(PixelShaderInput input) : COLOR0

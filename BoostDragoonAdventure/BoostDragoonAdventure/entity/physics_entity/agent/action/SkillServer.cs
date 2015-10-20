@@ -245,7 +245,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     true,
                     null,
                     "weapons",
-                    0,
+                    1,
                     "sword",
                     false));
 
@@ -265,7 +265,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     true,
                     null,
                     "weapons",
-                    0,
+                    1,
                     "sword",
                     false));
 
@@ -285,7 +285,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     true,
                     null,
                     "weapons",
-                    0,
+                    1,
                     "sword",
                     false));
 
@@ -305,7 +305,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                     true,
                     null,
                     "weapons",
-                    0,
+                    1,
                     "sword",
                     false));
 

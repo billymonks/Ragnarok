@@ -1442,6 +1442,24 @@
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="sprites\enemy\monster_a_parts\dontlook.png">
+      <Name>dontlook</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\enemy\monster_a_parts\sosharp.png">
+      <Name>sosharp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\enemy\monster_a_parts\trueterror.png">
+      <Name>trueterror</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="sprites\hud\bar-parts\fuel.png">
       <Name>fuel</Name>
       <Importer>TextureImporter</Importer>
@@ -1714,6 +1732,30 @@
     </Content>
     <Content Include="sprites\weapons\weapon_parts\sword.png">
       <Name>sword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\weapons\weapon_parts\sword_whoosh.png">
+      <Name>sword_whoosh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\weapons\weapon_parts\sword_whoosh2.png">
+      <Name>sword_whoosh2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\weapons\weapon_parts\sword_whoosh3.png">
+      <Name>sword_whoosh3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\weapons\weapon_parts\sword_whoosh4.png">
+      <Name>sword_whoosh4</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -2174,6 +2216,22 @@
   <ItemGroup>
     <Content Include="sprites\all\cursor.scml">
       <Name>cursor</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="sprites\enemy\monster_a.scml">
+      <Name>monster_a</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="maps\full\boss_room_a.oel">
+      <Name>boss_room_a</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="maps\full\twisty corridor.oel">
+      <Name>twisty corridor</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -32,7 +32,11 @@ namespace wickedcrush.entity.physics_entity.agent
     public enum StateName
     {
         Standing,
-        Moving
+        Moving,
+        Tell,
+        Attacking,
+        Staggered,
+        CounterAttack
     }
 
     public struct SpriterOffsetStruct
@@ -93,9 +97,14 @@ namespace wickedcrush.entity.physics_entity.agent
 
         const float poopNear = -0.236f, poopFar = 0.06199996f;
 
-        public float spriteScaleAmount = 100f;
+        public float spriteScaleAmount = 70f;
 
         protected KeyValuePair<Color, Timer> flashColor = new KeyValuePair<Color, Timer>(Color.Red, new Timer(240));
+
+
+        public bool targetable = false;
+
+        public int staggerHeight = 100;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -354,6 +363,8 @@ namespace wickedcrush.entity.physics_entity.agent
             bodies["body"].LinearVelocity = v;
         }
 
+
+
         protected void FollowPath(bool strafe)
         {
             if (path == null || path.Count == 0)
@@ -544,15 +555,17 @@ namespace wickedcrush.entity.physics_entity.agent
             if (visible && bodies.ContainsKey("body"))
             {
 
+                float shift = 1.5f;
+
                 Vector2 spritePos = new Vector2(
                     (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                    ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
+                    ((bodies["body"].Position.Y + (center.Y * shift) - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                     );
 
 
-                float temp = ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
+                float temp = ((bodies["body"].Position.Y + (center.Y * shift) - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100);
                 
-                float depth = MathHelper.Lerp(0.97f + poopNear, 0.37f + poopFar, temp / -1080f); //so bad
+                float depth = MathHelper.Lerp(0.97f + poopNear, 0.37f + poopFar, temp / -1080f) - 0.00f; //so bad
 
                 /*if (factory._gm._playerManager.getPlayerList()[0].c.KeyPressed(Microsoft.Xna.Framework.Input.Keys.U)) {
                     poopNear += 0.001f;
@@ -598,12 +611,12 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 if (null != shadowSpriter && drawShadow)
                 {
-                    shadowSpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
+                    shadowSpriter.setScale((((float)size.X) / (spriteScaleAmount / 10f)) * (2f / factory._gm.camera.zoom));
                     shadowSpriter.SetDepth(depth + 0.001f);
 
                     Vector2 shadowPos = new Vector2(
                         (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
-                        ((bodies["body"].Position.Y + center.Y - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
+                        ((bodies["body"].Position.Y + (center.Y) - factory._gm.camera.cameraPosition.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                     );
 
                     shadowSpriter.update(shadowPos.X, shadowPos.Y);
@@ -910,6 +923,52 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             factory._gm.camera.ShakeScreen(5f);
+        }
+
+        public virtual void TakeKnockback(Vector2 pos, int dmg, float force)
+        {
+            if (this.immortal || remove || hitThisTick)
+                return;
+
+            int damage = dmg;
+            float staggerMultiply = 1f;
+
+            hitThisTick = true;
+
+            if (staggered)
+                damage *= 2;
+
+            stats.addTo("hp", -damage);
+
+            if (staggered)
+                staggerMultiply = 10f;
+            else
+                stats.addTo("stagger", (int)force);
+
+            Vector2 unitVector = vectorToPos(pos);
+
+            Vector2 v = new Vector2(
+                unitVector.X * force * 1000f * (float)stats.get("staggerDistance"),
+                unitVector.Y * force * 1000f * (float)stats.get("staggerDistance"));
+
+            if (bodies.ContainsKey("body"))
+                bodies["body"].LinearVelocity = v;
+
+            _sound.playCue("hurt", emitter);
+
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+            //particleEmitter.EmitParticles(ps, this.factory, 3);
+
+            Vector2 bloodspurt = new Vector2((float)(Math.Cos(MathHelper.ToRadians((float)this.facing)) + 0f * Math.Sin(MathHelper.ToRadians((float)this.facing))),
+                (float)(Math.Sin(MathHelper.ToRadians((float)this.facing)) - 0f * Math.Cos(MathHelper.ToRadians((float)this.facing))));
+
+            ps = new ParticleStruct(new Vector3(pos.X, this.height + 10, pos.Y), Vector3.Zero, new Vector3(bloodspurt.X * 3f, 2f, bloodspurt.Y * 3f), new Vector3(1.5f, 4f, -1.5f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
+            particleEmitter.EmitParticles(ps, this.factory, 5);
+
+            factory._gm.camera.ShakeScreen(5f);
+
+            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+            
         }
 
         public virtual void TakeHit(Attack attack, bool knockback)

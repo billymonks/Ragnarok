@@ -10,9 +10,8 @@ namespace wickedcrush.inventory
 {
     public delegate void WeaponAction(Agent a, Weapon i);
 
-    public class Weapon
+    public class Weapon : Item
     {
-        public String name;
         protected WeaponAction pressAction, holdAction, releaseAction;
 
         public List<KeyValuePair<string, int>> pressRequirements;
@@ -28,9 +27,8 @@ namespace wickedcrush.inventory
             WeaponAction releaseAction,
             List<KeyValuePair<string, int>> pressRequirements,
             List<KeyValuePair<string, int>> holdRequirements,
-            List<KeyValuePair<string, int>> releaseRequirements)
+            List<KeyValuePair<string, int>> releaseRequirements) : base(name)
         {
-            this.name = name;
             this.pressAction = pressAction;
             this.holdAction = holdAction;
             this.releaseAction = releaseAction;
@@ -40,9 +38,8 @@ namespace wickedcrush.inventory
             this.releaseRequirements = releaseRequirements;
         }
 
-        public Weapon(Weapon i)
+        public Weapon(Weapon i) : base(i.name)
         {
-            this.name = i.name;
             this.pressAction = i.pressAction;
             this.holdAction = i.holdAction;
             this.releaseAction = i.releaseAction;

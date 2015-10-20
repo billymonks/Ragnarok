@@ -59,6 +59,7 @@ namespace wickedcrush.entity
 
         public Weapon weaponInUse = null;
 
+        protected TimeSpan elapsed;
         
         #endregion
 
@@ -87,6 +88,7 @@ namespace wickedcrush.entity
         #region Update
         public virtual void Update(GameTime gameTime)
         {
+            elapsed = gameTime.ElapsedGameTime;
             emitter.Position = new Vector3(pos.X+center.X, pos.Y+center.Y, 0f);
 
             foreach (KeyValuePair<String, Entity> e in subEntityList)
@@ -176,6 +178,11 @@ namespace wickedcrush.entity
             return new Vector2(
                 (this.pos.X + this.center.X) - (e.pos.X + e.center.X),
                 (this.pos.Y + this.center.Y) - (e.pos.Y + e.center.Y));
+        }
+
+        protected float angleToPos(Vector2 pos)
+        {
+            return directionVectorToAngle(vectorToPos(pos));
         }
 
         protected Vector2 vectorToPos(Vector2 pos)

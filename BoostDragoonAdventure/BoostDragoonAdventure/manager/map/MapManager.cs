@@ -328,6 +328,14 @@ namespace wickedcrush.manager.map
                         
                 }
 
+                foreach (XElement e in objects.Elements("BOSS"))
+                {
+                    //if (int.Parse(e.Attribute("Type").Value) == 0)
+                    //{
+                        gm.factory.addCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                    //}
+                }
+
                 
 
                 foreach (KeyValuePair<LayerType, Layer> pair in map.layerList)

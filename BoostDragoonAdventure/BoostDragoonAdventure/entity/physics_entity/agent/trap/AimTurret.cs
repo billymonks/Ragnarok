@@ -33,6 +33,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             
 
             activeRange = 400f;
+
+            targetable = true;
         }
 
         public override void Update(GameTime gameTime)

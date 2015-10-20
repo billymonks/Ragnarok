@@ -34,7 +34,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             reactionTime.resetAndStart();
         }
     }
-    public class Murderer : Agent
+    public class KnightEnemy : Agent
     {
         private Color testColor = Color.Green;
 
@@ -59,7 +59,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Return
         }
 
-        public Murderer(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, Stack<PathNode> patrol)
+        public KnightEnemy(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, Stack<PathNode> patrol)
             : base(w, pos, size, center, solid, factory, stats, sound)
         {
             
@@ -97,6 +97,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
 
+            this.staggerHeight = 20;
+
             double weaponChoice = random.NextDouble();
             if (weaponChoice < 0.6)
             {
@@ -110,12 +112,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             }
             else
             {
-                item = InventoryServer.getWeapon("Spellbook: Fireball");
+                item = InventoryServer.getWeapon("Rifle");
                 attackRange = 170;
             }
             stats.inventory.receiveItem(item);
 
             subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f));
+
+            targetable = true;
         }
 
         public override void Update(GameTime gameTime)
@@ -172,7 +176,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((Murderer)c).timers["falling"].isActive() || ((Murderer)c).timers["falling"].isDone(),
+                    c => ((KnightEnemy)c).timers["falling"].isActive() || ((KnightEnemy)c).timers["falling"].isDone(),
                     c =>
                     {
                         //((Murderer)c).RemoveOverheadWeapon("Longsword");
@@ -180,7 +184,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("staggered",
                 new State("staggered",
-                    c => ((Murderer)c).staggered,
+                    c => ((KnightEnemy)c).staggered,
                     c =>
                     {
                         if (!stateTree.previousControlState.name.Equals("staggered"))
@@ -193,12 +197,34 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         
                         testColor = Color.White;
                         ResetAllTimers();
+                        float amt = (float)(((float)stats.get("stagger")) / ((float)stats.get("staggerDuration")));
+
+                        //3 bounce
+                        /*
+                        if(amt > 0.5f)
+                        {
+                            this.height = (int)MathHelper.Lerp(staggerHeight, 0, (float)Math.Sin(((amt - 0.5f) * 2f) * Math.PI));
+                        } else if(amt > 0.25f)
+                        {
+                            this.height = (int)MathHelper.Lerp(staggerHeight / 4, 0, (float)Math.Sin(((amt - 0.25f) * 4f) * Math.PI));
+                        } else {
+                            this.height = (int)MathHelper.Lerp(staggerHeight / 8, 0, (float)Math.Sin(((amt) * 8f) * Math.PI));
+                        }*/
+
+                        //2 bounce
+                        if(amt > 0.333f)
+                        {
+                            this.height = (int)MathHelper.Lerp(0, staggerHeight, (float)Math.Sin(((amt - 0.333f) * (3f / 2f)) * (Math.PI / 1.0)));
+                        } else {
+                            this.height = (int)MathHelper.Lerp(0, staggerHeight / 3, (float)Math.Sin(((amt) * 3f) * (Math.PI / 1.0)));
+                        }
+                        
 
                         _sound.setGlobalVariable("InCombat", 1f);
                     }));
             ctrl.Add("post_attack",
                 new State("post_attack",
-                    c => ((Murderer)c).timers["post_attack"].isActive() || ((Murderer)c).timers["post_attack"].isDone(),
+                    c => ((KnightEnemy)c).timers["post_attack"].isActive() || ((KnightEnemy)c).timers["post_attack"].isDone(),
                     c =>
                     {
                         /*if (!timers["navigation"].isActive())
@@ -230,7 +256,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("attack_tell",
                 new State("attack_tell",
-                    c => ((Murderer)c).timers["attack_tell"].isActive() || ((Murderer)c).timers["attack_tell"].isDone(),
+                    c => ((KnightEnemy)c).timers["attack_tell"].isActive() || ((KnightEnemy)c).timers["attack_tell"].isDone(),
                     c =>
                     {
                         if (!stateTree.previousControlState.name.Equals("attack_tell"))
@@ -274,7 +300,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("search",
                 new State("search",
-                    c => ((Murderer)c).enemyState == EnemyState.Search,
+                    c => ((KnightEnemy)c).enemyState == EnemyState.Search,
                     c =>
                     {
                         if (timers["navigation"].isDone())
@@ -343,7 +369,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             ));
             ctrl.Add("return",
                 new State("return",
-                    c => ((Murderer)c).enemyState == EnemyState.Return,
+                    c => ((KnightEnemy)c).enemyState == EnemyState.Return,
                     c =>
                     {
                         if (timers["navigation"].isDone())
@@ -394,7 +420,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             ));
             ctrl.Add("chase",
                 new State("chase",
-                    c => ((Murderer)c).enemyState == EnemyState.Alert,
+                    c => ((KnightEnemy)c).enemyState == EnemyState.Alert,
                     c =>
                     {
                         if (timers["navigation"].isDone())
@@ -453,7 +479,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }));
             ctrl.Add("patrol",
                 new State("patrol",
-                    c => ((Murderer)c).enemyState == EnemyState.Patrol,
+                    c => ((KnightEnemy)c).enemyState == EnemyState.Patrol,
                     c =>
                     {
                         if (path == null || path.Count == 0)
@@ -572,9 +598,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             foreach (Entity e in proximity)
             {
-                if (e is Murderer)
+                if (e is KnightEnemy)
                 {
-                    ((Murderer)e).reactions.Add(new PositionReaction(target.pos + target.center, 1000));
+                    ((KnightEnemy)e).reactions.Add(new PositionReaction(target.pos + target.center, 1000));
                 }
             }
         }
