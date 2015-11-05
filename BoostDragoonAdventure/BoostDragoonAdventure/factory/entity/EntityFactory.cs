@@ -260,6 +260,19 @@ namespace wickedcrush.factory.entity
             _em.addEntity(c);
         }
 
+        public void addChimera(Vector2 pos)
+        {
+            Chimera c = new Chimera(_w, pos, this, new PersistedStats(), _sm);
+            c.stats.set("hp", 2000);
+            c.stats.set("maxHP", 2000);
+            c.stats.set("staggerLimit", 1500);
+            c.stats.set("stagger", 0);
+            c.stats.set("staggerDuration", 60);
+            c.stats.set("staggerDistance", 0);
+
+            _em.addEntity(c);
+        }
+
         public void addGiant(Vector2 pos)
         {
             Giant g = new Giant(_w, pos, new Vector2(48, 48), new Vector2(24, 24), true, this, new PersistedStats(), _sm);
@@ -393,6 +406,16 @@ namespace wickedcrush.factory.entity
             b.stats.set("staggerDistance", 0);
 
             _em.addEntity(b);
+        }
+
+        public void addTrackingProjectile(Vector2 pos, Vector2 size, int damage, int force, Entity parent, Entity target, int aimDirection)
+        {
+            TrackingProjectile p = new TrackingProjectile(_w, pos, size, damage, force, aimDirection, parent, target, _sm, this);
+
+            p.stats.set("staggerDuration", 1);
+            p.stats.set("staggerDistance", 0);
+
+            _em.addEntity(p);
         }
 
         public void addFireball(Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusters)

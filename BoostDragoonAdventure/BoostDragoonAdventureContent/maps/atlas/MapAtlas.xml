@@ -56,4 +56,10 @@
   <map name="boss room a" filename="Content/maps/full/boss_room_a.oel" theme="dust">
     <connection id="0" doorIndex="0">boss room a</connection>
   </map>
+  <map name="boss room b" filename="Content/maps/full/boss_room_b.oel" theme="dust">
+    <connection id="0" doorIndex="0">boss room b</connection>
+  </map>
+  <map name="boss room c" filename="Content/maps/full/boss_room_c.oel" theme="dust">
+    <connection id="0" doorIndex="0">boss room c</connection>
+  </map>
 </atlas>

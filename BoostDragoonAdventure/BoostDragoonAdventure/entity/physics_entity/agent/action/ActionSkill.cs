@@ -277,8 +277,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             if (null != parent)
             {
-                parent.AddLinearVelocity(new Vector2((float)(skillStruct.parentVelocity.X * Math.Cos(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))) + skillStruct.parentVelocity.Y * Math.Sin(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange)))),
-                        (float)(skillStruct.parentVelocity.X * Math.Sin(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))) - skillStruct.parentVelocity.Y * Math.Cos(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f));
+                parent.AddLinearVelocity(new Vector2((float)(skillStruct.parentVelocity.X * Math.Cos(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))) + skillStruct.parentVelocity.Y * Math.Sin(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange)))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f),
+                        (float)(skillStruct.parentVelocity.X * Math.Sin(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f) - skillStruct.parentVelocity.Y * Math.Cos(MathHelper.ToRadians((float)(parent.facing + skillStruct.directionChange))))) * (((float)gameTime.ElapsedGameTime.Milliseconds) / 17f));
             }
 
             if (timers["particle_emission"].isDone() && skillStruct.particle.HasValue)

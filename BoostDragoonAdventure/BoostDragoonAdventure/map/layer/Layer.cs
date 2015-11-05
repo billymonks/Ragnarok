@@ -19,14 +19,6 @@ namespace wickedcrush.map.layer
 
         public int width, height;
 
-        public Layer(int width, int height) // Empty Layer
-        {
-            this.width = width;
-            this.height = height;
-            data = new bool[width, height]; //x, y
-            bodyList = new Body[getWidth(), getHeight()];
-        }
-
         public Layer(bool[,] data, World w, int width, int height, bool solid, LayerType layerType)
         {
             this.data = data;

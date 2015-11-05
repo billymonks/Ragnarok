@@ -120,18 +120,18 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 faceTarget();
 
                                 this.aimDirection += 45;
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                 SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
                                 this.aimDirection -= 90;
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                 SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                             }
                             else
                             {
                                 faceTarget();
 
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                 SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                             }
                         }
@@ -231,6 +231,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             velocity = initialVelocity;
                             movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
                             MoveForward(false, velocity);
+                            //Strafe(velocity);
                             state = StateName.Attacking;
                             timers["done_tell"].reset();
                         }
@@ -257,6 +258,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         MoveForward(false, velocity);
+                        //faceTarget();
+                        //movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+                        //Strafe(velocity);
                         velocity -= (((float)this.elapsed.TotalMilliseconds) / 10f);
                     }));
 

@@ -330,10 +330,14 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("BOSS"))
                 {
-                    //if (int.Parse(e.Attribute("Type").Value) == 0)
-                    //{
+                    if (int.Parse(e.Attribute("Type").Value) == 0)
+                    {
                         gm.factory.addCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
-                    //}
+                    }
+                    else
+                    {
+                        gm.factory.addChimera(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                    }
                 }
 
                 
@@ -351,11 +355,11 @@ namespace wickedcrush.manager.map
                     
                 }
 
-                makeCircuits(map);
+                //makeCircuits(map);
 
                 gm.factory.processWorldChanges();
 
-                connectTriggers(map);
+                //connectTriggers(map);
             }
         }
 
@@ -546,7 +550,7 @@ namespace wickedcrush.manager.map
 
 
         //perverse circuit logic starts here. beware. move to somewhere smarter someday.
-        public void connectTriggers(Map map)
+        /*public void connectTriggers(Map map)
         {
             foreach (Circuit c in map.circuitList)
                 c.connectTriggers();
@@ -610,6 +614,6 @@ namespace wickedcrush.manager.map
             }
 
             return false;
-        }
+        }*/
     }
 }

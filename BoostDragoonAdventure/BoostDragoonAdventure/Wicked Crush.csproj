@@ -154,10 +154,13 @@
     <Compile Include="entity\holder\BlowReleaser.cs" />
     <Compile Include="entity\physics_entity\agent\action\ActionSkill.cs" />
     <Compile Include="entity\physics_entity\agent\action\SkillServer.cs" />
+    <Compile Include="entity\physics_entity\agent\attack\cluster\FireCluster.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\AimedProjectile.cs" />
+    <Compile Include="entity\physics_entity\agent\attack\projectile\TrackingProjectile.cs" />
     <Compile Include="entity\physics_entity\agent\attack\projectile\Fireball.cs" />
     <Compile Include="entity\physics_entity\agent\chest\Chest.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\BounceCentipede.cs" />
+    <Compile Include="entity\physics_entity\agent\enemy\Chimera.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\WeaveCentipede.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\Giant.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\KnightEnemy.cs" />
@@ -314,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="entity\effects\" />
+    <Folder Include="entity\physics_entity\agent\enemy\multipart\" />
     <Folder Include="factory\editor\entity\" />
     <Folder Include="factory\menu\editor\" />
   </ItemGroup>

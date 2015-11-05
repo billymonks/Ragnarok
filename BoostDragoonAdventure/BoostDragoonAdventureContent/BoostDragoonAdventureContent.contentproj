@@ -2229,10 +2229,25 @@
     <Content Include="maps\full\boss_room_a.oel">
       <Name>boss_room_a</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="maps\full\twisty corridor.oel">
       <Name>twisty corridor</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="maps\full\boss_room_b.oel">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>boss_room_b</Name>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="maps\full\boss_room_c.oel">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>boss_room_c</Name>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

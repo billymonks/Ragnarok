@@ -720,6 +720,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         }
 
                     }
+                    else if (enemyState == EnemyState.Search || enemyState == EnemyState.Return)
+                    {
+                        amount *= 2;
+
+                        if (action.parent != null)
+                        {
+                            reactions.Add(new PositionReaction(action.parent.pos + action.parent.center, hitReactionLength));
+                        }
+                    }
                     factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
                 }
 
@@ -759,6 +768,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     staggerMultiplier *= 8f;
                     stats.addTo("stagger", action.force.Value * 2);
                 }
+                else if (enemyState == EnemyState.Search || enemyState == EnemyState.Return)
+                {
+                    staggerMultiplier *= 4f;
+                    stats.addTo("stagger", action.force.Value);
+                } 
                 else
                 {
                     stats.addTo("stagger", action.force.Value);
@@ -781,6 +795,19 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             action.PlayTakeSound();
 
             factory._gm.camera.ShakeScreen(5f);
+
+            //factory._gm.activateFreezeFrame();
         }
+
+        protected override void Die()
+        {
+            if (!timers["falling"].isActive() || timers["falling"].isDone())
+            {
+                factory._gm.activateFreezeFrame();
+            }
+
+            base.Die();
+        }
+
     }
 }

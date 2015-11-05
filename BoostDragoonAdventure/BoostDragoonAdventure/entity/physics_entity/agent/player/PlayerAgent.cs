@@ -27,7 +27,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         #region Variables
         protected Controls controls;
 
-        private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 120f;
+        private float walkSpeed = 40f, runSpeed = 75f, boostSpeed = 120f, fillSpeed = 3f;
         private bool inCharge = false, lockChargeDirection = false, canAttackWhileOverheating = true;
         private int chargeLevel = 0;
 
@@ -110,7 +110,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void applyStats()
         {
-            boostSpeed = 100f * (1 + (float)stats.get("boostSpeedMod") * (1f));
+            boostSpeed = 100f + ((float)stats.get("boostSpeedMod") * (5f));
+            fillSpeed = 3f + ((float)stats.get("fillSpeed"));
         }
 
         public override void TakeHit(Attack attack)
@@ -126,6 +127,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 base.TakeHit(attack);
                 _sound.playCue("oof", emitter);
+                factory._gm.activateFreezeFrame();
             }
         }
 
@@ -141,10 +143,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
             }
             else
             {
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y + 3f), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
                 particleEmitter.EmitParticles(ps, this.factory, 3);
 
                 FlashColor(Color.Red, 240);
+
+                factory._gm.activateFreezeFrame();
 
                 base.TakeSkill(action);
             }
@@ -177,7 +181,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 return;
 
             if (stats.compare("boost", "maxBoost") == -1 && weaponInUse == null && !controls.BoostHeld() && !controls.ReverseBoostHeld())
-                stats.addTo("boost", stats.get("fillSpeed"));
+                stats.addTo("boost", (int)fillSpeed);
 
             if (stats.compare("boost", "maxBoost") == 1)
                 stats.set("boost", stats.get("maxBoost"));
@@ -260,7 +264,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("falling",
                 new State("falling",
-                    c => ((PlayerAgent)c).timers["falling"].isActive() || ((PlayerAgent)c).timers["falling"].isDone(),
+                    c => timers["falling"].isActive() || timers["falling"].isDone(),
                     c =>
                     {
                         this.height-=3;
@@ -268,10 +272,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("boosting",
                 new State("boosting",
-                    c => ((PlayerAgent)c).timers["boostRecharge"].isDone() 
-                        && ((PlayerAgent)c).controls.BoostHeld()
-                        && !((PlayerAgent)c).overheating
-                        && !((PlayerAgent)c).busy,
+                    c => timers["boostRecharge"].isDone() 
+                        && controls.BoostHeld()
+                        && !overheating
+                        && !busy,
                     c =>
                     {
                         ParticleStruct ps;
@@ -327,10 +331,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             ctrl.Add("reverse_boosting",
                 new State("reverse_boosting",
-                    c => ((PlayerAgent)c).timers["boostRecharge"].isDone() 
-                    && ((PlayerAgent)c).controls.ReverseBoostHeld()
-                    && !((PlayerAgent)c).overheating
-                    && !((PlayerAgent)c).busy,
+                    c => timers["boostRecharge"].isDone() 
+                    && controls.ReverseBoostHeld()
+                    && !overheating
+                    && !busy,
                     c =>
                     {
                         ParticleStruct ps;
@@ -627,7 +631,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             else
                 speed = runSpeed;
 
-            v += unitVector * magnitude * speed * startingFriction;
+            v += (unitVector * magnitude * speed * startingFriction);
 
             bodies["body"].LinearVelocity += v;
 

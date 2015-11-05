@@ -100,7 +100,7 @@ namespace wickedcrush.map
 
         public void DebugDraw(Texture2D whiteTexture, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Camera camera)
         {
-            for (int i = (int)(camera.cameraPosition.X / 20f) - 6; i < (int)(camera.cameraPosition.X / 20f) + 40; i++)
+            /*for (int i = (int)(camera.cameraPosition.X / 20f) - 6; i < (int)(camera.cameraPosition.X / 20f) + 40; i++)
             {
                 for (int j = (int)(camera.cameraPosition.Y / 20f); j < (int)(camera.cameraPosition.Y / 20f) + 25; j++)
                 {
@@ -143,7 +143,7 @@ namespace wickedcrush.map
                         new Vector2(width / getLayer(LayerType.WIRING).getWidth(), height / getLayer(LayerType.WIRING).getHeight()), 
                         SpriteEffects.None, 
                         0f);
-            }
+            }*/
         }
     }
 }

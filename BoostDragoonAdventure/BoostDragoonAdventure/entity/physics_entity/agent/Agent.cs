@@ -36,7 +36,9 @@ namespace wickedcrush.entity.physics_entity.agent
         Tell,
         Attacking,
         Staggered,
-        CounterAttack
+        CounterAttack,
+        Jumping,
+        Landing
     }
 
     public struct SpriterOffsetStruct
@@ -105,6 +107,12 @@ namespace wickedcrush.entity.physics_entity.agent
         public bool targetable = false;
 
         public int staggerHeight = 100;
+        public int flightHeight = 100;
+
+        public bool inJump = false;
+        public Vector2 jumpDestination = Vector2.Zero;
+        public Vector2 jumpStartPoint = Vector2.Zero;
+        //public int jumpHeight = 0;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -249,7 +257,8 @@ namespace wickedcrush.entity.physics_entity.agent
             
             base.Update(gameTime);
 
-            speed = (speed + targetSpeed) / 2f;
+            //speed = ((speed + targetSpeed) * 29f) / 30f;
+            speed = targetSpeed;
 
             hitThisTick = false;
 
@@ -263,9 +272,31 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 stateTree.Update(gameTime, this);
             }
-            
-            HandleCollisions();
 
+            //if (!inJump)
+            //{
+                HandleCollisions();
+            //}
+            if(inJump)
+            {
+                if (timers["jump"].isDone())
+                {
+                    EndJump();
+                } 
+                else
+                {
+                    this.SetPosNoCenter(new Vector2(
+                        MathHelper.Lerp(jumpStartPoint.X, jumpDestination.X, timers["jump"].getPercent()),
+                        MathHelper.Lerp(jumpStartPoint.Y, jumpDestination.Y, timers["jump"].getPercent())));
+
+                    this.height = (int)(Math.Sin(timers["jump"].getPercent() * Math.PI) * flightHeight);
+
+                    if (height > 20)
+                        noCollision = true;
+                }
+
+
+            }
 
             if (stats.get("hp") <= 0 && immortal == false)
             {
@@ -353,12 +384,25 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
-            v += new Vector2((float)(amount * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + 0 * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
-                        (float)(amount * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - 0 * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
+            v += new Vector2((float)(amount * Math.Cos(MathHelper.ToRadians((float)movementDirection)) * (elapsed.TotalMilliseconds / 17.0)),
+                        (float)(amount * Math.Sin(MathHelper.ToRadians((float)movementDirection)) * (elapsed.TotalMilliseconds / 17.0)));
+
+            //v += new Vector2((float)(amount * Math.Cos(MathHelper.ToRadians((float)movementDirection)) ),
+              //          (float)(amount * Math.Sin(MathHelper.ToRadians((float)movementDirection)) ));
 
             if (!strafe)
                 facing = (Direction)
                     Helper.radiansToDirection(MathHelper.ToRadians((float)movementDirection));
+
+            bodies["body"].LinearVelocity = v;
+        }
+
+        protected void Strafe(float amount)
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            v += new Vector2((float)(amount * Math.Sin(MathHelper.ToRadians((float)movementDirection)) * (elapsed.TotalMilliseconds / 17.0)),
+                        (float)(-amount * Math.Cos(MathHelper.ToRadians((float)movementDirection)) * (elapsed.TotalMilliseconds / 17.0)));
 
             bodies["body"].LinearVelocity = v;
         }
@@ -414,11 +458,7 @@ namespace wickedcrush.entity.physics_entity.agent
             createPathToTarget();
         }
 
-        public int distanceToEntity(Entity e)
-        {
-            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (e.pos.X + e.center.X), 2)
-                + Math.Pow((pos.Y + center.Y) - (e.pos.Y + e.center.Y), 2));
-        }
+        
 
         public int distanceToTarget()
         {
@@ -436,11 +476,7 @@ namespace wickedcrush.entity.physics_entity.agent
                     Math.Abs(this.pos.Y + this.size.Y - target.pos.Y)));*/
         }
 
-        public int distanceToPosition(Vector2 searchPos)
-        {
-            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (searchPos.X), 2)
-                + Math.Pow((pos.Y + center.Y) - (searchPos.Y), 2));
-        }
+        
 
         public int distanceToSearchPos()
         {
@@ -759,6 +795,7 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 facing = Helper.radiansToDirection(angleToEntity(target));
                 aimDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+                movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
             }
         }
 
@@ -899,6 +936,8 @@ namespace wickedcrush.entity.physics_entity.agent
             action.PlayTakeSound();
 
             factory._gm.camera.ShakeScreen(5f);
+
+            //factory._gm.activateFreezeFrame();
         }
 
         public virtual void TakeHit(Attack attack)
@@ -923,6 +962,8 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             factory._gm.camera.ShakeScreen(5f);
+
+            //factory._gm.activateFreezeFrame();
         }
 
         public virtual void TakeKnockback(Vector2 pos, int dmg, float force)
@@ -966,6 +1007,7 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 5);
 
             factory._gm.camera.ShakeScreen(5f);
+            factory._gm.activateFreezeFrame();
 
             factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
             
@@ -1020,6 +1062,8 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             factory._gm.camera.ShakeScreen(5f);
+
+            //factory._gm.activateFreezeFrame();
         }
 
         
@@ -1069,6 +1113,20 @@ namespace wickedcrush.entity.physics_entity.agent
                 aimDirection);
         }
 
+        public void fireTrackingProjectile(int aimDirection, Entity target)
+        {
+            factory.addTrackingProjectile(
+                new Vector2(
+                        (float)(pos.X + center.X), //x component of pos
+                        (float)(pos.Y + center.Y )), //y component of pos
+                        new Vector2(30f, 30f),
+                        10,
+                        100,
+                        this,
+                        target,
+                        aimDirection);
+        }
+
         public void fireFireball(int clusters, float ballSize, int damage, int force)
         {
             factory.addFireball(
@@ -1106,6 +1164,41 @@ namespace wickedcrush.entity.physics_entity.agent
 
 
             //hudSpriters["hp_bar"].setFrame(1);
+        }
+
+        protected void StartJump(int jumpHeight, int ms, Vector2 destination)
+        {
+            
+            this.flightHeight = jumpHeight;
+            this.jumpStartPoint = this.pos;
+            this.jumpDestination = destination - this.center;
+            //this.bodies["body"].IsSensor = true;
+
+            addTimer("jump", ms);
+            timers["jump"].resetAndStart();
+            airborne = true;
+            inJump = true;
+        }
+
+        protected void EndJump()
+        {
+            this.height = 0;
+            airborne = false;
+            inJump = false;
+            noCollision = false;
+            //this.bodies["body"].IsSensor = false;
+        }
+
+        protected void BeginFlight(int height)
+        {
+            airborne = true;
+            this.bodies["body"].IsSensor = true;
+        }
+
+        protected void EndFlight(int height)
+        {
+            airborne = false;
+            this.bodies["body"].IsSensor = false;
         }
 
         public void addTimer(String key, int ms)

@@ -45,7 +45,8 @@ namespace wickedcrush.manager.particle
 
         public void AddParticle(Particle p)
         {
-            addList.Add(p);
+            //addList.Add(p);
+            particleList.Add(p);
         }
 
         public void RemoveAll()

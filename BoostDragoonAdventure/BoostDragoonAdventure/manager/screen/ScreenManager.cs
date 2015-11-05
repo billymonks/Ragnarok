@@ -135,6 +135,14 @@ namespace wickedcrush.manager.screen
             //AddScreen(new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f)));
             AddScreen(loadingScreen);
             loading = true;
+            
+        }
+
+        public void StartLoadingScreen(GameScreen screen)
+        {
+            StartLoading();
+            _game.RunOneFrame();
+            AddScreen(screen);
         }
 
         public void EndLoading()

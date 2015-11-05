@@ -91,6 +91,11 @@ namespace wickedcrush.utility
             return ((float)currentTime.TotalMilliseconds) / ((float)interval.TotalMilliseconds);
         }
 
+        public double getPercentDouble()
+        {
+            return (currentTime.TotalMilliseconds) / (interval.TotalMilliseconds);
+        }
+
         private void checkIfDone()
         {
             if (currentTime > interval)

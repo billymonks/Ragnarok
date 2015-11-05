@@ -102,7 +102,7 @@ namespace wickedcrush.entity
                        ((cursorTarget.pos.Y + cursorTarget.center.Y - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
                        );
 
-                softTargetSpriter.update(spritePos.X, spritePos.Y + 40);
+                softTargetSpriter.update(spritePos.X, spritePos.Y + 40 + cursorTarget.height * 2.25f * (float)(Math.Sqrt(2) / 2));
                 softTargetSpriter.SetDepth(0.06f);
 
                 
@@ -114,7 +114,8 @@ namespace wickedcrush.entity
             //}
             //else
             //{
-                textEntity.text = "";
+                //textEntity.text = elapsed.TotalMilliseconds.ToString();
+            textEntity.text = "";
             //}
 
             Vector2 cursorPos = new Vector2(

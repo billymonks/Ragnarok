@@ -104,7 +104,7 @@ namespace wickedcrush.player
             stats.set("maxHP", 120);
             stats.set("maxBoost", 1000);
             stats.set("boost", 1000);
-            stats.set("fillSpeed", 3);
+            stats.set("fillSpeed", 0);
             stats.set("useSpeed", 8);
             stats.set("boostSpeedMod", 0);
 

@@ -27,16 +27,17 @@ namespace wickedcrush.inventory
         }
     }
 
-    public struct PartConnection
+    public class PartConnection
     {
-        public Point slot, connectingSlot;
+        public Point slot;
+        public int direction;
         public ConnectionType type;
         public bool female;
 
-        public PartConnection(Point slot, Point connectingSlot, ConnectionType type, bool female)
+        public PartConnection(Point slot, int direction, ConnectionType type, bool female)
         {
             this.slot = slot;
-            this.connectingSlot = connectingSlot;
+            this.direction = direction;
             this.type = type;
             this.female = female;
         }
@@ -44,7 +45,7 @@ namespace wickedcrush.inventory
 
     public class Part : Item
     {
-        PartStruct partStruct;
+        public PartStruct partStruct;
         public Part(String name, PartStruct partStruct)
             : base(name)
         {

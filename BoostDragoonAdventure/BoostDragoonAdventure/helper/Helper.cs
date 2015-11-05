@@ -12,6 +12,7 @@ namespace wickedcrush.helper
     public static class Helper
     {
         static int uid = 0;
+        private const double DegToRad = Math.PI / 180;
 
         public static bool angleInFov(int facing, int angle, int fovSize)
         {
@@ -127,5 +128,23 @@ namespace wickedcrush.helper
         {
             return MathHelper.ToDegrees((float)Math.Atan2(vector.Y, vector.X));
         }
+
+        
+
+        public static Vector2 Rotate(this Vector2 v, double degrees)
+        {
+            return v.RotateRadians(degrees * DegToRad);
+        }
+
+        
+
+        public static Vector2 RotateRadians(this Vector2 v, double radians)
+        {
+            var ca = Math.Cos(radians);
+            var sa = Math.Sin(radians);
+            return new Vector2((float) (ca * v.X - sa * v.Y),(float) (sa * v.X + ca * v.Y));
+        }
+
+        
     }
 }

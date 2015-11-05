@@ -13,8 +13,12 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
+        //classic controls
         private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger, lockOnButton = Buttons.RightStick, itemScrollUp = Buttons.RightShoulder, itemScrollDown = Buttons.LeftShoulder;
 
+        //twinstick controls
+        //private Buttons interactButton = Buttons.LeftShoulder, itemAButton = Buttons.RightShoulder, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger, lockOnButton = Buttons.RightStick, itemScrollUp = Buttons.A, itemScrollDown = Buttons.X;
+        
         public GamepadControls(PlayerIndex playerIndex)
         {
             this.playerIndex = playerIndex;

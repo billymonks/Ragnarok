@@ -95,11 +95,11 @@ namespace wickedcrush.display._3d
             cameraTarget.Y = _players.getMeanPlayerPos().Y - 120f * zoom;
 
             cameraPosition.X = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 50f)))) + (((cameraPosition.X * looseness) + (cameraTarget.X)) / (looseness+1f)); //todo: change everything
-            cameraPosition.Y = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 100f)))) + (((cameraPosition.Y * looseness) + (cameraTarget.Y)) / (looseness + 1f));
+            cameraPosition.Y = (float)(screenShakeAmount * ((Generate((float)(gameTime.TotalGameTime.Milliseconds + 1000) / 50f)))) + (((cameraPosition.Y * looseness) + (cameraTarget.Y)) / (looseness + 1f));
 
             
 
-            screenShakeAmount /= 2f;
+            screenShakeAmount = (screenShakeAmount * 14f) / 15f;
             adhereToBounds();
 
             

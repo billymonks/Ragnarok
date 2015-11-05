@@ -63,6 +63,8 @@ namespace wickedcrush.manager.gameplay
 
         
 
+        
+
         public GameplayManager(GameBase game, GameplayScreen screen, bool testMode)
         {
             _game = game;
@@ -121,23 +123,41 @@ namespace wickedcrush.manager.gameplay
             _game.soundManager.stopCueInstance("musicInstance");
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, bool freeze)
         {
-            //entityManager.DepthSort();
-            _playerManager.Update(gameTime); //nothing but panels
-            factory.Update();
-
-            _game.soundManager.setGlobalVariable("InCombat", 0f);
-            camera.Update(gameTime);
-            entityManager.Update(gameTime);
-            particleManager.Update(gameTime);
-            
-
-            w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
-
-            if (_playerManager.checkForTransition(map))
+            if (freeze)
             {
-                TransitionMap();
+                //gameTime = new GameTime(gameTime.TotalGameTime, new TimeSpan(gameTime.ElapsedGameTime.Hours, gameTime.ElapsedGameTime.Minutes, gameTime.ElapsedGameTime.Seconds));
+                //gameTime = new GameTime(
+            //}
+            //entityManager.DepthSort();
+            //if (freeze)
+            //{
+                _playerManager.Update(gameTime); //nothing but panels
+                factory.Update();
+
+                //_game.soundManager.setGlobalVariable("InCombat", 0f);
+                //camera.Update(gameTime);
+                particleManager.Update(gameTime);
+            }
+            else
+            {
+                _playerManager.Update(gameTime); //nothing but panels
+                factory.Update();
+
+                _game.soundManager.setGlobalVariable("InCombat", 0f);
+                camera.Update(gameTime);
+                entityManager.Update(gameTime);
+                particleManager.Update(gameTime);
+
+
+                //w.Step(Math.Min((float)gameTime.ElapsedGameTime.TotalSeconds, (1f / 30f)));
+                w.Step((float)(gameTime.ElapsedGameTime.TotalMilliseconds / 800.0));
+
+                if (_playerManager.checkForTransition(map))
+                {
+                    TransitionMap();
+                }
             }
         }
 
@@ -146,6 +166,10 @@ namespace wickedcrush.manager.gameplay
             return _playerManager.pollDodgeSuccess();
         }
 
+        public void activateFreezeFrame()
+        {
+            _screen.freezeFrameTimer.resetAndStart();
+        }
         
 
         public void TransitionMap()

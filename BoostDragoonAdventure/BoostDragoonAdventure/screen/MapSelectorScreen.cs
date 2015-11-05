@@ -120,7 +120,12 @@ namespace wickedcrush.screen
                 if (p.c.StartPressed())
                 {
                     //game.mapName = mapList[selectionIndex];
+                    game.screenManager.StartLoading();
+                    game.RunOneFrame();
                     game.screenManager.AddScreen(new GameplayScreen(game, mapList[selectionIndex]));
+
+                    
+                    
                     return;
                 }
 

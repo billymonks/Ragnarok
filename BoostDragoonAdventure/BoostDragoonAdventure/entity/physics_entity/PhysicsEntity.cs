@@ -14,7 +14,9 @@ namespace wickedcrush.entity.physics_entity
     public enum CollisionGroup
     {
         LAYER = 0,
-        AGENT = 1
+        AGENT = 1,
+        MULTIPIECE = 2,
+        ATTACK_CLUSTER = 3
     }
 
     public class PhysicsEntity : Entity
@@ -71,6 +73,18 @@ namespace wickedcrush.entity.physics_entity
             }
 
             
+        }
+
+        public void SetPosNoCenter(Vector2 pos)
+        {
+            this.pos = pos;
+            if (this.bodies.ContainsKey("body"))
+            {
+                this.bodies["body"].Position = pos;
+                this.bodies["body"].Awake = true;
+            }
+
+
         }
 
         public override void AddLinearVelocity(Vector2 v)

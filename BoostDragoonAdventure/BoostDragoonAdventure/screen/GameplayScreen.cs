@@ -39,7 +39,7 @@ namespace wickedcrush.screen
     {
 
         private GameplayManager gameplayManager;
-        public Timer freezeFrameTimer = new Timer(150);
+        public Timer freezeFrameTimer = new Timer(100);
         Timer readyTimer, bgTimer;
 
         private bool testMode;
@@ -71,6 +71,8 @@ namespace wickedcrush.screen
             this.game = game;
             
             Initialize(game, mapName, false);
+
+            game.screenManager.EndLoading();
 
         }
 
@@ -239,9 +241,16 @@ namespace wickedcrush.screen
 
             UpdateFreezeFrame(gameTime);
 
-            if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
-                gameplayManager.Update(gameTime);
-            
+            if (!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
+            {
+                gameplayManager.Update(gameTime, false);
+                this.game.freezeFrame = false;
+            }
+            else
+            {
+                gameplayManager.Update(gameTime, true);
+                this.game.freezeFrame = true;
+            }
             DebugControls();
 
         }

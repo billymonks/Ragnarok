@@ -84,6 +84,8 @@ namespace wickedcrush
 
         public bool instantAction = false;
 
+        public bool freezeFrame = false;
+
         public GameSettings settings = new GameSettings();
 
         public GameBase()
@@ -96,7 +98,7 @@ namespace wickedcrush
 
             graphics.SynchronizeWithVerticalRetrace = true;
             
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
             SetFrameRate(60);
             graphics.ApplyChanges();
 
@@ -182,7 +184,10 @@ namespace wickedcrush
             taskManager.Update(gameTime);
             
             soundManager.Update(gameTime);
-            controlsManager.Update(gameTime);
+            if (!freezeFrame)
+            {
+                controlsManager.Update(gameTime);
+            }
 
             networkManager.Update(gameTime);
 

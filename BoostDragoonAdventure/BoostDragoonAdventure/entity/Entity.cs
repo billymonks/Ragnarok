@@ -202,6 +202,18 @@ namespace wickedcrush.entity
             return directionVectorToAngle(vectorToEntity(e));
         }
 
+        public int distanceToEntity(Entity e)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (e.pos.X + e.center.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (e.pos.Y + e.center.Y), 2));
+        }
+
+        public int distanceToPosition(Vector2 searchPos)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (searchPos.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (searchPos.Y), 2));
+        }
+
         public int CompareTo(Entity other)
         {
             if (other.pos.Y + other.size.Y > pos.Y + size.Y)
