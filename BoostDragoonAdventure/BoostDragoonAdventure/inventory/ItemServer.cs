@@ -11,108 +11,22 @@ namespace wickedcrush.inventory
     public static class InventoryServer
     {
         public static Dictionary<String, Weapon> weapons = new Dictionary<String, Weapon>();
+        public static Dictionary<String, Consumable> consumables = new Dictionary<String, Consumable>();
+        public static Dictionary<String, Part> parts = new Dictionary<String, Part>();
+
         public static Random random = new Random();
 
 
         public static void Initialize()
         {
             weapons = new Dictionary<String, Weapon>();
-            
-            /*weapons.Add(
-                "Healthsweed", 
-                new Weapon("Healthsweed", (a, i) =>
-                {
-                    a.stats.set("hp", a.stats.get("maxHP"));
-                    a.stats.inventory.removeItem(i);
-                    ParticleStruct ps = new ParticleStruct(new Vector3(a.pos.X + a.center.X, 20, a.pos.Y + a.center.Y), Vector3.Zero, new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_green");
-                    a.EmitParticles(ps, 10);
-                    a.itemInUse = null;
-                },
-                (a, i) => { a.itemInUse = null; },
-                (a, i) => 
-                { 
-                    a.itemInUse = null;
-                    
-                
-                },
-                new List<KeyValuePair<string, int>>(),
-                new List<KeyValuePair<string, int>>(),
-                new List<KeyValuePair<string, int>>()));*/
+            consumables = new Dictionary<String, Consumable>();
+            parts = new Dictionary<String, Part>();
 
-            /*weapons.Add("Remote Transmitter",
-                new Weapon("Remote Transmitter", (a, i) =>
-                {
-                    a.PlayCue("volleyball");
-                    a.stats.set("charge", 0);
-                    a.AddHudElement("warning", "warning", 4, Vector2.Zero);
-                    a.AddOverheadWeapon("Remote", "trap", "unpressed_002", 0, new Vector2(0f, 0f), 0.1f, 0f);
-                },
-                (a, i) =>
-                {
-                    a.stats.addTo("boost", -3);
-                    a.stats.addTo("charge", 1);
-
-                    if (a.stats.compare("charge", 25) == 0)
-                    {
-                        a.PlayCue("squash");
-                        //a.AddOverheadWeapon("Knife", "weapons", "Knife", 0, new Vector2(0f, 80f), 2f);
-                    }
-
-                    if (a.stats.compare("charge", 50) == 0)
-                        a.PlayCue("ping2");
-
-                    if (a.stats.get("charge") < 50)
-                    {
-                        a.activeRange = a.stats.get("charge") * 5;
-                        a.ScaleOverheadWeapon("Remote", a.activeRange / 43f);
-                    }
-                    else
-                    {
-                        a.activeRange = 250;
-                        a.ScaleOverheadWeapon("Remote", a.activeRange / 43f);
-                    }
-
-                    if (a.stats.compare("charge", 75) == 0)
-                    {
-                        i.Release(a);
-                    }
-                },
-                (a, i) =>
-                {
-                    a.RemoveHudElement("warning");
-                    a.RemoveOverheadWeapon("Remote");
-                    //a.PlayCue("smash");
-                    
-
-                    if (a.stats.compare("charge", 25) < 0)
-                    {
-                        //a.useActionSkill(SkillServer.skills["Sword Attack"]);
-                        //a.TriggerInProximity();
-                        
-                    }
-                    else if (a.stats.compare("charge", 50) < 0)
-                    {
-                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
-                        //a.TriggerInProximity();
-                    }
-                    else
-                    {
-                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
-                        
-                    }
-                    a.PlayCue("Jump7");
-                    a.TriggerInProximity();
-                    a.stats.addTo("boost", -100);
-                    a.stats.set("charge", 0);
-                    a.itemInUse = null;
-                },
-                new List<KeyValuePair<string, int>>(),
-                new List<KeyValuePair<string, int>>(),
-                new List<KeyValuePair<string, int>>()));*/
-
+            #region Weapons
             weapons.Add(
                 "Spellbook: Fireball",
-                new Weapon("Spellbook: Fireball", (a, i) =>
+                new Weapon("Spellbook: Fireball", "The severed tooth of a Whirlwind Centibeast. Incinerates anything in its path.", (a, i) =>
                 {
                     a.stats.set("charge", 0);
                 },
@@ -163,7 +77,7 @@ namespace wickedcrush.inventory
 
             weapons.Add(
                 "Spellbook: Etheral Surge",
-                new Weapon("Spellbook: Etheral Surge", (a, i) =>
+                new Weapon("Spellbook: Etheral Surge", "", (a, i) =>
                 {
                     a.stats.set("charge", 0);
                 },
@@ -218,7 +132,7 @@ namespace wickedcrush.inventory
 
             weapons.Add(
                "Knife",
-               new Weapon("Knife", (a, i) =>
+               new Weapon("Knife", "A small blade marked with the royal crest of El Legante.", (a, i) =>
                {
                    a.stats.set("charge", 0);
                    a.useActionSkill(SkillServer.skills["Forward Attack"]);
@@ -280,7 +194,7 @@ namespace wickedcrush.inventory
 
             weapons.Add(
                "Longsword",
-               new Weapon("Longsword", (a, i) =>
+               new Weapon("Longsword", "A weapon of this size could only be wielded with the strength of a combat frame.", (a, i) =>
                {
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
@@ -338,7 +252,7 @@ namespace wickedcrush.inventory
 
             weapons.Add(
                "Scattershot",
-               new Weapon("Scattershot", (a, i) =>
+               new Weapon("Scattershot", "Highly compressed etheral tang. When released, travels at a high velocity over a wide range.", (a, i) =>
                {
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
@@ -368,7 +282,7 @@ namespace wickedcrush.inventory
 
             weapons.Add(
                "Rifle",
-               new Weapon("Rifle", (a, i) =>
+               new Weapon("Rifle", "A reliable long range weapon, able to accurately hit ranged targets.", (a, i) =>
                {
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
@@ -419,6 +333,160 @@ namespace wickedcrush.inventory
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>()));
+
+            #endregion
+
+            #region Consumables
+
+            consumables.Add("Pizza", new Consumable("Pizza", "A mysterious food disk once thought to be a weapon.\n\nHP+60",
+                (a, i) =>
+                {
+                    a.stats.addTo("hp", 60);
+
+                    if (a.stats.get("hp") > a.stats.get("maxHP"))
+                        a.stats.set("hp", a.stats.get("maxHP"));
+
+                    a.factory.DisplayMessage("Devoured the Pizza!\nRestored 60 HP.");
+
+                    a.stats.inventory.removeItem(i);
+                }));
+
+            consumables.Add("Pizza Pie", new Consumable("Pizza Pie", "A flaky crust emitting a distinct pizza scent.\n\nClick to open.",
+                (a, i) =>
+                {
+                    //a.stats.addTo("hp", 60);
+
+                    //if (a.stats.get("hp") > a.stats.get("maxHP"))
+                        //a.stats.set("hp", a.stats.get("maxHP"));
+
+                    
+
+                    a.stats.inventory.removeItem(i);
+                    a.stats.inventory.receiveItem(getConsumable("Pizza"));
+
+                    a.factory.DisplayMessage("You dig into the crust with your grubby mitts.\nThere was a Pizza inside!");
+                }));
+
+            consumables.Add("Canned Pizza", new Consumable("Canned Pizza", "This ancient elixir is renowned for its nourishment of body and spirit.\n\nHP+40",
+                (a, i) =>
+                {
+                    a.stats.addTo("hp", 40);
+
+                    if (a.stats.get("hp") > a.stats.get("maxHP"))
+                        a.stats.set("hp", a.stats.get("maxHP"));
+
+                    a.stats.inventory.removeItem(i);
+
+                    a.factory.DisplayMessage("You drink the Pizza...Refreshing!\nRestored 40 HP.");
+                }));
+
+            consumables.Add("Pizza Rolls", new Consumable("Pizza Rolls", "Twisted remains of a deceased pizza.\n\nHP+20",
+                (a, i) =>
+                {
+                    a.stats.addTo("hp", 20);
+
+                    if (a.stats.get("hp") > a.stats.get("maxHP"))
+                        a.stats.set("hp", a.stats.get("maxHP"));
+
+                    a.stats.inventory.removeItem(i);
+
+                    a.factory.DisplayMessage("You bite into the Pizza Rolls!\nRestored 20 HP.");
+                }));
+
+            #endregion
+
+            #region Parts
+
+            parts.Add("Basic Core",
+                new Part("Basic Core",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() { 
+                            new PartConnection(new Point(0, 0), 0, ConnectionType.Circle, true)
+                            },
+                        new Dictionary<string, int>() {  })));
+
+            parts.Add("Dinky Chamber",
+                new Part("Dinky Chamber",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() { 
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 0, ConnectionType.Triangle, true) },
+                        new Dictionary<string, int>() { { "hp", 1 } })));
+
+            parts.Add("Pro-grade Chamber",
+                new Part("Pro-grade Chamber",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Square, true)},
+                        new Dictionary<string, int>() { { "hp", 2 } })));
+
+            parts.Add("Kinetic Chamber",
+                new Part("Kinetic Chamber",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Circle, true), 
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Triangle, true),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true) },
+                        new Dictionary<string, int>() { { "hp", 1 } })));
+
+            parts.Add("High Performance Chamber",
+                new Part("High Performance Chamber",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Triangle, true),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true) },
+                        new Dictionary<string, int>() { {"hp", 3} })));
+
+            parts.Add("Dinky Belt",
+                new Part("Dinky Belt",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 0, ConnectionType.Triangle, true) },
+                        new Dictionary<string, int>() { { "ep", 1 } })));
+
+            parts.Add("Pro-grade Belt",
+                new Part("Pro-grade Belt",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true) },
+                        new Dictionary<string, int>() { { "ep", 2 } })));
+
+            parts.Add("Kinetic Belt",
+                new Part("Kinetic Belt",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Triangle, true) },
+                        new Dictionary<string, int>() { { "ep", 1 } })));
+
+            parts.Add("High Performance Belt",
+                new Part("High Performance Belt",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Triangle, true) },
+                        new Dictionary<string, int>() { { "ep", 1 } })));
+
+            #endregion
         }
         
         public static Weapon getWeapon(String name)
@@ -426,9 +494,32 @@ namespace wickedcrush.inventory
             return weapons[name];
         }
 
+        public static Consumable getConsumable(String name)
+        {
+            return consumables[name];
+        }
+
+        public static Part getPart(String name)
+        {
+            return parts[name];
+        }
+
         public static Weapon getRandomWeapon()
         {
             return weapons.Values.ToList<Weapon>()[random.Next(weapons.Count)];
+        }
+
+        public static Item getRandomItem()
+        {
+            List<Item> tempList = new List<Item>();
+
+            foreach (KeyValuePair<string, Consumable> pair in consumables)
+                tempList.Add(pair.Value);
+
+            foreach (KeyValuePair<string, Part> pair in parts)
+                tempList.Add(pair.Value);
+
+            return tempList[random.Next(tempList.Count)];
         }
     }
 }

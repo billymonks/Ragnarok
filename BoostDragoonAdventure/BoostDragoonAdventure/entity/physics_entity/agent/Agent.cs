@@ -60,7 +60,7 @@ namespace wickedcrush.entity.physics_entity.agent
         protected Dictionary<String, Timer> timers;
         protected Dictionary<String, Trigger> triggers;
         protected StateTree stateTree;
-        protected EntityFactory factory;
+        public EntityFactory factory;
         protected SpriterManager _spriterManager;
         protected ParticleEmitter particleEmitter;
 

@@ -22,12 +22,13 @@ namespace wickedcrush.inventory
 
         public Weapon(
             String name,
+            String desc,
             WeaponAction pressAction,
             WeaponAction holdAction,
             WeaponAction releaseAction,
             List<KeyValuePair<string, int>> pressRequirements,
             List<KeyValuePair<string, int>> holdRequirements,
-            List<KeyValuePair<string, int>> releaseRequirements) : base(name)
+            List<KeyValuePair<string, int>> releaseRequirements) : base(name, desc)
         {
             this.pressAction = pressAction;
             this.holdAction = holdAction;
@@ -38,7 +39,7 @@ namespace wickedcrush.inventory
             this.releaseRequirements = releaseRequirements;
         }
 
-        public Weapon(Weapon i) : base(i.name)
+        public Weapon(Weapon i) : base(i.name, i.desc)
         {
             this.pressAction = i.pressAction;
             this.holdAction = i.holdAction;

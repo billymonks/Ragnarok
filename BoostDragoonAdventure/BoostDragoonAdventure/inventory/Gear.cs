@@ -8,15 +8,34 @@ using wickedcrush.stats;
 
 namespace wickedcrush.inventory
 {
+
     public class EquippedPart
     {
         public Part part;
+
+        public EquippedPart parentPart;
         public PartConnection parentConnection;
 
-        public EquippedPart(Part part, PartConnection parentConnection)
+        public Point translation = new Point(0, 0);
+        public int rotation = 0;
+
+        public EquippedPart(Part part, EquippedPart parentPart, PartConnection parentConnection)
         {
             this.part = part;
+            this.parentPart = parentPart;
             this.parentConnection = parentConnection;
+
+            
+
+            if (parentPart != null && parentConnection != null)
+            {
+                Point cRotation = new Point((int)Math.Round(Math.Cos(MathHelper.ToRadians(parentConnection.direction))), (int)Math.Round(Math.Sin(MathHelper.ToRadians(parentConnection.direction))));
+                //Point cRotation = Point.Zero;
+
+                rotation = (parentPart.rotation + parentConnection.direction) % 360;
+
+                translation = TranslatePoint(RotatePoint(parentConnection.slot, parentPart.rotation), TranslatePoint(parentPart.translation, cRotation));
+            }
         }
 
         public List<Point> GetEquippedSlots()
@@ -28,7 +47,7 @@ namespace wickedcrush.inventory
 
             foreach (Point p in part.partStruct.slots)
             {
-                equippedSlots.Add(TranslatePoint(RotatePoint(p, parentConnection.direction), parentConnection.slot));
+                equippedSlots.Add(TranslatePoint(RotatePoint(p, rotation), translation));
             }
 
             return equippedSlots;
@@ -49,9 +68,9 @@ namespace wickedcrush.inventory
 
     public class Gear
     {
-        EquippedPart core;
-        List<EquippedPart> parts;
-        int frameSize = 3; // 7x7
+        public EquippedPart core;
+        public List<EquippedPart> parts;
+        public int frameSize = 3; // 7x7
 
         bool changed = false; //re-calculate equipped stat value
 
@@ -66,16 +85,31 @@ namespace wickedcrush.inventory
             changed = false;
         }
 
-        public void EquipPart(Part p, PartConnection parentConnection)
+        public void EquipCore(Part p)
         {
-            EquippedPart tempPart = new EquippedPart(p, parentConnection);
+            core = new EquippedPart(p, null, null);
+        }
 
+        public EquippedPart EquipPart(Part p, EquippedPart parentPart, PartConnection parentConnection)
+        {
+            EquippedPart tempPart = new EquippedPart(p, parentPart, parentConnection);
+
+            parts.Add(tempPart);
             //if fits
             changed = true;
+
+            return tempPart;
         }
 
         public void RemovePart(EquippedPart p)
         {
+            changed = true;
+        }
+
+        public void RemoveAllParts()
+        {
+            parts.Clear();
+            
             changed = true;
         }
     }

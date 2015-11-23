@@ -29,7 +29,7 @@ namespace wickedcrush.menu.panel
             children.Add("slot8", new ItemPanel(Color.SlateGray, new Point(-120, 30), new Point(50, 50), inventory));
             children.Add("commands", new Panel(Color.SlateGray, new Point(-240, 90), new Point(170, 20)));
 
-            itemList = inventory.GetItemList();
+            itemList = inventory.GetWeaponList();
         }
 
         public override void Update(GameTime gameTime, Controls controls)
@@ -38,7 +38,7 @@ namespace wickedcrush.menu.panel
             int selection;
 
             if (inventory.changed)
-                itemList = inventory.GetItemList();
+                itemList = inventory.GetWeaponList();
 
             UpdateControls(controls);
 

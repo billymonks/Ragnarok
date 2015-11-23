@@ -266,16 +266,30 @@ namespace wickedcrush.manager.player
                 statsElement.Add(temp);
             }
 
-            foreach (Weapon i in p.getStats().inventory.GetItemList())
+            foreach (Weapon i in p.getStats().inventory.GetWeaponList())
             {
-                temp = new XElement("item", i.name);
+                temp = new XElement("weapon", i.name);
+                temp.Add(new XAttribute("count", p.getStats().inventory.getItemCount(i)));
+                inventoryElement.Add(temp);
+            }
+
+            foreach (Consumable i in p.getStats().inventory.GetConsumableList())
+            {
+                temp = new XElement("consumable", i.name);
+                temp.Add(new XAttribute("count", p.getStats().inventory.getItemCount(i)));
+                inventoryElement.Add(temp);
+            }
+
+            foreach (Part i in p.getStats().inventory.GetPartList())
+            {
+                temp = new XElement("part", i.name);
                 temp.Add(new XAttribute("count", p.getStats().inventory.getItemCount(i)));
                 inventoryElement.Add(temp);
             }
 
             if (p.getStats().inventory.equippedWeapon != null)
             {
-                temp = new XElement("itemA", p.getStats().inventory.equippedWeapon.name);
+                temp = new XElement("equippedWeapon", p.getStats().inventory.equippedWeapon.name);
                 equipmentElement.Add(temp);
             }
 
@@ -312,14 +326,24 @@ namespace wickedcrush.manager.player
 
             stats.inventory.addCurrency(int.Parse(inventoryElement.Attribute("gold").Value));
 
-            foreach (XElement itemElement in inventoryElement.Elements("item"))
+            foreach (XElement itemElement in inventoryElement.Elements("weapon"))
             {
                 stats.inventory.receiveItem(InventoryServer.getWeapon(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
             }
 
-            foreach (XElement itemAElement in equipmentElement.Elements("itemA"))
+            foreach (XElement itemElement in inventoryElement.Elements("consumable"))
             {
-                stats.inventory.equippedWeapon = InventoryServer.getWeapon(itemAElement.Value);
+                stats.inventory.receiveItem(InventoryServer.getConsumable(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
+            }
+
+            foreach (XElement itemElement in inventoryElement.Elements("part"))
+            {
+                stats.inventory.receiveItem(InventoryServer.getPart(itemElement.Value), int.Parse(itemElement.Attribute("count").Value));
+            }
+
+            foreach (XElement equippedWeaponElement in equipmentElement.Elements("equippedWeapon"))
+            {
+                stats.inventory.equippedWeapon = InventoryServer.getWeapon(equippedWeaponElement.Value);
             }
 
 
@@ -357,15 +381,17 @@ namespace wickedcrush.manager.player
         {
             foreach (Player p in playerList)
             {
-                p.hudChargeSpriter.update(0f, -960f);
-                p.hpSpriter.update(120f, -1030f);
-                p.fuelSpriter.update(120f, -1050f);
+                p.hudChargeSpriter.update(0f, -930f);
+                p.hpSpriter.update(120f, -980f);
+                p.fuelSpriter.update(140f, -1010f);
                 p.hpSpriter.SetDepth(0.1f);
-                p.fuelSpriter.SetDepth(0.1f);
-                p.hudChargeSpriter.SetDepth(0.1f);
+                p.fuelSpriter.SetDepth(0.2f);
+                p.hudChargeSpriter.SetDepth(0.3f);
                 g.spriterManager.DrawPlayer(p.hudChargeSpriter);
                 g.spriterManager.DrawPlayer(p.hpSpriter);
                 g.spriterManager.DrawPlayer(p.fuelSpriter);
+                
+                
 
             }
 

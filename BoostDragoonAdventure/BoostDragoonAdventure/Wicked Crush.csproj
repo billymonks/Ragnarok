@@ -216,6 +216,11 @@
     <Compile Include="particle\Particle.cs" />
     <Compile Include="particle\ParticleEmitter.cs" />
     <Compile Include="particle\ParticleServer.cs" />
+    <Compile Include="screen\menu\GearUpgradeMenuScreen.cs" />
+    <Compile Include="screen\menu\PartMenuScreen.cs" />
+    <Compile Include="screen\menu\InventoryMenuScreen.cs" />
+    <Compile Include="screen\menu\MessageDisplayScreen.cs" />
+    <Compile Include="screen\menu\WeaponSelectMenuScreen.cs" />
     <Compile Include="screen\dialog\BooleanChoiceScreen.cs" />
     <Compile Include="screen\CharCreationScreen.cs" />
     <Compile Include="screen\dialog\StatBranchScreen.cs" />
@@ -224,6 +229,7 @@
     <Compile Include="screen\EditorMenuControlBarScreen.cs" />
     <Compile Include="screen\EditorScreen.cs" />
     <Compile Include="screen\EditorMenuScreen.cs" />
+    <Compile Include="screen\menu\GameplayMenuScreen.cs" />
     <Compile Include="screen\GameScreen.cs" />
     <Compile Include="screen\LoadingScreen.cs" />
     <Compile Include="screen\LoadRoomMenuScreen.cs" />
@@ -255,6 +261,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GameBase.cs" />
+    <Compile Include="screen\menu\MenuScreen.cs" />
     <Compile Include="screen\PlayerSelectScreen.cs" />
     <Compile Include="screen\TestCompleteScreen.cs" />
     <Compile Include="screen\dialog\TextDisplayScreen.cs" />

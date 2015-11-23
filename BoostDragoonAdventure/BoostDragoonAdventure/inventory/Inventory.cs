@@ -15,6 +15,7 @@ namespace wickedcrush.inventory
         public int currency;
 
         public Weapon equippedWeapon;
+        public Gear gear;
 
         public bool changed = false;
 
@@ -24,6 +25,26 @@ namespace wickedcrush.inventory
             consumables = new Dictionary<Consumable, int>();
             parts = new Dictionary<Part, int>();
             currency = 0;
+
+            EquippedPart core = new EquippedPart(InventoryServer.getPart("Basic Core"), null, null);
+            gear = new Gear(core, new List<EquippedPart>());
+
+            EquippedPart temp = gear.EquipPart(InventoryServer.getPart("Pro-grade Chamber"), core, core.part.partStruct.connections[0]);
+
+            gear.EquipPart(InventoryServer.getPart("High Performance Belt"), temp, temp.part.partStruct.connections[2]);
+        }
+
+        public List<Weapon> getWeaponList()
+        {
+            List<Weapon> weaponList = new List<Weapon>();
+            foreach (KeyValuePair<Weapon, int> pair in weapons)
+            {
+                if (pair.Value > 0)
+                {
+                    weaponList.Add(pair.Key);
+                }
+            }
+            return weaponList;
         }
 
         public void nextWeapon(Agent a)
@@ -64,6 +85,20 @@ namespace wickedcrush.inventory
                 index = itemList.Count-1;
 
             equippedWeapon = itemList[index];
+        }
+
+        public void EquipCore(Part p)
+        {
+            foreach (EquippedPart equippedPart in gear.parts)
+            {
+                receiveItem(equippedPart.part);
+            }
+
+            receiveItem(gear.core.part);
+
+            gear.RemoveAllParts();
+
+            gear.EquipCore(p);
         }
 
 
@@ -285,10 +320,22 @@ namespace wickedcrush.inventory
                 currency = 0;
         }
 
-        public List<Weapon> GetItemList()
+        public List<Weapon> GetWeaponList()
         {
             changed = false;
             return weapons.Keys.ToList<Weapon>();
+        }
+
+        public List<Consumable> GetConsumableList()
+        {
+            changed = false;
+            return consumables.Keys.ToList<Consumable>();
+        }
+
+        public List<Part> GetPartList()
+        {
+            changed = false;
+            return parts.Keys.ToList<Part>();
         }
 
         public bool SellItem(Item i, int count)

@@ -13,9 +13,8 @@ namespace wickedcrush.inventory
     {
         protected ItemAction action;
 
-        public Consumable(String name, ItemAction action) : base(name)
+        public Consumable(String name, String desc, ItemAction action) : base(name, desc)
         {
-            this.name = name;
             this.action = action;
 
             this.type = ItemType.Consumable;

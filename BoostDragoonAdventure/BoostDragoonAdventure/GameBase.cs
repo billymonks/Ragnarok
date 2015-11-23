@@ -66,7 +66,7 @@ namespace wickedcrush
 
         public String diag = "";
 
-        public Texture2D whiteTexture, arrowTexture;
+        public Texture2D whiteTexture, arrowTexture, transparentBlackTexture;
         public SpriteFont testFont;
         public Dictionary<String, SpriteFont> fonts;
 

@@ -12,7 +12,7 @@ namespace wickedcrush.controls
 
         private Keys 
             interactKey = Keys.E,
-            itemAKey = Keys.J, 
+            useWeaponKey = Keys.J, 
             itemBKey = Keys.K, 
             itemCKey = Keys.L, 
             boostKey = Keys.Space,
@@ -78,7 +78,7 @@ namespace wickedcrush.controls
 
         public override bool WeaponHeld()
         {
-            if (keyState.IsKeyDown(itemAKey))
+            if (keyState.IsKeyDown(useWeaponKey))
                 return true;
             else
                 return false;
@@ -86,7 +86,7 @@ namespace wickedcrush.controls
 
         public override bool WeaponPressed()
         {
-            if (keyState.IsKeyDown(itemAKey) && prevKeyState.IsKeyUp(itemAKey))
+            if (keyState.IsKeyDown(useWeaponKey) && prevKeyState.IsKeyUp(useWeaponKey))
                 return true;
             else
                 return false;
@@ -94,7 +94,7 @@ namespace wickedcrush.controls
 
         public override bool WeaponReleased()
         {
-            if (keyState.IsKeyUp(itemAKey))
+            if (keyState.IsKeyUp(useWeaponKey))
                 return true;
             else
                 return false;
@@ -242,6 +242,11 @@ namespace wickedcrush.controls
                 return true;
 
             return false;
+        }
+
+        public override bool LaunchMenuPressed()
+        {
+            return RightMousePress();
         }
 
         public override bool LockOnPressed()

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using wickedcrush.entity;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.screen
 {
@@ -16,6 +18,12 @@ namespace wickedcrush.screen
         public bool disposed = false;
         public bool finished = false;
 
+        protected List<SpriterPlayer> spriters = new List<SpriterPlayer>();
+        protected List<SpriterPlayer> addList = new List<SpriterPlayer>();
+        protected List<SpriterPlayer> removeList = new List<SpriterPlayer>();
+
+        protected List<TextEntity> screenText = new List<TextEntity>();
+
         public GameScreen nextScreen;
 
         public event EventHandler<EventArgs> Disposed;
@@ -26,7 +34,10 @@ namespace wickedcrush.screen
         {
             game = g;
         }
-        public abstract void Update(GameTime gameTime);
+        public virtual void Update(GameTime gameTime)
+        {
+            UpdateSpriters();
+        }
         public virtual void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget) { }
         public virtual void Draw() { }
         public virtual void DebugDraw() { }
@@ -45,6 +56,50 @@ namespace wickedcrush.screen
 
 
             game.spriteBatch.DrawString(game.testFont, game.diag, new Vector2(3, 2), Color.White);
+
+        }
+
+        public void AddText(TextEntity text)
+        {
+            screenText.Add(text);
+        }
+
+        public void RemoveText(TextEntity text)
+        {
+            screenText.Remove(text);
+        }
+
+        public void ClearText()
+        {
+            screenText.Clear();
+        }
+
+        public void AddSpriter(SpriterPlayer spriter)
+        {
+            if (!spriters.Contains(spriter) && !addList.Contains(spriter) && !removeList.Contains(spriter))
+                addList.Add(spriter);
+        }
+
+        public void RemoveSpriter(SpriterPlayer spriter)
+        {
+            removeList.Add(spriter);
+        }
+
+        protected void UpdateSpriters()
+        {
+            foreach (SpriterPlayer s in addList)
+            {
+                spriters.Add(s);
+            }
+
+            foreach (SpriterPlayer s in removeList)
+            {
+                spriters.Remove(s);
+            }
+
+            addList.Clear();
+            removeList.Clear();
+
 
         }
     }

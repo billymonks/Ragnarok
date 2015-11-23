@@ -54,14 +54,17 @@ namespace wickedcrush.player
             inventoryPanel = pf.getInventory(stats.inventory);
 
             hudChargeSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 0, pf._sm.spriters["hud"].loader);
+            hudChargeSpriter.setScale(2f);
             hudChargeSpriter.setFrameSpeed(60);
 
             hpSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            hpSpriter.setScale(3f);
             hpSpriter.setAnimation("hp", 0, 0);
             hpSpriter.setFrameSpeed(0);
             
 
             fuelSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            fuelSpriter.setScale(3f);
             fuelSpriter.setAnimation("fuel", 0, 0);
             fuelSpriter.setFrameSpeed(0);
         }

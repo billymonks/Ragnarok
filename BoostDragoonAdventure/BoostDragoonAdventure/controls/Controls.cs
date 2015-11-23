@@ -58,6 +58,8 @@ namespace wickedcrush.controls
 
         public abstract bool LockOnPressed();
 
+        public abstract bool LaunchMenuPressed();
+
         public virtual bool KeyPressed(Keys key)
         {
             if (keyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))

@@ -19,13 +19,20 @@ namespace wickedcrush.inventory
 
     public class Item
     {
-        public String name;
+        public String name, desc;
         public ItemType type = ItemType.Unknown;
         public int value = 10;
 
         public Item(String name)
         {
             this.name = name;
+            this.desc = "This item has no description.";
+        }
+
+        public Item(String name, String desc)
+        {
+            this.name = name;
+            this.desc = desc;
         }
     }
 }

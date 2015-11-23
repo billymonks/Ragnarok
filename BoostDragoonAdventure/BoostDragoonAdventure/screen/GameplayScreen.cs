@@ -46,16 +46,12 @@ namespace wickedcrush.screen
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
 
-        public Effect spriteEffect, unlitSpriteEffect, litSpriteEffect;
+        public Effect spriteEffect, litSpriteEffect;
 
         public Texture2D background, bgDepth;
         public Queue<Texture2D> bgs = new Queue<Texture2D>();
 
-        private List<SpriterPlayer> spriters = new List<SpriterPlayer>();
-        private List<SpriterPlayer> addList = new List<SpriterPlayer>();
-        private List<SpriterPlayer> removeList = new List<SpriterPlayer>();
-
-        private List<TextEntity> screenText = new List<TextEntity>();
+        
 
         float parallaxAmount = 1f, bgScale = 2f;
         Vector2 scroll = Vector2.Zero;
@@ -119,44 +115,7 @@ namespace wickedcrush.screen
             
         }
 
-        public void AddText(TextEntity text)
-        {
-            screenText.Add(text);
-        }
-
-        public void RemoveText(TextEntity text)
-        {
-            screenText.Remove(text);
-        }
-
-        public void AddSpriter(SpriterPlayer spriter)
-        {
-            if(!spriters.Contains(spriter) && !addList.Contains(spriter) && !removeList.Contains(spriter))
-                addList.Add(spriter);
-        }
-
-        public void RemoveSpriter(SpriterPlayer spriter)
-        {
-            removeList.Add(spriter);
-        }
-
-        private void UpdateSpriters()
-        {
-            foreach (SpriterPlayer s in addList)
-            {
-                spriters.Add(s);
-            }
-
-            foreach (SpriterPlayer s in removeList)
-            {
-                spriters.Remove(s);
-            }
-
-            addList.Clear();
-            removeList.Clear();
-
-
-        }
+        
 
         public RoomInfo GetRoom()
         {
@@ -196,7 +155,7 @@ namespace wickedcrush.screen
         private void LoadContent(GameBase game)
         {
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
-            unlitSpriteEffect = game.Content.Load<Effect>("fx/UnlitSprite");
+            
             litSpriteEffect = game.Content.Load<Effect>("fx/LitSprite");
             //background = game.Content.Load<Texture2D>(@"img/tex/water");
             bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_1"));
@@ -216,12 +175,13 @@ namespace wickedcrush.screen
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             game.diag = "";
             //game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y + ", " + gameplayManager.camera.cameraPosition.Z + "\n";
             //game.diag += "fov: " + gameplayManager.camera.fov + "\n";
             //game.diag += gameTime.ElapsedGameTime.Milliseconds;
             //game.diag += "\n" + 
-            UpdateSpriters();
+            //UpdateSpriters();
 
             scroll += scrollIncrement;
             
@@ -327,7 +287,7 @@ namespace wickedcrush.screen
             //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
             //game.spriteBatch.End();
 
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, unlitSpriteEffect, game.spriteScale);
+            game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, game.spriterManager.unlitSpriteEffect, game.spriteScale);
             game.playerManager.DrawHud();
 
             foreach (SpriterPlayer s in spriters)
@@ -341,22 +301,13 @@ namespace wickedcrush.screen
             
             foreach (TextEntity t in screenText)
             {
-                t.HudDraw();
+                t.HudDraw(true, true);
             }
 
             
 
             game.spriteBatch.End();
         }
-
-        //public override void DebugDraw()
-        //{
-            
-            //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
-
-            //DrawHud();
-
-        //}
 
         public override void FreeDraw()
         {

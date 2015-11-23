@@ -145,6 +145,12 @@ namespace wickedcrush.helper
             return new Vector2((float) (ca * v.X - sa * v.Y),(float) (sa * v.X + ca * v.Y));
         }
 
+        public static Point CastToPoint(Vector2 v)
+        {
+            return new Point((int)v.X, (int)v.Y);
+
+        }
+
         
     }
 }

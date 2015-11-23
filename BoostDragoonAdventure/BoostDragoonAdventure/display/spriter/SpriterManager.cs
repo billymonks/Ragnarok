@@ -19,6 +19,8 @@ namespace wickedcrush.display.spriter
         public Dictionary<String, SpriterLoader> loaders;
         public Dictionary<String, Spriter> spriters;
 
+        public Effect unlitSpriteEffect;
+
         public SpriterManager(GameBase g)
         {
             this.g = g;
@@ -35,6 +37,8 @@ namespace wickedcrush.display.spriter
 
         public void LoadContent()
         {
+            unlitSpriteEffect = g.Content.Load<Effect>("fx/UnlitSprite");
+
             //loaders.Add("loader1", new SpriterLoader(g));
             loaders.Add("loader2", new SpriterLoader(g));
             loaders.Add("loader3", new SpriterLoader(g));

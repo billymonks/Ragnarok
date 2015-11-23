@@ -19,6 +19,8 @@ using wickedcrush.inventory;
 using wickedcrush.player;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.particle;
+using wickedcrush.screen;
+using wickedcrush.screen.menu;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -78,8 +80,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
             timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
 
-            //stats.inventory.itemA = ItemServer.getItem("Healthsweed");
-            //stats.inventory.itemB = ItemServer.getItem("Spellbook: Fireball");
 
             _sound.addCueInstance("blast off", id + "blast off", false);
             _sound.addCueInstance("charging", id + "charging", false);
@@ -215,6 +215,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
             {
                 PollCursor();
+            }
+
+            if (controls.LaunchMenuPressed() && weaponInUse == null)
+            {
+                LaunchMenu();
             }
             //factory._game.diag += "Player Pos: " + pos.X + ", " + pos.Y + "\n";
         }
@@ -450,12 +455,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 _sound.playCue("abraisive laser");
             }
 
-            UpdateItemA();
+            UpdateEquippedWeapon();
             //UpdateItemB();
             //UpdateItemC();
         }
 
-        private void UpdateItemA()
+        private void UpdateEquippedWeapon()
         {
             if (stats.inventory.equippedWeapon == null || busy)
                 return;
@@ -711,6 +716,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.removeCueInstance(id + "charging");
             _sound.removeCueInstance(id + "VP_Jet1");
 
+        }
+
+        protected void LaunchMenu()
+        {
+            factory._game.screenManager.AddScreen(new GameplayMenuScreen(factory._game, factory._gm, player));
         }
     }
 

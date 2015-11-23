@@ -39,6 +39,7 @@ using wickedcrush.entity.holder;
 using wickedcrush.map.path;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 using Com.Brashmonkey.Spriter.player;
+using wickedcrush.screen.menu;
 
 namespace wickedcrush.factory.entity
 {
@@ -86,6 +87,11 @@ namespace wickedcrush.factory.entity
                 return savedBools[key];
 
             return false;
+        }
+
+        public void DisplayMessage(String text)
+        {
+            _game.screenManager.AddScreen(new MessageDisplayScreen(text, _game, _gm, _game.playerManager.getPlayerList()[0]));
         }
 
         public void createTextScreen(String text, Vector2 pos)
@@ -489,7 +495,7 @@ namespace wickedcrush.factory.entity
 
         public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel, String font)
         {
-            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, font);
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, font, true);
             _em.addEntity(textEnt);
 
             return textEnt;
@@ -497,7 +503,7 @@ namespace wickedcrush.factory.entity
 
         public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel)
         {
-            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel);
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, true);
             _em.addEntity(textEnt);
 
             return textEnt;
@@ -505,7 +511,7 @@ namespace wickedcrush.factory.entity
 
         public TextEntity addText(String text, Vector2 pos, int duration)
         {
-            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, 1f);
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, 1f, true);
             _em.addEntity(textEnt);
 
             return textEnt;

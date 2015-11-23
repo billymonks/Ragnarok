@@ -8,7 +8,7 @@ using wickedcrush.entity.physics_entity.agent;
 
 namespace wickedcrush.stats
 {
-    public class PersistedStats //totally could have been struct
+    public class PersistedStats
     {
         public Dictionary<String, int> numbers;
 

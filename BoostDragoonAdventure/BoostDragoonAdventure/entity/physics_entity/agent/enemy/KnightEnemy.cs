@@ -117,7 +117,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             }
             stats.inventory.receiveItem(item);
 
-            subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f));
+            subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f, true));
 
             targetable = true;
         }
