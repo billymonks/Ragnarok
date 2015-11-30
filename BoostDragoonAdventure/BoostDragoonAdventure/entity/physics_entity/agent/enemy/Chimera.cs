@@ -269,11 +269,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         int phase = 1;
-                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("maxHP"))) < 0.666f)
+                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("MaxHP"))) < 0.666f)
                         {
                             phase = 2;
                         }
-                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("maxHP"))) < 0.333f)
+                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("MaxHP"))) < 0.333f)
                         {
                             phase = 3;
                         }

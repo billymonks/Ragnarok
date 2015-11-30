@@ -5,9 +5,11 @@ using System.Text;
 using wickedcrush.entity.physics_entity.agent.action;
 using Microsoft.Xna.Framework;
 using wickedcrush.particle;
+using wickedcrush.stats;
 
 namespace wickedcrush.inventory
 {
+    
     public static class InventoryServer
     {
         public static Dictionary<String, Weapon> weapons = new Dictionary<String, Weapon>();
@@ -51,20 +53,21 @@ namespace wickedcrush.inventory
                     if (a.stats.get("charge") > 50)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 600, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25 - a.etheralDMG, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -500);
                     }
                     else if (a.stats.get("charge") > 25)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(500f, 0f), 1, 4, 4, 1, 270, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20, 75, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20 - a.etheralDMG, 75, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -400);
                     }
                     else
                     {
                         
+                        
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(400f, 0f), 1, 4, 4, 0, 270, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(300, 0), -10, 50, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(300, 0), -10 - a.etheralDMG, 50, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -200);
                     }
 
@@ -104,20 +107,20 @@ namespace wickedcrush.inventory
                     if (a.stats.get("charge") > 50)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 35, 32, 16, 0, 340, false, 600f, 800, 600, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(1f, 1f), new Vector2(300, 0), -20, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(1f, 1f), new Vector2(300, 0), -20 - a.etheralDMG, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -500);
                     }
                     else if (a.stats.get("charge") > 25)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(500f, 0f), 35, 16, 16, 0, 340, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20, 75, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20 - a.etheralDMG, 75, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -400);
                     }
                     else
                     {
 
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(400f, 0f), 35, 8, 8, 0, 270, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(300, 0), -10, 50, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(300, 0), -10 - a.etheralDMG, 50, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -200);
                     }
 
@@ -135,7 +138,24 @@ namespace wickedcrush.inventory
                new Weapon("Knife", "A small blade marked with the royal crest of El Legante.", (a, i) =>
                {
                    a.stats.set("charge", 0);
-                   a.useActionSkill(SkillServer.skills["Forward Attack"]);
+                   a.useActionSkill(new SkillStruct("Forward Attack",
+                    new Microsoft.Xna.Framework.Vector2(10f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(20f, 20f),
+                    new Microsoft.Xna.Framework.Vector2(10f, 10f),
+                    new Microsoft.Xna.Framework.Vector2(1f, 0f),
+                    new Vector2(50f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -15 - a.physicalDMG) },
+                    "whsh",
+                    true,
+                    null,
+                    "weapons",
+                    0,
+                    "knife",
+                    false));
                    a.stats.addTo("boost", -50);
                    
                },
@@ -167,7 +187,7 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 50) > 0)
                    {
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3, 3, 0, 10, true, 500f, 500, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(500, 0), -20, 50, 400, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
+                           SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(500, 0), -20 - a.physicalDMG, 50, 400, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
                        a.stats.addTo("boost", -150);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                        //a.stats.addTo("boost", -100);
@@ -175,7 +195,7 @@ namespace wickedcrush.inventory
                    else if (a.stats.compare("charge", 25) > 0)
                    {
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 1, 1, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(500, 0), -20, 50, 400, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
+                           SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(500, 0), -20 - a.physicalDMG, 50, 400, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
                        a.stats.addTo("boost", -150);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                        //a.stats.addTo("boost", -100);
@@ -225,21 +245,40 @@ namespace wickedcrush.inventory
                    a.RemoveOverheadWeapon("Longsword");
                    a.PlayCue("smash");
 
+                   SkillStruct swordAttack = new SkillStruct("Sword Attack",
+                    new Microsoft.Xna.Framework.Vector2(30f, 0f),
+                    new Microsoft.Xna.Framework.Vector2(40f, 40f),
+                    new Microsoft.Xna.Framework.Vector2(0f, 20f),
+                    Vector2.Zero,
+                    new Vector2(40f, 0f),
+                    240,
+                    300,
+                    0,
+                    new List<KeyValuePair<int, SkillStruct>>(),
+                    new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -20 - a.physicalDMG) },
+                    "whsh",
+                    true,
+                    null,
+                    "weapons",
+                    1,
+                    "sword",
+                    false);
+
                    if (a.stats.compare("charge", 25) < 0)
                    {
-                       a.useActionSkill(SkillServer.skills["Sword Attack"]);
+                       a.useActionSkill(swordAttack);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Weak"]);
                    }
                    else if (a.stats.compare("charge", 50) < 0)
                    {
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 3, 3, 0, 45, true, 300f, 100, 0, 1f, null, "attack1", 3, "all",
-                           SkillServer.skills["Sword Attack"], false));
+                           swordAttack, false));
                        //a.useActionSkill(SkillServer.skills["Bigger Sword Attack"]);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                    } else
                    {
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 6, 3, 0, 45, true, 300f, 100, 0, 1f, null, "attack1", 3, "all",
-                           SkillServer.skills["Sword Attack"], false));
+                           swordAttack, false));
                        //a.useActionSkill(SkillServer.skills["Biggest Sword Attack"]);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                    }
@@ -267,7 +306,7 @@ namespace wickedcrush.inventory
                    {
                        a.getTimer("scattertimer").resetAndStart();
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 1, 1, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -5, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
+                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -5 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
                    }
                },
                (a, i) =>
@@ -288,7 +327,7 @@ namespace wickedcrush.inventory
                    a.stats.set("charge", 0);
                    a.stats.addTo("boost", -50);
                    a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 15, true, 500f, 500, 0, 1f, null, "", 0, "",
-                       SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                       SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
                },
                (a, i) =>
@@ -343,8 +382,8 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 60);
 
-                    if (a.stats.get("hp") > a.stats.get("maxHP"))
-                        a.stats.set("hp", a.stats.get("maxHP"));
+                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
+                        a.stats.set("hp", a.stats.get("MaxHP"));
 
                     a.factory.DisplayMessage("Devoured the Pizza!\nRestored 60 HP.");
 
@@ -372,8 +411,8 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 40);
 
-                    if (a.stats.get("hp") > a.stats.get("maxHP"))
-                        a.stats.set("hp", a.stats.get("maxHP"));
+                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
+                        a.stats.set("hp", a.stats.get("MaxHP"));
 
                     a.stats.inventory.removeItem(i);
 
@@ -385,8 +424,8 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 20);
 
-                    if (a.stats.get("hp") > a.stats.get("maxHP"))
-                        a.stats.set("hp", a.stats.get("maxHP"));
+                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
+                        a.stats.set("hp", a.stats.get("MaxHP"));
 
                     a.stats.inventory.removeItem(i);
 
@@ -402,9 +441,10 @@ namespace wickedcrush.inventory
                     new PartStruct(
                         new List<Point>() { new Point(0, 0) },
                         new List<PartConnection>() { 
-                            new PartConnection(new Point(0, 0), 0, ConnectionType.Circle, true)
+                            new PartConnection(new Point(0, 0), 0, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, true)
                             },
-                        new Dictionary<string, int>() {  })));
+                        new Dictionary<GearStat, int>() { })));
 
             parts.Add("Dinky Chamber",
                 new Part("Dinky Chamber",
@@ -413,7 +453,7 @@ namespace wickedcrush.inventory
                         new List<PartConnection>() { 
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
                             new PartConnection(new Point(0, 0), 0, ConnectionType.Triangle, true) },
-                        new Dictionary<string, int>() { { "hp", 1 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxHP, 1 } })));
 
             parts.Add("Pro-grade Chamber",
                 new Part("Pro-grade Chamber",
@@ -423,7 +463,7 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
                             new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true),
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Square, true)},
-                        new Dictionary<string, int>() { { "hp", 2 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxHP, 2 } })));
 
             parts.Add("Kinetic Chamber",
                 new Part("Kinetic Chamber",
@@ -434,7 +474,7 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(1, 0), 0, ConnectionType.Circle, true), 
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Triangle, true),
                             new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true) },
-                        new Dictionary<string, int>() { { "hp", 1 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxHP, 1 } })));
 
             parts.Add("High Performance Chamber",
                 new Part("High Performance Chamber",
@@ -444,7 +484,7 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Triangle, true),
                             new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true) },
-                        new Dictionary<string, int>() { {"hp", 3} })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxHP, 3 } })));
 
             parts.Add("Dinky Belt",
                 new Part("Dinky Belt",
@@ -453,7 +493,7 @@ namespace wickedcrush.inventory
                         new List<PartConnection>() {
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
                             new PartConnection(new Point(0, 0), 0, ConnectionType.Triangle, true) },
-                        new Dictionary<string, int>() { { "ep", 1 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxEP, 1 } })));
 
             parts.Add("Pro-grade Belt",
                 new Part("Pro-grade Belt",
@@ -463,7 +503,7 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
                             new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true) },
-                        new Dictionary<string, int>() { { "ep", 2 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxEP, 2 } })));
 
             parts.Add("Kinetic Belt",
                 new Part("Kinetic Belt",
@@ -474,7 +514,7 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
                             new PartConnection(new Point(1, 0), 0, ConnectionType.Square, true),
                             new PartConnection(new Point(1, 0), 90, ConnectionType.Triangle, true) },
-                        new Dictionary<string, int>() { { "ep", 1 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxEP, 1 } })));
 
             parts.Add("High Performance Belt",
                 new Part("High Performance Belt",
@@ -484,7 +524,197 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
                             new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
                             new PartConnection(new Point(1, 0), 90, ConnectionType.Triangle, true) },
-                        new Dictionary<string, int>() { { "ep", 1 } })));
+                        new Dictionary<GearStat, int>() { { GearStat.MaxEP, 3 } })));
+
+            parts.Add("Dinky Carburetor",
+                new Part("Dinky Carburetor",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.PhysicalDMG, 1 } })));
+
+            parts.Add("Pro Carburetor A",
+                new Part("Pro Carburetor A",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.PhysicalDMG, 2 } })));
+
+            parts.Add("Pro Carburetor B",
+                new Part("Pro Carburetor B",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.PhysicalDMG, 2 } })));
+
+            parts.Add("High Performance Carburetor",
+                new Part("High Performance Carburetor",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.PhysicalDMG, 3 } })));
+
+            parts.Add("Kinetic Carburetor",
+                new Part("Kinetic Carburetor",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.PhysicalDMG, 1 } })));
+
+            parts.Add("Dinky Piston",
+                new Part("Dinky Piston",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EtheralDMG, 1 } })));
+
+            parts.Add("Pro Piston A",
+                new Part("Pro Piston A",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EtheralDMG, 2 } })));
+
+            parts.Add("Pro Piston B",
+                new Part("Pro Piston B",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EtheralDMG, 2 } })));
+
+            parts.Add("High Performance Piston",
+                new Part("High Performance Piston",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(2, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EtheralDMG, 3 } })));
+
+            parts.Add("Kinetic Piston",
+                new Part("Kinetic Piston",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(1, 0), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 270, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EtheralDMG, 1 } })));
+
+            parts.Add("Dinky Crankshaft A",
+                new Part("Dinky Crankshaft A",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPConversion, 1 } })));
+
+            parts.Add("Dinky Crankshaft B",
+                new Part("Dinky Crankshaft B",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPConversion, 1 } })));
+
+            parts.Add("Pro Crankshaft",
+                new Part("Pro Crankshaft",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPConversion, 2 } })));
+
+            parts.Add("Kinetic Crankshaft",
+                new Part("Kinetic Crankshaft",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPConversion, 1 } })));
+
+            parts.Add("Dinky Pump A",
+                new Part("Dinky Pump A",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.HPConversion, 1 } })));
+
+            parts.Add("Dinky Pump B",
+                new Part("Dinky Pump B",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.HPConversion, 1 } })));
+
+            parts.Add("Pro Pump",
+                new Part("Pro Pump",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.HPConversion, 2 } })));
+
+            parts.Add("Kinetic Pump",
+                new Part("Kinetic Pump",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.HPConversion, 1 } })));
 
             #endregion
         }

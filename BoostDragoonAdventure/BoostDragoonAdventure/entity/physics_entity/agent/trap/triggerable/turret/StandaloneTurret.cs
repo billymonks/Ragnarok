@@ -21,7 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
     {
         //private EntityFactory factory;
         float skillVelocity = 0f, blowVelocity = 300f;
-        int spreadDuration = 40, blowCount = 8, blowPerSpread=4, scatterCount = 0, spread=20, blowDuration = 200, blowReleaseDelay = 0, shotTimer = 333, rank = 3;
+        int spreadDuration = 40, blowCount = 8, blowPerSpread=4, scatterCount = 0, spread=10, blowDuration = 200, blowReleaseDelay = 0, shotTimer = 333, rank = 3;
 
 
         public StandaloneTurret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound, int rank)

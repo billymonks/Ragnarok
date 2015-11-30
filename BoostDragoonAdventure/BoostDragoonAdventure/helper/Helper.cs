@@ -151,6 +151,18 @@ namespace wickedcrush.helper
 
         }
 
+        public static Point RotatePoint(Point v, int rotation)
+        {
+            double ca = Math.Round(Math.Cos((rotation) * (Math.PI / 180)));
+            double sa = Math.Round(Math.Sin((rotation) * (Math.PI / 180)));
+            return new Point((int)(ca * v.X - sa * v.Y), (int)(sa * v.X + ca * v.Y));
+        }
+
+        public static Point TranslatePoint(Point v, Point pos)
+        {
+            return new Point(v.X + pos.X, v.Y + pos.Y);
+        }
+
         
     }
 }

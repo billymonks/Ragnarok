@@ -8,6 +8,17 @@ using wickedcrush.entity.physics_entity.agent;
 
 namespace wickedcrush.stats
 {
+    public enum GearStat
+    {
+        MaxHP = 0,
+        MaxEP = 1,
+        PhysicalDMG = 2,
+        EtheralDMG = 3,
+        HPConversion = 4,
+        EPConversion = 5,
+        EPRefill = 6,
+        BoostSpeed = 7
+    }
     public class PersistedStats
     {
         public Dictionary<String, int> numbers;
@@ -25,7 +36,7 @@ namespace wickedcrush.stats
             numbers = new Dictionary<String, int>();
             inventory = new Inventory();
 
-            set("maxHP", maxHP);
+            set("MaxHP", maxHP);
             set("hp", currentHP);
             set("staggerLimit", 100);
             set("staggerDuration", 50);
@@ -40,6 +51,29 @@ namespace wickedcrush.stats
 
             return 0;
             //throw new InvalidOperationException("That number... " + key + "... does not exist!!! I cannot return it! Sorry.");
+        }
+
+        public void ApplyStats()
+        {
+            set("MaxHP", (10 + inventory.gear.GetGearStat(GearStat.MaxHP)) * 10);
+            set("maxBoost", (60 + inventory.gear.GetGearStat(GearStat.MaxEP)) * 10);
+            set("PhysicalDMG", inventory.gear.GetGearStat(GearStat.PhysicalDMG));
+            set("EtheralDMG", inventory.gear.GetGearStat(GearStat.EtheralDMG));
+            set("HPConversion", (1 + inventory.gear.GetGearStat(GearStat.HPConversion)));
+            set("EPConversion", (10 + inventory.gear.GetGearStat(GearStat.EPConversion) * 3));
+            set("fillSpeed", inventory.gear.GetGearStat(GearStat.EPRefill));
+            set("boostSpeedMod", inventory.gear.GetGearStat(GearStat.BoostSpeed));
+
+            EnforceMaxStats();
+        }
+
+        public void EnforceMaxStats()
+        {
+            if (compare("hp", "MaxHP") == 1)
+                set("hp", get("MaxHP"));
+
+            if (compare("boost", "maxBoost") == 1)
+                set("boost", get("maxBoost"));
         }
 
         public void set(String key, int value)

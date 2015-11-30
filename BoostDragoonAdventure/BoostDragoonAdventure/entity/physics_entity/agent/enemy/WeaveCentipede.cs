@@ -96,7 +96,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     setTargetToClosestPlayer(true, 360);
 
                     int phase = 1;
-                    if ((((float)this.stats.get("hp")) / ((float)this.stats.get("maxHP"))) < 0.5f)
+                    if ((((float)this.stats.get("hp")) / ((float)this.stats.get("MaxHP"))) < 0.5f)
                     {
                         phase = 2;
                     }

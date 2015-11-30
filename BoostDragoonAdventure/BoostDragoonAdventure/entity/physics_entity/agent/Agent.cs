@@ -112,6 +112,8 @@ namespace wickedcrush.entity.physics_entity.agent
         public bool inJump = false;
         public Vector2 jumpDestination = Vector2.Zero;
         public Vector2 jumpStartPoint = Vector2.Zero;
+
+        public int physicalDMG = 0, etheralDMG = 0;
         //public int jumpHeight = 0;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
@@ -768,8 +770,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             spriteBatch.Draw(wTex, new Rectangle(
                 (int)pos.X - (int)camera.cameraPosition.X, 
-                (int)pos.Y - 6 - (int)camera.cameraPosition.Y, 
-                barWidth * stats.get("hp") / stats.get("maxHP"), 2), 
+                (int)pos.Y - 6 - (int)camera.cameraPosition.Y,
+                barWidth * stats.get("hp") / stats.get("MaxHP"), 2), 
                 Color.Red);
             if (staggered)
             {
@@ -1156,7 +1158,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void UpdateHpBar()
         {
-            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("maxHP"))) * 99.0);
+            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("MaxHP"))) * 99.0);
             //long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
             hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
             //hudSpriters["fuel_bar"].player.setFrame(fuelSunday);

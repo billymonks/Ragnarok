@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using wickedcrush.stats;
 
 namespace wickedcrush.inventory
 {
@@ -17,9 +18,9 @@ namespace wickedcrush.inventory
     {
         public List<Point> slots;
         public List<PartConnection> connections;
-        public Dictionary<String, int> stats;
+        public Dictionary<GearStat, int> stats;
 
-        public PartStruct(List<Point> slots, List<PartConnection> connections, Dictionary<String, int> stats)
+        public PartStruct(List<Point> slots, List<PartConnection> connections, Dictionary<GearStat, int> stats)
         {
             this.slots = slots;
             this.connections = connections;

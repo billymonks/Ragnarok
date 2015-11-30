@@ -13,9 +13,11 @@ using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.player;
 using wickedcrush.inventory;
+using wickedcrush.stats;
 
 namespace wickedcrush.screen.menu
 {
+
     public enum ItemType
     {
         Consumable = 0,
@@ -31,14 +33,19 @@ namespace wickedcrush.screen.menu
 
         protected ItemType displayType;
 
+        protected List<Part> partList;
         protected List<Consumable> consumableList;
+
+        protected List<Item> itemList;
 
         protected Dictionary<int, SpriterPlayer> inventorySlotSpriters;
         protected Dictionary<int, Rectangle> inventoryBoxes;
-        
+
 
         protected SpriterPlayer descSpriter;
         protected Rectangle descBox;
+
+        protected List<SpriterPlayer> partSpriters;
 
         protected TextEntity pageTitle, itemName, itemDesc;
 
@@ -49,7 +56,7 @@ namespace wickedcrush.screen.menu
         public InventoryMenuScreen(GameBase game, GameplayManager gm, Player p)
             : base(game, gm, p)
         {
-            
+
             //Initialize(game);
         }
 
@@ -59,21 +66,52 @@ namespace wickedcrush.screen.menu
 
             backgroundColor = new Color(0.4f, 0.4f, 0f, 1f);
 
-            displayType = ItemType.Consumable;
+            displayType = ItemType.Part;
 
             inventorySlotSpriters = new Dictionary<int, SpriterPlayer>();
             inventoryBoxes = new Dictionary<int, Rectangle>();
 
+            partList = p.getStats().inventory.GetPartList();
             consumableList = p.getStats().inventory.GetConsumableList();
 
-            pageTitle = new TextEntity("ITEMS", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
+            itemList = new List<Item>();
+            foreach (Consumable consumable in consumableList)
+            {
+                itemList.Add(consumable);
+            }
+            foreach (Part part in partList)
+            {
+                itemList.Add(part);
+            }
+
+
+
+            partSpriters = new List<SpriterPlayer>();
+
+            pageTitle = new TextEntity("INVENTORY", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
 
             itemName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
 
             itemDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             itemDesc.center = false;
 
-            inventoryBoxes.Add(0, new Rectangle(20, 20 + height, 200, 200));
+            for (int i = 0; i < 36; i++)
+            {
+                int x = i % 6;
+                int y = i / 6;
+
+                inventoryBoxes.Add(i, new Rectangle(20 + x * 120, 20 + height + y * 120, 100, 100));
+
+                inventorySlotSpriters.Add(i, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader));
+
+                inventorySlotSpriters[i].setAnimation("unselected", 0, 0);
+
+
+            }
+
+            descBox = new Rectangle(halfPageWidth + 20, 20 + height, 680, 680);
+
+            /*inventoryBoxes.Add(0, new Rectangle(20, 20 + height, 200, 200));
             inventoryBoxes.Add(1, new Rectangle(260, 20 + height, 200, 200));
             inventoryBoxes.Add(2, new Rectangle(500, 20 + height, 200, 200));
             inventoryBoxes.Add(3, new Rectangle(20, 260 + height, 200, 200));
@@ -83,7 +121,7 @@ namespace wickedcrush.screen.menu
             inventoryBoxes.Add(7, new Rectangle(260, 500 + height, 200, 200));
             inventoryBoxes.Add(8, new Rectangle(500, 500 + height, 200, 200));
 
-            descBox = new Rectangle(halfPageWidth + 20, 20 + height, 680, 680);
+            
 
             inventorySlotSpriters.Add(0, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader));
             inventorySlotSpriters.Add(1, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader));
@@ -103,7 +141,7 @@ namespace wickedcrush.screen.menu
             inventorySlotSpriters[5].setAnimation("unselected", 0, 0);
             inventorySlotSpriters[6].setAnimation("unselected", 0, 0);
             inventorySlotSpriters[7].setAnimation("unselected", 0, 0);
-            inventorySlotSpriters[8].setAnimation("unselected", 0, 0);
+            inventorySlotSpriters[8].setAnimation("unselected", 0, 0);*/
 
             descSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader);
             descSpriter.setAnimation("unselected", 0, 0);
@@ -118,7 +156,7 @@ namespace wickedcrush.screen.menu
             AddText(pageTitle);
             AddText(itemName);
             AddText(itemDesc);
-            
+
         }
 
         public override void Dispose()
@@ -135,17 +173,28 @@ namespace wickedcrush.screen.menu
 
             if (listChange)
             {
+                partList = p.getStats().inventory.GetPartList();
                 consumableList = p.getStats().inventory.GetConsumableList();
+
+                itemList.Clear();
+                foreach (Consumable consumable in consumableList)
+                {
+                    itemList.Add(consumable);
+                }
+                foreach (Part part in partList)
+                {
+                    itemList.Add(part);
+                }
             }
 
             foreach (KeyValuePair<int, SpriterPlayer> pair in inventorySlotSpriters)
             {
                 pair.Value.setAnimation("blank", 0, 0);
 
-                if(pair.Key < consumableList.Count)
+                if (pair.Key < itemList.Count)
                     pair.Value.setAnimation("unselected", 0, 0);
 
-                if (inventoryBoxes[pair.Key].Contains(Helper.CastToPoint(cursorPos)) && pair.Key < consumableList.Count)
+                if (inventoryBoxes[pair.Key].Contains(Helper.CastToPoint(cursorPos)) && pair.Key < itemList.Count)
                 {
                     highlightedItem = pair.Key;
                     if (highlightedItem == lastHighlightedIndex)
@@ -162,19 +211,19 @@ namespace wickedcrush.screen.menu
                     pair.Value.setAnimation("selected", 0, 0);
                 }
 
-                pair.Value.setScale(2f);
+                pair.Value.setScale(1f);
                 pair.Value.update(inventoryBoxes[pair.Key].Center.X, -inventoryBoxes[pair.Key].Center.Y);
                 pair.Value.SetDepth(0.06f);
             }
 
-            
+
 
             //for (int i = 0; i < weaponList.Count; i++)
             //{
-                //if (p.getStats().inventory.equippedWeapon == weaponList[i])
-                //{
-                    //equippedWeapon = i;
-                //}
+            //if (p.getStats().inventory.equippedWeapon == weaponList[i])
+            //{
+            //equippedWeapon = i;
+            //}
             //}
 
             /*foreach (KeyValuePair<int, SpriterPlayer> pair in weaponSlotSpriters)
@@ -203,7 +252,7 @@ namespace wickedcrush.screen.menu
 
             descSpriter.setScale(6.8f);
             descSpriter.update(descBox.Center.X, -descBox.Center.Y);
-            descSpriter.SetDepth(0.06f);
+            descSpriter.SetDepth(0.3f);
 
 
             UpdateItemDesc();
@@ -218,46 +267,128 @@ namespace wickedcrush.screen.menu
             }
 
             HandleClick();
-            
+
         }
 
         private void UpdateItemDesc()
         {
-            if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < consumableList.Count)
+            if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < itemList.Count)
             {
-                itemName.text = consumableList[lastHighlightedIndex].name;
-                itemDesc.text = consumableList[lastHighlightedIndex].desc;
+                itemName.text = itemList[lastHighlightedIndex].name;
+                itemDesc.text = itemList[lastHighlightedIndex].desc;
                 itemDesc.SetMaxWidth(600f);
+
+                if (itemList[lastHighlightedIndex] is Part)
+                {
+                    foreach (KeyValuePair<GearStat, int> stat in ((Part)itemList[lastHighlightedIndex]).partStruct.stats)
+                        itemDesc.text += "\n\n" + stat.Key + ": +" + stat.Value;
+                    UpdatePartDisplay();
+                }
+                else
+                {
+                    ClearPartDisplay();
+                }
             }
 
             highlightChange = false;
+        }
+
+        private void ClearPartDisplay()
+        {
+            foreach (SpriterPlayer p in partSpriters)
+            {
+                RemoveSpriter(p);
+            }
+
+            partSpriters.Clear();
+        }
+
+        private void UpdatePartDisplay()
+        {
+            Part selectedPart = (Part)itemList[lastHighlightedIndex];
+            SpriterPlayer tempSpriter;
+            Point partDisplayPos = new Point(1155, 540);
+
+            ClearPartDisplay();
+
+            foreach (Point p in selectedPart.partStruct.slots)
+            {
+                tempSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 7, _gm.factory._spriterManager.spriters["hud"].loader);
+                tempSpriter.setAnimation("light", 0, 0);
+                tempSpriter.update(partDisplayPos.X + (p.X * 50), -partDisplayPos.Y - (p.Y * 50));
+                tempSpriter.SetDepth(0.2f);
+                partSpriters.Add(tempSpriter);
+                AddSpriter(tempSpriter);
+            }
+
+            foreach (PartConnection c in selectedPart.partStruct.connections)
+            {
+                int entNum = 9;
+
+                Point cRotation = new Point((int)Math.Round(Math.Cos(MathHelper.ToRadians(c.direction))), (int)Math.Round(Math.Sin(MathHelper.ToRadians(c.direction))));
+
+                switch (c.type)
+                {
+                    case ConnectionType.Circle:
+                        entNum = 9;
+                        break;
+
+                    case ConnectionType.Square:
+                        entNum = 10;
+                        break;
+
+                    case ConnectionType.Triangle:
+                        entNum = 11;
+                        break;
+                }
+
+                tempSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), entNum, _gm.factory._spriterManager.spriters["hud"].loader);
+
+                if (c.female)
+                {
+                    tempSpriter.setAnimation("inside", 0, 0);
+                }
+                else
+                {
+                    tempSpriter.setAnimation("outside", 0, 0);
+                }
+
+                tempSpriter.SetDepth(0.1f);
+
+                tempSpriter.update(partDisplayPos.X + (c.slot.X * 50) + (cRotation.X * 25), -partDisplayPos.Y - (c.slot.Y * 50) - (cRotation.Y * 25));
+
+                partSpriters.Add(tempSpriter);
+                AddSpriter(tempSpriter);
+
+            }
         }
 
         private void HandleClick()
         {
             if (p.c.InteractPressed())
             {
-                if (displayType == ItemType.Consumable)
+                //show consumables
+
+                if (highlightedItem > -1 && highlightedItem < itemList.Count)
                 {
-                    //show consumables
+                    //p.getStats().inventory.equippedWeapon = weaponList[highlightedWeapon];
+                    //equippedWeapon = highlightedWeapon;
+                    //partList[highlightedItem].Use(p.getAgent());
 
-                    if (highlightedItem > -1 && highlightedItem < consumableList.Count)
+                    if (itemList[highlightedItem] is Consumable)
                     {
-                        //p.getStats().inventory.equippedWeapon = weaponList[highlightedWeapon];
-                        //equippedWeapon = highlightedWeapon;
-                        consumableList[highlightedItem].Use(p.getAgent());
-
-                        if (p.getStats().inventory.getItemCount(consumableList[highlightedItem]) <= 0)
-                        {
-                            highlightedItem = -1;
-                            lastHighlightedIndex = -1;
-                            listChange = true;
-
-                            itemName.text = "";
-                            itemDesc.text = "";
-                        }
+                        ((Consumable)itemList[highlightedItem]).Use(p.getAgent());
                     }
 
+                    if (p.getStats().inventory.getItemCount(itemList[highlightedItem]) <= 0)
+                    {
+                        highlightedItem = -1;
+                        lastHighlightedIndex = -1;
+                        listChange = true;
+
+                        itemName.text = "";
+                        itemDesc.text = "";
+                    }
                 }
             }
         }

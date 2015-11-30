@@ -252,6 +252,7 @@ namespace wickedcrush.manager.player
             XElement statsElement = new XElement("stats");
             XElement inventoryElement = new XElement("inventory");
             XElement equipmentElement = new XElement("equipment");
+            XElement gearElement = new XElement("gear");
 
             XElement temp;
 
@@ -293,14 +294,81 @@ namespace wickedcrush.manager.player
                 equipmentElement.Add(temp);
             }
 
+            SaveGear(p, gearElement);
+
             inventoryElement.Add(new XAttribute("gold", p.getStats().inventory.currency));
 
             doc.Add(rootElement);
             rootElement.Add(statsElement);
             rootElement.Add(inventoryElement);
             rootElement.Add(equipmentElement);
+            rootElement.Add(gearElement);
 
             doc.Save(path);
+        }
+
+        private void SaveGear(Player p, XElement gearElement)
+        {
+            XElement coreElement = new XElement("core");
+            coreElement.Add(new XAttribute("name", p.getStats().inventory.gear.core.part.name));
+
+            List<EquippedConnection> connections = p.getStats().inventory.gear.core.equippedConnections;
+
+            for (int i = 0; i < connections.Count; i++)
+            {
+                if (connections[i].connection.female && connections[i].child != null)
+                {
+                    SavePart(p, connections[i].child, coreElement, i);
+                }
+            }
+
+            gearElement.Add(coreElement);
+        }
+
+        private void SavePart(Player p, EquippedPart childPart, XElement parentElement, int connectionIndex)
+        {
+            XElement partElement = new XElement("part");
+            partElement.Add(new XAttribute("index", connectionIndex));
+            partElement.Add(new XAttribute("name", childPart.part.name));
+
+            List<EquippedConnection> connections = childPart.equippedConnections;
+
+            for (int i = 0; i < connections.Count; i++)
+            {
+                if (connections[i].connection.female && connections[i].child != null)
+                {
+                    SavePart(p, connections[i].child, partElement, i);
+                }
+            }
+
+            parentElement.Add(partElement);
+        }
+
+        private void LoadGear(Player p, XElement gearElement)
+        {
+            XElement coreElement = gearElement.Element("core");
+
+            EquippedPart core = new EquippedPart(InventoryServer.getPart(coreElement.Attribute("name").Value), null);
+
+            p.getStats().inventory.gear = new Gear(core, new List<EquippedPart>());
+
+            foreach (XElement partElement in coreElement.Elements("part"))
+            {
+                LoadPart(p, partElement, core.equippedConnections[int.Parse(partElement.Attribute("index").Value)]);
+            }
+
+            p.getStats().ApplyStats();
+        }
+
+        private void LoadPart(Player p, XElement partElement, EquippedConnection parentConnection)
+        {
+            EquippedPart tempPart = p.getStats().inventory.gear.EquipPart(InventoryServer.getPart(partElement.Attribute("name").Value), parentConnection);
+            
+
+            foreach (XElement subElement in partElement.Elements("part"))
+            {
+                LoadPart(p, subElement, tempPart.equippedConnections[int.Parse(subElement.Attribute("index").Value)]);
+            }
         }
 
         public Player loadPlayer(String localId, int playerNumber, Controls c)
@@ -315,6 +383,7 @@ namespace wickedcrush.manager.player
             XElement statsElement = new XElement(rootElement.Element("stats"));
             XElement inventoryElement = new XElement(rootElement.Element("inventory"));
             XElement equipmentElement = new XElement(rootElement.Element("equipment"));
+            XElement gearElement = new XElement(rootElement.Element("gear"));
             
 
             PersistedStats stats = new PersistedStats();
@@ -348,6 +417,8 @@ namespace wickedcrush.manager.player
 
 
             Player p = new Player(rootElement.Attribute("name").Value, playerNumber, c, stats, g.panelFactory);
+
+            LoadGear(p, gearElement);
 
             p.localId = localId;
             p.globalId = int.Parse(rootElement.Attribute("globalId").Value);

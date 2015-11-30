@@ -130,10 +130,10 @@ namespace wickedcrush.screen.menu
 
         private void HandleClick()
         {
-            if (p.c.BoostPressed())
-            {
-                game.screenManager.AddScreen(new GearUpgradeMenuScreen(game, _gm, p));
-            }
+            //if (p.c.BoostPressed())
+            //{
+                //game.screenManager.AddScreen(new GearUpgradeMenuScreen(game, _gm, p));
+            //}
             if (p.c.InteractPressed())
             {
                 switch (selectedOption)
@@ -141,11 +141,11 @@ namespace wickedcrush.screen.menu
                     case 0: //weapons
                         game.screenManager.AddScreen(new WeaponSelectMenuScreen(game, _gm, p));
                         break;
-                    case 1: //consumables
+                    case 1: //items
                         game.screenManager.AddScreen(new InventoryMenuScreen(game, _gm, p));
                         break;
                     case 2: //parts
-                        game.screenManager.AddScreen(new PartMenuScreen(game, _gm, p));
+                        game.screenManager.AddScreen(new GearUpgradeMenuScreen(game, _gm, p));
                         break;
                 }
             }

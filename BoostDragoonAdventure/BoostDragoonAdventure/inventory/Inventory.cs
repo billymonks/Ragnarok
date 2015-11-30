@@ -26,12 +26,12 @@ namespace wickedcrush.inventory
             parts = new Dictionary<Part, int>();
             currency = 0;
 
-            EquippedPart core = new EquippedPart(InventoryServer.getPart("Basic Core"), null, null);
+            EquippedPart core = new EquippedPart(InventoryServer.getPart("Basic Core"), null);
             gear = new Gear(core, new List<EquippedPart>());
 
-            EquippedPart temp = gear.EquipPart(InventoryServer.getPart("Pro-grade Chamber"), core, core.part.partStruct.connections[0]);
+            //EquippedPart temp = gear.EquipPart(InventoryServer.getPart("Pro-grade Chamber"), core.equippedConnections[0]);
 
-            gear.EquipPart(InventoryServer.getPart("High Performance Belt"), temp, temp.part.partStruct.connections[2]);
+            //gear.EquipPart(InventoryServer.getPart("High Performance Belt"), temp.equippedConnections[2]);
         }
 
         public List<Weapon> getWeaponList()
@@ -87,6 +87,59 @@ namespace wickedcrush.inventory
             equippedWeapon = itemList[index];
         }
 
+        public void UnequipPart(EquippedPart p)
+        {
+            foreach (EquippedConnection connection in p.equippedConnections)
+            {
+                if (!connection.connection.female)
+                {
+
+
+                    foreach (EquippedConnection parentConnection in connection.parent.parentPart.equippedConnections)
+                    {
+                        if (parentConnection.child == p)
+                        {
+                            parentConnection.child = null;
+                        }
+                    }
+
+                    //connection.parent = null;
+
+                }
+            }
+
+            UnequipNestedParts(p);
+        }
+
+        private void UnequipNestedParts(EquippedPart p)
+        {
+            foreach (EquippedConnection connection in p.equippedConnections)
+            {
+                if (connection.connection.female && connection.child != null)
+                {
+                    UnequipNestedParts(connection.child);
+                }
+                //else if (connection.connection.female && connection.parent != null)
+                //{
+                //connection.parent = null;
+                //}
+            }
+
+            if (gear.parts.Contains(p))
+            {
+                receiveItem(p.part);
+                gear.parts.Remove(p);
+            }
+
+            changed = true;
+        }
+
+        public void EquipPart(Part p, EquippedConnection c)
+        {
+            removeItem(p);
+            gear.EquipPart(p, c);
+        }
+
         public void EquipCore(Part p)
         {
             foreach (EquippedPart equippedPart in gear.parts)
@@ -98,6 +151,7 @@ namespace wickedcrush.inventory
 
             gear.RemoveAllParts();
 
+            removeItem(p);
             gear.EquipCore(p);
         }
 
@@ -353,6 +407,18 @@ namespace wickedcrush.inventory
                 //play buzzer.wav, shouldn't be able to ask to sell for more than you have
                 return false;
             }
+        }
+
+        public List<Part> GetCompatibleParts(EquippedConnection connection)
+        {
+            List<Part> compatibleParts = new List<Part>();
+            foreach (Part p in GetPartList())
+            {
+                if (gear.PartFits(p, connection))
+                    compatibleParts.Add(p);
+            }
+
+            return compatibleParts;
         }
     }
 }

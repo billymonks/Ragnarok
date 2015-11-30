@@ -57,6 +57,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             this.stats = stats;
 
+            applyStats();
+
             if (controls is GamepadControls)
                 factory._game.settings.controlMode = utility.config.ControlMode.Gamepad;
         }
@@ -79,6 +81,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
+
 
 
             _sound.addCueInstance("blast off", id + "blast off", false);
@@ -110,6 +113,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void applyStats()
         {
+            stats.ApplyStats();
+
+            physicalDMG = stats.inventory.gear.GetGearStat(GearStat.PhysicalDMG);
+            etheralDMG = stats.inventory.gear.GetGearStat(GearStat.EtheralDMG);
+
             boostSpeed = 100f + ((float)stats.get("boostSpeedMod") * (5f));
             fillSpeed = 3f + ((float)stats.get("fillSpeed"));
         }
@@ -119,7 +127,25 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
             {
                 dodgeSuccess = true;
-                stats.addTo("boost", 300);
+
+                int hpConversion = stats.get("HPConversion");
+                int epConversion = stats.get("EPConversion");
+
+                stats.addTo("hp", hpConversion);
+                stats.addTo("boost", epConversion);
+
+                if (hpConversion > 0)
+                {
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Red);
+                }
+
+                if (epConversion > 0)
+                {
+                    factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(50, 0), 1000, Color.Green);
+                }
+
+                stats.EnforceMaxStats();
+
                 timers["iFrameTime"].resetAndStart();
                 _sound.playCue("ping3", emitter);
             }
@@ -136,7 +162,25 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
             {
                 dodgeSuccess = true;
-                stats.addTo("boost", 300);
+
+                int hpConversion = stats.get("HPConversion");
+                int epConversion = stats.get("EPConversion");
+
+                stats.addTo("hp", hpConversion);
+                stats.addTo("boost", epConversion);
+
+                if (hpConversion > 0)
+                {
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-10, -20), 200, Color.LightSeaGreen);
+                }
+
+                if (epConversion > 0)
+                {
+                    factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(10, -20), 200, Color.AliceBlue);
+                }
+
+                stats.EnforceMaxStats();
+
                 timers["iFrameTime"].resetAndStart();
                 _sound.playCue("ping3", emitter);
                 action.StealParent(this);
@@ -186,6 +230,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.compare("boost", "maxBoost") == 1)
                 stats.set("boost", stats.get("maxBoost"));
 
+            if (stats.compare("hp", "MaxHP") == 1)
+                stats.set("hp", stats.get("MaxHP"));
+
             if (stats.get("boost") > 0)
             {
                 overheating = false;
@@ -210,7 +257,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             UpdateHpBar();
             UpdateAnimation();
-            applyStats();
+            
 
             if (factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
             {

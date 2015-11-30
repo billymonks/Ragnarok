@@ -257,7 +257,7 @@ namespace wickedcrush.factory.entity
         {
             WeaveCentipede c = new WeaveCentipede(_w, pos, this, new PersistedStats(), _sm);
             c.stats.set("hp", 2000);
-            c.stats.set("maxHP", 2000);
+            c.stats.set("MaxHP", 2000);
             c.stats.set("staggerLimit", 2500);
             c.stats.set("stagger", 0);
             c.stats.set("staggerDuration", 60);
@@ -270,7 +270,7 @@ namespace wickedcrush.factory.entity
         {
             Chimera c = new Chimera(_w, pos, this, new PersistedStats(), _sm);
             c.stats.set("hp", 2000);
-            c.stats.set("maxHP", 2000);
+            c.stats.set("MaxHP", 2000);
             c.stats.set("staggerLimit", 1500);
             c.stats.set("stagger", 0);
             c.stats.set("staggerDuration", 60);
@@ -283,7 +283,7 @@ namespace wickedcrush.factory.entity
         {
             Giant g = new Giant(_w, pos, new Vector2(48, 48), new Vector2(24, 24), true, this, new PersistedStats(), _sm);
             g.stats.set("hp", 2000);
-            g.stats.set("maxHP", 2000);
+            g.stats.set("MaxHP", 2000);
             g.stats.set("staggerLimit", 4500);
             g.stats.set("stagger", 0);
             g.stats.set("staggerDuration", 240);
@@ -306,7 +306,7 @@ namespace wickedcrush.factory.entity
             PersistedStats fuckStats = new PersistedStats();
             KnightEnemy a = new KnightEnemy(_w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 280);
-            a.stats.set("maxHP", 280);
+            a.stats.set("MaxHP", 280);
             a.stats.set("staggerLimit", 500);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 40);
@@ -324,7 +324,7 @@ namespace wickedcrush.factory.entity
             PersistedStats fuckStats = new PersistedStats();
             KnightEnemy a = new KnightEnemy(_w, pos, size, center, true, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 100);
-            a.stats.set("maxHP", 100);
+            a.stats.set("MaxHP", 100);
             a.stats.set("staggerLimit", 300);
             a.stats.set("stagger", 0);
             a.stats.set("staggerDuration", 60);
@@ -341,7 +341,7 @@ namespace wickedcrush.factory.entity
             PersistedStats fuckStats = new PersistedStats();
             ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm, spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
             s.stats.set("hp", 100);
-            s.stats.set("maxHP", 100);
+            s.stats.set("MaxHP", 100);
             s.stats.set("staggerLimit", 500);
             s.stats.set("stagger", 0);
             s.stats.set("staggerDuration", 60);
@@ -354,7 +354,7 @@ namespace wickedcrush.factory.entity
         {
             StandaloneTurret t = new StandaloneTurret(_w, pos, this, facing, _sm, rank);
             t.stats.set("hp", 20);
-            t.stats.set("maxHP", 20);
+            t.stats.set("MaxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             _em.addEntity(t);
@@ -364,7 +364,7 @@ namespace wickedcrush.factory.entity
         {
             AimTurret t = new AimTurret(_w, pos, this, Direction.East, _sm, rank);
             t.stats.set("hp", 20);
-            t.stats.set("maxHP", 20);
+            t.stats.set("MaxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             _em.addEntity(t);
@@ -448,7 +448,7 @@ namespace wickedcrush.factory.entity
         {
             TimerTrigger t = new TimerTrigger(_w, pos, this, _sm, time);
             t.stats.set("hp", 20);
-            t.stats.set("maxHP", 20);
+            t.stats.set("MaxHP", 20);
             t.stats.set("staggerDuration", 1);
             t.stats.set("staggerDistance", 0);
             
@@ -517,6 +517,15 @@ namespace wickedcrush.factory.entity
             return textEnt;
         }
 
+        public TextEntity addText(String text, Vector2 pos, int duration, Color color)
+        {
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, 1f, true);
+            textEnt.textColor = color;
+            _em.addEntity(textEnt);
+
+            return textEnt;
+        }
+
         public void spawnPlayers(int doorIndex)
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
@@ -553,7 +562,7 @@ namespace wickedcrush.factory.entity
             {
                 if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                 {
-                    p.getStats().set("hp", p.getStats().get("maxHP"));
+                    p.getStats().set("hp", p.getStats().get("MaxHP"));
                     p.GenerateAgent(p.respawnPoint.pos + p.respawnPoint.center, new Vector2(24, 24), new Vector2(12, 12), true, this);
                     current = current.Next;
                 }
