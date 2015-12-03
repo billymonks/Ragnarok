@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
+using System.Diagnostics;
 
 namespace Com.Brashmonkey.Spriter.xml
 {
@@ -58,6 +59,9 @@ namespace Com.Brashmonkey.Spriter.xml
 
         public static bool getBool(XmlNode node, string name)
         {
+            //if (node == null)
+                //return false;
+
             try
             {
                 return bool.Parse(getAttribute(node, name));

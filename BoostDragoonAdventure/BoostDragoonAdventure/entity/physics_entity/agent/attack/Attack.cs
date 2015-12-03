@@ -17,14 +17,14 @@ namespace wickedcrush.entity.physics_entity.agent.attack
         public int damage, force; // migrate to attackstats class?
         protected bool reactToWall = false, piercing = true, ignoreSameParent = true;
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, false, factory, sound)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, int damage, int force, SoundManager sound, EntityFactory factory)
+            : base(w, pos, size, center, solid, factory, sound)
         {
             Initialize(damage, force);
         }
 
-        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, false, factory, sound)
+        public Attack(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
+            : base(w, pos, size, center, solid, factory, sound)
         {
             this.parent = parent;
             Initialize(damage, force);
@@ -67,12 +67,16 @@ namespace wickedcrush.entity.physics_entity.agent.attack
                         break;
 
                     ((Agent)c.Other.UserData).TakeHit(this);
-                    
+
                     if (!piercing)
-                        this.remove = true;
+                    {
+                        this.Remove();
+                        //this.remove = true;
+                    }
                 } else if (reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
-                    this.remove = true;
+                    this.Remove();
+                    //this.remove = true;
                 }
 
                 c = c.Next;

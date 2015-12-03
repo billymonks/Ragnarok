@@ -13,8 +13,12 @@ namespace wickedcrush.controls
 
         private GamePadState padState, prevPadState;
 
-        private Buttons interactButton = Buttons.A, itemAButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger;
+        //classic controls
+        private Buttons interactButton = Buttons.A, useWeaponButton = Buttons.X, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger, lockOnButton = Buttons.RightStick, itemScrollUp = Buttons.RightShoulder, itemScrollDown = Buttons.LeftShoulder, launchMenuButton = Buttons.Start;
 
+        //twinstick controls
+        //private Buttons interactButton = Buttons.LeftShoulder, useWeaponButton = Buttons.RightShoulder, itemBButton = Buttons.Y, itemCButton = Buttons.B, boostButton = Buttons.RightTrigger, reverseBoostButton = Buttons.LeftTrigger, lockOnButton = Buttons.RightStick, itemScrollUp = Buttons.A, itemScrollDown = Buttons.X;
+        
         public GamepadControls(PlayerIndex playerIndex)
         {
             this.playerIndex = playerIndex;
@@ -58,25 +62,25 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemAHeld()
+        public override bool WeaponHeld()
         {
-            if (padState.IsButtonDown(itemAButton))
+            if (padState.IsButtonDown(useWeaponButton))
                 return true;
             else
                 return false;
         }
 
-        public override bool ItemAPressed()
+        public override bool WeaponPressed()
         {
-            if (padState.IsButtonDown(itemAButton) && prevPadState.IsButtonUp(itemAButton))
+            if (padState.IsButtonDown(useWeaponButton) && prevPadState.IsButtonUp(useWeaponButton))
                 return true;
             else
                 return false;
         }
 
-        public override bool ItemAReleased()
+        public override bool WeaponReleased()
         {
-            if (padState.IsButtonUp(itemAButton))
+            if (padState.IsButtonUp(useWeaponButton))
                 return true;
             else
                 return false;
@@ -286,12 +290,50 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool SelectPressed()
+        public override bool LaunchMenuPressed()
         {
-            if (padState.IsButtonDown(Buttons.Back) && prevPadState.IsButtonUp(Buttons.Back))
+            if (padState.IsButtonDown(Buttons.Start) && prevPadState.IsButtonUp(Buttons.Start))
                 return true;
             else
                 return false;
+        }
+
+        public override bool SelectPressed()
+        {
+            if (padState.IsButtonDown(Buttons.Back) && prevPadState.IsButtonUp(Buttons.Back) || (keyState.IsKeyDown(Keys.Escape) && prevKeyState.IsKeyUp(Keys.Escape)))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool LockOnPressed()
+        {
+            if (padState.IsButtonDown(lockOnButton) && prevPadState.IsButtonUp(lockOnButton))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool WeaponScrollUp()
+        {
+            if (padState.IsButtonDown(itemScrollUp) && prevPadState.IsButtonUp(itemScrollUp))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public override bool WeaponScrollDown()
+        {
+            if (padState.IsButtonDown(itemScrollDown) && prevPadState.IsButtonUp(itemScrollDown))
+            {
+                return true;
+            }
+
+            return false;
         }
         
     }

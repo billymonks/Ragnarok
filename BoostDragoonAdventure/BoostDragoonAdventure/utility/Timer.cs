@@ -81,9 +81,19 @@ namespace wickedcrush.utility
             interval = TimeSpan.FromMilliseconds(milliseconds);
         }
 
+        public double getInterval()
+        {
+            return interval.TotalMilliseconds;
+        }
+
         public float getPercent()
         {
             return ((float)currentTime.TotalMilliseconds) / ((float)interval.TotalMilliseconds);
+        }
+
+        public double getPercentDouble()
+        {
+            return (currentTime.TotalMilliseconds) / (interval.TotalMilliseconds);
         }
 
         private void checkIfDone()
@@ -91,6 +101,7 @@ namespace wickedcrush.utility
             if (currentTime > interval)
             {
                 done = true;
+                active = false;
             }
         }
     }

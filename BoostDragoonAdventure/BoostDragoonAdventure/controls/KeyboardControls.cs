@@ -12,7 +12,7 @@ namespace wickedcrush.controls
 
         private Keys 
             interactKey = Keys.E,
-            itemAKey = Keys.J, 
+            useWeaponKey = Keys.J, 
             itemBKey = Keys.K, 
             itemCKey = Keys.L, 
             boostKey = Keys.Space,
@@ -76,25 +76,25 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemAHeld()
+        public override bool WeaponHeld()
         {
-            if (keyState.IsKeyDown(itemAKey))
+            if (keyState.IsKeyDown(useWeaponKey))
                 return true;
             else
                 return false;
         }
 
-        public override bool ItemAPressed()
+        public override bool WeaponPressed()
         {
-            if (keyState.IsKeyDown(itemAKey) && prevKeyState.IsKeyUp(itemAKey))
+            if (keyState.IsKeyDown(useWeaponKey) && prevKeyState.IsKeyUp(useWeaponKey))
                 return true;
             else
                 return false;
         }
 
-        public override bool ItemAReleased()
+        public override bool WeaponReleased()
         {
-            if (keyState.IsKeyUp(itemAKey))
+            if (keyState.IsKeyUp(useWeaponKey))
                 return true;
             else
                 return false;
@@ -194,6 +194,64 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
+        }
+
+        public bool LeftMousePress()
+        {
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                return true;
+
+            return false;
+        }
+
+        public bool LeftMouseHold()
+        {
+            if (mouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Pressed)
+                return true;
+
+            return false;
+        }
+
+        public bool LeftMouseRelease()
+        {
+            if (mouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+                return true;
+
+            return false;
+        }
+
+        public bool RightMousePress()
+        {
+            if (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Released)
+                return true;
+
+            return false;
+        }
+
+        public bool RightMouseHold()
+        {
+            if (mouseState.RightButton == ButtonState.Pressed && prevMouseState.RightButton == ButtonState.Pressed)
+                return true;
+
+            return false;
+        }
+
+        public bool RightMouseRelease()
+        {
+            if (mouseState.RightButton == ButtonState.Released && prevMouseState.RightButton == ButtonState.Pressed)
+                return true;
+
+            return false;
+        }
+
+        public override bool LaunchMenuPressed()
+        {
+            return RightMousePress();
+        }
+
+        public override bool LockOnPressed()
+        {
+            return RightMousePress();
         }
 
         /*public override bool StrafeHeld()
@@ -353,6 +411,22 @@ namespace wickedcrush.controls
                 return true;
             else
                 return false;
+        }
+
+        public override bool WeaponScrollUp()
+        {
+            if (mouseState.ScrollWheelValue > prevMouseState.ScrollWheelValue)
+                return true;
+
+            return false;
+        }
+
+        public override bool WeaponScrollDown()
+        {
+            if (mouseState.ScrollWheelValue < prevMouseState.ScrollWheelValue)
+                return true;
+
+            return false;
         }
 
         

@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         int flightTime = 400;
 
         public Fireball(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusterCount, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, damage, force, sound, factory)
+            : base(w, pos, size, center, false, damage, force, sound, factory)
         {
             this.parent = parent;
             Initialize(damage, force, clusterCount, facing);
@@ -42,7 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             timers.Add("flightTime", new Timer(flightTime));
             timers["flightTime"].resetAndStart();
 
-            speed = 150f;
+            targetSpeed = 150f;
 
             reactToWall = true;
             piercing = false;
@@ -57,13 +57,15 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             particleEmitter.EmitParticles(ps, this.factory, 1);
 
             checkTimer();
+
+            
         }
 
         protected void moveForward(float speed)
         {
             Vector2 v = bodies["body"].LinearVelocity;
-            v.X = (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
-            v.Y = (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
+            v.X += (float)Math.Cos(MathHelper.ToRadians((float)facing)) * speed;
+            v.Y += (float)Math.Sin(MathHelper.ToRadians((float)facing)) * speed;
             bodies["body"].LinearVelocity = v;
         }
 

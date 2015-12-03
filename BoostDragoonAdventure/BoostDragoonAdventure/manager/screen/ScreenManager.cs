@@ -34,10 +34,15 @@ namespace wickedcrush.manager.screen
         Effect gaussianBlurEffect;
         //Effect spriteEffect;
 
-        float focusDistance = 375;
-        float focusRange = 145;
+        float focusDistance = 365;
+        float focusRange = 120;
+        //float focusRange = 190;
         float nearClip = 150;
-        float farClip = 1.21428f;
+        float farClip = 1.01428f;
+
+        public bool loading = false;
+
+        public float cameraDifference = 1f;
         //355, 215, 150, 850
 
         //public Texture2D background;
@@ -129,10 +134,20 @@ namespace wickedcrush.manager.screen
         {
             //AddScreen(new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f)));
             AddScreen(loadingScreen);
+            loading = true;
+            
+        }
+
+        public void StartLoadingScreen(GameScreen screen)
+        {
+            StartLoading();
+            _game.RunOneFrame();
+            AddScreen(screen);
         }
 
         public void EndLoading()
         {
+            //loading = false;
             RemoveScreen(loadingScreen);
             if (screensToAdd.Contains(loadingScreen))
                 screensToAdd.Remove(loadingScreen);
@@ -199,7 +214,10 @@ namespace wickedcrush.manager.screen
             _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             _game.GraphicsDevice.SetRenderTarget(renderTargetDepth);
-            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
+            _game.GraphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, new Color(0.5f, 0f, 0f), 1.0f, 0);
+            //_game.spriteBatch.Draw(
+
+            
 
             //_game.GraphicsDevice.SetRenderTarget(renderTarget);
             //_game.GraphicsDevice.SetRenderTarget(spriteTarget);
@@ -273,7 +291,7 @@ namespace wickedcrush.manager.screen
 
             //_game.GraphicsDevice.SetRenderTarget(null);
 
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F2))
+            /*if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F2))
             {
                 DateTime date = DateTime.Now; //Get the date for the file name
                 Stream stream = File.Create("render" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
@@ -297,7 +315,55 @@ namespace wickedcrush.manager.screen
                 spriteTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
             }
 
-            SetShaderParameters(focusDistance, focusRange, nearClip, farClip);
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D6))
+            {
+                focusDistance += 1;
+                Console.Out.WriteLine("focusDistance: " + focusDistance);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Y))
+            {
+                focusDistance -= 1;
+                Console.Out.WriteLine("focusDistance: " + focusDistance);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D7))
+            {
+                focusRange += 1;
+                Console.Out.WriteLine("focusRange: " + focusRange);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.U))
+            {
+                focusRange -= 1;
+                Console.Out.WriteLine("focusRange: " + focusRange);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D8))
+            {
+                nearClip += 0.1f;
+                Console.Out.WriteLine("nearClip: " + nearClip);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.I))
+            {
+                nearClip -= 0.1f;
+                Console.Out.WriteLine("nearClip: " + nearClip);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D9))
+            {
+                farClip += 0.1f;
+                Console.Out.WriteLine("farClip: " + farClip);
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            {
+                farClip -= 0.1f;
+                Console.Out.WriteLine("farClip: " + farClip);
+            }*/
+            //_game.diag += "Camera Diff " + cameraDifference + "\n";
+            SetShaderParametersAlt(focusDistance * cameraDifference, focusRange, nearClip, farClip);
             //SetShaderParameters(355, 215, 150, 850);
             //SetShaderParametersAlt(
 
@@ -308,6 +374,8 @@ namespace wickedcrush.manager.screen
             effectPostDoF.Parameters["BlurScene"].SetValue(renderTargetBlurred);
             _game.spriteBatch.Draw(renderTarget, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
             _game.spriteBatch.End();
+
+            
 
             for (int i = screenIndex; i < screenList.Count; i++)
             {
@@ -324,6 +392,16 @@ namespace wickedcrush.manager.screen
                 _game.spriteBatch.End();
 
                 screenList[i].FreeDraw();
+            }
+
+            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F2))
+            {
+                DateTime date = DateTime.Now; //Get the date for the file name
+                Stream stream = File.Create("screenshot" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
+
+                //_game.GraphicsDevice.SetRenderTarget(null);
+                renderTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
+                //_game.GraphicsDevice.SetRenderTarget(renderTarget);
             }
         }
 

@@ -9,6 +9,8 @@ namespace wickedcrush.screen
 {
     public class LoadingScreen : GameScreen
     {
+
+
         public LoadingScreen(GameBase g)
         {
             Initialize(g);
@@ -46,7 +48,7 @@ namespace wickedcrush.screen
 
         public override void Update(GameTime gameTime)
         {
-            
+
         }
     }
 }

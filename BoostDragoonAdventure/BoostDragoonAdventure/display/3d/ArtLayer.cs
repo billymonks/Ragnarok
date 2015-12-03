@@ -23,11 +23,18 @@ namespace wickedcrush.display._3d
         public ArtLayer(GameBase game, bool[,] data, int baseHeight, int height, string path)
         {
             
-            //surfaceTileLayers = new List<SurfaceTileLayer>();
-            LoadTileLayers(game, data, baseHeight, height, "Content/img/layer/"+path+".xml");
+            
+            LoadTileLayers(game, data, baseHeight, height, "Content/img/layer/"+path+".xml", new bool[data.GetLength(0),data.GetLength(1)]);
         }
 
-        private void LoadTileLayers(GameBase game, bool[,] data, int baseHeight, int height, string path)
+        public ArtLayer(GameBase game, bool[,] data, int baseHeight, int height, string path, bool[,] excludeData)
+        {
+
+            
+            LoadTileLayers(game, data, baseHeight, height, "Content/img/layer/" + path + ".xml", excludeData);
+        }
+
+        private void LoadTileLayers(GameBase game, bool[,] data, int baseHeight, int height, string path, bool[,] excludeData)
         {
             tileLayers = new List<TileLayer>();
 
@@ -41,13 +48,13 @@ namespace wickedcrush.display._3d
 
                 foreach (XElement e in rootElement.Element("tilelayers").Elements("tileset"))
                 {
-                    AddTileLayer(game, data, baseHeight, height, e);
+                    AddTileLayer(game, data, baseHeight, height, e, excludeData);
                 }
 
             }
         }
 
-        private void AddTileLayer(GameBase game, bool[,] data, int baseHeight, int height, XElement tileElement)
+        private void AddTileLayer(GameBase game, bool[,] data, int baseHeight, int height, XElement tileElement, bool[,] excludeData)
         {
             foreach (XElement e in tileElement.Element("transformations").Elements("transformation"))
             {
@@ -82,9 +89,9 @@ namespace wickedcrush.display._3d
                 //return;
 
             if (Boolean.Parse(tileElement.Attribute("surface").Value))
-                tileLayers.Add(new SurfaceTileLayer(game, data, height, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
+                tileLayers.Add(new SurfaceTileLayer(game, data, height, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value), excludeData));
             else
-                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value)));
+                tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, tileElement.Attribute("path").Value, bool.Parse(tileElement.Attribute("edgeonly").Value), excludeData));
         }
 
         private void LoadCaveTileLayers(GameBase game, Map map, int baseHeight, int height)
@@ -98,12 +105,12 @@ namespace wickedcrush.display._3d
 
 
             data = LayerTransformations.InvertLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.DEATHSOUP].data, 2));
-            tileLayers.Add(new WallTileLayer(game, data, baseHeight, baseHeight - 1, "cliff16", false));
-            tileLayers.Add(new SurfaceTileLayer(game, data, baseHeight, "dungeon_floor_4x4", false));
+            tileLayers.Add(new WallTileLayer(game, data, baseHeight, baseHeight - 1, "cliff16", false, new bool[data.GetLength(0),data.GetLength(1)]));
+            tileLayers.Add(new SurfaceTileLayer(game, data, baseHeight, "dungeon_floor_4x4", false, new bool[data.GetLength(0), data.GetLength(1)]));
 
             data = LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2);
-            tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, "wall16", false));
-            tileLayers.Add(new SurfaceTileLayer(game, data, height, "dungeon_floor_4x4", false));
+            tileLayers.Add(new WallTileLayer(game, data, height, baseHeight, "wall16", false, new bool[data.GetLength(0), data.GetLength(1)]));
+            tileLayers.Add(new SurfaceTileLayer(game, data, height, "dungeon_floor_4x4", false, new bool[data.GetLength(0), data.GetLength(1)]));
         }
 
         

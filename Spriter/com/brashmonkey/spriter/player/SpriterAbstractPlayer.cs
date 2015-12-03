@@ -865,6 +865,24 @@ namespace Com.Brashmonkey.Spriter.player
 			return this.flippedX;
 		}
 
+        public virtual void setFlipX(int flipX)
+        {
+            this.flippedX = flipX;
+            foreach (SpriterAbstractPlayer player in this.players)
+            {
+                player.flippedX = this.flippedX;
+            }
+        }
+
+        public virtual void setFlipY(int flipY)
+        {
+            this.flippedY = flipY;
+            foreach (SpriterAbstractPlayer player in this.players)
+            {
+                player.flippedY = this.flippedY;
+            }
+        }
+
 		/// <summary>Flips this around the y-axis.</summary>
 		/// <remarks>Flips this around the y-axis.</remarks>
 		public virtual void flipY()

@@ -30,9 +30,9 @@ namespace wickedcrush.controls
         public abstract bool InteractPressed();
         public abstract bool InteractReleased();
 
-        public abstract bool ItemAHeld();
-        public abstract bool ItemAPressed();
-        public abstract bool ItemAReleased();
+        public abstract bool WeaponHeld();
+        public abstract bool WeaponPressed();
+        public abstract bool WeaponReleased();
 
         public abstract bool ItemBHeld();
         public abstract bool ItemBPressed();
@@ -55,6 +55,18 @@ namespace wickedcrush.controls
 
         public abstract bool StartPressed();
         public abstract bool SelectPressed();
+
+        public abstract bool LockOnPressed();
+
+        public abstract bool LaunchMenuPressed();
+
+        public virtual bool KeyPressed(Keys key)
+        {
+            if (keyState.IsKeyDown(key) && prevKeyState.IsKeyUp(key))
+                return true;
+
+            return false;
+        }
 
         public virtual bool EnterPressed()
         {
@@ -102,6 +114,9 @@ namespace wickedcrush.controls
 
             return output;
         }
+
+        public abstract bool WeaponScrollUp();
+        public abstract bool WeaponScrollDown();
 
     }
 }

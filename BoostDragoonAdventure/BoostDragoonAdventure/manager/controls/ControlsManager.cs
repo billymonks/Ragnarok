@@ -157,6 +157,16 @@ namespace wickedcrush.manager.controls
             //throw new NotImplementedException("getkeyboard no get keyboard...NO KEYBOARD D:");
         }
 
+        /*public KeyboardControls getMouse()
+        {
+            foreach (Controls c in controlsList)
+            {
+                if (c is KeyboardControls)
+                    return ((KeyboardControls)c);
+            }
+            return new KeyboardControls();
+        }*/
+
         public void removeGamepad(PlayerIndex index)
         {
             foreach (Controls c in controlsList)

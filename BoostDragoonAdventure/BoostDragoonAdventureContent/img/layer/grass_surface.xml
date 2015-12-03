@@ -1,0 +1,7 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="true" edgeonly="false" path="grass_surface">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

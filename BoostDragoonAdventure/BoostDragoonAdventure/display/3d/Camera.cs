@@ -6,6 +6,7 @@ using System.Text;
 using wickedcrush.entity;
 using wickedcrush.manager.controls;
 using wickedcrush.manager.player;
+using wickedcrush.manager.screen;
 
 namespace wickedcrush.display._3d
 {
@@ -17,6 +18,7 @@ namespace wickedcrush.display._3d
     public class Camera
     {
         #region fields
+        private ScreenManager _screenManager;
         public Vector3 cameraPosition, cameraTarget, upVector, velocity;
         public Vector2 minCamPos, maxCamPos;
         //public Vector2
@@ -31,11 +33,13 @@ namespace wickedcrush.display._3d
         public Random random = new Random();
         public float screenShakeAmount = 0f;
 
+        public float cameraDifference = 1f;
+
         float looseness = 50f;
         public float targetLooseness = 50f;
         #endregion
 
-        public Camera(PlayerManager players, float fov)
+        public Camera(PlayerManager players, float fov, ScreenManager sm)
         {
             cameraPosition = new Vector3(0f, 0f, 0f);
             cameraTarget = new Vector3(0f, 0f, 0f);
@@ -47,12 +51,13 @@ namespace wickedcrush.display._3d
             maxCamPos = Vector2.Zero;
 
             _players = players;
+            _screenManager = sm;
         }
 
         public void UpdateCameraBounds(int gridx, int gridy)
         {
-            minCamPos = new Vector2((fov - 1.3333333f) * 240f, 65f);
-            maxCamPos = new Vector2(((float)gridx * 20f - 640f) - ((fov - 1.3333333f) * 240f), MathHelper.Lerp(320, 1280, ((float)(gridy-48))/48f));
+            minCamPos = new Vector2(((fov - 1.3333333f) * 120f * zoom) + (zoom - 2f) * 120f, 32.5f * zoom);
+            maxCamPos = new Vector2(((float)gridx * 20f - 640f) - ((fov - 1.3333333f) * 120f * zoom), MathHelper.Lerp(320, 1280, ((float)(gridy - 48)) / 48f));
         }
 
         public void SetTarget(Entity e)
@@ -79,36 +84,36 @@ namespace wickedcrush.display._3d
 
         public void Update(GameTime gameTime) // to be updated with use of state machine...maybe
         {
-            /*if (target == null)
-            {
-                camMode = CameraMode.Still;
-            }
-
-            switch (camMode)
-            {
-                case CameraMode.Still:
-                    break;
-                case CameraMode.Follow:
-                    cameraPosition.X = (cameraPosition.X * smoothVal + target.pos.X) / (smoothVal + 1f);
-                    cameraTarget.X = cameraPosition.X;
-                    cameraPosition.Y = (cameraPosition.Y * smoothVal + target.pos.Y) / (smoothVal + 1f);
-                    cameraTarget.Y = cameraPosition.Y;
-                    break;
-            }
-
-            cameraPosition += velocity;
-            cameraTarget += velocity;*/
             
-
             float stretch = 0.03f;
+
+            
 
             looseness = (looseness + targetLooseness * stretch) / (stretch+1f);
 
-            cameraPosition.X = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 50f)))) + (((cameraPosition.X * looseness) + (_players.getMeanPlayerPos().X - 320)) / (looseness+1f)); //todo: change everything
-            cameraPosition.Y = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 100f)))) + (((cameraPosition.Y * looseness) + (_players.getMeanPlayerPos().Y - 240)) / (looseness + 1f));
+            cameraTarget.X = _players.getMeanPlayerPos().X - 160f * zoom;
+            cameraTarget.Y = _players.getMeanPlayerPos().Y - 120f * zoom;
 
-            screenShakeAmount /= 2f;
+            cameraPosition.X = (float)(screenShakeAmount * ((Generate((float)gameTime.TotalGameTime.Milliseconds / 50f)))) + (((cameraPosition.X * looseness) + (cameraTarget.X)) / (looseness+1f)); //todo: change everything
+            cameraPosition.Y = (float)(screenShakeAmount * ((Generate((float)(gameTime.TotalGameTime.Milliseconds + 1000) / 50f)))) + (((cameraPosition.Y * looseness) + (cameraTarget.Y)) / (looseness + 1f));
+
+            
+
+            screenShakeAmount = (screenShakeAmount * 14f) / 15f;
             adhereToBounds();
+
+            
+            //this.cameraDifference = 1f;
+            //if (_controls.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F12))
+            //{
+                //this.cameraDifference = 1f;
+            //}
+
+            this.cameraDifference = 1 + ((cameraPosition.Y - cameraTarget.Y) * 0.0015f);
+            _screenManager.cameraDifference = this.cameraDifference;
+
+            //_screenManager.cameraDifference = new Vector2((cameraPosition.X + 0) - (cameraTarget.X + 0), (cameraPosition.Y + 0) - (cameraTarget.Y + 0));
+            //_screenManager.cameraDifference = Vector2.Zero;
         }
 
         public static float Generate(float x)
@@ -191,48 +196,6 @@ namespace wickedcrush.display._3d
             {
                 cameraPosition.Y = maxCamPos.Y;
             }
-            /*if (cameraPosition.X + minCamPos.X > maxCamPos.X)
-            {
-                cameraPosition.X = maxCamPos.X - minCamPos.X;
-                cameraTarget.X = maxCamPos.X - minCamPos.X;
-            }
-            if (cameraPosition.Y + minCamPos.Y > maxCamPos.Y)
-            {
-                cameraPosition.Y = maxCamPos.Y - minCamPos.Y;
-                cameraTarget.Y = maxCamPos.Y - minCamPos.Y;
-            }
-            if (cameraPosition.X < minCamPos.X)
-            {
-                cameraPosition.X = minCamPos.X;
-                cameraTarget.X = minCamPos.X;
-            }
-            if (cameraPosition.Y < minCamPos.Y)
-            {
-                cameraPosition.Y = minCamPos.Y;
-                cameraTarget.Y = minCamPos.Y;
-            }*/
-        }
-        public void MoveCamLeft(float speed)
-        {
-            cameraPosition.X = cameraPosition.X - speed;
-            cameraTarget.X = cameraTarget.X - speed;
-            adhereToBounds();
-        }
-        public void MoveCamRight(float speed)
-        {
-            cameraPosition.X = cameraPosition.X + speed;
-            cameraTarget.X = cameraTarget.X + speed;
-        }
-        public void MoveCamUp(float speed)
-        {
-            cameraPosition.Y = cameraPosition.Y + speed;
-            cameraTarget.Y = cameraTarget.Y + speed;
-        }
-        public void MoveCamDown(float speed)
-        {
-            cameraPosition.Y = cameraPosition.Y - speed;
-            cameraTarget.Y = cameraTarget.Y - speed;
-            adhereToBounds();
         }
     }
 }

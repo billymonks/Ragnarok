@@ -12,7 +12,7 @@ namespace wickedcrush.display._3d
     {
         protected int ART_GRID_SIZE = 10;
 
-        protected bool[,] data;
+        protected bool[,] data, excludeData;
 
         public Texture2D colorTexture;
         public Texture2D normalTexture;
@@ -29,9 +29,10 @@ namespace wickedcrush.display._3d
 
         //public DynamicVertexBuffer buffer;
 
-        public TileLayer(GameBase game, bool[,] data, int height, String tilesetPath)
+        public TileLayer(GameBase game, bool[,] data, int height, String tilesetPath, bool[,] excludeData)
         {
             this.data = data;
+            this.excludeData = excludeData;
 
             this.height = height;
             this.tileset = new Tileset(tilesetPath);

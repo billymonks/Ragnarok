@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="charge-parts">
+        <file id="0" name="charge-parts/charge3-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="charge-parts/charge2-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="charge-parts/charge1-unglow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="charge-parts/charge1-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="charge-parts/charge2-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="charge-parts/charge3-glow.png" width="120" height="120" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="bar-parts">
+        <file id="0" name="bar-parts/hp.png" width="240" height="30" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="bar-parts/fuel.png" width="240" height="30" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="menu-parts">
+        <file id="0" name="menu-parts/black_box.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="menu-parts/grey_box.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="menu-parts/light_box.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="menu-parts/items.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="menu-parts/status.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="menu-parts/white_box.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="menu-parts/swords.png" width="100" height="100" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="menu-parts/half_box_white_outline.png" width="50" height="50" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="menu-parts/quarter_box_white_outline.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="menu-parts/circle_inside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="10" name="menu-parts/circle_outside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="11" name="menu-parts/circle_connected.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="12" name="menu-parts/square_inside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="13" name="menu-parts/square_outside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="14" name="menu-parts/square_connected.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="15" name="menu-parts/triangle_inside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="16" name="menu-parts/triangle_outside.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+        <file id="17" name="menu-parts/triangle_connected.png" width="25" height="25" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="charge">
+        <animation id="0" name="0" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="1" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-unglow">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-glow">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="2" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge3-unglow_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-glow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge1-glow_001">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="3" length="200" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="0" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="charge1-glow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="charge2-glow">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="charge3-unglow_000">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="charge3-glow">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="bars">
+        <animation id="0" name="hp" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="hp">
+                <key id="0" spin="0">
+                    <object folder="1" file="0" angle="0" scale_x="0" scale_y="0.5"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="1" file="0" angle="0" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="fuel" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="1000">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="fuel">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" angle="0" scale_x="0" scale_y="0.5"/>
+                </key>
+                <key id="1" time="1000" spin="0">
+                    <object folder="1" file="1" angle="0" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="weapons_button">
+        <animation id="0" name="unselected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="swords">
+                <key id="0" spin="0">
+                    <object folder="2" file="6" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="selected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="swords">
+                <key id="0" spin="0">
+                    <object folder="2" file="6" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="3" name="items_button">
+        <animation id="0" name="unselected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="items">
+                <key id="0" spin="0">
+                    <object folder="2" file="3" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="selected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="items">
+                <key id="0" spin="0">
+                    <object folder="2" file="3" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="4" name="status_button">
+        <animation id="0" name="unselected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="status">
+                <key id="0" spin="0">
+                    <object folder="2" file="4" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="selected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="status">
+                <key id="0" spin="0">
+                    <object folder="2" file="4" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="5" name="blank_button">
+        <animation id="0" name="unselected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="selected" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-48" y="48" angle="0" scale_x="0.96" scale_y="0.96"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="blank" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-50" y="50" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="6" name="screen_message">
+        <animation id="0" name="3line" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="10" scale_y="2.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="7" name="half_box">
+        <animation id="0" name="black" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="half_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="half_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="light" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="half_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="8" name="quarter_box">
+        <animation id="0" name="black" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="light" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="light_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="2" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="9" name="circle_connection">
+        <animation id="0" name="inside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="circle_inside">
+                <key id="0" spin="0">
+                    <object folder="2" file="9" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="inside_grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="2" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="circle_inside">
+                <key id="0" spin="0">
+                    <object folder="2" file="9" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="outside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="circle_outside">
+                <key id="0" spin="0">
+                    <object folder="2" file="10" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="filled" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="circle_connected">
+                <key id="0" spin="0">
+                    <object folder="2" file="11" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="10" name="square_connection">
+        <animation id="0" name="inside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="square_inside">
+                <key id="0" spin="0">
+                    <object folder="2" file="12" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="inside_grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="square_inside_000">
+                <key id="0" spin="0">
+                    <object folder="2" file="12" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="outside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="square_outside">
+                <key id="0" spin="0">
+                    <object folder="2" file="13" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="filled" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="square_connected">
+                <key id="0" spin="0">
+                    <object folder="2" file="14" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="11" name="triangle_connection">
+        <animation id="0" name="inside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="triangle_inside">
+                <key id="0" spin="0">
+                    <object folder="2" file="15" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="inside_grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="0" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="2" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="grey_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="triangle_inside_000">
+                <key id="0" spin="0">
+                    <object folder="2" file="15" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="outside" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="quarter_box_white_outline">
+                <key id="0" spin="0">
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="triangle_outside">
+                <key id="0" spin="0">
+                    <object folder="2" file="16" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="filled" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="triangle_connected">
+                <key id="0" spin="0">
+                    <object folder="2" file="17" x="-12.5" y="12.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

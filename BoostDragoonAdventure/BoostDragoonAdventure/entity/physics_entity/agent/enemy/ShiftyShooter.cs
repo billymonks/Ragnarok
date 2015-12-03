@@ -26,7 +26,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private int moveLength = 750, standLength = 1000, standToShootLength = 500, attackRange = 700, 
             spreadDuration = 10, blowCount = 4, blowPerSpread = 4, scatterCount = 1, spread = 360, blowDuration = 600, blowReleaseDelay = 500;
 
-        private float blowVelocity = 600f, skillVelocity = 400f;
+        private float blowVelocity = 100f, skillVelocity = 200f;
 
         private StateName state;
 
@@ -83,6 +83,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
             UpdateHpBar();
+
+            targetable = true;
         }
 
         private void SetupStateMachine()
@@ -104,7 +106,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             
 
                             if (target == null)
-                                setTargetToClosestPlayer();
+                                setTargetToClosestPlayer(true, 360);
                             else if (distanceToTarget() < attackRange)
                             {
                                 faceTarget();
@@ -155,6 +157,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            
+            if (remove)
+                return;
 
             UpdateHpBar();
             UpdateAnimation();
@@ -182,9 +187,16 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 timers["shoot"].reset();
                 //_sound.playCue("whsh", emitter);
                 //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
-                factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(skillVelocity, 0f), 
-                    spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green"))), this, null, Helper.degreeConversion(angleToEntity(target)));
+                if (target != null)
+                {
+                    factory.addActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(skillVelocity, 0f), 
+                    spreadDuration, blowCount, blowPerSpread, scatterCount, spread, false, blowVelocity, blowDuration, blowReleaseDelay, 1f, new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 500, "particles", 0, "white_to_green")), "", 0, "",
+                    SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(250f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false), true), 
+                    this, null, Helper.degreeConversion(angleToEntity(target)));
+                }
             }
+
+            
         }
 
         protected override void SetupSpriterPlayer()
@@ -205,9 +217,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             
             String bad = "";
 
-            if (timers["falling"].isActive())
+            if (timers["falling"].isActive() || timers["falling"].isDone())
             {
-                bodySpriter.setAnimation("fall_000", 0, 0);
+                bodySpriter.setAnimation("fall", 0, 0);
                 return;
             }
 
@@ -260,11 +272,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             if (bodies["body"].LinearVelocity.Length() >= 1f)
             {
-                bad += "_run_000";
+                bad += "_run";
             }
             else
             {
-                bad += "_stand_000";
+                bad += "_stand";
             }
 
             //bad = "south_stand_000";

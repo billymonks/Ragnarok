@@ -13,6 +13,7 @@ using wickedcrush.entity.physics_entity.agent.trap.trigger;
 using wickedcrush.map.layer;
 using wickedcrush.display._3d;
 using wickedcrush.helper;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.manager.entity
 {
@@ -131,7 +132,7 @@ namespace wickedcrush.manager.entity
             addList.Add(e);
         }
 
-        public void addEntity(Murderer e)
+        public void addEntity(KnightEnemy e)
         {
             addList.Add(e);
         }
@@ -148,12 +149,12 @@ namespace wickedcrush.manager.entity
             }
         }
 
-        public void Draw(bool depthPass)
+        public void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
             
             foreach (Entity e in entityList)
             {
-                e.Draw(depthPass);
+                e.Draw(depthPass, lightList, gameplay);
             }
         }
 

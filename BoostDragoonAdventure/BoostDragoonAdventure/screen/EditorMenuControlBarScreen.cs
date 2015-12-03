@@ -231,7 +231,7 @@ namespace wickedcrush.screen
                 GamepadControls gamepad = (GamepadControls)_parent.user.c;
                 UpdateCursorPosition(gamepad);
 
-                if (gamepad.ItemAPressed())
+                if (gamepad.WeaponPressed())
                 {
                     game.screenManager.RemoveScreen(this);
                 }

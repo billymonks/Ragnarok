@@ -51,7 +51,7 @@ namespace wickedcrush.display.spriter
             Vector2 position = new Vector2(x, -y);
             Vector2 origin = new Vector2(reference.dimensions.width * pivotX, reference.dimensions.height * (1 - pivotY));
             Vector2 scale = new Vector2(scaleX, scaleY);
-            Color color = new Color(1, 1, 1, alpha);
+            Color color = new Color(depth, 1, 1, alpha);
             
             //depth = ((1f - (position.Y - 200 - sprite.Height/2) / 1080f) * ((float)Math.Sqrt(2)/2f));
             

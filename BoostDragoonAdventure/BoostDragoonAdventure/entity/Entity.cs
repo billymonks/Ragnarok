@@ -12,6 +12,7 @@ using wickedcrush.entity.physics_entity.agent.attack;
 using Microsoft.Xna.Framework.Audio;
 using wickedcrush.display._3d;
 using wickedcrush.inventory;
+using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity
 {
@@ -34,8 +35,8 @@ namespace wickedcrush.entity
         protected String name;
 
         public Entity parent;
-        public List<Entity> subEntityList;
-        public List<Entity> removeList;
+        public Dictionary<String, Entity> subEntityList;
+        public List<String> removeList;
 
         public bool remove = false;
         protected bool initialized = false;
@@ -47,16 +48,18 @@ namespace wickedcrush.entity
 
         public Direction facing;
         public int movementDirection;
+        public int aimDirection;
 
         public SoundManager _sound;
         public AudioEmitter emitter;
 
         public int id = Helper.getUID();
 
-        public int height = 0;
+        public int height = 0, skillHeight = 0;
 
-        public Item itemInUse = null;
+        public Weapon weaponInUse = null;
 
+        protected TimeSpan elapsed;
         
         #endregion
 
@@ -77,25 +80,26 @@ namespace wickedcrush.entity
 
             this.name = "Entity";
 
-            subEntityList = new List<Entity>();
-            removeList = new List<Entity>();
+            subEntityList = new Dictionary<String, Entity>();
+            removeList = new List<String>();
         }
         #endregion
 
         #region Update
         public virtual void Update(GameTime gameTime)
         {
+            elapsed = gameTime.ElapsedGameTime;
             emitter.Position = new Vector3(pos.X+center.X, pos.Y+center.Y, 0f);
 
-            foreach (Entity e in subEntityList)
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
             {
-                e.Update(gameTime);
+                e.Value.Update(gameTime);
                 
-                if (e.remove)
-                    removeList.Add(e);
+                if (e.Value.remove)
+                    removeList.Add(e.Key);
             }
 
-            foreach (Entity e in removeList)
+            foreach (String e in removeList)
                 subEntityList.Remove(e);
 
             removeList.Clear();
@@ -110,9 +114,9 @@ namespace wickedcrush.entity
         {
             if (remove == false)
             {
-                foreach (Entity e in subEntityList)
+                foreach (KeyValuePair<String, Entity> e in subEntityList)
                 {
-                    e.Remove();
+                    e.Value.Remove();
                 }
 
                 Dispose();
@@ -142,9 +146,12 @@ namespace wickedcrush.entity
             return true;
         }
 
-        public virtual void Draw(bool depthPass)
+        public virtual void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
         {
-            
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+            {
+                e.Value.Draw(depthPass, lightList, gameplay);
+            }
         }
 
         public virtual void DebugDraw(Texture2D wTex, Texture2D aTex, GraphicsDevice gd, SpriteBatch spriteBatch, SpriteFont f, Color c, Camera camera)
@@ -157,8 +164,8 @@ namespace wickedcrush.entity
                     camera.cameraPosition.Y), 
                 Color.Black);
 
-            foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+                e.Value.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
         }
 
         public virtual void FreeDraw()
@@ -173,6 +180,18 @@ namespace wickedcrush.entity
                 (this.pos.Y + this.center.Y) - (e.pos.Y + e.center.Y));
         }
 
+        protected float angleToPos(Vector2 pos)
+        {
+            return directionVectorToAngle(vectorToPos(pos));
+        }
+
+        protected Vector2 vectorToPos(Vector2 pos)
+        {
+            return new Vector2(
+                (this.pos.X + this.center.X) - (pos.X),
+                (this.pos.Y + this.center.Y) - (pos.Y));
+        }
+
         protected float directionVectorToAngle(Vector2 v)
         {
             return (float)Math.Atan2(-v.Y, -v.X);
@@ -181,6 +200,18 @@ namespace wickedcrush.entity
         protected float angleToEntity(Entity e)
         {
             return directionVectorToAngle(vectorToEntity(e));
+        }
+
+        public int distanceToEntity(Entity e)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (e.pos.X + e.center.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (e.pos.Y + e.center.Y), 2));
+        }
+
+        public int distanceToPosition(Vector2 searchPos)
+        {
+            return (int)Math.Sqrt(Math.Pow((pos.X + center.X) - (searchPos.X), 2)
+                + Math.Pow((pos.Y + center.Y) - (searchPos.Y), 2));
         }
 
         public int CompareTo(Entity other)

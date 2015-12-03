@@ -29,16 +29,22 @@ namespace Com.Brashmonkey.Spriter.xml
 		/// <returns>Spriter data in form of lists.</returns>
 		public static SpriterData load(string filename)
 		{
-			try
-			{
+            try
+            {
                 System.IO.FileStream stream = new System.IO.FileStream(filename, System.IO.FileMode.Open);
                 return load(stream);
-			}
-			catch (System.IO.FileNotFoundException e)
-			{
-				//Sharpen.Runtime.PrintStackTrace(e);
-                Console.WriteLine(e.StackTrace);
-			}
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                //Sharpen.Runtime.PrintStackTrace(e);
+                //Console.WriteLine(e.StackTrace);
+                return null;
+            }
+            catch (NullReferenceException e)
+            {
+                //Console.WriteLine(e.StackTrace);
+                return null;
+            }
 			return null;
 		}
 
@@ -117,6 +123,8 @@ namespace Com.Brashmonkey.Spriter.xml
 				loadMainline(XmlReader.getChildByName(a,"mainline"), animation);
 				loadTimelines(XmlReader.getChildrenByName(a,"timeline"), animation);
 			}
+
+
 		}
 
 		private static void loadMainline(XmlNode mainline

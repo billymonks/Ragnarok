@@ -54,14 +54,17 @@ namespace wickedcrush.player
             inventoryPanel = pf.getInventory(stats.inventory);
 
             hudChargeSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 0, pf._sm.spriters["hud"].loader);
+            hudChargeSpriter.setScale(2f);
             hudChargeSpriter.setFrameSpeed(60);
 
             hpSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            hpSpriter.setScale(3f);
             hpSpriter.setAnimation("hp", 0, 0);
             hpSpriter.setFrameSpeed(0);
             
 
             fuelSpriter = new SpriterPlayer(pf._sm.spriters["hud"].getSpriterData(), 1, pf._sm.spriters["hud"].loader);
+            fuelSpriter.setScale(3f);
             fuelSpriter.setAnimation("fuel", 0, 0);
             fuelSpriter.setFrameSpeed(0);
         }
@@ -104,7 +107,7 @@ namespace wickedcrush.player
             stats.set("maxHP", 120);
             stats.set("maxBoost", 1000);
             stats.set("boost", 1000);
-            stats.set("fillSpeed", 3);
+            stats.set("fillSpeed", 0);
             stats.set("useSpeed", 8);
             stats.set("boostSpeedMod", 0);
 
@@ -119,9 +122,9 @@ namespace wickedcrush.player
             //stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
             //stats.inventory.removeAllOfItem(ItemServer.getItem("Spellbook: Fireball"));
 
-            stats.inventory.receiveItem(ItemServer.getItem("Healthsweed"), 3);
-            stats.inventory.receiveItem(ItemServer.getItem("Spellbook: Fireball"), 1);
-            stats.inventory.receiveItem(ItemServer.getItem("Spear"), 1);
+            stats.inventory.receiveItem(InventoryServer.getWeapon("Healthsweed"), 3);
+            stats.inventory.receiveItem(InventoryServer.getWeapon("Spellbook: Fireball"), 1);
+            stats.inventory.receiveItem(InventoryServer.getWeapon("Spear"), 1);
         }
 
 
@@ -131,7 +134,8 @@ namespace wickedcrush.player
             remove = true;
 
             if (agent != null)
-                agent.remove = true;
+                agent.Remove();
+                //agent.remove = true;
         }
 
         public bool readyForRemoval()
@@ -163,7 +167,7 @@ namespace wickedcrush.player
 
         public void Update(GameTime gameTime)
         {
-            UpdatePanels(gameTime);
+            //UpdatePanels(gameTime);
 
             if (stats.get("charge") == 0)
             {
@@ -184,8 +188,11 @@ namespace wickedcrush.player
 
             if (!agent.dead)
             {
-                hpSpriter.setFrame((long)(999f * ((float)stats.get("hp") / (float)stats.get("maxHP"))));
-                fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
+                hpSpriter.setFrame((long)(999f * ((float)stats.get("hp") / (float)stats.get("MaxHP"))));
+                if (stats.get("boost") <= 0)
+                    fuelSpriter.setFrame(0);
+                else
+                    fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
             }
             else
             {

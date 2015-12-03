@@ -1,4 +1,4 @@
-﻿<tileset name="blocks_blue" x="48" y="48">
+﻿<tileset name="townbricks" x="48" y="48">
   <tex>etqws3_pink_a</tex>
   <normal>etqws3_normals_d</normal>
   <tilesize>

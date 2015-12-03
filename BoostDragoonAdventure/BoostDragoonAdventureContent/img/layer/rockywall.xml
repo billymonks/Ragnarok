@@ -1,0 +1,7 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="rocky">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

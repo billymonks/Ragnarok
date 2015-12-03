@@ -28,6 +28,7 @@ using wickedcrush.manager.map;
 using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility.config;
+using wickedcrush.display._3d.atlas;
 
 namespace wickedcrush
 {
@@ -65,8 +66,9 @@ namespace wickedcrush
 
         public String diag = "";
 
-        public Texture2D whiteTexture, arrowTexture;
+        public Texture2D whiteTexture, arrowTexture, transparentBlackTexture;
         public SpriteFont testFont;
+        public Dictionary<String, SpriteFont> fonts;
 
         public bool transitionFinished;
 
@@ -81,6 +83,8 @@ namespace wickedcrush
         public float aspectRatio;
 
         public bool instantAction = false;
+
+        public bool freezeFrame = false;
 
         public GameSettings settings = new GameSettings();
 
@@ -130,7 +134,7 @@ namespace wickedcrush
 
             panelFactory = new PanelFactory(spriterManager);
 
-            ItemServer.Initialize();
+            InventoryServer.Initialize();
             SkillServer.Initialize();
 
             //spriterManager = new SpriterManager(this);
@@ -151,6 +155,10 @@ namespace wickedcrush
         {
             //Content.RootDirectory = "Content";
             testFont = Content.Load<SpriteFont>("fonts/TestFont");
+            fonts = new Dictionary<string, SpriteFont>();
+            fonts.Add("Khula", Content.Load<SpriteFont>("fonts/Khula"));
+            fonts.Add("Rubik Mono One", Content.Load<SpriteFont>("fonts/Rubik Mono One"));
+            fonts.Add("Bonbon", Content.Load<SpriteFont>("fonts/Bonbon"));
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
@@ -176,7 +184,10 @@ namespace wickedcrush
             taskManager.Update(gameTime);
             
             soundManager.Update(gameTime);
-            controlsManager.Update(gameTime);
+            if (!freezeFrame)
+            {
+                controlsManager.Update(gameTime);
+            }
 
             networkManager.Update(gameTime);
 

@@ -1,0 +1,11 @@
+﻿<tileset name="trunks" x="500" y="500">
+  <tex>trunks_texture</tex>
+  <normal>trunks_normal</normal>
+  <tilesize>
+    <tilepos id="0" x="0" y="0" width="100" height="100"></tilepos>
+    <tilepos id="1" x="100" y="100" width="100" height="100"></tilepos>
+    <tilepos id="2" x="200" y="200" width="100" height="100"></tilepos>
+    <tilepos id="3" x="300" y="300" width="100" height="100"></tilepos>
+    <tilepos id="4" x="400" y="400" width="100" height="100"></tilepos>
+  </tilesize>
+</tileset>

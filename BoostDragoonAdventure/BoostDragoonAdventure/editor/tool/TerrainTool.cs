@@ -30,7 +30,7 @@ namespace wickedcrush.editor.tool
             if (controls.InteractHeld())
                 primaryAction(pos, map);
 
-            if (controls.ReverseBoostHeld() || controls is controls.GamepadControls && controls.ItemAHeld())
+            if (controls.ReverseBoostHeld() || controls is controls.GamepadControls && controls.WeaponHeld())
                 secondaryAction(pos, map);
 
             

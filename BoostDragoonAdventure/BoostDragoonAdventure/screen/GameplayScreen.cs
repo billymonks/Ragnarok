@@ -30,6 +30,7 @@ using wickedcrush.menu.panel;
 using wickedcrush.utility;
 using wickedcrush.manager.gameplay;
 using wickedcrush.editor;
+using Com.Brashmonkey.Spriter.player;
 
 
 namespace wickedcrush.screen
@@ -38,16 +39,24 @@ namespace wickedcrush.screen
     {
 
         private GameplayManager gameplayManager;
-        public Timer freezeFrameTimer = new Timer(150);
-        Timer readyTimer;
+        public Timer freezeFrameTimer = new Timer(100);
+        Timer readyTimer, bgTimer;
 
         private bool testMode;
 
         RoomInfo _roomToTest; // needs to be expanded to to child class RoomTestScreen or something
 
-        public Effect spriteEffect;
+        public Effect spriteEffect, litSpriteEffect;
 
-        public Texture2D background;
+        public Texture2D background, bgDepth;
+        public Queue<Texture2D> bgs = new Queue<Texture2D>();
+
+        
+
+        float parallaxAmount = 1f, bgScale = 2f;
+        Vector2 scroll = Vector2.Zero;
+        Vector2 scrollIncrement = new Vector2(-1f, -1f);
+        //Vector2 scrollIncrement = Vector2.Zero;
         
         public GameplayScreen(GameBase game, String mapName)
         {
@@ -58,6 +67,8 @@ namespace wickedcrush.screen
             this.game = game;
             
             Initialize(game, mapName, false);
+
+            game.screenManager.EndLoading();
 
         }
 
@@ -95,11 +106,16 @@ namespace wickedcrush.screen
             readyTimer = new Timer(20);
             readyTimer.start();
 
+            bgTimer = new Timer(100);
+            bgTimer.resetAndStart();
+
             //wow i'm stupid this will cause problems:
             gameplayManager.camera.cameraPosition = new Vector3(game.playerManager.getMeanPlayerPos().X - 320, game.playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
 
             
         }
+
+        
 
         public RoomInfo GetRoom()
         {
@@ -139,28 +155,62 @@ namespace wickedcrush.screen
         private void LoadContent(GameBase game)
         {
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
-            background = game.Content.Load<Texture2D>(@"img/tex/rock_greyscale");
+            
+            litSpriteEffect = game.Content.Load<Effect>("fx/LitSprite");
+            //background = game.Content.Load<Texture2D>(@"img/tex/water");
+            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_1"));
+            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_2"));
+            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_3"));
+            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_4"));
+            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_5"));
+            
+            background = bgs.Dequeue();
+            bgs.Enqueue(background);
+
+            bgDepth = game.Content.Load<Texture2D>(@"img/tex/depth_test");
+
+
             //spriteEffect = new BasicEffect(game.GraphicsDevice);
         }
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
             game.diag = "";
             //game.diag += "Camera Position: " + gameplayManager.camera.cameraPosition.X + ", " + gameplayManager.camera.cameraPosition.Y + ", " + gameplayManager.camera.cameraPosition.Z + "\n";
             //game.diag += "fov: " + gameplayManager.camera.fov + "\n";
             //game.diag += gameTime.ElapsedGameTime.Milliseconds;
             //game.diag += "\n" + 
+            //UpdateSpriters();
+
+            scroll += scrollIncrement;
             
             readyTimer.Update(gameTime);
+            bgTimer.Update(gameTime);
 
             if (!readyTimer.isDone())
                 return;
 
+            if (bgTimer.isDone())
+            {
+                background = bgs.Dequeue();
+                bgs.Enqueue(background);
+
+                bgTimer.resetAndStart();
+            }
+
             UpdateFreezeFrame(gameTime);
 
-            if(!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
-                gameplayManager.Update(gameTime);
-            
+            if (!freezeFrameTimer.isActive() || freezeFrameTimer.isDone())
+            {
+                gameplayManager.Update(gameTime, false);
+                this.game.freezeFrame = false;
+            }
+            else
+            {
+                gameplayManager.Update(gameTime, true);
+                this.game.freezeFrame = true;
+            }
             DebugControls();
 
         }
@@ -170,42 +220,53 @@ namespace wickedcrush.screen
             //spriteEffect.Parameters["depth"].SetValue(0.5f);
 
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, true);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, true);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, true, gameplayManager.scene.lightList);
 
             
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, false);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, false);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, false, gameplayManager.scene.lightList);
         }
 
-        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass)
+        public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass, Dictionary<string, PointLightStruct> lightList)
         {
+            
             if (!depthPass)
             {
                 //game.GraphicsDevice.SetRenderTarget(renderTarget);
 
-                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null);
+                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null);
 
                 game.spriteBatch.Draw(
                 background,
                 new Rectangle(0, 0, renderTarget.Width, renderTarget.Height),
-                new Rectangle((int)(gameplayManager.camera.cameraPosition.X /* game.aspectRatio*/), (int)(gameplayManager.camera.cameraPosition.Y), 640, 480),
+                new Rectangle(
+                    (int)(((float)renderTarget.Width / (1080f * gameplayManager.camera.fov)) * bgScale * gameplayManager.camera.cameraPosition.X * (2f / gameplayManager.camera.zoom) * 2.25f * parallaxAmount + scroll.X),
+                    (int)(((float)renderTarget.Height / 1080f) * bgScale * gameplayManager.camera.cameraPosition.Y * (2f / gameplayManager.camera.zoom) * 2.25f * (float)(Math.Sqrt(2) / 2) * parallaxAmount + scroll.Y),
+                    (int)(bgScale * renderTarget.Width), 
+                    (int)(bgScale * renderTarget.Height)),
                 Color.White, 0f,
                 Vector2.Zero, SpriteEffects.None, 1f);
                 game.spriteBatch.End();
 
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, litSpriteEffect, game.spriteScale);
             }
             else
             {
-                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, spriteEffect, game.spriteScale);
+                game.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, null);
+                game.spriteBatch.Draw(bgDepth, new Rectangle(0, 0, depthTarget.Width, depthTarget.Height), Color.White);
+                game.spriteBatch.End();
+
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, spriteEffect, game.spriteScale);
+                
+            
             }
             
             
 
             //game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullCounterClockwise, null, game.spriteScale);
 
-            gameplayManager.entityManager.Draw(depthPass);
-            gameplayManager.particleManager.Draw(depthPass);
+            gameplayManager.entityManager.Draw(depthPass, lightList, gameplayManager);
+            gameplayManager.particleManager.Draw(depthPass, lightList, gameplayManager);
 
             game.spriteBatch.End();
 
@@ -222,23 +283,31 @@ namespace wickedcrush.screen
 
         public override void Draw()
         {
-            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
-            game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
+            //game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
+            //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
+            //game.spriteBatch.End();
+
+            game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, game.spriterManager.unlitSpriteEffect, game.spriteScale);
+            game.playerManager.DrawHud();
+
+            foreach (SpriterPlayer s in spriters)
+            {
+                game.spriterManager.DrawPlayer(s);
+            }
+
             game.spriteBatch.End();
 
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
-            game.playerManager.DrawHud();
+            
+            foreach (TextEntity t in screenText)
+            {
+                t.HudDraw(true, true);
+            }
+
+            
+
             game.spriteBatch.End();
         }
-
-        //public override void DebugDraw()
-        //{
-            
-            //game.playerManager.DebugDrawPanels(game.spriteBatch, gameplayManager.camera, game.testFont);
-
-            //DrawHud();
-
-        //}
 
         public override void FreeDraw()
         {

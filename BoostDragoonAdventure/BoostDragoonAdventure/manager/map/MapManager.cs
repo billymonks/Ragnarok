@@ -13,6 +13,7 @@ using wickedcrush.map.layer;
 using wickedcrush.map.circuit;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.display._3d.texture;
+using wickedcrush.map.path;
 
 namespace wickedcrush.manager.map
 {
@@ -30,7 +31,7 @@ namespace wickedcrush.manager.map
 
     public struct MapStats
     {
-        public String name, filename;
+        public String name, filename, theme;
         public List<Connection> connections;
 
         public MapStats(String name, String filename, List<Connection> connections)
@@ -38,6 +39,15 @@ namespace wickedcrush.manager.map
             this.name = name;
             this.filename = filename;
             this.connections = connections;
+            this.theme = "default";
+        }
+
+        public MapStats(String name, String filename, List<Connection> connections, String theme)
+        {
+            this.name = name;
+            this.filename = filename;
+            this.connections = connections;
+            this.theme = theme;
         }
     }
 
@@ -61,6 +71,7 @@ namespace wickedcrush.manager.map
         public void LoadMap(GameplayManager gm, Map map, MapStats mapStats)
         {
             int doorCount = 0;
+            int rank = 3;
 
             XDocument doc = XDocument.Load(mapStats.filename);
 
@@ -156,17 +167,44 @@ namespace wickedcrush.manager.map
                         (Direction)int.Parse(e.Attribute("angle").Value), true);
                 }
 
+                foreach (XElement e in objects.Elements("WALLTILE"))
+                {
+                    map.artTileList.Add(
+                        new ArtTile(
+                            new Vector2(float.Parse(e.Attribute("x").Value),
+                                float.Parse(e.Attribute("y").Value)),
+                            new Vector2(float.Parse(e.Attribute("width").Value),
+                                float.Parse(e.Attribute("height").Value)),
+                            e.Attribute("Color").Value,
+                            e.Attribute("Normal").Value,
+                            float.Parse(e.Attribute("Height").Value),
+                            float.Parse(e.Attribute("angle").Value)));
+
+                }
+
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     gm.factory.addTurret(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        (Direction)int.Parse(e.Attribute("angle").Value));
+                        (Direction)int.Parse(e.Attribute("angle").Value),
+                        rank);
                 }
 
                 foreach (XElement e in objects.Elements("AIM_TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     gm.factory.addAimTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        rank);
                 }
 
                 foreach (XElement e in objects.Elements("CHEST"))
@@ -220,18 +258,56 @@ namespace wickedcrush.manager.map
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
+                foreach (XElement e in objects.Elements("PATH_OF_DEATH"))
+                {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
+                    //int angle = 0;
+
+                    foreach (XElement n in e.Elements("node"))
+                    {
+                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                    }
+                    patrol.Reverse<PathNode>();
+
+                    //if (e.Attribute("angle") != null)
+                    //{
+                        //angle = int.Parse(e.Attribute("angle").Value);
+                    //}
+
+                    /*gm.factory.addMurderer(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);*/
+                    gm.factory.addPathOfDeath(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), patrol);
+                }
+
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
+                    int angle = 0;
+
+                    foreach (XElement n in e.Elements("node"))
+                    {
+                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                    }
+                    patrol.Reverse<PathNode>();
+
+                    if (e.Attribute("angle") != null)
+                    {
+                        angle = int.Parse(e.Attribute("angle").Value);
+                    }
+
                     gm.factory.addMurderer(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true);
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);
                 }
 
                 foreach (XElement e in objects.Elements("WEAKLING"))
                 {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
                     gm.factory.addWeakling(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(12, 12), new Vector2(6, 6));
+                        new Vector2(12, 12), new Vector2(6, 6), patrol);
                 }
 
                 foreach (XElement e in objects.Elements("SHIFTYSHOOTER"))
@@ -252,6 +328,18 @@ namespace wickedcrush.manager.map
                         
                 }
 
+                foreach (XElement e in objects.Elements("BOSS"))
+                {
+                    if (int.Parse(e.Attribute("Type").Value) == 0)
+                    {
+                        gm.factory.addCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                    }
+                    else
+                    {
+                        gm.factory.addChimera(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                    }
+                }
+
                 
 
                 foreach (KeyValuePair<LayerType, Layer> pair in map.layerList)
@@ -267,11 +355,11 @@ namespace wickedcrush.manager.map
                     
                 }
 
-                makeCircuits(map);
+                //makeCircuits(map);
 
                 gm.factory.processWorldChanges();
 
-                connectTriggers(map);
+                //connectTriggers(map);
             }
         }
 
@@ -285,11 +373,19 @@ namespace wickedcrush.manager.map
 
             foreach (XElement e in rootElement.Elements("map"))
             {
-                String name, fileName;
+                String name, fileName, theme;
                 List<Connection> connections = new List<Connection>();
 
                 name = e.Attribute("name").Value;
                 fileName = e.Attribute("filename").Value;
+                if (e.Attribute("theme") != null)
+                {
+                    theme = e.Attribute("theme").Value;
+                }
+                else
+                {
+                    theme = "default";
+                }
 
                 foreach (XElement connection in e.Elements("connection"))
                 {
@@ -298,7 +394,7 @@ namespace wickedcrush.manager.map
                             int.Parse(connection.Attribute("doorIndex").Value)));
                 }
 
-                MapStats temp = new MapStats(name, fileName, connections);
+                MapStats temp = new MapStats(name, fileName, connections, theme);
 
 
                 atlas.Add(name, temp);
@@ -308,6 +404,8 @@ namespace wickedcrush.manager.map
 
         private void loadSubMap(GameplayManager gm, Map map, String SUB_MAP_PATH, Point pos, Direction rotation, bool flipped)
         {
+            int rank = 3;
+
             XDocument doc = XDocument.Load(SUB_MAP_PATH);
 
             XElement rootElement = new XElement(doc.Element("level"));
@@ -346,6 +444,11 @@ namespace wickedcrush.manager.map
             {
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+                    rank = 3;
+
+                    if (e.Attributes("rank").Count<XAttribute>() > 0)
+                        rank = int.Parse(e.Attribute("rank").Value);
+
                     tempX = float.Parse(e.Attribute("x").Value) - 320f;
                     tempY = float.Parse(e.Attribute("y").Value) - 240f;
                     tempRotation = int.Parse(e.Attribute("angle").Value);
@@ -361,7 +464,8 @@ namespace wickedcrush.manager.map
                         new Vector2(
                             320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
                             240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),
-                            (Direction)((tempRotation + (int)rotation) % 360));
+                            (Direction)((tempRotation + (int)rotation) % 360),
+                            rank);
 
                 }
 
@@ -446,7 +550,7 @@ namespace wickedcrush.manager.map
 
 
         //perverse circuit logic starts here. beware. move to somewhere smarter someday.
-        public void connectTriggers(Map map)
+        /*public void connectTriggers(Map map)
         {
             foreach (Circuit c in map.circuitList)
                 c.connectTriggers();
@@ -510,6 +614,6 @@ namespace wickedcrush.manager.map
             }
 
             return false;
-        }
+        }*/
     }
 }

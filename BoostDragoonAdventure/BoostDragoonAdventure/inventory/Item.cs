@@ -12,125 +12,27 @@ namespace wickedcrush.inventory
 
     public enum ItemType
     {
-        Consumable = 0,
-        UsesFuel = 1,
-        UsesAmmo = 2,
-        UsesFuelCharge = 3
+        Unknown = 0,
+        Consumable = 1,
+        Part = 2
     }
 
     public class Item
     {
-        public String name;
-        protected ItemAction pressAction, holdAction, releaseAction;
-        public ItemType type;
+        public String name, desc;
+        public ItemType type = ItemType.Unknown;
+        public int value = 10;
 
-        public List<KeyValuePair<string, int>> pressRequirements;
-        public List<KeyValuePair<string, int>> holdRequirements;
-        public List<KeyValuePair<string, int>> releaseRequirements;
-
-        public bool pressReady = true, holdReady = false, releaseReady = false;
-
-        public Item(
-            String name,
-            ItemAction pressAction,
-            ItemAction holdAction,
-            ItemAction releaseAction,
-            List<KeyValuePair<string, int>> pressRequirements,
-            List<KeyValuePair<string, int>> holdRequirements,
-            List<KeyValuePair<string, int>> releaseRequirements)
+        public Item(String name)
         {
             this.name = name;
-            this.pressAction = pressAction;
-            this.holdAction = holdAction;
-            this.releaseAction = releaseAction;
-
-            this.pressRequirements = pressRequirements;
-            this.holdRequirements = holdRequirements;
-            this.releaseRequirements = releaseRequirements;
+            this.desc = "This item has no description.";
         }
 
-
-
-        public void Press(Agent a)
+        public Item(String name, String desc)
         {
-            if (pressAction == null || !pressReady || a.itemInUse != null)
-                return;
-
-            a.itemInUse = this;
-
-            foreach (KeyValuePair<string, int> req in pressRequirements)
-            {
-                if (!a.stats.requirementMet(req.Key, req.Value))
-                {
-                    a.itemInUse = null;
-                    return;
-                }
-            }
-
-            if (a.stats.inventory.getItemCount(this) <= 0)
-                return;
-
-
-            pressAction(a, this);
-
-            pressReady = false;
-            holdReady = true;
-            releaseReady = true;
-
-            
-        }
-
-        public void Hold(Agent a)
-        {
-            if (holdAction == null || !holdReady || (a.itemInUse != this && a.itemInUse != null))
-                return;
-
-            a.itemInUse = this;
-
-            foreach (KeyValuePair<string, int> req in holdRequirements)
-            {
-                if (!a.stats.requirementMet(req.Key, req.Value))
-                {
-                    a.itemInUse = null;
-                    return;
-                }
-            }
-
-            if (a.stats.inventory.getItemCount(this) <= 0)
-                return;
-
-
-            holdAction(a, this);
-
-            pressReady = false;
-            holdReady = true;
-            releaseReady = true;
-        }
-
-        public void Release(Agent a)
-        {
-            if (releaseAction == null || !releaseReady || (a.itemInUse != this && a.itemInUse != null))
-                return;
-
-            foreach (KeyValuePair<string, int> req in releaseRequirements)
-            {
-                if (!a.stats.requirementMet(req.Key, req.Value))
-                {
-                    a.itemInUse = null;
-                    return;
-                }
-            }
-
-            if (a.stats.inventory.getItemCount(this) <= 0)
-            {
-                return;
-            }
-
-            releaseAction(a, this);
-
-            pressReady = true;
-            holdReady = false;
-            releaseReady = false;
+            this.name = name;
+            this.desc = desc;
         }
     }
 }

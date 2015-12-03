@@ -18,7 +18,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
     {
         float angle = 0f;
         public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, damage, force, sound, factory)
+            : base(w, pos, size, center, false, damage, force, sound, factory)
         {
             this.parent = parent;
             Initialize(damage, force);
@@ -34,7 +34,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             this.force = force;
             this.name = "Bolt";
 
-            speed = 150f;
+            speed = 10f;
+            targetSpeed = 150f;
 
             reactToWall = true;
             piercing = false;
@@ -43,6 +44,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (remove)
+                return;
+
             moveForward(speed);
 
             bodySpriter.setAngle(angle);
@@ -51,6 +56,10 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             particleEmitter.EmitParticles(ps, this.factory, 1);
 
             angle += gameTime.ElapsedGameTime.Milliseconds;
+
+            //speed = (speed + targetSpeed) / 2f;
+
+            
         }
 
         protected override void SetupSpriterPlayer()
@@ -61,7 +70,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             bodySpriter = sPlayers["actionskill"];
             //sPlayer.setAnimation("whitetored", 0, 0);
             bodySpriter.setFrameSpeed(60);
-            bodySpriter.setScale(((float)size.X) / 10f);
+            bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
             height = 10;
 
         }

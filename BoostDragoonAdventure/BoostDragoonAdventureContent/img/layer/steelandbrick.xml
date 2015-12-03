@@ -1,0 +1,10 @@
+﻿<artlayer>
+  <tilelayers>
+    <tileset surface="false" edgeonly="false" path="brickslarge">
+      <transformations />
+    </tileset>
+    <tileset surface="true" edgeonly="false" path="steelplate_seamless">
+      <transformations />
+    </tileset>
+  </tilelayers>
+</artlayer>

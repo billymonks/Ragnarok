@@ -18,5 +18,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
         }
 
         public abstract void activate();
+
+        public abstract void delayedActivate(double ms);
     }
 }

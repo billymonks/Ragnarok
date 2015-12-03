@@ -14,7 +14,9 @@ namespace wickedcrush.entity.physics_entity
     public enum CollisionGroup
     {
         LAYER = 0,
-        AGENT = 1
+        AGENT = 1,
+        MULTIPIECE = 2,
+        ATTACK_CLUSTER = 3
     }
 
     public class PhysicsEntity : Entity
@@ -64,8 +66,25 @@ namespace wickedcrush.entity.physics_entity
         public void SetPos(Vector2 pos)
         {
             this.pos = pos;
-            if(this.bodies.ContainsKey("body"))
+            if (this.bodies.ContainsKey("body"))
+            {
                 this.bodies["body"].Position = pos - center;
+                this.bodies["body"].Awake = true;
+            }
+
+            
+        }
+
+        public void SetPosNoCenter(Vector2 pos)
+        {
+            this.pos = pos;
+            if (this.bodies.ContainsKey("body"))
+            {
+                this.bodies["body"].Position = pos;
+                this.bodies["body"].Awake = true;
+            }
+
+
         }
 
         public override void AddLinearVelocity(Vector2 v)
@@ -94,8 +113,8 @@ namespace wickedcrush.entity.physics_entity
 
                 //spriteBatch.Draw(wTex, bodies["body"].WorldCenter - new Vector2(camera.cameraPosition.X, camera.cameraPosition.Y), null, Color.Yellow, bodies["hotspot"].Rotation, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             }
-            foreach (Entity e in subEntityList)
-                e.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
+            foreach (KeyValuePair<String, Entity> e in subEntityList)
+                e.Value.DebugDraw(wTex, aTex, gd, spriteBatch, f, c, camera);
 
         }
 
