@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
+  <map name="700test" filename="Content/maps/full/700test.xml">
+    <connection id="0" doorIndex="0">700test</connection>
+  </map>
+  <map name="800test" filename="Content/maps/full/800test.xml">
+    <connection id="0" doorIndex="0">800test</connection>
+  </map>
   <map name="big kahuna burger" filename="Content/maps/full/big kahuna burger.xml">
     <connection id="0" doorIndex="0">uturn</connection>
     <connection id="1" doorIndex="0">variety</connection>
