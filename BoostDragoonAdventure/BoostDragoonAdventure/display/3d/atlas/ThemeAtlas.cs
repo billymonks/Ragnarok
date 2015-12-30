@@ -124,7 +124,8 @@ namespace wickedcrush.display._3d.atlas
                             map.layerList[LayerType.ART1].data,
                             LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data),
                             false),
-                            2), -3, 0, "grass_surfacedust_surface"));
+                            2), -3, 0, "grass_surface"));
+
                     artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
                         LayerTransformations.SubtractLayer(
                             LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data),
