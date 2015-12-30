@@ -705,10 +705,14 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             Vector2 v = bodies["body"].LinearVelocity;
 
+            driftDirection = (float)aimDirection;
+
             Vector2 unitVector = new Vector2(
                 (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
                 (float)Math.Sin(MathHelper.ToRadians(driftDirection))
             );
+
+            
 
             v += unitVector * boostSpeed;
 

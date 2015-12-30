@@ -297,6 +297,30 @@ namespace wickedcrush.entity.physics_entity.agent
                         noCollision = true;
                 }
 
+            //if (!inJump)
+            //{
+                HandleCollisions();
+            //}
+            if(inJump)
+            {
+                if (timers["jump"].isDone())
+                {
+                    EndJump();
+                } 
+                else
+                {
+                    this.SetPosNoCenter(new Vector2(
+                        MathHelper.Lerp(jumpStartPoint.X, jumpDestination.X, timers["jump"].getPercent()),
+                        MathHelper.Lerp(jumpStartPoint.Y, jumpDestination.Y, timers["jump"].getPercent())));
+
+                    this.height = (int)(Math.Sin(timers["jump"].getPercent() * Math.PI) * flightHeight);
+
+                    if (height > 20)
+                        noCollision = true;
+                }
+
+
+            }
 
             }
 

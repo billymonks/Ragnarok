@@ -34,19 +34,19 @@
     <connection id="0" doorIndex="0">uturn</connection>
     <connection id="1" doorIndex="0">variety</connection>
   </map>
-  <map name="variety" filename="Content/maps/full/variety.xml">
+  <map name="variety" filename="Content/maps/full/variety.xml" theme="rocky2">
     <connection id="0" doorIndex="1">big kahuna burger</connection>
     <connection id="1" doorIndex="1">uturn</connection>
   </map>
-  <map name="uturn" filename="Content/maps/full/uturn.xml">
+  <map name="uturn" filename="Content/maps/full/uturn.xml" theme="rocky2">
     <connection id="0" doorIndex="0">big kahuna burger</connection>
     <connection id="1" doorIndex="1">variety</connection>
   </map>
-  <map name="longmap" filename="Content/maps/full/longmap.xml">
+  <map name="longmap" filename="Content/maps/full/longmap.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">scenic view</connection>
     <connection id="1" doorIndex="0">scenic view</connection>
   </map>
-  <map name="scenic view" filename="Content/maps/full/scenic_view.xml">
+  <map name="scenic view" filename="Content/maps/full/scenic_view.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">longmap</connection>
     <connection id="2" doorIndex="1">longmap</connection>
