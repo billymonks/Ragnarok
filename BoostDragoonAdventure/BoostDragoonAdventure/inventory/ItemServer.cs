@@ -793,6 +793,7 @@ namespace wickedcrush.inventory
             tempList.Add(parts["Fusion Drive"]);
             tempList.Add(parts["Hyper Drive"]);
             tempList.Add(parts["Omega Generator"]);
+            tempList.Add(parts["Alpha Generator"]);
 
             return tempList[random.Next(tempList.Count)];
         }

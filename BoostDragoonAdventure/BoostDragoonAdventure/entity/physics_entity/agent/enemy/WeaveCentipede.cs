@@ -423,6 +423,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         protected override void Die()
         {
+            setTargetToPlayer();
             if(this.target is PlayerAgent)
             {
                 Item temp = InventoryServer.getRareItem();
