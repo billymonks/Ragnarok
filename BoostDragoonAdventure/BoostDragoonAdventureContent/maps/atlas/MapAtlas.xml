@@ -1,5 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
+  <map name="a1" filename="Content/maps/full/a1.xml" theme="dust">
+    <connection id="0" doorIndex="0">a2</connection>
+  </map>
+  <map name="a2" filename="Content/maps/full/a2.oel" theme="dust">
+    <connection id="0" doorIndex="0">a1</connection>
+    <connection id="1" doorIndex="0">a3</connection>
+  </map>
+  <map name="a3" filename="Content/maps/full/a3.oel" theme="dust">
+    <connection id="0" doorIndex="1">a2</connection>
+    <connection id="1" doorIndex="0">c1</connection>
+    <connection id="2" doorIndex="0">b1</connection>
+    <connection id="3" doorIndex="2">b1</connection>
+    <connection id="4" doorIndex="1">a2</connection>
+  </map>
+  <map name="b1" filename="Content/maps/full/b1.oel" theme="rocky2">
+    <connection id="0" doorIndex="2">a3</connection>
+    <connection id="1" doorIndex="0">big kahuna burger</connection>
+    <connection id="2" doorIndex="3">a3</connection>
+  </map>
+  <map name="c1" filename="Content/maps/full/c1.oel" theme="rocky">
+    <connection id="0" doorIndex="1">a3</connection>
+    <connection id="1" doorIndex="0">big kahuna burger</connection>
+    <connection id="2" doorIndex="0">scenic view</connection>
+  </map>
   <map name="700test" filename="Content/maps/full/700test.xml">
     <connection id="0" doorIndex="0">700test</connection>
   </map>
@@ -32,7 +56,16 @@
     <connection id="0" doorIndex="0">big empty test</connection>
   </map>
   <map name="timer test" filename="Content/maps/full/big_timer_test.xml">
-    <connection id="0" doorIndex="1">big_timer_test.xml</connection>
-    <connection id="1" doorIndex="0">big_timer_test.xml</connection>
+    <connection id="0" doorIndex="1">timer test</connection>
+    <connection id="1" doorIndex="0">timer test</connection>
+  </map>
+  <map name="boss room a" filename="Content/maps/full/boss_room_a.oel">
+    <connection id="0" doorIndex="0">boss room a</connection>
+  </map>
+  <map name="boss room b" filename="Content/maps/full/boss_room_b.oel">
+    <connection id="0" doorIndex="0">boss room b</connection>
+  </map>
+  <map name="boss room c" filename="Content/maps/full/boss_room_c.oel">
+    <connection id="0" doorIndex="0">boss room c</connection>
   </map>
 </atlas>

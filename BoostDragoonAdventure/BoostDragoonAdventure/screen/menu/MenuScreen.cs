@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using wickedcrush.entity;
 using Microsoft.Xna.Framework.Input;
 using wickedcrush.player;
+using wickedcrush.utility.config;
 
 namespace wickedcrush.screen.menu
 {
@@ -68,13 +69,22 @@ namespace wickedcrush.screen.menu
 
         }
 
-        public void UpdateCursorPosition(KeyboardControls c)
+        public void UpdateCursorPosition(Controls c)
         {
-            prevCursorPosition.X = game.GraphicsDevice.Viewport.Width / 2;
-            prevCursorPosition.Y = game.GraphicsDevice.Viewport.Height / 2;
+            if (c is KeyboardControls && game.settings.controlMode == ControlMode.MouseAndKeyboard)
+            {
+                prevCursorPosition.X = game.GraphicsDevice.Viewport.Width / 2;
+                prevCursorPosition.Y = game.GraphicsDevice.Viewport.Height / 2;
 
-            cursorPosition.X = c.mousePosition().X;
-            cursorPosition.Y = c.mousePosition().Y;
+                cursorPosition.X = ((KeyboardControls)c).mousePosition().X;
+                cursorPosition.Y = ((KeyboardControls)c).mousePosition().Y;
+            }
+            else
+            {
+                prevCursorPosition = Vector2.Zero;
+                cursorPosition.X = c.LStickXAxis() * game.settings.mouseSensitivity * 3;
+                cursorPosition.Y = c.LStickYAxis() * game.settings.mouseSensitivity * 3;
+            }
 
             cursorPos += (cursorPosition - prevCursorPosition) * new Vector2(1f, (float)(2.0 / Math.Sqrt(2))) * game.settings.mouseSensitivity;
 

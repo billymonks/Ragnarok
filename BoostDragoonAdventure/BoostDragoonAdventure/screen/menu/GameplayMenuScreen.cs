@@ -116,10 +116,9 @@ namespace wickedcrush.screen.menu
 
 
 
-            if (p.c is KeyboardControls)
-                UpdateCursorPosition((KeyboardControls)p.c);
+                UpdateCursorPosition(p.c);
 
-            if (p.c.LaunchMenuPressed())
+            if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
             {
                 Dispose();
             }
@@ -134,7 +133,7 @@ namespace wickedcrush.screen.menu
             //{
                 //game.screenManager.AddScreen(new GearUpgradeMenuScreen(game, _gm, p));
             //}
-            if (p.c.InteractPressed())
+            if (p.c.InteractPressed() || (game.settings.controlMode == utility.config.ControlMode.KeyboardOnly && p.c.WeaponPressed()))
             {
                 switch (selectedOption)
                 {

@@ -281,6 +281,29 @@ namespace wickedcrush.manager.map
                         new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), patrol);
                 }
 
+                foreach (XElement e in objects.Elements("CACTUS"))
+                {
+                    Stack<PathNode> patrol = new Stack<PathNode>();
+                    //int angle = 0;
+
+                    foreach (XElement n in e.Elements("node"))
+                    {
+                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                    }
+                    patrol.Reverse<PathNode>();
+
+                    //if (e.Attribute("angle") != null)
+                    //{
+                    //angle = int.Parse(e.Attribute("angle").Value);
+                    //}
+
+                    /*gm.factory.addMurderer(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);*/
+                    gm.factory.addCactus(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(30, 30), 1, patrol);
+                }
+
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
                     Stack<PathNode> patrol = new Stack<PathNode>();
@@ -334,9 +357,12 @@ namespace wickedcrush.manager.map
                     {
                         gm.factory.addCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                     }
-                    else
+                    else if(int.Parse(e.Attribute("Type").Value) == 1)
                     {
                         gm.factory.addChimera(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                    } else if(int.Parse(e.Attribute("Type").Value) == 2)
+                    {
+                        gm.factory.addWoundedCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                     }
                 }
 

@@ -283,6 +283,14 @@ namespace wickedcrush.manager.screen
             // Pass 4: draw both rendertarget 1 and the original scene
             // image back into the main backbuffer, using a shader that
             // combines them to produce the final bloomed result.
+            _game.GraphicsDevice.SetRenderTarget(renderTargetBlurred);
+
+            //_game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.fullSpriteScale);
+
+            //_game.spriteBatch.Draw(_game.backgroundTexture, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), new Color(new Vector4(1f, 1f, 1f, 0.4f)));
+            
+            //_game.spriteBatch.End();
+
             _game.GraphicsDevice.SetRenderTarget(null);
 
             //_game.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, gaussianBlurEffect);

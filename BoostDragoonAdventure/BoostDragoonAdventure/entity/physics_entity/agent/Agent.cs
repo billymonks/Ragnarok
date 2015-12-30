@@ -70,10 +70,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public PersistedStats stats;
 
-        protected float speed = 50f, targetSpeed = 50f;
+        protected float speed = 50f, targetSpeed = 50f, boostSpeed = 120f;
         public float activeRange = 0f;
         //protected bool strafe = false;
-
+        protected float driftDirection = 0f;
         public bool staggered = false;
 
         public Dictionary<String,SpriterPlayer> sPlayers;
@@ -399,6 +399,44 @@ namespace wickedcrush.entity.physics_entity.agent
             bodies["body"].LinearVelocity = v;
         }
 
+        protected void BoostForward()
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            driftDirection = (float)aimDirection;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
+                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
+            );
+
+
+
+            v += unitVector * boostSpeed;
+
+            bodies["body"].LinearVelocity += v;
+
+            airborne = true;
+        }
+
+        protected void BoostBackward()
+        {
+            Vector2 v = bodies["body"].LinearVelocity;
+
+            driftDirection = (float)aimDirection + 180;
+
+            Vector2 unitVector = new Vector2(
+                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
+                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
+            );
+
+            v += unitVector * boostSpeed;
+
+            bodies["body"].LinearVelocity += v;
+
+            airborne = true;
+        }
+
         protected void Strafe(float amount)
         {
             Vector2 v = bodies["body"].LinearVelocity;
@@ -642,8 +680,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 if (null != overlaySpriter)
                 {
-                    overlaySpriter.setScale((((float)size.X) / 10f) * (2f / factory._gm.camera.zoom));
-                    overlaySpriter.SetDepth(depth + 0.001f);
+                    overlaySpriter.setScale((((float)size.X) / spriteScaleAmount) * (2f / factory._gm.camera.zoom));
+                    overlaySpriter.SetDepth(depth - 0.009f);
                     overlaySpriter.update(spritePos.X, spritePos.Y);
                 }
 
@@ -795,16 +833,26 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             if (target != null)
             {
-                facing = Helper.radiansToDirection(angleToEntity(target));
-                aimDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
-                movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+                //facing = Helper.radiansToDirection(angleToEntity(target));
+                //aimDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+                //movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
+                faceEntity(target);
             }
+        }
+
+        protected void faceEntity(Entity e, int degreeChange)
+        {
+            if (e == null)
+                return;
+
+            facing = Helper.radiansToDirection(angleToEntity(e) + MathHelper.ToRadians(degreeChange));
+            aimDirection = (int)Helper.ConstrainDegrees(MathHelper.ToDegrees(angleToEntity(e)) + degreeChange);
+            movementDirection = (int)Helper.ConstrainDegrees(MathHelper.ToDegrees(angleToEntity(e)) + degreeChange);
         }
 
         protected void faceEntity(Entity e)
         {
-            facing = Helper.radiansToDirection(angleToEntity(e));
-            aimDirection = (int)MathHelper.ToDegrees(angleToEntity(e));
+            faceEntity(e, 0);
         }
 
         protected void facePosition(Vector2 pos)
@@ -842,6 +890,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void setTargetToClosestPlayer(bool lineOfSight, int fov)
         {
+            target = null;
             List<PlayerAgent> players = new List<PlayerAgent>();
             int lowestDistance;
             
@@ -896,7 +945,10 @@ namespace wickedcrush.entity.physics_entity.agent
                     {
                         amount *= 2;
                     }
-                    factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+                    if (this is PlayerAgent)
+                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.Red);
+                    else
+                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
                 }
 
                 if (stats.numbersContainsKey(pair.Key))

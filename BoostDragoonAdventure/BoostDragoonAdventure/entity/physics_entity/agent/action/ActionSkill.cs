@@ -414,6 +414,12 @@ namespace wickedcrush.entity.physics_entity.agent.action
             wallCollision = tempWallCollision;
         }
 
+        public override void TakeSkill(ActionSkill action)
+        {
+            this.Remove();
+            action.Remove();
+        }
+
         public void StealParent(Entity e)
         {
             parent.weaponInUse = null;

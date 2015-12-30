@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r3">
+    <folder id="0" name="cactus_parts">
+        <file id="0" name="cactus_parts/cactus_body.png" width="300" height="450" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="cactus_parts/cactus_face_love.png" width="300" height="450" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="cactus">
+        <animation id="0" name="body" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="cactus_body">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="5.953488" y="3.639497" pivot_x="0.546512" pivot_y="0.012195" scale_x="0.688751" scale_y="0.809777"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="love" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="cactus_body">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="5.953488" y="3.639497" pivot_x="0.546512" pivot_y="0.012195" scale_x="0.688751" scale_y="0.809777"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="cactus_face_love">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-158" y="395"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

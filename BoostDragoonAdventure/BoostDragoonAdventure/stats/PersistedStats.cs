@@ -60,7 +60,7 @@ namespace wickedcrush.stats
             set("PhysicalDMG", inventory.gear.GetGearStat(GearStat.PhysicalDMG));
             set("EtheralDMG", inventory.gear.GetGearStat(GearStat.EtheralDMG));
             set("HPConversion", (1 + inventory.gear.GetGearStat(GearStat.HPConversion)));
-            set("EPConversion", (10 + inventory.gear.GetGearStat(GearStat.EPConversion) * 3));
+            set("EPConversion", (10 + inventory.gear.GetGearStat(GearStat.EPConversion) * 9));
             set("fillSpeed", inventory.gear.GetGearStat(GearStat.EPRefill));
             set("boostSpeedMod", inventory.gear.GetGearStat(GearStat.BoostSpeed));
 

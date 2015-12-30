@@ -710,11 +710,59 @@ namespace wickedcrush.inventory
                         new List<Point>() { new Point(0, 0), new Point(1, 0) },
                         new List<PartConnection>() {
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
-                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true),
                             new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true),
                             new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
                         },
                         new Dictionary<GearStat, int>() { { GearStat.HPConversion, 1 } })));
+
+            parts.Add("Alpha Generator",
+                new Part("Alpha Generator",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Square, true),
+                            new PartConnection(new Point(0, 1), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPRefill, 1 } })));
+
+            parts.Add("Omega Generator",
+                new Part("Omega Generator",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Square, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 1), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Triangle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.EPRefill, 2 } })));
+
+            parts.Add("Fusion Drive",
+                new Part("Fusion Drive",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 1), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Square, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.BoostSpeed, 1 } })));
+
+            parts.Add("Hyper Drive",
+                new Part("Hyper Drive",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1), new Point(1, 1) },
+                        new List<PartConnection>() {
+                            new PartConnection(new Point(0, 0), 180, ConnectionType.Triangle, false),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 1), 90, ConnectionType.Square, true),
+                            new PartConnection(new Point(1, 1), 0, ConnectionType.Circle, true)
+                        },
+                        new Dictionary<GearStat, int>() { { GearStat.BoostSpeed, 2 } })));
 
             #endregion
         }
@@ -737,6 +785,16 @@ namespace wickedcrush.inventory
         public static Weapon getRandomWeapon()
         {
             return weapons.Values.ToList<Weapon>()[random.Next(weapons.Count)];
+        }
+
+        public static Item getRareItem()
+        {
+            List<Item> tempList = new List<Item>();
+            tempList.Add(parts["Fusion Drive"]);
+            tempList.Add(parts["Hyper Drive"]);
+            tempList.Add(parts["Omega Generator"]);
+
+            return tempList[random.Next(tempList.Count)];
         }
 
         public static Item getRandomItem()

@@ -262,7 +262,20 @@ namespace wickedcrush.factory.entity
             c.stats.set("stagger", 0);
             c.stats.set("staggerDuration", 60);
             c.stats.set("staggerDistance", 0);
+            c.rank = 2;
+            _em.addEntity(c);
+        }
 
+        public void addWoundedCentipede(Vector2 pos)
+        {
+            WeaveCentipede c = new WeaveCentipede(_w, pos, this, new PersistedStats(), _sm);
+            c.stats.set("hp", 2000);
+            c.stats.set("MaxHP", 2000);
+            c.stats.set("staggerLimit", 2500);
+            c.stats.set("stagger", 0);
+            c.stats.set("staggerDuration", 60);
+            c.stats.set("staggerDistance", 0);
+            c.rank = 1;
             _em.addEntity(c);
         }
 
@@ -299,6 +312,12 @@ namespace wickedcrush.factory.entity
         {
             PathOfDeath p = new PathOfDeath(_w, pos, size, size / 2f, true, this, _sm, patrol, 15, 100);
             _em.addEntity(p);
+        }
+
+        public void addCactus(Vector2 pos, Vector2 size, int rank, Stack<PathNode> patrol)
+        {
+            Cactus c = new Cactus(_w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100);
+            _em.addEntity(c);
         }
 
         public void addMurderer(Vector2 pos, Vector2 size, bool solid, Stack<PathNode> patrol, int facing)
@@ -340,7 +359,7 @@ namespace wickedcrush.factory.entity
         {
             PersistedStats fuckStats = new PersistedStats();
             ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm, spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
-            s.stats.set("hp", 100);
+            s.stats.set("hp", 20);
             s.stats.set("MaxHP", 100);
             s.stats.set("staggerLimit", 500);
             s.stats.set("stagger", 0);

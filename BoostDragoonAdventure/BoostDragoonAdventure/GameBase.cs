@@ -66,7 +66,7 @@ namespace wickedcrush
 
         public String diag = "";
 
-        public Texture2D whiteTexture, arrowTexture, transparentBlackTexture;
+        public Texture2D whiteTexture, arrowTexture, transparentBlackTexture, backgroundTexture;
         public SpriteFont testFont;
         public Dictionary<String, SpriteFont> fonts;
 
@@ -160,6 +160,7 @@ namespace wickedcrush
             fonts.Add("Rubik Mono One", Content.Load<SpriteFont>("fonts/Rubik Mono One"));
             fonts.Add("Bonbon", Content.Load<SpriteFont>("fonts/Bonbon"));
             arrowTexture = Content.Load<Texture2D>("debugcontent/img/arrow");
+            backgroundTexture = Content.Load<Texture2D>("img/tex/big/largeshopwindow2");
             spriteBatch = new SpriteBatch(GraphicsDevice);
             initializeWhiteTexture(GraphicsDevice);
 

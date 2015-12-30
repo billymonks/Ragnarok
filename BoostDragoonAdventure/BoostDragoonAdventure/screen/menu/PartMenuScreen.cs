@@ -251,10 +251,9 @@ namespace wickedcrush.screen.menu
             UpdateItemDesc();
 
 
-            if (p.c is KeyboardControls)
-                UpdateCursorPosition((KeyboardControls)p.c);
+                UpdateCursorPosition(p.c);
 
-            if (p.c.LaunchMenuPressed())
+                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
             {
                 Dispose();
             }
@@ -354,7 +353,7 @@ namespace wickedcrush.screen.menu
 
         private void HandleClick()
         {
-            if (p.c.InteractPressed())
+            if (p.c.InteractPressed() || (game.settings.controlMode == utility.config.ControlMode.KeyboardOnly && p.c.WeaponPressed()))
             {
                     //show consumables
 

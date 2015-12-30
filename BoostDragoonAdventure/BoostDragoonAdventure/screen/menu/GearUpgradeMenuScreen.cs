@@ -542,7 +542,7 @@ namespace wickedcrush.screen.menu
         {
             if (state == GearUpgradeMenuState.ConnectionSelect)
             {
-                if (p.c.InteractPressed())
+                if (p.c.InteractPressed() || (game.settings.controlMode == utility.config.ControlMode.KeyboardOnly && p.c.WeaponPressed()))
                 {
                     if (activeConnection != null)
                     {
@@ -559,14 +559,14 @@ namespace wickedcrush.screen.menu
                     }
                 }
 
-                if (p.c.LaunchMenuPressed())
+                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
                 {
                     Dispose();
                 }
             }
             else if (state == GearUpgradeMenuState.PartSelection)
             {
-                if (p.c.InteractPressed())
+                if (p.c.InteractPressed() || (game.settings.controlMode == utility.config.ControlMode.KeyboardOnly && p.c.WeaponPressed()))
                 {
                     if (partSelectionInt > -1 && partSelectionInt < partList.Count)
                     {
@@ -577,14 +577,13 @@ namespace wickedcrush.screen.menu
                     } 
                 }
 
-                if (p.c.LaunchMenuPressed())
+                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
                 {
                     ClosePartSelectionMenu();
                 }
             }
 
-            if (p.c is KeyboardControls)
-                UpdateCursorPosition((KeyboardControls)p.c);
+            UpdateCursorPosition(p.c);
         }
 
         private void ClosePartSelectionMenu()

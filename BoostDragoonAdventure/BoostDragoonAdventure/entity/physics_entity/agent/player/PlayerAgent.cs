@@ -43,8 +43,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
         private Vector2 unitVector = Vector2.Zero;
 
         int standHeight = 0, maxHeight = 10, tempHeight = 0;
-        float driftDirection = 0;
+        
         protected bool targetLock = false;
+
+        bool updateStats = false;
 
         #endregion
 
@@ -115,8 +117,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
         {
             stats.ApplyStats();
 
-            physicalDMG = stats.inventory.gear.GetGearStat(GearStat.PhysicalDMG);
-            etheralDMG = stats.inventory.gear.GetGearStat(GearStat.EtheralDMG);
+            physicalDMG = stats.inventory.gear.GetGearStat(GearStat.PhysicalDMG) * 3;
+            etheralDMG = stats.inventory.gear.GetGearStat(GearStat.EtheralDMG) * 3;
 
             boostSpeed = 100f + ((float)stats.get("boostSpeedMod") * (5f));
             fillSpeed = 3f + ((float)stats.get("fillSpeed"));
@@ -136,7 +138,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                 if (hpConversion > 0)
                 {
-                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Red);
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Fuchsia);
                 }
 
                 if (epConversion > 0)
@@ -223,6 +225,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             if (remove)
                 return;
+
+            if(updateStats)
+            {
+                applyStats();
+                updateStats = false;
+            }
 
             if (stats.compare("boost", "maxBoost") == -1 && weaponInUse == null && !controls.BoostHeld() && !controls.ReverseBoostHeld())
                 stats.addTo("boost", (int)fillSpeed);
@@ -709,43 +717,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             airborne = true;
         }
 
-        protected void BoostForward()
-        {
-            Vector2 v = bodies["body"].LinearVelocity;
-
-            driftDirection = (float)aimDirection;
-
-            Vector2 unitVector = new Vector2(
-                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
-                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
-            );
-
-            
-
-            v += unitVector * boostSpeed;
-
-            bodies["body"].LinearVelocity += v;
-
-            airborne = true;
-        }
-
-        protected void BoostBackward()
-        {
-            Vector2 v = bodies["body"].LinearVelocity;
-
-            driftDirection = (float)aimDirection + 180;
-
-            Vector2 unitVector = new Vector2(
-                (float)Math.Cos(MathHelper.ToRadians(driftDirection)),
-                (float)Math.Sin(MathHelper.ToRadians(driftDirection))
-            );
-
-            v += unitVector * boostSpeed;
-
-            bodies["body"].LinearVelocity += v;
-
-            airborne = true;
-        }
+        
         #endregion
 
         public bool InteractPressed()
@@ -768,6 +740,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
         protected void LaunchMenu()
         {
             factory._game.screenManager.AddScreen(new GameplayMenuScreen(factory._game, factory._gm, player));
+            updateStats = true;
         }
     }
 

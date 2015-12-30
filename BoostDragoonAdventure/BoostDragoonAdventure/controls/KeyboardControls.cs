@@ -246,7 +246,10 @@ namespace wickedcrush.controls
 
         public override bool LaunchMenuPressed()
         {
-            return RightMousePress();
+            if (keyState.IsKeyDown(startKey) && prevKeyState.IsKeyUp(startKey))
+                return true;
+            else
+                return false;
         }
 
         public override bool LockOnPressed()

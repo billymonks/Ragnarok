@@ -258,8 +258,7 @@ namespace wickedcrush.screen.menu
             UpdateItemDesc();
 
 
-            if (p.c is KeyboardControls)
-                UpdateCursorPosition((KeyboardControls)p.c);
+            UpdateCursorPosition(p.c);
 
             if (p.c.LaunchMenuPressed())
             {

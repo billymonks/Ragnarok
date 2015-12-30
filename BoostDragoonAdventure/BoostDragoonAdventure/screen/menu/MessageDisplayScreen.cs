@@ -48,10 +48,9 @@ namespace wickedcrush.screen.menu
 
             window.update(720, -540);
 
-            if (p.c is KeyboardControls)
-                UpdateCursorPosition((KeyboardControls)p.c);
+                UpdateCursorPosition(p.c);
 
-            if (p.c.LaunchMenuPressed() || p.c.InteractPressed())
+                if (p.c.LaunchMenuPressed() || p.c.InteractPressed())
             {
                 Dispose();
             }

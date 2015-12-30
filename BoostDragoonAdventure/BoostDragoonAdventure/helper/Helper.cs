@@ -86,6 +86,11 @@ namespace wickedcrush.helper
             return((Direction)(((((int)MathHelper.ToDegrees(radians) + 360f) % 360f) / 45f) * 45f));
         }
 
+        public static float ConstrainDegrees(float degrees)
+        {
+            return (degrees + 360f) % 360f;
+        }
+
         public static Direction constrainDirection(Direction direction)
         {
             return (Direction)(((((int)direction + 360) % 360) / 45) * 45);

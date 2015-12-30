@@ -17,11 +17,14 @@ using wickedcrush.behavior;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.attack;
+using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
     public class WeaveCentipede : Agent
     {
+        public int rank = 2;
 
         private int tellLength = 2000, counterAttackLength = 500;
         private StateName state;
@@ -118,21 +121,44 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             if (phase == 2 && counterShots % 2 == 1)
                             {
                                 faceTarget();
+                                if (rank == 2)
+                                {
+                                    this.aimDirection += 45;
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
-                                this.aimDirection += 45;
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                                SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
-                                this.aimDirection -= 90;
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                                SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                                    this.aimDirection -= 90;
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+
+                                } else if(rank == 1)
+                                {
+                                    //this.aimDirection += 5;
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 4, 1, 0, 1, false, 300f, 300, 300, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(5f, 5f), new Vector2(200, 0), -25, 100, 1800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+
+
+                                    //this.aimDirection -= 10;
+                                    //this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 200, 8, 1, 0, 5, false, 300f, 300, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    //SkillServer.GenerateProjectile(new Vector2(5f, 5f), new Vector2(200, 0), -25, 100, 2300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                                }
                             }
                             else
                             {
                                 faceTarget();
+                                if (rank == 1)
+                                {
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 5, 5, 0, 30, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
-                                this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                                SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                                } else if(rank == 2)
+                                {
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(220f, 0f), 1, 4, 4, 1, 270, false, 600f, 800, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+
+
+                                }
                             }
                         }
 
@@ -393,6 +419,17 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             //if (tempWallCollision)
             wallCollision = tempWallCollision;
+        }
+
+        protected override void Die()
+        {
+            if(this.target is PlayerAgent)
+            {
+                Item temp = InventoryServer.getRareItem();
+                ((PlayerAgent)target).stats.inventory.receiveItem(temp);
+                factory.DisplayMessage("You got " + temp.name + "!");
+            }
+            base.Die();
         }
 
 
