@@ -14,15 +14,28 @@
     <connection id="3" doorIndex="2">b1</connection>
     <connection id="4" doorIndex="1">a2</connection>
   </map>
-  <map name="b1" filename="Content/maps/full/b1.oel" theme="rocky2">
+  <map name="b1" filename="Content/maps/full/b1.oel">
     <connection id="0" doorIndex="2">a3</connection>
     <connection id="1" doorIndex="0">big kahuna burger</connection>
     <connection id="2" doorIndex="3">a3</connection>
   </map>
-  <map name="c1" filename="Content/maps/full/c1.oel" theme="rocky">
+  <map name="c1" filename="Content/maps/full/c1.oel" theme="woodandbrick">
     <connection id="0" doorIndex="1">a3</connection>
     <connection id="1" doorIndex="0">big kahuna burger</connection>
-    <connection id="2" doorIndex="0">scenic view</connection>
+    <connection id="2" doorIndex="0">c2</connection>
+  </map>
+  <map name="c2" filename="Content/maps/full/c2.oel" theme="woodandbrick">
+    <connection id="0" doorIndex="2">c1</connection>
+    <connection id="1" doorIndex="0">c3</connection>
+  </map>
+  <map name="c3" filename="Content/maps/full/c3.oel" theme="woodandbrick">
+    <connection id="0" doorIndex="1">c2</connection>
+    <connection id="1" doorIndex="0">c4</connection>
+  </map>
+  <map name="c4" filename="Content/maps/full/c4.oel" theme="woodandbrick">
+    <connection id="0" doorIndex="1">c3</connection>
+    <connection id="1" doorIndex="0">boss room a</connection>
+    <connection id="2" doorIndex="0">longmap</connection>
   </map>
   <map name="700test" filename="Content/maps/full/700test.xml">
     <connection id="0" doorIndex="0">700test</connection>

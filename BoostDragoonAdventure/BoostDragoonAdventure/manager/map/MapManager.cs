@@ -215,8 +215,8 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("NPC"))
                 {
-                    gm.factory.addNPC(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), e.Attribute("dialog").Value);
+                    //gm.factory.addNPC(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        //new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), e.Attribute("dialog").Value);
                 }
 
                 foreach (XElement e in objects.Elements("TERMINAL"))
