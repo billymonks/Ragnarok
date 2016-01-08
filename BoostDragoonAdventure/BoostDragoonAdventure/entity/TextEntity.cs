@@ -32,15 +32,18 @@ namespace wickedcrush.entity
 
         public float maxWidth = -1;
 
+        public Vector2 velocity = Vector2.Zero;
+
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel, String fontName, bool addToScene)
-            : this(text, pos, sound, g, duration, factory, textColor, zoomLevel, addToScene)
+            : this(text, pos, sound, g, duration, factory, textColor, zoomLevel, zoomLevel, addToScene)
         {
             this.fontName = fontName;
         }
 
-        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel, bool addToScene)
+        public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel, float desiredZoomLevel, bool addToScene)
             : this(text, pos, sound, g, duration, factory, zoomLevel, addToScene)
         {
+            this.desiredZoomLevel = desiredZoomLevel;
             this.textColor = textColor;
             
         }
@@ -87,7 +90,7 @@ namespace wickedcrush.entity
                     Remove();
                 }
             }
-
+            pos += velocity;
             zoomLevel = (zoomLevel + desiredZoomLevel) / 2f;
             desiredZoomLevel += zoomIncrement;
 

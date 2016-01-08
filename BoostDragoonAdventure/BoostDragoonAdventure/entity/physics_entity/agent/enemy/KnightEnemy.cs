@@ -263,7 +263,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         {
                             //((Murderer)c).AddOverheadWeapon("Longsword", "weapons", "sword", 0, new Vector2(0f, 120f), .5f, 90f);
                             faceTarget();
-                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");  
+                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500, 100, "particles", 0, "white_to_yellow");  
                             this.EmitParticles(ps, 5);
                             PlayCue("chime");
                             item.Press((Agent)c);
@@ -698,6 +698,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             hitThisTick = true;
 
+            float dmgAmount = 0f;
+
             foreach (KeyValuePair<string, int> pair in action.statIncrement)
             {
                 int amount = pair.Value;
@@ -729,7 +731,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             reactions.Add(new PositionReaction(action.parent.pos + action.parent.center, hitReactionLength));
                         }
                     }
-                    factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+                    factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)amount) / -20f, new Vector2(0f, -1f));
+                    dmgAmount = amount;
                 }
 
                 if (stats.numbersContainsKey(pair.Key))
@@ -744,7 +747,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             }
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+            ParticleStruct ps = new ParticleStruct(new Vector3((action.pos.X + action.center.X + this.pos.X + this.center.X) / 2f, this.height, (action.pos.Y + action.center.Y + this.pos.Y + this.center.Y) / 2f), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, 12, "all", 3, "hit", dmgAmount / 32f);
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             //Vector2 bloodspurt = new Vector2((float)(Math.Cos(MathHelper.ToRadians((float)action.facing)) + 0f * Math.Sin(MathHelper.ToRadians((float)action.facing))),

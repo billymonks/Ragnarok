@@ -701,8 +701,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
             skill.name = "Generated Skill";
             skill.pos = new Vector2(5f, 0f);
-            skill.size = new Vector2(2f, 2f);
-            skill.center = new Vector2(1f, 1f);
+            skill.size = new Vector2(12f, 12f);
+            skill.center = new Vector2(6f, 6f);
             skill.blows = new List<KeyValuePair<int, SkillStruct>>();
 
             //skill.statIncrement = new List<KeyValuePair<String, int>>() { new KeyValuePair<string, int>("hp", -10 * blowCount) };

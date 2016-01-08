@@ -15,7 +15,7 @@ namespace wickedcrush.particle
                 new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f),
                 new Vector3(0f, -0.03f, 0f),
                 0f, 0f,
-                200,
+                200, 32,
                 "particles", 0, "white_to_blue");
         }
 
@@ -26,7 +26,7 @@ namespace wickedcrush.particle
                 new Vector3(-direction.X / 2f, -0.3f, -direction.Y / 2f), new Vector3(direction.X, 0.6f, direction.Y),
                 new Vector3(0f, -0.03f, 0f),
                 0f, 0f,
-                500,
+                300, 32,
                 "particles", 0, "white_to_yellow");
 
         }
@@ -38,7 +38,7 @@ namespace wickedcrush.particle
                 new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 1.6f, 0.6f),
                 new Vector3(0f, -0.03f, 0f),
                 0f, 0f,
-                500,
+                500, 32,
                 "particles", 0, "white_to_blue");
 
         }

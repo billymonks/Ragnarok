@@ -113,7 +113,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Vector2 jumpDestination = Vector2.Zero;
         public Vector2 jumpStartPoint = Vector2.Zero;
 
-        public int physicalDMG = 0, etheralDMG = 0;
+        public int physicalDMG = 0, etheralDMG = 0, ammo = 1;
         //public int jumpHeight = 0;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
@@ -356,10 +356,13 @@ namespace wickedcrush.entity.physics_entity.agent
                 Remove();
                 PlayCue("horrible death");
 
+                int count = (int)Math.Floor((double)(size.X / 4f));
 
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.5f, 3f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit", 0.25f);
-                particleEmitter.EmitParticles(ps, factory, 10);
-                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(0f, 5f, 0f), new Vector3(0f, 1f, 0f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "all", 3, "hit", 0.25f);
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 5, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-size.X / 16f, 5f, -size.X / 16f), new Vector3(size.X / 8f, 1f, size.X / 8f), new Vector3(0, -.3f, 0), 0f, 0f, 1000, 10, "all", 3, "hit", 0.0001f);
+                particleEmitter.EmitParticles(ps, factory, count * 2);
+                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 5, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-size.X / 32f, 3f, -size.X / 32f), new Vector3(size.X / 16f, 1f, size.X / 16f), new Vector3(0, -.2f, 0), 0f, 0f, 500, 16, "all", 3, "hit", size.X / 64f);
+                particleEmitter.EmitParticles(ps, factory, count);
+                ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 5, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(0f, 5f, 0f), new Vector3(0f, 1f, 0f), new Vector3(0, -.1f, 0), 40f, 0.1f, 1000, 6, "all", 3, "hit", size.X / 45f);
                 particleEmitter.EmitParticles(ps, factory, 1);
             }
         }
@@ -959,6 +962,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             hitThisTick = true;
 
+            float dmgAmount = 0f;
+
             foreach(KeyValuePair<string, int> pair in action.statIncrement)
             {
                 int amount = pair.Value;
@@ -970,9 +975,11 @@ namespace wickedcrush.entity.physics_entity.agent
                         amount *= 2;
                     }
                     if (this is PlayerAgent)
-                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.Red);
+                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.Red, ((float)amount) / -17f, new Vector2(0f, 1f));
                     else
-                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+                        factory.addText(amount.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)amount) / -25f, new Vector2(0f, -1f));
+
+                    dmgAmount = amount;
                 }
 
                 if (stats.numbersContainsKey(pair.Key))
@@ -987,14 +994,15 @@ namespace wickedcrush.entity.physics_entity.agent
                 
             }
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+            ParticleStruct ps = new ParticleStruct(new Vector3((action.pos.X + action.center.X + this.pos.X + this.center.X) / 2f, this.height, (action.pos.Y + action.center.Y + this.pos.Y + this.center.Y) / 2f), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, 12, "all", 3, "hit", dmgAmount / 32f);
+            particleEmitter.EmitParticles(ps, this.factory, 3);
             //particleEmitter.EmitParticles(ps, this.factory, 3);
 
-            Vector2 bloodspurt = new Vector2((float)(Math.Cos(MathHelper.ToRadians((float)action.facing)) + 0f * Math.Sin(MathHelper.ToRadians((float)action.facing))),
-                (float)(Math.Sin(MathHelper.ToRadians((float)action.facing)) - 0f * Math.Cos(MathHelper.ToRadians((float)action.facing))));
+            //Vector2 bloodspurt = new Vector2((float)(Math.Cos(MathHelper.ToRadians((float)action.facing)) + 0f * Math.Sin(MathHelper.ToRadians((float)action.facing))),
+                //(float)(Math.Sin(MathHelper.ToRadians((float)action.facing)) - 0f * Math.Cos(MathHelper.ToRadians((float)action.facing))));
 
-            ps = new ParticleStruct(new Vector3(action.pos.X + action.center.X, action.height + 10, action.pos.Y + action.center.Y), Vector3.Zero, new Vector3(bloodspurt.X * 3f, 2f, bloodspurt.Y * 3f), new Vector3(1.5f, 4f, -1.5f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
-            particleEmitter.EmitParticles(ps, this.factory, 5);
+            //ps = new ParticleStruct(new Vector3(action.pos.X + action.center.X, action.height + 10, action.pos.Y + action.center.Y), Vector3.Zero, new Vector3(bloodspurt.X * 3f, 2f, bloodspurt.Y * 3f), new Vector3(1.5f, 4f, -1.5f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
+            //particleEmitter.EmitParticles(ps, this.factory, 5);
 
             Vector2 v = bodies["body"].LinearVelocity;
 
@@ -1036,7 +1044,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             _sound.playCue("hurt", emitter);
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             factory._gm.camera.ShakeScreen(5f);
@@ -1075,19 +1083,19 @@ namespace wickedcrush.entity.physics_entity.agent
 
             _sound.playCue("hurt", emitter);
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 2000, "all", 3, "hit", 0.25f);
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 1f, -1.5f), new Vector3(3f, 1f, 3f), new Vector3(0, -.05f, 0), 0f, 0f, 2000, 6, "all", 3, "hit", 0.25f);
             //particleEmitter.EmitParticles(ps, this.factory, 3);
 
             Vector2 bloodspurt = new Vector2((float)(Math.Cos(MathHelper.ToRadians((float)this.facing)) + 0f * Math.Sin(MathHelper.ToRadians((float)this.facing))),
                 (float)(Math.Sin(MathHelper.ToRadians((float)this.facing)) - 0f * Math.Cos(MathHelper.ToRadians((float)this.facing))));
 
-            ps = new ParticleStruct(new Vector3(pos.X, this.height + 10, pos.Y), Vector3.Zero, new Vector3(bloodspurt.X * 3f, 2f, bloodspurt.Y * 3f), new Vector3(1.5f, 4f, -1.5f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
+            //ps = new ParticleStruct(new Vector3(pos.X, this.height + 10, pos.Y), Vector3.Zero, new Vector3(bloodspurt.X * 3f, 2f, bloodspurt.Y * 3f), new Vector3(1.5f, 4f, -1.5f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
             particleEmitter.EmitParticles(ps, this.factory, 5);
 
             factory._gm.camera.ShakeScreen(5f);
             factory._gm.activateFreezeFrame();
 
-            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage)/20f, new Vector2(0f, -1f));
             
         }
 
@@ -1133,11 +1141,14 @@ namespace wickedcrush.entity.physics_entity.agent
             if(bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
 
-            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000);
+            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage) / 20f, new Vector2(0f, -1f));
             _sound.playCue("hurt", emitter);
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, "particles", 3, "bloodspurt_001");
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
             particleEmitter.EmitParticles(ps, this.factory, 3);
+
+            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y + 3f), Vector3.Zero, new Vector3(-1.5f, 1f, -1.5f), new Vector3(3f, 1f, 3f), new Vector3(0, -.05f, 0), 0f, 0f, 2000, 6, "all", 3, "hit", 0.25f);
+            particleEmitter.EmitParticles(ps, this.factory, 2);
 
             factory._gm.camera.ShakeScreen(5f);
 

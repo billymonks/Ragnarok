@@ -13,12 +13,12 @@ namespace wickedcrush.particle
     public struct ParticleStruct
     {
         public Vector3 pos, posVariance, velocity, velocityVariance, acceleration;
-        public float rotation, rotationSpeed, scale;
+        public float rotation, rotationSpeed, scale, scaleSpeed;
 
         public double milliseconds;
 
         public String spriterName, animationName;
-        public int entityIndex;
+        public int entityIndex, msPerFrame;
 
         public ParticleStruct(
             Vector3 pos,
@@ -28,7 +28,8 @@ namespace wickedcrush.particle
             Vector3 acceleration, 
             float rotation, 
             float rotationSpeed, 
-            double milliseconds, 
+            double milliseconds,
+            int msPerFrame,
             String spriterName, 
             int entityIndex,
             String animationName)
@@ -41,10 +42,12 @@ namespace wickedcrush.particle
             this.rotation = rotation;
             this.rotationSpeed = rotationSpeed;
             this.milliseconds = milliseconds;
+            this.msPerFrame = msPerFrame;
             this.spriterName = spriterName;
             this.entityIndex = entityIndex;
             this.animationName = animationName;
             this.scale = 1f;
+            this.scaleSpeed = 0.02f;
         }
 
         public ParticleStruct(
@@ -56,6 +59,7 @@ namespace wickedcrush.particle
             float rotation,
             float rotationSpeed,
             double milliseconds,
+            int msPerFrame,
             String spriterName,
             int entityIndex,
             String animationName,
@@ -69,16 +73,18 @@ namespace wickedcrush.particle
             this.rotation = rotation;
             this.rotationSpeed = rotationSpeed;
             this.milliseconds = milliseconds;
+            this.msPerFrame = msPerFrame;
             this.spriterName = spriterName;
             this.entityIndex = entityIndex;
             this.animationName = animationName;
             this.scale = scale;
+            this.scaleSpeed = 0.02f;
         }
     }
     public class Particle
     {
         public Vector3 pos, velocity, acceleration;
-        public float rotation, rotationSpeed, scale;
+        public float rotation, rotationSpeed, scale, scaleChange;
 
         public SpriterOffsetStruct animation;
         public Timer duration;
@@ -111,8 +117,10 @@ namespace wickedcrush.particle
                     Vector2.Zero);
 
             animation.player.setAnimation(p.animationName, 0, 0);
+            animation.player.setFrameSpeed(p.msPerFrame);
 
             this.scale = p.scale;
+            this.scaleChange = p.scaleSpeed;
 
             animation.player.setScale(scale);
 
@@ -128,6 +136,8 @@ namespace wickedcrush.particle
 
         public void Update(GameTime gameTime)
         {
+            scale += scaleChange;
+            rotation += rotationSpeed;
             Vector2 spritePos = new Vector2(
                 (pos.X + animation.offset.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
                 ((pos.Z + animation.offset.Y - factory._gm.camera.cameraPosition.Y - pos.Y) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
@@ -145,7 +155,8 @@ namespace wickedcrush.particle
             //depth = 0f;
 
             animation.player.SetDepth(depth);
-
+            animation.player.setScale(scale);
+            animation.player.setAngle(rotation);
             animation.player.update(spritePos.X,
                 spritePos.Y);
 

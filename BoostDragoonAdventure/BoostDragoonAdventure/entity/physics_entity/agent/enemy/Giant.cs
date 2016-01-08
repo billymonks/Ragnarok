@@ -111,7 +111,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         if (!stateTree.previousControlState.name.Equals("attack_tell"))
                         {
                             faceTarget();
-                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500f, "particles", 0, "white_to_yellow");
+                            ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X - 3f, height + 30, pos.Y + center.Y - 3f), new Vector3(6f, 0f, 6f), new Vector3(-3f, 5f, -3f), new Vector3(6f, 0f, 6f), new Vector3(0f, -0.01f, 0f), 0f, 0f, 500, 100, "particles", 0, "white_to_yellow");
                             this.EmitParticles(ps, 5);
                             PlayCue("chime");
                         }

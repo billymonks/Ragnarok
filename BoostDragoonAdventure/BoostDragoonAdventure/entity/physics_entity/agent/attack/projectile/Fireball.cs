@@ -53,7 +53,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             base.Update(gameTime);
             moveForward(speed);
 
-            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.3f, -1f, -0.3f), new Vector3(0.6f, 2f, 0.6f), new Vector3(0, -.03f, 0), 0f, 0f, 1000, "particles", 0, "white_to_red");
+            ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 0, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-0.3f, -1f, -0.3f), new Vector3(0.6f, 2f, 0.6f), new Vector3(0, -.03f, 0), 0f, 0f, 500, 16, "particles", 0, "white_to_red");
             particleEmitter.EmitParticles(ps, this.factory, 1);
 
             checkTimer();

@@ -520,9 +520,18 @@ namespace wickedcrush.factory.entity
             return textEnt;
         }
 
+        public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel, Vector2 velocity)
+        {
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, zoomLevel + 2, true);
+            textEnt.velocity = velocity;
+            _em.addEntity(textEnt);
+
+            return textEnt;
+        }
+
         public TextEntity addText(String text, Vector2 pos, int duration, Color textColor, float zoomLevel)
         {
-            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, true);
+            TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, zoomLevel + 2, true);
             _em.addEntity(textEnt);
 
             return textEnt;
