@@ -17,6 +17,8 @@ using wickedcrush.behavior;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.attack;
+using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -589,7 +591,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                     if (state == StateName.Landing)
                         ((Agent)c.Other.UserData).TakeKnockback(this.pos + this.center, 30, 100);
-
+                    else if (state == StateName.CounterAttack)
+                        ((Agent)c.Other.UserData).TakeKnockback(this.pos + this.center, 3, 100);
 
                     //((Agent)c.Other.UserData).TakeSkill(this);
                     //hitConnected = true;
@@ -624,6 +627,18 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             //if (tempWallCollision)
             wallCollision = tempWallCollision;
+        }
+
+        protected override void Die()
+        {
+            setTargetToPlayer();
+            if (this.target is PlayerAgent)
+            {
+                Item temp = InventoryServer.getRareItem();
+                ((PlayerAgent)target).stats.inventory.receiveItem(temp);
+                factory.DisplayMessage("You got " + temp.name + "!");
+            }
+            base.Die();
         }
 
 

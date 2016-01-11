@@ -138,15 +138,23 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             var c = bodies["body"].ContactList;
             while (c != null)
             {
+                
+
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
                     && c.Other.UserData is Agent
+                    && !(c.Other.UserData is Cactus)
                     && !((Agent)c.Other.UserData).noCollision)
                 {
-
+                    //factory.DisplayMessage("!");
                     ((Agent)c.Other.UserData).TakeHit(this, true);
                     timers["spike_animation"].resetAndStart();
                 }
+
+                //if (c.Other.UserData is Chimera || !((Chimera)c.Other.UserData).airborne)
+                //{
+                    //this.Die();
+                //}
 
 
                 c = c.Next;

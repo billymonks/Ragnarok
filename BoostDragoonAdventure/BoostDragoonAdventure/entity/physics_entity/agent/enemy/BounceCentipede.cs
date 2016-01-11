@@ -16,6 +16,8 @@ using wickedcrush.particle;
 using wickedcrush.behavior;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.helper;
+using wickedcrush.entity.physics_entity.agent.player;
+using wickedcrush.inventory;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -249,6 +251,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     && !((Agent)c.Other.UserData).noCollision
                     && !c.Other.UserData.Equals(this.parent))
                 {
+                    //if (c.Other.UserData is Cactus)
+                    //{
+                        //((Cactus)c.Other.UserData).stats.set("hp", 0);
+                    //}
+
                     if (this.parent != null
                         && ((Agent)c.Other.UserData).parent != null
                         && ((Agent)c.Other.UserData).parent.Equals(this.parent))
@@ -288,6 +295,18 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             //if (tempWallCollision)
             wallCollision = tempWallCollision;
+        }
+
+        protected override void Die()
+        {
+            setTargetToPlayer();
+            if (this.target is PlayerAgent)
+            {
+                Item temp = InventoryServer.getRareItem();
+                ((PlayerAgent)target).stats.inventory.receiveItem(temp);
+                factory.DisplayMessage("You got " + temp.name + "!");
+            }
+            base.Die();
         }
 
 
