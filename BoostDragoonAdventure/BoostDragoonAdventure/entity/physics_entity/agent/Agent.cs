@@ -1093,7 +1093,7 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 5);
 
             factory._gm.camera.ShakeScreen(5f);
-            factory._gm.activateFreezeFrame();
+            //factory._gm.activateFreezeFrame();
 
             factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage)/20f, new Vector2(0f, -1f));
             

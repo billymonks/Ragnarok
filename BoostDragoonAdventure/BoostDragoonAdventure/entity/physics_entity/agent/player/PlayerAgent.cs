@@ -727,6 +727,27 @@ namespace wickedcrush.entity.physics_entity.agent.player
             return controls.InteractPressed();
         }
 
+        public override void TakeKnockback(Vector2 pos, int dmg, float force)
+        {
+            base.TakeKnockback(pos, dmg, force);
+
+            factory._gm.activateFreezeFrame();
+        }
+
+        public override void TakeKnockback(Vector2 pos, float force)
+        {
+            base.TakeKnockback(pos, force);
+
+            factory._gm.activateFreezeFrame();
+        }
+
+        public override void TakeHit(Attack attack, bool knockback)
+        {
+            base.TakeHit(attack, knockback);
+
+            factory._gm.activateFreezeFrame();
+        }
+
         protected override void Dispose()
         {
             base.Dispose();

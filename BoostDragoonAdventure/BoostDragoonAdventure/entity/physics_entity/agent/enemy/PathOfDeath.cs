@@ -48,7 +48,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             this.immortal = true;
 
             activeRange = 300f;
-            this.speed = 100f;
+            this.targetSpeed = 300f;
 
             SetupStateMachine();
 
