@@ -253,7 +253,7 @@ namespace wickedcrush.inventory
                     new Microsoft.Xna.Framework.Vector2(0f, 20f),
                     Vector2.Zero,
                     new Vector2(40f, 0f),
-                    240,
+                    190,
                     300,
                     0,
                     new List<KeyValuePair<int, SkillStruct>>(),
@@ -266,6 +266,8 @@ namespace wickedcrush.inventory
                     "sword",
                     false);
 
+                   swordAttack.piercing = true;
+
                    if (a.stats.compare("charge", 25) < 0)
                    {
                        a.useActionSkill(swordAttack);
@@ -273,13 +275,13 @@ namespace wickedcrush.inventory
                    }
                    else if (a.stats.compare("charge", 50) < 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 3, 3, 0, 45, true, 300f, 100, 0, 1f, null, "attack1", 3, "all",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 3, 3, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
                            swordAttack, false));
                        //a.useActionSkill(SkillServer.skills["Bigger Sword Attack"]);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                    } else
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 6, 3, 0, 45, true, 300f, 100, 0, 1f, null, "attack1", 3, "all",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0, 0f), new Vector2(0f, 0f), 200, 6, 3, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
                            swordAttack, false));
                        //a.useActionSkill(SkillServer.skills["Biggest Sword Attack"]);
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);

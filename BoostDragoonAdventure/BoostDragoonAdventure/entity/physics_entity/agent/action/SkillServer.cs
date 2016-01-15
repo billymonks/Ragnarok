@@ -22,7 +22,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public int spriterEntityIndex;
         public String spriterAnimationName;
 
-        public bool bounce;
+        public bool bounce, piercing;
         //public bool freeItemInUse;
 
         //public Nullable<SkillStruct> blowStruct;
@@ -48,6 +48,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             this.spriterAnimationName = spriterAnimationName;
 
             this.bounce = bounce;
+            this.piercing = false;
             //this.freeItemInUse = freeItemInUse;
             //this.blowStruct = null;
         }
@@ -682,6 +683,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.parentVelocity = parentVelocity;
 
             skill.bounce = bounce;
+            skill.piercing = false;
             //skill.freeItemInUse = true;
 
             //if (skill.blowStruct.HasValue)
@@ -719,6 +721,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterName = spriterName;
             skill.parentVelocity = parentVelocity;
             skill.bounce = bounce;
+            skill.piercing = false;
 
             AddBlowsToSkillStruct(skill, blowCount, blowPerSpread, scatterCount, spreadDuration, spread, blowReleaseDelay, releaseModifier, blowStruct);
 
@@ -817,6 +820,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             skill.spriterName = blowStruct.spriterName;
             skill.parentVelocity = blowStruct.parentVelocity;
             skill.bounce = blowStruct.bounce;
+            skill.piercing = blowStruct.piercing;
+            
             //skill.freeItemInUse = false;
 
             return skill;

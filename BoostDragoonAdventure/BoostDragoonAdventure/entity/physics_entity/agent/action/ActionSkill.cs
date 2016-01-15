@@ -24,7 +24,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public KeyValuePair<int, int> force; //direction, force amount
 
-        protected bool reactToWall, piercing = true, ignoreSameParent = true, just_for_show = false, followParent = false, aimed=false, hitConnected = false, bounce = true;
+        protected bool reactToWall, piercing = false, ignoreSameParent = true, just_for_show = false, followParent = false, aimed=false, hitConnected = false, bounce = true;
 
         private Vector2 velocity;
 
@@ -63,6 +63,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             timers["particle_emission"].resetAndStart();
 
             skillName = skillStruct.name;
+
+            piercing = skillStruct.piercing;
             
             if (null != actingParent)
             {
@@ -123,6 +125,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             timers["particle_emission"].resetAndStart();
 
             skillName = skillStruct.name;
+
+            piercing = skillStruct.piercing;
 
             if(parent!=null)
                 height = parent.skillHeight;
@@ -201,6 +205,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             airborne = true;
             immortal = true;
             this.name = "ActionSkill";
+
+            
             
             //ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-0.5f, 2f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
             //particleEmitter.EmitParticles(ps, factory, 3);
@@ -376,14 +382,42 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         && ((Agent)c.Other.UserData).parent != null
                         && ((Agent)c.Other.UserData).parent.Equals(this.parent)
                         && ignoreSameParent)
-                        break;
+                    {
+                        if (bounce)
+                        {
+                            //Vector2 movementVector = Helper.GetDirectionVectorFromDegrees(movementDirection);
+                            //movementVector = -2f * Vector2.Dot(movementVector, c.Contact.Manifold.LocalNormal) * c.Contact.Manifold.LocalNormal + movementVector;
+
+                            //movementDirection = (int)Helper.GetDegreesFromVector(movementVector);
+                            //aimDirection = (int)Helper.GetDegreesFromVector(movementVector);
+
+                            //velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
+                                //(float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
+                            //_sound.playCue("ready ping");
+
+                            //ParticleStruct ps = ParticleServer.GenerateSpark(new Vector3(pos.X + center.X, height, pos.Y + center.Y), movementVector * 3f);
+                            //this.EmitParticles(ps, 3);
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
 
                     
                     ((Agent)c.Other.UserData).TakeSkill(this);
-                    hitConnected = true;
+                    //hitConnected = true;
 
-                    if (!piercing)
-                        Remove();
+                    if (!(c.Other.UserData is ActionSkill) || !piercing)
+                    {
+                        hitConnected = true;
+                        if (!followParent)
+                        {
+                            Remove();
+                        }
+                    }
+                    
                 }
                 else if (!wallCollision && !tempWallCollision && reactToWall && c.Contact.IsTouching && c.Other.UserData is LayerType && ((LayerType)c.Other.UserData).Equals(LayerType.WALL))
                 {
@@ -416,8 +450,24 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         public override void TakeSkill(ActionSkill action)
         {
-            this.Remove();
-            action.Remove();
+            if (!piercing)
+            {
+                this.hitConnected = true;
+                if(!followParent)
+                {
+                    this.Remove();
+                }
+            }
+
+            if (!action.piercing)
+            {
+                action.hitConnected = true;
+                if (!action.followParent)
+                {
+                    action.Remove();
+                }
+            }
+                
         }
 
         public void StealParent(Entity e)

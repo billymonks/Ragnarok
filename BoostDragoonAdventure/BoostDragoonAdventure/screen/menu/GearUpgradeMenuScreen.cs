@@ -45,6 +45,8 @@ namespace wickedcrush.screen.menu
         protected Dictionary<EquippedConnection, SpriterPlayer> gearConnectionSpriters;
 
         protected Dictionary<Point, SpriterPlayer> previewSlotSpriters;
+        protected Dictionary<EquippedConnection, Rectangle> previewConnectionBoxes;
+        protected Dictionary<EquippedConnection, SpriterPlayer> previewConnectionSpriters;
 
         protected SpriterPlayer descSpriter;
         protected Rectangle descBox;
@@ -87,6 +89,8 @@ namespace wickedcrush.screen.menu
             gearPanelSpriters = new Dictionary<Point, SpriterPlayer>();
 
             previewSlotSpriters = new Dictionary<Point, SpriterPlayer>();
+            previewConnectionBoxes = new Dictionary<EquippedConnection, Rectangle>();
+            previewConnectionSpriters = new Dictionary<EquippedConnection, SpriterPlayer>();
 
             gearSlotSpriters = new Dictionary<EquippedPart, Dictionary<Point, SpriterPlayer>>();
 
@@ -299,6 +303,37 @@ namespace wickedcrush.screen.menu
             }
         }
 
+        private void InitializePreviewConnectionSpriter(EquippedConnection equipConnect)
+        {
+            int connectType = 9;
+
+            switch (equipConnect.connection.type)
+            {
+                case ConnectionType.Circle:
+                    connectType = 9;
+                    break;
+                case ConnectionType.Square:
+                    connectType = 10;
+                    break;
+                case ConnectionType.Triangle:
+                    connectType = 11;
+                    break;
+            }
+
+            if (equipConnect.connection.female)
+            {
+
+                previewConnectionBoxes.Add(equipConnect, new Rectangle(panelLocation.X + equipConnect.translation.X * 100 + 25 + equipConnect.cRotation.X * 50, panelLocation.Y + equipConnect.translation.Y * 100 + 25 + equipConnect.cRotation.Y * 50, 50, 50));
+                previewConnectionSpriters.Add(equipConnect, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), connectType, _gm.factory._spriterManager.spriters["hud"].loader));
+
+                previewConnectionSpriters[equipConnect].setScale(2f);
+                previewConnectionSpriters[equipConnect].setAnimation("inside", 0, 0);
+
+                AddSpriter(previewConnectionSpriters[equipConnect]);
+
+            }
+        }
+
         public override void Dispose()
         {
             ClearText();
@@ -432,6 +467,12 @@ namespace wickedcrush.screen.menu
                     previewPair.Value.update(gearPanelBoxes[previewPair.Key].Center.X, -gearPanelBoxes[previewPair.Key].Center.Y);
                 }
 
+                foreach (KeyValuePair<EquippedConnection, SpriterPlayer> previewConnectionPair in previewConnectionSpriters)
+                {
+                    previewConnectionPair.Value.SetDepth(0.05f);
+                    previewConnectionPair.Value.update(previewConnectionBoxes[previewConnectionPair.Key].Center.X, -previewConnectionBoxes[previewConnectionPair.Key].Center.Y);
+                }
+
                 prevPartSelectionInt = partSelectionInt;
                 partSelectionInt = -1;
                 for (int i = 0; i < partSelectionBoxes.Count; i++)
@@ -471,6 +512,13 @@ namespace wickedcrush.screen.menu
                 }
                 previewSlotSpriters.Clear();
 
+                foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in previewConnectionSpriters)
+                {
+                    RemoveSpriter(pair.Value);
+                }
+                previewConnectionSpriters.Clear();
+                previewConnectionBoxes.Clear();
+
                 if (partSelectionInt != -1)
                 {
                     EquippedPart previewPart = p.getStats().inventory.gear.GetPreviewPart(partList[partSelectionInt], activeConnection);
@@ -481,6 +529,11 @@ namespace wickedcrush.screen.menu
                         previewSlotSpriters[point].setAnimation("light", 0, 0);
 
                         AddSpriter(previewSlotSpriters[point]);
+                    }
+
+                    foreach (EquippedConnection previewConnection in previewPart.equippedConnections)
+                    {
+                        InitializePreviewConnectionSpriter(previewConnection);
                     }
 
                     partStatsPartSelectionText.text = "";
