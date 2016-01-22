@@ -15,7 +15,7 @@ namespace wickedcrush.particle
                 new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f),
                 new Vector3(0f, -0.03f, 0f),
                 0f, 0f,
-                200, 32,
+                100, 42,
                 "particles", 0, "white_to_blue");
         }
 
