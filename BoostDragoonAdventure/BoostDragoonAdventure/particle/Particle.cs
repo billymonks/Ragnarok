@@ -63,6 +63,38 @@ namespace wickedcrush.particle
             String spriterName,
             int entityIndex,
             String animationName,
+            float scale,
+            float scaleSpeed)
+        {
+            this.pos = pos;
+            this.posVariance = posVariance;
+            this.velocity = velocity;
+            this.velocityVariance = velocityVariance;
+            this.acceleration = acceleration;
+            this.rotation = rotation;
+            this.rotationSpeed = rotationSpeed;
+            this.milliseconds = milliseconds;
+            this.msPerFrame = msPerFrame;
+            this.spriterName = spriterName;
+            this.entityIndex = entityIndex;
+            this.animationName = animationName;
+            this.scale = scale;
+            this.scaleSpeed = scaleSpeed;
+        }
+
+        public ParticleStruct(
+            Vector3 pos,
+            Vector3 posVariance,
+            Vector3 velocity,
+            Vector3 velocityVariance,
+            Vector3 acceleration,
+            float rotation,
+            float rotationSpeed,
+            double milliseconds,
+            int msPerFrame,
+            String spriterName,
+            int entityIndex,
+            String animationName,
             float scale)
         {
             this.pos = pos;

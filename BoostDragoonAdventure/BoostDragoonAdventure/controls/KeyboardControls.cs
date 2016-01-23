@@ -124,30 +124,6 @@ namespace wickedcrush.controls
                 return false;
         }
 
-        public override bool ItemCHeld()
-        {
-            if (keyState.IsKeyDown(itemCKey))
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ItemCPressed()
-        {
-            if (keyState.IsKeyDown(itemCKey) && prevKeyState.IsKeyUp(itemCKey))
-                return true;
-            else
-                return false;
-        }
-
-        public override bool ItemCReleased()
-        {
-            if (keyState.IsKeyUp(itemCKey))
-                return true;
-            else
-                return false;
-        }
-
         public override bool BoostHeld()
         {
             if (keyState.IsKeyDown(boostKey))
