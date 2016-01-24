@@ -49,8 +49,11 @@
   </map>
   <map name="c4" filename="Content/maps/full/c4.oel" theme="woodandbrick">
     <connection id="0" doorIndex="1">c3</connection>
-    <connection id="1" doorIndex="0">boss room a</connection>
+    <connection id="1" doorIndex="0">c boss</connection>
     <connection id="2" doorIndex="0">e1</connection>
+  </map>
+  <map name="c boss" filename="Content/maps/full/boss_room_a.oel" theme="woodandbrick">
+    <connection id="0" doorIndex="1">c4</connection>
   </map>
   <map name="d1" filename="Content/maps/full/d1.oel" theme="rocky">
     <connection id="0" doorIndex="1">a3</connection>

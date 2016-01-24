@@ -602,10 +602,11 @@ namespace wickedcrush.factory.entity
                         else
                         {
                             p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
-                            
-                            _gm._screen.Dispose();
-                            _game.screenManager.StartLoading();
-                            _game.screenManager.AddScreen(new GameplayScreen(_game, _pm.getPlayerList()[0].getStats().getString("home")));
+
+                            _gm.EnqueueRespawn();
+                            //_gm._screen.Dispose();
+                            //_game.screenManager.StartLoading();
+                            //_game.screenManager.AddScreen(new GameplayScreen(_game, _pm.getPlayerList()[0].getStats().getString("home")));
                         }
                     }
                 }

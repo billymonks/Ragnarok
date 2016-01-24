@@ -1095,8 +1095,14 @@ namespace wickedcrush.entity.physics_entity.agent
             factory._gm.camera.ShakeScreen(5f);
             //factory._gm.activateFreezeFrame();
 
-            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage)/20f, new Vector2(0f, -1f));
-            
+            if (this is PlayerAgent) 
+            {
+                factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.Red, ((float)damage) / 20f, new Vector2(0f, 1f));
+            }
+            else
+            {
+                factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage) / 20f, new Vector2(0f, -1f));
+            }
         }
 
         public virtual void TakeHit(Attack attack, bool knockback)
@@ -1141,7 +1147,15 @@ namespace wickedcrush.entity.physics_entity.agent
             if(bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
 
-            factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage) / 20f, new Vector2(0f, -1f));
+            if (this is PlayerAgent)
+            {
+                factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.Red, ((float)damage) / 20f, new Vector2(0f, 1f));
+            }
+            else
+            {
+                factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage) / 20f, new Vector2(0f, -1f));
+            }
+            
             _sound.playCue("hurt", emitter);
 
             ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
