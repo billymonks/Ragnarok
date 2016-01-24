@@ -77,11 +77,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             //timers.Add("boostRecharge", new utility.Timer(stats.get("boostRecharge")));
             //timers.Add("boostLift", new utility.Timer(stats.get("boostRecharge")));
             timers.Add("boostRecharge", new utility.Timer(150));
-            timers.Add("boostLift", new utility.Timer(stats.get("boostRecharge")));
+            timers.Add("boostLift", new utility.Timer(stats.getNumber("boostRecharge")));
             timers["boostRecharge"].resetAndStart();
             timers["boostLift"].resetAndStart();
 
-            timers.Add("iFrameTime", new utility.Timer(stats.get("iFrameTime")));
+            timers.Add("iFrameTime", new utility.Timer(stats.getNumber("iFrameTime")));
             timers["iFrameTime"].resetAndStart();
 
 
@@ -119,9 +119,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             physicalDMG = stats.inventory.gear.GetGearStat(GearStat.PhysicalDMG) * 5;
             etheralDMG = stats.inventory.gear.GetGearStat(GearStat.EtheralDMG) * 5;
+            potency = stats.inventory.gear.GetGearStat(GearStat.Potency);
 
-            boostSpeed = 100f + ((float)stats.get("boostSpeedMod") * (15f));
-            fillSpeed = 4f + ((float)stats.get("fillSpeed") * 2f);
+            boostSpeed = 100f + ((float)stats.getNumber("boostSpeedMod") * (15f));
+            fillSpeed = 4f + ((float)stats.getNumber("fillSpeed") * 2f);
         }
 
         public override void TakeHit(Attack attack)
@@ -130,8 +131,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 dodgeSuccess = true;
 
-                int hpConversion = stats.get("HPConversion");
-                int epConversion = stats.get("EPConversion");
+                int hpConversion = stats.getNumber("HPConversion");
+                int epConversion = stats.getNumber("EPConversion");
 
                 stats.addTo("hp", hpConversion);
                 stats.addTo("boost", epConversion);
@@ -166,8 +167,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 dodgeSuccess = true;
 
-                int hpConversion = stats.get("HPConversion");
-                int epConversion = stats.get("EPConversion");
+                int hpConversion = stats.getNumber("HPConversion");
+                int epConversion = stats.getNumber("EPConversion");
 
                 stats.addTo("hp", hpConversion);
                 stats.addTo("boost", epConversion);
@@ -237,17 +238,17 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 stats.addTo("boost", (int)fillSpeed);
 
             if (stats.compare("boost", "maxBoost") == 1)
-                stats.set("boost", stats.get("maxBoost"));
+                stats.set("boost", stats.getNumber("maxBoost"));
 
             if (stats.compare("hp", "MaxHP") == 1)
-                stats.set("hp", stats.get("MaxHP"));
+                stats.set("hp", stats.getNumber("MaxHP"));
 
-            if (stats.get("boost") > 0)
+            if (stats.getNumber("boost") > 0)
             {
                 overheating = false;
             }
 
-            if (stats.get("boost") <= 0)
+            if (stats.getNumber("boost") <= 0)
             {
                 if (overheating == false)
                 {
@@ -357,7 +358,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostForward();
-                        stats.addTo("boost", -stats.get("useSpeed"));
+                        stats.addTo("boost", -stats.getNumber("useSpeed"));
 
                         UpdateItems();
 
@@ -416,7 +417,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostBackward();
-                        stats.addTo("boost", -stats.get("useSpeed"));
+                        stats.addTo("boost", -stats.getNumber("useSpeed"));
 
                         UpdateItems();
 

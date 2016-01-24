@@ -90,7 +90,7 @@ namespace wickedcrush
 
         public GameBase()
         {
-            debugMode = true;
+            debugMode = false;
 
             graphics = new GraphicsDeviceManager(this);
 

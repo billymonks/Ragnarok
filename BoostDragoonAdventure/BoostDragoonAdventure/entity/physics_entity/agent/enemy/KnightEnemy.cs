@@ -197,7 +197,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         
                         testColor = Color.White;
                         ResetAllTimers();
-                        float amt = (float)(((float)stats.get("stagger")) / ((float)stats.get("staggerDuration")));
+                        float amt = (float)(((float)stats.getNumber("stagger")) / ((float)stats.getNumber("staggerDuration")));
 
                         //3 bounce
                         /*
@@ -789,8 +789,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             
 
 
-            v.X += unitVector.X * (float)action.force.Value * staggerMultiplier * (float)stats.get("staggerDistance");
-            v.Y += unitVector.Y * (float)action.force.Value * staggerMultiplier * (float)stats.get("staggerDistance");
+            v.X += unitVector.X * (float)action.force.Value * staggerMultiplier * (float)stats.getNumber("staggerDistance");
+            v.Y += unitVector.Y * (float)action.force.Value * staggerMultiplier * (float)stats.getNumber("staggerDistance");
 
             if (bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;

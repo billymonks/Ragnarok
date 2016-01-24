@@ -267,6 +267,13 @@ namespace wickedcrush.manager.player
                 statsElement.Add(temp);
             }
 
+            foreach (KeyValuePair<String, String> pair in p.getStats().strings)
+            {
+                temp = new XElement("string", pair.Value);
+                temp.Add(new XAttribute("name", pair.Key));
+                statsElement.Add(temp);
+            }
+
             foreach (Weapon i in p.getStats().inventory.GetWeaponList())
             {
                 temp = new XElement("weapon", i.name);
@@ -393,6 +400,11 @@ namespace wickedcrush.manager.player
                 stats.set(statElement.Attribute("name").Value, int.Parse(statElement.Value));
             }
 
+            foreach (XElement statElement in statsElement.Elements("string"))
+            {
+                stats.set(statElement.Attribute("name").Value, statElement.Value);
+            }
+
             stats.inventory.addCurrency(int.Parse(inventoryElement.Attribute("gold").Value));
 
             foreach (XElement itemElement in inventoryElement.Elements("weapon"))
@@ -475,8 +487,8 @@ namespace wickedcrush.manager.player
             foreach (Player p in getPlayerList())
             {
                 hud = "";
-                hud += p.name + "\nHP: " + p.getStats().get("hp") + "/" + p.getStats().get("maxHP")
-                    + "\nEngine: " + p.getStats().get("boost") + "/" + p.getStats().get("maxBoost");
+                hud += p.name + "\nHP: " + p.getStats().getNumber("hp") + "/" + p.getStats().getNumber("maxHP")
+                    + "\nEngine: " + p.getStats().getNumber("boost") + "/" + p.getStats().getNumber("maxBoost");
 
                 if (p.getStats().inventory.equippedWeapon != null)
                     hud += "\nItem A: " + p.getStats().inventory.equippedWeapon.name + " : " + p.getStats().inventory.getItemCount(p.getStats().inventory.equippedWeapon);

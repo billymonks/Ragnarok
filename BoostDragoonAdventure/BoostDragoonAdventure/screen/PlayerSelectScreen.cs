@@ -125,7 +125,17 @@ namespace wickedcrush.screen
 
             if (ready)
             {
-                game.screenManager.AddScreen(new MapSelectorScreen(game));
+                if(game.debugMode)
+                {
+                    game.screenManager.AddScreen(new MapSelectorScreen(game));
+                }
+                else
+                {
+                    game.screenManager.StartLoading();
+                    //game.RunOneFrame();
+                    game.screenManager.AddScreen(new GameplayScreen(game, userList[0].p.getStats().getString("home")));
+                }
+                
                 rehydrateScreen = true;
             }
         }
@@ -258,6 +268,7 @@ namespace wickedcrush.screen
             {
                 if (u.p != null)
                 {
+                    game.screenManager.RemoveScreen(this);
                     ClearCharacterSelection(u);
                 }
                 else
@@ -270,6 +281,7 @@ namespace wickedcrush.screen
                     {
                         game.screenManager.RemoveScreen(this);
                     }
+
                 }
             }
         }

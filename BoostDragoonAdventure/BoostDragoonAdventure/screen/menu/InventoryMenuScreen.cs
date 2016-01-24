@@ -39,6 +39,7 @@ namespace wickedcrush.screen.menu
         protected List<Item> itemList;
 
         protected Dictionary<int, SpriterPlayer> inventorySlotSpriters;
+        protected Dictionary<int, TextEntity> inventoryCountText;
         protected Dictionary<int, Rectangle> inventoryBoxes;
 
 
@@ -70,6 +71,7 @@ namespace wickedcrush.screen.menu
 
             inventorySlotSpriters = new Dictionary<int, SpriterPlayer>();
             inventoryBoxes = new Dictionary<int, Rectangle>();
+            inventoryCountText = new Dictionary<int, TextEntity>();
 
             partList = p.getStats().inventory.GetPartList();
             consumableList = p.getStats().inventory.GetConsumableList();
@@ -105,6 +107,8 @@ namespace wickedcrush.screen.menu
                 inventorySlotSpriters.Add(i, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader));
 
                 inventorySlotSpriters[i].setAnimation("unselected", 0, 0);
+
+                inventoryCountText.Add(i, new TextEntity("", Helper.CastToVector2(inventoryBoxes[i].Center) + new Vector2(30, 30), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false));
 
 
             }
@@ -149,6 +153,11 @@ namespace wickedcrush.screen.menu
             foreach (KeyValuePair<int, SpriterPlayer> pair in inventorySlotSpriters)
             {
                 AddSpriter(pair.Value);
+            }
+
+            foreach (KeyValuePair<int, TextEntity> pair in inventoryCountText)
+            {
+                AddText(pair.Value);
             }
 
             AddSpriter(descSpriter);
@@ -214,6 +223,16 @@ namespace wickedcrush.screen.menu
                 pair.Value.setScale(1f);
                 pair.Value.update(inventoryBoxes[pair.Key].Center.X, -inventoryBoxes[pair.Key].Center.Y);
                 pair.Value.SetDepth(0.06f);
+            }
+
+            foreach(KeyValuePair<int, TextEntity> pair in inventoryCountText)
+            {
+                pair.Value.text = "";
+
+                if (pair.Key < itemList.Count)
+                {
+                    pair.Value.text = p.getStats().inventory.getItemCount(itemList[pair.Key]).ToString();
+                }
             }
 
 

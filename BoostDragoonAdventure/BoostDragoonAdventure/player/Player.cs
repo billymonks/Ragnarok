@@ -169,15 +169,15 @@ namespace wickedcrush.player
         {
             //UpdatePanels(gameTime);
 
-            if (stats.get("charge") == 0)
+            if (stats.getNumber("charge") == 0)
             {
                 hudChargeSpriter.setAnimation("0", 0, 0);
             }
-            else if (stats.get("charge") < 25)
+            else if (stats.getNumber("charge") < 25)
             {
                 hudChargeSpriter.setAnimation("1", 0, 0);
             }
-            else if (stats.get("charge") < 50)
+            else if (stats.getNumber("charge") < 50)
             {
                 hudChargeSpriter.setAnimation("2", 0, 0);
             }
@@ -188,11 +188,11 @@ namespace wickedcrush.player
 
             if (!agent.dead)
             {
-                hpSpriter.setFrame((long)(999f * ((float)stats.get("hp") / (float)stats.get("MaxHP"))));
-                if (stats.get("boost") <= 0)
+                hpSpriter.setFrame((long)(999f * ((float)stats.getNumber("hp") / (float)stats.getNumber("MaxHP"))));
+                if (stats.getNumber("boost") <= 0)
                     fuelSpriter.setFrame(0);
                 else
-                    fuelSpriter.setFrame((long)(999f * ((float)stats.get("boost") / (float)stats.get("maxBoost"))));
+                    fuelSpriter.setFrame((long)(999f * ((float)stats.getNumber("boost") / (float)stats.getNumber("maxBoost"))));
             }
             else
             {

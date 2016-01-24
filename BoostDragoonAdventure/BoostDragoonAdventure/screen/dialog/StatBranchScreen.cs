@@ -53,7 +53,7 @@ namespace wickedcrush.screen.dialog
 
         public override void Update(GameTime gameTime)
         {
-            if (player.getStats().get(key).Equals(val) && yesScreen != null)
+            if (player.getStats().getNumber(key).Equals(val) && yesScreen != null)
             {
                 nextScreen = yesScreen;
             }

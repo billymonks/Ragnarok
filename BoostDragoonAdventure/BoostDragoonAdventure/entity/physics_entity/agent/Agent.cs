@@ -113,7 +113,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Vector2 jumpDestination = Vector2.Zero;
         public Vector2 jumpStartPoint = Vector2.Zero;
 
-        public int physicalDMG = 0, etheralDMG = 0, ammo = 1;
+        public int physicalDMG = 0, etheralDMG = 0, potency = 0;
         //public int jumpHeight = 0;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
@@ -324,7 +324,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
             }
 
-            if (stats.get("hp") <= 0 && immortal == false)
+            if (stats.getNumber("hp") <= 0 && immortal == false)
             {
                 Die();
                 //return;
@@ -393,18 +393,18 @@ namespace wickedcrush.entity.physics_entity.agent
 
         private void UpdateStagger(GameTime gameTime)
         {
-            if (stats.get("stagger") > 0)
+            if (stats.getNumber("stagger") > 0)
                 stats.addTo("stagger", -1); //change this someday to incorporate gameTime
-            if (stats.get("stagger") <= 0)
+            if (stats.getNumber("stagger") <= 0)
             {
                 stats.set("stagger", 0);
                 staggered = false;
             }
-            if (stats.get("stagger") >= stats.get("staggerLimit"))
+            if (stats.getNumber("stagger") >= stats.getNumber("staggerLimit"))
             {
                 factory.addText("Staggered!", this.pos, 1000);
                 staggered = true;
-                stats.set("stagger", stats.get("staggerDuration"));
+                stats.set("stagger", stats.getNumber("staggerDuration"));
                 stats.set("charge", 0);
             }
         }
@@ -641,7 +641,7 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             
 
-            if (stats.get("hp") > 0 && factory._gm.map.getLayer(LayerType.DEATHSOUP).collision(new Rectangle((int)(this.pos.X + this.center.X - 1), (int)(this.pos.Y + this.center.Y - 1), 2, 2)) && !this.airborne)
+            if (stats.getNumber("hp") > 0 && factory._gm.map.getLayer(LayerType.DEATHSOUP).collision(new Rectangle((int)(this.pos.X + this.center.X - 1), (int)(this.pos.Y + this.center.Y * 1.5f - 1), 2, 2)) && !this.airborne)
             {
                 stats.set("hp", 0);
                 timers["falling"].resetAndStart();
@@ -836,14 +836,14 @@ namespace wickedcrush.entity.physics_entity.agent
             spriteBatch.Draw(wTex, new Rectangle(
                 (int)pos.X - (int)camera.cameraPosition.X, 
                 (int)pos.Y - 6 - (int)camera.cameraPosition.Y,
-                barWidth * stats.get("hp") / stats.get("MaxHP"), 2), 
+                barWidth * stats.getNumber("hp") / stats.getNumber("MaxHP"), 2), 
                 Color.Red);
             if (staggered)
             {
                 spriteBatch.Draw(wTex, new Rectangle(
                     (int)pos.X - (int)camera.cameraPosition.X, 
                     (int)pos.Y - 4 - (int)camera.cameraPosition.Y, 
-                    barWidth * stats.get("stagger") / stats.get("staggerDuration"), 2), 
+                    barWidth * stats.getNumber("stagger") / stats.getNumber("staggerDuration"), 2), 
                     Color.Yellow);
             }
             else
@@ -851,7 +851,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 spriteBatch.Draw(wTex, new Rectangle(
                     (int)pos.X - (int)camera.cameraPosition.X, 
                     (int)pos.Y - 4 - (int)camera.cameraPosition.Y, 
-                    barWidth * stats.get("stagger") / stats.get("staggerLimit"), 2), 
+                    barWidth * stats.getNumber("stagger") / stats.getNumber("staggerLimit"), 2), 
                     Color.Green);
             }
         }
@@ -1013,8 +1013,8 @@ namespace wickedcrush.entity.physics_entity.agent
             if(!staggered)
                 stats.addTo("stagger", action.force.Value);
 
-            v.X += unitVector.X * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
-            v.Y += unitVector.Y * (float)action.force.Value * 30f * (float)stats.get("staggerDistance");
+            v.X += unitVector.X * (float)action.force.Value * 30f * (float)stats.getNumber("staggerDistance");
+            v.Y += unitVector.Y * (float)action.force.Value * 30f * (float)stats.getNumber("staggerDistance");
 
             if (bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
@@ -1036,8 +1036,8 @@ namespace wickedcrush.entity.physics_entity.agent
             Vector2 unitVector = vectorToPos(pos);
 
             Vector2 v = new Vector2( 
-                unitVector.X * force * 1000f * (float)stats.get("staggerDistance"),
-                unitVector.Y * force * 1000f * (float)stats.get("staggerDistance"));
+                unitVector.X * force * 1000f * (float)stats.getNumber("staggerDistance"),
+                unitVector.Y * force * 1000f * (float)stats.getNumber("staggerDistance"));
 
             if (bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
@@ -1075,8 +1075,8 @@ namespace wickedcrush.entity.physics_entity.agent
             Vector2 unitVector = vectorToPos(pos);
 
             Vector2 v = new Vector2(
-                unitVector.X * force * 1000f * (float)stats.get("staggerDistance"),
-                unitVector.Y * force * 1000f * (float)stats.get("staggerDistance"));
+                unitVector.X * force * 1000f * (float)stats.getNumber("staggerDistance"),
+                unitVector.Y * force * 1000f * (float)stats.getNumber("staggerDistance"));
 
             if (bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
@@ -1135,8 +1135,8 @@ namespace wickedcrush.entity.physics_entity.agent
             }
 
             
-            v.X = unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
-            v.Y = unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.get("staggerDistance");
+            v.X = unitVector.X * (float)attack.force * 1000f * staggerMultiply * (float)stats.getNumber("staggerDistance");
+            v.Y = unitVector.Y * (float)attack.force * 1000f * staggerMultiply * (float)stats.getNumber("staggerDistance");
 
             if(bodies.ContainsKey("body"))
                 bodies["body"].LinearVelocity = v;
@@ -1245,7 +1245,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void UpdateHpBar()
         {
-            long fudgeSunday = 100 - (long)((((double)stats.get("hp")) / ((double)stats.get("MaxHP"))) * 99.0);
+            long fudgeSunday = 100 - (long)((((double)stats.getNumber("hp")) / ((double)stats.getNumber("MaxHP"))) * 99.0);
             //long fuelSunday = 100 - (long)((((double)stats.get("boost")) / ((double)stats.get("maxBoost"))) * 99.0);
             hudSpriters["hp_bar"].player.setFrame(fudgeSunday);
             //hudSpriters["fuel_bar"].player.setFrame(fuelSunday);

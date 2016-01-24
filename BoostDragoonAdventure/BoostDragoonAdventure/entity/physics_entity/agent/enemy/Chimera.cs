@@ -159,7 +159,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                         //this.height = (int)MathHelper.Lerp(0, staggerHeight, (float)Math.Sin(((double)stats.get("stagger") / (double)stats.get("staggerDuration")) * Math.PI));
 
-                        float amt = (float)(((float)stats.get("stagger")) / ((float)stats.get("staggerDuration")));
+                        float amt = (float)(((float)stats.getNumber("stagger")) / ((float)stats.getNumber("staggerDuration")));
 
                         //2 bounce
                         if (amt > 0.333f)
@@ -271,11 +271,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     c =>
                     {
                         int phase = 1;
-                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("MaxHP"))) < 0.666f)
+                        if ((((float)this.stats.getNumber("hp")) / ((float)this.stats.getNumber("MaxHP"))) < 0.666f)
                         {
                             phase = 2;
                         }
-                        if ((((float)this.stats.get("hp")) / ((float)this.stats.get("MaxHP"))) < 0.333f)
+                        if ((((float)this.stats.getNumber("hp")) / ((float)this.stats.getNumber("MaxHP"))) < 0.333f)
                         {
                             phase = 3;
                         }

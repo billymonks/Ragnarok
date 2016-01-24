@@ -167,7 +167,6 @@ namespace wickedcrush.inventory
                 else
                 {
                     weapons.Add((Weapon)i, 1);
-                    changed = true;
                 }
             }
             else if (i is Consumable)
@@ -179,7 +178,6 @@ namespace wickedcrush.inventory
                 else
                 {
                     consumables.Add((Consumable)i, 1);
-                    changed = true;
                 }
             }
             else if (i is Part)
@@ -191,9 +189,10 @@ namespace wickedcrush.inventory
                 else
                 {
                     parts.Add((Part)i, 1);
-                    changed = true;
                 }
             }
+
+            changed = true;
             
         }
 

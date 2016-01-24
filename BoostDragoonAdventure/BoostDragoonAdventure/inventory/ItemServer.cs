@@ -50,15 +50,15 @@ namespace wickedcrush.inventory
                     }
                 },
                 (a, i) => {
-                    int clusters = 3 + a.ammo;
+                    int clusters = 3 + a.potency;
                     int radius = 360 - (360 / (clusters));
-                    if (a.stats.get("charge") > 50)
+                    if (a.stats.getNumber("charge") > 50)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 1, clusters, clusters, 1, radius, false, 600f, 800, 600, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                             SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(300, 0), -25 - a.etheralDMG, 100, 500, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
                         a.stats.addTo("boost", -500);
                     }
-                    else if (a.stats.get("charge") > 25)
+                    else if (a.stats.getNumber("charge") > 25)
                     {
                         a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(500f, 0f), 1, clusters, clusters, 1, radius, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                             SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20 - a.etheralDMG, 75, 500, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
@@ -106,24 +106,24 @@ namespace wickedcrush.inventory
                 },
                 (a, i) =>
                 {
-                    if (a.stats.get("charge") > 50)
+                    if (a.stats.getNumber("charge") > 50)
                     {
-                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 35, 16 + a.ammo * 4, 16, 0, 340, false, 600f, 800, 600, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 35, 16 + a.potency * 4, 16, 0, 340, false, 600f, 800, 600, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                             SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(300, 0), -20 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                        a.stats.addTo("boost", -400 - (a.ammo * 75));
+                        a.stats.addTo("boost", -400 - (a.potency * 75));
                     }
-                    else if (a.stats.get("charge") > 25)
+                    else if (a.stats.getNumber("charge") > 25)
                     {
-                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(500f, 0f), 35, 8 + a.ammo * 4, 16, 0, 340, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(500f, 0f), 35, 8 + a.potency * 4, 16, 0, 340, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                             SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(300, 0), -15 - a.etheralDMG, 75, 500, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                        a.stats.addTo("boost", -300 - (a.ammo * 75));
+                        a.stats.addTo("boost", -300 - (a.potency * 75));
                     }
                     else
                     {
 
-                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(400f, 0f), 35, 8 + a.ammo, 8, 0, 270, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(400f, 0f), 35, 8 + a.potency, 8, 0, 270, false, 600f, 600, 400, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                             SkillServer.GenerateProjectile(new Vector2(8f, 8f), new Vector2(300, 0), -10 - a.etheralDMG, 50, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                        a.stats.addTo("boost", -200 - (a.ammo * 25));
+                        a.stats.addTo("boost", -200 - (a.potency * 25));
                     }
 
                     a.stats.set("charge", 0);
@@ -188,17 +188,17 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3 + a.ammo, 1, 0, 10, true, 500f, 500, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3 + a.potency, 1, 0, 10, true, 500f, 500, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(800, 0), -20 - a.physicalDMG, 50, 1000, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
-                       a.stats.addTo("boost", -50 - (a.ammo * 25));
+                       a.stats.addTo("boost", -50 - (a.potency * 25));
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Full"]);
                        //a.stats.addTo("boost", -100);
                    }
                    else if (a.stats.compare("charge", 25) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 1 + a.ammo, 1, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 1 + a.potency, 1, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(20f, 20f), new Vector2(800, 0), -20 - a.physicalDMG, 50, 600, null, "whsh", "knife", 0, "weapons", Vector2.Zero, true), true));
-                       a.stats.addTo("boost", -50 - (a.ammo * 15));
+                       a.stats.addTo("boost", -50 - (a.potency * 15));
                        //a.useActionSkill(SkillServer.skills["Longsword Attack Medium"]);
                        //a.stats.addTo("boost", -100);
                    }
@@ -304,12 +304,12 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
-                   a.stats.addTo("boost", -3 - (3 * a.ammo));
+                   a.stats.addTo("boost", -3 - (3 * a.potency));
 
                    if (a.getTimer("scattertimer").isDone())
                    {
                        a.getTimer("scattertimer").resetAndStart();
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 150/(a.ammo + 1), 1 + a.ammo, 1, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 150/(a.potency + 1), 1 + a.potency, 1, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -5 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
                    }
                },
@@ -354,16 +354,16 @@ namespace wickedcrush.inventory
                {
                    if (a.stats.compare("charge", 50) > 0)
                    {
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 70, 5 + a.ammo, 5, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 70, 5 + a.potency, 5, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                       a.stats.addTo("boost", -125 - (a.ammo * 50));
+                       a.stats.addTo("boost", -125 - (a.potency * 50));
                    }
                    else if (a.stats.compare("charge", 25) > 0)
                    {
 
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3 + a.ammo, 3, 0, 15, true, 500f, 500, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3 + a.potency, 3, 0, 15, true, 500f, 500, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                       a.stats.addTo("boost", -100 - (a.ammo * 40));
+                       a.stats.addTo("boost", -100 - (a.potency * 40));
                    }
                    else
                    {
@@ -386,12 +386,12 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 60);
 
-                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
-                        a.stats.set("hp", a.stats.get("MaxHP"));
+                    if (a.stats.getNumber("hp") > a.stats.getNumber("MaxHP"))
+                        a.stats.set("hp", a.stats.getNumber("MaxHP"));
 
                     a.factory.DisplayMessage("Devoured the Pizza!\nRestored 60 HP.");
 
-                    a.stats.inventory.removeItem(i);
+                    //a.stats.inventory.removeItem(i);
                 }));
 
             consumables.Add("Pizza Pie", new Consumable("Pizza Pie", "A flaky crust emitting a distinct pizza scent.\n\nClick to open.",
@@ -404,7 +404,7 @@ namespace wickedcrush.inventory
 
                     
 
-                    a.stats.inventory.removeItem(i);
+                    //a.stats.inventory.removeItem(i);
                     a.stats.inventory.receiveItem(getConsumable("Pizza"));
 
                     a.factory.DisplayMessage("You dig into the crust with your grubby mitts.\nThere was a Pizza inside!");
@@ -415,10 +415,10 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 40);
 
-                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
-                        a.stats.set("hp", a.stats.get("MaxHP"));
+                    if (a.stats.getNumber("hp") > a.stats.getNumber("MaxHP"))
+                        a.stats.set("hp", a.stats.getNumber("MaxHP"));
 
-                    a.stats.inventory.removeItem(i);
+                    //a.stats.inventory.removeItem(i);
 
                     a.factory.DisplayMessage("You drink the Pizza...Refreshing!\nRestored 40 HP.");
                 }));
@@ -428,10 +428,10 @@ namespace wickedcrush.inventory
                 {
                     a.stats.addTo("hp", 20);
 
-                    if (a.stats.get("hp") > a.stats.get("MaxHP"))
-                        a.stats.set("hp", a.stats.get("MaxHP"));
+                    if (a.stats.getNumber("hp") > a.stats.getNumber("MaxHP"))
+                        a.stats.set("hp", a.stats.getNumber("MaxHP"));
 
-                    a.stats.inventory.removeItem(i);
+                    //a.stats.inventory.removeItem(i);
 
                     a.factory.DisplayMessage("You bite into the Pizza Rolls!\nRestored 20 HP.");
                 }));
@@ -449,6 +449,26 @@ namespace wickedcrush.inventory
                             new PartConnection(new Point(0, 0), 180, ConnectionType.Circle, true)
                             },
                         new Dictionary<GearStat, int>() { })));
+
+            parts.Add("KR101 Core",
+                new Part("KR101 Core",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(0, 1) },
+                        new List<PartConnection>() { 
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 270, ConnectionType.Circle, true)
+                            },
+                        new Dictionary<GearStat, int>() { { GearStat.Potency, 1 } })));
+
+            parts.Add("Blast Core",
+                new Part("Blast Core",
+                    new PartStruct(
+                        new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1) },
+                        new List<PartConnection>() { 
+                            new PartConnection(new Point(0, 0), 0, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true)
+                            },
+                        new Dictionary<GearStat, int>() { { GearStat.Potency, 2 } })));
 
             parts.Add("Dinky Chamber",
                 new Part("Dinky Chamber",

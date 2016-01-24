@@ -577,24 +577,42 @@ namespace wickedcrush.factory.entity
 
         private void respawnPlayer() //needs a new home
         {
-            LinkedList<Vector2> positions = new LinkedList<Vector2>();
-            positions.AddLast(new Vector2(-24, -24));
-            positions.AddLast(new Vector2(-24, 24));
-            positions.AddLast(new Vector2(24, 24));
-            positions.AddLast(new Vector2(24, -24));
-            positions.AddLast(new Vector2(48, 0));
-            LinkedListNode<Vector2> current = positions.First;
+            //if (_game.debugMode)
+            //{
+                LinkedList<Vector2> positions = new LinkedList<Vector2>();
+                positions.AddLast(new Vector2(-24, -24));
+                positions.AddLast(new Vector2(-24, 24));
+                positions.AddLast(new Vector2(24, 24));
+                positions.AddLast(new Vector2(24, -24));
+                positions.AddLast(new Vector2(48, 0));
+                LinkedListNode<Vector2> current = positions.First;
 
 
-            foreach (Player p in _pm.getPlayerList())
-            {
-                if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
+                foreach (Player p in _pm.getPlayerList())
                 {
-                    p.getStats().set("hp", p.getStats().get("MaxHP"));
-                    p.GenerateAgent(p.respawnPoint.pos + p.respawnPoint.center, new Vector2(24, 24), new Vector2(12, 12), true, this);
-                    current = current.Next;
+                    if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
+                    {
+                        if(_game.debugMode)
+                        {
+
+                            p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
+                            p.GenerateAgent(p.respawnPoint.pos + p.respawnPoint.center, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                            current = current.Next;
+                        }
+                        else
+                        {
+                            p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
+                            
+                            _gm._screen.Dispose();
+                            _game.screenManager.StartLoading();
+                            _game.screenManager.AddScreen(new GameplayScreen(_game, _pm.getPlayerList()[0].getStats().getString("home")));
+                        }
+                    }
                 }
-            }
+            //}
+            //else 
+            //{
+            //}
         }
 
         public void Update() //debug,something else should have this loop

@@ -156,6 +156,11 @@ namespace wickedcrush.helper
 
         }
 
+        public static Vector2 CastToVector2(Point p)
+        {
+            return new Vector2(p.X, p.Y);
+        }
+
         public static Point RotatePoint(Point v, int rotation)
         {
             double ca = Math.Round(Math.Cos((rotation) * (Math.PI / 180)));
