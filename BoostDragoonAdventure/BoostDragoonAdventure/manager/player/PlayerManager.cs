@@ -405,6 +405,11 @@ namespace wickedcrush.manager.player
                 stats.set(statElement.Attribute("name").Value, statElement.Value);
             }
 
+            if (!stats.stringsContainsKey("home"))
+            {
+                stats.set("home", "a1");
+            }
+
             stats.inventory.addCurrency(int.Parse(inventoryElement.Attribute("gold").Value));
 
             foreach (XElement itemElement in inventoryElement.Elements("weapon"))
