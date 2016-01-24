@@ -26,6 +26,7 @@ namespace wickedcrush.entity
         public Color textColor = Color.White;
 
         public bool center = true;
+        public bool inScene = true;
         //public SpriteFont font;
 
         public String fontName = "Khula";

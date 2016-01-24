@@ -101,7 +101,7 @@ namespace wickedcrush.screen
             gameplayManager.LoadMap(mapName);
             
             
-            gameplayManager.factory.spawnPlayers(0);
+            gameplayManager.factory.spawnPlayers();
 
             readyTimer = new Timer(20);
             readyTimer.start();
@@ -301,7 +301,7 @@ namespace wickedcrush.screen
             
             foreach (TextEntity t in screenText)
             {
-                t.HudDraw(true, true);
+                t.HudDraw(t.inScene, true);
             }
 
             

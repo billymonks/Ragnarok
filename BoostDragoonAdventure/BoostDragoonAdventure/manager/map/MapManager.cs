@@ -252,6 +252,11 @@ namespace wickedcrush.manager.map
                     doorCount++;
                 }
 
+                foreach (XElement e in objects.Elements("SANCTUARY"))
+                {
+                    gm.factory.addSanctuary(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                }
+
                 foreach (XElement e in objects.Elements("TEST_DESTINATION"))
                 {
                     gm.factory.addDestination(

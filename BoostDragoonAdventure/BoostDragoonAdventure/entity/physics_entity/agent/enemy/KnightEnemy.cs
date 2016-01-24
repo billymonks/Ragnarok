@@ -438,7 +438,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         
                         this.targetSpeed = runSpeed;
 
-                        if (distanceToTarget() > attackRange)
+                        if (distanceToTarget() > attackRange + center.X)
                         {
                             if (pathToLocationIsClear(target.pos + target.center))
                             {
@@ -536,7 +536,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 _sound.playCue("0x53");
                                 _sound.setGlobalVariable("InCombat", 1f);
 
-                                if (distanceToTarget() < attackRange)
+                                if (distanceToTarget() < attackRange + center.X)
                                 {
                                     timers["attack_tell"].resetAndStart();
                                     

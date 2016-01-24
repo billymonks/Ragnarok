@@ -906,6 +906,35 @@ namespace wickedcrush.entity.physics_entity.agent
             return sight;
         }
 
+        protected List<Entity> GetEntitiesInRay(Vector2 dest)
+        {
+            List<Entity> eList = new List<Entity>();
+
+            List<Fixture> fList = _w.RayCast(pos + center, dest);
+
+            foreach (Fixture f in fList)
+            {
+                if (f.Body.UserData is Entity)
+                    eList.Add((Entity)f.Body.UserData);
+            }
+
+            return eList;
+        }
+
+        protected bool RayWalkable(Vector2 dest)
+        {
+
+            List<Fixture> fList = _w.RayCast(pos + center, dest);
+
+            foreach (Fixture f in fList)
+            {
+                if (f.Body.UserData.Equals(LayerType.WALL) || f.Body.UserData.Equals(LayerType.DEATHSOUP))
+                    return false;
+            }
+
+            return true;
+        }
+
         protected void setTargetToPlayer()
         {
             foreach (Entity e in proximity)

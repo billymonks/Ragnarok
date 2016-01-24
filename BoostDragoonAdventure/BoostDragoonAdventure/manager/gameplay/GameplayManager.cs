@@ -254,7 +254,7 @@ namespace wickedcrush.manager.gameplay
                     g =>
                     {
                         LoadMap(_playerManager.getPlayerList()[0].getStats().getString("home"));
-                        factory.spawnPlayers(0);
+                        factory.spawnPlayers();
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
                         camera.cameraPosition = new Vector3(_playerManager.getMeanPlayerPos().X - 320, _playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);

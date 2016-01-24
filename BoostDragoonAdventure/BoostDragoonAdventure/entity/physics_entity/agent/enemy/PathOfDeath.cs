@@ -13,6 +13,7 @@ using wickedcrush.behavior;
 using wickedcrush.behavior.state;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.entity.physics_entity.agent.attack;
+using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -71,6 +72,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             //UpdateHpBar();
             //UpdateAnimation();
+
+            EmitParticles(ParticleServer.GenerateSpark(new Vector3(this.pos.X + this.center.X, 10f, this.pos.Y + this.center.Y), new Vector2(1f, 1f)), 1);
 
             movementDirection = (int)facing;
 

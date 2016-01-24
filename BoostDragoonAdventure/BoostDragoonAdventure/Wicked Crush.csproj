@@ -168,6 +168,7 @@
     <Compile Include="entity\physics_entity\agent\enemy\PathOfDeath.cs" />
     <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
+    <Compile Include="entity\physics_entity\agent\inanimate\Sanctuary.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="entity\physics_entity\agent\npc\NPC.cs" />
     <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />

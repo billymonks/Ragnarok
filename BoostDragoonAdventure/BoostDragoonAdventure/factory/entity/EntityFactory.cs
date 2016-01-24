@@ -59,6 +59,7 @@ namespace wickedcrush.factory.entity
         public Random random;
 
         private List<Door> doorList;
+        private List<Sanctuary> sanctuaryList;
 
         public Dictionary<String, bool> savedBools = new Dictionary<String, bool>();
 
@@ -79,6 +80,7 @@ namespace wickedcrush.factory.entity
             random = new Random();
 
             doorList = new List<Door>();
+            sanctuaryList = new List<Sanctuary>();
         }
 
         public bool checkBool(string key)
@@ -228,6 +230,15 @@ namespace wickedcrush.factory.entity
             doorList.Add(d);
 
             _em.addEntity(d);
+        }
+
+        public void addSanctuary(Vector2 pos)
+        {
+            Sanctuary s = new Sanctuary(_w, pos, _gm, this, _sm);
+
+            sanctuaryList.Add(s);
+
+            _em.addEntity(s);
         }
 
         public void addDestination(Vector2 pos)
@@ -571,6 +582,28 @@ namespace wickedcrush.factory.entity
                     p.GenerateAgent(doorList[doorIndex].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 else
                     p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                current = current.Next;
+            }
+        }
+
+        public void spawnPlayers()
+        {
+            LinkedList<Vector2> positions = new LinkedList<Vector2>();
+            positions.AddLast(new Vector2(-24, -24));
+            positions.AddLast(new Vector2(-24, 24));
+            positions.AddLast(new Vector2(24, 24));
+            positions.AddLast(new Vector2(24, -24));
+            positions.AddLast(new Vector2(48, 0));
+            LinkedListNode<Vector2> current = positions.First;
+
+
+            foreach (Player p in _pm.getPlayerList())
+            {
+                if (sanctuaryList.Count > 0)
+                    p.GenerateAgent(sanctuaryList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                //else
+                    
+                    //p.GenerateAgent(new Vector2(-300, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 current = current.Next;
             }
         }

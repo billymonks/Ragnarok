@@ -104,7 +104,7 @@ namespace wickedcrush.stats
 
         public void set(String key, String value)
         {
-            if (strings.ContainsKey(value))
+            if (strings.ContainsKey(key))
             {
                 strings[key] = value;
             }
