@@ -14,6 +14,7 @@ using wickedcrush.behavior.state;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.entity.physics_entity.agent.attack;
 using wickedcrush.particle;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -50,6 +51,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             activeRange = 300f;
             this.targetSpeed = 300f;
+
+            light = new PointLightStruct(new Vector4(0.8f, 0.65f, 0.3f, 1f), 1f, new Vector4(0.8f, 0.65f, 0.3f, 1f), 0.3f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 500f);
+            factory._gm.scene.AddLight(light);
 
             SetupStateMachine();
 

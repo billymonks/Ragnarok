@@ -84,6 +84,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             InitializeHpBar();
             UpdateHpBar();
 
+            light = new PointLightStruct(new Vector4(1f, 0.85f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 1000f);
+            factory._gm.scene.AddLight(light);
+
             targetable = true;
         }
 
@@ -135,9 +138,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 } else if(rank == 1)
                                 {
                                     //this.aimDirection += 5;
-                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 4, 1, 0, 1, false, 300f, 300, 300, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                                    SkillServer.GenerateProjectile(new Vector2(5f, 5f), new Vector2(200, 0), -25, 100, 1800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
+                                    //this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 4, 1, 0, 1, false, 300f, 300, 300, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    //SkillServer.GenerateProjectile(new Vector2(5f, 5f), new Vector2(200, 0), -25, 100, 1800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 5, 5, 0, 30, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
                                     //this.aimDirection -= 10;
                                     //this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 200, 8, 1, 0, 5, false, 300f, 300, 800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
@@ -149,7 +154,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 faceTarget();
                                 if (rank == 1)
                                 {
-                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 5, 5, 0, 30, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 3, 3, 0, 30, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                     SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
                                 } else if(rank == 2)

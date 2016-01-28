@@ -21,6 +21,7 @@ using Com.Brashmonkey.Spriter.player;
 using wickedcrush.particle;
 using wickedcrush.screen;
 using wickedcrush.screen.menu;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity.agent.player
 {
@@ -94,8 +95,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
             InitializeHpBar();
             UpdateHpBar();
 
+            light = new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 1500f);
+            factory._gm.scene.AddLight(light);
+
             //factory._gm.cursor.SetPlayerPos(this.pos + this.center);
         }
+
+        
 
         
 
@@ -267,6 +273,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
             UpdateHpBar();
             UpdateAnimation();
+
+            
             
 
             if (factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)

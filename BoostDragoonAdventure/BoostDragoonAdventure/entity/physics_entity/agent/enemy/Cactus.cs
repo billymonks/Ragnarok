@@ -12,6 +12,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.manager.audio;
 using wickedcrush.map.path;
 using wickedcrush.utility;
+using wickedcrush.display._3d;
 
 namespace wickedcrush.entity.physics_entity.agent.enemy
 {
@@ -52,6 +53,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             this.speed = 100f;
 
             SetupStateMachine();
+
+            light = new PointLightStruct(new Vector4(0.1f, 0.85f, 0.05f, 1f), 0.5f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f);
+            factory._gm.scene.AddLight(light);
 
             //InitializeHpBar();
 

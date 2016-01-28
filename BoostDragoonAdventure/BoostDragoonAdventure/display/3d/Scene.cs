@@ -53,7 +53,9 @@ namespace wickedcrush.display._3d
 
         List<ArtLayer> artLayers = new List<ArtLayer>();
 
-        public Dictionary<string, PointLightStruct> lightList = new Dictionary<string,PointLightStruct>();
+        public Dictionary<string, PointLightStruct> lightDictionary = new Dictionary<string,PointLightStruct>();
+
+        public List<PointLightStruct> lightList = new List<PointLightStruct>();
 
         //combined scene texture and normal
         public Texture2D colorTexture;
@@ -81,6 +83,16 @@ namespace wickedcrush.display._3d
             
         }
 
+        public void AddLight(PointLightStruct light)
+        {
+            lightList.Add(light);
+        }
+
+        public void RemoveLight(PointLightStruct light)
+        {
+            lightList.Remove(light);
+        }
+
         public void BuildScene(GameBase game, Map map, GameplayManager gameplay, MapStats mapStats)
         {
             ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme); 
@@ -93,9 +105,9 @@ namespace wickedcrush.display._3d
             SetEffectParameters(gameplay);
 
 
-            lightList.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            lightList.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            lightList.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
+            lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            //lightDictionary.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
             //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
             //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
             //lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
@@ -311,9 +323,9 @@ namespace wickedcrush.display._3d
             parallaxEffect.Parameters["EyePosition"].SetValue(cameraPosition);
 
 
-            lightList["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 250);
-            lightList["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 0, cameraPosition.Z + 250);
-            lightList["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
+            lightDictionary["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 250);
+            lightDictionary["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 0, cameraPosition.Z + 250);
+            //lightDictionary["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
             
 
             if (solidGeomVertices.Count <= 0)
@@ -374,7 +386,7 @@ namespace wickedcrush.display._3d
 
 
 
-                foreach (KeyValuePair<string, PointLightStruct> s in lightList)
+                foreach (KeyValuePair<string, PointLightStruct> s in lightDictionary)
                 {
                     normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.Value.DiffuseColor);
                     normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.Value.DiffuseIntensity);
@@ -382,6 +394,19 @@ namespace wickedcrush.display._3d
                     normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.Value.SpecularIntensity);
                     normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.Value.PointLightPosition);
                     normalMappingEffect.Parameters["PointLightRange"].SetValue(s.Value.PointLightRange);
+
+                    normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
+                    game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);
+                }
+
+                foreach (PointLightStruct s in lightList)
+                {
+                    normalMappingEffect.Parameters["DiffuseColor"].SetValue(s.DiffuseColor);
+                    normalMappingEffect.Parameters["DiffuseIntensity"].SetValue(s.DiffuseIntensity);
+                    normalMappingEffect.Parameters["SpecularColor"].SetValue(s.SpecularColor);
+                    normalMappingEffect.Parameters["SpecularIntensity"].SetValue(s.SpecularIntensity);
+                    normalMappingEffect.Parameters["PointLightPosition"].SetValue(s.PointLightPosition);
+                    normalMappingEffect.Parameters["PointLightRange"].SetValue(s.PointLightRange);
 
                     normalMappingEffect.CurrentTechnique.Passes["Point"].Apply();
                     game.GraphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, solidGeomVertices.Count / 3);

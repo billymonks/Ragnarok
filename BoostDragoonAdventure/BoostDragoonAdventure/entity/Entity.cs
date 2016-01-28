@@ -60,6 +60,8 @@ namespace wickedcrush.entity
         public Weapon weaponInUse = null;
 
         protected TimeSpan elapsed;
+
+        
         
         #endregion
 
@@ -112,6 +114,7 @@ namespace wickedcrush.entity
 
         public virtual void Remove()
         {
+
             if (remove == false)
             {
                 foreach (KeyValuePair<String, Entity> e in subEntityList)

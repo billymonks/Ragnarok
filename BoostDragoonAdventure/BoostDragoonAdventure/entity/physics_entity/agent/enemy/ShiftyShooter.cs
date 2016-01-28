@@ -23,10 +23,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
     {
         
 
-        private int moveLength = 750, standLength = 1000, standToShootLength = 500, attackRange = 700, 
+        private int moveLength = 750, moveVariation = 500, standLength = 1000, standVariation = 500, standToShootLength = 500, attackRange = 700, 
             spreadDuration = 10, blowCount = 4, blowPerSpread = 4, scatterCount = 1, spread = 360, blowDuration = 600, blowReleaseDelay = 500;
 
-        private float blowVelocity = 100f, skillVelocity = 200f;
+        private float blowVelocity = 100f, skillVelocity = 200f, movementSpeed = 70f;
 
         private bool readyToStart = false;
 
@@ -66,8 +66,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             movementDirection = 0;
             facing = (Direction)0;
 
-            timers.Add("done_moving", new Timer(moveLength));
-            timers.Add("done_standing", new Timer(standLength));
+            timers.Add("done_moving", new Timer(moveLength + random.Next(moveVariation)));
+            timers.Add("done_standing", new Timer(standLength + random.Next(standVariation)));
             timers.Add("shoot", new Timer(standToShootLength));
             timers.Add("ready_to_start", new Timer(300 + random.Next(300)));
 
@@ -88,6 +88,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
             UpdateHpBar();
+
+            light = new PointLightStruct(new Vector4(0.8f, 0.55f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 70f);
+            factory._gm.scene.AddLight(light);
 
             targetable = true;
         }
@@ -160,12 +163,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             }
                         }
                         if ((GetEntitiesInRay(new Vector2(
-                            this.pos.X + this.center.X + (float)Math.Cos(MathHelper.ToRadians(movementDirection)) * 30f, 
-                            this.pos.Y + this.center.Y + (float)Math.Sin(MathHelper.ToRadians(movementDirection)) * 30f)).Count == 0)
+                            this.pos.X + this.center.X + (float)Math.Cos(MathHelper.ToRadians(movementDirection)) * movementSpeed,
+                            this.pos.Y + this.center.Y + (float)Math.Sin(MathHelper.ToRadians(movementDirection)) * movementSpeed)).Count == 0)
                             && RayWalkable(new Vector2(
-                            this.pos.X + this.center.X + (float)Math.Cos(MathHelper.ToRadians(movementDirection)) * 30f,
-                            this.pos.Y + this.center.Y + (float)Math.Sin(MathHelper.ToRadians(movementDirection)) * 30f)))
-                        MoveForward(false, 70f);
+                            this.pos.X + this.center.X + (float)Math.Cos(MathHelper.ToRadians(movementDirection)) * movementSpeed,
+                            this.pos.Y + this.center.Y + (float)Math.Sin(MathHelper.ToRadians(movementDirection)) * movementSpeed)))
+                            MoveForward(false, movementSpeed);
                         //faceTarget();
                         //faceTarget();
                     }
@@ -192,6 +195,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (timers["done_moving"].isDone())
             {
                 timers["done_moving"].reset();
+
+                timers["done_moving"].setInterval(moveLength + random.Next(moveVariation));
+
                 state = StateName.Standing;
                 timers["done_standing"].resetAndStart();
                 if (target != null)
@@ -203,6 +209,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (timers["done_standing"].isDone())
             {
                 timers["done_standing"].reset();
+
+                timers["done_standing"].setInterval(standLength + random.Next(standVariation));
+
                 state = StateName.Moving;
                 timers["done_moving"].resetAndStart();
             }

@@ -220,11 +220,11 @@ namespace wickedcrush.screen
             //spriteEffect.Parameters["depth"].SetValue(0.5f);
 
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, true);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, true, gameplayManager.scene.lightList);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, true, gameplayManager.scene.lightDictionary);
 
             
             gameplayManager.scene.DrawScene(game, gameplayManager, renderTarget, depthTarget, spriteTarget, false);
-            RenderSprites(renderTarget, depthTarget, spriteTarget, false, gameplayManager.scene.lightList);
+            RenderSprites(renderTarget, depthTarget, spriteTarget, false, gameplayManager.scene.lightDictionary);
         }
 
         public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass, Dictionary<string, PointLightStruct> lightList)

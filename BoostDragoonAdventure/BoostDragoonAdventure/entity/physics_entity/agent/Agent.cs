@@ -116,6 +116,8 @@ namespace wickedcrush.entity.physics_entity.agent
         public int physicalDMG = 0, etheralDMG = 0, potency = 0;
         //public int jumpHeight = 0;
 
+        public PointLightStruct light;
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
@@ -198,6 +200,21 @@ namespace wickedcrush.entity.physics_entity.agent
             shadowSpriter.setAnimation("still", 0, 0);
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
+        }
+
+        public override void Remove()
+        {
+            if (light != null)
+            {
+                factory._gm.scene.RemoveLight(light);
+            }
+
+            base.Remove();
+        }
+
+        protected void UpdateLightPosition()
+        {
+            light.PointLightPosition = new Vector3(pos.X + center.X, this.height + size.X / 2, pos.Y + center.Y);
         }
 
         public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file
@@ -301,27 +318,32 @@ namespace wickedcrush.entity.physics_entity.agent
             //{
                 HandleCollisions();
             //}
-            if(inJump)
-            {
-                if (timers["jump"].isDone())
+                if(inJump)
                 {
-                    EndJump();
-                } 
-                else
-                {
-                    this.SetPosNoCenter(new Vector2(
-                        MathHelper.Lerp(jumpStartPoint.X, jumpDestination.X, timers["jump"].getPercent()),
-                        MathHelper.Lerp(jumpStartPoint.Y, jumpDestination.Y, timers["jump"].getPercent())));
+                    if (timers["jump"].isDone())
+                    {
+                        EndJump();
+                    } 
+                    else
+                    {
+                        this.SetPosNoCenter(new Vector2(
+                            MathHelper.Lerp(jumpStartPoint.X, jumpDestination.X, timers["jump"].getPercent()),
+                            MathHelper.Lerp(jumpStartPoint.Y, jumpDestination.Y, timers["jump"].getPercent())));
 
-                    this.height = (int)(Math.Sin(timers["jump"].getPercent() * Math.PI) * flightHeight);
+                        this.height = (int)(Math.Sin(timers["jump"].getPercent() * Math.PI) * flightHeight);
 
-                    if (height > 20)
-                        noCollision = true;
+                        if (height > 20)
+                            noCollision = true;
+                    }
+
+
                 }
-
 
             }
 
+            if (light != null)
+            {
+                UpdateLightPosition();
             }
 
             if (stats.getNumber("hp") <= 0 && immortal == false)
