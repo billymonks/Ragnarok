@@ -207,8 +207,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             immortal = true;
             this.name = "ActionSkill";
 
-            light = new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f);
-            factory._gm.scene.AddLight(light);
+            AddLight(new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
+            //factory._gm.scene.AddLight(light);
 
             
             

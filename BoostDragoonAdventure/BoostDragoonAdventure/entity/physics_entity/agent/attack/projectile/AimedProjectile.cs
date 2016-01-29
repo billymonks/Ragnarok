@@ -46,8 +46,8 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
             speed = 0f;
             targetSpeed = 50f;
 
-            light = new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector4(1f, 0.65f, 0.5f, 1f), 0.3f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f);
-            factory._gm.scene.AddLight(light);
+            AddLight(new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector4(1f, 0.65f, 0.5f, 1f), 0.3f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
+            //factory._gm.scene.AddLight(light);
 
             reactToWall = true;
             piercing = false;

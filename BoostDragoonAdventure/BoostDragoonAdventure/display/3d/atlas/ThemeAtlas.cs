@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using wickedcrush.map;
+using Microsoft.Xna.Framework;
 
 namespace wickedcrush.display._3d.atlas
 {
@@ -11,6 +12,51 @@ namespace wickedcrush.display._3d.atlas
     public static class ThemeAtlas
     {
         public static Dictionary<String, ThemeApplication> themes;
+
+        public static void PopulateCameraLights(String theme, Scene scene)
+        {
+            switch (theme)
+            {
+                case "reverse":
+                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                    break;
+                case "default":
+                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.4f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.3f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "old_default":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "new1":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "rocky":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "woodandbrick":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "rocky2":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+
+                case "dust":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                break;
+            }
+        }
 
         public static void PopulateArtLayers(GameBase game, Map map, out List<ArtLayer> artLayers, String theme)
         {

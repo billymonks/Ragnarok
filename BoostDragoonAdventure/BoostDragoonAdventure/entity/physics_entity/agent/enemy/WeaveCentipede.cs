@@ -84,8 +84,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             InitializeHpBar();
             UpdateHpBar();
 
-            light = new PointLightStruct(new Vector4(1f, 0.85f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 1000f);
-            factory._gm.scene.AddLight(light);
+            AddLight( new PointLightStruct(new Vector4(1f, 0.85f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 1000f));
+            //factory._gm.scene.AddLight(light);
 
             targetable = true;
         }

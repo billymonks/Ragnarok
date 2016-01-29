@@ -29,6 +29,8 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
 
             this.name = "Sanctuary";
 
+            this.spriteScaleAmount = 100f;
+
             if(gm._playerManager.getPlayerList()[0].getStats().getString("home").Equals(gm.map.name))
             {
                 activeHome = true;

@@ -95,7 +95,8 @@ namespace wickedcrush.display._3d
 
         public void BuildScene(GameBase game, Map map, GameplayManager gameplay, MapStats mapStats)
         {
-            ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme); 
+            ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme);
+            ThemeAtlas.PopulateCameraLights(mapStats.theme, this);
 
             CreateTextureAtlas(game, map);
             CombineVertices(map);
@@ -105,14 +106,9 @@ namespace wickedcrush.display._3d
             SetEffectParameters(gameplay);
 
 
-            lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
-            //lightDictionary.Add("character", new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f, cameraPosition.Z - 120), 1500f));
-            //lightList.Add("character2", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 100f), 1000f));
-            //lightList.Add("character3", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(500f, 30f, 500f), 1000f));
-            //lightList.Add("character4", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(100f, 30f, 500f), 1000f));
-            //lightList.Add("character5", new PointLightStruct(new Vector4(0.85f, 0.5f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1000f, 30f, 500f), 1000f));
-            //lightList.Add("character6", new PointLightStruct(new Vector4(0.5f, 0.85f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(1500f, 30f, 1000f), 1000f));
+            //lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            //lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 120 + 300), 3000f));
+            
             
         }
 

@@ -1,6 +1,6 @@
 ﻿<tileset name="steelplate_seamless" x="120" y="120">
   <tex>steelplate_seamless</tex>
-  <normal>flat_120</normal>
+  <normal>steelplate_seamless_normal</normal>
   <tilesize>
     <tilepos id="0" x="0" y="0" width="20" height="20"></tilepos>
     <tilepos id="1" x="20" y="20" width="20" height="20"></tilepos>

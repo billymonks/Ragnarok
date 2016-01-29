@@ -782,6 +782,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="img\tex\steelplate_seamless_normal.png">
+      <Name>steelplate_seamless_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="img\tileset\blocks_blue.xml">
       <Name>blocks_blue</Name>
       <Importer>XmlImporter</Importer>

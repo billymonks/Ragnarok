@@ -116,7 +116,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public int physicalDMG = 0, etheralDMG = 0, potency = 0;
         //public int jumpHeight = 0;
 
-        public PointLightStruct light;
+        public PointLightStruct light, targetLight;
 
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
@@ -155,6 +155,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
             skillHeight = 15;
         }
+
+        
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
         {
@@ -210,6 +212,23 @@ namespace wickedcrush.entity.physics_entity.agent
             }
 
             base.Remove();
+        }
+
+        protected void AddLight(PointLightStruct targetLight)
+        {
+            this.targetLight = targetLight;
+            light = new PointLightStruct(targetLight.DiffuseColor, 0f, targetLight.SpecularColor, 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 0f);
+            factory._gm.scene.AddLight(light);
+        }
+
+        protected void UpdateLight()
+        {
+            UpdateLightPosition();
+
+            light.DiffuseIntensity = (light.DiffuseIntensity + targetLight.DiffuseIntensity) / 2f;
+            light.SpecularIntensity = (light.SpecularIntensity + targetLight.DiffuseIntensity) / 2f;
+            light.PointLightRange = (light.PointLightRange + targetLight.PointLightRange) / 2f;
+
         }
 
         protected void UpdateLightPosition()
@@ -341,9 +360,9 @@ namespace wickedcrush.entity.physics_entity.agent
 
             }
 
-            if (light != null)
+            if (light != null && targetLight != null)
             {
-                UpdateLightPosition();
+                UpdateLight();
             }
 
             if (stats.getNumber("hp") <= 0 && immortal == false)
