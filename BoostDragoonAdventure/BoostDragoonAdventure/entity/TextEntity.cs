@@ -12,6 +12,13 @@ using wickedcrush.manager.gameplay;
 
 namespace wickedcrush.entity
 {
+    public enum TextAlignment
+    {
+        Left,
+        Right,
+        Center
+    }
+
     public class TextEntity : Entity
     {
         public String text;
@@ -25,7 +32,8 @@ namespace wickedcrush.entity
 
         public Color textColor = Color.White;
 
-        public bool center = true;
+        //public bool center = true;
+        public TextAlignment alignment = TextAlignment.Center;
         public bool inScene = true;
         //public SpriteFont font;
 
@@ -66,7 +74,10 @@ namespace wickedcrush.entity
 
             if (addToScene)
             {
+                inScene = true;
                 factory._gm._screen.AddText(this);
+            } else {
+                inScene = false;
             }
 
         }
@@ -124,13 +135,17 @@ namespace wickedcrush.entity
             else
                 textPos = new Vector2(pos.X, pos.Y);
 
-            if (center)
+            if (alignment == TextAlignment.Center)
             {
                 origin = g.fonts[fontName].MeasureString(text) / 2f;
             }
-            else
+            else if (alignment == TextAlignment.Left)
             {
                 origin = Vector2.Zero;
+            }
+            else
+            {
+                origin = g.fonts[fontName].MeasureString(text);
             }
 
 

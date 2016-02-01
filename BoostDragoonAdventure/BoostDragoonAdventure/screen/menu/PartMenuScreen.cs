@@ -86,7 +86,7 @@ namespace wickedcrush.screen.menu
             itemName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
 
             itemDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            itemDesc.center = false;
+            itemDesc.alignment = TextAlignment.Left;
 
             for (int i = 0; i < 36; i++)
             {

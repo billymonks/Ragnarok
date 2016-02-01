@@ -17,6 +17,7 @@ using wickedcrush.helper;
 using wickedcrush.manager.gameplay.room;
 using wickedcrush.entity.physics_entity.agent.inanimate;
 using Com.Brashmonkey.Spriter.player;
+using wickedcrush.entity;
 
 namespace wickedcrush.player
 {
@@ -67,6 +68,8 @@ namespace wickedcrush.player
             fuelSpriter.setScale(3f);
             fuelSpriter.setAnimation("fuel", 0, 0);
             fuelSpriter.setFrameSpeed(0);
+
+            
         }
 
         private int getPlayerNumber()

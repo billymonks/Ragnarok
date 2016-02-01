@@ -118,6 +118,8 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public PointLightStruct light, targetLight;
 
+        public int killValue = 100;
+
         public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
@@ -389,7 +391,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected virtual void Die()
         {
-
+            factory._gm._playerManager.getPlayerList()[0].getStats().inventory.addCurrency(killValue);
 
             if (!timers["falling"].isActive() || timers["falling"].isDone())
             {

@@ -478,7 +478,7 @@ namespace wickedcrush.manager.player
                 g.spriterManager.DrawPlayer(p.hudChargeSpriter);
                 g.spriterManager.DrawPlayer(p.hpSpriter);
                 g.spriterManager.DrawPlayer(p.fuelSpriter);
-                
+
                 
 
             }

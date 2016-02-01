@@ -327,7 +327,13 @@ namespace wickedcrush.factory.entity
 
         public void addCactus(Vector2 pos, Vector2 size, int rank, Stack<PathNode> patrol)
         {
-            Cactus c = new Cactus(_w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100);
+            int temp = random.Next(0, 15);
+            if (temp < 5)
+                rank = 0;
+            else if (temp < 10)
+                rank = 1;
+            else rank = 2;
+            Cactus c = new Cactus(_w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100, rank);
             _em.addEntity(c);
         }
 
@@ -641,6 +647,8 @@ namespace wickedcrush.factory.entity
                             //_game.screenManager.StartLoading();
                             //_game.screenManager.AddScreen(new GameplayScreen(_game, _pm.getPlayerList()[0].getStats().getString("home")));
                         }
+
+                        p.getStats().inventory.clearCurrency();
                     }
                 }
             //}

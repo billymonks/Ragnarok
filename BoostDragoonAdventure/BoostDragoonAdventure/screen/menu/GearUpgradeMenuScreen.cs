@@ -108,10 +108,10 @@ namespace wickedcrush.screen.menu
             pageTitle = new TextEntity("EQUIP", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
 
             partStatsPartSelectionText = new TextEntity("", new Vector2(20, 840), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            partStatsPartSelectionText.center = false;
+            partStatsPartSelectionText.alignment = TextAlignment.Left;
 
             itemDesc = new TextEntity("desc", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            itemDesc.center = false;
+            itemDesc.alignment = TextAlignment.Left;
 
             descBox = new Rectangle(20, 20 + height, 680, 680);
 
@@ -571,8 +571,8 @@ namespace wickedcrush.screen.menu
 
             partList = p.getStats().inventory.GetCompatibleParts(activeConnection);
 
-            
-            compatiblePartsText.center = false;
+
+            compatiblePartsText.alignment = TextAlignment.Left;
             //partSelectionText.Add(compatiblePartsText);
             AddText(compatiblePartsText);
 
@@ -580,7 +580,7 @@ namespace wickedcrush.screen.menu
             {
                 partSelectionBoxes.Add(new Rectangle(20, height + 60 + i * 60, 500, 60));
                 TextEntity tempText = new TextEntity(partList[i].name + " x" + p.getStats().inventory.getItemCount(partList[i]), new Vector2(partSelectionBoxes[i].X, partSelectionBoxes[i].Top), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-                tempText.center = false;
+                tempText.alignment = TextAlignment.Left;
                 partSelectionText.Add(tempText);
 
                 AddText(tempText);

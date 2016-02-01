@@ -33,7 +33,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
             this.noCollision = true;
 
             destinationText = new TextEntity("Next Area: " + connection.mapName, new Vector2((pos.X + gm.camera.cameraPosition.X) / 2f, (pos.Y + gm.camera.cameraPosition.Z) / 2f), sound, factory._game, -1, factory, 1f, false);
-            destinationText.center = true;
+            destinationText.alignment = TextAlignment.Center;
             destinationText.inScene = false;
         }
 

@@ -18,42 +18,42 @@ namespace wickedcrush.display._3d.atlas
             switch (theme)
             {
                 case "reverse":
-                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                     break;
                 case "default":
-                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.4f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.3f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.9f, 0.9f, 0.8f, 1f), 1f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 1000f));
+                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "old_default":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "new1":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "rocky":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "woodandbrick":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "rocky2":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.06f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.05f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "dust":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 3000f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
             }
         }

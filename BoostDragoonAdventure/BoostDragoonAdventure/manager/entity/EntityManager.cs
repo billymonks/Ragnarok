@@ -25,6 +25,10 @@ namespace wickedcrush.manager.entity
         private List<Entity> addList = new List<Entity>();
         private List<Entity> removeList = new List<Entity>();
 
+        private List<Entity> addedList = new List<Entity>();
+
+        int MAX_SIMULTANEOUS_ADD = 5;
+
         public EntityManager(GameBase game)
             : base(game)
         {
@@ -92,14 +96,27 @@ namespace wickedcrush.manager.entity
 
         private void performAdd()
         {
+
             if (addList.Count > 0)
             {
-                foreach (Entity e in addList)
+                for (int i = 0; i < addList.Count && i < MAX_SIMULTANEOUS_ADD; i++)
                 {
-                    entityList.Add(e);
+                    entityList.Add(addList[i]);
+                    addedList.Add(addList[i]);
                 }
 
-                addList.Clear();
+                foreach (Entity e in addedList)
+                {
+                    addList.Remove(e);
+                }
+
+                //foreach (Entity e in addList)
+                //{
+                    //entityList.Add(e);
+                //}
+
+                //addList.Clear();
+                addedList.Clear();
             }
         }
 

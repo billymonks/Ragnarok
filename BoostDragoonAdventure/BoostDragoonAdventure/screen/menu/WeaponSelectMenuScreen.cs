@@ -61,7 +61,7 @@ namespace wickedcrush.screen.menu
             weaponName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
 
             weaponDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            weaponDesc.center = false;
+            weaponDesc.alignment = TextAlignment.Left;
 
             weaponBoxes.Add(0, new Rectangle(20, 20 + height, 200, 200));
             weaponBoxes.Add(1, new Rectangle(260, 20 + height, 200, 200));

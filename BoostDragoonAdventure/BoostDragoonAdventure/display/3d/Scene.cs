@@ -71,6 +71,8 @@ namespace wickedcrush.display._3d
 
         public Texture2D background;
 
+        public bool hqLight = true;
+
         public Scene(GameBase game)
         {
             this.game = game;
@@ -85,18 +87,22 @@ namespace wickedcrush.display._3d
 
         public void AddLight(PointLightStruct light)
         {
-            lightList.Add(light);
+            if (hqLight)
+                lightList.Add(light);
         }
 
         public void RemoveLight(PointLightStruct light)
         {
-            lightList.Remove(light);
+            if (hqLight)
+                lightList.Remove(light);
         }
 
         public void BuildScene(GameBase game, Map map, GameplayManager gameplay, MapStats mapStats)
         {
             ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme);
-            ThemeAtlas.PopulateCameraLights(mapStats.theme, this);
+
+            if(hqLight)
+                ThemeAtlas.PopulateCameraLights(mapStats.theme, this);
 
             CreateTextureAtlas(game, map);
             CombineVertices(map);
@@ -318,9 +324,11 @@ namespace wickedcrush.display._3d
             parallaxEffect.Parameters["View"].SetValue(viewMatrix);
             parallaxEffect.Parameters["EyePosition"].SetValue(cameraPosition);
 
-
-            lightDictionary["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 250);
-            lightDictionary["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 0, cameraPosition.Z + 250);
+            if (hqLight)
+            {
+                lightDictionary["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 250);
+                lightDictionary["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 0, cameraPosition.Z + 250);
+            }
             //lightDictionary["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
             
 
@@ -436,7 +444,11 @@ namespace wickedcrush.display._3d
             //normalMappingEffect.Parameters["Projection"].SetValue(Matrix.CreatePerspective(32, 16, 10, 1600));
 
             normalMappingEffect.Parameters["AmbientColor"].SetValue(new Vector4(0.8f, 1f, 1f, 1f));
-            normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
+            
+            if(hqLight)
+                normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.015f);
+            else
+                normalMappingEffect.Parameters["AmbientIntensity"].SetValue(0.815f);
 
             normalMappingEffect.Parameters["baseColor"].SetValue(new Vector4(0.02f, 0.05f, 0.05f, 1f));
 

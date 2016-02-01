@@ -56,6 +56,8 @@ namespace wickedcrush.screen
         float parallaxAmount = 1f, bgScale = 2f;
         Vector2 scroll = Vector2.Zero;
         Vector2 scrollIncrement = new Vector2(-1f, -1f);
+
+        public TextEntity currencyText;
         //Vector2 scrollIncrement = Vector2.Zero;
         
         public GameplayScreen(GameBase game, String mapName)
@@ -112,6 +114,9 @@ namespace wickedcrush.screen
             //wow i'm stupid this will cause problems:
             gameplayManager.camera.cameraPosition = new Vector3(game.playerManager.getMeanPlayerPos().X - 320, game.playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
 
+            currencyText = new TextEntity("aaaaaaa", new Vector2(1400, 1080), g.soundManager, g, -1, gameplayManager.factory, 1f, false);
+            currencyText.alignment = TextAlignment.Right;
+            AddText(currencyText);
             
         }
 
@@ -182,6 +187,8 @@ namespace wickedcrush.screen
             //game.diag += gameTime.ElapsedGameTime.Milliseconds;
             //game.diag += "\n" + 
             //UpdateSpriters();
+
+            currencyText.text = gameplayManager._playerManager.getPlayerList()[0].getStats().inventory.currency.ToString();
 
             scroll += scrollIncrement;
             

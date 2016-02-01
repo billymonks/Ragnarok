@@ -2492,6 +2492,7 @@
     <Content Include="sprites\hud\hud.scml">
       <Name>hud</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

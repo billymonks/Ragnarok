@@ -1,6 +1,6 @@
 ﻿<artlayer>
   <tilelayers>
-    <tileset surface="false" edgeonly="false" path="rocky_saturated">
+    <tileset surface="false" edgeonly="false" path="rocky">
       <transformations />
     </tileset>
     <tileset surface="true" edgeonly="false" path="steelplate_seamless">

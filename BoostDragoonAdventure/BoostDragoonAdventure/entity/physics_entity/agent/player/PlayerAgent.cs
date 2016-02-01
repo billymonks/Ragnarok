@@ -95,7 +95,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
             InitializeHpBar();
             UpdateHpBar();
 
-            AddLight(new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 1500f));
+            killValue = 0;
+
+            AddLight(new PointLightStruct(new Vector4(1f, 0.65f, 0.5f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 700f));
             //factory._gm.scene.AddLight(light);
 
             //factory._gm.cursor.SetPlayerPos(this.pos + this.center);

@@ -65,6 +65,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             activeRange = 300f;
             this.speed = 70f;
 
+            killValue = 2500;
+
             SetupStateMachine();
 
             InitializeHpBar();

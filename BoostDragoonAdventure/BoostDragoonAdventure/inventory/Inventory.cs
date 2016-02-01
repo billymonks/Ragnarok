@@ -373,6 +373,11 @@ namespace wickedcrush.inventory
                 currency = 0;
         }
 
+        public void clearCurrency()
+        {
+            currency = 0;
+        }
+
         public List<Weapon> GetWeaponList()
         {
             changed = false;

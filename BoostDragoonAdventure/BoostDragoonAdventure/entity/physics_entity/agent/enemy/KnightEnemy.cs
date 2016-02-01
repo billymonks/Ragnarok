@@ -97,6 +97,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             InitializeHpBar();
 
+            killValue = 525;
+
             this.staggerHeight = 20;
 
             double weaponChoice = random.NextDouble();
