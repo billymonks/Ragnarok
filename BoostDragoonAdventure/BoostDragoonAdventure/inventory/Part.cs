@@ -19,12 +19,22 @@ namespace wickedcrush.inventory
         public List<Point> slots;
         public List<PartConnection> connections;
         public Dictionary<GearStat, int> stats;
+        public bool core;
 
         public PartStruct(List<Point> slots, List<PartConnection> connections, Dictionary<GearStat, int> stats)
         {
             this.slots = slots;
             this.connections = connections;
             this.stats = stats;
+            this.core = false;
+        }
+
+        public PartStruct(List<Point> slots, List<PartConnection> connections, Dictionary<GearStat, int> stats, bool core)
+        {
+            this.slots = slots;
+            this.connections = connections;
+            this.stats = stats;
+            this.core = core;
         }
     }
 
@@ -51,6 +61,15 @@ namespace wickedcrush.inventory
             : base(name)
         {
             this.partStruct = partStruct;
+        }
+    }
+
+    public class Core : Part
+    {
+        public Core(String name, PartStruct partStruct)
+            : base(name, partStruct)
+        {
+            this.partStruct.core = true;
         }
     }
 }

@@ -20,7 +20,8 @@ namespace wickedcrush.screen.menu
     public enum GearUpgradeMenuState
     {
         ConnectionSelect = 0,
-        PartSelection = 1
+        PartSelection = 1,
+        CoreSelection = 2
     }
 
     public class GearUpgradeMenuScreen : MenuScreen
@@ -493,6 +494,57 @@ namespace wickedcrush.screen.menu
                     partSelectHighlightChange = true;
                 }
             }
+            else if (state == GearUpgradeMenuState.CoreSelection)
+            {
+                targetPanelLocation = targetPanelRightLocation;
+                foreach (KeyValuePair<EquippedPart, Dictionary<Point, SpriterPlayer>> partPair in gearSlotSpriters)
+                {
+                    foreach (KeyValuePair<Point, SpriterPlayer> spritePair in partPair.Value)
+                    {
+                        spritePair.Value.SetDepth(0.1f);
+                        spritePair.Value.update(gearPanelBoxes[spritePair.Key].Center.X, -gearPanelBoxes[spritePair.Key].Center.Y);
+                        //spritePair.Value.
+                    }
+
+                    foreach (KeyValuePair<EquippedConnection, SpriterPlayer> connectPair in gearConnectionSpriters)
+                    {
+                        connectPair.Value.SetDepth(0.05f);
+                        connectPair.Value.update(gearConnectionBoxes[connectPair.Key].Center.X, -gearConnectionBoxes[connectPair.Key].Center.Y);
+                    }
+                }
+
+                foreach (KeyValuePair<Point, SpriterPlayer> previewPair in previewSlotSpriters)
+                {
+                    previewPair.Value.SetDepth(0.1f);
+                    previewPair.Value.update(gearPanelBoxes[previewPair.Key].Center.X, -gearPanelBoxes[previewPair.Key].Center.Y);
+                }
+
+                foreach (KeyValuePair<EquippedConnection, SpriterPlayer> previewConnectionPair in previewConnectionSpriters)
+                {
+                    previewConnectionPair.Value.SetDepth(0.05f);
+                    previewConnectionPair.Value.update(previewConnectionBoxes[previewConnectionPair.Key].Center.X, -previewConnectionBoxes[previewConnectionPair.Key].Center.Y);
+                }
+
+                prevPartSelectionInt = partSelectionInt;
+                partSelectionInt = -1;
+                for (int i = 0; i < partSelectionBoxes.Count; i++)
+                {
+                    if (partSelectionBoxes[i].Contains(Helper.CastToPoint(cursorPos)))
+                    {
+                        partSelectionInt = i;
+                        partSelectionText[i].textColor = Color.LightGoldenrodYellow;
+                    }
+                    else
+                    {
+                        partSelectionText[i].textColor = Color.Black;
+                    }
+                }
+
+                if (partSelectionInt != prevPartSelectionInt)
+                {
+                    partSelectHighlightChange = true;
+                }
+            }
 
 
             UpdateItemDesc();
@@ -522,6 +574,46 @@ namespace wickedcrush.screen.menu
                 if (partSelectionInt != -1)
                 {
                     EquippedPart previewPart = p.getStats().inventory.gear.GetPreviewPart(partList[partSelectionInt], activeConnection);
+                    foreach (Point point in previewPart.GetEquippedSlots())
+                    {
+                        previewSlotSpriters.Add(point, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 7, _gm.factory._spriterManager.spriters["hud"].loader));
+                        previewSlotSpriters[point].setScale(2f);
+                        previewSlotSpriters[point].setAnimation("light", 0, 0);
+
+                        AddSpriter(previewSlotSpriters[point]);
+                    }
+
+                    foreach (EquippedConnection previewConnection in previewPart.equippedConnections)
+                    {
+                        InitializePreviewConnectionSpriter(previewConnection);
+                    }
+
+                    partStatsPartSelectionText.text = "";
+                    foreach (KeyValuePair<GearStat, int> statPair in previewPart.part.partStruct.stats)
+                    {
+                        partStatsPartSelectionText.text += statPair.Key + " +" + statPair.Value + "\n";
+                    }
+                }
+
+            }
+            else if (partSelectHighlightChange && state == GearUpgradeMenuState.CoreSelection)
+            {
+                foreach (KeyValuePair<Point, SpriterPlayer> pair in previewSlotSpriters)
+                {
+                    RemoveSpriter(pair.Value);
+                }
+                previewSlotSpriters.Clear();
+
+                foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in previewConnectionSpriters)
+                {
+                    RemoveSpriter(pair.Value);
+                }
+                previewConnectionSpriters.Clear();
+                previewConnectionBoxes.Clear();
+
+                if (partSelectionInt != -1)
+                {
+                    EquippedPart previewPart = p.getStats().inventory.gear.GetPreviewCore(partList[partSelectionInt]);
                     foreach (Point point in previewPart.GetEquippedSlots())
                     {
                         previewSlotSpriters.Add(point, new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 7, _gm.factory._spriterManager.spriters["hud"].loader));
@@ -591,6 +683,44 @@ namespace wickedcrush.screen.menu
             AddText(partStatsPartSelectionText);
         }
 
+        private void LaunchCoreSelectionMenu()
+        {
+            state = GearUpgradeMenuState.CoreSelection;
+
+            partList = p.getStats().inventory.GetCoreList();
+
+            compatiblePartsText.alignment = TextAlignment.Left;
+
+            AddText(compatiblePartsText);
+
+            foreach (KeyValuePair<EquippedPart, Dictionary<Point, SpriterPlayer>> gearSlotPair in gearSlotSpriters)
+            {
+                foreach (KeyValuePair<Point, SpriterPlayer> pair in gearSlotPair.Value)
+                {
+                    RemoveSpriter(pair.Value);
+                }
+            }
+
+            foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in gearConnectionSpriters)
+            {
+                RemoveSpriter(pair.Value);
+            }
+
+            for (int i = 0; i < partList.Count; i++)
+            {
+                partSelectionBoxes.Add(new Rectangle(20, height + 60 + i * 60, 500, 60));
+                TextEntity tempText = new TextEntity(partList[i].name + " x" + p.getStats().inventory.getItemCount(partList[i]), new Vector2(partSelectionBoxes[i].X, partSelectionBoxes[i].Top), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+                tempText.alignment = TextAlignment.Left;
+                partSelectionText.Add(tempText);
+
+                AddText(tempText);
+            }
+
+            partStatsPartSelectionText.text = "";
+
+            AddText(partStatsPartSelectionText);
+        }
+
         private void HandleInput()
         {
             if (state == GearUpgradeMenuState.ConnectionSelect)
@@ -608,6 +738,11 @@ namespace wickedcrush.screen.menu
                         {
                             p.getStats().inventory.UnequipPart(activePart);
                             gearChange = true;
+                        }
+                        else
+                        {
+                            LaunchCoreSelectionMenu();
+                            RemoveText(itemDesc);
                         }
                     }
                 }
@@ -635,6 +770,24 @@ namespace wickedcrush.screen.menu
                     ClosePartSelectionMenu();
                 }
             }
+            else if (state == GearUpgradeMenuState.CoreSelection)
+            {
+                if (p.c.InteractPressed() || (game.settings.controlMode == utility.config.ControlMode.KeyboardOnly && p.c.WeaponPressed()))
+                {
+                    if (partSelectionInt > -1 && partSelectionInt < partList.Count)
+                    {
+
+                        p.getStats().inventory.EquipCore(partList[partSelectionInt]);
+                        gearChange = true;
+                        CloseCoreSelectionMenu();
+                    }
+                }
+
+                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
+                {
+                    CloseCoreSelectionMenu();
+                }
+            }
 
             UpdateCursorPosition(p.c);
         }
@@ -646,6 +799,56 @@ namespace wickedcrush.screen.menu
                 RemoveSpriter(pair.Value);
             }
             previewSlotSpriters.Clear();
+
+            foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in previewConnectionSpriters)
+            {
+                RemoveSpriter(pair.Value);
+            }
+            previewConnectionSpriters.Clear();
+
+            foreach (TextEntity t in partSelectionText)
+            {
+                RemoveText(t);
+            }
+
+
+
+            RemoveText(compatiblePartsText);
+            RemoveText(partStatsPartSelectionText);
+
+            partSelectionText.Clear();
+            partSelectionBoxes.Clear();
+            state = GearUpgradeMenuState.ConnectionSelect;
+            AddText(itemDesc);
+        }
+
+        private void CloseCoreSelectionMenu()
+        {
+            foreach (KeyValuePair<EquippedPart, Dictionary<Point, SpriterPlayer>> gearSlotPair in gearSlotSpriters)
+            {
+                foreach (KeyValuePair<Point, SpriterPlayer> pair in gearSlotPair.Value)
+                {
+                    AddSpriter(pair.Value);
+                }
+            }
+
+            foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in gearConnectionSpriters)
+            {
+                AddSpriter(pair.Value);
+            }
+
+
+            foreach (KeyValuePair<Point, SpriterPlayer> pair in previewSlotSpriters)
+            {
+                RemoveSpriter(pair.Value);
+            }
+            previewSlotSpriters.Clear();
+
+            foreach (KeyValuePair<EquippedConnection, SpriterPlayer> pair in previewConnectionSpriters)
+            {
+                RemoveSpriter(pair.Value);
+            }
+            previewConnectionSpriters.Clear();
 
             foreach (TextEntity t in partSelectionText)
             {

@@ -141,6 +141,14 @@ namespace wickedcrush.inventory
                 }
             }
 
+            foreach (KeyValuePair<GearStat, int> pair in core.part.partStruct.stats)
+            {
+                if (pair.Key == stat)
+                {
+                    value += pair.Value;
+                }
+            }
+
             return value;
         }
 
@@ -178,9 +186,30 @@ namespace wickedcrush.inventory
             return tempPart;
         }
 
+        public EquippedPart GetPreviewCore(Part part)
+        {
+
+            EquippedPart tempPart = new EquippedPart(part, null);
+
+
+            return tempPart;
+        }
+
         public Dictionary<GearStat, int> GetEquippedStats()
         {
             Dictionary<GearStat, int> result = new Dictionary<GearStat, int>();
+
+            foreach (KeyValuePair<GearStat, int> pair in core.part.partStruct.stats)
+            {
+                if (result.ContainsKey(pair.Key))
+                {
+                    result[pair.Key] = result[pair.Key] + pair.Value;
+                }
+                else
+                {
+                    result.Add(pair.Key, pair.Value);
+                }
+            }
 
             foreach (EquippedPart part in parts)
             {

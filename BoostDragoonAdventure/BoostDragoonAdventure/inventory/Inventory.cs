@@ -424,5 +424,19 @@ namespace wickedcrush.inventory
 
             return compatibleParts;
         }
+
+        public List<Part> GetCoreList()
+        {
+            List<Part> coreList = new List<Part>();
+            foreach (Part p in GetPartList())
+            {
+                if (p.partStruct.core)
+                {
+                    coreList.Add(p);
+                }
+            }
+
+            return coreList;
+        }
     }
 }

@@ -441,7 +441,7 @@ namespace wickedcrush.inventory
             #region Parts
 
             parts.Add("Basic Core",
-                new Part("Basic Core",
+                new Core("Basic Core",
                     new PartStruct(
                         new List<Point>() { new Point(0, 0) },
                         new List<PartConnection>() { 
@@ -451,7 +451,7 @@ namespace wickedcrush.inventory
                         new Dictionary<GearStat, int>() { })));
 
             parts.Add("KR101 Core",
-                new Part("KR101 Core",
+                new Core("KR101 Core",
                     new PartStruct(
                         new List<Point>() { new Point(0, 0), new Point(0, 1) },
                         new List<PartConnection>() { 
@@ -461,7 +461,7 @@ namespace wickedcrush.inventory
                         new Dictionary<GearStat, int>() { { GearStat.Potency, 1 } })));
 
             parts.Add("Blast Core",
-                new Part("Blast Core",
+                new Core("Blast Core",
                     new PartStruct(
                         new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1) },
                         new List<PartConnection>() { 

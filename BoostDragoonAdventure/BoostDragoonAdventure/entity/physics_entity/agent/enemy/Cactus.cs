@@ -119,7 +119,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             if (timers["death_timer"].isActive())
             {
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 3, "bloodspurt_001");
+                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 0, "white_to_red");
                 particleEmitter.EmitParticles(ps, this.factory, 3);
 
                 if(timers["death_timer"].isDone())
