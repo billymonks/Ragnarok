@@ -465,8 +465,8 @@ namespace wickedcrush.inventory
                     new PartStruct(
                         new List<Point>() { new Point(0, 0), new Point(1, 0), new Point(0, 1) },
                         new List<PartConnection>() { 
-                            new PartConnection(new Point(0, 0), 0, ConnectionType.Circle, true),
-                            new PartConnection(new Point(0, 0), 90, ConnectionType.Circle, true)
+                            new PartConnection(new Point(1, 0), 0, ConnectionType.Circle, true),
+                            new PartConnection(new Point(0, 1), 90, ConnectionType.Circle, true)
                             },
                         new Dictionary<GearStat, int>() { { GearStat.Potency, 2 } })));
 
