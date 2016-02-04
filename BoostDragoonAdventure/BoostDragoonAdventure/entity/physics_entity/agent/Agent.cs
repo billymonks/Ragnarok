@@ -223,6 +223,16 @@ namespace wickedcrush.entity.physics_entity.agent
             factory._gm.scene.AddLight(light);
         }
 
+        protected void SetTargetDiffuseIntensity(float value)
+        {
+            targetLight.DiffuseIntensity = value;
+        }
+
+        protected void SetTargetSpecularIntensity(float value)
+        {
+            targetLight.SpecularIntensity = value;
+        }
+
         protected void UpdateLight()
         {
             UpdateLightPosition();
