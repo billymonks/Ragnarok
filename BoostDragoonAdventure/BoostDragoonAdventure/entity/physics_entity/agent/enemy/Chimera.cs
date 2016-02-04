@@ -87,8 +87,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
 
-            InitializeHpBar();
-            UpdateHpBar();
+            //InitializeHpBar();
+            //UpdateHpBar();
 
             AddLight(new PointLightStruct(new Vector4(1f, 0.85f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 1f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 700f));
             //factory._gm.scene.AddLight(light);
@@ -517,7 +517,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (remove)
                 return;
 
-            UpdateHpBar();
+            //UpdateHpBar();
             UpdateAnimation();
 
             //((TextEntity)subEntityList["status"]).text = state.ToString();

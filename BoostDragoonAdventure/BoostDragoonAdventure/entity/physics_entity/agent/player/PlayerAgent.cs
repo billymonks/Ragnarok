@@ -92,8 +92,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             _sound.addCueInstance("VP_Jet1", id + "VP_Jet1", true);
             SetupStateMachine();
 
-            InitializeHpBar();
-            UpdateHpBar();
+            //InitializeHpBar();
+            //UpdateHpBar();
 
             killValue = 0;
 
@@ -273,7 +273,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 //stats.set("boost", 0);
             }
 
-            UpdateHpBar();
+            //UpdateHpBar();
             UpdateAnimation();
 
             

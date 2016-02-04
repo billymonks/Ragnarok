@@ -237,9 +237,13 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             UpdateLightPosition();
 
-            light.DiffuseIntensity = (light.DiffuseIntensity + targetLight.DiffuseIntensity) / 2f;
-            light.SpecularIntensity = (light.SpecularIntensity + targetLight.DiffuseIntensity) / 2f;
-            light.PointLightRange = (light.PointLightRange + targetLight.PointLightRange) / 2f;
+            //light.DiffuseIntensity = (light.DiffuseIntensity + targetLight.DiffuseIntensity) / 2f;
+            //light.SpecularIntensity = (light.SpecularIntensity + targetLight.DiffuseIntensity) / 2f;
+            //light.PointLightRange = (light.PointLightRange + targetLight.PointLightRange) / 2f;
+
+            light.DiffuseIntensity = ((light.DiffuseIntensity * 3f) + targetLight.DiffuseIntensity) / 4f;
+            light.SpecularIntensity = ((light.SpecularIntensity * 3f) + targetLight.DiffuseIntensity) / 4f;
+            light.PointLightRange = ((light.PointLightRange * 3f) + targetLight.PointLightRange) / 4f;
 
         }
 

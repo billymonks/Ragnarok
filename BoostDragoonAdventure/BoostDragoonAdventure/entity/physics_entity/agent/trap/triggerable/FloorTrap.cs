@@ -35,9 +35,9 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
             timers.Add("spike_reset", new utility.Timer(500));
 
             fireParticleA = new ParticleStruct(new Vector3(pos.X, 1f, pos.Y), Vector3.Zero,
-                    new Vector3(-1f, 1f, -1f), new Vector3(2f, 0.25f, 2f), Vector3.Zero, 0, 0, 500, 17, "particles", 0, "white_to_yellow");
+                    new Vector3(-0.5f, 1f, -0.5f), new Vector3(1f, 0.25f, 1f), Vector3.Zero, 0, 0, 500, 17, "particles", 0, "white_to_yellow");
             fireParticleB = new ParticleStruct(new Vector3(pos.X, 1f, pos.Y), Vector3.Zero,
-                    new Vector3(-0.5f, 1f, -0.5f), new Vector3(1f, 1f, 1f), Vector3.Zero, 0, 0, 500, 17, "particles", 0, "white_to_orange");
+                    new Vector3(-0.325f, 1f, -0.325f), new Vector3(0.75f, 1f, 0.75f), Vector3.Zero, 0, 0, 500, 17, "particles", 0, "white_to_orange");
             fireParticleC = new ParticleStruct(new Vector3(pos.X, 1f, pos.Y), Vector3.Zero,
                     new Vector3(-0.25f, 1f, -0.25f), new Vector3(0.5f, 1f, 0.5f), Vector3.Zero, 0, 0, 500, 17, "particles", 0, "white_to_red");
             //trigger.repeat = true;

@@ -95,7 +95,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
 
-            InitializeHpBar();
+            //InitializeHpBar();
 
             killValue = 525;
 
@@ -136,7 +136,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 return;
             }
 
-            UpdateHpBar();
+            //UpdateHpBar();
             UpdateAnimation();
 
             movementDirection = (int)facing;

@@ -44,14 +44,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
 
-            InitializeHpBar();
+            //InitializeHpBar();
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-            UpdateHpBar();
+            //UpdateHpBar();
             UpdateAnimation();
 
             

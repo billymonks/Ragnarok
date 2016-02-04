@@ -69,8 +69,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
 
-            InitializeHpBar();
-            UpdateHpBar();
+            //InitializeHpBar();
+            //UpdateHpBar();
         }
 
         private void SetupStateMachine()
@@ -161,7 +161,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (remove)
                 return;
 
-            UpdateHpBar();
+            //UpdateHpBar();
             UpdateAnimation();
 
             if (timers["done_standing"].isDone())
