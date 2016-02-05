@@ -10,6 +10,7 @@ using Com.Brashmonkey.Spriter.player;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.particle;
 using wickedcrush.display._3d;
+using wickedcrush.entity.physics_entity.agent.action;
 
 namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
 {
@@ -73,6 +74,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
                     && (c.Other.UserData is Agent)
+                    && !(c.Other.UserData is ActionSkill)
                     && !c.Other.UserData.Equals(this)
                     && !((Agent)c.Other.UserData).noCollision)
                 {
@@ -81,8 +83,11 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
                         pressed = true;
                     }
 
-                    if(triggered)
-                        ((Agent)c.Other.UserData).TakeKnockback(pos + center, 5000);
+                    if (triggered)
+                    {
+                        ((Agent)c.Other.UserData).TakeKnockback(pos + center, 3, 5000);
+
+                    }
                 }
 
 
