@@ -43,7 +43,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
 
         public Chimera(World w, Vector2 pos, EntityFactory factory, PersistedStats stats, SoundManager sound)
-            : base(w, pos, new Vector2(200f, 200f), new Vector2(100f, 100f), false, factory, sound)
+            : base(-1, w, pos, new Vector2(200f, 200f), new Vector2(100f, 100f), false, factory, sound)
         {
             
             this.stats = stats;

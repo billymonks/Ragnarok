@@ -11,8 +11,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
 {
     public abstract class Triggerable : Agent
     {
-        public Triggerable(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
-            : base(w, pos, size, center, solid, factory, sound)
+        public Triggerable(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
+            : base(id, w, pos, size, center, solid, factory, sound)
         {
             this.factory = factory;
         }

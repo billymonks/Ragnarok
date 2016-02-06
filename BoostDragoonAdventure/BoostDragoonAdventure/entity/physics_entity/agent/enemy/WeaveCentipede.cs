@@ -42,7 +42,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
 
         public WeaveCentipede(World w, Vector2 pos, EntityFactory factory, PersistedStats stats, SoundManager sound)
-            : base(w, pos, new Vector2(200f, 200f), new Vector2(100f, 100f), true, factory, sound)
+            : base(-1, w, pos, new Vector2(200f, 200f), new Vector2(100f, 100f), true, factory, sound)
         {
             
             this.stats = stats;

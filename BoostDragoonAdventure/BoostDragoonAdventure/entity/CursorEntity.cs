@@ -40,7 +40,7 @@ namespace wickedcrush.entity
         Vector2 cursorPos = Vector2.Zero;
 
         public CursorEntity(World w, SoundManager sound, GameBase g, EntityFactory factory) //duration time?
-            : base(w, Vector2.Zero, new Vector2(20f, 20f), new Vector2(10f, 10f), false, factory, sound)
+            : base(-1, w, Vector2.Zero, new Vector2(20f, 20f), new Vector2(10f, 10f), false, factory, sound)
         {
             this.g = g;
             this.factory = factory;

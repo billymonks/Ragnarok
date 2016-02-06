@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         int flightTime = 400;
 
         public Fireball(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, Direction facing, int damage, int force, int clusterCount, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, false, damage, force, sound, factory)
+            : base(-1, w, pos, size, center, false, damage, force, sound, factory)
         {
             this.parent = parent;
             Initialize(damage, force, clusterCount, facing);

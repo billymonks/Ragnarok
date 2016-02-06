@@ -21,7 +21,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable
         ParticleStruct fireParticleA, fireParticleB, fireParticleC;
 
         public FloorTrap(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
+            : base(-1, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize();
             //activeRange = 300;

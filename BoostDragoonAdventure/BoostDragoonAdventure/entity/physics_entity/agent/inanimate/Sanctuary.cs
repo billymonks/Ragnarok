@@ -19,8 +19,8 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
 
         private bool activeHome = false;
 
-        public Sanctuary(World w, Vector2 pos, GameplayManager gm, EntityFactory factory, SoundManager sound) 
-            : base(w, pos, new Vector2(30f, 30f), new Vector2(15f, 15f), false, factory, sound)
+        public Sanctuary(World w, Vector2 pos, GameplayManager gm, EntityFactory factory, SoundManager sound)
+            : base(-1, w, pos, new Vector2(30f, 30f), new Vector2(15f, 15f), false, factory, sound)
         {
             this._gameplayManager = gm;
             this.visible = true;

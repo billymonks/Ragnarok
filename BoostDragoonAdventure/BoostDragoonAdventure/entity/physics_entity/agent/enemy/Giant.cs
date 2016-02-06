@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private const int attackTellLength = 700, postAttackLength = 1000, navigationResetLength = 500, attackRange = 60;
 
         public Giant(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
-            : base(w, pos, size, center, solid, factory, stats, sound)
+            : base(-1, w, pos, size, center, solid, factory, stats, sound)
         {
             Initialize();
             this.stats = stats;

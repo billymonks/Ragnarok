@@ -16,8 +16,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap
 
         public int fireSpeed = 500, rank;
 
-        public AimTurret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound, int rank)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
+        public AimTurret(int id, World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound, int rank)
+            : base(id, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize(facing, rank);
         }

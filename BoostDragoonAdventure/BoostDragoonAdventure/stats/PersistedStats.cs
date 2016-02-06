@@ -25,13 +25,16 @@ namespace wickedcrush.stats
         public Dictionary<String, int> numbers;
         public Dictionary<String, String> strings;
 
-        public Inventory inventory; 
+        public Inventory inventory;
+
+        
 
         public PersistedStats()
         {
             numbers = new Dictionary<String, int>();
             strings = new Dictionary<String, String>();
             inventory = new Inventory();
+
         }
 
         public PersistedStats(int maxHP, int currentHP)

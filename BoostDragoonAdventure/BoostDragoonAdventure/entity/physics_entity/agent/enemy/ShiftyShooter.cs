@@ -32,10 +32,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         private StateName state;
 
-        public ShiftyShooter(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, 
+        Vector4 diffuse = new Vector4(0.8f, 0.55f, 0.85f, 1f), hostileDiffuse = new Vector4(1f, 0.35f, 0.35f, 1f);
+
+        public ShiftyShooter(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, 
             int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay,
             int moveLength, int standLength, int standToShootLength, float skillVelocity)
-            : base(w, pos, size, center, solid, factory, sound)
+            : base(id, w, pos, size, center, solid, factory, sound)
         {
             Initialize(spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
             this.stats = stats;
@@ -91,8 +93,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             killValue = 175;
 
-            AddLight( new PointLightStruct(new Vector4(0.8f, 0.55f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 40f));
-            //factory._gm.scene.AddLight(light);
+            AddLight( new PointLightStruct(new Vector4(0.8f, 0.55f, 0.85f, 1f), 0.9f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 0f));
 
             targetable = true;
         }
@@ -205,6 +206,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 if (target != null)
                 {
                     timers["shoot"].resetAndStart();
+                    targetLight.PointLightRange = 60f;
+                    light.DiffuseColor = hostileDiffuse;
+                }
+                else
+                {
+                    targetLight.PointLightRange = 0f;
                 }
             }
 
@@ -216,6 +223,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
                 state = StateName.Moving;
                 timers["done_moving"].resetAndStart();
+
+                targetLight.PointLightRange = 30f;
             }
 
             if (timers["shoot"].isDone())
@@ -224,7 +233,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 //_sound.playCue("whsh", emitter);
                 //fireAimedProjectile(Helper.degreeConversion(angleToEntity(target)));
                 if (!hasLineOfSightToEntity(target))
+                {
                     target = null;
+                    light.DiffuseColor = diffuse;
+                }
 
                 if (target != null)
                 {

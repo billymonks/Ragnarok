@@ -59,8 +59,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             Return
         }
 
-        public KnightEnemy(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, Stack<PathNode> patrol)
-            : base(w, pos, size, center, solid, factory, stats, sound)
+        public KnightEnemy(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound, Stack<PathNode> patrol)
+            : base(id, w, pos, size, center, solid, factory, stats, sound)
         {
             
             Initialize();

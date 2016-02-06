@@ -56,11 +56,15 @@ namespace wickedcrush.manager.map
         private GameBase _game;
         public Dictionary<String, MapStats> atlas;
 
+        public Dictionary<String, List<int>> deaths;
+
         public MapManager(GameBase game)
         {
             atlas = new Dictionary<String, MapStats>();
             LoadAtlas();
             _game = game;
+
+            deaths = new Dictionary<String, List<int>>();
         }
 
         public MapStats getMapStatsFromAtlas(String mapString)
@@ -70,6 +74,7 @@ namespace wickedcrush.manager.map
 
         public void LoadMap(GameplayManager gm, Map map, MapStats mapStats)
         {
+            int id = -1;
             int doorCount = 0;
             int rank = 3;
 
@@ -184,12 +189,14 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("TURRET"))
                 {
+
+                    id = int.Parse(e.Attribute("id").Value);
                     rank = 3;
 
                     if (e.Attributes("rank").Count<XAttribute>() > 0)
                         rank = int.Parse(e.Attribute("rank").Value);
 
-                    gm.factory.addTurret(
+                    gm.factory.addTurret(id,
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value),
                         rank);
@@ -197,14 +204,18 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("AIM_TURRET"))
                 {
-                    rank = 3;
+                        id = int.Parse(e.Attribute("id").Value);
 
-                    if (e.Attributes("rank").Count<XAttribute>() > 0)
-                        rank = int.Parse(e.Attribute("rank").Value);
 
-                    gm.factory.addAimTurret(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        rank);
+                        rank = 3;
+
+                        if (e.Attributes("rank").Count<XAttribute>() > 0)
+                            rank = int.Parse(e.Attribute("rank").Value);
+
+                        gm.factory.addAimTurret(id,
+                            new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                            rank);
+
                 }
 
                 foreach (XElement e in objects.Elements("CHEST"))
@@ -288,29 +299,26 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("CACTUS"))
                 {
-                    Stack<PathNode> patrol = new Stack<PathNode>();
-                    //int angle = 0;
+                    id = int.Parse(e.Attribute("id").Value);
 
-                    foreach (XElement n in e.Elements("node"))
-                    {
-                        patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
-                    }
-                    patrol.Reverse<PathNode>();
+                    
+                        Stack<PathNode> patrol = new Stack<PathNode>();
 
-                    //if (e.Attribute("angle") != null)
-                    //{
-                    //angle = int.Parse(e.Attribute("angle").Value);
-                    //}
+                        foreach (XElement n in e.Elements("node"))
+                        {
+                            patrol.Push(new PathNode(new Point(int.Parse(n.Attribute("x").Value) / 10, int.Parse(n.Attribute("y").Value) / 10), 10));
+                        }
+                        patrol.Reverse<PathNode>();
 
-                    /*gm.factory.addMurderer(
-                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);*/
-                    gm.factory.addCactus(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
-                        new Vector2(30, 30), 1, patrol);
+                        gm.factory.addCactus(id, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                            new Vector2(30, 30), 1, patrol);
+
                 }
 
                 foreach (XElement e in objects.Elements("MURDERER"))
                 {
+                    id = int.Parse(e.Attribute("id").Value);
+
                     Stack<PathNode> patrol = new Stack<PathNode>();
                     int angle = 0;
 
@@ -325,22 +333,26 @@ namespace wickedcrush.manager.map
                         angle = int.Parse(e.Attribute("angle").Value);
                     }
 
-                    gm.factory.addMurderer(
+                    gm.factory.addMurderer(id,
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)), true, patrol, angle);
                 }
 
                 foreach (XElement e in objects.Elements("WEAKLING"))
                 {
+                    id = int.Parse(e.Attribute("id").Value);
+
                     Stack<PathNode> patrol = new Stack<PathNode>();
-                    gm.factory.addWeakling(
+                    gm.factory.addWeakling(id,
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         new Vector2(12, 12), new Vector2(6, 6), patrol);
                 }
 
                 foreach (XElement e in objects.Elements("SHIFTYSHOOTER"))
                 {
-                    gm.factory.addShiftyShooter(
+                    id = int.Parse(e.Attribute("id").Value);
+
+                    gm.factory.addShiftyShooter(id, 
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         new Vector2(24, 24), new Vector2(12, 12),
                         int.Parse(e.Attribute("spreadDuration").Value), int.Parse(e.Attribute("blowCount").Value), int.Parse(e.Attribute("blowPerSpread").Value),
@@ -491,7 +503,7 @@ namespace wickedcrush.manager.map
                             tempRotation += 180;
                     }
 
-                    gm.factory.addTurret(
+                    gm.factory.addTurret(-1,
                         new Vector2(
                             320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
                             240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y),

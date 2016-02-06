@@ -15,7 +15,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.cluster
         int clusterCount;
 
         public FireCluster(World w, Vector2 pos, Vector2 size, Entity parent, int direction, int damage, int force, int clusterCount, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, size / 2f, false, factory, sound)
+            : base(-1, w, pos, size, size / 2f, false, factory, sound)
         {
             this.clusterCount = clusterCount;
 

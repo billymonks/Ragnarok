@@ -28,7 +28,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private int currency;
 
         public Chest(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
+            : base(-1, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize();
         }

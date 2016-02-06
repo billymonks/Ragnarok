@@ -17,7 +17,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
         private GameplayManager _gm;
 
         public DestinationAgent(Vector2 pos, Vector2 size, GameplayManager gameplayManager, GameBase g)
-            : base(gameplayManager.w, pos, size, new Vector2(size.X / 2f, size.Y / 2f), false, gameplayManager.factory, g.soundManager)
+            : base(-1, gameplayManager.w, pos, size, new Vector2(size.X / 2f, size.Y / 2f), false, gameplayManager.factory, g.soundManager)
         {
             this.g = g;
             this._gm = gameplayManager;

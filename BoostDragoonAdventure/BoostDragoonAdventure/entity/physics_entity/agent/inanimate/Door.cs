@@ -22,8 +22,8 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
 
         private TextEntity destinationText;
 
-        public Door(World w, Vector2 pos, Direction facing, Connection connection, GameplayManager gm, EntityFactory factory, SoundManager sound) 
-            : base(w, pos, new Vector2(160f, 160f), new Vector2(80f, 80f), false, factory, sound)
+        public Door(World w, Vector2 pos, Direction facing, Connection connection, GameplayManager gm, EntityFactory factory, SoundManager sound)
+            : base(-1, w, pos, new Vector2(160f, 160f), new Vector2(80f, 80f), false, factory, sound)
         {
             this.facing = facing;
             this._gameplayManager = gm;

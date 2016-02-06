@@ -16,7 +16,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap.trigger
         public Trigger trigger;
 
         public TriggerBase(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
-            : base(w, pos, size, center, solid, factory, sound)
+            : base(-1, w, pos, size, center, solid, factory, sound)
         {
             trigger = new Trigger(this, new List<Triggerable>(), c => c.isTriggered());
         }

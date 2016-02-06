@@ -18,7 +18,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
     {
         float angle = 0f;
         public Bolt(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, false, damage, force, sound, factory)
+            : base(-1, w, pos, size, center, false, damage, force, sound, factory)
         {
             this.parent = parent;
             Initialize(damage, force);

@@ -45,7 +45,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         //Agent agentParent;
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent, int aimDirection)
-            : base(gameplay.w,
+            : base(-1, gameplay.w,
                 new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
                             (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection)))),
                 skillStruct.size,
@@ -108,7 +108,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         }
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
-            : base(gameplay.w,
+            : base(-1, gameplay.w,
             new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange))),
                         (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)))), 
             skillStruct.size, 
@@ -207,13 +207,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             immortal = true;
             this.name = "ActionSkill";
 
-            AddLight(new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
-            //factory._gm.scene.AddLight(light);
+            //AddLight(new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
 
-            
-            
-            //ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), new Vector3(-0.5f, 2f, -0.5f), new Vector3(1f, 1f, 1f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_blue");
-            //particleEmitter.EmitParticles(ps, factory, 3);
 
             if (cue != "")
             {

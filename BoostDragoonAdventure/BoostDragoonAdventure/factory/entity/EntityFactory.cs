@@ -83,6 +83,39 @@ namespace wickedcrush.factory.entity
             sanctuaryList = new List<Sanctuary>();
         }
 
+        public bool IsDead(int id)
+        {
+            if (id < 0)
+            {
+                return false;
+            }
+
+            if (_game.mapManager.deaths.ContainsKey(_gm.map.name) && _game.mapManager.deaths[_gm.map.name].Contains(id))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void RegisterDeath(int id)
+        {
+            if (_game.mapManager.deaths.ContainsKey(_gm.map.name))
+            {
+                if (!_game.mapManager.deaths[_gm.map.name].Contains(id))
+                    _game.mapManager.deaths[_gm.map.name].Add(id);
+            }
+            else
+            {
+                _game.mapManager.deaths.Add(_gm.map.name, new List<int>());
+            }
+        }
+
+        public void ClearDeaths()
+        {
+            _game.mapManager.deaths.Clear();
+        }
+
         public bool checkBool(string key)
         {
             if (savedBools.ContainsKey(key))
@@ -325,22 +358,28 @@ namespace wickedcrush.factory.entity
             _em.addEntity(p);
         }
 
-        public void addCactus(Vector2 pos, Vector2 size, int rank, Stack<PathNode> patrol)
+        public void addCactus(int id, Vector2 pos, Vector2 size, int rank, Stack<PathNode> patrol)
         {
+            if (IsDead(id))
+                return;
+
             int temp = random.Next(0, 15);
             if (temp < 5)
                 rank = 0;
             else if (temp < 10)
                 rank = 1;
             else rank = 2;
-            Cactus c = new Cactus(_w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100, rank);
+            Cactus c = new Cactus(id, _w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100, rank);
             _em.addEntity(c);
         }
 
-        public void addMurderer(Vector2 pos, Vector2 size, bool solid, Stack<PathNode> patrol, int facing)
+        public void addMurderer(int id, Vector2 pos, Vector2 size, bool solid, Stack<PathNode> patrol, int facing)
         {
+            if (IsDead(id))
+                return;
+
             PersistedStats fuckStats = new PersistedStats();
-            KnightEnemy a = new KnightEnemy(_w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
+            KnightEnemy a = new KnightEnemy(id, _w, pos, size, size/2f, solid, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 280);
             a.stats.set("MaxHP", 280);
             a.stats.set("staggerLimit", 500);
@@ -355,10 +394,13 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
-        public void addWeakling(Vector2 pos, Vector2 size, Vector2 center, Stack<PathNode> patrol)
+        public void addWeakling(int id, Vector2 pos, Vector2 size, Vector2 center, Stack<PathNode> patrol)
         {
+            if (IsDead(id))
+                return;
+
             PersistedStats fuckStats = new PersistedStats();
-            KnightEnemy a = new KnightEnemy(_w, pos, size, center, true, this, fuckStats, _sm, patrol);
+            KnightEnemy a = new KnightEnemy(id, _w, pos, size, center, true, this, fuckStats, _sm, patrol);
             a.stats.set("hp", 100);
             a.stats.set("MaxHP", 100);
             a.stats.set("staggerLimit", 300);
@@ -372,10 +414,13 @@ namespace wickedcrush.factory.entity
             _em.addEntity(a);
         }
 
-        public void addShiftyShooter(Vector2 pos, Vector2 size, Vector2 center, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay, int moveLength, int standLength, int standToShootLength, float skillVelocity)
+        public void addShiftyShooter(int id, Vector2 pos, Vector2 size, Vector2 center, int spreadDuration, int blowCount, int blowPerSpread, int scatterCount, int spread, float blowVelocity, int blowDuration, int blowReleaseDelay, int moveLength, int standLength, int standToShootLength, float skillVelocity)
         {
+            if (IsDead(id))
+                return;
+
             PersistedStats fuckStats = new PersistedStats();
-            ShiftyShooter s = new ShiftyShooter(_w, pos, size, center, true, this, fuckStats, _sm, spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
+            ShiftyShooter s = new ShiftyShooter(id, _w, pos, size, center, true, this, fuckStats, _sm, spreadDuration, blowCount, blowPerSpread, scatterCount, spread, blowVelocity, blowDuration, blowReleaseDelay, moveLength, standLength, standToShootLength, skillVelocity);
             s.stats.set("hp", 20);
             s.stats.set("MaxHP", 100);
             s.stats.set("staggerLimit", 500);
@@ -386,9 +431,12 @@ namespace wickedcrush.factory.entity
             _em.addEntity(s);
         }
 
-        public void addTurret(Vector2 pos, Direction facing, int rank)
+        public void addTurret(int id, Vector2 pos, Direction facing, int rank)
         {
-            StandaloneTurret t = new StandaloneTurret(_w, pos, this, facing, _sm, rank);
+            if (IsDead(id))
+                return;
+
+            StandaloneTurret t = new StandaloneTurret(id, _w, pos, this, facing, _sm, rank);
             t.stats.set("hp", 20);
             t.stats.set("MaxHP", 20);
             t.stats.set("staggerDuration", 1);
@@ -396,9 +444,12 @@ namespace wickedcrush.factory.entity
             _em.addEntity(t);
         }
 
-        public void addAimTurret(Vector2 pos, int rank)
+        public void addAimTurret(int id, Vector2 pos, int rank)
         {
-            AimTurret t = new AimTurret(_w, pos, this, Direction.East, _sm, rank);
+            if (IsDead(id))
+                return;
+
+            AimTurret t = new AimTurret(id, _w, pos, this, Direction.East, _sm, rank);
             t.stats.set("hp", 20);
             t.stats.set("MaxHP", 20);
             t.stats.set("staggerDuration", 1);
@@ -643,11 +694,13 @@ namespace wickedcrush.factory.entity
                             p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
 
                             _gm.EnqueueRespawn();
+                            
                             //_gm._screen.Dispose();
                             //_game.screenManager.StartLoading();
                             //_game.screenManager.AddScreen(new GameplayScreen(_game, _pm.getPlayerList()[0].getStats().getString("home")));
                         }
 
+                        ClearDeaths();
                         p.getStats().inventory.clearCurrency();
                     }
                 }

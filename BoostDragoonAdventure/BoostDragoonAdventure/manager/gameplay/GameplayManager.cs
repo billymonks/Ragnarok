@@ -197,6 +197,7 @@ namespace wickedcrush.manager.gameplay
 
         private void EnqueueMapTransition()
         {
+            GC.Collect();
             _game.playerManager.startTransition();
 
             SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));
@@ -239,6 +240,7 @@ namespace wickedcrush.manager.gameplay
 
         public void EnqueueRespawn()
         {
+            GC.Collect();
             _game.playerManager.startTransition();
 
             SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));

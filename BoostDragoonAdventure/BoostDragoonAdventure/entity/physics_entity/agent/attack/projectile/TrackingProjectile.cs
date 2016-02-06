@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.projectile
         int angle = 0;
 
         public TrackingProjectile(World w, Vector2 pos, Vector2 size, int damage, int force, int initialAimDirection, Entity parent, Entity target, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, size/2f, false, damage, force, sound, factory)
+            : base(-1, w, pos, size, size / 2f, false, damage, force, sound, factory)
         {
             this.parent = parent;
             this.target = target;

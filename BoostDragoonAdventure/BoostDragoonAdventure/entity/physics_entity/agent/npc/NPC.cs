@@ -19,7 +19,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
         String dialog;
 
         public NPC(Vector2 pos, Vector2 size, String dialog, GameBase game, GameplayManager gameplayManager)
-            : base(gameplayManager.w, pos, size, size/2f, true, gameplayManager.factory, game.soundManager)
+            : base(-1, gameplayManager.w, pos, size, size / 2f, true, gameplayManager.factory, game.soundManager)
         {
             _game = game;
             this.dialog = dialog;

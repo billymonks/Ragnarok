@@ -16,7 +16,7 @@ namespace wickedcrush.entity.physics_entity.agent.attack.melee
         //private bool deployed = false;
 
         public MeleeAttack(World w, Vector2 pos, Vector2 size, Vector2 center, Entity parent, int damage, int force, SoundManager sound, EntityFactory factory)
-            : base(w, pos, size, center, false, parent, damage, force, sound, factory)
+            : base(-1, w, pos, size, center, false, parent, damage, force, sound, factory)
         {
             Initialize(damage, force);
         }

@@ -26,8 +26,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         int rank = 0;
         float angle = 0f;
 
-        public Cactus(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound, Stack<PathNode> patrol, int damage, int force, int rank)
-            : base(w, pos, size, center, false, damage, force, sound, factory)
+        public Cactus(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound, Stack<PathNode> patrol, int damage, int force, int rank)
+            : base(id, w, pos, size, center, false, damage, force, sound, factory)
         {
             this.rank = rank;
             Initialize();
@@ -70,7 +70,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             SetupStateMachine();
 
-            AddLight(new PointLightStruct(new Vector4(0.1f, 0.85f, 0.05f, 1f), 0.2f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 40f));
+            AddLight(new PointLightStruct(new Vector4(0.1f, 0.85f, 0.05f, 1f), 0.2f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 30f));
 
 
 
@@ -122,6 +122,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height + 20, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-1.5f, 3f, -1.5f), new Vector3(3f, 3f, 3f), new Vector3(0, -.3f, 0), 0f, 0f, 500, 17, "particles", 0, "white_to_red");
                 particleEmitter.EmitParticles(ps, this.factory, 3);
 
+                targetLight.PointLightRange = 100f;
+                targetLight.DiffuseIntensity = 1f;
+                targetLight.SpecularIntensity = 1f;
+                light.SpecularColor = new Vector4(1f, .25f, 0f, 1f);
+                light.DiffuseColor = new Vector4(1f, 0f, .25f, 1f);
+
                 if(timers["death_timer"].isDone())
                 {
                     this.Die();
@@ -146,21 +152,23 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 if (rank == 2)
                 {
                     useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f),
-                            17, 8, 8, 0, 270, false, 50f, 500, 0, 1f,
+                            17, 16, 16, 0, 337, false, 50f, 500, 0, 1f,
                             new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 100, 10, "particles", 0, "white_to_green")),
                             "", 0, "",
-                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 50, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true),
+                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(100f, 0f), -10, 50, 5000, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false),
                             true));
                 }
                 else if (rank == 1)
                 {
                     useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f),
-                            17, 5, 5, 0, 270, false, 50f, 500, 0, 1f,
+                            17, 8, 8, 0, 315, false, 50f, 500, 0, 1f,
                             new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 100, 10, "particles", 0, "white_to_green")),
                             "", 0, "",
-                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 50, 800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true),
+                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(100f, 0f), -10, 50, 5000, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false),
                             true));
                 }
+
+                //factory.RegisterDeath(id);
 
                 base.Die();
             }

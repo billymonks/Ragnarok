@@ -53,7 +53,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         #region Initialization
         public PlayerAgent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, Controls controls, PersistedStats stats, EntityFactory factory, SoundManager sound, String name, Player player)
-            : base(w, pos, size, center, solid, factory, stats, sound)
+            : base(-1, w, pos, size, center, solid, factory, stats, sound)
         {
             this.player = player;
             Initialize(name, pos, size, center, solid, controls);

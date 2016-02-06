@@ -119,18 +119,21 @@ namespace wickedcrush.entity.physics_entity.agent
         public PointLightStruct light, targetLight;
 
         public int killValue = 100;
+        public int kid = -1;
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
+        public Agent(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
+            this.kid = id;
             initialPosition = pos;
             _spriterManager = factory._spriterManager;
             Initialize(new PersistedStats(5, 5), factory);
         }
 
-        public Agent(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
+        public Agent(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, PersistedStats stats, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
+            this.kid = id;
             initialPosition = pos;
             _spriterManager = factory._spriterManager;
             Initialize(stats, factory);
@@ -406,6 +409,8 @@ namespace wickedcrush.entity.physics_entity.agent
         protected virtual void Die()
         {
             factory._gm._playerManager.getPlayerList()[0].getStats().inventory.addCurrency(killValue);
+
+            factory.RegisterDeath(kid);
 
             if (!timers["falling"].isActive() || timers["falling"].isDone())
             {

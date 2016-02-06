@@ -24,8 +24,8 @@ namespace wickedcrush.entity.physics_entity.agent.trap.triggerable.turret
         int spreadDuration = 40, blowCount = 8, blowPerSpread=4, scatterCount = 0, spread=20, blowDuration = 200, blowReleaseDelay = 0;
 
 
-        public Turret(World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound)
-            : base(w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
+        public Turret(int id, World w, Vector2 pos, EntityFactory factory, Direction facing, SoundManager sound)
+            : base(id, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize(facing);
         }
