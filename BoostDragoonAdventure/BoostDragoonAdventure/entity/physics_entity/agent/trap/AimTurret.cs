@@ -95,7 +95,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            AddAngledElement("turretFront", "all", "hover", 2, new Vector3(30f, 10f, 0f), 0, 0.1f, 0f, 0f);
+            AddAngledElement("turretFront", "shapes", "pink", 0, new Vector3(30f, 10f, 0f), 0, 1f, 0f, Vector3.Zero);
         }
 
 

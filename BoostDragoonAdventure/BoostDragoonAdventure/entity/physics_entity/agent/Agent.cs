@@ -61,7 +61,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Vector3 offset;
         public int angle;
         public float spriteAngle;
-        public float bob;
+        public Vector3 bob;
 
         public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle)
         {
@@ -69,10 +69,10 @@ namespace wickedcrush.entity.physics_entity.agent
             this.offset = offset;
             this.angle = angle;
             this.spriteAngle = spriteAngle;
-            this.bob = 0f;
+            this.bob = Vector3.Zero;
         }
 
-        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle, float bob)
+        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle, Vector3 bob)
         {
             this.player = player;
             this.offset = offset;
@@ -111,7 +111,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Dictionary<String, SpriterOffsetStruct> hudSpriters;
         public Dictionary<String, SpriterAngledStruct> angledSpriters;
 
-        public bool drawShadow = false;
+        public bool drawShadow = false, drawBody = true;
 
         public bool hitThisTick = false;
 
@@ -330,7 +330,7 @@ namespace wickedcrush.entity.physics_entity.agent
                 hudSpriters[key] = temp;
         }
 
-        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle, float bob)
+        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle, Vector3 bob)
         {
             SpriterAngledStruct temp = new SpriterAngledStruct(
                 new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
@@ -910,16 +910,24 @@ namespace wickedcrush.entity.physics_entity.agent
                         //_depth += 0.1f;
                     }
 
-                    //if (aimDirection < 180)
-                        //_depth -= 0.03f;
-
-                    _depth -= ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)) - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f)) * 0.0005f;
+                    _depth = depth;
+                    _depth -= (((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(360 + s.Value.angle + aimDirection))) - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(360 + s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f)) * 0.0005f;
 
 
                     s.Value.player.setAngle(360 + tempSpriteAngle /* ((float)((Math.Cos(MathHelper.ToRadians(tempAimDirection + s.Value.angle)) - Math.Sin(MathHelper.ToRadians(tempAimDirection + s.Value.angle)))))*/);
                     s.Value.player.SetDepth(_depth);
-                    s.Value.player.update(spritePos.X + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))),
-                        (spritePos.Y + (s.Value.offset.Y) + height + (bobAmount * s.Value.bob * (float)Math.Sin(timers["bob"].getPercentDouble() * Math.PI)) - ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)) - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f))));
+                    s.Value.player.update(spritePos.X 
+                        + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        + (bobAmount * s.Value.bob.X * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) 
+                        + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))
+                        + (bobAmount * s.Value.bob.Z * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))),
+
+                        (spritePos.Y + (s.Value.offset.Y) + height
+                        + (bobAmount * s.Value.bob.Y * (float)Math.Sin(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) 
+                        - ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        + (bobAmount * s.Value.bob.X * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        - (bobAmount * s.Value.bob.Z * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) 
+                        - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f))));
                 }
             }
         }
@@ -968,8 +976,11 @@ namespace wickedcrush.entity.physics_entity.agent
                         
                     }*/
 
-                    gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
-                    _spriterManager.DrawPlayer(bodySpriter);
+                    if (drawBody)
+                    {
+                        gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
+                        _spriterManager.DrawPlayer(bodySpriter);
+                    }
                     
                 }
 

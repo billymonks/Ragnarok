@@ -214,7 +214,7 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
-                   a.AddAngledElement("KnifeFront", "weapons", "knife", 0, new Vector3(10f, 20f, 10f), 0, .3f, 280f, -10f);
+                   a.AddAngledElement("KnifeFront", "weapons", "knife", 0, new Vector3(10f, 20f, 10f), 0, .3f, 280f, new Vector3(0f, -10f, 0f));
                },
                (a, i) =>
                {
@@ -232,7 +232,7 @@ namespace wickedcrush.inventory
                    a.stats.set("charge", 0);
                    //a.AddHudElement("warning", "warning", 4, Vector2.Zero);
 
-                   a.AddAngledElement("LongswordAbove", "weapons", "sword", 0, new Vector3(5f, 120f, 0f), 0, .4f, 100f, 20f);
+                   a.AddAngledElement("LongswordAbove", "weapons", "sword", 0, new Vector3(5f, 120f, 0f), 0, .4f, 100f, new Vector3(0f, 20f, 0f));
                    
                    //a.RemoveAngledElement("LongswordFront");
                },
@@ -303,7 +303,7 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
-                   a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(40f, 80f, 0f), 0, .4f, 80f, 20f);
+                   a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(40f, 80f, 0f), 0, .4f, 80f, new Vector3(0f, 20f, 0f));
                },
                (a, i) =>
                {
