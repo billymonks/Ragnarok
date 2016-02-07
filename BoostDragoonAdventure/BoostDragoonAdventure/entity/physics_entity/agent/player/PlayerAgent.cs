@@ -671,11 +671,21 @@ namespace wickedcrush.entity.physics_entity.agent.player
             {
                 bad += "_run";
                 shadowSpriter.setAnimation("moving", 0, 0);
+                targetBobAmount = 1f;
+                //if(!timers["bob"].isActive())
+                //{
+                    //timers["bob"].resetAndStart();
+                //}
             }
             else
             {
                 bad += "_stand";
                 shadowSpriter.setAnimation("still", 0, 0);
+                targetBobAmount = 0f;
+                //if (timers["bob"].isActive())
+                //{
+                    //timers["bob"].reset();
+                //}
             }
 
             bodySpriter.setAnimation(bad, 0, 0);

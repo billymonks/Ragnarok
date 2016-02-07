@@ -152,7 +152,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 if (rank == 2)
                 {
                     useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f),
-                            17, 16, 16, 0, 337, false, 50f, 500, 0, 1f,
+                            0, 16, 16, 0, 337, false, 50f, 500, 0, 1f,
                             new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 100, 10, "particles", 0, "white_to_green")),
                             "", 0, "",
                             SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(100f, 0f), -10, 50, 5000, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false),
@@ -161,7 +161,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 else if (rank == 1)
                 {
                     useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f),
-                            17, 8, 8, 0, 315, false, 50f, 500, 0, 1f,
+                            0, 8, 8, 0, 315, false, 50f, 500, 0, 1f,
                             new Nullable<ParticleStruct>(new ParticleStruct(Vector3.Zero, Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0f, -0.03f, 0f), 0f, 0f, 100, 10, "particles", 0, "white_to_green")),
                             "", 0, "",
                             SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(100f, 0f), -10, 50, 5000, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false),

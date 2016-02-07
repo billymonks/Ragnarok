@@ -87,6 +87,8 @@ namespace wickedcrush.inventory
                 index = itemList.Count-1;
 
             equippedWeapon = itemList[index];
+
+            equippedWeapon.Equip(a);
         }
 
         public void UnequipPart(EquippedPart p)

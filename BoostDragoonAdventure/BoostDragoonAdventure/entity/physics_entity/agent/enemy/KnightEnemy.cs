@@ -672,10 +672,14 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (bodies["body"].LinearVelocity.Length() >= 1f)
             {
                 bad += "_run";
+                shadowSpriter.setAnimation("moving", 0, 0);
+                targetBobAmount = 1f;
             }
             else
             {
                 bad += "_stand";
+                shadowSpriter.setAnimation("still", 0, 0);
+                targetBobAmount = 0f;
             }
 
             bodySpriter.setAnimation(bad, 0, 0);

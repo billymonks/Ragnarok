@@ -477,8 +477,9 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void Dispose()
         {
-            //if(parent is Agent)
+            //if (parent is Agent && parent.weaponInUse != null)
                 //parent.weaponInUse.Equip((Agent)parent);
+
             parent.weaponInUse = null;
             base.Dispose();
         }

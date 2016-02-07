@@ -8,6 +8,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.helper;
 using wickedcrush.manager.audio;
 using wickedcrush.utility;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.trap
 {
@@ -75,6 +76,26 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             base.setupBody(w, pos, size, center, solid);
 
             bodies["body"].BodyType = BodyType.Static;
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("cursor", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 2, factory._spriterManager.spriters["all"].loader));
+            sPlayers.Add("hud", new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), 4, factory._spriterManager.spriters["all"].loader));
+
+
+            bodySpriter = sPlayers["cursor"];
+            bodySpriter.setAnimation("hover", 0, 0);
+            bodySpriter.setFrameSpeed(20);
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
+
+            AddAngledElement("turretFront", "all", "hover", 2, new Vector3(30f, 10f, 0f), 0, 0.1f, 0f, 0f);
         }
 
 

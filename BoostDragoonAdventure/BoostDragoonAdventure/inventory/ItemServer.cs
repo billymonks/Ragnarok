@@ -160,6 +160,7 @@ namespace wickedcrush.inventory
                     false));
                    a.stats.addTo("boost", -50);
                    
+                   
                },
                (a, i) =>
                {
@@ -169,7 +170,8 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 25) == 0)
                    {
                        a.PlayCue("squash");
-                       a.AddOverheadWeapon("Knife", "weapons", "knife", 0, new Vector3(10f, 130f, 0f), 0, 0.3f, 140f);
+                       a.AddOverheadWeapon("Knife", "weapons", "knife", 0, new Vector3(10f, 110f, 0f), 0, 0.3f, 140f);
+                       a.RemoveAngledElement("KnifeFront");
                    }
 
                    if (a.stats.compare("charge", 50) == 0)
@@ -210,6 +212,14 @@ namespace wickedcrush.inventory
                    a.RemoveOverheadWeapon("Knife");
                    a.stats.set("charge", 0);
                },
+               (a, i) =>
+               {
+                   a.AddAngledElement("KnifeFront", "weapons", "knife", 0, new Vector3(10f, 20f, 10f), 0, .3f, 280f, -10f);
+               },
+               (a, i) =>
+               {
+                   a.RemoveAngledElement("KnifeFront");
+               },
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>()));
@@ -222,7 +232,7 @@ namespace wickedcrush.inventory
                    a.stats.set("charge", 0);
                    //a.AddHudElement("warning", "warning", 4, Vector2.Zero);
 
-                   a.AddAngledElement("LongswordAbove", "weapons", "sword", 0, new Vector3(-20f, 100f, 0f), 0, .4f, 100f);
+                   a.AddAngledElement("LongswordAbove", "weapons", "sword", 0, new Vector3(5f, 120f, 0f), 0, .4f, 100f, 20f);
                    
                    //a.RemoveAngledElement("LongswordFront");
                },
@@ -293,7 +303,7 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
-                   a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(20f, 60f, 20f), 0, .4f, 30f);
+                   a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(40f, 80f, 0f), 0, .4f, 80f, 20f);
                },
                (a, i) =>
                {

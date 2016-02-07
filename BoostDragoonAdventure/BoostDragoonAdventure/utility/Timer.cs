@@ -13,6 +13,8 @@ namespace wickedcrush.utility
         private bool active = false;
         private bool done = false;
 
+        public bool autoLoop = false;
+
         public Timer()
         {
             interval = TimeSpan.FromMilliseconds(0);
@@ -102,6 +104,9 @@ namespace wickedcrush.utility
             {
                 done = true;
                 active = false;
+
+                if (autoLoop)
+                    resetAndStart();
             }
         }
     }

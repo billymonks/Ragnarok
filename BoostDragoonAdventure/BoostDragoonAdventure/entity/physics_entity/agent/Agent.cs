@@ -61,6 +61,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public Vector3 offset;
         public int angle;
         public float spriteAngle;
+        public float bob;
 
         public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle)
         {
@@ -68,6 +69,16 @@ namespace wickedcrush.entity.physics_entity.agent
             this.offset = offset;
             this.angle = angle;
             this.spriteAngle = spriteAngle;
+            this.bob = 0f;
+        }
+
+        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle, float bob)
+        {
+            this.player = player;
+            this.offset = offset;
+            this.angle = angle;
+            this.spriteAngle = spriteAngle;
+            this.bob = bob;
         }
     }
 
@@ -140,6 +151,11 @@ namespace wickedcrush.entity.physics_entity.agent
         public int killValue = 100;
         public int kid = -1;
 
+        public int bobTimer = 300;
+
+        public float bobAmount = 0f;
+        public float targetBobAmount = 0f;
+
         public Agent(int id, World w, Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory, SoundManager sound)
             : base(w, pos, size, center, solid, sound)
         {
@@ -177,6 +193,10 @@ namespace wickedcrush.entity.physics_entity.agent
             SetupSpriterPlayer();
 
             timers.Add("falling", new Timer(500));
+
+            timers.Add("bob", new Timer(bobTimer));
+            timers["bob"].resetAndStart();
+            timers["bob"].autoLoop = true;
 
             skillHeight = 15;
         }
@@ -310,11 +330,11 @@ namespace wickedcrush.entity.physics_entity.agent
                 hudSpriters[key] = temp;
         }
 
-        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle)
+        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle, float bob)
         {
             SpriterAngledStruct temp = new SpriterAngledStruct(
                 new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
-                offset, angle, spriteAngle);
+                offset, angle, spriteAngle, bob);
             temp.player.setAnimation(animationName, 0, 0);
             temp.player.setAngle(spriteAngle);
             temp.player.setScale(scale);
@@ -455,6 +475,8 @@ namespace wickedcrush.entity.physics_entity.agent
             UpdateSpriters();
 
             skillHeight = height + 15;
+
+            bobAmount = (bobAmount * 5f + targetBobAmount) / 6f;
 
         }
 
@@ -888,18 +910,16 @@ namespace wickedcrush.entity.physics_entity.agent
                         //_depth += 0.1f;
                     }
 
-                    if (aimDirection < 180)
-                        _depth -= 0.03f;
-                    //else
-                        //_depth += 0.03f;
+                    //if (aimDirection < 180)
+                        //_depth -= 0.03f;
 
-
+                    _depth -= ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)) - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f)) * 0.0005f;
 
 
                     s.Value.player.setAngle(360 + tempSpriteAngle /* ((float)((Math.Cos(MathHelper.ToRadians(tempAimDirection + s.Value.angle)) - Math.Sin(MathHelper.ToRadians(tempAimDirection + s.Value.angle)))))*/);
                     s.Value.player.SetDepth(_depth);
                     s.Value.player.update(spritePos.X + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))),
-                        (spritePos.Y + (s.Value.offset.Y) ));
+                        (spritePos.Y + (s.Value.offset.Y) + height + (bobAmount * s.Value.bob * (float)Math.Sin(timers["bob"].getPercentDouble() * Math.PI)) - ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)) - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f))));
                 }
             }
         }
@@ -1259,7 +1279,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public virtual void TakeKnockback(Vector2 pos, int dmg, float force)
         {
-            if (this.immortal || remove || hitThisTick)
+            if (this.immortal || remove || hitThisTick || dead)
                 return;
 
             int damage = dmg;
