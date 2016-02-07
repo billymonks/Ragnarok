@@ -12,13 +12,35 @@ namespace wickedcrush.inventory
 
     public class Weapon : Item
     {
-        protected WeaponAction pressAction, holdAction, releaseAction;
+        protected WeaponAction pressAction, holdAction, releaseAction, equipAction, unequipAction;
 
         public List<KeyValuePair<string, int>> pressRequirements;
         public List<KeyValuePair<string, int>> holdRequirements;
         public List<KeyValuePair<string, int>> releaseRequirements;
 
-        
+        public Weapon(
+            String name,
+            String desc,
+            WeaponAction pressAction,
+            WeaponAction holdAction,
+            WeaponAction releaseAction,
+            WeaponAction equipAction,
+            WeaponAction unequipAction,
+            List<KeyValuePair<string, int>> pressRequirements,
+            List<KeyValuePair<string, int>> holdRequirements,
+            List<KeyValuePair<string, int>> releaseRequirements)
+            : base(name, desc)
+        {
+            this.pressAction = pressAction;
+            this.holdAction = holdAction;
+            this.releaseAction = releaseAction;
+            this.equipAction = equipAction;
+            this.unequipAction = unequipAction;
+
+            this.pressRequirements = pressRequirements;
+            this.holdRequirements = holdRequirements;
+            this.releaseRequirements = releaseRequirements;
+        }
 
         public Weapon(
             String name,
@@ -33,6 +55,10 @@ namespace wickedcrush.inventory
             this.pressAction = pressAction;
             this.holdAction = holdAction;
             this.releaseAction = releaseAction;
+            this.equipAction = (a, i) =>
+               { };
+            this.unequipAction = (a, i) =>
+               { };
 
             this.pressRequirements = pressRequirements;
             this.holdRequirements = holdRequirements;
@@ -77,7 +103,7 @@ namespace wickedcrush.inventory
 
             pressAction(a, this);
 
-            
+            unequipAction(a, this);
 
             
         }
@@ -134,7 +160,7 @@ namespace wickedcrush.inventory
             a.releaseReady = false;
 
             releaseAction(a, this);
-
+            unequipAction(a, this);
             
         }
 
@@ -146,6 +172,13 @@ namespace wickedcrush.inventory
             a.pressReady = true;
             a.holdReady = false;
             a.releaseReady = false;
+
+            unequipAction(a, this);
+        }
+
+        public void Equip(Agent a)
+        {
+            equipAction(a, this);
         }
     }
 }

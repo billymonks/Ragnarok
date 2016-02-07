@@ -169,7 +169,7 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 25) == 0)
                    {
                        a.PlayCue("squash");
-                       a.AddOverheadWeapon("Knife", "weapons", "knife", 0, new Vector2(0f, 130f), 0.3f, 90f);
+                       a.AddOverheadWeapon("Knife", "weapons", "knife", 0, new Vector3(10f, 130f, 0f), 0, 0.3f, 140f);
                    }
 
                    if (a.stats.compare("charge", 50) == 0)
@@ -221,8 +221,10 @@ namespace wickedcrush.inventory
                    a.PlayCue("volleyball");
                    a.stats.set("charge", 0);
                    //a.AddHudElement("warning", "warning", 4, Vector2.Zero);
-                   a.AddOverheadWeapon("Longsword", "weapons", "sword", 0, new Vector2(0f, 130f), .4f, 90f);
-                  
+
+                   a.AddAngledElement("LongswordAbove", "weapons", "sword", 0, new Vector3(-20f, 100f, 0f), 0, .4f, 100f);
+                   
+                   //a.RemoveAngledElement("LongswordFront");
                },
                (a, i) =>
                {
@@ -243,8 +245,8 @@ namespace wickedcrush.inventory
                },
                (a, i) =>
                {
-                   //a.RemoveHudElement("warning");
-                   a.RemoveOverheadWeapon("Longsword");
+                   a.RemoveAngledElement("LongswordAbove");
+                   //a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(20f, 60f, 0f), 0, .4f, 90f);
                    a.PlayCue("smash");
 
                    SkillStruct swordAttack = new SkillStruct("Sword Attack",
@@ -289,6 +291,15 @@ namespace wickedcrush.inventory
                    a.stats.addTo("boost", -100);
                    a.stats.set("charge", 0);
                },
+               (a, i) =>
+               {
+                   a.AddAngledElement("LongswordFront", "weapons", "sword", 0, new Vector3(20f, 60f, 20f), 0, .4f, 30f);
+               },
+               (a, i) =>
+               {
+                   a.RemoveAngledElement("LongswordFront");
+               },
+
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>(new KeyValuePair<string, int>[] { new KeyValuePair<string, int>("boost", 0) }),
                new List<KeyValuePair<string, int>>()));

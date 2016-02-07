@@ -477,6 +477,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         protected override void Dispose()
         {
+            //if(parent is Agent)
+                //parent.weaponInUse.Equip((Agent)parent);
             parent.weaponInUse = null;
             base.Dispose();
         }
@@ -484,8 +486,13 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public override void Remove()
         {
             releaseBlows();
-            if(rootSkill)
+            if (rootSkill)
+            {
+                if (parent is Agent && parent.weaponInUse!=null)
+                    parent.weaponInUse.Equip((Agent)parent);
                 parent.weaponInUse = null;
+
+            }
             this.remove = true;
             base.Remove();
         }

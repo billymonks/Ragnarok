@@ -146,7 +146,7 @@ namespace wickedcrush.particle
                     factory._spriterManager.spriters[p.spriterName].getSpriterData(), 
                     p.entityIndex,
                     factory._spriterManager.spriters[p.spriterName].loader), 
-                    Vector2.Zero);
+                    Vector3.Zero, 0);
 
             animation.player.setAnimation(p.animationName, 0, 0);
             animation.player.setFrameSpeed(p.msPerFrame);

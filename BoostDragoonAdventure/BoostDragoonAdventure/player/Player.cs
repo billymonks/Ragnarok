@@ -91,17 +91,16 @@ namespace wickedcrush.player
             return agent;
         }
 
-        public void RespawnAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
-        {
+        
 
-        }
-
-        public void GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
+        public PlayerAgent GenerateAgent(Vector2 pos, Vector2 size, Vector2 center, bool solid, EntityFactory factory)
         {
             //initializeAgentStats();
 
             agent = factory.addPlayerAgent(name, pos, size, center, solid, c, stats, this);
             stats = agent.stats;
+
+            return agent;
         }
 
         public void initializeAgentStats()

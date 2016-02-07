@@ -65,6 +65,8 @@ namespace wickedcrush.inventory
                 index = 0;
 
             equippedWeapon = weaponList[index];
+
+            equippedWeapon.Equip(a);
         }
 
         public void prevWeapon(Agent a)

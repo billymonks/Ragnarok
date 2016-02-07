@@ -653,11 +653,15 @@ namespace wickedcrush.factory.entity
             positions.AddLast(new Vector2(48, 0));
             LinkedListNode<Vector2> current = positions.First;
 
+            PlayerAgent pa;
 
             foreach (Player p in _pm.getPlayerList())
             {
                 if (sanctuaryList.Count > 0)
-                    p.GenerateAgent(sanctuaryList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                {
+                    pa = p.GenerateAgent(sanctuaryList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                    pa.stats.inventory.equippedWeapon.Equip(pa);
+                }
                 //else
                     
                     //p.GenerateAgent(new Vector2(-300, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);

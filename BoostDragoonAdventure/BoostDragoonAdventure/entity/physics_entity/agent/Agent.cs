@@ -44,12 +44,30 @@ namespace wickedcrush.entity.physics_entity.agent
     public struct SpriterOffsetStruct
     {
         public SpriterPlayer player;
-        public Vector2 offset;
+        public Vector3 offset;
+        public int angle;
 
-        public SpriterOffsetStruct(SpriterPlayer player, Vector2 offset)
+        public SpriterOffsetStruct(SpriterPlayer player, Vector3 offset, int angle)
         {
             this.player = player;
             this.offset = offset;
+            this.angle = angle;
+        }
+    }
+
+    public struct SpriterAngledStruct
+    {
+        public SpriterPlayer player;
+        public Vector3 offset;
+        public int angle;
+        public float spriteAngle;
+
+        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle)
+        {
+            this.player = player;
+            this.offset = offset;
+            this.angle = angle;
+            this.spriteAngle = spriteAngle;
         }
     }
 
@@ -80,6 +98,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public SpriterPlayer bodySpriter, overlaySpriter, shadowSpriter;
         public Dictionary<String, SpriterOffsetStruct> hudSpriters;
+        public Dictionary<String, SpriterAngledStruct> angledSpriters;
 
         public bool drawShadow = false;
 
@@ -150,6 +169,7 @@ namespace wickedcrush.entity.physics_entity.agent
             triggers = new Dictionary<String, Trigger>();
             proximity = new List<Entity>();
             hudSpriters = new Dictionary<String, SpriterOffsetStruct>();
+            angledSpriters = new Dictionary<String, SpriterAngledStruct>();
             this.name = "Agent";
 
             this.particleEmitter = new ParticleEmitter(factory._particleManager);
@@ -255,12 +275,12 @@ namespace wickedcrush.entity.physics_entity.agent
             light.PointLightPosition = new Vector3(pos.X + center.X, this.height + size.X / 2, pos.Y + center.Y);
         }
 
-        public void AddHudElement(string key, string elementName, int entityId, Vector2 offset) //entity id in spriter file
+        public void AddHudElement(string key, string elementName, int entityId, Vector3 offset, int angle) //entity id in spriter file
         {
             int hud = entityId;
             SpriterOffsetStruct temp = new SpriterOffsetStruct(
                 new SpriterPlayer(factory._spriterManager.spriters["all"].getSpriterData(), hud, factory._spriterManager.spriters["all"].loader), 
-                offset);
+                offset, angle);
             temp.player.setAnimation(elementName, 0, 0);
             if (!hudSpriters.ContainsKey(key))
                 hudSpriters.Add(key, temp);
@@ -268,19 +288,50 @@ namespace wickedcrush.entity.physics_entity.agent
                 hudSpriters[key] = temp;
         }
 
+
         public void ScaleOverheadWeapon(String key, float scale)
         {
             if (hudSpriters.ContainsKey(key))
                 hudSpriters[key].player.setScale(scale);
         }
 
-        public void AddOverheadWeapon(String key, String spriterName, String animationName, int entityIndex, Vector2 offset, float scale, float angle)
+        public void AddOverheadWeapon(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle)
         {
             SpriterOffsetStruct temp = new SpriterOffsetStruct(
                 new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
-                offset);
+                offset, angle);
             temp.player.setAnimation(animationName, 0, 0);
-            temp.player.setAngle(angle);
+            temp.player.setAngle(spriteAngle);
+            temp.player.setScale(scale);
+
+            if (!hudSpriters.ContainsKey(key))
+                hudSpriters.Add(key, temp);
+            else
+                hudSpriters[key] = temp;
+        }
+
+        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle)
+        {
+            SpriterAngledStruct temp = new SpriterAngledStruct(
+                new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
+                offset, angle, spriteAngle);
+            temp.player.setAnimation(animationName, 0, 0);
+            temp.player.setAngle(spriteAngle);
+            temp.player.setScale(scale);
+
+            if (!angledSpriters.ContainsKey(key))
+                angledSpriters.Add(key, temp);
+            else
+                angledSpriters[key] = temp;
+        }
+
+        public void AddOffsetElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle)
+        {
+            SpriterOffsetStruct temp = new SpriterOffsetStruct(
+                new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
+                offset, angle);
+            temp.player.setAnimation(animationName, 0, 0);
+            temp.player.setAngle(spriteAngle);
             temp.player.setScale(scale);
 
             if (!hudSpriters.ContainsKey(key))
@@ -299,6 +350,12 @@ namespace wickedcrush.entity.physics_entity.agent
         {
             if(hudSpriters.ContainsKey(key))
                 hudSpriters.Remove(key);
+        }
+
+        public void RemoveAngledElement(string key)
+        {
+            if (angledSpriters.ContainsKey(key))
+                angledSpriters.Remove(key);
         }
 
 
@@ -790,9 +847,59 @@ namespace wickedcrush.entity.physics_entity.agent
 
                 foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
                 {
+                    float tempSpriteAngle = s.Value.angle;
+                    if (aimDirection < 90 || aimDirection > 270)
+                    {
+                        //tempAimDirection = aimDirection;
+                        //s.Value.player.setFlipY(1);
+                        s.Value.player.setFlipX(1);
+                    }
+                    else
+                    {
+                        //tempSpriteAngle += 180;
+                        tempSpriteAngle *= -1;
+                        s.Value.player.setFlipX(-1);
+                    }
+
                     s.Value.player.SetDepth(_depth-0.03f);
-                    s.Value.player.update(spritePos.X + s.Value.offset.X,
-                        (spritePos.Y + s.Value.offset.Y));
+                    s.Value.player.update(spritePos.X + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection))),
+                        (spritePos.Y + (s.Value.offset.Y) + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))));
+                }
+
+                foreach (KeyValuePair<String, SpriterAngledStruct> s in angledSpriters)
+                {
+                    int tempAimDirection = -aimDirection;
+                    float tempSpriteAngle = s.Value.spriteAngle;
+                    if (aimDirection <= 90 || aimDirection > 270)
+                    {
+                        //tempAimDirection = aimDirection;
+                        //s.Value.player.setFlipY(1);
+                        s.Value.player.setFlipX(1);
+                        //_depth -= 0.1f;
+                    }
+                    else
+                    {
+                        //tempAimDirection = aimDirection + 180;
+                        //s.Value.player.setFlipY(-1);
+                        //tempSpriteAngle += 180;
+                        tempSpriteAngle *= -1;
+                        
+                        s.Value.player.setFlipX(-1);
+                        //_depth += 0.1f;
+                    }
+
+                    if (aimDirection < 180)
+                        _depth -= 0.03f;
+                    //else
+                        //_depth += 0.03f;
+
+
+
+
+                    s.Value.player.setAngle(360 + tempSpriteAngle /* ((float)((Math.Cos(MathHelper.ToRadians(tempAimDirection + s.Value.angle)) - Math.Sin(MathHelper.ToRadians(tempAimDirection + s.Value.angle)))))*/);
+                    s.Value.player.SetDepth(_depth);
+                    s.Value.player.update(spritePos.X + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))),
+                        (spritePos.Y + (s.Value.offset.Y) ));
                 }
             }
         }
@@ -870,6 +977,13 @@ namespace wickedcrush.entity.physics_entity.agent
 
 
                 foreach (KeyValuePair<String, SpriterOffsetStruct> s in hudSpriters)
+                {
+                    gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
+                    factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(s.Value.player.depth);
+                    _spriterManager.DrawPlayer(s.Value.player);
+                }
+
+                foreach (KeyValuePair<String, SpriterAngledStruct> s in angledSpriters)
                 {
                     gameplay._screen.litSpriteEffect.CurrentTechnique.Passes["Unlit"].Apply();
                     factory._gm._screen.spriteEffect.Parameters["depth"].SetValue(s.Value.player.depth);
@@ -1338,7 +1452,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         protected void InitializeHpBar()
         {
-            AddHudElement("hp_bar", "hp_bar", 4, Vector2.Zero);
+            AddHudElement("hp_bar", "hp_bar", 4, Vector3.Zero, 0);
             //AddHudElement("fuel_bar", "fuel_bar", 4, Vector2.Zero);
         }
 
@@ -1347,6 +1461,11 @@ namespace wickedcrush.entity.physics_entity.agent
             RemoveHudElement("hp_bar");
             //RemoveHudElement("fuel_bar");
         }
+
+        //protected void UpdateHudElements()
+        //{
+            //foreach(<Spriter)
+        //}
 
         protected void UpdateHpBar()
         {

@@ -118,6 +118,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                 attackRange = 170;
             }
             stats.inventory.receiveItem(item);
+            item.Equip(this);
 
             subEntityList.Add("status", new TextEntity(enemyState.ToString(), pos, _sound, factory._game, -1, factory, 2f, 2f, 0f, true));
 
