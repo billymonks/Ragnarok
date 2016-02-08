@@ -71,7 +71,7 @@ namespace wickedcrush.display._3d
 
         public Texture2D background;
 
-        public bool hqLight = true;
+        public bool hqLight = false;
 
         public Scene(GameBase game)
         {
@@ -81,7 +81,8 @@ namespace wickedcrush.display._3d
             parallaxEffect = game.Content.Load<Effect>(@"fx/ParallaxEffect");
             spriteEffect = game.Content.Load<Effect>("fx/SpriteEffect");
             background = game.Content.Load<Texture2D>(@"img/tex/rock_normal2");
-            
+
+            hqLight = game.settings.hqLight;
             
         }
 

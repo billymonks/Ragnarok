@@ -20,6 +20,7 @@ namespace wickedcrush.utility.config
         public bool fullscreen;
         public ControlMode controlMode = ControlMode.MouseAndKeyboard;
         public float mouseSensitivity = 1.5f;
+        public bool hqLight = false;
 
         public GameSettings()
         {
@@ -45,6 +46,15 @@ namespace wickedcrush.utility.config
             {
                 resolution = new Point(1280, 720);
                 fullscreen = false;
+            }
+
+            if (doc.Element("settings").Elements("light").Count<XElement>() > 0)
+            {
+                hqLight = bool.Parse(doc.Element("settings").Element("light").Value);
+            }
+            else
+            {
+                hqLight = false;
             }
             
             if (doc.Element("settings").Elements("controlMode").Count<XElement>() > 0)
@@ -73,6 +83,7 @@ namespace wickedcrush.utility.config
             resolution = new Point(1280, 720);
             fullscreen = false;
             controlMode = ControlMode.MouseAndKeyboard;
+            hqLight = false;
 
             SaveSettings();
         }
@@ -82,12 +93,16 @@ namespace wickedcrush.utility.config
             XDocument doc = new XDocument();
             XElement root = new XElement("settings");
             XElement resNode = new XElement("resolution");
+            XElement lightNode = new XElement("light");
+            lightNode.SetValue(hqLight);
+
             resNode.Add(new XAttribute("x", resolution.X));
             resNode.Add(new XAttribute("y", resolution.Y));
             resNode.Add(new XAttribute("fullscreen", fullscreen));
             root.Add(new XElement("controlMode", (int)controlMode));
             root.Add(new XElement("mouseSensitivity", (float)mouseSensitivity));
             root.Add(resNode);
+            root.Add(lightNode);
             doc.Add(root);
 
             if (!System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp")))
