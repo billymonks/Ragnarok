@@ -263,6 +263,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
 
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
+
         }
 
         protected void UpdateAnimation()

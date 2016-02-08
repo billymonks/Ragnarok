@@ -219,6 +219,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             overlaySpriter.setFrameSpeed(60);
             overlaySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
             
             //height = 10;
 
