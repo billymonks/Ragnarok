@@ -588,12 +588,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
             bodySpriter = sPlayers["you"];
             bodySpriter.setFrameSpeed(20);
+            drawBody = false;
 
             sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
             shadowSpriter = sPlayers["shadow"];
             shadowSpriter.setAnimation("still", 0, 0);
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
+
+            InitializeHumanoidSprites();
 
         }
 

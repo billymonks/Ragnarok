@@ -121,7 +121,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f, -10f, 0f), 0, 0.4f, 0f, new Vector3(5f, 10f, 0f));
+            InitializeHumanoidSprites();
+            /*AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f, -10f, 0f), 0, 0.4f, 0f, new Vector3(5f, 10f, 0f));
             AddAngledElement("Head", "shapes", "pink", 0, new Vector3(0f, 70f, 0f), 0, 1.8f, 0f, new Vector3(5f, 10f, 0f));
             AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, 25f), 0, 1.5f, 0f, new Vector3(0f, 10f, -5f));
             AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, -25f), 0, 1.5f, 0f, new Vector3(0f, 10f, 5f));
@@ -134,7 +135,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             AddAngledElement("RightAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, 15f), 0, 0.8f, 0f, new Vector3(6f, 5f, 0f));
             AddAngledElement("LeftAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, -15f), 0, 0.8f, 0f, new Vector3(-6f, -5f, 0f));
             AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f, 10f, 20f), 0, 1f, 0f, new Vector3(7f, 7f, -1f));
-            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f, 10f, -20f), 0, 1f, 0f, new Vector3(-7f, -7f, 1f));
+            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f, 10f, -20f), 0, 1f, 0f, new Vector3(-7f, -7f, 1f));*/
 
             //AddAngledElement("Front", "shapes", "pink", 0, new Vector3(50f, 50f, 0f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));
             //AddAngledElement("Left", "shapes", "grey", 0, new Vector3(0f, 50f, -50f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));

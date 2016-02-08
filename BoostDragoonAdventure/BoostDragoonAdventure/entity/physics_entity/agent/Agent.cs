@@ -1576,5 +1576,24 @@ namespace wickedcrush.entity.physics_entity.agent
 
             throw new Exception("No timer exists!");
         }
+
+        protected void InitializeHumanoidSprites()
+        {
+            float sScale = size.X / 24f;
+            AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f, -10f, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+            AddAngledElement("Head", "shapes", "pink", 0, new Vector3(0f, 70f, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+            AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, 25f) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale);
+            AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, -25f) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale);
+            AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, 50f, 0f) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 0f) * sScale);
+            AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f, 30f, -10f) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 5f, 1f) * sScale);
+            AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f, 30f, 10f) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 5f, -1f) * sScale);
+            AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f, 30f, 0f) * sScale, 0, 1.25f * sScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(3f, 30f, 15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, 3f, 0f) * sScale);
+            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(3f, 30f, -15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, -3f, 0f) * sScale);
+            AddAngledElement("RightAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, 15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, 5f, 0f) * sScale);
+            AddAngledElement("LeftAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, -15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, -5f, 0f) * sScale);
+            AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f, 10f, 20f) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, 7f, -1f) * sScale);
+            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f, 10f, -20f) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, -7f, 1f) * sScale);
+        }
     }
 }
