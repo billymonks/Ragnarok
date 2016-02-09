@@ -55,7 +55,7 @@ namespace wickedcrush.entity.physics_entity.agent
         }
     }
 
-    public struct SpriterAngledStruct
+    public class SpriterAngledStruct
     {
         public SpriterPlayer player;
         public Vector3 offset;
