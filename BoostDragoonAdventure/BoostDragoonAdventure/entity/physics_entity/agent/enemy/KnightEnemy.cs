@@ -596,7 +596,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            InitializeHumanoidSprites();
+            float torsoScale = (float)(random.NextDouble() - 0.25) * 4f;
+            float armWidth = (float)(random.NextDouble() - 0) * 3f;
+            float legWidth = (float)(random.NextDouble() - 0) * 2f;
+            float armStance = (float)(random.NextDouble() - 0.5) * 4f;
+            float legStance = (float)(random.NextDouble() - 0.5) * 4f;
+            float spineStance = (float)(random.NextDouble() - 0.25) * 4f;
+
+
+            InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);
 
         }
 

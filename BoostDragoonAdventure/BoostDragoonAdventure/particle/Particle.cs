@@ -10,7 +10,7 @@ using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.particle
 {
-    public struct ParticleStruct
+    public class ParticleStruct
     {
         public Vector3 pos, posVariance, velocity, velocityVariance, acceleration;
         public float rotation, rotationSpeed, scale, scaleSpeed;

@@ -121,7 +121,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            InitializeHumanoidSprites();
+            InitializeHumanoidSprites(1f, 1f, 1f, 1f, 1f, 1f);
             /*AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f, -10f, 0f), 0, 0.4f, 0f, new Vector3(5f, 10f, 0f));
             AddAngledElement("Head", "shapes", "pink", 0, new Vector3(0f, 70f, 0f), 0, 1.8f, 0f, new Vector3(5f, 10f, 0f));
             AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, 25f), 0, 1.5f, 0f, new Vector3(0f, 10f, -5f));

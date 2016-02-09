@@ -37,7 +37,7 @@ namespace wickedcrush.screen
         }
     }
 
-    struct LocalChar
+    class LocalChar
     {
         public String name;
         public String localId;
