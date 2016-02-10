@@ -1600,8 +1600,8 @@ namespace wickedcrush.entity.physics_entity.agent
             AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f, 30f, 0f) * sScale, 0, 1.25f * sScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
             AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(3f, 30f, 15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, 3f, 0f) * sScale);
             AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(3f, 30f, -15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, -3f, 0f) * sScale);
-            AddAngledElement("RightAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, 15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, 5f, 0f) * sScale);
-            AddAngledElement("LeftAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, -15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, -5f, 0f) * sScale);
+            AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(5f, 20f, 15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, 5f, 0f) * sScale);
+            AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(5f, 20f, -15f) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, -5f, 0f) * sScale);
             AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f, 10f, 20f) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, 7f, -1f) * sScale);
             AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f, 10f, -20f) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, -7f, 1f) * sScale);
         }
@@ -1616,12 +1616,12 @@ namespace wickedcrush.entity.physics_entity.agent
             AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, 7f, -1f) * sScale);
 
             tempHeight += 10f;
-            AddAngledElement("LeftAnkle", "shapes", "grey", 0, new Vector3(2f * legStance, tempHeight, -15f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, -5f, 0f) * sScale);
-            AddAngledElement("RightAnkle", "shapes", "grey", 0, new Vector3(2f * legStance, tempHeight, 15f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, 5f, 0f) * sScale);
+            AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, -5f, 0f) * sScale);
+            AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, 5f, 0f) * sScale);
 
             tempHeight += 10;
-            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(3f * legStance, 30f, -15f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, -3f, 0f) * sScale);
-            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(3f * legStance, 30f, 15f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, 3f, 0f) * sScale);
+            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, -3f, 0f) * sScale);
+            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, 3f, 0f) * sScale);
 
 
             AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);

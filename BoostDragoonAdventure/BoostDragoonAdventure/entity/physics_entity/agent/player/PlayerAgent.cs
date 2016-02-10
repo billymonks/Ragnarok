@@ -122,25 +122,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
             drawShadow = true;
 
             InitializeHumanoidSprites(1f, 1f, 1f, 1f, 1f, 1f);
-            /*AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f, -10f, 0f), 0, 0.4f, 0f, new Vector3(5f, 10f, 0f));
-            AddAngledElement("Head", "shapes", "pink", 0, new Vector3(0f, 70f, 0f), 0, 1.8f, 0f, new Vector3(5f, 10f, 0f));
-            AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, 25f), 0, 1.5f, 0f, new Vector3(0f, 10f, -5f));
-            AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(0f, 50f, -25f), 0, 1.5f, 0f, new Vector3(0f, 10f, 5f));
-            AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, 50f, 0f), 0, 1.5f, 0f, new Vector3(0f, 10f, 0f));
-            AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f, 30f, -10f), 0, 1.5f, 0f, new Vector3(0f, 5f, 1f));
-            AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f, 30f, 10f), 0, 1.5f, 0f, new Vector3(0f, 5f, -1f));
-            AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f, 30f, 0f), 0, 1.25f, 0f, new Vector3(0f, 4f, -3f));
-            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(3f, 30f, 15f), 0, 0.8f, 0f, new Vector3(2f, 3f, 0f));
-            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(3f, 30f, -15f), 0, 0.8f, 0f, new Vector3(-2f, -3f, 0f));
-            AddAngledElement("RightAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, 15f), 0, 0.8f, 0f, new Vector3(6f, 5f, 0f));
-            AddAngledElement("LeftAnkle", "shapes", "grey", 0, new Vector3(2f, 20f, -15f), 0, 0.8f, 0f, new Vector3(-6f, -5f, 0f));
-            AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f, 10f, 20f), 0, 1f, 0f, new Vector3(7f, 7f, -1f));
-            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f, 10f, -20f), 0, 1f, 0f, new Vector3(-7f, -7f, 1f));*/
-
-            //AddAngledElement("Front", "shapes", "pink", 0, new Vector3(50f, 50f, 0f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));
-            //AddAngledElement("Left", "shapes", "grey", 0, new Vector3(0f, 50f, -50f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));
-            //AddAngledElement("Right", "shapes", "teal", 0, new Vector3(0f, 50f, 50f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));
-            //AddAngledElement("Back", "shapes", "violet", 0, new Vector3(-50f, 50f, 0f), 0, 1f, 0f, new Vector3(0f, 0f, 0f));
         }
 
         private void applyStats()
