@@ -348,7 +348,7 @@ namespace wickedcrush.inventory
                    if (a.getTimer("scattertimer").isDone())
                    {
                        a.getTimer("scattertimer").resetAndStart();
-                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), (150 + 4500 / Math.Min(a.stats.getNumber("charge"), 100)) / (a.potency + 1), 1 + a.potency, 1, 0, 45, true, 300f, 100, 0, 1f, null, "", 0, "",
+                       a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), (150 + 3500 / Math.Min(a.stats.getNumber("charge") + 1, 100)) / (a.potency + 1), 1 + a.potency, 1 + a.potency, 0, 1 + a.potency * 22, true, 300f, 100, 0, 1f, null, "", 0, "",
                            SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -5 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
                        
                        a.stats.addTo("boost", -20 - (20 * a.potency));

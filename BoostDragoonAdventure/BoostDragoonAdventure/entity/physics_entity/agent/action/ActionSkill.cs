@@ -43,69 +43,6 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         int maxHeight = 25, tempHeight = 0;
 
-        //Agent agentParent;
-        public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent, int aimDirection)
-            : base(-1, gameplay.w,
-                new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
-                            (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection)))),
-                skillStruct.size,
-                skillStruct.center,
-                !skillStruct.followParent,
-                gameplay.factory, game.soundManager) 
-        {
-            this.aimDirection = aimDirection;
-            aimed = true;
-            this.skillStruct = skillStruct;
-            this.duration = skillStruct.duration;
-            timers.Add("duration", new utility.Timer(duration));
-            timers["duration"].resetAndStart();
-
-            timers.Add("particle_emission", new utility.Timer(10));
-            timers["particle_emission"].resetAndStart();
-
-            skillName = skillStruct.name;
-
-            piercing = skillStruct.piercing;
-            
-            if (null != actingParent)
-            {
-                this.parent = actingParent;
-            } 
-            else
-            {
-                this.parent = parent;
-                rootSkill = true;
-            }
-            this.facing = Helper.constrainDirection((Direction)aimDirection);
-            this.movementDirection = aimDirection + skillStruct.directionChange;
-            this.aimDirection = aimDirection + skillStruct.directionChange;
-            this.gameplay = gameplay;
-
-            
-
-            this.statIncrement = skillStruct.statIncrement;
-
-            this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
-
-            velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)aimDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)aimDirection))),
-                (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)aimDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)aimDirection))));
-
-            LoadBlows(skillStruct.blows, gameplay);
-
-            cue = skillStruct.cue;
-
-            this.followParent = skillStruct.followParent;
-
-            if (followParent)
-                reactToWall = false;
-            else
-            {
-                reactToWall = true;
-                this.bounce = skillStruct.bounce;
-            }
-
-            Initialize();
-        }
 
         public ActionSkill(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
             : base(-1, gameplay.w,
@@ -207,7 +144,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
             immortal = true;
             this.name = "ActionSkill";
 
-            //AddLight(new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
+            AddLight(new PointLightStruct(new Vector4(1f, 0.3f, 0.3f, 1f), 0.4f, new Vector4(1f, 0.5f, 0.5f, 1f), 0.8f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 50f));
 
 
             if (cue != "")
@@ -215,11 +152,142 @@ namespace wickedcrush.entity.physics_entity.agent.action
                 _sound.playCue(cue, parent.emitter); // play activate sound
             }
 
-            SetupActionSkillSpriter();
+            SetupActionSkillSpriter(this.skillStruct);
 
 
             //_sound.addCueInstance("hurt", id + "hurt", false);
             
+        }
+
+        public void ReInitialize(SkillStruct skillStruct, GameBase game, GameplayManager gameplay, Entity parent, Entity actingParent)
+        {
+            this.skillStruct = skillStruct;
+            
+            hitThisTick = false;
+            remove = false;
+            dead = false;
+            reactToWall = true; piercing = false; ignoreSameParent = true; just_for_show = false; followParent = false; aimed = false; hitConnected = false; bounce = true;
+            //Agent Initialize:
+            this.kid = -1;
+            this.pos = new Vector2((float)(parent.pos.X + parent.center.X + skillStruct.pos.X * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) + skillStruct.pos.Y * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange))),
+                        (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange))));
+            this.size = skillStruct.size;
+            this.center = skillStruct.center;
+            initialPosition = pos;
+            
+            _spriterManager = factory._spriterManager;
+            
+            //Initialize(new PersistedStats(5, 5), factory);
+            //this.factory = factory;
+            //this.stats = stats;
+
+            //stats.set("staggerDistance", 0);
+
+            timers.Clear();
+            triggers.Clear();
+            proximity.Clear();
+            hudSpriters.Clear();
+            angledSpriters.Clear();
+            blows = new List<KeyValuePair<Timer, SkillStruct>>();
+            this.name = "Agent";
+
+            //this.particleEmitter = new ParticleEmitter(factory._particleManager);
+
+            SetupSpriterPlayer();
+
+            timers.Add("falling", new Timer(500));
+            timers["falling"].reset(); //???
+
+            timers.Add("bob", new Timer(bobTimer));
+            timers["bob"].resetAndStart();
+            timers["bob"].autoLoop = true;
+
+            skillHeight = 15;
+
+            //PhysicsEntity Initialize:
+            _w = gameplay.w;
+            //setupBody(_w, pos, skillStruct.size,
+                        //skillStruct.center, !skillStruct.followParent);
+            reCreateBody(_w, pos, 
+                        skillStruct.size, 
+                        skillStruct.center, !skillStruct.followParent);
+
+            //ActionSkill Initialize:
+            //this.skillStruct = skillStruct;
+            this.duration = skillStruct.duration;
+            timers.Add("duration", new utility.Timer(duration));
+            timers["duration"].resetAndStart();
+
+            timers.Add("particle_emission", new utility.Timer(10));
+            timers["particle_emission"].resetAndStart();
+
+            skillName = skillStruct.name;
+
+            piercing = skillStruct.piercing;
+
+            if (parent != null)
+                height = parent.skillHeight;
+
+            if (null != actingParent)
+            {
+                this.parent = actingParent;
+            }
+            else
+            {
+                this.parent = parent;
+                rootSkill = true;
+            }
+            this.facing = parent.facing;
+            this.movementDirection = parent.aimDirection + skillStruct.directionChange;
+            this.aimDirection = parent.aimDirection + skillStruct.directionChange;
+            this.gameplay = gameplay;
+
+
+
+            this.statIncrement = skillStruct.statIncrement;
+
+            this.force = new KeyValuePair<int, int>((int)this.facing, skillStruct.force);
+
+            velocity = new Vector2((float)(skillStruct.velocity.X * Math.Cos(MathHelper.ToRadians((float)movementDirection)) + skillStruct.velocity.Y * Math.Sin(MathHelper.ToRadians((float)movementDirection))),
+                (float)(skillStruct.velocity.X * Math.Sin(MathHelper.ToRadians((float)movementDirection)) - skillStruct.velocity.Y * Math.Cos(MathHelper.ToRadians((float)movementDirection))));
+
+            LoadBlows(skillStruct.blows, gameplay);
+
+            cue = skillStruct.cue;
+
+            this.followParent = skillStruct.followParent;
+
+            if (followParent)
+                reactToWall = false;
+            else
+            {
+                reactToWall = true;
+                this.bounce = skillStruct.bounce;
+            }
+
+
+            Initialize();
+            
+        }
+
+        protected void reCreateBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
+        {
+            bodies.Add("body", BodyFactory.CreateBody(w, pos - center));
+            //bodies.Add("hotspot", BodyFactory.CreateBody(w, pos));
+
+            if (!solid)
+                bodies["body"].IsSensor = true;
+
+            FixtureFactory.AttachCircle(size.X / 2, 1f, bodies["body"], center);
+            bodies["body"].FixedRotation = true;
+            bodies["body"].LinearVelocity = Vector2.Zero;
+            bodies["body"].BodyType = BodyType.Dynamic;
+            bodies["body"].CollisionGroup = (short)CollisionGroup.AGENT;
+
+            bodies["body"].UserData = this;
+
+            if (!solid)
+                bodies["body"].IsSensor = true;
         }
 
         protected void releaseBlows()
@@ -323,17 +391,21 @@ namespace wickedcrush.entity.physics_entity.agent.action
 
         }
 
-        protected void SetupActionSkillSpriter()
+        protected void SetupActionSkillSpriter(SkillStruct _skillStruct)
         {
-            if (skillStruct.spriterName == "")
+            if (_skillStruct.spriterName == "")
             {
                 this.visible = false;
                 return;
             }
+            else
+            {
+                this.visible = true;
+            }
 
-            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters[skillStruct.spriterName].getSpriterData(), skillStruct.spriterEntityIndex, factory._spriterManager.spriters[skillStruct.spriterName].loader));
+            sPlayers.Add("actionskill", new SpriterPlayer(factory._spriterManager.spriters[_skillStruct.spriterName].getSpriterData(), _skillStruct.spriterEntityIndex, factory._spriterManager.spriters[_skillStruct.spriterName].loader));
 
-            sPlayers["actionskill"].setAnimation(skillStruct.spriterAnimationName, 0, 0);
+            sPlayers["actionskill"].setAnimation(_skillStruct.spriterAnimationName, 0, 0);
             bodySpriter = sPlayers["actionskill"];
 
             //sPlayer.setAnimation("whitetored", 0, 0);
@@ -487,6 +559,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
         public override void Remove()
         {
             releaseBlows();
+
             if (rootSkill)
             {
                 if (parent is Agent && parent.weaponInUse!=null)

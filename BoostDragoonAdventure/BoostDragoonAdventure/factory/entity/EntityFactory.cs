@@ -45,7 +45,7 @@ namespace wickedcrush.factory.entity
 {
     public class EntityFactory
     {
-        public GameBase _game; //lol what r u gonna do about it ;) jk pls be nice
+        public GameBase _game;
         private EntityManager _em;
         private PlayerManager _pm;
         public GameplayManager _gm;
@@ -554,23 +554,36 @@ namespace wickedcrush.factory.entity
 
         public void addActionSkill(SkillStruct skillStruct, Entity parent)
         {
-            ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, null);
+            if (_em.skillPool.Count == 0)
+            {
+                ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, null);
 
-            _em.addEntity(a);
-        }
+                _em.addEntity(a);
+            }
+            else
+            {
+                ActionSkill a = _em.skillPool.Pop();
+                a.ReInitialize(skillStruct, _game, _gm, parent, null);
 
-        public void addActionSkill(SkillStruct skillStruct, Entity parent, Entity actingParent, int aimDirection)
-        {
-            ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, actingParent, aimDirection);
-
-            _em.addEntity(a);
+                _em.addEntity(a);
+            }
         }
 
         public void addActionSkill(SkillStruct skillStruct, Entity parent, Entity actingParent)
         {
-            ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, actingParent);
+            if (_em.skillPool.Count == 0)
+            {
+                ActionSkill a = new ActionSkill(skillStruct, _game, _gm, parent, actingParent);
 
-            _em.addEntity(a);
+                _em.addEntity(a);
+            }
+            else
+            {
+                ActionSkill a = _em.skillPool.Pop();
+                a.ReInitialize(skillStruct, _game, _gm, parent, actingParent);
+
+                _em.addEntity(a);
+            }
         }
 
         public void addBlowReleaser(Entity parent, Entity actingParent, List<KeyValuePair<Timer, SkillStruct>> orphanedBlows)

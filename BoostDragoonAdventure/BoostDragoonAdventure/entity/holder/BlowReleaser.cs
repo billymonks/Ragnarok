@@ -24,7 +24,8 @@ namespace wickedcrush.entity.holder
             base(parent.pos, Vector2.Zero, Vector2.Zero, sound)
         {
             blows = orphanedBlows;
-            //blows = new List<KeyValuePair<Timer, SkillStruct>>();
+            //blows = new List<KeyValuePair<Timer, SkillStruct>>(orphanedBlows);
+            
             this.gameplay = gameplay;
             this.actingParent = actingParent;
             this.facing = parent.facing;
@@ -51,6 +52,7 @@ namespace wickedcrush.entity.holder
                 {
                     gameplay.factory.addActionSkill(blows[i].Value, this, actingParent);
                     blows.Remove(blows[i]);
+                    
                 }
             }
 

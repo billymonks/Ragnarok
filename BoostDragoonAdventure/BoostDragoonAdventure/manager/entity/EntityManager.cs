@@ -14,6 +14,7 @@ using wickedcrush.map.layer;
 using wickedcrush.display._3d;
 using wickedcrush.helper;
 using wickedcrush.manager.gameplay;
+using wickedcrush.entity.physics_entity.agent.action;
 
 namespace wickedcrush.manager.entity
 {
@@ -27,7 +28,12 @@ namespace wickedcrush.manager.entity
 
         private List<Entity> addedList = new List<Entity>();
 
-        int MAX_SIMULTANEOUS_ADD = 5;
+        int MAX_POOL_CAPACITY = 512;
+
+        public Stack<ActionSkill> skillPool = new Stack<ActionSkill>(512);
+
+        int MAX_SIMULTANEOUS_ADD = 15;
+        bool usingPool = true;
 
         public EntityManager(GameBase game)
             : base(game)
@@ -128,6 +134,11 @@ namespace wickedcrush.manager.entity
                 {
                     e.Remove();
                     entityList.Remove(e);
+
+                    if (e is ActionSkill && usingPool && skillPool.Count < MAX_POOL_CAPACITY)
+                    {
+                        skillPool.Push((ActionSkill)e);
+                    }
                 }
 
                 removeList.Clear();
@@ -208,6 +219,8 @@ namespace wickedcrush.manager.entity
             entityList.Clear();
             addList.Clear();
             removeList.Clear();
+
+            skillPool.Clear();
         }
 
         protected override void Dispose(bool disposing)

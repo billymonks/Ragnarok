@@ -51,6 +51,8 @@ namespace wickedcrush.entity.physics_entity
             //bodies["hotspot"].IsSensor = true;
         }
 
+        
+
         public override void Update(GameTime gameTime)
         {
             UpdatePos();

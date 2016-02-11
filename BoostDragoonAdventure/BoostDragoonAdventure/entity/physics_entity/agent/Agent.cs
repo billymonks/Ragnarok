@@ -253,6 +253,11 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public override void Remove()
         {
+            bodySpriter = null;
+            overlaySpriter = null;
+            shadowSpriter = null;
+            sPlayers.Clear();
+
             if (light != null)
             {
                 factory._gm.scene.RemoveLight(light);
