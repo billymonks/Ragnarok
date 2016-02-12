@@ -407,7 +407,7 @@ namespace wickedcrush.entity.physics_entity.agent
             base.Update(gameTime);
 
             //speed = ((speed + targetSpeed) * 29f) / 30f;
-            speed = targetSpeed;
+            speed = (speed + targetSpeed)/2f;
 
             hitThisTick = false;
 

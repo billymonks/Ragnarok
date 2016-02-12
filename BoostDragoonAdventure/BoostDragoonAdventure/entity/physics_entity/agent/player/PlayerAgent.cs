@@ -257,6 +257,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (stats.getNumber("boost") > 0)
             {
                 overheating = false;
+                targetSpeed = runSpeed;
+            }
+            else
+            {
+                targetSpeed = walkSpeed;
+                //walkSpeed
             }
 
             if (stats.getNumber("boost") <= 0)
@@ -705,10 +711,10 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 (float)Math.Sin(MathHelper.ToRadians((float)movementDirection))
             );
 
-            if (inCharge)
-                speed = walkSpeed;
-            else
-                speed = runSpeed;
+            //if (inCharge)
+                //speed = walkSpeed;
+            //else
+                //speed = runSpeed;
 
             v += (unitVector * magnitude * speed * startingFriction);
 
