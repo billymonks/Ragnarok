@@ -39,7 +39,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
         int instaJumps = 0, instaJumpCount = 0;
 
-
+        
 
 
         public Chimera(World w, Vector2 pos, EntityFactory factory, PersistedStats stats, SoundManager sound)
@@ -54,6 +54,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         private void Initialize()
         {
             this.name = "Chimera";
+            this.hostile = false;
             
             startingPoint = pos;
 
@@ -335,172 +336,20 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         this.state = StateName.Tell;
                     }));
 
-            /*Dictionary<String, State> playerAway = new Dictionary<String, State>();
+            Dictionary<String, State> unprovokedBranch = new Dictionary<String, State>();
 
-            playerAway.Add("jump_test",
-                new State("jump_test",
+            unprovokedBranch.Add("just_chillin",
+                new State("just_chillin",
                     c => true,
                     c =>
                     {
-                        this.StartJump(200, 2000, target.pos + target.center);
-                        this.state = StateName.Jumping;
+                        this.state = StateName.Standing;
                     }));
 
-            playerAway.Add("staggered_away_branch",
-                new State("staggered_away_branch",
-                    c => this.staggered,
-                    c =>
-                    {
-                        state = StateName.Staggered;
-                        timers["done_tell"].reset();
-                    }));
-
-            playerAway.Add("move_to_center",
-                new State("move_to_center",
-                    c => distanceToPosition(startingPoint) > 30,
-                    c => {
-                        velocity = initialVelocity;
-                        movementDirection = (int)MathHelper.ToDegrees(angleToPos(startingPoint));
-                        MoveForward(false, velocity);
-                        state = StateName.Moving;
-                    }));
-
-            playerAway.Add("arrived_at_center",
-                new State("arrived_at_center",
-                    c => state == StateName.Moving && distanceToPosition(startingPoint) < 30,
-                    c =>
-                    {
-                        state = StateName.Attacking;
-                    }));
-
-            playerAway.Add("in_return",
-                new State("in_return",
-                    c => state == StateName.Moving,
-                    c =>
-                    {
-                        MoveForward(false, velocity);
-                        state = StateName.Moving;
-                    }));
-
-            playerAway.Add("attacking_away",
-                new State("attacking_away",
-                    c => distanceToPosition(startingPoint) <= 30,
-                    c =>
-                    {
-                        state = StateName.Attacking;
-
-                        faceTarget();
-
-                        if (timers["counter_attack"].isDone())
-                        {
-                            timers["counter_attack"].resetAndStart();
-
-                            useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(600f, 0f), 35, 16, 16, 0, 340, false, 600f, 1000, 1800, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
-                            SkillServer.GenerateProjectile(new Vector2(1f, 1f), new Vector2(300, 0), -20, 100, 300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
-                        }
-
-                        if (!timers["counter_attack"].isActive())
-                        {
-                            timers["counter_attack"].resetAndStart();
-                        }
-
-                        
-                    }));
-            Dictionary<String, State> playerCenter = new Dictionary<String, State>();
-
-            playerCenter.Add("jump_test",
-                new State("jump_test",
-                    c => true,
-                    c =>
-                    {
-                        this.StartJump(200, 2000, target.pos + target.center);
-                        this.state = StateName.Jumping;
-                    }));
-
-            playerCenter.Add("staggered_center_branch",
-                new State("staggered_center_branch",
-                    c => this.staggered,
-                    c =>
-                    {
-                        state = StateName.Staggered;
-                        timers["done_tell"].reset();
-                    }));
-
-            
-
-            playerCenter.Add("get_closer",
-                new State("get_closer",
-                    c => state != StateName.Moving && distanceToTarget() > 120,
-                    c =>
-                    {
-                        faceTarget();
-                        movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
-                        velocity = initialVelocity;
-                        //Strafe(velocity);
-                        MoveForward(false, velocity);
-                        state = StateName.Tell;
-                    }));
-
-            playerCenter.Add("start_spin_attack",
-                new State("start_spin_attack",
-                    c => distanceToTarget() < 150,
-                    c =>
-                    {
-                        faceTarget();
-                        movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
-                        velocity = 800f;
-                        Strafe(velocity);
-                        state = StateName.Moving;
-                    }));
-
-            playerCenter.Add("cancel_spin",
-                new State("cancel_spin",
-                    c => state == StateName.Attacking && distanceToTarget() > 300,
-                    c =>
-                    {
-                        state = StateName.Tell;
-                    }));
-
-            playerCenter.Add("spin_attack",
-                new State("spin_attack",
-                    c => state == StateName.Moving,
-                    c =>
-                    {
-                        faceTarget();
-                        aimDirection += 180;
-                        movementDirection = (int)MathHelper.ToDegrees(angleToEntity(target));
-                        velocity = 800f;
-                        Strafe(velocity);
-                        state = StateName.Moving;
-
-                        if (timers["counter_attack"].isDone())
-                        {
-                            timers["counter_attack"].resetAndStart();
-
-                            useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 5, 5, 0, 180, true, 300f, 100, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f) - 100f), -5, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
-                        }
-
-                        if (!timers["counter_attack"].isActive())
-                        {
-                            timers["counter_attack"].resetAndStart();
-                        }
-                    }));
-
-            playerCenter.Add("default_center",
-                new State("default_center",
-                    c => true,
-                    c =>
-                    {
-                        state = StateName.Tell;
-                    }));*/
-
-            
-
-            
 
             stateTree = new StateTree();
 
+            stateTree.AddBranch("unprovoked", new StateBranch(c => !hostile, unprovokedBranch));
             stateTree.AddBranch("counterAttack", new StateBranch(c => state == StateName.CounterAttack, counterAttackBranch));
             stateTree.AddBranch("staggered", new StateBranch(c => state == StateName.Staggered, staggeredBranch));
             stateTree.AddBranch("no_target", new StateBranch(c => target == null, noTarget));

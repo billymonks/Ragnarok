@@ -239,6 +239,15 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             Dictionary<String, State> mainBranch = new Dictionary<String, State>();
 
+            mainBranch.Add("get_this_party_started",
+                new State("get_this_party_started",
+                    c => state == StateName.Standing,
+                    c =>
+                    {
+                        state = StateName.Tell;
+                        timers["done_tell"].resetAndStart();
+                    }));
+
             mainBranch.Add("staggered_main_branch",
                 new State("staggered_main_branch",
                     c => this.staggered,
@@ -324,10 +333,22 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         MoveForward(false, velocity);
                         state = StateName.Moving;
                     }));
-            
 
-            
+            Dictionary<String, State> unprovokedBranch = new Dictionary<String, State>();
+
+            unprovokedBranch.Add("just_chillin",
+                new State("just_chillin",
+                    c => true,
+                    c =>
+                    {
+                        this.state = StateName.Standing;
+                    }));
+
+
             stateTree = new StateTree();
+
+            stateTree.AddBranch("unprovoked", new StateBranch(c => !hostile, unprovokedBranch));
+            
 
             stateTree.AddBranch("counter_attack", new StateBranch(c => state == StateName.CounterAttack, counterAttackBranch));
             stateTree.AddBranch("staggered", new StateBranch(c => state == StateName.Staggered, staggeredBranch));

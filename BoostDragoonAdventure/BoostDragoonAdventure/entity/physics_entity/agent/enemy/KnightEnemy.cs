@@ -820,6 +820,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             factory._gm.camera.ShakeScreen(5f);
 
+            hostile = true;
+
             //factory._gm.activateFreezeFrame();
         }
 

@@ -121,6 +121,8 @@ namespace wickedcrush.entity.physics_entity.agent
         //item stuff
         public bool pressReady = true, holdReady = false, releaseReady = false, overheating = false;
 
+        public bool hostile = false;
+
         //public bool itemInPress = false;
         //public bool itemInHold = false;
         //public bool itemInUse = false;
@@ -1274,12 +1276,15 @@ namespace wickedcrush.entity.physics_entity.agent
 
             factory._gm.camera.ShakeScreen(5f);
 
+            hostile = true;
             //factory._gm.activateFreezeFrame();
         }
 
         public virtual void TakeHit(Attack attack)
         {
             TakeHit(attack, false);
+
+            hostile = true;
         }
 
         public virtual void TakeKnockback(Vector2 pos, float force)
@@ -1299,6 +1304,8 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 3);
 
             factory._gm.camera.ShakeScreen(5f);
+
+            hostile = true;
 
             //factory._gm.activateFreezeFrame();
         }
@@ -1354,6 +1361,8 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 factory.addText("-" + damage.ToString(), pos + new Vector2((float)(random.NextDouble() * 50), (float)(random.NextDouble() * 50)), 1000, Color.White, ((float)damage) / 20f, new Vector2(0f, -1f));
             }
+
+            hostile = true;
         }
 
         public virtual void TakeHit(Attack attack, bool knockback)
@@ -1416,6 +1425,8 @@ namespace wickedcrush.entity.physics_entity.agent
             particleEmitter.EmitParticles(ps, this.factory, 2);
 
             factory._gm.camera.ShakeScreen(5f);
+
+            hostile = true;
 
             //factory._gm.activateFreezeFrame();
         }
