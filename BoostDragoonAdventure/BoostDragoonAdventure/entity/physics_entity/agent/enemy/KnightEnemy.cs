@@ -833,7 +833,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             }
 
             base.Die();
-        }
+        }
+
 
     }
 }

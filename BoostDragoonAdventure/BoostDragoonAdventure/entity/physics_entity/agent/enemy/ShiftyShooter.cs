@@ -177,8 +177,30 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     }
                     ));
 
-            
+            Dictionary<String, State> unprovokedBranch = new Dictionary<String, State>();
+
+            unprovokedBranch.Add("awaken",
+                new State("awaken",
+                    c => target != null && distanceToTarget() < 300,
+                    c =>
+                    {
+                        hostile = true;
+                    }));
+
+            unprovokedBranch.Add("just_chillin",
+                new State("just_chillin",
+                    c => true,
+                    c =>
+                    {
+                        this.state = StateName.Standing;
+                    }));
+
+
             stateTree = new StateTree();
+
+            stateTree.AddBranch("unprovoked", new StateBranch(c => !hostile, unprovokedBranch));
+
+            //stateTree = new StateTree();
             stateTree.AddBranch("default", new StateBranch(c => true, ctrl));
         }
 
