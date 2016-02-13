@@ -50,7 +50,7 @@ namespace wickedcrush.entity.physics_entity.agent.action
                         (float)(parent.pos.Y + parent.center.Y + skillStruct.pos.X * Math.Sin(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)) - skillStruct.pos.Y * Math.Cos(MathHelper.ToRadians((float)parent.aimDirection + skillStruct.directionChange)))), 
             skillStruct.size, 
             skillStruct.center,
-            !skillStruct.followParent, 
+            !(skillStruct.followParent || !skillStruct.bounce), 
             gameplay.factory, game.soundManager) 
         {
             //this.aimDireciton = parent.movementDirection + skillStruct.directionChange;
@@ -209,8 +209,8 @@ namespace wickedcrush.entity.physics_entity.agent.action
             //setupBody(_w, pos, skillStruct.size,
                         //skillStruct.center, !skillStruct.followParent);
             reCreateBody(_w, pos, 
-                        skillStruct.size, 
-                        skillStruct.center, !skillStruct.followParent);
+                        skillStruct.size,
+                        skillStruct.center, !(skillStruct.followParent || !skillStruct.bounce));
 
             //ActionSkill Initialize:
             //this.skillStruct = skillStruct;
