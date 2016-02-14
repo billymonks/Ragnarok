@@ -9,6 +9,7 @@ using wickedcrush.helper;
 using wickedcrush.manager.audio;
 using wickedcrush.utility;
 using Com.Brashmonkey.Spriter.player;
+using wickedcrush.particle;
 
 namespace wickedcrush.entity.physics_entity.agent.trap
 {
@@ -57,6 +58,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
                 _sound.playCue("whsh", emitter);
                 timers["firing"].resetAndStart();
                 _sound.setGlobalVariable("InCombat", 1f);
+                angledSpriters["turretFront"].player.setAnimation("teal", 0, 0);
             }
             else if (!timers["firing"].isActive())
             {
@@ -65,6 +67,18 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             }
             else
             {
+                if(timers["firing"].getPercent() > 0.75f)
+                {
+                    angledSpriters["turretFront"].player.setAnimation("red", 0, 0);
+
+                    Vector2 sparkPos = Helper.GetDirectionVectorFromDegrees((float)aimDirection) * 25f;
+
+                    EmitParticles(ParticleServer.GenerateSpark(new Vector3(pos.X + center.X + sparkPos.X, 10f,pos.Y + center.Y + sparkPos.Y), Helper.GetDirectionVectorFromDegrees((float)aimDirection)), 1);
+                }
+                else if (timers["firing"].getPercent() > 0.45f)
+                {
+                    angledSpriters["turretFront"].player.setAnimation("pink", 0, 0);
+                }
                 _sound.setGlobalVariable("InCombat", 1f);
             }
 
@@ -95,7 +109,7 @@ namespace wickedcrush.entity.physics_entity.agent.trap
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            AddAngledElement("turretFront", "shapes", "pink", 0, new Vector3(30f, 10f, 0f), 0, 1f, 0f, Vector3.Zero);
+            AddAngledElement("turretFront", "shapes", "teal", 0, new Vector3(30f, 10f, 0f), 0, 1f, 0f, Vector3.Zero);
         }
 
 

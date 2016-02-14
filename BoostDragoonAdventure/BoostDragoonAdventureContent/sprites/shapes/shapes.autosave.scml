@@ -7,9 +7,6 @@
         <file id="3" name="shape_parts/violet_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
         <file id="4" name="shape_parts/red_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
         <file id="5" name="shape_parts/green_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
-        <file id="6" name="shape_parts/grey_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
-        <file id="7" name="shape_parts/salmon_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
-        <file id="8" name="shape_parts/green_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
     </folder>
     <entity id="0" name="ball">
         <animation id="0" name="grey" length="1000" interval="100">
@@ -81,44 +78,6 @@
             <timeline id="0" name="red_ball">
                 <key id="0" spin="0">
                     <object folder="0" file="4" x="-10" y="10" angle="0"/>
-                </key>
-            </timeline>
-        </animation>
-    </entity>
-    <entity id="1" name="tri">
-        <animation id="0" name="grey" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="grey_tri">
-                <key id="0" spin="0">
-                    <object folder="0" file="6" x="-10" y="10"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="1" name="salmon" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="salmon_tri">
-                <key id="0" spin="0">
-                    <object folder="0" file="7" x="-10" y="10"/>
-                </key>
-            </timeline>
-        </animation>
-        <animation id="2" name="green" length="1000" interval="100">
-            <mainline>
-                <key id="0">
-                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
-                </key>
-            </mainline>
-            <timeline id="0" name="green_tri">
-                <key id="0" spin="0">
-                    <object folder="0" file="8" x="-10" y="10"/>
                 </key>
             </timeline>
         </animation>
