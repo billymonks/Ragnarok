@@ -2058,6 +2058,12 @@
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="sprites\shapes\shape_parts\green_ball.png">
+      <Name>green_ball</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="sprites\shapes\shape_parts\grey_ball.png">
       <Name>grey_ball</Name>
       <Importer>TextureImporter</Importer>
@@ -2066,6 +2072,12 @@
     </Content>
     <Content Include="sprites\shapes\shape_parts\pink_ball.png">
       <Name>pink_ball</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sprites\shapes\shape_parts\red_ball.png">
+      <Name>red_ball</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

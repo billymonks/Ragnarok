@@ -72,25 +72,27 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             AddLight(new PointLightStruct(new Vector4(0.1f, 0.85f, 0.05f, 1f), 0.2f, new Vector4(1f, 0.65f, 0.5f, 1f), 0f, new Vector3(pos.X + center.X, 30f, pos.Y + center.Y), 30f));
 
+            InitializeCactusSprites(1f, 1f, 1f, 1f, 1f, 1f);
 
-
-            if (rank == 2)
-            {
-                overlaySpriter.setAnimation("love", 0, 0);
-            }
-            else if (rank == 1)
-            {
-                overlaySpriter.setAnimation("flirt", 0, 0);
-            } 
-            else
-            {
-                overlaySpriter.setAnimation("blank", 0, 0);
-            }
+            //if (rank == 2)
+            //{
+            //    overlaySpriter.setAnimation("love", 0, 0);
+            //}
+            //else if (rank == 1)
+            //{
+            //    overlaySpriter.setAnimation("flirt", 0, 0);
+            //} 
+            //else
+            //{
+            //    overlaySpriter.setAnimation("blank", 0, 0);
+            //}
             //factory._gm.scene.AddLight(light);
 
             //InitializeHpBar();
 
             //item = ItemServer.getItem("Longsword");
+
+            targetBobAmount = 0f;
         }
 
         public override void Update(GameTime gameTime)
@@ -110,10 +112,11 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
 
             if(timers["spike_animation"].isActive())
             {
-                bodySpriter.setAnimation("spikey", 0, 0);
+                bobAmount = 1f;
+                //bodySpriter.setAnimation("spikey", 0, 0);
             } else if(timers["spike_animation"].isDone())
             {
-                bodySpriter.setAnimation("plain", 0, 0);
+                //bodySpriter.setAnimation("plain", 0, 0);
                 timers["spike_animation"].reset();
             }
 
@@ -146,6 +149,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected override void Die()
         {
             this.dead = true;
+
+            targetBobAmount = 1f;
             
             if (timers["death_timer"].isDone())
             {
@@ -207,18 +212,10 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
         protected override void SetupSpriterPlayer()
         {
             sPlayers = new Dictionary<string, SpriterPlayer>();
-            sPlayers.Add("body", new SpriterPlayer(factory._spriterManager.spriters["cactus"].getSpriterData(), 0, factory._spriterManager.spriters["cactus"].loader));
-            sPlayers.Add("face", new SpriterPlayer(factory._spriterManager.spriters["cactus"].getSpriterData(), 1, factory._spriterManager.spriters["cactus"].loader));
-
-            bodySpriter = sPlayers["body"];
-            overlaySpriter = sPlayers["face"];
-            
-            //sPlayer.setAnimation("whitetored", 0, 0);
-            bodySpriter.setFrameSpeed(60);
-            bodySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
-
-            overlaySpriter.setFrameSpeed(60);
-            overlaySpriter.setScale((((float)size.X) / 100f) * (2f / factory._gm.camera.zoom));
+            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
+            bodySpriter = sPlayers["you"];
+            bodySpriter.setFrameSpeed(20);
+            drawBody = false;
 
             sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
             shadowSpriter = sPlayers["shadow"];
@@ -227,6 +224,46 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             drawShadow = true;
             
             //height = 10;
+            
+
+        }
+
+        protected void InitializeCactusSprites(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance)
+        {
+            float tempHeight = 0;
+            float sScale = size.X / 24f;
+
+            tempHeight += 10f;
+            AddAngledElement("A", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1.45f * sScale, 0f, new Vector3(-0.25f, 0f, 0.25f) * sScale);
+            tempHeight += 25f;
+            AddAngledElement("B", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1.25f * sScale, 0f, new Vector3(-5.5f, 0f, 5.5f) * sScale);
+            tempHeight += 20f;
+            AddAngledElement("C", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 0f, 7f) * sScale);
+            tempHeight += 25f;
+            AddAngledElement("D", "shapes", "green", 0, new Vector3(0f, tempHeight, -0.5f) * sScale, 0, 2.5f * sScale, 0f, new Vector3(-12f, 0f, 12f) * sScale);
+            
+            tempHeight += 25f;
+            if (rank == 1)
+            {
+                AddAngledElement("E", "shapes", "red", 0, new Vector3(0f, tempHeight, -1f) * sScale, 0, 1f * sScale, 0f, new Vector3(-5f, 0f, 5f) * sScale);
+            } else if (rank == 2)
+            {
+                AddAngledElement("E", "shapes", "red", 0, new Vector3(-6f, tempHeight, -3f) * sScale, 0, 0.75f * sScale, 0f, new Vector3(-3f, 2f, -3f) * sScale);
+                AddAngledElement("F", "shapes", "red", 0, new Vector3(6f, tempHeight, -3f) * sScale, 0, 0.75f * sScale, 0f, new Vector3(3f, 2.5f, -3f) * sScale);
+                AddAngledElement("G", "shapes", "red", 0, new Vector3(0f, tempHeight, 3f) * sScale, 0, 0.75f * sScale, 0f, new Vector3(0f, 1.5f, 3f) * sScale);
+
+            }
+            //AddAngledElement("F", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 0f, 7f) * sScale);
+            //tempHeight += 10f;
+            //AddAngledElement("G", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(-8f, 0f, 8f) * sScale);
+            //tempHeight += 10f;
+            //AddAngledElement("H", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 0f, 7f) * sScale);
+            //tempHeight += 10f;
+            //AddAngledElement("I", "shapes", "green", 0, new Vector3(0f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(-8f, 0f, 8f) * sScale);
+            tempHeight -= 146f;
+            AddAngledElement("Face", "cactus", "love", 1, new Vector3(0f, tempHeight, -1.5f) * sScale, 0, 0.6f * sScale, 0f, new Vector3(-13f, 1f, 13f) * sScale);
+
+
 
         }
 
