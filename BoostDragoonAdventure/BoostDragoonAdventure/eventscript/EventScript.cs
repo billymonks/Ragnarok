@@ -20,11 +20,7 @@ namespace wickedcrush.eventscript
         public EventScript(List<EventNode> convo)
         {
             this.convo = convo;
-            if (convo.Count > 0)
-            {
-                curr = convo[0];
-                //nodeStack.Push(curr);
-            }
+            Reset();
         }
 
         public void Process(GameBase game, GameplayManager gm, Player p)
@@ -36,10 +32,10 @@ namespace wickedcrush.eventscript
                     nodeStack.Pop();
                 }
 
-                if (nodeStack.Peek().next != null)
+                if (nodeStack.Count > 0 && nodeStack.Peek().next != null)
                 {
-                    curr = nodeStack.Peek().next;
-                    curr.Process(game, gm, p, nodeStack, curr);
+                    curr = nodeStack.Pop().next;
+                    curr.Process(game, gm, p, this);
                 }
                 else
                 {
@@ -50,10 +46,19 @@ namespace wickedcrush.eventscript
             else
             {
                 // process curr
-                curr.Process(game, gm, p, nodeStack, curr);
+                curr.Process(game, gm, p, this);
             }
 
 
+        }
+
+        public void Reset()
+        {
+            done = false;
+            if (convo.Count > 0)
+            {
+                curr = convo[0];
+            }
         }
     }
 }

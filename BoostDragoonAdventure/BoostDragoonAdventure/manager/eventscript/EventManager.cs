@@ -17,6 +17,10 @@ namespace wickedcrush.manager.eventscript
 
             LoadScripts();
         }
+        public EventScript GetEvent(int id)
+        {
+            return scripts[id];
+        }
         
         private void LoadScripts()
         {
@@ -72,6 +76,10 @@ namespace wickedcrush.manager.eventscript
                         newNode = GetSetIntNode(e, parent);
                         nodeList.Add(newNode);
                         break;
+                    case "itemget":
+                        newNode = GetItemGetNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
                 }
             }
 
@@ -85,7 +93,7 @@ namespace wickedcrush.manager.eventscript
 
         private QuestionNode GetQuestionNode(XElement questionElement, EventNode parent)
         {
-            QuestionNode question = new QuestionNode(questionElement.Attribute("text").Value, parent);
+            QuestionNode question = new QuestionNode(questionElement.Attribute("text").Value, questionElement.Attribute("key").Value, parent);
             
             question.SetChildren(GetChildElements(questionElement, question));
 
@@ -95,9 +103,9 @@ namespace wickedcrush.manager.eventscript
 
         private AnswerNode GetAnswerNode(XElement answerElement, EventNode parent)
         {
-            AnswerNode answerNode = new AnswerNode(answerElement.Attribute("text").Value, parent);
+            AnswerNode answerNode = new AnswerNode(answerElement.Attribute("text").Value, int.Parse(answerElement.Attribute("val").Value), parent);
 
-            answerNode.SetChildren(GetChildElements(answerElement, answerNode));
+            //answerNode.SetChildren(GetChildElements(answerElement, answerNode));
 
             return answerNode;
         }
@@ -116,6 +124,13 @@ namespace wickedcrush.manager.eventscript
             SetIntNode node = new SetIntNode(element.Attribute("key").Value, int.Parse(element.Value), parent);
 
             node.SetChildren(GetChildElements(element, node));
+
+            return node;
+        }
+
+        private ItemGetNode GetItemGetNode(XElement element, EventNode parent)
+        {
+            ItemGetNode node = new ItemGetNode(element.Attribute("item").Value, parent);
 
             return node;
         }

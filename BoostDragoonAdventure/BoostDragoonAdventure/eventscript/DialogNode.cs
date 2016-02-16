@@ -16,13 +16,13 @@ namespace wickedcrush.eventscript
             this.parent = parent;
         }
 
-        public override void Process(GameBase game, manager.gameplay.GameplayManager gm, player.Player p, Stack<EventNode> nodeStack, EventNode curr)
+        public override void Process(GameBase game, manager.gameplay.GameplayManager gm, player.Player p, EventScript script)
         {
-            base.Process(game, gm, p, nodeStack, curr);
+            base.Process(game, gm, p, script);
+
+            script.curr = next;
 
             gm.factory.DisplayMessage(text);
-
-            curr = next;
         }
     }
 }

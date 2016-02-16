@@ -11,16 +11,26 @@
         <node type="dialog">Ah... back for more, I see.</node>
       </node>
     </node>
-    <node type="question" text="Would you like to buy?">
-      <node type="answer" text="Yes">
+    <node type="question" key="store_temp" text="Would you like to buy?">
+      <node type="answer" val="1" text="Yes" />
+      <node type="answer" val="0" text="No" />
+    </node>
+    <node type="checkint" key="store_temp">
+      <node type="intval" val="1">
         <node type="setint" key="bought_pizza">1</node>
         <node type="dialog">Great~! Here, take a look.</node>
         <node type="store" id="0" />
       </node>
-      <node type="answer" text="No">
+      <node type="intval" val="0">
         <node type="setint" key="bought_pizza">0</node>
         <node type="dialog">You'll be back...</node>
       </node>
     </node>
+  </event>
+  <event id="1">
+    <node type="dialog">Hi I just want to test events.</node>
+    <node type="dialog">Thanks.</node>
+    <node type="itemget" item="Knife" />
+    <node type="dialog">You got a Knife!</node>
   </event>
 </events>

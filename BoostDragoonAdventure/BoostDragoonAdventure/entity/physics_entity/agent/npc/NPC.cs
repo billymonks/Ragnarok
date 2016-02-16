@@ -30,7 +30,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
         {
             this.name = "NPC";
             immortal = true;
-            activeRange = size.X*2f;
+            activeRange = size.X*1.5f;
             SetupStateMachine();
 
         }
@@ -73,7 +73,8 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                 {
                     if (((PlayerAgent)e).InteractPressed())
                     {
-                        factory.createDialog(dialog, new Vector2(200f, 200f));
+                        //factory.createDialog(dialog, new Vector2(200f, 200f));
+                        factory.StartEvent(1);
                     }
                 }
             }

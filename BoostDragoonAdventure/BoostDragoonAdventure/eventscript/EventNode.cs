@@ -14,7 +14,8 @@ namespace wickedcrush.eventscript
         Answer,
         SetInt,
         CheckInt,
-        IntVal
+        IntVal,
+        ItemGet
     }
     public class EventNode
     {
@@ -24,7 +25,7 @@ namespace wickedcrush.eventscript
 
         public EventNode() {}
 
-        public virtual void Process(GameBase game, GameplayManager gm, Player p, Stack<EventNode> nodeStack, EventNode curr)
+        public virtual void Process(GameBase game, GameplayManager gm, Player p, EventScript script)
         {
 
         }

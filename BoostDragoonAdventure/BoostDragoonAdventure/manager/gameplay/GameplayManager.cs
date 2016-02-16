@@ -25,6 +25,7 @@ using wickedcrush.manager.map;
 using wickedcrush.screen;
 using wickedcrush.display.spriter;
 using wickedcrush.manager.particle;
+using wickedcrush.eventscript;
 
 namespace wickedcrush.manager.gameplay
 {
@@ -61,7 +62,7 @@ namespace wickedcrush.manager.gameplay
 
         public CursorEntity cursor;
 
-        
+        public Stack<EventScript> eventScripts;
 
         
 
@@ -104,6 +105,8 @@ namespace wickedcrush.manager.gameplay
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
 
+            eventScripts = new Stack<EventScript>();
+
             factory = new EntityFactory(_game, this, entityManager, particleManager, _roomManager, w);
 
             if(factory._game.settings.controlMode == utility.config.ControlMode.MouseAndKeyboard)
@@ -125,19 +128,20 @@ namespace wickedcrush.manager.gameplay
 
         public void Update(GameTime gameTime, bool freeze)
         {
-            if (freeze)
+            if (eventScripts.Count > 0)
             {
-                //gameTime = new GameTime(gameTime.TotalGameTime, new TimeSpan(gameTime.ElapsedGameTime.Hours, gameTime.ElapsedGameTime.Minutes, gameTime.ElapsedGameTime.Seconds));
-                //gameTime = new GameTime(
-            //}
-            //entityManager.DepthSort();
-            //if (freeze)
-            //{
+                if (eventScripts.Peek().done)
+                {
+                    eventScripts.Pop().Reset();
+                }
+                else
+                    eventScripts.Peek().Process(_game, this, _playerManager.getPlayerList()[0]);
+            }
+            else if (freeze)
+            {
                 _playerManager.Update(gameTime); //nothing but panels
                 factory.Update();
 
-                //_game.soundManager.setGlobalVariable("InCombat", 0f);
-                //camera.Update(gameTime);
                 particleManager.Update(gameTime);
             }
             else
@@ -198,7 +202,7 @@ namespace wickedcrush.manager.gameplay
         private void EnqueueMapTransition()
         {
             //particleManager.particlePool.Clear();
-            GC.Collect();
+            
             _game.playerManager.startTransition();
 
             SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));
@@ -215,8 +219,10 @@ namespace wickedcrush.manager.gameplay
                     {
                         LoadMap(activeConnection.mapName);
                         factory.spawnPlayers(activeConnection.doorIndex);
+                        GC.Collect();
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
+                        
                         camera.cameraPosition = new Vector3(_playerManager.getMeanPlayerPos().X - 320, _playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
                     }
                 );
@@ -242,7 +248,7 @@ namespace wickedcrush.manager.gameplay
         public void EnqueueRespawn()
         {
             //particleManager.particlePool.Clear();
-            GC.Collect();
+            
             _game.playerManager.startTransition();
 
             SolidColorFadeTransition fadeOutTransition = new SolidColorFadeTransition(_game, 1000, true, new Color(0f, 0f, 0f, 0f), new Color(0f, 0f, 0f, 1f));
@@ -259,8 +265,10 @@ namespace wickedcrush.manager.gameplay
                     {
                         LoadMap(_playerManager.getPlayerList()[0].getStats().getString("home"));
                         factory.spawnPlayers();
+                        GC.Collect();
                         g.playerManager.endTransition();
                         g.screenManager.AddScreen(fadeInTransition, true);
+                        
                         camera.cameraPosition = new Vector3(_playerManager.getMeanPlayerPos().X - 320, _playerManager.getMeanPlayerPos().Y - 240, 75f);// new Vector3(320f, 240f, 75f);
                     }
                 );

@@ -40,6 +40,7 @@ using wickedcrush.map.path;
 using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.screen.menu;
+using wickedcrush.eventscript;
 
 namespace wickedcrush.factory.entity
 {
@@ -129,9 +130,20 @@ namespace wickedcrush.factory.entity
             _game.screenManager.AddScreen(new MessageDisplayScreen(text, _game, _gm, _game.playerManager.getPlayerList()[0]));
         }
 
+        public void DisplayQuestion(String text, String key, List<AnswerNode> answers)
+        {
+            //question display screen
+            _game.screenManager.AddScreen(new QuestionDisplayScreen(text, key, answers, _game, _gm, _game.playerManager.getPlayerList()[0]));
+        }
+
         public void createTextScreen(String text, Vector2 pos)
         {
             _game.screenManager.AddScreen(new TextDisplayScreen(_game, _pm.getPlayerList()[0], text, pos));
+        }
+
+        public void StartEvent(int eventId)
+        {
+            _gm.eventScripts.Push(_game.eventManager.GetEvent(eventId));
         }
 
         //needs some kind of screen manager / dialog manager

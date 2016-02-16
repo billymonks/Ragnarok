@@ -198,7 +198,13 @@ namespace wickedcrush.screen.menu
             {
                 if (highlightedWeapon > -1 && highlightedWeapon < weaponList.Count)
                 {
-                    if (p.getStats().inventory.equippedWeapon != weaponList[highlightedWeapon])
+                    if (p.getStats().inventory.equippedWeapon == null)
+                    {
+                        p.getStats().inventory.equippedWeapon = weaponList[highlightedWeapon];
+                        equippedWeapon = highlightedWeapon;
+                        p.getStats().inventory.equippedWeapon.Equip(p.getAgent());
+                    }
+                    else if (p.getStats().inventory.equippedWeapon != weaponList[highlightedWeapon])
                     {
                         p.getStats().inventory.equippedWeapon.Cancel(p.getAgent());
                         p.getStats().inventory.equippedWeapon = weaponList[highlightedWeapon];

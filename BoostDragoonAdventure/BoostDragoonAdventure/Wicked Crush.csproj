@@ -127,6 +127,7 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="eventscript\AnswerNode.cs" />
     <Compile Include="eventscript\CheckIntNode.cs" />
+    <Compile Include="eventscript\ItemGetNode.cs" />
     <Compile Include="eventscript\IntValNode.cs" />
     <Compile Include="eventscript\SetIntNode.cs" />
     <Compile Include="eventscript\QuestionNode.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="particle\ParticleEmitter.cs" />
     <Compile Include="particle\ParticleServer.cs" />
     <Compile Include="screen\MainMenuScreen.cs" />
+    <Compile Include="screen\menu\QuestionDisplayScreen.cs" />
     <Compile Include="screen\menu\GearUpgradeMenuScreen.cs" />
     <Compile Include="screen\menu\PartMenuScreen.cs" />
     <Compile Include="screen\menu\InventoryMenuScreen.cs" />
