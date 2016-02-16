@@ -125,6 +125,14 @@
     <Compile Include="behavior\StateBranch.cs" />
     <Compile Include="behavior\StateTree.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="eventscript\AnswerNode.cs" />
+    <Compile Include="eventscript\CheckIntNode.cs" />
+    <Compile Include="eventscript\IntValNode.cs" />
+    <Compile Include="eventscript\SetIntNode.cs" />
+    <Compile Include="eventscript\QuestionNode.cs" />
+    <Compile Include="eventscript\DialogNode.cs" />
+    <Compile Include="eventscript\EventScript.cs" />
+    <Compile Include="eventscript\EventNode.cs" />
     <Compile Include="display\3d\ArtLayer.cs" />
     <Compile Include="display\3d\atlas\TextureAtlas.cs" />
     <Compile Include="display\3d\atlas\ThemeAtlas.cs" />
@@ -193,6 +201,7 @@
     <Compile Include="inventory\ItemServer.cs" />
     <Compile Include="manager\audio\SoundManager.cs" />
     <Compile Include="manager\editor\entity\EditorEntityManager.cs" />
+    <Compile Include="manager\eventscript\EventManager.cs" />
     <Compile Include="manager\gameplay\GameplayManager.cs" />
     <Compile Include="manager\gameplay\room\RoomManager.cs" />
     <Compile Include="manager\map\MapManager.cs" />

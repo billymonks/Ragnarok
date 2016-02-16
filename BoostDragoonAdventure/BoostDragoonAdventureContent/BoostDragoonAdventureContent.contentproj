@@ -1206,6 +1206,12 @@
       <Importer>XactImporter</Importer>
       <Processor>XactProcessor</Processor>
     </Compile>
+    <Content Include="scripts\eventscripts.xml">
+      <Name>eventscripts</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="sprites\all\bunz\a.png">
       <Name>a</Name>
       <Importer>TextureImporter</Importer>

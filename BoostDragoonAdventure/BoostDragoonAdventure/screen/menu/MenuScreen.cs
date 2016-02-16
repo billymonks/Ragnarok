@@ -90,8 +90,11 @@ namespace wickedcrush.screen.menu
 
             ConstrainCursorPos();
 
-            game.diag = "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
-            game.diag += "CursorPos: " + cursorPos.X + ", " + cursorPos.Y + "\n";
+            if (game.debugMode)
+            {
+                game.diag = "Cursor Position: " + cursorPosition.X + ", " + cursorPosition.Y + "\n";
+                game.diag += "CursorPos: " + cursorPos.X + ", " + cursorPos.Y + "\n";
+            }
         }
 
         private void ConstrainCursorPos()

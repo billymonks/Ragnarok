@@ -197,6 +197,7 @@ namespace wickedcrush.manager.gameplay
 
         private void EnqueueMapTransition()
         {
+            //particleManager.particlePool.Clear();
             GC.Collect();
             _game.playerManager.startTransition();
 
@@ -240,6 +241,7 @@ namespace wickedcrush.manager.gameplay
 
         public void EnqueueRespawn()
         {
+            //particleManager.particlePool.Clear();
             GC.Collect();
             _game.playerManager.startTransition();
 

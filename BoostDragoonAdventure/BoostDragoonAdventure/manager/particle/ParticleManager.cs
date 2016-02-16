@@ -17,7 +17,7 @@ namespace wickedcrush.manager.particle
 
         public Stack<Particle> particlePool;
         private static int MAX_POOL_CAPACITY = 256;
-        public bool usingPool = true;
+        public bool usingPool = false;
 
         public ParticleManager(GameBase game)
             : base(game)

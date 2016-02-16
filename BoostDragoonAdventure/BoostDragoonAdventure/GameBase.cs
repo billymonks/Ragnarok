@@ -29,6 +29,7 @@ using wickedcrush.display.spriter;
 using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility.config;
 using wickedcrush.display._3d.atlas;
+using wickedcrush.manager.eventscript;
 
 namespace wickedcrush
 {
@@ -59,6 +60,8 @@ namespace wickedcrush
         public SpriterManager spriterManager;
 
         public PanelFactory panelFactory;
+
+        public EventManager eventManager;
         
 
         public Map testMap;
@@ -138,6 +141,8 @@ namespace wickedcrush
             SkillServer.Initialize();
 
             //spriterManager = new SpriterManager(this);
+
+            eventManager = new EventManager(this);
 
             networkManager = new NetworkManager(this);
 
