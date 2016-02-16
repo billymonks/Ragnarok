@@ -127,12 +127,19 @@ namespace wickedcrush.particle
 
         public Particle(ParticleStruct p, EntityFactory factory)
         {
+            Initialize(p, factory);
+        }
+
+        public void Initialize(ParticleStruct p, EntityFactory factory)
+        {
+            readyForRemoval = false;
+
             this.pos = p.pos + new Vector3(p.posVariance.X * (float)factory.random.NextDouble(),
                     p.posVariance.Y * (float)factory.random.NextDouble(),
                     p.posVariance.Z * (float)factory.random.NextDouble());
-            this.velocity = p.velocity 
-                + new Vector3(p.velocityVariance.X * (float)factory.random.NextDouble(), 
-                    p.velocityVariance.Y * (float)factory.random.NextDouble(), 
+            this.velocity = p.velocity
+                + new Vector3(p.velocityVariance.X * (float)factory.random.NextDouble(),
+                    p.velocityVariance.Y * (float)factory.random.NextDouble(),
                     p.velocityVariance.Z * (float)factory.random.NextDouble());
             this.acceleration = p.acceleration;
             this.rotation = p.rotation;
@@ -143,9 +150,9 @@ namespace wickedcrush.particle
 
             animation = new SpriterOffsetStruct(
                 new SpriterPlayer(
-                    factory._spriterManager.spriters[p.spriterName].getSpriterData(), 
+                    factory._spriterManager.spriters[p.spriterName].getSpriterData(),
                     p.entityIndex,
-                    factory._spriterManager.spriters[p.spriterName].loader), 
+                    factory._spriterManager.spriters[p.spriterName].loader),
                     Vector3.Zero, 0);
 
             animation.player.setAnimation(p.animationName, 0, 0);

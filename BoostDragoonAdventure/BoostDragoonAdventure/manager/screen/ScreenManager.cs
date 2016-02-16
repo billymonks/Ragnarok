@@ -40,6 +40,8 @@ namespace wickedcrush.manager.screen
         float nearClip = 150;
         float farClip = 1.01428f;
 
+        public float fov;
+
         public bool loading = false;
 
         public float cameraDifference = 1f;
@@ -50,6 +52,8 @@ namespace wickedcrush.manager.screen
         public ScreenManager(GameBase game, GameScreen rootScreen)
         {
             this._game = game;
+
+            fov = ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height);
 
             Initialize(rootScreen);
         }

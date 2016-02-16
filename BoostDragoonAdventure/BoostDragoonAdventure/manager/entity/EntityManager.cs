@@ -28,9 +28,9 @@ namespace wickedcrush.manager.entity
 
         private List<Entity> addedList = new List<Entity>();
 
-        int MAX_POOL_CAPACITY = 512;
+        int MAX_POOL_CAPACITY = 256;
 
-        public Stack<ActionSkill> skillPool = new Stack<ActionSkill>(512);
+        public Stack<ActionSkill> skillPool = new Stack<ActionSkill>(256);
 
         int MAX_SIMULTANEOUS_ADD = 15;
         bool usingPool = true;

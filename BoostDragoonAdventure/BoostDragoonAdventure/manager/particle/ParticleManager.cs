@@ -15,9 +15,14 @@ namespace wickedcrush.manager.particle
         List<Particle> addList = new List<Particle>();
         List<Particle> removeList = new List<Particle>();
 
+        public Stack<Particle> particlePool;
+        private static int MAX_POOL_CAPACITY = 256;
+        public bool usingPool = true;
+
         public ParticleManager(GameBase game)
             : base(game)
         {
+            particlePool = new Stack<Particle>(MAX_POOL_CAPACITY);
             Initialize();
         }
 
@@ -91,6 +96,11 @@ namespace wickedcrush.manager.particle
             {
                 foreach (Particle e in removeList)
                 {
+                    if (usingPool && particlePool.Count < MAX_POOL_CAPACITY)
+                    {
+                        particlePool.Push(e);
+                    }
+
                     e.Remove();
                     particleList.Remove(e);
                 }

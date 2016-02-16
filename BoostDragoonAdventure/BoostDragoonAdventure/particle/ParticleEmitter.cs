@@ -20,14 +20,23 @@ namespace wickedcrush.particle
 
         public void EmitParticles(ParticleStruct ps, EntityFactory factory, int count)
         {
-            for (int i = 0; i < count; i++)
+            if (Math.Abs((factory._gm.camera.cameraPosition.X + 320) - ps.pos.X) < (600 * factory._gm.camera.fov) && Math.Abs((factory._gm.camera.cameraPosition.Y + 240) - ps.pos.Z) < 480)
             {
-                Particle p = new Particle(ps, factory);
-
-                if (Math.Abs((factory._gm.camera.cameraPosition.X + 320) - ps.pos.X) < (600 * factory._gm.camera.fov) && Math.Abs((factory._gm.camera.cameraPosition.Y + 240) - ps.pos.Z) < 480)
-                    _pm.AddParticle(p);
+                for (int i = 0; i < count; i++)
+                {
+                    if (_pm.particlePool.Count == 0)
+                    {
+                        Particle p = new Particle(ps, factory);
+                        _pm.AddParticle(p);
+                    }
+                    else
+                    {
+                        Particle p = _pm.particlePool.Pop();
+                        p.Initialize(ps, factory);
+                        _pm.AddParticle(p);
+                    }
+                }
             }
         }
-
     }
 }

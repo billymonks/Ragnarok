@@ -81,7 +81,7 @@ namespace wickedcrush.manager.gameplay
 
             scene = new Scene(_game);
 
-            camera = new Camera(_game.playerManager, ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height), _game.screenManager);
+            camera = new Camera(_game.playerManager, _game.screenManager.fov, _game.screenManager);
 
             
 

@@ -218,6 +218,7 @@
     <Compile Include="particle\Particle.cs" />
     <Compile Include="particle\ParticleEmitter.cs" />
     <Compile Include="particle\ParticleServer.cs" />
+    <Compile Include="screen\MainMenuScreen.cs" />
     <Compile Include="screen\menu\GearUpgradeMenuScreen.cs" />
     <Compile Include="screen\menu\PartMenuScreen.cs" />
     <Compile Include="screen\menu\InventoryMenuScreen.cs" />

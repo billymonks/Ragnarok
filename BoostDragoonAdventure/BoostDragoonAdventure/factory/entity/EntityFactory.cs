@@ -364,11 +364,18 @@ namespace wickedcrush.factory.entity
                 return;
 
             int temp = random.Next(0, 15);
-            if (temp < 5)
+            if (temp < 10)
+            {
                 rank = 0;
-            else if (temp < 10)
+            }
+            else if (temp < 13)
+            {
                 rank = 1;
-            else rank = 2;
+            }
+            else
+            {
+                rank = 2;
+            }
             Cactus c = new Cactus(id, _w, pos, size, size / 2f, true, this, _sm, patrol, 3, 100, rank);
             _em.addEntity(c);
         }
@@ -655,7 +662,8 @@ namespace wickedcrush.factory.entity
                     pa = p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 current = current.Next;
 
-                pa.stats.inventory.equippedWeapon.Equip(pa);
+                if (pa.stats.inventory.equippedWeapon != null)
+                    pa.stats.inventory.equippedWeapon.Equip(pa);
             }
         }
 
@@ -676,7 +684,8 @@ namespace wickedcrush.factory.entity
                 if (sanctuaryList.Count > 0)
                 {
                     pa = p.GenerateAgent(sanctuaryList[0].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
-                    pa.stats.inventory.equippedWeapon.Equip(pa);
+                    if (pa.stats.inventory.equippedWeapon != null)
+                        pa.stats.inventory.equippedWeapon.Equip(pa);
                 }
                 //else
                     

@@ -512,20 +512,23 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         private void UpdateItems()
         {
-            if (weaponInUse == null && controls.WeaponScrollUp())
+            if (stats.inventory.equippedWeapon != null)
             {
-                stats.inventory.prevWeapon(this);
-                factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
-                _sound.playCue("abraisive laser");
-            }
-            else if (weaponInUse == null && controls.WeaponScrollDown())
-            {
-                stats.inventory.nextWeapon(this);
-                factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
-                _sound.playCue("abraisive laser");
-            }
+                if (weaponInUse == null && controls.WeaponScrollUp())
+                {
+                    stats.inventory.prevWeapon(this);
+                    factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
+                    _sound.playCue("abraisive laser");
+                }
+                else if (weaponInUse == null && controls.WeaponScrollDown())
+                {
+                    stats.inventory.nextWeapon(this);
+                    factory.addText(stats.inventory.equippedWeapon.name, this.pos, 300);
+                    _sound.playCue("abraisive laser");
+                }
 
-            UpdateEquippedWeapon();
+                UpdateEquippedWeapon();
+            }
             //UpdateItemB();
             //UpdateItemC();
         }
