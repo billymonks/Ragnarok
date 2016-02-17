@@ -177,12 +177,15 @@ namespace wickedcrush.manager.entity
             }
         }
 
-        public void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay)
+        public void Draw(bool depthPass, Dictionary<string, PointLightStruct> lightList, GameplayManager gameplay, Camera camera)
         {
-            
+
             foreach (Entity e in entityList)
             {
-                e.Draw(depthPass, lightList, gameplay);
+                if (Math.Abs((camera.cameraPosition.X + 320) - e.pos.X) < (600 * g.screenManager.fov) && Math.Abs((camera.cameraPosition.Y + 240) - e.pos.Y) < 480)
+                {
+                    e.Draw(depthPass, lightList, gameplay);
+                }
             }
         }
 

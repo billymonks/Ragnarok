@@ -63,7 +63,7 @@ namespace wickedcrush.screen.menu
                 answerBoxes.Add(answer.val, new Rectangle((720 - answers.Count * 110) + i * 220, 20 + height, 200, 200));
                 answerSpriters.Add(answer.val, tempSpriter);
 
-                tempText = _gm.factory.addText(answer.text, Helper.CastToVector2(answerBoxes[answer.val].Center), -1, Color.White, 1f);
+                tempText = new TextEntity(answer.text, Helper.CastToVector2(answerBoxes[answer.val].Center), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
 
                 answerText.Add(answer.val, tempText);
 
