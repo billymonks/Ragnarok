@@ -15,7 +15,8 @@ namespace wickedcrush.eventscript
         SetInt,
         CheckInt,
         IntVal,
-        ItemGet
+        ItemGet,
+        Equip
     }
     public class EventNode
     {

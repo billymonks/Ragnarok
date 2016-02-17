@@ -80,6 +80,10 @@ namespace wickedcrush.manager.eventscript
                         newNode = GetItemGetNode(e, parent);
                         nodeList.Add(newNode);
                         break;
+                    case "equip":
+                        newNode = GetEquipNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
                 }
             }
 
@@ -124,6 +128,13 @@ namespace wickedcrush.manager.eventscript
             SetIntNode node = new SetIntNode(element.Attribute("key").Value, int.Parse(element.Value), parent);
 
             node.SetChildren(GetChildElements(element, node));
+
+            return node;
+        }
+
+        private EquipNode GetEquipNode(XElement element, EventNode parent)
+        {
+            EquipNode node = new EquipNode(parent);
 
             return node;
         }

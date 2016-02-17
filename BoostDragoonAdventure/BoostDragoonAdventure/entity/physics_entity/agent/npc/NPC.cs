@@ -74,7 +74,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                     if (((PlayerAgent)e).InteractPressed())
                     {
                         //factory.createDialog(dialog, new Vector2(200f, 200f));
-                        factory.StartEvent(1);
+                        factory.StartEvent(2);
                     }
                 }
             }

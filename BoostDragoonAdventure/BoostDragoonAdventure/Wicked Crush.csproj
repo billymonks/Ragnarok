@@ -127,6 +127,7 @@
     <Compile Include="behavior\state\State.cs" />
     <Compile Include="eventscript\AnswerNode.cs" />
     <Compile Include="eventscript\CheckIntNode.cs" />
+    <Compile Include="eventscript\EquipNode.cs" />
     <Compile Include="eventscript\ItemGetNode.cs" />
     <Compile Include="eventscript\IntValNode.cs" />
     <Compile Include="eventscript\SetIntNode.cs" />

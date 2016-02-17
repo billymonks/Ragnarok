@@ -33,4 +33,20 @@
     <node type="itemget" item="Knife" />
     <node type="dialog">You got a Knife!</node>
   </event>
+  <event id="2">
+    <node type="dialog">I can equip upgrades to your gear for you.</node>
+    <node type="question" key="equip_temp" text="Whatta ya say? Upgrade your gear?">
+      <node type="answer" val="1" text="Yes" />
+      <node type="answer" val="0" text="No" />
+    </node>
+    <node type="checkint" key="equip_temp">
+      <node type="intval" val="1">
+        <node type="equip" id="0" />
+        <node type="dialog">Come back soon!</node>
+      </node>
+      <node type="intval" val="0">
+        <node type="dialog">Let me know if you change your mind.</node>
+      </node>
+    </node>
+  </event>
 </events>
