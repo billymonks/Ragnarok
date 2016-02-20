@@ -489,8 +489,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (this.target is PlayerAgent)
             {
                 Item temp = InventoryServer.getRareItem();
-                ((PlayerAgent)target).stats.inventory.receiveItem(temp);
-                factory.DisplayMessage("You got " + temp.name + "!");
+                //((PlayerAgent)target).stats.inventory.receiveItem(temp);
+                //factory.DisplayMessage("You got " + temp.name + "!");
+                factory.GetItem(temp);
             }
             base.Die();
         }

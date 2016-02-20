@@ -105,8 +105,10 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                         opened = true;
                         Item temp = InventoryServer.getRandomItem();
                         //factory.addText("You got " + temp.name + "!", this.pos + this.center, 3000);
-                        factory.DisplayMessage("You got " + temp.name + "!");
-                        ((PlayerAgent)e).stats.inventory.receiveItem(temp);
+                        //factory.DisplayMessage("You got " + temp.name + "!");
+                        //((PlayerAgent)e).stats.inventory.receiveItem(temp);
+
+                        factory.GetItem(temp);
 
                         ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - 5, 20, this.pos.Y + this.center.Y - 5), new Vector3(10, 0, 10), new Vector3(-0.5f, -1f, -0.5f), new Vector3(1f, 2f, 1f), new Vector3(0, .03f, 0), 0f, 0f, 1000, 100, "particles", 0, "white_to_blue");
                         EmitParticles(ps, 10);

@@ -62,7 +62,7 @@ namespace wickedcrush.manager.gameplay
 
         public CursorEntity cursor;
 
-        public Stack<EventScript> eventScripts;
+        public Stack<EventScript> eventScripts = new Stack<EventScript>();
 
         
 
@@ -105,7 +105,7 @@ namespace wickedcrush.manager.gameplay
             _networkManager = _game.networkManager;
             _roomManager = _game.roomManager;
 
-            eventScripts = new Stack<EventScript>();
+            
 
             factory = new EntityFactory(_game, this, entityManager, particleManager, _roomManager, w);
 

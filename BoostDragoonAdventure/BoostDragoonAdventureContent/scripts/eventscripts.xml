@@ -1,29 +1,32 @@
 ﻿<events>
   <event id="0">
-    <node type="checkint" key="bought_pizza">
-      <node type="intval" val="-1">
-        <node type="dialog">Hey there, I'm selling pizzas.</node>
+    <node type="solidbg" r="0" g="0" b="0" a="0.5">
+      <node type="checkint" key="bought_pizza">
+        <node type="intval" val="-1">
+          <node type="dialog">Hey there, I'm selling pizzas.</node>
+        </node>
+        <node type="intval" val="0">
+          <node type="dialog">I knew you'd be back.</node>
+        </node>
+        <node type="intval" val="1">
+          <node type="dialog">Ah... back for more, I see.</node>
+        </node>
       </node>
-      <node type="intval" val="0">
-        <node type="dialog">I knew you'd be back.</node>
+      <node type="question" key="store_temp" text="Would you like to buy?">
+        <node type="answer" val="1" text="Yes" />
+        <node type="answer" val="0" text="No" />
       </node>
-      <node type="intval" val="1">
-        <node type="dialog">Ah... back for more, I see.</node>
-      </node>
-    </node>
-    <node type="question" key="store_temp" text="Would you like to buy?">
-      <node type="answer" val="1" text="Yes" />
-      <node type="answer" val="0" text="No" />
-    </node>
-    <node type="checkint" key="store_temp">
-      <node type="intval" val="1">
-        <node type="setint" key="bought_pizza">1</node>
-        <node type="dialog">Great~! Here, take a look.</node>
-        <node type="store" id="0" />
-      </node>
-      <node type="intval" val="0">
-        <node type="setint" key="bought_pizza">0</node>
-        <node type="dialog">You'll be back...</node>
+      <node type="checkint" key="store_temp">
+        <node type="intval" val="1">
+          <node type="setint" key="bought_pizza">1</node>
+          <node type="dialog">Great~! Here, take a look.</node>
+          <node type="store" id="0" />
+          <node type="equip" id="0" />
+        </node>
+        <node type="intval" val="0">
+          <node type="setint" key="bought_pizza">0</node>
+          <node type="dialog">You'll be back...</node>
+        </node>
       </node>
     </node>
   </event>

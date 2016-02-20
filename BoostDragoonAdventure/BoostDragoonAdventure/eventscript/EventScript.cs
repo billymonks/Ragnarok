@@ -29,11 +29,13 @@ namespace wickedcrush.eventscript
             {
                 while (nodeStack.Count > 0 && (nodeStack.Peek().type.Equals(NodeType.Answer) || nodeStack.Peek().type.Equals(NodeType.IntVal) || nodeStack.Peek().next == null))
                 {
+                    nodeStack.Peek().Unload(game, gm, p, this);
                     nodeStack.Pop();
                 }
 
                 if (nodeStack.Count > 0 && nodeStack.Peek().next != null)
                 {
+                    nodeStack.Peek().Unload(game, gm, p, this);
                     curr = nodeStack.Pop().next;
                     curr.Process(game, gm, p, this);
                 }

@@ -439,14 +439,7 @@ namespace wickedcrush.inventory
             consumables.Add("Pizza Pie", new Consumable("Pizza Pie", "A flaky crust emitting a distinct pizza scent.\n\nClick to open.",
                 (a, i) =>
                 {
-                    //a.stats.addTo("hp", 60);
 
-                    //if (a.stats.get("hp") > a.stats.get("maxHP"))
-                        //a.stats.set("hp", a.stats.get("maxHP"));
-
-                    
-
-                    //a.stats.inventory.removeItem(i);
                     a.stats.inventory.receiveItem(getConsumable("Pizza"));
 
                     a.factory.DisplayMessage("You dig into the crust with your grubby mitts.\nThere was a Pizza inside!");

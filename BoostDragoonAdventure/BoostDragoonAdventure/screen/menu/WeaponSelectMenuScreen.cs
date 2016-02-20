@@ -49,7 +49,7 @@ namespace wickedcrush.screen.menu
         {
             base.Initialize(g);
 
-            backgroundColor = new Color(0.4f, 0.4f, 0f, 1f);
+            //backgroundColor = new Color(0.4f, 0.4f, 0f, 1f);
 
             weaponSlotSpriters = new Dictionary<int, SpriterPlayer>();
             weaponBoxes = new Dictionary<int, Rectangle>();

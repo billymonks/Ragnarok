@@ -25,7 +25,7 @@ namespace wickedcrush.screen.menu
 
         public GameplayMenuScreen(GameBase game, GameplayManager gm, Player p) : base(game, gm, p)
         {
-            backgroundColor = new Color(0f, 0f, 0f, 0.5f);
+            //backgroundColor = new Color(0f, 0f, 0f, 0.5f);
             
         }
 

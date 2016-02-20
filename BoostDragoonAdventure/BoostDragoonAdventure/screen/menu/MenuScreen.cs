@@ -26,7 +26,7 @@ namespace wickedcrush.screen.menu
         public Vector2 prevCursorPosition = Vector2.Zero;
         public Vector2 scaledCursorPosition = Vector2.Zero;
 
-        protected Color backgroundColor = new Color(0f, 0f, 0f, 0.5f);
+        protected Color backgroundColor = new Color(0f, 0f, 0f, 0f);
 
         protected float marginSize;
 

@@ -16,7 +16,8 @@ namespace wickedcrush.eventscript
         CheckInt,
         IntVal,
         ItemGet,
-        Equip
+        Equip,
+        SolidBG
     }
     public class EventNode
     {
@@ -27,6 +28,11 @@ namespace wickedcrush.eventscript
         public EventNode() {}
 
         public virtual void Process(GameBase game, GameplayManager gm, Player p, EventScript script)
+        {
+
+        }
+
+        public virtual void Unload(GameBase game, GameplayManager gm, Player p, EventScript script)
         {
 
         }

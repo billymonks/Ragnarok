@@ -41,6 +41,7 @@ using wickedcrush.entity.physics_entity.agent.trap.triggerable;
 using Com.Brashmonkey.Spriter.player;
 using wickedcrush.screen.menu;
 using wickedcrush.eventscript;
+using wickedcrush.inventory;
 
 namespace wickedcrush.factory.entity
 {
@@ -125,9 +126,28 @@ namespace wickedcrush.factory.entity
             return false;
         }
 
+        public void GetItem(Item i)
+        {
+            _game.eventManager.GetItem(_game, _gm, _pm.getPlayerList()[0], i);
+        }
+
+        public void UseItem(Item i)
+        {
+            _game.eventManager.UseItem(_game, _gm, _pm.getPlayerList()[0], i);
+        }
+
         public void DisplayMessage(String text)
         {
             _game.screenManager.AddScreen(new MessageDisplayScreen(text, _game, _gm, _game.playerManager.getPlayerList()[0]));
+        }
+
+        public ColorDisplayScreen DisplayColor(Color color)
+        {
+            ColorDisplayScreen screen = new ColorDisplayScreen(color, _game, _gm, _game.playerManager.getPlayerList()[0]);
+            
+            _game.screenManager.AddScreen(screen);
+
+            return screen;
         }
 
         public void DisplayQuestion(String text, String key, List<AnswerNode> answers)

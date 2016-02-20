@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using wickedcrush.eventscript;
 using System.Xml.Linq;
+using Microsoft.Xna.Framework;
+using wickedcrush.inventory;
+using wickedcrush.manager.gameplay;
+using wickedcrush.player;
 
 namespace wickedcrush.manager.eventscript
 {
@@ -84,6 +88,10 @@ namespace wickedcrush.manager.eventscript
                         newNode = GetEquipNode(e, parent);
                         nodeList.Add(newNode);
                         break;
+                    case "solidbg":
+                        newNode = GetSolidBGNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
                 }
             }
 
@@ -139,6 +147,16 @@ namespace wickedcrush.manager.eventscript
             return node;
         }
 
+        private SolidBackgroundNode GetSolidBGNode(XElement element, EventNode parent)
+        {
+            SolidBackgroundNode node = new SolidBackgroundNode(
+                new Color(float.Parse(element.Attribute("r").Value), float.Parse(element.Attribute("g").Value), float.Parse(element.Attribute("b").Value), float.Parse(element.Attribute("a").Value)), parent);
+
+            node.SetChildren(GetChildElements(element, node));
+
+            return node;
+        }
+
         private ItemGetNode GetItemGetNode(XElement element, EventNode parent)
         {
             ItemGetNode node = new ItemGetNode(element.Attribute("item").Value, parent);
@@ -153,6 +171,50 @@ namespace wickedcrush.manager.eventscript
             node.SetChildren(GetChildElements(element, node));
 
             return node;
+        }
+
+        public void GetItem(GameBase game, GameplayManager gm, Player p, Item i)
+        {
+            EventScript script = GetItemScript(game, gm, p, i);
+
+            gm.eventScripts.Push(script);
+            
+        }
+
+        public EventScript GetItemScript(GameBase game, GameplayManager gm, Player p, Item i)
+        {
+            //Item temp = InventoryServer.getRareItem();
+            p.getStats().inventory.receiveItem(i);
+            List<EventNode> convo = new List<EventNode>();
+
+            SolidBackgroundNode bgNode = new SolidBackgroundNode(new Color(0, 0, 0, 0.5f), null);
+
+            DialogNode dialogNode = new DialogNode("You got " + i.name + "!", bgNode);
+
+            bgNode.SetChildren(new List<EventNode>() { dialogNode });
+
+            convo.Add(bgNode);
+
+            EventScript eventScript = new EventScript(convo);
+
+            return eventScript;
+        }
+
+        public EventScript UseItem(GameBase game, GameplayManager gm, Player p, Item i)
+        {
+            //Item temp = InventoryServer.getRareItem();
+            p.getStats().inventory.receiveItem(i);
+            List<EventNode> convo = new List<EventNode>();
+
+            SolidBackgroundNode bgNode = new SolidBackgroundNode(new Color(0, 0, 0, 0.5f), null);
+
+            DialogNode dialogNode = new DialogNode("You got " + i.name + "!", bgNode);
+
+            convo.Add(bgNode);
+
+            EventScript eventScript = new EventScript(convo);
+
+            return eventScript;
         }
 	}
 }
