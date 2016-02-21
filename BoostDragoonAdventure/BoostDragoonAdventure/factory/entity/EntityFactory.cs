@@ -504,9 +504,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(c);
         }
 
-        public void addNPC(Vector2 pos, Vector2 size, String dialog)
+        public void addNPC(Vector2 pos, Vector2 size, int eid)
         {
-            NPC npc = new NPC(pos, size, dialog, _game, _gm);
+            NPC npc = new NPC(pos, size, eid, _game, _gm);
             npc.stats.set("staggerDuration", 1);
             npc.stats.set("staggerDistance", 0);
             _em.addEntity(npc);

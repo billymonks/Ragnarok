@@ -16,13 +16,13 @@ namespace wickedcrush.entity.physics_entity.agent.npc
     public class NPC : Agent
     {
         GameBase _game;
-        String dialog;
+        int eventId;
 
-        public NPC(Vector2 pos, Vector2 size, String dialog, GameBase game, GameplayManager gameplayManager)
+        public NPC(Vector2 pos, Vector2 size, int eventId, GameBase game, GameplayManager gameplayManager)
             : base(-1, gameplayManager.w, pos, size, size / 2f, true, gameplayManager.factory, game.soundManager)
         {
             _game = game;
-            this.dialog = dialog;
+            this.eventId = eventId;
             Initialize();
         }
 
@@ -74,7 +74,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                     if (((PlayerAgent)e).InteractPressed())
                     {
                         //factory.createDialog(dialog, new Vector2(200f, 200f));
-                        factory.StartEvent(0);
+                        factory.StartEvent(eventId);
                     }
                 }
             }

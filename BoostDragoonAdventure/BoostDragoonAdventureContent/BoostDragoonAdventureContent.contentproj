@@ -2700,6 +2700,7 @@
     <Content Include="maps\full\a2.oel">
       <Name>a2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="maps\full\a3.oel">
       <Name>a3</Name>
@@ -2720,6 +2721,7 @@
     <Content Include="maps\full\c2.oel">
       <Name>c2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="maps\full\c3.oel">
       <Name>c3</Name>
