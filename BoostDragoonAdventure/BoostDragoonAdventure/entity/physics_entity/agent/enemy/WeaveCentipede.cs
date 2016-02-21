@@ -154,7 +154,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                     //this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 100, 4, 1, 0, 1, false, 300f, 300, 300, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                     //SkillServer.GenerateProjectile(new Vector2(5f, 5f), new Vector2(200, 0), -25, 100, 1800, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, true), true));
 
-                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 24, 24, 0, 350, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                    this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 8, 8, 0, 100, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                     SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false), false));
 
                                     //this.aimDirection -= 10;
@@ -169,12 +169,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                                 {
                                     if (counterShots % 2 == 1)
                                     {
-                                        this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 8, 8, 0, 310, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                        this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 3, 3, 0, 80, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                         SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false), false));
                                     }
                                     else
                                     {
-                                        this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 16, 16, 0, 337, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
+                                        this.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), 0, 6, 6, 0, 120, false, 50f, 0, 0, 0.3f, ParticleServer.GenerateParticle(), "attack1", 3, "all",
                                         SkillServer.GenerateProjectile(new Vector2(15f, 15f), new Vector2(100, 0), -25, 100, 5300, ParticleServer.GenerateParticle(), "whsh", "attack1", 3, "all", Vector2.Zero, false), false));
                                     }
 
