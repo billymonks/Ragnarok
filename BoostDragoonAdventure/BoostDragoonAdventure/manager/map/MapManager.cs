@@ -75,7 +75,7 @@ namespace wickedcrush.manager.map
         public void LoadMap(GameplayManager gm, Map map, MapStats mapStats)
         {
             int id = -1;
-            int doorCount = 0;
+            int gateCount = 0;
             int rank = 3;
 
             XDocument doc = XDocument.Load(mapStats.filename);
@@ -255,12 +255,24 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("DOOR"))
                 {
-                    gm.factory.addDoor(
+                    gm.factory.addGate(
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
                         (Direction)int.Parse(e.Attribute("angle").Value),
-                        mapStats.connections[doorCount]);
+                        mapStats.connections[gateCount]);
 
-                    doorCount++;
+                    gateCount++;
+                }
+
+                foreach (XElement e in objects.Elements("S_DOOR"))
+                {
+                    gm.factory.addDoor(
+                        new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)),
+                        new Vector2(float.Parse(e.Attribute("width").Value), float.Parse(e.Attribute("height").Value)),
+                        e.Attribute("map").Value,
+                        int.Parse(e.Attribute("my_id").Value),
+                        int.Parse(e.Attribute("destination_id").Value));
+
+                    //doorCount++;
                 }
 
                 foreach (XElement e in objects.Elements("SANCTUARY"))

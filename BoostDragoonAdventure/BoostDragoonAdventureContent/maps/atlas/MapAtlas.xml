@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <atlas>
+  <map name="inn" filename="Content/maps/full/inn.oel" theme ="dust">
+  </map>
   <map name="town_a" filename="Content/maps/full/town_a.oel" theme ="dust">
     <connection id="0" doorIndex="1">a1</connection>
     <connection id="1" doorIndex="0">overlook_a</connection>

@@ -125,6 +125,7 @@
     <Compile Include="behavior\StateBranch.cs" />
     <Compile Include="behavior\StateTree.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="eventscript\AnswerNode.cs" />
     <Compile Include="eventscript\CheckIntNode.cs" />
     <Compile Include="eventscript\SolidBackgroundNode.cs" />
@@ -180,7 +181,7 @@
     <Compile Include="entity\physics_entity\agent\enemy\ShiftyShooter.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\DestinationAgent.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Sanctuary.cs" />
-    <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
+    <Compile Include="entity\physics_entity\agent\inanimate\Gate.cs" />
     <Compile Include="entity\physics_entity\agent\npc\NPC.cs" />
     <Compile Include="entity\physics_entity\agent\npc\TerminalNPC.cs" />
     <Compile Include="entity\physics_entity\agent\trap\AimTurret.cs" />

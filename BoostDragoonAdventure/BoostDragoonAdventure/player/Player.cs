@@ -37,7 +37,7 @@ namespace wickedcrush.player
 
         public InventoryPanel inventoryPanel; // this three
 
-        public Door respawnPoint;
+        public Gate respawnPoint;
 
         public bool remove = false;
 

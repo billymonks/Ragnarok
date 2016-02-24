@@ -41,6 +41,7 @@ namespace wickedcrush.map
         public int width, height;
         public Dictionary<LayerType, Layer> layerList;
         public List<Circuit> circuitList;
+        public List<Gate> gateList;
         public List<Door> doorList;
         public List<ArtTile> artTileList;
         public String name;
@@ -48,6 +49,7 @@ namespace wickedcrush.map
         public Map(String MAP_NAME)
         {
             layerList = new Dictionary<LayerType, Layer>();
+            gateList = new List<Gate>();
             doorList = new List<Door>();
             artTileList = new List<ArtTile>();
         }

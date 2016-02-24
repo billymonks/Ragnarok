@@ -12,32 +12,29 @@ using wickedcrush.manager.map;
 
 namespace wickedcrush.entity.physics_entity.agent.inanimate
 {
-    public class Door : Agent
+    public class Gate : Agent
     {
-        public String destinationMapName;
-        public int myId, destinationId;
+        public Connection connection;
 
         private GameplayManager _gameplayManager;
 
         private bool playerOn = false, textAdded = false;
 
-        private TextEntity promptText;
+        private TextEntity destinationText;
 
-        public Door(World w, Vector2 pos, Vector2 size, String destinationMapName, int myId, int destinationId, GameplayManager gm, EntityFactory factory, SoundManager sound)
-            : base(-1, w, pos, size, size/2f, false, factory, sound)
+        public Gate(World w, Vector2 pos, Direction facing, Connection connection, GameplayManager gm, EntityFactory factory, SoundManager sound)
+            : base(-1, w, pos, new Vector2(160f, 160f), new Vector2(80f, 80f), false, factory, sound)
         {
-            this.facing = Direction.East;
+            this.facing = facing;
             this._gameplayManager = gm;
-            this.destinationMapName = destinationMapName;
-            this.myId = myId;
-            this.destinationId = destinationId;
+            this.connection = connection;
             this.visible = false;
             this.immortal = true;
             this.noCollision = true;
 
-            promptText = new TextEntity("Enter", pos+center, sound, factory._game, -1, factory, 1f, false);
-            promptText.alignment = TextAlignment.Center;
-            promptText.inScene = false;
+            destinationText = new TextEntity("Next Area: " + connection.mapName, new Vector2((pos.X + gm.camera.cameraPosition.X) / 2f, (pos.Y + gm.camera.cameraPosition.Z) / 2f), sound, factory._game, -1, factory, 1f, false);
+            destinationText.alignment = TextAlignment.Center;
+            destinationText.inScene = false;
         }
 
         public override void Update(GameTime gameTime)
@@ -45,25 +42,17 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
             base.Update(gameTime);
 
             //destinationText.pos = new Vector2((pos.X + _gameplayManager.camera.cameraPosition.X * 0.5f), (pos.Y + _gameplayManager.camera.cameraPosition.Z * 0.1f));
-            promptText.pos = new Vector2(720, 60);
+            destinationText.pos = new Vector2(720, 60);
 
             if (!textAdded && playerOn)
             {
-                _gameplayManager._screen.AddText(promptText);
+                _gameplayManager._screen.AddText(destinationText);
                 textAdded = true;
             }
             else if (textAdded && !playerOn)
             {
-                _gameplayManager._screen.RemoveText(promptText);
+                _gameplayManager._screen.RemoveText(destinationText);
                 textAdded = false;
-            }
-
-            if(playerOn && _gameplayManager._playerManager.getPlayerList()[0].c.InteractPressed()){
-                if (textAdded)
-                {
-                    _gameplayManager._screen.RemoveText(promptText);
-                }
-                _gameplayManager.TraverseDoor(this);
             }
 
             //prevPlayerOn = playerOn;
@@ -75,7 +64,7 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
 
             if(textAdded)
             {
-                _gameplayManager._screen.RemoveText(promptText);
+                _gameplayManager._screen.RemoveText(destinationText);
                 textAdded = false;
             }
         }
@@ -90,8 +79,8 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
                     && c.Other.UserData != null
                     && c.Other.UserData is PlayerAgent)
                 {
-                    //_gameplayManager.activeConnection = this.connection;
-                    //((PlayerAgent)c.Other.UserData).player.respawnPoint = this;
+                    _gameplayManager.activeConnection = this.connection;
+                    ((PlayerAgent)c.Other.UserData).player.respawnPoint = this;
                     playerOn = true;
                 }
                 

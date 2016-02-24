@@ -60,7 +60,8 @@ namespace wickedcrush.factory.entity
 
         public Random random;
 
-        private List<Door> doorList;
+        private List<Gate> gateList;
+        private Dictionary<int, Door> doorList;
         private List<Sanctuary> sanctuaryList;
 
         public Dictionary<String, bool> savedBools = new Dictionary<String, bool>();
@@ -81,7 +82,8 @@ namespace wickedcrush.factory.entity
 
             random = new Random();
 
-            doorList = new List<Door>();
+            gateList = new List<Gate>();
+            doorList = new Dictionary<int, Door>();
             sanctuaryList = new List<Sanctuary>();
         }
 
@@ -289,10 +291,18 @@ namespace wickedcrush.factory.entity
             return c;
         }
 
-        public void addDoor(Vector2 pos, Direction facing, Connection connection)
+        public void addGate(Vector2 pos, Direction facing, Connection connection)
         {
-            Door d = new Door(_w, pos, facing, connection, _gm, this, _sm);
-            doorList.Add(d);
+            Gate d = new Gate(_w, pos, facing, connection, _gm, this, _sm);
+            gateList.Add(d);
+
+            _em.addEntity(d);
+        }
+
+        public void addDoor(Vector2 pos, Vector2 size, String destinationMapName, int myId, int destinationId)
+        {
+            Door d = new Door(_w, pos, size, destinationMapName, myId, destinationId, _gm, this, _sm);
+            doorList.Add(myId, d);
 
             _em.addEntity(d);
         }
@@ -674,7 +684,7 @@ namespace wickedcrush.factory.entity
             return textEnt;
         }
 
-        public void spawnPlayers(int doorIndex)
+        public void spawnPlayersThroughGate(int gateIndex)
         {
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
             positions.AddLast(new Vector2(-24, -24));
@@ -688,7 +698,33 @@ namespace wickedcrush.factory.entity
             
             foreach (Player p in _pm.getPlayerList())
             {
-                if(doorList.Count > doorIndex)
+                if(gateList.Count > gateIndex)
+                    pa = p.GenerateAgent(gateList[gateIndex].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                else
+                    pa = p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
+                current = current.Next;
+
+                if (pa.stats.inventory.equippedWeapon != null)
+                    pa.stats.inventory.equippedWeapon.Equip(pa);
+            }
+        }
+
+        public void spawnPlayersThroughDoor(int doorIndex)
+        {
+            LinkedList<Vector2> positions = new LinkedList<Vector2>();
+            positions.AddLast(Vector2.Zero);
+            //positions.AddLast(new Vector2(-24, -24));
+            //positions.AddLast(new Vector2(-24, 24));
+            //positions.AddLast(new Vector2(24, 24));
+            //positions.AddLast(new Vector2(24, -24));
+            //positions.AddLast(new Vector2(48, 0));
+            LinkedListNode<Vector2> current = positions.First;
+
+            PlayerAgent pa;
+
+            foreach (Player p in _pm.getPlayerList())
+            {
+                if (doorList.Count > doorIndex)
                     pa = p.GenerateAgent(doorList[doorIndex].pos + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
                 else
                     pa = p.GenerateAgent(new Vector2(-48, 400) + current.Value, new Vector2(24, 24), new Vector2(12, 12), true, this);
