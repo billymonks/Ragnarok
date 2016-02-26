@@ -24,7 +24,7 @@ namespace wickedcrush.utility.config
 
         public GameSettings()
         {
-            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml");
+            String path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush\\settings.xml");
             if (File.Exists(path))
                 LoadSettings();
             else
@@ -35,7 +35,7 @@ namespace wickedcrush.utility.config
 
         private void LoadSettings()
         {
-            XDocument doc = XDocument.Load(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml"));
+            XDocument doc = XDocument.Load(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush\\settings.xml"));
             
             if (doc.Element("settings").Elements("resolution").Count<XElement>() > 0)
             {
@@ -105,9 +105,9 @@ namespace wickedcrush.utility.config
             root.Add(lightNode);
             doc.Add(root);
 
-            if (!System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp")))
-                System.IO.Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp"));
-            doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\vp\\settings.xml"));
+            if (!System.IO.Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush")))
+                System.IO.Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush"));
+            doc.Save(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush\\settings.xml"));
         }
     }
 }

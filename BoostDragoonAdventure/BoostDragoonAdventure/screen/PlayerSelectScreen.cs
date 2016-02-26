@@ -348,11 +348,11 @@ namespace wickedcrush.screen
         {
             charList.Clear();
 
-            if (!Directory.Exists("characters/"))
-                Directory.CreateDirectory("characters/");
+            //if (!Directory.Exists("characters/"))
+                //Directory.CreateDirectory("characters/");
 
 
-            string[] filePaths = Directory.GetFiles("characters/");
+            string[] filePaths = Directory.GetFiles(game.characterPath);
 
             XDocument temp;
 

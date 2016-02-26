@@ -24,6 +24,7 @@ namespace wickedcrush.screen.menu
             this.messageText = messageText;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+            message.SetMaxWidth(800f);
             AddText(message);
         }
 

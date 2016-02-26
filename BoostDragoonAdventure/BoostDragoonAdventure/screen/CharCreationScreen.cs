@@ -40,7 +40,7 @@ namespace wickedcrush.screen
             do
             {
                 localId = Guid.NewGuid().ToString();
-            } while (File.Exists("characters/" + localId + ".xml"));
+            } while (File.Exists(g.characterPath + "/" + localId + ".xml"));
 
             textInput = new TextInput(u.controls);
         }
@@ -88,11 +88,11 @@ namespace wickedcrush.screen
 
         private void LoadLocalChars()
         {
-            if (!Directory.Exists("characters/"))
-                Directory.CreateDirectory("characters/");
+            //if (!Directory.Exists("characters/"))
+                //Directory.CreateDirectory("characters/");
 
 
-            string[] filePaths = Directory.GetFiles("characters/");
+            string[] filePaths = Directory.GetFiles(game.characterPath);
 
             XDocument temp;
 

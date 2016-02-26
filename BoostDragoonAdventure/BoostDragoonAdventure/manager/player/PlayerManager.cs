@@ -214,12 +214,14 @@ namespace wickedcrush.manager.player
 
         public Player addNewPlayer(String name, int playerNumber, Controls c)
         {
+            
+
             Player p = new Player(name, playerNumber, c, new PersistedStats(), g.panelFactory);
             
             do
             {
                 p.localId = Guid.NewGuid().ToString();
-            } while (File.Exists("characters/" + p.localId + ".xml"));
+            } while (File.Exists(g.characterPath + "/" + p.localId + ".xml"));
 
             p.initializeAgentStats();
 
@@ -242,10 +244,10 @@ namespace wickedcrush.manager.player
 
         public void savePlayer(Player p)
         {
-            if (!Directory.Exists("characters/"))
-                Directory.CreateDirectory("characters/");
+            //if (!Directory.Exists("characters/"))
+                //Directory.CreateDirectory("characters/");
 
-            String path = "characters/" + p.localId + ".xml";
+            String path = g.characterPath + "/" + p.localId + ".xml";
 
             XDocument doc = new XDocument();
             XElement rootElement = new XElement("character");
@@ -380,7 +382,7 @@ namespace wickedcrush.manager.player
 
         public Player loadPlayer(String localId, int playerNumber, Controls c)
         {
-            String path = "characters/" + localId + ".xml";
+            String path = g.characterPath + "/" + localId + ".xml";
 
             if (!File.Exists(path))
                 throw new FileLoadException("i'm sorry to break this bad news to you but your character seems to be deleted: " + path);
@@ -407,7 +409,7 @@ namespace wickedcrush.manager.player
 
             if (!stats.stringsContainsKey("home"))
             {
-                stats.set("home", "a1");
+                stats.set("home", "inn");
             }
 
             stats.inventory.addCurrency(int.Parse(inventoryElement.Attribute("gold").Value));

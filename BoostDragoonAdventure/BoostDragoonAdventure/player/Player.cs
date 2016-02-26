@@ -123,7 +123,7 @@ namespace wickedcrush.player
             stats.set("staggerDuration", 50);
             stats.set("stagger", 0);
 
-            stats.set("home", "a1");
+            stats.set("home", "inn");
 
             //stats.inventory.removeAllOfItem(ItemServer.getItem("Healthsweed"));
             //stats.inventory.removeAllOfItem(ItemServer.getItem("Spellbook: Fireball"));

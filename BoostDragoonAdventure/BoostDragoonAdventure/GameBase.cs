@@ -30,6 +30,7 @@ using wickedcrush.entity.physics_entity.agent.action;
 using wickedcrush.utility.config;
 using wickedcrush.display._3d.atlas;
 using wickedcrush.manager.eventscript;
+using System.IO;
 
 namespace wickedcrush
 {
@@ -91,6 +92,8 @@ namespace wickedcrush
 
         public GameSettings settings = new GameSettings();
 
+        public String path, characterPath;
+
         public GameBase()
         {
             debugMode = false;
@@ -104,6 +107,22 @@ namespace wickedcrush
             IsFixedTimeStep = true;
             SetFrameRate(60);
             graphics.ApplyChanges();
+
+            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "My Games\\Wicked Crush");
+
+            if (!System.IO.Directory.Exists(path))
+            {
+                System.IO.Directory.CreateDirectory(path);
+            }
+
+            characterPath = Path.Combine(path, "characters");
+
+            if (!System.IO.Directory.Exists(characterPath))
+            {
+                System.IO.Directory.CreateDirectory(characterPath);
+            }
+
+
 
             spriterManager = new SpriterManager(this);
             playerManager = new PlayerManager(this);

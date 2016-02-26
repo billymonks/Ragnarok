@@ -10,7 +10,7 @@
     <connection id="0" doorIndex="1">town_a</connection>
     <connection id="1" doorIndex="0">overlook_b</connection>
   </map>
-  <map name="overlook_b" filename="Content/maps/full/overlook_b.oel" theme="dust">
+  <map name="overlook_b" filename="Content/maps/full/overlook_b.oel">
     <connection id="0" doorIndex="1">overlook_a</connection>
   </map>
   <map name="a1" filename="Content/maps/full/a1.xml" theme="dust">
