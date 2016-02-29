@@ -27,11 +27,7 @@ namespace wickedcrush.eventscript
                 val = p.getStats().getNumber(key);
             }
 
-            //if (next != null)
-            //{
-                script.nodeStack.Push(this);
-            //}
-
+            bool childFound = false;
 
             foreach (EventNode node in children)
             {
@@ -39,10 +35,20 @@ namespace wickedcrush.eventscript
                 {
                     
                     script.curr = node.children[0];
+
+                    childFound = true;
                     
                 }
             }
 
+            if (childFound)
+            {
+                script.nodeStack.Push(this);
+            }
+            else
+            {
+                script.curr = script.curr.next;
+            }
             
         }
     }

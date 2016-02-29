@@ -24,7 +24,7 @@ namespace wickedcrush.screen.menu
             this.messageText = messageText;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            message.SetMaxWidth(800f);
+            message.SetMaxWidth(840f);
             AddText(message);
         }
 
@@ -35,6 +35,8 @@ namespace wickedcrush.screen.menu
             window = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 6, _gm.factory._spriterManager.spriters["hud"].loader);
             window.setAnimation("3line", 0, 0);
             AddSpriter(window);
+
+            RemoveSpriter(crosshairSpriter);
             
         }
 

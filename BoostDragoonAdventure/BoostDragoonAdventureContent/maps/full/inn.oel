@@ -202,8 +202,8 @@
   <OBJECTS>
     <S_DOOR id="0" x="840" y="420" width="40" height="40" map="town_a" my_id="0" destination_id="0" />
     <SANCTUARY id="1" x="400" y="310" />
-    <NPC id="2" x="600" y="510" angle="0" eid="1" />
-    <NPC id="3" x="800" y="310" angle="0" eid="0" />
+    <NPC id="2" x="600" y="510" angle="0" eid="2" />
+    <NPC id="3" x="800" y="310" angle="0" eid="3" />
     <CHEST id="4" x="360" y="480" />
   </OBJECTS>
   <ART1 exportMode="Bitstring">0000000000000000000000000000000000000000000000000000000000000000

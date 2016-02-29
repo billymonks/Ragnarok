@@ -19,7 +19,7 @@ namespace wickedcrush.screen.menu
         protected GameplayManager _gm;
         protected Player p;
 
-        SpriterPlayer crosshairSpriter;
+        protected SpriterPlayer crosshairSpriter;
 
         public Vector2 cursorPos = new Vector2(720, 540);
         public Vector2 cursorPosition = Vector2.Zero;
