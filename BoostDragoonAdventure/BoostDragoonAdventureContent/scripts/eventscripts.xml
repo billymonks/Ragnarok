@@ -34,19 +34,19 @@
     <node type="solidbg" r="0" g="0" b="0" a="0.5">
       <node type="checkint" key="got_knife">
         <node type="intval" val="-1">
-          <node type="dialog">I pulled you out of a scraped heap of burning metal. You're lucky to be alive.</node>
-          <node type="dialog">You were holding this when I found you.</node>
+          <node type="dialog">I pulled you out of a scraped heap of burning metal. I was afraid you weren't going to make it.</node>
+          <node type="dialog">I found this in the wreck with you. Does it look familiar?</node>
           <node type="itemget" item="Knife" />
           <node type="dialog">You got a Knife!</node>
-          <node type="dialog">I assume you remember how to use it. (Stick 'em with the pointy end.)</node>
-          <node type="dialog">The only way out is up. Head north to the castle... grant us release from this fate.</node>
+          <node type="dialog">I hope you remember how to use it. (Stick 'em with the pointy end.)</node>
+          <node type="dialog">The only escape from this damned place is through the castle, to the north.</node>
           <node type="setint" key="got_knife">0</node>
         </node>
         <node type="intval" val="0">
-          <node type="dialog">Beware, the spirits of the Royal Knights have fled their bodies. They will attack all who cross their path.</node>
+          <node type="dialog">Beware, the Royal Knights have lost their minds. They will attack all who cross their path.</node>
           <node type="dialog">The king hasn't been seen outside his chambers for over 1000 years.</node>
           <node type="dialog">As we speak, the land sinks deeper into this sea of primordial ether.</node>
-          <node type="dialog">In a few days time, there will be no trace left of our great nation.</node>
+          <node type="dialog">In a few days time, the last traces of our great nation will desolve into the sea.</node>
           <node type="dialog">Monsters from below have risen to the surface to claim our remains.</node>
           <node type="setint" key="got_knife">1</node>
         </node>
@@ -80,7 +80,7 @@
     </node>
     <node type="checkint" key="got_knife">
       <node type="intval" val="-1">
-        <node type="dialog">Levi brought you in here. He's up the hill.</node>
+        <node type="dialog">Levi brought you in here. He's outside and up the hill.</node>
         <node type="dialog">You were all beat up and bloodied. You should really go and thank him.</node>
         <node type="dialog">Anyway... you don't have any money on you, so get out of here.</node>
       </node>
@@ -88,15 +88,15 @@
     <node type="setint" key="spoke_to_innkeep">0</node>
   </event>
   <event id="4">
-    <node type="dialog">Young Adventurer's Serial Issue 131</node>
-    <node type="question" key="help131" text="Read it?">
+    <node type="dialog">Young Adventurer's Survival Guide Serial, Issue 131.</node>
+    <node type="question" key="help131" text="Young Adventurer's Survival Guide Serial, Issue 131. Read it?">
       <node type="answer" val="1" text="Yes" />
       <node type="answer" val="0" text="No" />
     </node>
     <node type="checkint" key="help131">
       <node type="intval" val="1">
         <node type="dialog">Hold SPACEBAR to use your suit's boost function and SHIFT to use the reverse boost function.</node>
-        <node type="dialog">On top of letting you go fast as hell, the boost function will allow you to: cross chasms, and dodge enemy attacks.</node>
+        <node type="dialog">Propelling you forth with a focused burst of ether, the boost function will allow you to cross chasms, and dodge enemy attacks.</node>
         <node type="question" key="help132" text="Continue reading?">
           <node type="answer" val="1" text="Yes" />
           <node type="answer" val="0" text="No" />
@@ -104,7 +104,7 @@
         <node type="checkint" key="help132">
           <node type="intval" val="1">
             <node type="dialog">At the start of a boost you will absorb most enemy attacks. This Perfect Dodge will redirect that energy into your HP and EP.</node>
-            <node type="dialog">Boosting will overheat your suit if you use it for too long, so be careful not to use it for too long!</node>
+            <node type="dialog">Boosting will consume your energy. If depleted, your boost will be cut off, so be careful not to use it for too long!</node>
           </node>
         </node>
       </node>
