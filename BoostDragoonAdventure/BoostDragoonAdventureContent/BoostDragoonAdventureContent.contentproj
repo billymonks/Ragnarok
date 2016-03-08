@@ -2808,6 +2808,7 @@
     <Content Include="maps\full\overlook_b.oel">
       <Name>overlook_b</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="maps\full\town_a.oel">
       <Name>town_a</Name>

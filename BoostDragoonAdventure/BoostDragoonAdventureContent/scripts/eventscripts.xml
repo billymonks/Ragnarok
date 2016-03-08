@@ -21,7 +21,6 @@
           <node type="setint" key="bought_pizza">1</node>
           <node type="dialog">Great~! Here, take a look.</node>
           <node type="store" id="0" />
-          <node type="equip" id="0" />
         </node>
         <node type="intval" val="0">
           <node type="setint" key="bought_pizza">0</node>
@@ -34,30 +33,26 @@
     <node type="solidbg" r="0" g="0" b="0" a="0.5">
       <node type="checkint" key="got_knife">
         <node type="intval" val="-1">
-          <node type="dialog">I pulled you out of a scraped heap of burning metal. I was afraid you weren't going to make it.</node>
-          <node type="dialog">I found this in the wreck with you. Does it look familiar?</node>
+          <node type="dialog">Your highness... I've only heard stories, but it's really you. I can't believe you're alive.</node>
+          <node type="dialog">I pulled you out of that scraped heap of burning metal, just outside town. I was afraid you weren't going to make it.</node>
+          <node type="dialog">You had this with you. I held onto it for safe keeping. Does it look familiar?</node>
           <node type="itemget" item="Knife" />
           <node type="dialog">You got a Knife!</node>
-          <node type="dialog">I hope you remember how to use it. (Stick 'em with the pointy end.)</node>
-          <node type="dialog">The only escape from this damned place is through the castle, to the north.</node>
+          <node type="dialog">I hope you remember how to use it. (Stick 'em with the pointy end.) That engraving proves that you are the true heir.</node>
+          <node type="dialog">We are caught between two worlds. The powers from above have usurped the throne and sealed the castle gates.</node>
+          <node type="dialog">Their paramount concern is to shelter themselves from the urchin below. They let us live as a mere buffer to the horde.</node>
+          <node type="dialog">The king and queen haven't been seen outside their chambers, but rumors suggest they're still alive after all this time. A puppet to the usurpers.</node>
+          <node type="dialog">The only escape from this damned place is through the castle, to the north. If we are to survive, you must find a way through.</node>
           <node type="setint" key="got_knife">0</node>
         </node>
         <node type="intval" val="0">
-          <node type="dialog">Beware, the Royal Knights have lost their minds. They will attack all who cross their path.</node>
-          <node type="dialog">The king hasn't been seen outside his chambers for over 1000 years.</node>
-          <node type="dialog">As we speak, the land sinks deeper into this sea of primordial ether.</node>
-          <node type="dialog">In a few days time, the last traces of our great nation will desolve into the sea.</node>
-          <node type="dialog">Monsters from below have risen to the surface to claim our remains.</node>
-          <node type="setint" key="got_knife">1</node>
-        </node>
-        <node type="intval" val="1">
           <node type="dialog">Head north to the castle. I will meet you again there.</node>
         </node>
       </node>
     </node>
   </event>
   <event id="2">
-    <node type="dialog">I can equip upgrades to your gear for you.</node>
+    <node type="dialog">I can equip parts to your gear for you.</node>
     <node type="question" key="equip_temp" text="Whatta ya say? Upgrade your gear?">
       <node type="answer" val="1" text="Yes" />
       <node type="answer" val="0" text="No" />
@@ -105,6 +100,59 @@
           <node type="intval" val="1">
             <node type="dialog">At the start of a boost you will absorb most enemy attacks. This Perfect Dodge will redirect that energy into your HP and EP.</node>
             <node type="dialog">Boosting will consume your energy. If depleted, your boost will be cut off, so be careful not to use it for too long!</node>
+          </node>
+        </node>
+      </node>
+    </node>
+  </event>
+  <event id="5">
+    <node type="checkint" key="confirmed_royalty">
+      <node type="intval" val="-1">
+        <node type="checkint" key="got_knife">
+          <node type="intval" val="-1">
+            <node type="dialog">I have nothing to say to outsiders.</node>
+          </node>
+          <node type="intval" val="0">
+            <node type="dialog">That knife...</node>
+            <node type="dialog">Is it really you, your highness?</node>
+            <node type="question" key="confirmed_royalty" text="Is it really you, your highness?">
+              <node type="answer" val="1" text="Yes" />
+              <node type="answer" val="0" text="No" />
+            </node>
+            <node type="checkint" key="confirmed_royalty">
+              <node type="intval" val="0">
+                <node type="dialog">Hmph, such blasphemy... be gone with you.</node>
+              </node>
+              <node type="intval" val="1">
+                <node type="dialog">Your highness! You have been gone far too long! Please ask me if you're curious about anything!</node>
+              </node>
+            </node>
+          </node>
+        </node>
+      </node>
+      <node type="intval" val="0">
+        <node type="dialog">I have nothing to say to outsiders.</node>
+      </node>
+      <node type="intval" val="1">
+        <node type="dialog">Your highness, a lot has changed in the millennium since you fled the capitol. Ask me anything!</node>
+        <node type="question" key="discussion_topic" text="What would you like to know about?">
+          <node type="answer" val="0" text="Food" />
+          <node type="answer" val="1" text="Royal Knights" />
+          <node type="answer" val="2" text="Primordial Ether" />
+        </node>
+        <node type="checkint" key="discussion_topic">
+          <node type="intval" val="0">
+            <node type="dialog">Ever since it was introduced by the usurpers, the Pizza phenomenon has taken the kingdom by storm.</node>
+            <node type="dialog">First offered in its traditional food disk form, many locals have put their own spin on the formula.</node>
+          </node>
+          <node type="intval" val="1">
+            <node type="dialog">The Royal Knights are no friends of the crown. They know of your arrival, and they will be hunting for you.</node>
+            <node type="dialog">Since the usurpers' arrival, they exist only as pawns.</node>
+          </node>
+          <node type="intval" val="2">
+            <node type="dialog">As we speak, the land sinks deeper into this sea of primordial ether.</node>
+            <node type="dialog">In a few days time, the last traces of our great nation will desolve into the sea.</node>
+            <node type="dialog">The monsters from below have risen to the surface to claim our remains.</node>
           </node>
         </node>
       </node>

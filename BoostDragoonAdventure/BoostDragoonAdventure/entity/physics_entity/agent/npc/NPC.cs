@@ -10,6 +10,7 @@ using wickedcrush.behavior;
 using wickedcrush.behavior.state;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.screen;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.npc
 {
@@ -51,6 +52,32 @@ namespace wickedcrush.entity.physics_entity.agent.npc
 
         }
 
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
+            bodySpriter = sPlayers["you"];
+            bodySpriter.setFrameSpeed(20);
+            drawBody = false;
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = true;
+
+            float torsoScale = (float)(random.NextDouble() - 0.25) * 4f;
+            float armWidth = (float)(random.NextDouble() - 0) * 3f;
+            float legWidth = (float)(random.NextDouble() - 0) * 2f;
+            float armStance = (float)(random.NextDouble() - 0.5) * 4f;
+            float legStance = (float)(random.NextDouble() - 0.5) * 4f;
+            float spineStance = (float)(random.NextDouble() - 0.25) * 4f;
+
+
+            InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);
+
+        }
+
         private void SetupStateMachine()
         {
             Dictionary<String, State> ctrl = new Dictionary<String, State>();
@@ -67,6 +94,8 @@ namespace wickedcrush.entity.physics_entity.agent.npc
 
         private void CheckForUse()
         {
+            bool interacted = false;
+
             foreach (Entity e in proximity)
             {
                 if (e is PlayerAgent)
@@ -74,9 +103,20 @@ namespace wickedcrush.entity.physics_entity.agent.npc
                     if (((PlayerAgent)e).InteractPressed())
                     {
                         //factory.createDialog(dialog, new Vector2(200f, 200f));
+                        faceEntity(e);
+                        interacted = true;
                         factory.StartEvent(eventId);
                     }
                 }
+            }
+
+            if (interacted)
+            {
+                targetBobAmount = 1f;
+            }
+            else
+            {
+                targetBobAmount = 0.1f;
             }
         }
 
