@@ -20,7 +20,7 @@
         <node type="intval" val="1">
           <node type="setint" key="bought_pizza">1</node>
           <node type="dialog">Great~! Here, take a look.</node>
-          <node type="store" id="0" />
+          <node type="store" id="2" />
         </node>
         <node type="intval" val="0">
           <node type="setint" key="bought_pizza">0</node>
@@ -157,5 +157,13 @@
         </node>
       </node>
     </node>
+  </event>
+  <event id="6">
+    <node type="dialog">You look like you could use a weapon.</node>
+    <node type="store" id="0" />
+  </event>
+  <event id="7">
+    <node type="dialog">See anything you like?</node>
+    <node type="store" id="1" />
   </event>
 </events>

@@ -12,7 +12,8 @@ namespace wickedcrush.inventory
 
     public enum ItemType
     {
-        Unknown = 0,
+        Unknown = -1,
+        Weapon = 0,
         Consumable = 1,
         Part = 2
     }

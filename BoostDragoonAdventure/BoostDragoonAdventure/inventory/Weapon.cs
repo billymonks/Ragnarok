@@ -63,6 +63,8 @@ namespace wickedcrush.inventory
             this.pressRequirements = pressRequirements;
             this.holdRequirements = holdRequirements;
             this.releaseRequirements = releaseRequirements;
+
+            this.value = 2500;
         }
 
         public Weapon(Weapon i) : base(i.name, i.desc)

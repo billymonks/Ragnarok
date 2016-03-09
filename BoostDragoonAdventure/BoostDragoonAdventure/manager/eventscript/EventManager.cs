@@ -88,6 +88,10 @@ namespace wickedcrush.manager.eventscript
                         newNode = GetEquipNode(e, parent);
                         nodeList.Add(newNode);
                         break;
+                    case "store":
+                        newNode = GetStoreNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
                     case "solidbg":
                         newNode = GetSolidBGNode(e, parent);
                         nodeList.Add(newNode);
@@ -143,6 +147,13 @@ namespace wickedcrush.manager.eventscript
         private EquipNode GetEquipNode(XElement element, EventNode parent)
         {
             EquipNode node = new EquipNode(parent);
+
+            return node;
+        }
+
+        private StoreNode GetStoreNode(XElement element, EventNode parent)
+        {
+            StoreNode node = new StoreNode(parent, int.Parse(element.Attribute("id").Value));
 
             return node;
         }

@@ -18,6 +18,8 @@ namespace wickedcrush.inventory
             this.action = action;
 
             this.type = ItemType.Consumable;
+
+            this.value = 250;
         }
 
         public void Use(Agent a)

@@ -17,6 +17,7 @@ namespace wickedcrush.eventscript
         IntVal,
         ItemGet,
         Equip,
+        Store,
         SolidBG
     }
     public class EventNode
