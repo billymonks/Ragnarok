@@ -377,6 +377,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostForward();
+                        UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 2f, 3f);
                         stats.addTo("boost", -stats.getNumber("useSpeed"));
 
                         UpdateItems();
@@ -436,6 +437,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostBackward();
+                        UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 0.5f, -0.75f);
                         stats.addTo("boost", -stats.getNumber("useSpeed"));
 
                         UpdateItems();
@@ -479,6 +481,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         //}
 
                         UpdateDirection(inCharge && lockChargeDirection);
+
+                        UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 1f, 1f);
 
                         if (height > 0)
                         {

@@ -1652,5 +1652,68 @@ namespace wickedcrush.entity.physics_entity.agent
 
             
         }
+
+        protected void UpdateHumanoidSpriteOffsets(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance)
+        {
+            float tempHeight = 0;
+            float sScale = size.X / 24f;
+
+            tempHeight += 10f;
+            angledSpriters["LeftFoot"].offset = new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale;
+            //AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale);
+            angledSpriters["RightFoot"].offset = new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale;
+            //AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale);
+
+            tempHeight += 10f;
+            angledSpriters["LeftKnee"].offset = new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale;
+            //AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale);
+            angledSpriters["RightKnee"].offset = new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale;
+            //AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale);
+
+            tempHeight += 10;
+            angledSpriters["LeftLeg"].offset = new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale;
+            //AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale);
+            angledSpriters["RightLeg"].offset = new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale;
+            //AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale);
+
+            angledSpriters["Crotch"].offset = new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale;
+            //AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+
+            angledSpriters["RightButt"].offset = new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale;
+            //AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale);
+            angledSpriters["LeftButt"].offset = new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale;
+            //AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale);
+
+            tempHeight += 10f + 10f * torsoScale;
+            angledSpriters["Torso"].offset = new Vector3(-5f, tempHeight, 0f) * sScale;
+            //AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale);
+
+            angledSpriters["LeftShoulder"].offset = new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale;
+            //AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale);
+            angledSpriters["RightShoulder"].offset =  new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale;
+            //AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale);
+
+            angledSpriters["LeftElbow"].offset = new Vector3(15f * armStance, tempHeight, -5f) * sScale;
+            //AddAngledElement("LeftElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+            angledSpriters["RightElbow"].offset = new Vector3(15f * armStance, tempHeight, -5f) * sScale;
+            //AddAngledElement("RightElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+
+            angledSpriters["LeftHand"].offset = new Vector3(25f * armStance, tempHeight, -5f) * sScale;
+            //AddAngledElement("LeftHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+            angledSpriters["RightHand"].offset = new Vector3(25f * armStance, tempHeight, -5f) * sScale;
+            //AddAngledElement("RightHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+
+            tempHeight += 20f;
+            angledSpriters["Head"].offset = new Vector3(10f * spineStance, tempHeight, 0f) * sScale;
+            //AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+
+            tempHeight -= 80f;
+
+            angledSpriters["Face"].offset = new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale;
+            //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+
+
+
+        }
     }
 }
