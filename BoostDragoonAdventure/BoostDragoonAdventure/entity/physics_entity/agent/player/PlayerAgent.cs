@@ -370,6 +370,8 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             _sound.playCueInstance(id + "VP_Jet1", emitter);
                             tempHeight = height;
 
+                            SetCostume(1);
+
                         }
 
                         this.height = standHeight + (int)(Math.Sin(timers["boostLift"].getPercent() * Math.PI / 2.0) * maxHeight);
@@ -377,6 +379,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostForward();
+                        
                         UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 2f, 3f);
                         stats.addTo("boost", -stats.getNumber("useSpeed"));
 
@@ -398,6 +401,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-unitVector.X * 3, 1f, -unitVector.Y * 3), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), -driftDirection + 210, 0f, 500, 17, "particles", 0, "pink_to_red", boostSpeed / 100f, 0.1f);
                             particleEmitter.EmitParticles(ps, this.factory, 1);
                             factory._gm.camera.ShakeScreen(1f);
+                            SetCostume(0);
                         }
 
                         factory._gm.camera.targetLooseness = 5f;
@@ -423,6 +427,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             _sound.playCue("blast off");
                             _sound.playCueInstance(id + "VP_Jet1", emitter);
                             tempHeight = height;
+                            SetCostume(1);
 
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, 0, this.pos.Y + this.center.Y - unitVector.Y), Vector3.Zero, new Vector3(-0.6f, 1f, -0.6f), new Vector3(1.2f, 1f, 1.2f), new Vector3(0, -.1f, 0), 0f, 0f, 1000, "particles", 0, "white_to_yellow");
                             //particleEmitter.EmitParticles(ps, this.factory, 5);
@@ -437,6 +442,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         UpdateDirection(false);
                         BoostBackward();
+                        
                         UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 0.5f, -0.75f);
                         stats.addTo("boost", -stats.getNumber("useSpeed"));
 
@@ -453,6 +459,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, height, this.pos.Y + this.center.Y + unitVector.Y), Vector3.Zero, new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), driftDirection, 0f, 1000, 6, "particles", 0, "pink_to_red", boostSpeed / 100f);
                             factory._gm.camera.ShakeScreen(1f);
+                            SetCostume(0);
                         }
                         particleEmitter.EmitParticles(ps, this.factory, 1);
 
@@ -471,6 +478,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         {
                             timers["boostRecharge"].resetAndStart();
                             tempHeight = height;
+                            SetCostume(0);
                         }
 
                         this.height = standHeight + (int)(Math.Cos(timers["boostRecharge"].getPercent() * Math.PI / 2.0) * tempHeight);
@@ -481,7 +489,6 @@ namespace wickedcrush.entity.physics_entity.agent.player
                         //}
 
                         UpdateDirection(inCharge && lockChargeDirection);
-
                         UpdateHumanoidSpriteOffsets(1f, 1f, 1f, 1f, 1f, 1f);
 
                         if (height > 0)

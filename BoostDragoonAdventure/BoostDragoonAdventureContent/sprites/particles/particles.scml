@@ -290,7 +290,31 @@
         </animation>
     </entity>
     <entity id="2" name="pulsing_circle">
-        <animation id="0" name="red_large" length="200" interval="100">
+        <animation id="0" name="white_large" length="75" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+                <key id="1" time="37">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                </key>
+                <key id="2" time="75">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="6" file="0" pivot_x="0.5" pivot_y="0.5" angle="0"/>
+                </key>
+                <key id="1" time="37" spin="0">
+                    <object folder="6" file="0" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="0.556575" scale_y="0.477064"/>
+                </key>
+                <key id="2" time="75" spin="0">
+                    <object folder="6" file="0" pivot_x="0.5" pivot_y="0.5" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="red_large" length="200" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -314,7 +338,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="red_small" length="200" interval="100">
+        <animation id="2" name="red_small" length="200" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>

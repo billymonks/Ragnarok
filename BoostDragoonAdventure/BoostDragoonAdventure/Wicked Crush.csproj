@@ -125,6 +125,7 @@
     <Compile Include="behavior\StateBranch.cs" />
     <Compile Include="behavior\StateTree.cs" />
     <Compile Include="behavior\state\State.cs" />
+    <Compile Include="entity\physics_entity\agent\HumanoidSpriterHelper.cs" />
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="eventscript\AnswerNode.cs" />
     <Compile Include="eventscript\CheckIntNode.cs" />

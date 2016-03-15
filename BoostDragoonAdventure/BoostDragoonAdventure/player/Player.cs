@@ -116,7 +116,7 @@ namespace wickedcrush.player
             stats.set("boostSpeedMod", 0);
 
             stats.set("boostRecharge", 250);
-            stats.set(("iFrameTime"), 150);
+            stats.set(("iFrameTime"), 250);
             stats.set("staggerDistance", 100);
 
             stats.set("staggerLimit", 100);
