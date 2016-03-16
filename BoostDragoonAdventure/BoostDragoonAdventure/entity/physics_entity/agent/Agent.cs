@@ -1618,6 +1618,42 @@ namespace wickedcrush.entity.physics_entity.agent
             throw new Exception("No timer exists!");
         }
 
+        protected void CreateParticleClone(int length, EntityFactory factory)
+        {
+            float shift = 1.5f;
+
+            Vector2 spritePos = new Vector2(
+                    (bodies["body"].Position.X + center.X - factory._gm.camera.cameraPosition.X) * (2f / factory._gm.camera.zoom) * 2.25f - 500 * (2f - factory._gm.camera.zoom),
+                    ((bodies["body"].Position.Y + (center.Y * shift) - factory._gm.camera.cameraPosition.Y - height) * (2f / factory._gm.camera.zoom) * -2.25f * (float)(Math.Sqrt(2) / 2) + 240 * (2f - factory._gm.camera.zoom) - 100)
+                    );
+
+            /*s.Value.player.setAngle(360 + tempSpriteAngle );
+                    s.Value.player.SetDepth(_depth);
+                    s.Value.player.update(spritePos.X 
+                        + (s.Value.offset.X * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        + (bobAmount * s.Value.bob.X * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) 
+                        + (s.Value.offset.Z * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection)))
+                        + (bobAmount * s.Value.bob.Z * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))),
+
+                        (spritePos.Y + (s.Value.offset.Y) + height
+                        + (bobAmount * s.Value.bob.Y * (float)Math.Sin(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) 
+                        - ((s.Value.offset.X * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        + (bobAmount * s.Value.bob.X * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Sin(MathHelper.ToRadians(s.Value.angle + aimDirection))
+                        - (bobAmount * s.Value.bob.Z * (float)Math.Cos(timers["bob"].getPercentDouble() * (Math.PI * 2.0))) * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)) 
+                        - (s.Value.offset.Z * (float)Math.Cos(MathHelper.ToRadians(s.Value.angle + aimDirection)))) * ((float)Math.Sqrt(2) / 2f))));*/
+            String animationName = "pink";
+
+            if (random.Next(10) > 4)
+            {
+                animationName = "teal";
+            }
+
+            foreach (KeyValuePair<string, SpriterAngledStruct> s in angledSpriters)
+            {
+                ParticleStruct ps = new ParticleStruct(new Vector3(pos.X + center.X, height, pos.Y + center.Y) + s.Value.offset, Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, 0f, 0f, length, 30, "shapes", 0, animationName);
+                particleEmitter.EmitParticles(ps,factory,1);
+            }
+        }
         
         protected void InitializeHumanoidSprites(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance)
         {
