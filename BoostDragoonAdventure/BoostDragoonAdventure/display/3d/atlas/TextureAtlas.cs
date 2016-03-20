@@ -76,6 +76,14 @@ namespace wickedcrush.display._3d.atlas
                 (((float)r.Y + oldCoordinate.Y * (float)r.Height) / (float)bounding.Height));
         }
 
+        public Vector2 GetConvertedTileCoord(String path, Vector2 oldCoordinate)
+        {
+            Rectangle r = atlas[path];
+
+            return new Vector2((((float)r.X + oldCoordinate.X) / (float)bounding.Width),
+                (((float)r.Y + oldCoordinate.Y) / (float)bounding.Height));
+        }
+
         private void CalculateAtlas(List<AtlasNode> atlasList)
         {
             LinkedList<Point> texturePlacements = new LinkedList<Point>( new List<Point>() {new Point(0, 0)} );

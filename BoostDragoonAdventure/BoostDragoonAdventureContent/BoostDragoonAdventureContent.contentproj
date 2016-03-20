@@ -1011,6 +1011,16 @@
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="img\tile\green_stuff_tileset.png">
+      <Name>green_stuff_tileset</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="img\tile\green_stuff_tileset_normal.png">
+      <Name>green_stuff_tileset_normal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="maps\atlas\MapAtlas.xml">
       <Name>MapAtlas</Name>
       <Importer>XmlImporter</Importer>

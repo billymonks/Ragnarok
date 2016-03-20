@@ -198,6 +198,14 @@ namespace wickedcrush.display._3d
                     textures.Add(artTile.normal, game.Content.Load<Texture2D>(@"img/tex/big/" + artTile.normal ));
             }
 
+            foreach (TileCoord tileCoord in map.tileCoordList)
+            {
+                if (!textures.ContainsKey(tileCoord.color))
+                    textures.Add(tileCoord.color, game.Content.Load<Texture2D>(@"img/tile/" + tileCoord.color));
+                if (!textures.ContainsKey(tileCoord.normal))
+                    textures.Add(tileCoord.normal, game.Content.Load<Texture2D>(@"img/tile/" + tileCoord.normal));
+            }
+
             textureAtlas = new TextureAtlas(textures, game.GraphicsDevice);
             solidGeomVertices = new List<WCVertex>();
 
@@ -228,8 +236,93 @@ namespace wickedcrush.display._3d
                 AddArtTile(artTile);
             }
 
+            foreach (TileCoord tileCoord in map.tileCoordList)
+            {
+                AddTileCoord(tileCoord);
+            }
+
             buffer = new VertexBuffer(game.GraphicsDevice, typeof(WCVertex), solidGeomVertices.Count, BufferUsage.WriteOnly);
             buffer.SetData(solidGeomVertices.ToArray());
+        }
+
+        private void AddTileCoord(TileCoord tileCoord)
+        {
+            Vector3 normal = Vector3.Up;
+            Vector3 tangent = Vector3.Forward;
+            Vector3 binormal = Vector3.Cross(tangent, normal);
+
+            float padding = 0.03f;
+
+            //tileCoord.pos;
+            //tileCoord.tpos;
+
+            Vector2 topRightTexCoord = textureAtlas.GetConvertedTileCoord(tileCoord.color, new Vector2((tileCoord.tpos.X + 0f) * 20f + padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
+            Vector2 bottomRightTexCoord = textureAtlas.GetConvertedTileCoord(tileCoord.color, new Vector2((tileCoord.tpos.X + 0f) * 20f + padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
+            Vector2 topLeftTexCoord = textureAtlas.GetConvertedTileCoord(tileCoord.color, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
+            Vector2 bottomLeftTexCoord = textureAtlas.GetConvertedTileCoord(tileCoord.color, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
+
+            Vector2 topRightNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 0f) * 20f + padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
+            Vector2 bottomRightNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 0f) * 20f + padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
+            Vector2 topLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
+            Vector2 bottomLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
+
+            Vector4 topRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f, 1);
+            Vector4 bottomRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f, 1);
+            Vector4 topLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f, 1);
+            Vector4 bottomLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f, 1);
+
+            //Vector4 topRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            //Vector4 bottomRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            //Vector4 topLeftVertPos = new Vector4((artTile.pos.X + artTile.size.X), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+            //Vector4 bottomLeftVertPos = new Vector4((artTile.pos.X + artTile.size.X), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomRightVertPos,
+                normal,
+                bottomRightTexCoord,
+                bottomRightNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomLeftVertPos,
+                normal,
+                bottomLeftTexCoord,
+                bottomLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topRightVertPos,
+                normal,
+                topRightTexCoord,
+                topRightNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                bottomLeftVertPos,
+                normal,
+                bottomLeftTexCoord,
+                bottomLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topLeftVertPos,
+                normal,
+                topLeftTexCoord,
+                topLeftNormalCoord,
+                tangent,
+                binormal));
+
+            solidGeomVertices.Add(new WCVertex(
+                topRightVertPos,
+                normal,
+                topRightTexCoord,
+                topRightNormalCoord,
+                tangent,
+                binormal));
         }
 
         private void AddArtTile(ArtTile artTile)

@@ -35,6 +35,22 @@ namespace wickedcrush.map
             this.rotation = rotation;
         }
     }
+
+    public struct TileCoord
+    {
+        public String color, normal;
+        public Vector2 pos, tpos;
+        public int layer;
+
+        public TileCoord(String color, String normal, Vector2 pos, Vector2 tpos, int layer)
+        {
+            this.color = color;
+            this.normal = normal;
+            this.pos = pos;
+            this.tpos = tpos;
+            this.layer = layer;
+        }
+    }
     public class Map
     {
 
@@ -44,6 +60,7 @@ namespace wickedcrush.map
         public List<Gate> gateList;
         public List<Door> doorList;
         public List<ArtTile> artTileList;
+        public List<TileCoord> tileCoordList;
         public String name;
 
         public Map(String MAP_NAME)
@@ -52,6 +69,7 @@ namespace wickedcrush.map
             gateList = new List<Gate>();
             doorList = new List<Door>();
             artTileList = new List<ArtTile>();
+            tileCoordList = new List<TileCoord>();
         }
 
         public void addLayer(World w, Boolean[,] data, LayerType layerType) // need map factory for this?

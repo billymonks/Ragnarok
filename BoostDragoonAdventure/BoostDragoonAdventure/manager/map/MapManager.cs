@@ -87,6 +87,18 @@ namespace wickedcrush.manager.map
             XElement objects = rootElement.Element("OBJECTS");
             XElement art1 = rootElement.Element("ART1");
             XElement art2 = rootElement.Element("ART2");
+            
+            //XElement tile1 = null;
+            //XElement tile2 = null;
+
+            //if (rootElement.Elements("TILE1").Count<XElement>() > 0)
+            //{
+                //tile1 = rootElement.Element("TILE1");
+            //}
+            //if (rootElement.Elements("TILE2").Count<XElement>() > 0)
+            //{
+                //tile2 = rootElement.Element("TILE2");
+            //}
 
             map.name = mapStats.name;
             map.width = int.Parse(rootElement.Attribute("width").Value);
@@ -142,6 +154,34 @@ namespace wickedcrush.manager.map
             else
             {
                 map.addEmptyLayer(gm.w, LayerType.ART2);
+            }
+
+            foreach (XElement tileset in rootElement.Elements("TILE1"))
+            {
+                foreach (XElement tile in tileset.Elements("tile"))
+                {
+                    map.tileCoordList.Add(
+                        new TileCoord(
+                            tileset.Attribute("tileset").Value, 
+                            tileset.Attribute("tileset").Value + "_normal",
+                            new Vector2(int.Parse(tile.Attribute("x").Value), int.Parse(tile.Attribute("y").Value)),
+                            new Vector2(int.Parse(tile.Attribute("tx").Value), int.Parse(tile.Attribute("ty").Value)),
+                            0));
+                }
+            }
+
+            foreach (XElement tileset in rootElement.Elements("TILE2"))
+            {
+                foreach (XElement tile in tileset.Elements("tile"))
+                {
+                    map.tileCoordList.Add(
+                        new TileCoord(
+                            tileset.Attribute("tileset").Value,
+                            tileset.Attribute("tileset").Value + "_normal",
+                            new Vector2(int.Parse(tile.Attribute("x").Value), int.Parse(tile.Attribute("y").Value)),
+                            new Vector2(int.Parse(tile.Attribute("tx").Value), int.Parse(tile.Attribute("ty").Value)),
+                            2));
+                }
             }
 
             if (objects != null)

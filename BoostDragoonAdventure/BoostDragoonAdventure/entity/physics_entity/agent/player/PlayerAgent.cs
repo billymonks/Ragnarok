@@ -393,13 +393,13 @@ namespace wickedcrush.entity.physics_entity.agent.player
                             //ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, 20, this.pos.Y + this.center.Y), Vector3.Zero, Vector3.Zero, Vector3.Zero, Vector3.Zero, 0, 0, 1000, "particles", 2, "red_small");
                             //particleEmitter.EmitParticles(ps, this.factory, 1);
 
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(1f, 1f, 1f), new Vector3(-unitVector.X * 3, 1f, -unitVector.Y * 3), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), -driftDirection + 210, 0f, 1000, 6, "particles", 0, "white_to_orange", boostSpeed / 100f, 0.1f);
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(0f, 0f, 0f), new Vector3(-unitVector.X * 3, 1f, -unitVector.Y * 3), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), -driftDirection + 210, 0f, 1000, 6, "particles", 0, "white_to_orange", boostSpeed / 1000f, boostSpeed / 1000f);
                             
                             //CreateParticleClone(50, factory);
                         }
                         else
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(1f, 1f, 1f), new Vector3(-unitVector.X * 3, 1f, -unitVector.Y * 3), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), -driftDirection + 210, 0f, 1000, 6, "particles", 0, "pink_to_red", boostSpeed / 100f, 0.1f);
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X - unitVector.X, this.height, this.pos.Y + this.center.Y - unitVector.Y), new Vector3(0f, 0f, 0f), new Vector3(-unitVector.X * 3, 1f, -unitVector.Y * 3), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), -driftDirection + 210, 0f, 1000, 6, "particles", 0, "pink_to_red", boostSpeed / 1000f, boostSpeed / 1000f);
                             
                             factory._gm.camera.ShakeScreen(1f);
                             SetCostume(0);
@@ -456,12 +456,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
                         if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, this.height, this.pos.Y + this.center.Y + unitVector.Y), new Vector3(1f, 1f, 1f), new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), driftDirection, 0f, 1000, 6, "particles", 0, "white_to_orange", boostSpeed / 100f, 0.1f);
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, this.height, this.pos.Y + this.center.Y + unitVector.Y), new Vector3(0f, 0f, 0f), new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), driftDirection + 180f, 0f, 1000, 6, "particles", 0, "white_to_orange", boostSpeed / 1000f, boostSpeed / 1000f);
                             //CreateParticleClone(50, factory);
                         }
                         else
                         {
-                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, height, this.pos.Y + this.center.Y + unitVector.Y), new Vector3(1f, 1f, 1f), new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), driftDirection, 0f, 1000, 6, "particles", 0, "pink_to_red", boostSpeed / 100f, 0.1f);
+                            ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X + unitVector.X, height, this.pos.Y + this.center.Y + unitVector.Y), new Vector3(0f, 0f, 0f), new Vector3(unitVector.X, 1f, unitVector.Y), new Vector3(0.3f, 0.3f, 0.3f), new Vector3(0, -.03f, 0), driftDirection + 180f, 0f, 1000, 6, "particles", 0, "pink_to_red", boostSpeed / 1000f, boostSpeed / 1000f);
                             factory._gm.camera.ShakeScreen(1f);
                             SetCostume(0);
                         }
