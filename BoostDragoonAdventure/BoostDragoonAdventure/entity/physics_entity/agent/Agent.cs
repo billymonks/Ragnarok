@@ -99,7 +99,7 @@ namespace wickedcrush.entity.physics_entity.agent
 
         public PersistedStats stats;
 
-        protected float speed = 50f, targetSpeed = 50f, boostSpeed = 120f;
+        protected float speed = 50f, targetSpeed = 50f, boostSpeed = 120f, maxBoostSpeed = 240f;
         public float activeRange = 0f;
         //protected bool strafe = false;
         protected float driftDirection = 0f;
@@ -612,7 +612,14 @@ namespace wickedcrush.entity.physics_entity.agent
 
 
 
-            v += unitVector * boostSpeed;
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                v += unitVector * maxBoostSpeed;
+            }
+            else
+            {
+                v += unitVector * boostSpeed;
+            }
 
             bodies["body"].LinearVelocity += v;
 
@@ -630,7 +637,14 @@ namespace wickedcrush.entity.physics_entity.agent
                 (float)Math.Sin(MathHelper.ToRadians(driftDirection))
             );
 
-            v += unitVector * boostSpeed;
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                v += unitVector * maxBoostSpeed;
+            }
+            else
+            {
+                v += unitVector * boostSpeed;
+            }
 
             bodies["body"].LinearVelocity += v;
 

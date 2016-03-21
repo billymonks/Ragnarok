@@ -133,6 +133,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
             potency = stats.inventory.gear.GetGearStat(GearStat.Potency);
 
             boostSpeed = 100f + ((float)stats.getNumber("boostSpeedMod") * (15f));
+            maxBoostSpeed = 150f + ((float)stats.getNumber("boostSpeedMod") * (30f));
             fillSpeed = 4f + ((float)stats.getNumber("fillSpeed") * 2f);
         }
 
@@ -157,6 +158,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 {
                     factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(50, 0), 1000, Color.Green, ((float)epConversion) / 100f, new Vector2(0f, 1f));
                 }
+
+                ParticleStruct ps = new ParticleStruct(new Vector3(attack.pos.X + attack.center.X, attack.height, attack.pos.Y + attack.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                particleEmitter.EmitParticles(ps, this.factory, 3);
 
                 stats.EnforceMaxStats();
 
@@ -194,6 +198,9 @@ namespace wickedcrush.entity.physics_entity.agent.player
                     factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(10, -20), 200, Color.AliceBlue, ((float)epConversion) / 100f, new Vector2(0f, 1f));
                 }
 
+                ParticleStruct ps = new ParticleStruct(new Vector3(action.pos.X + action.center.X, action.height, action.pos.Y + action.center.Y), Vector3.Zero, new Vector3(-0.3f, -0.3f, -0.3f), new Vector3(0.6f, 0.6f, 0.6f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                particleEmitter.EmitParticles(ps, this.factory, 3);
+
                 stats.EnforceMaxStats();
 
                 timers["iFrameTime"].resetAndStart();
@@ -219,11 +226,12 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (dodgeSuccess)
             {
                 factory.addText("Perfect Dodge!", pos + center, 1000);
-                ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 1000, 32, "particles", 0, "white_to_yellow");
-                particleEmitter.EmitParticles(ps, this.factory, 10);
+                //ParticleStruct ps = new ParticleStruct(new Vector3(this.pos.X + this.center.X, this.height, this.pos.Y + this.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                //particleEmitter.EmitParticles(ps, this.factory, 3);
                 dodgeSuccess = false;
                 return true;
             }
+
 
             return false;
         }
@@ -777,23 +785,129 @@ namespace wickedcrush.entity.physics_entity.agent.player
 
         public override void TakeKnockback(Vector2 pos, int dmg, float force)
         {
-            base.TakeKnockback(pos, dmg, force);
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                base.TakeKnockback(pos, force);
+                factory._gm.activateFreezeFrame();
 
-            factory._gm.activateFreezeFrame();
+                /*dodgeSuccess = true;
+
+                int hpConversion = stats.getNumber("HPConversion");
+                int epConversion = stats.getNumber("EPConversion");
+
+                stats.addTo("hp", hpConversion);
+                stats.addTo("boost", epConversion);
+
+                if (hpConversion > 0)
+                {
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Fuchsia, ((float)hpConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                if (epConversion > 0)
+                {
+                    factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(50, 0), 1000, Color.Green, ((float)epConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                ParticleStruct ps = new ParticleStruct(new Vector3(pos.X, height, pos.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                particleEmitter.EmitParticles(ps, this.factory, 3);
+
+                stats.EnforceMaxStats();
+
+                timers["iFrameTime"].resetAndStart();
+                _sound.playCue("ping3", emitter);*/
+            }
+            else
+            {
+
+                base.TakeKnockback(pos, dmg, force);
+
+                factory._gm.activateFreezeFrame();
+            }
         }
 
         public override void TakeKnockback(Vector2 pos, float force)
         {
-            base.TakeKnockback(pos, force);
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                base.TakeKnockback(pos, force);
+                factory._gm.activateFreezeFrame();
 
-            factory._gm.activateFreezeFrame();
+                /*dodgeSuccess = true;
+
+                int hpConversion = stats.getNumber("HPConversion");
+                int epConversion = stats.getNumber("EPConversion");
+
+                stats.addTo("hp", hpConversion);
+                stats.addTo("boost", epConversion);
+
+                if (hpConversion > 0)
+                {
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Fuchsia, ((float)hpConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                if (epConversion > 0)
+                {
+                    factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(50, 0), 1000, Color.Green, ((float)epConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                ParticleStruct ps = new ParticleStruct(new Vector3(pos.X, height, pos.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                particleEmitter.EmitParticles(ps, this.factory, 3);
+
+                stats.EnforceMaxStats();
+
+                timers["iFrameTime"].resetAndStart();
+                _sound.playCue("ping3", emitter);*/
+            }
+            else
+            {
+
+                base.TakeKnockback(pos, force);
+
+                factory._gm.activateFreezeFrame();
+            }
         }
 
         public override void TakeHit(Attack attack, bool knockback)
         {
-            base.TakeHit(attack, knockback);
+            if (timers["iFrameTime"].isActive() && !timers["iFrameTime"].isDone())
+            {
+                base.TakeKnockback(attack.pos + attack.center, attack.force * 2f);
+                factory._gm.activateFreezeFrame();
+                /*dodgeSuccess = true;
 
-            factory._gm.activateFreezeFrame();
+                int hpConversion = stats.getNumber("HPConversion");
+                int epConversion = stats.getNumber("EPConversion");
+
+                stats.addTo("hp", hpConversion);
+                stats.addTo("boost", epConversion);
+
+                if (hpConversion > 0)
+                {
+                    factory.addText("+" + hpConversion.ToString(), pos + center - new Vector2(-50, 0), 1000, Color.Fuchsia, ((float)hpConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                if (epConversion > 0)
+                {
+                    factory.addText("+" + epConversion.ToString(), pos + center - new Vector2(50, 0), 1000, Color.Green, ((float)epConversion) / 100f, new Vector2(0f, 1f));
+                }
+
+                ParticleStruct ps = new ParticleStruct(new Vector3(attack.pos.X + attack.center.X, attack.height, attack.pos.Y + attack.center.Y), Vector3.Zero, new Vector3(-2f, -0.3f, -2f), new Vector3(4f, 0.6f, 4f), new Vector3(0, 0, 0), 0f, 0f, 500, 6, "particles", 0, "white_to_green");
+                particleEmitter.EmitParticles(ps, this.factory, 3);
+
+                stats.EnforceMaxStats();
+
+                timers["iFrameTime"].resetAndStart();
+                _sound.playCue("ping3", emitter);*/
+            }
+            else
+            {
+                base.TakeHit(attack, knockback);
+                _sound.playCue("oof", emitter);
+                factory._gm.activateFreezeFrame();
+            }
+            
+
+            
         }
 
         protected override void Dispose()

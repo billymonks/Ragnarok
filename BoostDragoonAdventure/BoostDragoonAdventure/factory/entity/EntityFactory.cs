@@ -339,9 +339,12 @@ namespace wickedcrush.factory.entity
             return agent;
         }
 
-        public void addCentipede(Vector2 pos)
+        public void addCentipede(int id, Vector2 pos)
         {
-            WeaveCentipede c = new WeaveCentipede(_w, pos, this, new PersistedStats(), _sm);
+            if (IsDead(id))
+                return;
+
+            WeaveCentipede c = new WeaveCentipede(id, _w, pos, this, new PersistedStats(), _sm);
             c.stats.set("hp", 2000);
             c.stats.set("MaxHP", 2000);
             c.stats.set("staggerLimit", 2500);
@@ -352,9 +355,12 @@ namespace wickedcrush.factory.entity
             _em.addEntity(c);
         }
 
-        public void addWoundedCentipede(Vector2 pos)
+        public void addWoundedCentipede(int id, Vector2 pos)
         {
-            WeaveCentipede c = new WeaveCentipede(_w, pos, this, new PersistedStats(), _sm);
+            if (IsDead(id))
+                return;
+
+            WeaveCentipede c = new WeaveCentipede(id, _w, pos, this, new PersistedStats(), _sm);
             c.stats.set("hp", 2000);
             c.stats.set("MaxHP", 2000);
             c.stats.set("staggerLimit", 2500);
@@ -365,9 +371,12 @@ namespace wickedcrush.factory.entity
             _em.addEntity(c);
         }
 
-        public void addChimera(Vector2 pos)
+        public void addChimera(int id, Vector2 pos)
         {
-            Chimera c = new Chimera(_w, pos, this, new PersistedStats(), _sm);
+            if (IsDead(id))
+                return;
+
+            Chimera c = new Chimera(id, _w, pos, this, new PersistedStats(), _sm);
             c.stats.set("hp", 2000);
             c.stats.set("MaxHP", 2000);
             c.stats.set("staggerLimit", 1500);

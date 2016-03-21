@@ -422,16 +422,18 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("BOSS"))
                 {
+                    id = int.Parse(e.Attribute("id").Value);
+
                     if (int.Parse(e.Attribute("Type").Value) == 0)
                     {
-                        gm.factory.addCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        gm.factory.addCentipede(id, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                     }
                     else if(int.Parse(e.Attribute("Type").Value) == 1)
                     {
-                        gm.factory.addChimera(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        gm.factory.addChimera(id, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                     } else if(int.Parse(e.Attribute("Type").Value) == 2)
                     {
-                        gm.factory.addWoundedCentipede(new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
+                        gm.factory.addWoundedCentipede(id, new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                     }
                 }
 
