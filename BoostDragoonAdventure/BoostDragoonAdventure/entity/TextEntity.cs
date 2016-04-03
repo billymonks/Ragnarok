@@ -44,7 +44,7 @@ namespace wickedcrush.entity
         public Vector2 velocity = Vector2.Zero;
 
         public Timer dialogTimer;
-        private int shortTime = 40;
+        private int shortTime = 15;
         private int longTime = 70;
         public int lastIndex = 0;
 

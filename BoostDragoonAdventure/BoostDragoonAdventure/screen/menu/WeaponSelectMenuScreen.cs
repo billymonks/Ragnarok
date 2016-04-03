@@ -59,13 +59,14 @@ namespace wickedcrush.screen.menu
             pageTitle = new TextEntity("WEAPONS", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
 
             weaponName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
-            weaponDesc.SetSpeed(0);
-            weaponDesc.shadow = true;
+            weaponName.SetSpeed(0);
+            weaponName.shadow = true;
 
             weaponDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             weaponDesc.alignment = TextAlignment.Left;
             weaponDesc.SetSpeed(15);
             weaponDesc.shadow = false;
+            weaponDesc.cueName = "Jump7";
 
             weaponBoxes.Add(0, new Rectangle(20, 20 + height, 200, 200));
             weaponBoxes.Add(1, new Rectangle(260, 20 + height, 200, 200));
