@@ -61,9 +61,11 @@ namespace wickedcrush.screen.menu
             pageTitle = new TextEntity("SHOP", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
 
             itemName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+            itemName.shadow = true;
 
             itemDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             itemDesc.alignment = TextAlignment.Left;
+            itemDesc.cueName = "Jump7";
 
             storeBoxes.Add(0, new Rectangle(20, 20 + height, 200, 200));
             storeBoxes.Add(1, new Rectangle(260, 20 + height, 200, 200));
@@ -173,7 +175,7 @@ namespace wickedcrush.screen.menu
 
             UpdateCursorPosition(p.c);
 
-            if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
+            if (p.c.LaunchMenuPressed() || p.c.SelectPressed() || p.c.ItemBPressed())
             {
                 Dispose();
             }

@@ -100,6 +100,7 @@ namespace wickedcrush.screen.menu
             itemDesc.alignment = TextAlignment.Left;
             itemDesc.SetSpeed(15);
             itemDesc.shadow = false;
+            itemDesc.cueName = "Jump7";
 
             for (int i = 0; i < 36; i++)
             {
