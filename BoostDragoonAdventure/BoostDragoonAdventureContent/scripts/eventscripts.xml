@@ -3,7 +3,7 @@
     <node type="solidbg" r="0" g="0" b="0" a="0.5">
       <node type="checkint" key="bought_pizza">
         <node type="intval" val="-1">
-          <node type="dialog">Hey there, I'm selling pizzas.</node>
+          <node type="dialog">Care for a delectable treat?</node>
         </node>
         <node type="intval" val="0">
           <node type="dialog">I knew you'd be back.</node>
@@ -33,15 +33,15 @@
     <node type="solidbg" r="0" g="0" b="0" a="0.5">
       <node type="checkint" key="got_knife">
         <node type="intval" val="-1">
-          <node type="dialog">Your highness... I've only heard stories, but it's really you. I can't believe you're alive.</node>
+          <node type="dialog">Your highness... it's really you. I can't believe you're alive. My name's Levi, by the way.</node>
           <node type="dialog">I pulled you out of that scraped heap of burning metal, just outside town. I was afraid you weren't going to make it.</node>
           <node type="dialog">You had this with you. I held onto it for safe keeping. Does it look familiar?</node>
           <node type="itemget" item="Knife" />
           <node type="dialog">You got a Knife!</node>
           <node type="dialog">I hope you remember how to use it. (Stick 'em with the pointy end.) That engraving proves that you are the true heir.</node>
-          <node type="dialog">We are caught between two worlds. The powers from above have usurped the throne and sealed the castle gates.</node>
+          <node type="dialog">When the urchin appeared from below, 1000 years ago, the king sealed off the castle.</node>
           <node type="dialog">Their paramount concern is to shelter themselves from the urchin below. They let us live as a mere buffer to the horde.</node>
-          <node type="dialog">The king and queen haven't been seen outside their chambers, but rumors suggest they're still alive after all this time. A puppet to the usurpers.</node>
+          <node type="dialog">No one has seen the king and queen since then, but rumors suggest they're still alive after all this time.</node>
           <node type="dialog">The only escape from this damned place is through the castle, to the north. If we are to survive, you must find a way through.</node>
           <node type="setint" key="got_knife">0</node>
         </node>
@@ -142,12 +142,13 @@
         </node>
         <node type="checkint" key="discussion_topic">
           <node type="intval" val="0">
-            <node type="dialog">Ever since it was introduced by the usurpers, the Pizza phenomenon has taken the kingdom by storm.</node>
+            <node type="dialog">The Pizza phenomenon has taken the kingdom by storm.</node>
             <node type="dialog">First offered in its traditional food disk form, many locals have put their own spin on the formula.</node>
           </node>
           <node type="intval" val="1">
-            <node type="dialog">The Royal Knights are no friends of the crown. They know of your arrival, and they will be hunting for you.</node>
-            <node type="dialog">Since the usurpers' arrival, they exist only as pawns.</node>
+            <node type="dialog">The Royal Knights are no friends to us commoners. They know of your arrival, and they will be hunting for you.</node>
+            <node type="dialog">They ceased to exist as humans ever since the castle was sealed.</node>
+            <node type="dialog">If you have to fight them, never attack head on.</node>
           </node>
           <node type="intval" val="2">
             <node type="dialog">As we speak, the land sinks deeper into this sea of primordial ether.</node>

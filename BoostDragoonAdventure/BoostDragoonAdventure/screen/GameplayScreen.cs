@@ -116,14 +116,17 @@ namespace wickedcrush.screen
 
             currencyText = new TextEntity("aaaaaaa", new Vector2(1400, 1080), g.soundManager, g, -1, gameplayManager.factory, 1f, false);
             currencyText.alignment = TextAlignment.Right;
+            currencyText.SetSpeed(0);
 
             hpText = new TextEntity("hp", new Vector2(125, 990), g.soundManager, g, -1, gameplayManager.factory, 0.75f, false);
             hpText.textColor = Color.Pink;
             hpText.alignment = TextAlignment.Left;
+            hpText.SetSpeed(0);
 
             epText = new TextEntity("ep", new Vector2(145, 1020), g.soundManager, g, -1, gameplayManager.factory, 0.75f, false);
             epText.textColor = Color.MintCream;
             epText.alignment = TextAlignment.Left;
+            epText.SetSpeed(0);
 
             AddText(currencyText);
             AddText(hpText);
@@ -199,10 +202,10 @@ namespace wickedcrush.screen
             //game.diag += "\n" + 
             //UpdateSpriters();
 
-            currencyText.text = gameplayManager._playerManager.getPlayerList()[0].getStats().inventory.currency.ToString();
+            currencyText.ChangeText(gameplayManager._playerManager.getPlayerList()[0].getStats().inventory.currency.ToString());
 
-            hpText.text = gameplayManager._playerManager.getPlayerList()[0].getStats().getNumber("hp").ToString();
-            epText.text = gameplayManager._playerManager.getPlayerList()[0].getStats().getNumber("boost").ToString();
+            hpText.ChangeText(gameplayManager._playerManager.getPlayerList()[0].getStats().getNumber("hp").ToString());
+            epText.ChangeText(gameplayManager._playerManager.getPlayerList()[0].getStats().getNumber("boost").ToString());
 
             scroll += scrollIncrement;
             
@@ -219,6 +222,11 @@ namespace wickedcrush.screen
 
                 bgTimer.resetAndStart();
             }
+
+            //foreach (TextEntity t in screenText)
+            //{
+                //t.Update(gameTime);
+            //}
 
             UpdateFreezeFrame(gameTime);
 

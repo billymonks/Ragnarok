@@ -21,7 +21,7 @@ namespace wickedcrush.entity
 
     public class TextEntity : Entity
     {
-        public String text;
+        public String text, displayedText;
         GameBase g;
         Timer duration;
         EntityFactory factory;
@@ -34,7 +34,7 @@ namespace wickedcrush.entity
 
         //public bool center = true;
         public TextAlignment alignment = TextAlignment.Center;
-        public bool inScene = true;
+        public bool inScene = true, instant = false, shadow = false;
         //public SpriteFont font;
 
         public String fontName = "Khula";
@@ -42,6 +42,16 @@ namespace wickedcrush.entity
         public float maxWidth = -1;
 
         public Vector2 velocity = Vector2.Zero;
+
+        public Timer dialogTimer;
+        private int shortTime = 40;
+        private int longTime = 70;
+        public int lastIndex = 0;
+
+        public String cueName = "";
+
+        Random random;
+        int instanceCount = 0;
 
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, Color textColor, float zoomLevel, String fontName, bool addToScene)
             : this(text, pos, sound, g, duration, factory, textColor, zoomLevel, zoomLevel, addToScene)
@@ -60,8 +70,11 @@ namespace wickedcrush.entity
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, float zoomLevel, bool addToScene) //duration time?
             : base(pos, Vector2.Zero, Vector2.Zero, sound)
         {
+            random = new Random();
             this.g = g;
             this.text = text;
+            this.displayedText = "";
+
             if (duration > 0)
             {
                 this.duration = new Timer(duration);
@@ -80,6 +93,9 @@ namespace wickedcrush.entity
                 inScene = false;
             }
 
+            dialogTimer = new Timer(shortTime);
+            dialogTimer.resetAndStart();
+
         }
 
         public TextEntity(String text, Vector2 pos, SoundManager sound, GameBase g, int duration, EntityFactory factory, float zoomLevel, float desiredZoomLevel, float zoomIncrement, bool addToScene) //duration time?
@@ -90,9 +106,102 @@ namespace wickedcrush.entity
             this.zoomIncrement = zoomIncrement;
         }
 
+        public void ChangeText(String text)
+        {
+            if (instant)
+            {
+                this.text = text;
+                displayedText = text;
+            } else if (!this.text.Equals(text))
+            {
+                dialogTimer.resetAndStart();
+                this.text = text;
+                displayedText = "";
+                lastIndex = 0;
+            }
+            else
+            {
+                dialogTimer.start();
+            }
+        }
+
+        public void SetColor(Color color)
+        {
+            this.textColor = color;
+        }
+
+        public void SetSpeed(int length)
+        {
+            if (length <= 0)
+            {
+                instant = true;
+                displayedText = text;
+            }
+            dialogTimer.setInterval(1);
+        }
+
+        public void ChangeText(String text, float width)
+        {
+
+                String tempText = "";
+                float tempWidth = 0f;
+                List<String> splitStrings = text.Split(' ').ToList<String>();
+
+                maxWidth = width;
+
+                foreach (String s in splitStrings)
+                {
+                    if (tempWidth + g.fonts[fontName].MeasureString(s + ' ').X > width)
+                    {
+                        tempText += "\n" + s + ' ';
+                        tempWidth = g.fonts[fontName].MeasureString(s + ' ').X;
+                    }
+                    else
+                    {
+                        tempText += s + ' ';
+                        tempWidth += g.fonts[fontName].MeasureString(s + ' ').X;
+                        if (s.Contains("\n"))
+                        {
+                            //tempWidth = g.fonts[fontName].MeasureString(s.Substring(s.IndexOf("\n"), s.Length - 1)).X;
+                            tempWidth = 0f;
+                        }
+                    }
+                }
+
+
+
+
+                if (!this.text.Equals(tempText))
+                {
+                    dialogTimer.resetAndStart();
+                    this.text = tempText;
+                    displayedText = "";
+                    lastIndex = 0;
+                }
+                else
+                {
+                    dialogTimer.start();
+                }
+        }
+
+        public void AppendText(String text)
+        {
+            dialogTimer.resetAndStart();
+            this.text += text;
+
+            if (instant)
+            {
+                this.displayedText = text;
+            }
+            //displayedText = "";
+            //lastIndex = 0;
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            dialogTimer.Update(gameTime);
 
             if (duration != null)
             {
@@ -105,6 +214,25 @@ namespace wickedcrush.entity
             pos += velocity;
             zoomLevel = (zoomLevel + desiredZoomLevel) / 2f;
             desiredZoomLevel += zoomIncrement;
+
+            if (instant)
+            {
+                displayedText = text;
+            }
+            else if (lastIndex < text.Length && dialogTimer.isDone())
+            {
+                if (cueName != "" && text[lastIndex] != ' ')
+                {
+                    //_sound.playCue(cueName);
+                    _sound.addCueInstance("Jump7", "Jump7" + this.id + "-" + instanceCount, false);
+                    _sound.setCueVariable("PitchIncrease", MathHelper.Lerp(0f, 100f, (float)(random.NextDouble())), "Jump7" + this.id + instanceCount);
+                    _sound.playCueInstance("Jump7" + this.id + "-" + instanceCount++);
+                }
+                dialogTimer.resetAndStart();
+                lastIndex++;
+                displayedText = text.Substring(0, lastIndex);
+
+            } 
 
             
         }
@@ -125,7 +253,7 @@ namespace wickedcrush.entity
 
         }
 
-        public void HudDraw(bool inScene, bool shadow)
+        public void HudDraw(bool inScene, bool outline)
         {
             Vector2 textPos;
             Vector2 origin;
@@ -137,7 +265,7 @@ namespace wickedcrush.entity
 
             if (alignment == TextAlignment.Center)
             {
-                origin = g.fonts[fontName].MeasureString(text) / 2f;
+                origin = g.fonts[fontName].MeasureString(displayedText) / 2f;
             }
             else if (alignment == TextAlignment.Left)
             {
@@ -145,46 +273,52 @@ namespace wickedcrush.entity
             }
             else
             {
-                origin = g.fonts[fontName].MeasureString(text);
+                origin = g.fonts[fontName].MeasureString(displayedText);
             }
 
 
-            if (shadow)
+            if (shadow || outline)
             {
-                g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
-                g.spriteBatch.DrawString(g.fonts[fontName], text, textPos - new Vector2(2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
-                g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(-2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
-                g.spriteBatch.DrawString(g.fonts[fontName], text, textPos + new Vector2(2, -2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
+                g.spriteBatch.DrawString(g.fonts[fontName], displayedText, textPos + new Vector2(2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
+                g.spriteBatch.DrawString(g.fonts[fontName], displayedText, textPos - new Vector2(2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
+                g.spriteBatch.DrawString(g.fonts[fontName], displayedText, textPos + new Vector2(-2, 2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
+                g.spriteBatch.DrawString(g.fonts[fontName], displayedText, textPos + new Vector2(2, -2), Color.Black, 0f, origin, zoomLevel, SpriteEffects.None, 0.001f);
             }
-            g.spriteBatch.DrawString(g.fonts[fontName], text, textPos, textColor, 0f, origin, zoomLevel, SpriteEffects.None, 0f);
+            g.spriteBatch.DrawString(g.fonts[fontName], displayedText, textPos, textColor, 0f, origin, zoomLevel, SpriteEffects.None, 0f);
         }
 
         public void SetMaxWidth(float width)
         {
-            String tempText = "";
-            float tempWidth = 0f;
-            List<String> splitStrings = text.Split(' ').ToList<String>();
-            
-            maxWidth = width;
-            
-            foreach(String s in splitStrings) {
-                if(tempWidth + g.fonts[fontName].MeasureString(s + ' ').X > width)
+            if (maxWidth != width)
+            {
+                String tempText = "";
+                float tempWidth = 0f;
+                List<String> splitStrings = text.Split(' ').ToList<String>();
+
+                maxWidth = width;
+
+                foreach (String s in splitStrings)
                 {
-                    tempText += "\n" + s + ' ';
-                    tempWidth = g.fonts[fontName].MeasureString(s + ' ').X;
-                } else {
-                    tempText += s + ' ';
-                    tempWidth += g.fonts[fontName].MeasureString(s + ' ').X;
-                    if (s.Contains("\n"))
+                    if (tempWidth + g.fonts[fontName].MeasureString(s + ' ').X > width)
                     {
-                        //tempWidth = g.fonts[fontName].MeasureString(s.Substring(s.IndexOf("\n"), s.Length - 1)).X;
-                        tempWidth = 0f;
+                        tempText += "\n" + s + ' ';
+                        tempWidth = g.fonts[fontName].MeasureString(s + ' ').X;
+                    }
+                    else
+                    {
+                        tempText += s + ' ';
+                        tempWidth += g.fonts[fontName].MeasureString(s + ' ').X;
+                        if (s.Contains("\n"))
+                        {
+                            //tempWidth = g.fonts[fontName].MeasureString(s.Substring(s.IndexOf("\n"), s.Length - 1)).X;
+                            tempWidth = 0f;
+                        }
                     }
                 }
+
+
+                ChangeText(tempText);
             }
-
-
-            text = tempText;
         }
 
         protected override void Dispose()

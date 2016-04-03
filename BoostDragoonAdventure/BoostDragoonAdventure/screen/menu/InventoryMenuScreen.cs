@@ -93,9 +93,13 @@ namespace wickedcrush.screen.menu
             pageTitle = new TextEntity("INVENTORY", new Vector2(320, height / 2), _gm.factory._sm, game, -1, _gm.factory, Color.White, 2f, "Rubik Mono One", false);
 
             itemName = new TextEntity("", new Vector2(1080, height + 10), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+            itemName.SetSpeed(0);
+            itemName.shadow = true;
 
             itemDesc = new TextEntity("", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             itemDesc.alignment = TextAlignment.Left;
+            itemDesc.SetSpeed(15);
+            itemDesc.shadow = false;
 
             for (int i = 0; i < 36; i++)
             {
@@ -157,6 +161,7 @@ namespace wickedcrush.screen.menu
 
             foreach (KeyValuePair<int, TextEntity> pair in inventoryCountText)
             {
+                pair.Value.SetSpeed(0);
                 AddText(pair.Value);
             }
 
@@ -227,11 +232,11 @@ namespace wickedcrush.screen.menu
 
             foreach(KeyValuePair<int, TextEntity> pair in inventoryCountText)
             {
-                pair.Value.text = "";
+                //pair.Value.ChangeText("");
 
                 if (pair.Key < itemList.Count)
                 {
-                    pair.Value.text = p.getStats().inventory.getItemCount(itemList[pair.Key]).ToString();
+                    pair.Value.ChangeText(p.getStats().inventory.getItemCount(itemList[pair.Key]).ToString());
                 }
             }
 
@@ -292,14 +297,14 @@ namespace wickedcrush.screen.menu
         {
             if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < itemList.Count)
             {
-                itemName.text = itemList[lastHighlightedIndex].name;
-                itemDesc.text = itemList[lastHighlightedIndex].desc;
-                itemDesc.SetMaxWidth(600f);
+                itemName.ChangeText(itemList[lastHighlightedIndex].name);
+                itemDesc.ChangeText(itemList[lastHighlightedIndex].desc, 600f);
+                //itemDesc.SetMaxWidth(600f);
 
                 if (itemList[lastHighlightedIndex] is Part)
                 {
                     foreach (KeyValuePair<GearStat, int> stat in ((Part)itemList[lastHighlightedIndex]).partStruct.stats)
-                        itemDesc.text += "\n\n" + stat.Key + ": +" + stat.Value;
+                        itemDesc.AppendText("\n\n" + stat.Key + ": +" + stat.Value);
                     UpdatePartDisplay();
                 }
                 else
@@ -396,6 +401,7 @@ namespace wickedcrush.screen.menu
                     if (itemList[highlightedItem] is Consumable)
                     {
                         ((Consumable)itemList[highlightedItem]).Use(p.getAgent());
+                        p.getAgent()._sound.playCue("Sound_1");
                     }
 
                     if (p.getStats().inventory.getItemCount(itemList[highlightedItem]) <= 0)
@@ -404,8 +410,8 @@ namespace wickedcrush.screen.menu
                         lastHighlightedIndex = -1;
                         listChange = true;
 
-                        itemName.text = "";
-                        itemDesc.text = "";
+                        itemName.ChangeText("");
+                        itemDesc.ChangeText("");
                     }
                 }
             }

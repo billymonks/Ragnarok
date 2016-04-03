@@ -387,6 +387,48 @@
                 </key>
             </timeline>
         </animation>
+        <animation id="1" name="1line" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="10" scale_y="0.83333"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="1line_speech_right" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="3" key="0" z_index="1"/>
+                    <object_ref id="2" timeline="1" key="0" z_index="2"/>
+                    <object_ref id="3" timeline="2" key="0" z_index="3"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="black_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" pivot_x="0.5" pivot_y="0.5" angle="0" scale_x="10" scale_y="0.83333"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="white_box">
+                <key id="0" spin="0">
+                    <object folder="2" file="5" x="-495.044554" y="38.116337" scale_x="9.910891" scale_y="0.767327"/>
+                </key>
+            </timeline>
+            <timeline id="2" name="white_box_000">
+                <key id="0" spin="0">
+                    <object folder="2" file="5" x="457.759901" y="-0" angle="45" scale_x="0.54" scale_y="0.54"/>
+                </key>
+            </timeline>
+            <timeline id="3" name="black_box_000">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="455" y="-0" angle="45" scale_x="0.6" scale_y="0.6"/>
+                </key>
+            </timeline>
+        </animation>
     </entity>
     <entity id="7" name="half_box">
         <animation id="0" name="black" length="1000" interval="100">
@@ -398,12 +440,12 @@
             </mainline>
             <timeline id="0" name="half_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="7" x="-25" y="25"/>
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-25" y="25" scale_x="0.5" scale_y="0.5"/>
+                    <object folder="2" file="0" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
                 </key>
             </timeline>
         </animation>
@@ -416,12 +458,12 @@
             </mainline>
             <timeline id="0" name="half_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="7" x="-25" y="25"/>
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="grey_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="1" x="-25" y="25" scale_x="0.5" scale_y="0.5"/>
+                    <object folder="2" file="1" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
                 </key>
             </timeline>
         </animation>
@@ -434,12 +476,12 @@
             </mainline>
             <timeline id="0" name="half_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="7" x="-25" y="25"/>
+                    <object folder="2" file="7" x="-25" y="25" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="light_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="2" x="-25" y="25" scale_x="0.5" scale_y="0.5"/>
+                    <object folder="2" file="2" x="-25" y="25" angle="0" scale_x="0.5" scale_y="0.5"/>
                 </key>
             </timeline>
         </animation>
@@ -454,12 +496,12 @@
             </mainline>
             <timeline id="0" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
         </animation>
@@ -472,12 +514,12 @@
             </mainline>
             <timeline id="0" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="grey_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="1" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
         </animation>
@@ -490,12 +532,12 @@
             </mainline>
             <timeline id="0" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="light_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="2" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="2" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
         </animation>
@@ -511,17 +553,17 @@
             </mainline>
             <timeline id="0" name="circle_inside">
                 <key id="0" spin="0">
-                    <object folder="2" file="9" x="-12.5" y="12.5"/>
+                    <object folder="2" file="9" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="2" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -535,17 +577,17 @@
             </mainline>
             <timeline id="0" name="circle_inside">
                 <key id="0" spin="0">
-                    <object folder="2" file="9" x="-12.5" y="12.5"/>
+                    <object folder="2" file="9" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="grey_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="1" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
         </animation>
@@ -559,17 +601,17 @@
             </mainline>
             <timeline id="0" name="circle_outside">
                 <key id="0" spin="0">
-                    <object folder="2" file="10" x="-12.5" y="12.5"/>
+                    <object folder="2" file="10" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="2" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -581,7 +623,7 @@
             </mainline>
             <timeline id="0" name="circle_connected">
                 <key id="0" spin="0">
-                    <object folder="2" file="11" x="-12.5" y="12.5"/>
+                    <object folder="2" file="11" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -597,17 +639,17 @@
             </mainline>
             <timeline id="0" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="1" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="square_inside">
                 <key id="0" spin="0">
-                    <object folder="2" file="12" x="-12.5" y="12.5"/>
+                    <object folder="2" file="12" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -621,17 +663,17 @@
             </mainline>
             <timeline id="0" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="grey_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="1" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="2" name="square_inside_000">
                 <key id="0" spin="0">
-                    <object folder="2" file="12" x="-12.5" y="12.5"/>
+                    <object folder="2" file="12" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -645,17 +687,17 @@
             </mainline>
             <timeline id="0" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="1" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="square_outside">
                 <key id="0" spin="0">
-                    <object folder="2" file="13" x="-12.5" y="12.5"/>
+                    <object folder="2" file="13" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -667,7 +709,7 @@
             </mainline>
             <timeline id="0" name="square_connected">
                 <key id="0" spin="0">
-                    <object folder="2" file="14" x="-12.5" y="12.5"/>
+                    <object folder="2" file="14" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -683,17 +725,17 @@
             </mainline>
             <timeline id="0" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="1" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="triangle_inside">
                 <key id="0" spin="0">
-                    <object folder="2" file="15" x="-12.5" y="12.5"/>
+                    <object folder="2" file="15" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -707,17 +749,17 @@
             </mainline>
             <timeline id="0" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="1" name="grey_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="1" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="1" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="2" name="triangle_inside_000">
                 <key id="0" spin="0">
-                    <object folder="2" file="15" x="-12.5" y="12.5"/>
+                    <object folder="2" file="15" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -731,17 +773,17 @@
             </mainline>
             <timeline id="0" name="black_box">
                 <key id="0" spin="0">
-                    <object folder="2" file="0" x="-12.5" y="12.5" scale_x="0.25" scale_y="0.25"/>
+                    <object folder="2" file="0" x="-12.5" y="12.5" angle="0" scale_x="0.25" scale_y="0.25"/>
                 </key>
             </timeline>
             <timeline id="1" name="quarter_box_white_outline">
                 <key id="0" spin="0">
-                    <object folder="2" file="8" x="-12.5" y="12.5"/>
+                    <object folder="2" file="8" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
             <timeline id="2" name="triangle_outside">
                 <key id="0" spin="0">
-                    <object folder="2" file="16" x="-12.5" y="12.5"/>
+                    <object folder="2" file="16" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>
@@ -753,7 +795,7 @@
             </mainline>
             <timeline id="0" name="triangle_connected">
                 <key id="0" spin="0">
-                    <object folder="2" file="17" x="-12.5" y="12.5"/>
+                    <object folder="2" file="17" x="-12.5" y="12.5" angle="0"/>
                 </key>
             </timeline>
         </animation>

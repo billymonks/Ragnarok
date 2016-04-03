@@ -49,7 +49,7 @@ namespace wickedcrush.screen.menu
         protected Dictionary<EquippedConnection, Rectangle> previewConnectionBoxes;
         protected Dictionary<EquippedConnection, SpriterPlayer> previewConnectionSpriters;
 
-        protected SpriterPlayer descSpriter;
+        protected SpriterPlayer descSpriter, helpSpriter;
         protected Rectangle descBox;
 
         TextEntity compatiblePartsText;
@@ -60,7 +60,7 @@ namespace wickedcrush.screen.menu
         protected List<Rectangle> partSelectionBoxes;
         protected List<TextEntity> partSelectionText;
 
-        protected TextEntity pageTitle, partStatsPartSelectionText, itemDesc;
+        protected TextEntity pageTitle, partStatsPartSelectionText, itemDesc, helpText;
 
         protected EquippedPart activePart;
         protected EquippedConnection activeConnection;
@@ -110,14 +110,24 @@ namespace wickedcrush.screen.menu
 
             partStatsPartSelectionText = new TextEntity("", new Vector2(20, 840), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             partStatsPartSelectionText.alignment = TextAlignment.Left;
+            partStatsPartSelectionText.SetSpeed(0);
 
             itemDesc = new TextEntity("desc", new Vector2(780, height + 40), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             itemDesc.alignment = TextAlignment.Left;
+            itemDesc.SetSpeed(15);
+            itemDesc.shadow = true;
+
+            helpText = new TextEntity("", new Vector2(500, 1020), _gm.factory._sm, game, -1, _gm.factory, Color.Black, 1f, "Khula", false);
+            helpText.alignment = TextAlignment.Center;
+            helpText.cueName = "Jump7";
 
             descBox = new Rectangle(20, 20 + height, 680, 680);
 
             descSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader);
             descSpriter.setAnimation("unselected", 0, 0);
+
+            helpSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 6, _gm.factory._spriterManager.spriters["hud"].loader);
+            helpSpriter.setAnimation("1line_speech_right", 0, 0);
 
             compatiblePartsText = new TextEntity("Compatible Parts:", new Vector2(20, height), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
 
@@ -126,6 +136,8 @@ namespace wickedcrush.screen.menu
             AddText(pageTitle);
             //AddText(itemName);
             AddText(itemDesc);
+
+            AddText(helpText);
 
         }
 
@@ -174,6 +186,8 @@ namespace wickedcrush.screen.menu
                     AddSpriter(gearPanelSpriters[new Point(i, j)]);
                 }
             }
+
+            AddSpriter(helpSpriter);
 
             Dictionary<Point, SpriterPlayer> tempGearSpriters = new Dictionary<Point, SpriterPlayer>();
 
@@ -333,6 +347,7 @@ namespace wickedcrush.screen.menu
                 AddSpriter(previewConnectionSpriters[equipConnect]);
 
             }
+
         }
 
         public override void Dispose()
@@ -345,7 +360,7 @@ namespace wickedcrush.screen.menu
         {
             base.Update(gameTime);
 
-            bool clearHighlight = true;
+            bool clearHighlight = (activePart != null);
             bool clearConnectionHighlight = true;
 
             if (gearChange)
@@ -373,13 +388,21 @@ namespace wickedcrush.screen.menu
             if (state == GearUpgradeMenuState.ConnectionSelect)
             {
                 targetPanelLocation = targetPanelLeftLocation;
+                partSelectHighlightChange = true;
                 foreach (KeyValuePair<EquippedPart, Dictionary<Point, SpriterPlayer>> partPair in gearSlotSpriters)
                 {
                     bool highlightPart = false;
-                
-                    if (partPair.Key == activePart)
-                        highlightPart = true;
 
+                    if (partPair.Key == activePart)
+                    {
+                        highlightPart = true;
+                        partSelectHighlightChange = false;
+                    }
+
+                    if (activePart == null)
+                    {
+                        partSelectHighlightChange = false;
+                    }
                 
 
                     foreach (KeyValuePair<Point, SpriterPlayer> spritePair in partPair.Value)
@@ -389,6 +412,12 @@ namespace wickedcrush.screen.menu
 
                         if (gearPanelBoxes[spritePair.Key].Contains(Helper.CastToPoint(cursorPos)))
                         {
+                            if (partPair.Key != activePart)
+                            {
+                                //highlightPart = true;
+                                partSelectHighlightChange = true;
+                            }
+
                             activePart = partPair.Key;
                             clearHighlight = false;
                         }
@@ -416,6 +445,10 @@ namespace wickedcrush.screen.menu
 
                         if (gearConnectionBoxes[connectPair.Key].Contains(Helper.CastToPoint(cursorPos)))
                         {
+                            if (activePart == null)
+                            {
+                                partSelectHighlightChange = true;
+                            }
                             activePart = connectPair.Key.parent;
                             activeConnection = connectPair.Key;
                             clearHighlight = false;
@@ -438,12 +471,33 @@ namespace wickedcrush.screen.menu
                 {
                     activeConnection = null;
                     activePart = null;
+                    partSelectHighlightChange = true;
                 }
 
                 if (clearConnectionHighlight)
                 {
                     activeConnection = null;
                 }
+
+                if (activeConnection != null)
+                {
+                    helpText.ChangeText("Click to equip a part to this slot!");
+                }
+                else if (activePart != null) {
+                    if (activePart != p.getStats().inventory.gear.core)
+                    {
+                        helpText.ChangeText("Right Click to return this part to your inventory!");
+                    }
+                    else
+                    {
+                        helpText.ChangeText("Click to swap your core!");
+                    }
+                }
+                else
+                {
+                    helpText.ChangeText("Select a slot to equip a part to!");
+                }
+
             } else if (state == GearUpgradeMenuState.PartSelection)
             {
                 targetPanelLocation = targetPanelRightLocation;
@@ -492,6 +546,21 @@ namespace wickedcrush.screen.menu
                 if (partSelectionInt != prevPartSelectionInt)
                 {
                     partSelectHighlightChange = true;
+                }
+
+                if (partSelectionBoxes.Count == 0)
+                {
+                    helpText.ChangeText("Looks like you don't have any parts that fit...");
+                    partStatsPartSelectionText.ChangeText("");
+                }
+                else if (partSelectionInt == -1)
+                {
+                    helpText.ChangeText("Select a part to equip to the slot!");
+                    partStatsPartSelectionText.ChangeText("");
+                }
+                else
+                {
+                    helpText.ChangeText("Click to equip the part!");
                 }
             }
             else if (state == GearUpgradeMenuState.CoreSelection)
@@ -546,6 +615,7 @@ namespace wickedcrush.screen.menu
                 }
             }
 
+            helpSpriter.update(520, -1010);
 
             UpdateItemDesc();
 
@@ -588,11 +658,13 @@ namespace wickedcrush.screen.menu
                         InitializePreviewConnectionSpriter(previewConnection);
                     }
 
-                    partStatsPartSelectionText.text = "";
+                    partStatsPartSelectionText.ChangeText("");
                     foreach (KeyValuePair<GearStat, int> statPair in previewPart.part.partStruct.stats)
                     {
-                        partStatsPartSelectionText.text += statPair.Key + " +" + statPair.Value + "\n";
+                        partStatsPartSelectionText.AppendText(statPair.Key + " +" + statPair.Value + "\n");
                     }
+
+                    partStatsPartSelectionText.SetSpeed(0);
                 }
 
             }
@@ -628,31 +700,35 @@ namespace wickedcrush.screen.menu
                         InitializePreviewConnectionSpriter(previewConnection);
                     }
 
-                    partStatsPartSelectionText.text = "";
+                    partStatsPartSelectionText.ChangeText("");
                     foreach (KeyValuePair<GearStat, int> statPair in previewPart.part.partStruct.stats)
                     {
-                        partStatsPartSelectionText.text += statPair.Key + " +" + statPair.Value + "\n";
+                        partStatsPartSelectionText.AppendText(statPair.Key + " +" + statPair.Value + "\n");
                     }
+
+                    partStatsPartSelectionText.SetSpeed(0);
                 }
 
             }
-            else if (state == GearUpgradeMenuState.ConnectionSelect)
+            else if (partSelectHighlightChange && state == GearUpgradeMenuState.ConnectionSelect)
             {
                 if (activePart == null)
                 {
-                    itemDesc.text = "";
+                    itemDesc.ChangeText("Total Stats:\n");
                     foreach (KeyValuePair<GearStat, int> pair in p.getStats().inventory.gear.GetEquippedStats())
                     {
-                        itemDesc.text = itemDesc.text + pair.Key + " +" + pair.Value + "\n";
+                        itemDesc.AppendText(pair.Key + " +" + pair.Value + "\n");
                     }
                 }
                 else
                 {
-                    itemDesc.text = activePart.part.name + "\n"; ;
+                    itemDesc.ChangeText(activePart.part.name + "\n");
                     foreach (KeyValuePair<GearStat, int> pair in activePart.part.partStruct.stats)
                     {
-                        itemDesc.text = itemDesc.text + pair.Key + " +" + pair.Value + "\n";
+                        itemDesc.AppendText(pair.Key + " +" + pair.Value + "\n");
                     }
+
+                    //itemDesc.SetSpeed(0);
                 }
             }
         }
@@ -673,12 +749,13 @@ namespace wickedcrush.screen.menu
                 partSelectionBoxes.Add(new Rectangle(20, height + 60 + i * 60, 500, 60));
                 TextEntity tempText = new TextEntity(partList[i].name + " x" + p.getStats().inventory.getItemCount(partList[i]), new Vector2(partSelectionBoxes[i].X, partSelectionBoxes[i].Top), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
                 tempText.alignment = TextAlignment.Left;
+                tempText.shadow = true;
                 partSelectionText.Add(tempText);
 
                 AddText(tempText);
             }
 
-            partStatsPartSelectionText.text = "";
+            partStatsPartSelectionText.ChangeText("");
 
             AddText(partStatsPartSelectionText);
         }
@@ -710,13 +787,15 @@ namespace wickedcrush.screen.menu
             {
                 partSelectionBoxes.Add(new Rectangle(20, height + 60 + i * 60, 500, 60));
                 TextEntity tempText = new TextEntity(partList[i].name + " x" + p.getStats().inventory.getItemCount(partList[i]), new Vector2(partSelectionBoxes[i].X, partSelectionBoxes[i].Top), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+                tempText.shadow = true;
                 tempText.alignment = TextAlignment.Left;
                 partSelectionText.Add(tempText);
 
                 AddText(tempText);
             }
 
-            partStatsPartSelectionText.text = "";
+            partStatsPartSelectionText.ChangeText("");
+            
 
             AddText(partStatsPartSelectionText);
         }
@@ -734,20 +813,24 @@ namespace wickedcrush.screen.menu
 
                     } else if (activePart != null)
                     {
-                        if (activePart != p.getStats().inventory.gear.core)
-                        {
-                            p.getStats().inventory.UnequipPart(activePart);
-                            gearChange = true;
-                        }
-                        else
+                        if (activePart == p.getStats().inventory.gear.core)
                         {
                             LaunchCoreSelectionMenu();
                             RemoveText(itemDesc);
                         }
                     }
                 }
+                
+                if (p.c.UnequipPartPress())
+                {
+                    if (activePart != p.getStats().inventory.gear.core)
+                    {
+                            p.getStats().inventory.UnequipPart(activePart);
+                            gearChange = true;
+                    }
+                }
 
-                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
+                if (p.c.LaunchMenuPressed() || p.c.SelectPressed())
                 {
                     Dispose();
                 }
@@ -765,7 +848,7 @@ namespace wickedcrush.screen.menu
                     } 
                 }
 
-                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
+                if (p.c.LaunchMenuPressed() || p.c.SelectPressed() || p.c.ItemBPressed())
                 {
                     ClosePartSelectionMenu();
                 }
@@ -783,7 +866,7 @@ namespace wickedcrush.screen.menu
                     }
                 }
 
-                if (p.c.LaunchMenuPressed() || p.c.ItemBPressed())
+                if (p.c.LaunchMenuPressed() || p.c.SelectPressed() || p.c.ItemBPressed())
                 {
                     CloseCoreSelectionMenu();
                 }

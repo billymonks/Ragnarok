@@ -58,7 +58,7 @@ namespace wickedcrush.inventory
     {
         public PartStruct partStruct;
         public Part(String name, PartStruct partStruct)
-            : base(name)
+            : base(name, "This part can be equipped at a garage.")
         {
             this.partStruct = partStruct;
         }

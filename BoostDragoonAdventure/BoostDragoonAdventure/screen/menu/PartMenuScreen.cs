@@ -266,9 +266,9 @@ namespace wickedcrush.screen.menu
         {
             if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < itemList.Count)
             {
-                itemName.text = itemList[lastHighlightedIndex].name;
-                itemDesc.text = itemList[lastHighlightedIndex].desc;
-                itemDesc.SetMaxWidth(600f);
+                itemName.ChangeText(itemList[lastHighlightedIndex].name);
+                itemDesc.ChangeText( itemList[lastHighlightedIndex].desc, 600f);
+                //itemDesc.SetMaxWidth(600f);
 
                 if (itemList[lastHighlightedIndex] is Part)
                 {
@@ -374,8 +374,8 @@ namespace wickedcrush.screen.menu
                             lastHighlightedIndex = -1;
                             listChange = true;
 
-                            itemName.text = "";
-                            itemDesc.text = "";
+                            itemName.ChangeText("");
+                            itemDesc.ChangeText("");
                         }
                     }
             }

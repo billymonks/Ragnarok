@@ -110,6 +110,11 @@ namespace wickedcrush.controls
                 return false;
         }
 
+        public override bool UnequipPartPress()
+        {
+            return ItemBPressed();
+        }
+
         public override bool ReverseBoostHeld()
         {
             if (padState.IsButtonDown(reverseBoostButton))

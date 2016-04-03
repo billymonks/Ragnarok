@@ -16,8 +16,8 @@ Global Settings
     Header File = AudioEngine.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1016503309;
-    Last Modified High = 30469764;
+    Last Modified Low = 30469764;
+    Last Modified High = 1016503309;
 
     Category
     {
@@ -243,7 +243,7 @@ Global Settings
         Reserved = 0;
         Read Only = 0;
         Time = 0;
-        Value = 40.000000;
+        Value = 40.820000;
         Initial Value = 0.000000;
         Min = 0.000000;
         Max = 100.000000;
@@ -255,7 +255,7 @@ Global Settings
 
         RPC Curve
         {
-            Name = Sound::84f2e435-6fca-4a03-a930-d314c4409c49;
+            Name = Sound::cc1b6901-ce9e-4a67-a7c0-18cb1c4615e2;
             Property = 0;
             Sound = 1;
             Line Color = 4291128674;
@@ -323,7 +323,7 @@ Global Settings
 
         RPC Curve
         {
-            Name = Sound::426a0389-14fa-440e-a80c-4a315594de43;
+            Name = Sound::1bdbc462-5373-4c35-a162-69a064fd03a7;
             Property = 1;
             Sound = 1;
             Line Color = 4286851148;
@@ -387,10 +387,6 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = Compression Preset;
-    Xbox Bank Last Modified Low = 0;
-    Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 163484464;
-    PC Bank Last Modified High = 30469764;
     Bank Last Revised Low = 163464466;
     Bank Last Revised High = 30469764;
 
@@ -1558,8 +1554,6 @@ Sound Bank
     Windows File = Win\bfxr sound bank.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1972245248;
-    Bank Last Modified High = 30469765;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 

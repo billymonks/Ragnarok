@@ -220,6 +220,11 @@ namespace wickedcrush.controls
             return false;
         }
 
+        public override bool UnequipPartPress()
+        {
+            return RightMousePress();
+        }
+
         public override bool LaunchMenuPressed()
         {
             if (keyState.IsKeyDown(startKey) && prevKeyState.IsKeyUp(startKey))

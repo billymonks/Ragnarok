@@ -24,6 +24,7 @@ namespace wickedcrush.screen.menu
             this.messageText = messageText;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+            message.cueName = "Jump7";
             message.SetMaxWidth(840f);
             AddText(message);
         }
@@ -55,7 +56,12 @@ namespace wickedcrush.screen.menu
 
                 if (p.c.LaunchMenuPressed() || p.c.InteractPressed())
             {
-                Dispose();
+                if (message.text.Equals(message.displayedText))
+                    Dispose();
+                else
+                {
+                    message.SetSpeed(0);
+                }
             }
         }
     }

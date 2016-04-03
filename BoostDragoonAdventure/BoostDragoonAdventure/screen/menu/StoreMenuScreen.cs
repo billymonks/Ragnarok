@@ -186,9 +186,9 @@ namespace wickedcrush.screen.menu
         {
             if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < storeItems.Count)
             {
-                itemName.text = storeItems[lastHighlightedIndex].name;
-                itemDesc.text = storeItems[lastHighlightedIndex].desc + "\nCost: " + storeItems[lastHighlightedIndex].value * margin;
-                itemDesc.SetMaxWidth(600f);
+                itemName.ChangeText(storeItems[lastHighlightedIndex].name);
+                itemDesc.ChangeText(storeItems[lastHighlightedIndex].desc + "\nCost: " + storeItems[lastHighlightedIndex].value * margin, 600f);
+                //itemDesc.SetMaxWidth(600f);
             }
 
             highlightChange = false;

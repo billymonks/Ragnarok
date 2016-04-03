@@ -663,6 +663,7 @@ namespace wickedcrush.factory.entity
         {
             TextEntity textEnt = new TextEntity(text, pos, _sm, _game, duration, this, textColor, zoomLevel, zoomLevel + 2, true);
             textEnt.velocity = velocity;
+            textEnt.SetSpeed(0);
             _em.addEntity(textEnt);
 
             return textEnt;

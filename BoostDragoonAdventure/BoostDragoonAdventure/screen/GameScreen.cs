@@ -37,6 +37,7 @@ namespace wickedcrush.screen
         public virtual void Update(GameTime gameTime)
         {
             UpdateSpriters();
+            UpdateText(gameTime);
         }
         public virtual void Render(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget) { }
         public virtual void Draw() { }
@@ -101,6 +102,15 @@ namespace wickedcrush.screen
             removeList.Clear();
 
 
+        }
+
+        protected void UpdateText(GameTime gameTime)
+        {
+            for(int i = screenText.Count-1; i>=0; i--)
+            //foreach (TextEntity t in screenText)
+            {
+                screenText[i].Update(gameTime);
+            }
         }
     }
 }

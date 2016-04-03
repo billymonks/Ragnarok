@@ -39,6 +39,8 @@ namespace wickedcrush.screen.menu
             this.answers = answers;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+            message.SetMaxWidth(840f);
+            message.SetSpeed(0);
             AddText(message);
 
             answerText = new Dictionary<int, TextEntity>();
@@ -64,6 +66,7 @@ namespace wickedcrush.screen.menu
                 answerSpriters.Add(answer.val, tempSpriter);
 
                 tempText = new TextEntity(answer.text, Helper.CastToVector2(answerBoxes[answer.val].Center), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
+                tempText.SetSpeed(0);
 
                 answerText.Add(answer.val, tempText);
 
