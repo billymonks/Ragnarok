@@ -260,7 +260,9 @@ namespace wickedcrush.manager.map
 
                 foreach (XElement e in objects.Elements("CHEST"))
                 {
-                    gm.factory.addChest(
+                    id = int.Parse(e.Attribute("id").Value);
+
+                    gm.factory.addChest(id, 
                         new Vector2(float.Parse(e.Attribute("x").Value), float.Parse(e.Attribute("y").Value)));
                 }
 
@@ -571,10 +573,12 @@ namespace wickedcrush.manager.map
                     tempX = float.Parse(e.Attribute("x").Value) - 320f;
                     tempY = float.Parse(e.Attribute("y").Value) - 240f;
 
+                    //id = int.Parse(e.Attribute("id").Value);
+
                     if (flipped)
                         tempX *= -1;
 
-                    gm.factory.addChest(
+                    gm.factory.addChest(-1,
                         new Vector2(
                             320f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempX + pos.X,
                             240f + (float)Math.Cos(MathHelper.ToRadians((float)rotation)) * tempY + pos.Y));

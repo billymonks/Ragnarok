@@ -27,8 +27,8 @@ namespace wickedcrush.entity.physics_entity.agent.chest
         private List<Weapon> contents;
         private int currency;
 
-        public Chest(World w, Vector2 pos, EntityFactory factory, SoundManager sound)
-            : base(-1, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
+        public Chest(World w, Vector2 pos, EntityFactory factory, SoundManager sound, int chestId)
+            : base(chestId, w, pos, new Vector2(20f, 20f), new Vector2(10f, 10f), true, factory, sound)
         {
             Initialize();
         }
@@ -68,6 +68,10 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                     c => !((Chest)c).opened,
                     c =>
                     {
+                        if (factory.IsDead(kid))
+                        {
+                            opened = true;
+                        }
                         bodySpriter.setAnimation("closed", 0, 0);
                         testColor = Color.Green;
                         CheckForOpen();
@@ -102,6 +106,7 @@ namespace wickedcrush.entity.physics_entity.agent.chest
                 {
                     if(((PlayerAgent)e).InteractPressed())
                     {
+                        factory.RegisterDeath(kid);
                         opened = true;
                         Item temp = InventoryServer.getRandomItem();
                         //factory.addText("You got " + temp.name + "!", this.pos + this.center, 3000);

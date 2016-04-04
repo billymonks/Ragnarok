@@ -99,7 +99,7 @@
   </map>
   <map name="e4" filename="Content/maps/full/e4.oel" theme="default">
     <connection id="0" doorIndex="1">e3</connection>
-    <connection id="1" doorIndex="0">big kahuna burger</connection>
+    <connection id="1" doorIndex="2">scenic view</connection>
   </map>
   <map name="f1" filename="Content/maps/full/f1.oel" theme="default">
     <connection id="0" doorIndex="1">c1</connection>
@@ -115,7 +115,7 @@
   </map>
   <map name="f4" filename="Content/maps/full/f4.oel" theme="default">
     <connection id="0" doorIndex="1">f3</connection>
-    <connection id="1" doorIndex="0">big kahuna burger</connection>
+    <connection id="1" doorIndex="3">scenic view</connection>
   </map>
   <map name="700test" filename="Content/maps/full/700test.xml">
     <connection id="0" doorIndex="0">700test</connection>
@@ -142,8 +142,8 @@
   <map name="scenic view" filename="Content/maps/full/scenic_view.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">longmap</connection>
-    <connection id="2" doorIndex="1">longmap</connection>
-    <connection id="3" doorIndex="0">longmap</connection>
+    <connection id="2" doorIndex="1">e4</connection>
+    <connection id="3" doorIndex="0">f4</connection>
   </map>
   <map name="big empty test" filename="Content/maps/full/big_empty_test.xml">
     <connection id="0" doorIndex="0">big empty test</connection>
@@ -161,4 +161,5 @@
   <map name="boss room c" filename="Content/maps/full/boss_room_c.oel">
     <connection id="0" doorIndex="0">boss room c</connection>
   </map>
+  <map name="garage" filename="Content/maps/full/garage.oel"></map>
 </atlas>

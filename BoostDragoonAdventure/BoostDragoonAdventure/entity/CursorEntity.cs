@@ -58,7 +58,7 @@ namespace wickedcrush.entity
             this.spriteScaleAmount = 5f;
             visible = false;
             
-            SetupSpriterPlayer();
+            //SetupSpriterPlayer();
             Mouse.SetPosition(g.GraphicsDevice.Viewport.Width / 2, g.GraphicsDevice.Viewport.Height / 2);
 
             factory.AddSpriterToHud(crosshairSpriter);

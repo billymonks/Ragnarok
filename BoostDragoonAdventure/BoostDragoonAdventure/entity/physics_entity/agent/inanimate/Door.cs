@@ -9,6 +9,7 @@ using wickedcrush.factory.entity;
 using wickedcrush.manager.audio;
 using wickedcrush.manager.gameplay;
 using wickedcrush.manager.map;
+using Com.Brashmonkey.Spriter.player;
 
 namespace wickedcrush.entity.physics_entity.agent.inanimate
 {
@@ -24,20 +25,22 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
         private TextEntity promptText;
 
         public Door(World w, Vector2 pos, Vector2 size, String destinationMapName, int myId, int destinationId, GameplayManager gm, EntityFactory factory, SoundManager sound)
-            : base(-1, w, pos, size, size/2f, false, factory, sound)
+            : base(myId, w, pos, size, size / 2f, false, factory, sound)
         {
             this.facing = Direction.East;
             this._gameplayManager = gm;
             this.destinationMapName = destinationMapName;
             this.myId = myId;
             this.destinationId = destinationId;
-            this.visible = false;
+            //this.visible = false;
             this.immortal = true;
             this.noCollision = true;
 
             promptText = new TextEntity("Enter", pos+center, sound, factory._game, -1, factory, 1f, false);
             promptText.alignment = TextAlignment.Center;
             promptText.inScene = false;
+
+            
         }
 
         public override void Update(GameTime gameTime)
@@ -66,7 +69,35 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
                 _gameplayManager.TraverseDoor(this);
             }
 
+            //UpdateSpriters();
+
             //prevPlayerOn = playerOn;
+        }
+
+        protected override void SetupSpriterPlayer()
+        {
+            sPlayers = new Dictionary<string, SpriterPlayer>();
+            sPlayers.Add("you", new SpriterPlayer(factory._spriterManager.spriters["you"].getSpriterData(), 0, factory._spriterManager.spriters["you"].loader));
+            bodySpriter = sPlayers["you"];
+            bodySpriter.setFrameSpeed(20);
+            drawBody = false;
+
+            sPlayers.Add("shadow", new SpriterPlayer(factory._spriterManager.spriters["shadow"].getSpriterData(), 0, factory._spriterManager.spriters["shadow"].loader));
+            shadowSpriter = sPlayers["shadow"];
+            shadowSpriter.setAnimation("still", 0, 0);
+            shadowSpriter.setFrameSpeed(20);
+            drawShadow = false;
+
+            //AddAngledElement("Magazine", "shapes", "grey", 0, new Vector3(0f, 5f, 0f) * 1, 0, 1, 0f, new Vector3(0f, 4f, -3f) * 0);
+            AddAngledElement("Door", "environment", "closed", 0, new Vector3(0f, 0f, 0f) * 1, 0, 1f, 0f, new Vector3(0f, 4f, -3f) * 0);
+            
+            //}
+            //else
+            //{
+                //InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);
+                //SetCostume(2);
+            //}
+
         }
 
         protected override void Dispose()

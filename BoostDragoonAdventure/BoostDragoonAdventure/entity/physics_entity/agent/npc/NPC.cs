@@ -20,7 +20,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
         int eventId;
 
         public NPC(Vector2 pos, Vector2 size, int eventId, GameBase game, GameplayManager gameplayManager)
-            : base(-1, gameplayManager.w, pos, size, size / 2f, true, gameplayManager.factory, game.soundManager)
+            : base(eventId, gameplayManager.w, pos, size, size / 2f, true, gameplayManager.factory, game.soundManager)
         {
             _game = game;
             this.eventId = eventId;
@@ -33,7 +33,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
             immortal = true;
             activeRange = size.X*1.5f;
             SetupStateMachine();
-
+            //SetupSpriterPlayer();
         }
 
         protected override void setupBody(World w, Vector2 pos, Vector2 size, Vector2 center, bool solid)
@@ -73,8 +73,15 @@ namespace wickedcrush.entity.physics_entity.agent.npc
             float legStance = (float)(random.NextDouble() - 0.5) * 4f;
             float spineStance = (float)(random.NextDouble() - 0.25) * 4f;
 
-
-            InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);
+            if (kid == 4)
+            {
+                AddAngledElement("Magazine", "shapes", "grey", 0, new Vector3(0f, 5f, 0f) * 1, 0, 1, 0f, new Vector3(0f, 4f, -3f) * 0);
+            }
+            else
+            {
+                InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);
+                SetCostume(2);
+            }
 
         }
 

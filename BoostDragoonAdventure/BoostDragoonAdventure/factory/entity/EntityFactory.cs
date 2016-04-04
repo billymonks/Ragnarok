@@ -515,9 +515,9 @@ namespace wickedcrush.factory.entity
             _em.addEntity(t);
         }
 
-        public void addChest(Vector2 pos)
+        public void addChest(int id, Vector2 pos)
         {
-            Chest c = new Chest(_w, pos, this, _sm);
+            Chest c = new Chest(_w, pos, this, _sm, id);
             c.stats.set("staggerDuration", 1);
             c.stats.set("staggerDistance", 0);
             _em.addEntity(c);

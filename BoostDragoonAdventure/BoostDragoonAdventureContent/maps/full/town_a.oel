@@ -160,8 +160,8 @@
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</WIRING>
   <OBJECTS>
-    <S_DOOR id="0" x="760" y="480" width="40" height="40" map="inn" my_id="0" destination_id="0" />
-    <S_DOOR id="1" x="340" y="480" width="40" height="40" map="" my_id="1" destination_id="0" />
+    <S_DOOR id="0" x="760" y="460" width="40" height="40" map="inn" my_id="0" destination_id="0" />
+    <S_DOOR id="1" x="340" y="460" width="40" height="40" map="garage" my_id="1" destination_id="0" />
     <DOOR id="2" x="1240" y="460" angle="0" />
     <DOOR id="3" x="760" y="40" angle="0" />
   </OBJECTS>

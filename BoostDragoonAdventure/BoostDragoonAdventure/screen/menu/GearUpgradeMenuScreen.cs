@@ -823,7 +823,7 @@ namespace wickedcrush.screen.menu
                 
                 if (p.c.UnequipPartPress())
                 {
-                    if (activePart != p.getStats().inventory.gear.core)
+                    if (activePart != p.getStats().inventory.gear.core && activePart != null)
                     {
                             p.getStats().inventory.UnequipPart(activePart);
                             gearChange = true;

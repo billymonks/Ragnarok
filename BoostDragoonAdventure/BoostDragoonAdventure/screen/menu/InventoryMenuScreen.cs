@@ -282,6 +282,13 @@ namespace wickedcrush.screen.menu
 
             UpdateItemDesc();
 
+            //game.playerManager.DrawHud();
+            p.hpSpriter.setFrame((long)(999f * ((float)p.getStats().getNumber("hp") / (float)p.getStats().getNumber("MaxHP"))));
+
+            _gm._screen.currencyText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().inventory.currency.ToString());
+
+            _gm._screen.hpText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().getNumber("hp").ToString());
+            _gm._screen.epText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().getNumber("boost").ToString());
 
             UpdateCursorPosition(p.c);
 

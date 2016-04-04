@@ -167,8 +167,32 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             //stats.set("charge", 1000);
 
             subEntityList["status"].pos = this.pos;
-            ((TextEntity)subEntityList["status"]).text = enemyState.ToString();
-            //((TextEntity)subEntityList["status"]).text = _depth.ToString();
+            ((TextEntity)subEntityList["status"]).ChangeText(enemyState.ToString());
+
+            float sScale = size.X / 24f;
+
+            switch (enemyState)
+            {
+                case EnemyState.Alert:
+                    SetCostume(0);
+                    //SetCostume(0);
+                    //angledSpriters["Face"]
+                    //RemoveAngledElement("Face");
+                    //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, 10f * torsoScale - 20, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    break;
+                case EnemyState.Search:
+                    SetCostume(0);
+                    //RemoveAngledElement("Face");
+                    //AddAngledElement("Face", "cactus", "flirt", 1, new Vector3(10f * spineStance + 1.5f, 10f * torsoScale - 20, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    break;
+                default:
+                    SetCostume(2);
+                    //RemoveAngledElement("Face");
+                    break;
+            }
+            
+            
             
         }
 
@@ -596,12 +620,12 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             shadowSpriter.setFrameSpeed(20);
             drawShadow = true;
 
-            float torsoScale = (float)(random.NextDouble() - 0.25) * 4f;
-            float armWidth = (float)(random.NextDouble() - 0) * 3f;
-            float legWidth = (float)(random.NextDouble() - 0) * 2f;
-            float armStance = (float)(random.NextDouble() - 0.5) * 4f;
-            float legStance = (float)(random.NextDouble() - 0.5) * 4f;
-            float spineStance = (float)(random.NextDouble() - 0.25) * 4f;
+            torsoScale = (float)(random.NextDouble() - 0.25) * 4f;
+            armWidth = (float)(random.NextDouble() - 0) * 3f;
+            legWidth = (float)(random.NextDouble() - 0) * 2f;
+            armStance = (float)(random.NextDouble() - 0.5) * 4f;
+            legStance = (float)(random.NextDouble() - 0.5) * 4f;
+            spineStance = (float)(random.NextDouble() - 0.25) * 4f;
 
 
             InitializeHumanoidSprites(torsoScale, armWidth, legWidth, armStance, legStance, spineStance);

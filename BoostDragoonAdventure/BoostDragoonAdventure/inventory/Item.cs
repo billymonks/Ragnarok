@@ -22,7 +22,7 @@ namespace wickedcrush.inventory
     {
         public String name, desc;
         public ItemType type = ItemType.Unknown;
-        public int value = 10;
+        public int value = 1000;
 
         public Item(String name)
         {

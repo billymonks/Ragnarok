@@ -13,6 +13,7 @@ using wickedcrush.helper;
 using wickedcrush.entity.physics_entity.agent.player;
 using wickedcrush.player;
 using wickedcrush.inventory;
+using wickedcrush.stats;
 
 namespace wickedcrush.screen.menu
 {
@@ -37,6 +38,8 @@ namespace wickedcrush.screen.menu
         protected float margin = 2f;
 
         int height = 180, halfPageWidth = 720;
+
+        protected List<SpriterPlayer> partSpriters;
 
         //protected Rectangle weaponsBox, itemsBox, statusBox;
 
@@ -102,10 +105,13 @@ namespace wickedcrush.screen.menu
             descSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader);
             descSpriter.setAnimation("unselected", 0, 0);
 
+            partSpriters = new List<SpriterPlayer>();
+
             foreach (KeyValuePair<int, SpriterPlayer> pair in storeSlotSpriters)
             {
                 AddSpriter(pair.Value);
             }
+
 
             AddSpriter(descSpriter);
 
@@ -148,8 +154,11 @@ namespace wickedcrush.screen.menu
                 if (storeBoxes[pair.Key].Contains(Helper.CastToPoint(cursorPos)) && pair.Key < storeItems.Count)
                 {
                     highlightedWeapon = pair.Key;
-                    lastHighlightedIndex = highlightedWeapon;
-                    highlightChange = true;
+                    if (lastHighlightedIndex != highlightedWeapon)
+                    {
+                        lastHighlightedIndex = highlightedWeapon;
+                        highlightChange = true;
+                    }
 
                     pair.Value.setAnimation("selected", 0, 0);
                 }
@@ -167,10 +176,15 @@ namespace wickedcrush.screen.menu
 
             descSpriter.setScale(6.8f);
             descSpriter.update(descBox.Center.X, -descBox.Center.Y);
-            descSpriter.SetDepth(0.06f);
+            descSpriter.SetDepth(0.3f);
 
             
             UpdateStoreDesc();
+
+            _gm._screen.currencyText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().inventory.currency.ToString());
+
+            _gm._screen.hpText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().getNumber("hp").ToString());
+            _gm._screen.epText.ChangeText(_gm._playerManager.getPlayerList()[0].getStats().getNumber("boost").ToString());
 
 
             UpdateCursorPosition(p.c);
@@ -184,6 +198,77 @@ namespace wickedcrush.screen.menu
             
         }
 
+        private void ClearPartDisplay()
+        {
+            foreach (SpriterPlayer p in partSpriters)
+            {
+                RemoveSpriter(p);
+            }
+
+            partSpriters.Clear();
+        }
+
+        private void UpdatePartDisplay()
+        {
+
+            Part selectedPart = (Part)storeItems[lastHighlightedIndex];
+            SpriterPlayer tempSpriter;
+            Point partDisplayPos = new Point(1155, 540);
+
+            ClearPartDisplay();
+
+            foreach (Point p in selectedPart.partStruct.slots)
+            {
+                tempSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 7, _gm.factory._spriterManager.spriters["hud"].loader);
+                tempSpriter.setAnimation("light", 0, 0);
+                tempSpriter.update(partDisplayPos.X + (p.X * 50), -partDisplayPos.Y - (p.Y * 50));
+                tempSpriter.SetDepth(0.2f);
+                partSpriters.Add(tempSpriter);
+                AddSpriter(tempSpriter);
+            }
+
+            foreach (PartConnection c in selectedPart.partStruct.connections)
+            {
+                int entNum = 9;
+
+                Point cRotation = new Point((int)Math.Round(Math.Cos(MathHelper.ToRadians(c.direction))), (int)Math.Round(Math.Sin(MathHelper.ToRadians(c.direction))));
+
+                switch (c.type)
+                {
+                    case ConnectionType.Circle:
+                        entNum = 9;
+                        break;
+
+                    case ConnectionType.Square:
+                        entNum = 10;
+                        break;
+
+                    case ConnectionType.Triangle:
+                        entNum = 11;
+                        break;
+                }
+
+                tempSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), entNum, _gm.factory._spriterManager.spriters["hud"].loader);
+
+                if (c.female)
+                {
+                    tempSpriter.setAnimation("inside", 0, 0);
+                }
+                else
+                {
+                    tempSpriter.setAnimation("outside", 0, 0);
+                }
+
+                tempSpriter.SetDepth(0.2f);
+
+                tempSpriter.update(partDisplayPos.X + (c.slot.X * 50) + (cRotation.X * 25), -partDisplayPos.Y - (c.slot.Y * 50) - (cRotation.Y * 25));
+
+                partSpriters.Add(tempSpriter);
+                AddSpriter(tempSpriter);
+
+            }
+        }
+
         private void UpdateStoreDesc()
         {
             if (highlightChange && lastHighlightedIndex > -1 && lastHighlightedIndex < storeItems.Count)
@@ -191,6 +276,16 @@ namespace wickedcrush.screen.menu
                 itemName.ChangeText(storeItems[lastHighlightedIndex].name);
                 itemDesc.ChangeText(storeItems[lastHighlightedIndex].desc + "\nCost: " + storeItems[lastHighlightedIndex].value * margin, 600f);
                 //itemDesc.SetMaxWidth(600f);
+                if (storeItems[lastHighlightedIndex] is Part)
+                {
+                    foreach (KeyValuePair<GearStat, int> stat in ((Part)storeItems[lastHighlightedIndex]).partStruct.stats)
+                        itemDesc.AppendText("\n\n" + stat.Key + ": +" + stat.Value);
+                    UpdatePartDisplay();
+                }
+                else
+                {
+                    ClearPartDisplay();
+                }
             }
 
             highlightChange = false;
