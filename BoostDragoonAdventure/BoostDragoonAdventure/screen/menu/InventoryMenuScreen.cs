@@ -292,7 +292,7 @@ namespace wickedcrush.screen.menu
 
             UpdateCursorPosition(p.c);
 
-            if (p.c.LaunchMenuPressed())
+            if (p.c.LaunchMenuPressed() || p.c.ItemBPressed() || p.c.SelectPressed())
             {
                 Dispose();
             }

@@ -301,7 +301,7 @@ namespace wickedcrush.entity.physics_entity.agent.player
                 PollCursor();
             }
 
-            if (controls.LaunchMenuPressed() && weaponInUse == null)
+            if ((controls.LaunchMenuPressed() || controls.SelectPressed()) && weaponInUse == null)
             {
                 LaunchMenu();
             }

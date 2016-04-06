@@ -162,4 +162,5 @@
     <connection id="0" doorIndex="0">boss room c</connection>
   </map>
   <map name="garage" filename="Content/maps/full/garage.oel"></map>
+  <map name="weaponshop" filename="Content/maps/full/weaponshop.oel"></map>
 </atlas>

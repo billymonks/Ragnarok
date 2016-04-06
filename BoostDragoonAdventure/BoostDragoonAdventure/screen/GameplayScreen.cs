@@ -240,7 +240,7 @@ namespace wickedcrush.screen
                 gameplayManager.Update(gameTime, true);
                 this.game.freezeFrame = true;
             }
-            DebugControls();
+            //DebugControls();
 
         }
 

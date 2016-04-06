@@ -66,6 +66,9 @@ namespace wickedcrush.factory.entity
 
         public Dictionary<String, bool> savedBools = new Dictionary<String, bool>();
 
+        private bool playerDead = false;
+        private TextEntity deathText;
+
         public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, ParticleManager particleManager, RoomManager rm, World w)
         {
 
@@ -85,6 +88,8 @@ namespace wickedcrush.factory.entity
             gateList = new List<Gate>();
             doorList = new Dictionary<int, Door>();
             sanctuaryList = new List<Sanctuary>();
+
+            deathText = new TextEntity("You have died.\nBut let us not dwell on this temporary setback.\nPress Enter to Respawn.", new Vector2(720, 540), _sm, _game, -1, this, 1f, false);
         }
 
         public bool IsDead(int id)
@@ -787,6 +792,12 @@ namespace wickedcrush.factory.entity
 
                 foreach (Player p in _pm.getPlayerList())
                 {
+                    if (playerDead == false && (p.getAgent() == null || p.getAgent().readyForRemoval()))
+                    {
+                        _gm._screen.AddText(deathText);
+                        playerDead = true;
+                    }
+
                     if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                     {
                         if(_game.debugMode)
@@ -800,7 +811,10 @@ namespace wickedcrush.factory.entity
                         {
                             p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
 
+                            _gm._screen.RemoveText(deathText);
+                            playerDead = false;
                             _gm.EnqueueRespawn();
+
                             
                             //_gm._screen.Dispose();
                             //_game.screenManager.StartLoading();

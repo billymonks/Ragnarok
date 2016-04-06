@@ -88,7 +88,7 @@ namespace wickedcrush.display._3d.atlas
         {
             LinkedList<Point> texturePlacements = new LinkedList<Point>( new List<Point>() {new Point(0, 0)} );
             
-            atlasList.Sort((a1, a2) => a1.rectangle.Height.CompareTo(a2.rectangle.Height));
+            atlasList.Sort((a1, a2) => a2.rectangle.Height.CompareTo(a1.rectangle.Height));
 
             
 
@@ -113,8 +113,8 @@ namespace wickedcrush.display._3d.atlas
                 if (RectangleFits(node.rectangle))
                 {
                     atlas.Add(node.path, node.rectangle);
-                    texturePlacements.AddAfter(curr, new Point(node.rectangle.Right, node.rectangle.Top));
                     texturePlacements.AddAfter(curr, new Point(node.rectangle.Left, node.rectangle.Bottom));
+                    texturePlacements.AddAfter(curr, new Point(node.rectangle.Right, node.rectangle.Top));
                     texturePlacements.Remove(curr);
                     return true;
                 }
