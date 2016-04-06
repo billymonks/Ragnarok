@@ -174,6 +174,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             switch (enemyState)
             {
                 case EnemyState.Alert:
+                    angledSpriters["Face"].player.setAnimation("love", 0, 0);
                     //SetCostume(0);
                     //SetCostume(0);
                     //angledSpriters["Face"]
@@ -182,11 +183,13 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                     //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
                     break;
                 case EnemyState.Search:
+                    angledSpriters["Face"].player.setAnimation("flirt", 0, 0);
                     //SetCostume(0);
                     //RemoveAngledElement("Face");
                     //AddAngledElement("Face", "cactus", "flirt", 1, new Vector3(10f * spineStance + 1.5f, 10f * torsoScale - 20, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
                     break;
                 default:
+                    angledSpriters["Face"].player.setAnimation("blank", 0, 0);
                     //SetCostume(2);
                     //RemoveAngledElement("Face");
                     break;

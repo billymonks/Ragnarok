@@ -143,7 +143,7 @@
     <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">longmap</connection>
     <connection id="2" doorIndex="1">e4</connection>
-    <connection id="3" doorIndex="0">f4</connection>
+    <connection id="3" doorIndex="1">f4</connection>
   </map>
   <map name="big empty test" filename="Content/maps/full/big_empty_test.xml">
     <connection id="0" doorIndex="0">big empty test</connection>

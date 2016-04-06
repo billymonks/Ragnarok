@@ -349,7 +349,7 @@ namespace wickedcrush.inventory
                    {
                        a.getTimer("scattertimer").resetAndStart();
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(0f, 0f), new Vector2(0f, 0f), (150 + 3500 / Math.Min(a.stats.getNumber("charge") + 1, 100)) / (a.potency + 1), 1 + a.potency, 1 + a.potency, 0, 1 + a.potency * 22, true, 300f, 100, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -5 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
+                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, ((float)random.NextDouble() * 200f)-100f), -10 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, false), false));
                        
                        a.stats.addTo("boost", -20 - (20 * a.potency));
                    
@@ -373,7 +373,7 @@ namespace wickedcrush.inventory
                    a.stats.set("charge", 0);
                    a.stats.addTo("boost", -50);
                    a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 10, 1, 1, 0, 15, true, 500f, 500, 0, 1f, null, "", 0, "",
-                       SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
+                       SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -5 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
 
                },
                (a, i) =>
@@ -397,14 +397,14 @@ namespace wickedcrush.inventory
                    if (a.stats.compare("charge", 50) > 0)
                    {
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 70, 5 + a.potency, 5, 0, 0, true, 500f, 500, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
+                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -7 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
                        a.stats.addTo("boost", -125 - (a.potency * 50));
                    }
                    else if (a.stats.compare("charge", 25) > 0)
                    {
 
                        a.useActionSkill(SkillServer.GenerateSkillStruct(new Vector2(-40, 0f), new Vector2(0f, 0f), 100, 3 + a.potency, 3, 0, 15, true, 500f, 500, 0, 1f, null, "", 0, "",
-                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -10, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
+                           SkillServer.GenerateProjectile(new Vector2(10f, 10f), new Vector2(500f, 0f), -6 - a.etheralDMG, 100, 800, ParticleServer.GenerateParticle(), "explosion", "attack1", 3, "all", Vector2.Zero, true), true));
                        a.stats.addTo("boost", -100 - (a.potency * 40));
                    }
                    else
