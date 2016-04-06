@@ -28,8 +28,12 @@ namespace wickedcrush.display._3d.atlas
         public TextureAtlas(Dictionary<String, Texture2D> textures, GraphicsDevice gd)
         {
             RenderTarget2D renderTarget;
+            Texture2D compiledTexture;
             SpriteBatch batch = new SpriteBatch(gd);
             List<AtlasNode> atlasList = new List<AtlasNode>();
+
+            int width, height;
+            Color[] cData;
 
             foreach (KeyValuePair<String, Texture2D> tex in textures)
             {
@@ -60,7 +64,22 @@ namespace wickedcrush.display._3d.atlas
 
             gd.SetRenderTarget(null);
 
-            texture = renderTarget;
+            compiledTexture = new Texture2D(gd,
+                renderTarget.Width, renderTarget.Height, true,
+                renderTarget.Format);
+
+            for (int i = 0; i < renderTarget.LevelCount; i++)
+            {
+                width = (int)Math.Max((renderTarget.Width / Math.Pow(2, i)), 1);
+                height = (int)Math.Max((renderTarget.Width / Math.Pow(2, i)), 1);
+                cData = new Color[width * height];
+
+                renderTarget.GetData<Color>(i, null, cData, 0, cData.Length);
+                compiledTexture.SetData<Color>(i, null, cData, 0, cData.Length);
+            }
+
+
+            texture = compiledTexture;
 
             //DateTime date = DateTime.Now; //Get the date for the file name
             //Stream stream = File.Create("texture_atlas" + date.ToString("MM-dd-yy H;mm;ss") + ".png"); 

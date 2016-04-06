@@ -66,7 +66,7 @@ namespace wickedcrush.factory.entity
 
         public Dictionary<String, bool> savedBools = new Dictionary<String, bool>();
 
-        private bool playerDead = false;
+        public bool playerDead = false;
         private TextEntity deathText;
 
         public EntityFactory(GameBase game, GameplayManager gm, EntityManager em, ParticleManager particleManager, RoomManager rm, World w)
@@ -752,6 +752,7 @@ namespace wickedcrush.factory.entity
 
         public void spawnPlayers()
         {
+            playerDead = false;
             LinkedList<Vector2> positions = new LinkedList<Vector2>();
             positions.AddLast(new Vector2(-24, -24));
             positions.AddLast(new Vector2(-24, 24));
@@ -800,6 +801,9 @@ namespace wickedcrush.factory.entity
 
                     if ((p.getAgent() == null || p.getAgent().readyForRemoval()) && p.c.StartPressed())
                     {
+                        _gm._screen.RemoveText(deathText);
+                        
+
                         if(_game.debugMode)
                         {
 
@@ -811,8 +815,8 @@ namespace wickedcrush.factory.entity
                         {
                             p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
 
-                            _gm._screen.RemoveText(deathText);
-                            playerDead = false;
+                            
+                            
                             _gm.EnqueueRespawn();
 
                             

@@ -222,7 +222,7 @@ namespace wickedcrush
 
             double fps = (1000 / gameTime.ElapsedGameTime.TotalMilliseconds);
             fps = Math.Round(fps, 0);
-            Window.Title = "Violent Princess";
+            Window.Title = "Blazing Adventure Act: Zero";
         }
 
         

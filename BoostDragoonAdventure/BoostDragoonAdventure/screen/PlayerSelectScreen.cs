@@ -155,24 +155,24 @@ namespace wickedcrush.screen
             game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.spriteScale);
             if (userList.Count == 0)
             {
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(1860 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(1460 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(1060 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(660 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(260 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(-140 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(-540 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
-                
-                game.spriteBatch.DrawString(game.fonts["Rubik Mono One"], "Wicked Crush", new Vector2(560, 460), Color.Purple, 0f, new Vector2(300, 0), 1.5f + (float)Math.Sin(attractTimer.getPercentDouble() * Math.PI * 2.0) * 0.005f, SpriteEffects.None, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1860 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1460 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1060 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(660 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(260 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-140 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-540 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
+
+                game.spriteBatch.DrawString(game.fonts["Rubik Mono One"], "Blazing Adventure", new Vector2(560, 460), Color.Purple, 0f, new Vector2(300, 0), 1.5f + (float)Math.Sin(attractTimer.getPercentDouble() * Math.PI * 2.0) * 0.005f, SpriteEffects.None, 0f);
                 game.spriteBatch.DrawString(game.fonts["Bonbon"], "Act: Zero", new Vector2(960, 500), Color.White, 0f, new Vector2(300, 0), 0.5f, SpriteEffects.None, 0f);
 
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(1460 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(1060 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(660 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(260 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(-140 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(-540 + attractTimer.getPercent() * 400, 520), Color.Plum);
-                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Start or Enter!", new Vector2(-940 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1460 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1060 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(660 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(260 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-140 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-540 + attractTimer.getPercent() * 400, 520), Color.Plum);
+                game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-940 + attractTimer.getPercent() * 400, 520), Color.Plum);
             }
             else
             {
@@ -224,6 +224,8 @@ namespace wickedcrush.screen
                 sb.DrawString(game.fonts["Khula"], "New Character", new Vector2(u.id * 100 + 150, 150), Color.Purple);
             else
                 sb.DrawString(game.fonts["Khula"], "New Character", new Vector2(u.id * 100 + 150, 150), Color.White);
+
+            sb.DrawString(game.fonts["Bonbon"], "Select your character:\nArrow Keys + Enter", new Vector2(650, 450), Color.White);
 
             for (int i = 0; i < charList.Count; i++)
             {
