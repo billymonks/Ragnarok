@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using wickedcrush.map;
 using Microsoft.Xna.Framework;
+using wickedcrush.manager.gameplay;
+using wickedcrush.manager.map;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace wickedcrush.display._3d.atlas
 {
@@ -13,7 +16,8 @@ namespace wickedcrush.display._3d.atlas
     {
         public static Dictionary<String, ThemeApplication> themes;
 
-        public static void PopulateCameraLights(String theme, Scene scene)
+
+        public static void PopulateScene(String theme, Scene scene)
         {
             switch (theme)
             {
@@ -55,6 +59,37 @@ namespace wickedcrush.display._3d.atlas
                 scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
+
+                case "dustwalls":
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                break;
+            }
+
+            
+        }
+
+        public static void PopulateBackgrounds(GameBase game, Map map, GameplayManager gameplay, MapStats mapStats)
+        {
+            gameplay._screen.bgs.Clear();
+            switch(mapStats.theme)
+            {
+                case "dustwalls":
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/rock_greyscale"));
+                    gameplay._screen.parallaxAmount = 1f;
+                    gameplay._screen.bgScale = 0.5f;
+                    gameplay._screen.scrollIncrement = new Vector2(0f, 0f);
+                    break;
+                
+                default:
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_1"));
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_2"));
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_3"));
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_4"));
+                    gameplay._screen.bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_5"));
+                    gameplay._screen.parallaxAmount = 1f;
+                    gameplay._screen.bgScale = 2f;
+                    break;
             }
         }
 
@@ -201,6 +236,26 @@ namespace wickedcrush.display._3d.atlas
                             2), -3, 0, "dust_surface"));
                     artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), 2), -3, 0, "dust_wall"));
                     artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 0, 2, "rocky_saturated"));
+
+
+
+                    break;
+
+                case "dustwalls":
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
+                        LayerTransformations.GetCompositeLayer(
+                            map.layerList[LayerType.ART1].data,
+                            LayerTransformations.InvertLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.DEATHSOUP].data, true)),
+                            false),
+                            2), -3, 0, "grass_surface"));
+
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
+                        LayerTransformations.SubtractLayer(
+                            LayerTransformations.InvertLayer(LayerTransformations.GetCompositeLayer(map.layerList[LayerType.WALL].data, map.layerList[LayerType.DEATHSOUP].data, true)),
+                            map.layerList[LayerType.ART1].data),
+                            2), -3, 0, "dust_surface"));
+                    
 
                     break;
             }

@@ -103,7 +103,15 @@ namespace wickedcrush.display._3d
             ThemeAtlas.PopulateArtLayers(game, map, out artLayers, mapStats.theme);
 
             if(hqLight)
-                ThemeAtlas.PopulateCameraLights(mapStats.theme, this);
+                ThemeAtlas.PopulateScene(mapStats.theme, this);
+
+            ThemeAtlas.PopulateBackgrounds(game, map, gameplay, mapStats);
+
+            if (gameplay._screen.bgs.Count > 0)
+            {
+                background = gameplay._screen.bgs.Dequeue();
+                gameplay._screen.bgs.Enqueue(background);
+            }
 
             CreateTextureAtlas(game, map);
             CombineVertices(map);
@@ -266,10 +274,10 @@ namespace wickedcrush.display._3d
             Vector2 topLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
             Vector2 bottomLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
 
-            Vector4 topRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f, 1);
-            Vector4 bottomRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f, 1);
-            Vector4 topLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f, 1);
-            Vector4 bottomLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f, 1);
+            Vector4 topRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * 20f, 1);
+            Vector4 bottomRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * 20f, 1);
+            Vector4 topLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * 20f, 1);
+            Vector4 bottomLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * 20f, 1);
 
             //Vector4 topRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
             //Vector4 bottomRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);

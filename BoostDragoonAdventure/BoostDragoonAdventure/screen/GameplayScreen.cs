@@ -53,9 +53,9 @@ namespace wickedcrush.screen
 
         
 
-        float parallaxAmount = 1f, bgScale = 2f;
+        public float parallaxAmount = 1f, bgScale = 2f;
         Vector2 scroll = Vector2.Zero;
-        Vector2 scrollIncrement = new Vector2(-1f, -1f);
+        public Vector2 scrollIncrement = new Vector2(-1f, -1f);
 
         public TextEntity currencyText, hpText, epText;
         //Vector2 scrollIncrement = Vector2.Zero;
@@ -177,14 +177,7 @@ namespace wickedcrush.screen
             
             litSpriteEffect = game.Content.Load<Effect>("fx/LitSprite");
             //background = game.Content.Load<Texture2D>(@"img/tex/water");
-            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_1"));
-            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_2"));
-            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_3"));
-            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_4"));
-            bgs.Enqueue(game.Content.Load<Texture2D>(@"img/tex/stolen_water_5"));
             
-            background = bgs.Dequeue();
-            bgs.Enqueue(background);
 
             bgDepth = game.Content.Load<Texture2D>(@"img/tex/depth_test");
 
@@ -259,7 +252,12 @@ namespace wickedcrush.screen
         public void RenderSprites(RenderTarget2D renderTarget, RenderTarget2D depthTarget, RenderTarget2D spriteTarget, bool depthPass, Dictionary<string, PointLightStruct> lightList)
         {
             
-            if (!depthPass)
+            if(background== null)
+            {
+                game.spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState.LinearWrap, DepthStencilState.Default, RasterizerState.CullNone, spriteEffect, game.spriteScale);
+                
+            }
+            else if (!depthPass)
             {
                 //game.GraphicsDevice.SetRenderTarget(renderTarget);
 
