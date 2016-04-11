@@ -261,6 +261,8 @@ namespace wickedcrush.display._3d
 
             float padding = 0.03f;
 
+            float layerHeight = 25f;
+
             //tileCoord.pos;
             //tileCoord.tpos;
 
@@ -274,10 +276,10 @@ namespace wickedcrush.display._3d
             Vector2 topLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 1f) * 20f - padding));
             Vector2 bottomLeftNormalCoord = textureAtlas.GetConvertedTileCoord(tileCoord.normal, new Vector2((tileCoord.tpos.X + 1f) * 20f - padding, (tileCoord.tpos.Y + 0f) * 20f + padding));
 
-            Vector4 topRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * 20f, 1);
-            Vector4 bottomRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * 20f, 1);
-            Vector4 topLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * 20f, 1);
-            Vector4 bottomLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * 20f, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * 20f, 1);
+            Vector4 topRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * layerHeight, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * layerHeight, 1);
+            Vector4 bottomRightVertPos = new Vector4((tileCoord.pos.X + 0f) * 20f, padding + tileCoord.layer * layerHeight, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * layerHeight, 1);
+            Vector4 topLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * layerHeight, (tileCoord.pos.Y + 1f) * 20f + tileCoord.layer * layerHeight, 1);
+            Vector4 bottomLeftVertPos = new Vector4((tileCoord.pos.X + 1f) * 20f, padding + tileCoord.layer * layerHeight, (tileCoord.pos.Y + 0f) * 20f + tileCoord.layer * layerHeight, 1);
 
             //Vector4 topRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + 0), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);
             //Vector4 bottomRightVertPos = new Vector4((artTile.pos.X + 0), (artTile.height + artTile.size.Y), (artTile.pos.Y + artTile.size.Y + padding - 10), 1);

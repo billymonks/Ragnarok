@@ -22,9 +22,9 @@ texture2D ColorMap;
 sampler ColorMapSampler = sampler_state
 {
 	Texture = <ColorMap>;
-	MinFilter = Linear;
-	MagFilter = Linear;
-	MipFilter = Linear;
+	MinFilter = Point;
+	MagFilter = Point;
+	MipFilter = Point;
 };
 
 struct VertexShaderInput
