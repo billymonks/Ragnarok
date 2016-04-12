@@ -1326,12 +1326,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Content>
-    <Content Include="sprites\all\neku_other\shadow.png">
-      <Name>shadow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="sprites\all\parts\crosshair.png">
       <Name>crosshair</Name>
       <Importer>TextureImporter</Importer>
