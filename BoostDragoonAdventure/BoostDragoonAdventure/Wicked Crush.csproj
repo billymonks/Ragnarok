@@ -129,6 +129,8 @@
     <Compile Include="entity\physics_entity\agent\inanimate\Door.cs" />
     <Compile Include="eventscript\AnswerNode.cs" />
     <Compile Include="eventscript\CheckIntNode.cs" />
+    <Compile Include="eventscript\SetHomeNode.cs" />
+    <Compile Include="eventscript\ExitNode.cs" />
     <Compile Include="eventscript\StoreNode.cs" />
     <Compile Include="eventscript\SolidBackgroundNode.cs" />
     <Compile Include="eventscript\EquipNode.cs" />

@@ -83,7 +83,7 @@ namespace wickedcrush.utility.config
             resolution = new Point(1280, 720);
             fullscreen = false;
             controlMode = ControlMode.MouseAndKeyboard;
-            hqLight = false;
+            hqLight = true;
 
             SaveSettings();
         }

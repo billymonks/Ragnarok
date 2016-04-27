@@ -96,6 +96,14 @@ namespace wickedcrush.manager.eventscript
                         newNode = GetSolidBGNode(e, parent);
                         nodeList.Add(newNode);
                         break;
+                    case "exit":
+                        newNode = GetExitNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
+                    case "sethome":
+                        newNode = GetSetHomeNode(e, parent);
+                        nodeList.Add(newNode);
+                        break;
                 }
             }
 
@@ -164,6 +172,20 @@ namespace wickedcrush.manager.eventscript
                 new Color(float.Parse(element.Attribute("r").Value), float.Parse(element.Attribute("g").Value), float.Parse(element.Attribute("b").Value), float.Parse(element.Attribute("a").Value)), parent);
 
             node.SetChildren(GetChildElements(element, node));
+
+            return node;
+        }
+
+        private ExitNode GetExitNode(XElement element, EventNode parent)
+        {
+            ExitNode node = new ExitNode(parent);
+
+            return node;
+        }
+
+        private SetHomeNode GetSetHomeNode(XElement element, EventNode parent)
+        {
+            SetHomeNode node = new SetHomeNode(element.Value, parent);
 
             return node;
         }

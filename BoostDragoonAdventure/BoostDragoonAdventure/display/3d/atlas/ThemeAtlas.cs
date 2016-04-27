@@ -64,6 +64,11 @@ namespace wickedcrush.display._3d.atlas
                 scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
+
+                default:
+                    scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.9f, 0.9f, 0.8f, 1f), 1f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 1000f));
+                    scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                break;
             }
 
             
@@ -257,6 +262,16 @@ namespace wickedcrush.display._3d.atlas
                             2), -3, 0, "dust_surface"));
                     
 
+                    break;
+
+                case "castle":
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.SubtractLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 3, false)), 0, 2, "otherbricks"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 3, false), 2, 4, "otherbricks"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 6, false), 4, 7, "otherbricks"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ShrinkLayer(LayerTransformations.ScaleLayer(map.layerList[LayerType.WALL].data, 2), 8, false), 7, 8, "otherbricks"));
+                    artLayers.Add(new ArtLayer(game, LayerTransformations.ScaleLayer(
+                        LayerTransformations.SubtractLayer(LayerTransformations.InvertLayer(map.layerList[LayerType.DEATHSOUP].data), map.layerList[LayerType.WALL].data)
+                        , 2), -2, 0, "brickslarge"));
                     break;
             }
         }

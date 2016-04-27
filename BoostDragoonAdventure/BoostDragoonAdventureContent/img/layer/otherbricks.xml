@@ -1,9 +1,9 @@
 ﻿<artlayer>
   <tilelayers>
-    <tileset surface="false" edgeonly="false" path="mossybricks">
+    <tileset surface="false" edgeonly="false" path="townbricks">
       <transformations />
     </tileset>
-    <tileset surface="true" edgeonly="false" path="brickslarge">
+    <tileset surface="true" edgeonly="false" path="thinbricks">
       <transformations />
     </tileset>
   </tilelayers>

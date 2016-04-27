@@ -136,14 +136,49 @@
     <connection id="1" doorIndex="1">variety</connection>
   </map>
   <map name="longmap" filename="Content/maps/full/longmap.xml" theme="woodandbrick">
-    <connection id="0" doorIndex="1">scenic view</connection>
+    <connection id="0" doorIndex="1">longmap</connection>
     <connection id="1" doorIndex="0">scenic view</connection>
   </map>
   <map name="scenic view" filename="Content/maps/full/scenic_view.xml" theme="woodandbrick">
     <connection id="0" doorIndex="1">longmap</connection>
-    <connection id="1" doorIndex="0">longmap</connection>
+    <connection id="1" doorIndex="0">castle front</connection>
     <connection id="2" doorIndex="1">e4</connection>
     <connection id="3" doorIndex="1">f4</connection>
+  </map>
+  <map name="castle front" filename="Content/maps/full/castle_front.oel" theme="castle">
+    <connection id="0" doorIndex="1">scenic view</connection>
+    <connection id="1" doorIndex="0">castle front right</connection>
+    <connection id="2" doorIndex="0">castle front left</connection>
+  </map>
+  <map name="castle front left" filename="Content/maps/full/castle_front_left.oel" theme="castle">
+    <connection id="0" doorIndex="2">castle front</connection>
+  </map>B
+  <map name="castle front right" filename="Content/maps/full/castle_front_right.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle front</connection>
+    <connection id="1" doorIndex="0">castle back right</connection>
+  </map>
+  <map name="castle back right" filename="Content/maps/full/castle_back_right.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle front right</connection>
+    <connection id="1" doorIndex="0">castle back</connection>
+  </map>
+  <map name="castle back" filename="Content/maps/full/castle_back.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle back right</connection>
+    <connection id="1" doorIndex="0">castle climb</connection>
+    <connection id="2" doorIndex="0">castle back left</connection>
+  </map>
+  <map name="castle back left" filename="Content/maps/full/castle_back_left.oel" theme="castle">
+    <connection id="0" doorIndex="2">castle back</connection>
+  </map>
+  <map name="castle climb" filename="Content/maps/full/castle_climb.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle back</connection>
+    <connection id="1" doorIndex="0">castle finale</connection>
+  </map>
+  <map name="castle finale" filename="Content/maps/full/castle_finale.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle climb</connection>
+    <connection id="1" doorIndex="0">castle king</connection>
+  </map>
+  <map name="castle king" filename="Content/maps/full/castle_king.oel" theme="castle">
+    <connection id="0" doorIndex="1">castle finale</connection>
   </map>
   <map name="big empty test" filename="Content/maps/full/big_empty_test.xml">
     <connection id="0" doorIndex="0">big empty test</connection>

@@ -1,5 +1,5 @@
 ﻿<tileset name="woodpanel" x="120" y="120">
-  <tex>brickslarge</tex>
+  <tex>mossybricks</tex>
   <normal>flat_120</normal>
   <tilesize>
     <tilepos id="0" x="0" y="0" width="20" height="20"></tilepos>
