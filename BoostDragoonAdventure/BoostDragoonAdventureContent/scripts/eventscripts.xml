@@ -83,8 +83,8 @@
     <node type="setint" key="spoke_to_innkeep">0</node>
   </event>
   <event id="4">
-    <node type="dialog">Young Adventurer's Survival Guide Serial, Issue 131.</node>
-    <node type="question" key="help131" text="Young Adventurer's Survival Guide Serial, Issue 131. Read it?">
+    <node type="dialog">Combat Frame Instruction Manual - Chapter XI: Boosting</node>
+    <node type="question" key="help131" text="Combat Frame Instruction Manual - Chapter XI: Boosting. Read it?">
       <node type="answer" val="1" text="Yes" />
       <node type="answer" val="0" text="No" />
     </node>

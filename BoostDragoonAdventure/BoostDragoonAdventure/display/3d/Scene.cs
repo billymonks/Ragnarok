@@ -430,8 +430,8 @@ namespace wickedcrush.display._3d
 
             if (hqLight)
             {
-                lightDictionary["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 100, cameraPosition.Z - 250);
-                lightDictionary["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 0, cameraPosition.Z + 250);
+                lightDictionary["camera"].PointLightPosition = new Vector3(cameraPosition.X + 10, 30f + 300, cameraPosition.Z - 250);
+                lightDictionary["camera2"].PointLightPosition = new Vector3(cameraPosition.X + 100, 100, cameraPosition.Z + 250);
             }
             //lightDictionary["character"].PointLightPosition = new Vector3(game.playerManager.getMeanPlayerPos().X + 10, 30f, game.playerManager.getMeanPlayerPos().Y + 20);
             

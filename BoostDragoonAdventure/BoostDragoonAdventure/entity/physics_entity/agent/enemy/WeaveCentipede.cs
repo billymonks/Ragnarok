@@ -362,6 +362,9 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
             if (remove)
                 return;
 
+            if (hostile)
+                _sound.setGlobalVariable("InCombat", 1f);
+
             //UpdateHpBar();
             UpdateAnimation();
 

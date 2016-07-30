@@ -75,7 +75,7 @@ namespace wickedcrush.entity.physics_entity.agent.npc
 
             if (kid == 4)
             {
-                AddAngledElement("Magazine", "shapes", "grey", 0, new Vector3(0f, 5f, 0f) * 1, 0, 1, 0f, new Vector3(0f, 4f, -3f) * 0);
+                AddAngledElement("Magazine", "shapes", "grey", 0, new Vector3(0f, 5f, 0f) * 1, 0, 1, 0f, new Vector3(0f, 4f, -3f) * 0, 0);
             }
             else
             {

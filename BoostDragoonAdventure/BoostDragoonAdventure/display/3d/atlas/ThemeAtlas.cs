@@ -56,13 +56,13 @@ namespace wickedcrush.display._3d.atlas
                 break;
 
                 case "dust":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.9f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 1000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.8f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 case "dustwalls":
-                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.6f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
-                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.5f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
+                scene.lightDictionary.Add("camera", new PointLightStruct(new Vector4(0.8f, 0.9f, 0.9f, 1f), 0.8f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 1000f));
+                scene.lightDictionary.Add("camera2", new PointLightStruct(new Vector4(0.7f, 0.9f, 0.9f, 1f), 0.7f, new Vector4(0.7f, 0.9f, 0.9f, 1f), 0f, Vector3.Zero, 500f));
                 break;
 
                 default:

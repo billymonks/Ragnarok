@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <folder id="0" name="shape_parts">
+        <file id="0" name="shape_parts/grey_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="shape_parts/pink_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="2" name="shape_parts/teal_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="3" name="shape_parts/violet_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="4" name="shape_parts/red_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="5" name="shape_parts/green_ball.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="6" name="shape_parts/grey_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="7" name="shape_parts/salmon_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="8" name="shape_parts/green_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+        <file id="9" name="shape_parts/teal_tri.png" width="20" height="20" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="1" name="face_parts">
+        <file id="0" name="face_parts/cartoony_eyes.png" width="50" height="50" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="face_parts/eyy.png" width="50" height="50" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <folder id="2" name="circles">
+        <file id="0" name="circles/white_large.png" width="24" height="24" pivot_x="0" pivot_y="1"/>
+        <file id="1" name="circles/red_large.png" width="24" height="24" pivot_x="0" pivot_y="1"/>
+    </folder>
+    <entity id="0" name="ball">
+        <animation id="0" name="grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="pink" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="pink_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-9.976708" y="10.015528" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="teal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="teal_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="3" name="violet" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="violet_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="4" name="green" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="green_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="5" x="-10" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="5" name="red" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="4" x="-10" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="1" name="tri">
+        <animation id="0" name="grey" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="6" x="-10" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="salmon" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="salmon_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="7" x="-10" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="green" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="green_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="8" x="-10" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="Head">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="pink_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-9.976708" y="10.015528" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="3" name="Face">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="eyy">
+                <key id="0" spin="0">
+                    <object folder="1" file="1" x="-25" y="26"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0"/>
+            </mainline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="4" name="Torso">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="violet_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="3" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="5" name="LeftHand">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="pink_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-9.976708" y="10.015528" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="6" name="RightHand">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="pink_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="1" x="-9.976708" y="10.015528" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="7" name="LeftElbow">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="teal_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="8" name="RightElbow">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="teal_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="9" name="LeftShoulder">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="teal_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="teal_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="9" x="4" y="-9" angle="180.698694"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="10" name="RightShoulder">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="teal_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="2" x="-9.976708" y="9.976708" angle="0"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="teal_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="9" x="-4" y="10"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="11" name="LeftButt">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="12" name="RightButt">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="13" name="Crotch">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="14" name="LeftLeg">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="15" name="RightLeg">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="16" name="LeftKnee">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="17" name="RightKnee">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_ball">
+                <key id="0" spin="0">
+                    <object folder="0" file="0" x="-10.029503" y="10" angle="0"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="18" name="LeftFoot">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="6" x="-4" y="8"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="19" name="RightFoot">
+        <animation id="0" name="normal" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="grey_tri">
+                <key id="0" spin="0">
+                    <object folder="0" file="6" x="-3" y="8" angle="348.111342" scale_x="1"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="1" name="invuln" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="white_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="0" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+        <animation id="2" name="hurt" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="red_large">
+                <key id="0" spin="0">
+                    <object folder="2" file="1" x="-12" y="12"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>

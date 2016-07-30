@@ -88,8 +88,8 @@ namespace wickedcrush.manager.gameplay
             
 
             _game.soundManager.setCam(camera);
-            //_game.soundManager.addCueInstance("music", "musicInstance", true);
-            //_game.soundManager.playCueInstance("musicInstance");
+            _game.soundManager.addCueInstance("music", "musicInstance", true);
+            _game.soundManager.playCueInstance("musicInstance");
             
             
             if (entityManager == null)

@@ -102,6 +102,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         }
 
                         //this.speed = walkSpeed;
+                        if (hostile)
+                            _sound.setGlobalVariable("InCombat", 1f);
 
                         FollowPath(false);
                     }));

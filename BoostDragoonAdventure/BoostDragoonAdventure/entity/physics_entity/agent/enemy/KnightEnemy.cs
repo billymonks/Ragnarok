@@ -398,6 +398,8 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                             
                         }
 
+                        _sound.setGlobalVariable("InCombat", 1f);
+
                     }
             ));
             ctrl.Add("return",
@@ -448,7 +450,7 @@ namespace wickedcrush.entity.physics_entity.agent.enemy
                         }
 
                         timers["search_return"].reset();
-
+                        _sound.setGlobalVariable("InCombat", 1f);
                     }
             ));
             ctrl.Add("chase",

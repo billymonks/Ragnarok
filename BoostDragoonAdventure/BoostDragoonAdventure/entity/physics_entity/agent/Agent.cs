@@ -62,6 +62,7 @@ namespace wickedcrush.entity.physics_entity.agent
         public int angle;
         public float spriteAngle;
         public Vector3 bob;
+        public int flipOffset;
 
         public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle)
         {
@@ -70,15 +71,17 @@ namespace wickedcrush.entity.physics_entity.agent
             this.angle = angle;
             this.spriteAngle = spriteAngle;
             this.bob = Vector3.Zero;
+            this.flipOffset = 0;
         }
 
-        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle, Vector3 bob)
+        public SpriterAngledStruct(SpriterPlayer player, Vector3 offset, int angle, float spriteAngle, Vector3 bob, int flipOffset)
         {
             this.player = player;
             this.offset = offset;
             this.angle = angle;
             this.spriteAngle = spriteAngle;
             this.bob = bob;
+            this.flipOffset = flipOffset;
         }
     }
 
@@ -341,11 +344,11 @@ namespace wickedcrush.entity.physics_entity.agent
                 hudSpriters[key] = temp;
         }
 
-        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle, Vector3 bob)
+        public void AddAngledElement(String key, String spriterName, String animationName, int entityIndex, Vector3 offset, int angle, float scale, float spriteAngle, Vector3 bob, int flipOffset)
         {
             SpriterAngledStruct temp = new SpriterAngledStruct(
                 new SpriterPlayer(factory._spriterManager.spriters[spriterName].getSpriterData(), entityIndex, factory._spriterManager.spriters[spriterName].loader),
-                offset, angle, spriteAngle, bob);
+                offset, angle, spriteAngle, bob, flipOffset);
             temp.player.setAnimation(animationName, 0, 0);
             temp.player.setAngle(spriteAngle);
             temp.player.setScale(scale);
@@ -938,22 +941,27 @@ namespace wickedcrush.entity.physics_entity.agent
                 {
                     int tempAimDirection = -aimDirection;
                     float tempSpriteAngle = s.Value.spriteAngle;
-                    if (aimDirection <= 90 || aimDirection > 270)
+                    //if (aimDirection <= 90 || aimDirection > 270)
+                    //if (aimDirection < 180)
+                    if(aimDirection >= 0 + s.Value.flipOffset * 90 && aimDirection < 180 + s.Value.flipOffset * 90)
                     {
-                        //tempAimDirection = aimDirection;
-                        //s.Value.player.setFlipY(1);
-                        s.Value.player.setFlipX(1);
-                        //_depth -= 0.1f;
+                        
+                        //s.Value.player.setFlipX(1);
+
+                        tempSpriteAngle *= -1;
+
+                        s.Value.player.setFlipX(-1);
+                        
                     }
                     else
                     {
-                        //tempAimDirection = aimDirection + 180;
-                        //s.Value.player.setFlipY(-1);
-                        //tempSpriteAngle += 180;
-                        tempSpriteAngle *= -1;
                         
-                        s.Value.player.setFlipX(-1);
-                        //_depth += 0.1f;
+                        //tempSpriteAngle *= -1;
+                        //
+                        //s.Value.player.setFlipX(-1);
+
+                        s.Value.player.setFlipX(1);
+                        
                     }
 
                     _depth = depth;
@@ -1682,47 +1690,122 @@ namespace wickedcrush.entity.physics_entity.agent
             this.spineStance = spineStance;
 
             tempHeight += 10f;
-            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale);
-            AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale);
+            AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale, 2);
+            AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale, 2);
 
             tempHeight += 10f;
-            AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale);
-            AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale);
+            AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale, 2);
+            AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale, 2);
 
             tempHeight += 10;
-            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale);
-            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale);
+            AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale, 2);
+            AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale, 2);
 
 
-            AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+            AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale, 2);
 
 
-            AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale);
-            AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale);
+            AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale, 2);
+            AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale, 2);
 
             tempHeight += 10f + 10f * torsoScale;
-            AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale);
+            AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale, 2);
 
 
-            AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale);
-            AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale);
+            AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale, 2);
+            AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale, 2);
 
-            AddAngledElement("LeftElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-            AddAngledElement("RightElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-            
+            AddAngledElement("LeftElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+            AddAngledElement("RightElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
 
-            AddAngledElement("LeftHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-            AddAngledElement("RightHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+
+            AddAngledElement("LeftHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+            AddAngledElement("RightHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
             
             tempHeight += 20f;
-            AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+            AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
 
             tempHeight -= 80f;
-            
-            AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+
+            AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
             
 
             
+        }
+
+        protected void InitializeHumanoidCharacterSprites(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance, String spriterName) // new
+        {
+            float tempHeight = 0;
+            float sScale = size.X / 24f;
+
+            this.torsoScale = torsoScale;
+            this.armWidth = armWidth;
+            this.legWidth = legWidth;
+            this.armStance = armStance;
+            this.legStance = legStance;
+            this.spineStance = spineStance;
+
+            tempHeight += 10f;
+            AddAngledElement("LeftFoot", spriterName, "normal", 18, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale, 1);
+            AddAngledElement("RightFoot", spriterName, "normal", 19, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale, 1);
+
+            tempHeight += 10f;
+            AddAngledElement("LeftKnee", spriterName, "normal", 16, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale, 1);
+            AddAngledElement("RightKnee", spriterName, "normal", 17, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale, 1);
+
+            tempHeight += 10;
+            AddAngledElement("LeftLeg", spriterName, "normal", 14, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale, 1);
+            AddAngledElement("RightLeg", spriterName, "normal", 15, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale, 1);
+
+
+            AddAngledElement("Crotch", spriterName, "normal", 13, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale, 2);
+
+
+            AddAngledElement("RightButt", spriterName, "normal", 12, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale, 2);
+            AddAngledElement("LeftButt", spriterName, "normal", 11, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale, 2);
+
+            tempHeight += 10f + 10f * torsoScale;
+            AddAngledElement("Torso", spriterName, "normal", 4, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale, 2);
+
+
+            AddAngledElement("LeftShoulder", spriterName, "normal", 9, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale, 2);
+            AddAngledElement("RightShoulder", spriterName, "normal", 10, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale, 2);
+
+            AddAngledElement("LeftElbow", spriterName, "normal", 7, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+            AddAngledElement("RightElbow", spriterName, "normal", 8, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+
+
+            AddAngledElement("LeftHand", spriterName, "normal", 5, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+            AddAngledElement("RightHand", spriterName, "normal", 6, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 2);
+
+            tempHeight += 20f;
+            AddAngledElement("Head", spriterName, "normal", 2, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
+
+            //tempHeight += 80f;
+
+            AddAngledElement("Face", spriterName, "normal", 3, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
+        }
+
+        protected void ChangeHumanoidCharacterPartAnimations(String anim)
+        {
+            angledSpriters["LeftFoot"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightFoot"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftKnee"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightKnee"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftLeg"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightLeg"].player.setAnimation(anim, 0, 0);
+            angledSpriters["Crotch"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightButt"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftButt"].player.setAnimation(anim, 0, 0);
+            angledSpriters["Torso"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftShoulder"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightShoulder"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftElbow"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightElbow"].player.setAnimation(anim, 0, 0);
+            angledSpriters["LeftHand"].player.setAnimation(anim, 0, 0);
+            angledSpriters["RightHand"].player.setAnimation(anim, 0, 0);
+            angledSpriters["Head"].player.setAnimation(anim, 0, 0);
+            angledSpriters["Face"].player.setAnimation(anim, 0, 0);
         }
 
         protected void SetCostume(int costume)
@@ -1735,127 +1818,127 @@ namespace wickedcrush.entity.physics_entity.agent
             {
                 case 0:
                     tempHeight += 10f;
-                    AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale);
-                    AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale);
+                    AddAngledElement("LeftFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale, 0);
+                    AddAngledElement("RightFoot", "shapes", "grey", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale, 0);
 
                     tempHeight += 10f;
-                    AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale);
-                    AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale);
+                    AddAngledElement("LeftKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale, 0);
+                    AddAngledElement("RightKnee", "shapes", "grey", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale, 0);
 
                     tempHeight += 10;
-                    AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale);
-                    AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale);
+                    AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale, 0);
+                    AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale, 0);
 
 
-                    AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+                    AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale, 0);
 
 
-                    AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale);
-                    AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale);
+                    AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale, 0);
+                    AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale, 0);
 
                     tempHeight += 10f + 10f * torsoScale;
-                    AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale);
+                    AddAngledElement("Torso", "shapes", "violet", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale, 0);
 
 
-                    AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale);
-                    AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale);
+                    AddAngledElement("LeftShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale, 0);
+                    AddAngledElement("RightShoulder", "shapes", "teal", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale, 0);
 
-                    AddAngledElement("LeftElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-            
+                    AddAngledElement("LeftElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightElbow", "shapes", "teal", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
 
-                    AddAngledElement("LeftHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+
+                    AddAngledElement("LeftHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightHand", "shapes", "pink", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
             
                     tempHeight += 20f;
-                    AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
 
                     tempHeight -= 80f;
-            
-                    AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+
+                    AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
                     break;
                 case 1:
                     tempHeight += 10f;
-                    AddAngledElement("LeftFoot", "particles", "white_large", 2, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale);
-                    AddAngledElement("RightFoot", "particles", "white_large", 2, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale);
+                    AddAngledElement("LeftFoot", "particles", "white_large", 2, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale, 0);
+                    AddAngledElement("RightFoot", "particles", "white_large", 2, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale, 0);
 
                     tempHeight += 10f;
-                    AddAngledElement("LeftKnee", "particles", "white_large", 2, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale);
-                    AddAngledElement("RightKnee", "particles", "white_large", 2, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale);
+                    AddAngledElement("LeftKnee", "particles", "white_large", 2, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale, 0);
+                    AddAngledElement("RightKnee", "particles", "white_large", 2, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale, 0);
 
                     tempHeight += 10;
-                    AddAngledElement("LeftLeg", "particles", "white_large", 2, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale);
-                    AddAngledElement("RightLeg", "particles", "white_large", 2, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale);
+                    AddAngledElement("LeftLeg", "particles", "white_large", 2, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale, 0);
+                    AddAngledElement("RightLeg", "particles", "white_large", 2, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale, 0);
 
 
-                    AddAngledElement("Crotch", "particles", "white_large", 2, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+                    AddAngledElement("Crotch", "particles", "white_large", 2, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale, 0);
 
 
-                    AddAngledElement("RightButt", "particles", "white_large", 2, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale);
-                    AddAngledElement("LeftButt", "particles", "white_large", 2, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale);
+                    AddAngledElement("RightButt", "particles", "white_large", 2, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale, 0);
+                    AddAngledElement("LeftButt", "particles", "white_large", 2, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale, 0);
 
                     tempHeight += 10f + 10f * torsoScale;
-                    AddAngledElement("Torso", "particles", "white_large", 2, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale);
+                    AddAngledElement("Torso", "particles", "white_large", 2, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale, 0);
 
 
-                    AddAngledElement("LeftShoulder", "particles", "white_large", 2, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale);
-                    AddAngledElement("RightShoulder", "particles", "white_large", 2, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale);
+                    AddAngledElement("LeftShoulder", "particles", "white_large", 2, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale, 0);
+                    AddAngledElement("RightShoulder", "particles", "white_large", 2, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale, 0);
 
-                    AddAngledElement("LeftElbow", "particles", "white_large", 2, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightElbow", "particles", "white_large", 2, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+                    AddAngledElement("LeftElbow", "particles", "white_large", 2, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightElbow", "particles", "white_large", 2, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
 
 
-                    AddAngledElement("LeftHand", "particles", "white_large", 2, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightHand", "particles", "white_large", 2, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+                    AddAngledElement("LeftHand", "particles", "white_large", 2, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightHand", "particles", "white_large", 2, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
             
                     tempHeight += 20f;
-                    AddAngledElement("Head", "particles", "white_large", 2, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    AddAngledElement("Head", "particles", "white_large", 2, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
 
                     tempHeight -= 80f;
-            
-                    AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+
+                    AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
                     break;
 
                 case 2:
                     tempHeight += 10f;
-                    AddAngledElement("LeftFoot", "shapes", "pink", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale);
-                    AddAngledElement("RightFoot", "shapes", "pink", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale);
+                    AddAngledElement("LeftFoot", "shapes", "pink", 0, new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(-7f, 7f, 1f) * sScale, 0);
+                    AddAngledElement("RightFoot", "shapes", "pink", 0, new Vector3(5f * legStance, tempHeight, 20f * legWidth) * sScale, 0, 1f * sScale, 0f, new Vector3(7f, -7f, -1f) * sScale, 0);
 
                     tempHeight += 10f;
-                    AddAngledElement("LeftKnee", "shapes", "teal", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale);
-                    AddAngledElement("RightKnee", "shapes", "teal", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale);
+                    AddAngledElement("LeftKnee", "shapes", "teal", 0, new Vector3(10f * legStance, tempHeight, -25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-6f, 5f, 0f) * sScale, 0);
+                    AddAngledElement("RightKnee", "shapes", "teal", 0, new Vector3(10f * legStance, tempHeight, 25f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(6f, -5f, 0f) * sScale, 0);
 
                     tempHeight += 10;
-                    AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale);
-                    AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale);
+                    AddAngledElement("LeftLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, -17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(-2f, 3f, 0f) * sScale, 0);
+                    AddAngledElement("RightLeg", "shapes", "grey", 0, new Vector3(7f * legStance, 30f, 17f * legWidth) * sScale, 0, 0.8f * sScale, 0f, new Vector3(2f, -3f, 0f) * sScale, 0);
 
 
-                    AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale);
+                    AddAngledElement("Crotch", "shapes", "grey", 0, new Vector3(10f * spineStance * torsoScale, tempHeight, 0f) * sScale, 0, 1.25f * sScale * torsoScale, 0f, new Vector3(0f, 4f, -3f) * sScale, 0);
 
 
-                    AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale);
-                    AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale);
+                    AddAngledElement("RightButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, 10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, -1f) * sScale * torsoScale, 0);
+                    AddAngledElement("LeftButt", "shapes", "grey", 0, new Vector3(-5f * spineStance * torsoScale, tempHeight, -10f * torsoScale) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 5f, 1f) * sScale * torsoScale, 0);
 
                     tempHeight += 10f + 10f * torsoScale;
-                    AddAngledElement("Torso", "shapes", "teal", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale);
+                    AddAngledElement("Torso", "shapes", "teal", 0, new Vector3(-5f, tempHeight, 0f) * sScale, 0, 1.5f * sScale * torsoScale, 0f, new Vector3(0f, 10f, 0f) * sScale * torsoScale, 0);
 
 
-                    AddAngledElement("LeftShoulder", "shapes", "violet", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale);
-                    AddAngledElement("RightShoulder", "shapes", "violet", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale);
+                    AddAngledElement("LeftShoulder", "shapes", "violet", 0, new Vector3(5f * armStance, tempHeight, -25f * armWidth - 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, 5f) * sScale * torsoScale, 0);
+                    AddAngledElement("RightShoulder", "shapes", "violet", 0, new Vector3(5f * armStance, tempHeight, 25f * armWidth + 5f * torsoScale) * sScale, 0, 1.5f * sScale, 0f, new Vector3(0f, 10f, -5f) * sScale * torsoScale, 0);
 
-                    AddAngledElement("LeftElbow", "shapes", "violet", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightElbow", "shapes", "violet", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+                    AddAngledElement("LeftElbow", "shapes", "violet", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightElbow", "shapes", "violet", 0, new Vector3(15f * armStance, tempHeight, -5f) * sScale, 0, .75f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
 
 
-                    AddAngledElement("LeftHand", "shapes", "teal", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
-                    AddAngledElement("RightHand", "shapes", "teal", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale);
+                    AddAngledElement("LeftHand", "shapes", "teal", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
+                    AddAngledElement("RightHand", "shapes", "teal", 0, new Vector3(25f * armStance, tempHeight, -5f) * sScale, 0, 1f * sScale, 0f, new Vector3(0f, 20f, 0f) * sScale, 0);
 
                     tempHeight += 20f;
-                    AddAngledElement("Head", "shapes", "teal", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    AddAngledElement("Head", "shapes", "teal", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
 
                     tempHeight -= 80f;
 
-                    AddAngledElement("Face", "cactus", "flirt", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
+                    AddAngledElement("Face", "cactus", "flirt", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 0);
                     break;
             }
         }
@@ -1921,7 +2004,7 @@ namespace wickedcrush.entity.physics_entity.agent
             angledSpriters["Head"].offset = new Vector3(10f * spineStance, tempHeight, 0f) * sScale;
             //AddAngledElement("Head", "shapes", "pink", 0, new Vector3(10f * spineStance, tempHeight, 0f) * sScale, 0, 1.8f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
 
-            tempHeight -= 80f;
+            //tempHeight -= 80f;
 
             angledSpriters["Face"].offset = new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale;
             //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
