@@ -14,6 +14,9 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Xml.Linq;
 using System.IO;
 using wickedcrush.entity;
+using wickedcrush.screen.menu;
+using Com.Brashmonkey.Spriter.player;
+using wickedcrush.helper;
 
 namespace wickedcrush.screen
 {
@@ -50,17 +53,20 @@ namespace wickedcrush.screen
         }
     }
 
-    public class PlayerSelectScreen : GameScreen
+    public class PlayerSelectScreen : MenuScreen
     {
         Dictionary<User, Timer> readyTimer = new Dictionary<User, Timer>();
         Timer attractTimer = new Timer(1000);
         List<User> userList = new List<User>();
         List<LocalChar> charList = new List<LocalChar>();
 
+        protected Dictionary<int, SpriterPlayer> characterSlotSpriters;
+        protected Dictionary<int, Rectangle> characterBoxes;
+
         bool updateCharList = true;
         bool rehydrateScreen = false;
 
-        public PlayerSelectScreen(GameBase game)
+        public PlayerSelectScreen(GameBase game) : base(game, null)
         {
             Initialize(game);
         }
@@ -72,6 +78,9 @@ namespace wickedcrush.screen
             exclusiveDraw = true;
             exclusiveUpdate = true;
 
+            characterSlotSpriters = new Dictionary<int, SpriterPlayer>();
+            
+
             foreach (User u in userList)
             {
                 u.ready = false;
@@ -79,6 +88,8 @@ namespace wickedcrush.screen
             
             attractTimer.autoLoop = true;
             attractTimer.resetAndStart();
+
+            
             
 
             LoadLocalChars();
@@ -88,6 +99,8 @@ namespace wickedcrush.screen
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+            UpdateCursorPosition(game.controlsManager.getKeyboard());
             game.diag = "";
 
             attractTimer.Update(gameTime);
@@ -114,7 +127,9 @@ namespace wickedcrush.screen
             }
 
             UpdateUsers();
-            checkForNewPlayers();
+            
+            if(userList.Count == 0)
+                checkForNewPlayers();
 
 
             bool ready = true;
@@ -163,8 +178,8 @@ namespace wickedcrush.screen
                 game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-140 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                 game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(-540 - attractTimer.getPercent() * 400, 420), Color.Plum, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
 
-                game.spriteBatch.DrawString(game.fonts["Rubik Mono One"], "Blazing Adventure", new Vector2(560, 460), Color.Purple, 0f, new Vector2(300, 0), 1.5f + (float)Math.Sin(attractTimer.getPercentDouble() * Math.PI * 2.0) * 0.005f, SpriteEffects.None, 0f);
-                game.spriteBatch.DrawString(game.fonts["Bonbon"], "Act: Zero", new Vector2(960, 500), Color.White, 0f, new Vector2(300, 0), 0.5f, SpriteEffects.None, 0f);
+                game.spriteBatch.DrawString(game.fonts["Rubik Mono One"], "Wicked Crush Adventure", new Vector2(560, 460), Color.Purple, 0f, new Vector2(300, 0), 1.5f + (float)Math.Sin(attractTimer.getPercentDouble() * Math.PI * 2.0) * 0.005f, SpriteEffects.None, 0f);
+                //game.spriteBatch.DrawString(game.fonts["Bonbon"], "Act: Zero", new Vector2(960, 500), Color.White, 0f, new Vector2(300, 0), 0.5f, SpriteEffects.None, 0f);
 
                 game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1460 + attractTimer.getPercent() * 400, 520), Color.Plum);
                 game.spriteBatch.DrawString(game.fonts["Khula"], "Press Enter!", new Vector2(1060 + attractTimer.getPercent() * 400, 520), Color.Plum);
@@ -177,8 +192,12 @@ namespace wickedcrush.screen
             else
             {
                 DrawPlayerSelect(game.spriteBatch, game.testFont);
+                
             }
             game.spriteBatch.End();
+            
+            if (userList.Count > 0)
+                base.Draw();
         }
 
         public override void DebugDraw()
@@ -225,7 +244,7 @@ namespace wickedcrush.screen
             else
                 sb.DrawString(game.fonts["Khula"], "New Character", new Vector2(u.id * 100 + 150, 150), Color.White);
 
-            sb.DrawString(game.fonts["Bonbon"], "Select your character:\nArrow Keys + Enter", new Vector2(650, 450), Color.White);
+            sb.DrawString(game.fonts["Bonbon"], "Select your character", new Vector2(650, 450), Color.White);
 
             for (int i = 0; i < charList.Count; i++)
             {
@@ -244,6 +263,7 @@ namespace wickedcrush.screen
             foreach (User u in userList)
             {
                 UpdateUser(u);
+                
             }
         }
 
@@ -270,8 +290,13 @@ namespace wickedcrush.screen
                     SelectCharacter(u);
                     
                 }
+                //if(cursorPos.Y > 300)
+                   // u.selection = -1;
+                //else 
+                    //u.selection = 0;
+                //u.selection = cursorPos.X
 
-                if (u.controls.DownPressed())
+                /*if (u.controls.DownPressed())
                 {
                     u.selection++;
                 }
@@ -279,6 +304,16 @@ namespace wickedcrush.screen
                 if (u.controls.UpPressed())
                 {
                     u.selection--;
+                }*/
+
+                foreach (KeyValuePair<int, Rectangle> pair in characterBoxes)
+                {
+                    //pair.Value.setAnimation("unselected", 0, 0);
+
+                    if (pair.Value.Contains(Helper.CastToPoint(cursorPos)))
+                    {
+                        u.selection = pair.Key;
+                    }
                 }
 
             }
@@ -288,7 +323,7 @@ namespace wickedcrush.screen
             else if (u.selection > charList.Count - 1)
                 u.selection = -1;
 
-            if (u.controls.StartPressed())
+            if (u.controls.InteractPressed())
             {
                 if (u.p == null)
                 {
@@ -362,6 +397,15 @@ namespace wickedcrush.screen
             {
                 temp = XDocument.Load(s);
                 charList.Add(new LocalChar(temp.Element("character").Attribute("name").Value, temp.Element("character").Attribute("localId").Value));
+            }
+
+            characterBoxes = new Dictionary<int, Rectangle>();
+
+            characterBoxes.Add(-1, new Rectangle(-540, 150, 2560, 60));
+
+            for (int i = 0; i < charList.Count; i++ )
+            {
+                characterBoxes.Add(i, new Rectangle(-540, i * 60 + 250, 2560, 60));
             }
         }
 

@@ -18,7 +18,7 @@ namespace wickedcrush.screen.menu
 {
     public class WeaponSelectMenuScreen : MenuScreen
     {
-
+        protected GameplayManager _gm;
         int highlightedWeapon = -1, equippedWeapon = -1, lastHighlightedIndex = -1;
 
         private bool highlightChange = false;
@@ -39,13 +39,13 @@ namespace wickedcrush.screen.menu
         //protected Rectangle weaponsBox, itemsBox, statusBox;
 
         public WeaponSelectMenuScreen(GameBase game, GameplayManager gm, Player p)
-            : base(game, gm, p)
+            : base(game, p)
         {
-            
-            //Initialize(game);
+            this._gm = gm;
+            Initialize(game);
         }
 
-        public override void Initialize(wickedcrush.GameBase g)
+        public void Initialize(wickedcrush.GameBase g)
         {
             base.Initialize(g);
 

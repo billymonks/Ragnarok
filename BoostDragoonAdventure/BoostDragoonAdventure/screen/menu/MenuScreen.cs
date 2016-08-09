@@ -16,7 +16,7 @@ namespace wickedcrush.screen.menu
 {
     public class MenuScreen : GameScreen
     {
-        protected GameplayManager _gm;
+        //protected GameplayManager _gm;
         protected Player p;
 
         protected SpriterPlayer crosshairSpriter;
@@ -30,10 +30,10 @@ namespace wickedcrush.screen.menu
 
         protected float marginSize;
 
-        public MenuScreen(GameBase game, GameplayManager gm, Player p)
+        public MenuScreen(GameBase game, Player p)
         {
             this.game = game;
-            _gm = gm;
+            //_gm = gm;
             this.p = p;
 
             exclusiveUpdate = true;
@@ -46,9 +46,9 @@ namespace wickedcrush.screen.menu
         {
             base.Initialize(g);
 
-            marginSize = (_gm.camera.fov - 1.3333333f) * 540f;
+            marginSize = (game.screenManager.fov - 1.3333333f) * 540f;
 
-            crosshairSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["cursor"].getSpriterData(), 0, _gm.factory._spriterManager.spriters["cursor"].loader);
+            crosshairSpriter = new SpriterPlayer(game.spriterManager.spriters["cursor"].getSpriterData(), 0, game.spriterManager.spriters["cursor"].loader);
             crosshairSpriter.setAnimation("crosshair", 0, 0);
 
             AddSpriter(crosshairSpriter);
@@ -99,13 +99,13 @@ namespace wickedcrush.screen.menu
 
         private void ConstrainCursorPos()
         {
-            if (cursorPos.X < 0 - (_gm.camera.fov - 1.3333333f) * 540f)
+            if (cursorPos.X < 0 - (game.screenManager.fov - 1.3333333f) * 540f)
             {
-                cursorPos.X = 0 - (_gm.camera.fov - 1.3333333f) * 540f;
+                cursorPos.X = 0 - (game.screenManager.fov - 1.3333333f) * 540f;
             }
-            else if (cursorPos.X > 1440f + (_gm.camera.fov - 1.3333333f) * 540f)
+            else if (cursorPos.X > 1440f + (game.screenManager.fov - 1.3333333f) * 540f)
             {
-                cursorPos.X = 1440f + (_gm.camera.fov - 1.3333333f) * 540f;
+                cursorPos.X = 1440f + (game.screenManager.fov - 1.3333333f) * 540f;
             }
 
             if (cursorPos.Y < 0)

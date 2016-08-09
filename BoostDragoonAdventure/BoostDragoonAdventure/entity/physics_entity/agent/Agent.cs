@@ -1783,11 +1783,17 @@ namespace wickedcrush.entity.physics_entity.agent
 
             //tempHeight += 80f;
 
-            AddAngledElement("Face", spriterName, "normal", 3, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
+            AddAngledElement("Face", spriterName, "normal", 3, new Vector3(10f * spineStance + 4.5f, tempHeight, 0f) * sScale, 0, 1f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale, 2);
         }
 
-        protected void ChangeHumanoidCharacterPartAnimations(String anim)
+        protected void ChangeAllHumanoidCharacterPartAnimations(String anim)
         {
+            //foreach(KeyValuePair<string, SpriterAngledStruct> pair in angledSpriters)
+            //{
+                //pair.Value.player.setAnimation(anim, 0, 0);
+            //}
+
+            
             angledSpriters["LeftFoot"].player.setAnimation(anim, 0, 0);
             angledSpriters["RightFoot"].player.setAnimation(anim, 0, 0);
             angledSpriters["LeftKnee"].player.setAnimation(anim, 0, 0);
@@ -1943,7 +1949,7 @@ namespace wickedcrush.entity.physics_entity.agent
             }
         }
 
-        protected void UpdateHumanoidSpriteOffsets(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance)
+        protected void UpdateHumanoidSpriteStance(float torsoScale, float armWidth, float legWidth, float armStance, float legStance, float spineStance)
         {
             float tempHeight = 0;
             float sScale = size.X / 24f;
@@ -1954,6 +1960,7 @@ namespace wickedcrush.entity.physics_entity.agent
             this.armStance = armStance;
             this.legStance = legStance;
             this.spineStance = spineStance;
+
 
             tempHeight += 10f;
             angledSpriters["LeftFoot"].offset = new Vector3(5f * legStance, tempHeight, -20f * legWidth) * sScale;
@@ -2006,10 +2013,10 @@ namespace wickedcrush.entity.physics_entity.agent
 
             //tempHeight -= 80f;
 
-            angledSpriters["Face"].offset = new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale;
+            angledSpriters["Face"].offset = new Vector3(10f * spineStance + 4.5f, tempHeight, 0f) * sScale;
             //AddAngledElement("Face", "cactus", "love", 1, new Vector3(10f * spineStance + 1.5f, tempHeight, 0f) * sScale, 0, 0.4f * sScale, 0f, new Vector3(5f, 10f, 0f) * sScale);
 
-
+            
 
         }
     }

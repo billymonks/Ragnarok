@@ -236,6 +236,7 @@
     <Compile Include="particle\ParticleEmitter.cs" />
     <Compile Include="particle\ParticleServer.cs" />
     <Compile Include="screen\MainMenuScreen.cs" />
+    <Compile Include="screen\menu\CharacterSelectScreen.cs" />
     <Compile Include="screen\menu\MessageDisplayScreen.cs" />
     <Compile Include="screen\menu\QuestionDisplayScreen.cs" />
     <Compile Include="screen\menu\GearUpgradeMenuScreen.cs" />

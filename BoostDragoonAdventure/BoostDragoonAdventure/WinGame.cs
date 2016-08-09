@@ -5,6 +5,7 @@ using System.Text;
 using wickedcrush.manager.screen;
 using wickedcrush.screen;
 using wickedcrush.utility.config;
+using wickedcrush.screen.menu;
 
 namespace wickedcrush
 {
@@ -36,7 +37,8 @@ namespace wickedcrush
         {
             base.Initialize();
 
-            screenManager = new ScreenManager(this, new PlayerSelectScreen(this));
+            screenManager = new ScreenManager(this);
+            screenManager.AddScreen(new PlayerSelectScreen(this));
         }
     }
 }

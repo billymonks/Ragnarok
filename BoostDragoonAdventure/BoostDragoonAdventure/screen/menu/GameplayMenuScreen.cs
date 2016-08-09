@@ -16,6 +16,7 @@ namespace wickedcrush.screen.menu
 {
     public class GameplayMenuScreen : MenuScreen
     {
+        protected GameplayManager _gm;
 
         int selectedOption = -1;
 
@@ -25,13 +26,15 @@ namespace wickedcrush.screen.menu
 
         protected TextEntity quitText;
 
-        public GameplayMenuScreen(GameBase game, GameplayManager gm, Player p) : base(game, gm, p)
+        public GameplayMenuScreen(GameBase game, GameplayManager gm, Player p) : base(game, p)
         {
+            this._gm = gm;
             backgroundColor = new Color(0f, 0f, 0f, 0.5f);
-            
+
+            Initialize(game);
         }
 
-        public override void Initialize(wickedcrush.GameBase g)
+        public void Initialize(wickedcrush.GameBase g)
         {
             base.Initialize(g);
 

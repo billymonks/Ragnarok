@@ -94,6 +94,7 @@ namespace wickedcrush
 
         public String path, characterPath;
 
+
         public GameBase()
         {
             debugMode = false;
@@ -126,7 +127,8 @@ namespace wickedcrush
 
             spriterManager = new SpriterManager(this);
             playerManager = new PlayerManager(this);
-            
+
+            //Initialize();
         }
 
         protected void CalculateDimensionScale()
@@ -222,7 +224,7 @@ namespace wickedcrush
 
             double fps = (1000 / gameTime.ElapsedGameTime.TotalMilliseconds);
             fps = Math.Round(fps, 0);
-            Window.Title = "Blazing Adventure Act: Zero";
+            Window.Title = "Wicked Crush Adventure";
         }
 
         

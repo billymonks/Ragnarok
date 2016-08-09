@@ -15,6 +15,7 @@ namespace wickedcrush.screen.menu
 {
     public class QuestionDisplayScreen : MenuScreen
     {
+        protected GameplayManager _gm;
         String messageText;
         protected TextEntity message;
 
@@ -32,11 +33,13 @@ namespace wickedcrush.screen.menu
         int height = 700;
 
         public QuestionDisplayScreen(String messageText, String key, List<AnswerNode> answers, GameBase game, GameplayManager gm, Player p)
-            : base(game, gm, p)
+            : base(game, p)
         {
             this.messageText = messageText;
             this.key = key;
             this.answers = answers;
+
+            this._gm = gm;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             message.SetMaxWidth(840f);

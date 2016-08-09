@@ -13,6 +13,8 @@ namespace wickedcrush.manager.screen
 {
     public class ScreenManager
     {
+        private bool started = false;
+
         private List<GameScreen> screenList = new List<GameScreen>();
         private List<GameScreen> screensToAdd = new List<GameScreen>();
         private List<GameScreen> screensToRemove = new List<GameScreen>();
@@ -56,6 +58,15 @@ namespace wickedcrush.manager.screen
             fov = ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height);
 
             Initialize(rootScreen);
+        }
+
+        public ScreenManager(GameBase game)
+        {
+            this._game = game;
+
+            fov = ((float)_game.GraphicsDevice.Viewport.Width) / ((float)_game.GraphicsDevice.Viewport.Height);
+
+            Initialize();
         }
 
         private void Initialize(GameScreen rootScreen)
@@ -112,11 +123,67 @@ namespace wickedcrush.manager.screen
             basicEffect = new BasicEffect(_game.GraphicsDevice);
             screenList.Add(rootScreen);
             loadingScreen = new LoadingScreen(_game);
+            started = true;
+        }
+
+        private void Initialize()
+        {
+            //background = _game.Content.Load<Texture2D>(@"img/tex/rock_normal2");
+
+            renderTarget = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                _game.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+
+            renderTargetBlurred = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth / 2,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight / 2,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.None);
+
+            renderTargetBlurred2 = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth / 2,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight / 2,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.None);
+
+            renderTargetDepth = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                _game.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+
+            spriteTarget = new RenderTarget2D(
+                _game.GraphicsDevice,
+                _game.GraphicsDevice.PresentationParameters.BackBufferWidth,
+                _game.GraphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                _game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                _game.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+
+            effectPostDoF = _game.Content.Load<Effect>("fx/PostProcessDoF");
+            gaussianBlurEffect = _game.Content.Load<Effect>("fx/GaussianBlur");
+            //spriteEffect = _game.Content.Load<Effect>("fx/SpriteEffect");
+            //spriteEffect = new BasicEffect(_game.GraphicsDevice);
+
+
+
+            basicEffect = new BasicEffect(_game.GraphicsDevice);
+            loadingScreen = new LoadingScreen(_game);
         }
 
         public void Update(GameTime gameTime)
         {
-            if (screenList.Count == 0)
+            if (screenList.Count == 0 && screensToAdd.Count == 0 && started)
             {
                 _game.networkManager.Disconnect();
                 _game.Exit();
@@ -160,6 +227,7 @@ namespace wickedcrush.manager.screen
         public void AddScreen(GameScreen screen) //moves screen to top if already exists
         {
             screensToAdd.Add(screen);
+            started = true;
         }
 
         public void AddScreen(GameScreen screen, bool autoDispose) 
@@ -176,6 +244,7 @@ namespace wickedcrush.manager.screen
                     }
                 ));
             }
+            started = true;
         }
 
         public void RemoveScreen(GameScreen screen)

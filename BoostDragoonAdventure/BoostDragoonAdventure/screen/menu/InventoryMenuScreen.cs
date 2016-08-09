@@ -26,6 +26,7 @@ namespace wickedcrush.screen.menu
 
     public class InventoryMenuScreen : MenuScreen
     {
+        protected GameplayManager _gm;
 
         int highlightedItem = -1, lastHighlightedIndex = -1;
 
@@ -55,13 +56,13 @@ namespace wickedcrush.screen.menu
         //protected Rectangle weaponsBox, itemsBox, statusBox;
 
         public InventoryMenuScreen(GameBase game, GameplayManager gm, Player p)
-            : base(game, gm, p)
+            : base(game, p)
         {
-
-            //Initialize(game);
+            this._gm = gm;
+            Initialize(game);
         }
 
-        public override void Initialize(wickedcrush.GameBase g)
+        public void Initialize(wickedcrush.GameBase g)
         {
             base.Initialize(g);
 

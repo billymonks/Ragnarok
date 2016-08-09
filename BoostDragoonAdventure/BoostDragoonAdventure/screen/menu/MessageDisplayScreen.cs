@@ -13,15 +13,17 @@ namespace wickedcrush.screen.menu
 {
     public class MessageDisplayScreen : MenuScreen
     {
+        protected GameplayManager _gm;
         String messageText;
         protected TextEntity message;
 
         SpriterPlayer window;
 
         public MessageDisplayScreen(String messageText, GameBase game, GameplayManager gm, Player p)
-            : base(game, gm, p)
+            : base(game, p)
         {
             this.messageText = messageText;
+            this._gm = gm;
 
             message = new TextEntity(messageText, new Vector2(720, 540), _gm.factory._sm, game, -1, _gm.factory, Color.White, 1f, "Khula", false);
             message.cueName = "Jump7";
@@ -33,7 +35,7 @@ namespace wickedcrush.screen.menu
         {
             base.Initialize(g);
 
-            window = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 6, _gm.factory._spriterManager.spriters["hud"].loader);
+            window = new SpriterPlayer(game.spriterManager.spriters["hud"].getSpriterData(), 6, game.spriterManager.spriters["hud"].loader);
             window.setAnimation("3line", 0, 0);
             AddSpriter(window);
 
