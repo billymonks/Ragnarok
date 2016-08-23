@@ -247,6 +247,11 @@ namespace wickedcrush.entity.physics_entity.agent.player
             if (remove)
                 return;
 
+            if (player.getAgent() == null || player.getAgent() != this)
+            {
+                player.setAgent(this);
+            }
+
             if(updateStats)
             {
                 applyStats();

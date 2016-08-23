@@ -778,6 +778,8 @@ namespace wickedcrush.factory.entity
             }
         }
 
+        
+
         private void respawnPlayer() //needs a new home
         {
             //if (_game.debugMode)
@@ -813,7 +815,10 @@ namespace wickedcrush.factory.entity
                         }
                         else
                         {
-                            p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
+                            if (!_gm.testMode)
+                                p.getStats().set("hp", p.getStats().getNumber("MaxHP"));
+                            else
+                                p.getStats().set("hp", 1);
 
                             
                             

@@ -71,6 +71,7 @@ namespace wickedcrush.screen
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 e =>
                 {
+
                     _parent.TestRoom();
                     game.screenManager.RemoveScreen(this);
                 }
@@ -81,7 +82,10 @@ namespace wickedcrush.screen
                 sf.createTexture("debugcontent/img/happy_cursor", new Vector2(0f, 0f), new Vector2(0.5f, 0.5f), new Vector2(50f, 50f), Color.White, 0f),
                 e =>
                 {
-                    _parent.AuthorRoom();
+                    if (_parent.roomToAuthor.readyToAuthor)
+                    {
+                        _parent.AuthorRoom();
+                    }
                     game.screenManager.RemoveScreen(this);
                 }
                 );

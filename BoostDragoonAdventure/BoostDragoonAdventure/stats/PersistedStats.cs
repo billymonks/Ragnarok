@@ -37,6 +37,25 @@ namespace wickedcrush.stats
 
         }
 
+        public PersistedStats(PersistedStats stats)
+        {
+            numbers = new Dictionary<String, int>();
+            strings = new Dictionary<String, String>();
+            //inventory = new Inventory();
+
+            foreach (KeyValuePair<String, int> pair in stats.numbers)
+            {
+                numbers.Add(pair.Key, pair.Value);
+            }
+
+            foreach (KeyValuePair<String, String> pair in stats.strings)
+            {
+                strings.Add(pair.Key, pair.Value);
+            }
+
+            inventory = stats.inventory;
+        }
+
         public PersistedStats(int maxHP, int currentHP)
         {
             numbers = new Dictionary<String, int>();
@@ -65,7 +84,7 @@ namespace wickedcrush.stats
             if (strings.ContainsKey(key))
                 return strings[key];
 
-            return null;
+            return "";
             //throw new InvalidOperationException("That string... " + key + "... does not exist!!! I cannot return it! Sorry.");
         }
 

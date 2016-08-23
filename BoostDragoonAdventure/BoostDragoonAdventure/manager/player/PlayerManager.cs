@@ -91,7 +91,8 @@ namespace wickedcrush.manager.player
             tempSavedStats.Clear();
             foreach (Player p in playerList)
             {
-                tempSavedStats.Add(p, p.getStats());
+                tempSavedStats.Add(p, new PersistedStats(p.getStats()));
+                InitializeStatsForEditorTest(p);
             }
         }
 
@@ -123,6 +124,9 @@ namespace wickedcrush.manager.player
             stats.set("staggerLimit", 100);
             stats.set("staggerDuration", 50);
             stats.set("stagger", 0);
+
+            stats.inventory.receiveItem(InventoryServer.getWeapon("Knife"));
+            stats.inventory.equippedWeapon = stats.inventory.getWeaponList()[0];
 
             p.setStats(stats);
         }

@@ -176,7 +176,8 @@ namespace wickedcrush.screen.menu
                         break;
 
                     case 3: //quit
-                        game.playerManager.saveAllPlayers();
+                        if(!_gm.testMode)
+                            game.playerManager.saveAllPlayers();
 
                         game.Exit();
 

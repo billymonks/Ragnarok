@@ -49,7 +49,7 @@ namespace wickedcrush.editor
                 localId = Guid.NewGuid().ToString();
             } while (File.Exists("Content/maps/small/" + localId + ".xml"));
 
-            stats = new RoomInfo(-1, localId, "Untitled", "Undefined");
+            stats = new RoomInfo(-1, localId, "", "Undefined");
 
             layerList = new Dictionary<LayerType, int[,]>();
             //createEmptyLayers();
@@ -216,7 +216,7 @@ namespace wickedcrush.editor
 
         private void loadTemplateRoom()
         {
-            RoomInfo stats = new RoomInfo(-1, "Template", "Untitled", "Undefined");
+            RoomInfo stats = new RoomInfo(-1, "Template", "", "Undefined");
             LoadRoom(stats);
 
             do

@@ -198,4 +198,7 @@
   </map>
   <map name="garage" filename="Content/maps/full/garage.oel"></map>
   <map name="weaponshop" filename="Content/maps/full/weaponshop.oel"></map>
+  <map name="testMap" filename="Content/maps/full/testMap.xml">
+    <connection id="0" doorIndex="0">testMap</connection>
+  </map>"
 </atlas>

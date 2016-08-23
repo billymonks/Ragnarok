@@ -15,6 +15,7 @@ using wickedcrush.display._3d;
 using wickedcrush.helper;
 using wickedcrush.manager.gameplay;
 using wickedcrush.entity.physics_entity.agent.action;
+using wickedcrush.entity.physics_entity.agent.player;
 
 namespace wickedcrush.manager.entity
 {
@@ -240,6 +241,20 @@ namespace wickedcrush.manager.entity
             entityList = null;
             addList = null;
             removeList = null;
+        }
+
+        public List<PlayerAgent> getPlayerAgents()
+        {
+            List<PlayerAgent> players = new List<PlayerAgent>();
+            foreach (Entity e in entityList)
+            {
+                if (e is PlayerAgent)
+                {
+                    players.Add((PlayerAgent)e);
+                }
+            }
+
+            return players;
         }
     }
 }

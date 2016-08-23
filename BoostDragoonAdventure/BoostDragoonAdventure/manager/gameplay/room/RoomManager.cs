@@ -65,9 +65,9 @@ namespace wickedcrush.manager.gameplay.room
         public RoomInfo(String localId)
         {
             globalId = -1;
-            this.roomName = "nameless room, so sad, so sad";
+            this.roomName = "";
             this.localId = localId;
-            creatorName = "captain no-name";
+            creatorName = "";
         }
 
         public RoomInfo(int globalId, String localId, String roomName, String creatorName)

@@ -34,6 +34,18 @@ namespace wickedcrush.inventory
             //gear.EquipPart(InventoryServer.getPart("High Performance Belt"), temp.equippedConnections[2]);
         }
 
+        public Inventory(Inventory oldInventory)
+        {
+            weapons = new Dictionary<Weapon, int>();
+            consumables = new Dictionary<Consumable, int>();
+            parts = new Dictionary<Part, int>();
+            currency = oldInventory.currency;
+
+            EquippedPart core = new EquippedPart(oldInventory.gear.core.part, null);
+            gear = new Gear(core, new List<EquippedPart>());
+            //gear.Equ
+        }
+
         public List<Weapon> getWeaponList()
         {
             List<Weapon> weaponList = new List<Weapon>();

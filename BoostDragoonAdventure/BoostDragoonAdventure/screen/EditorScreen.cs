@@ -113,6 +113,7 @@ namespace wickedcrush.screen
 
         public void TestRoom()
         {
+            SaveRoom();
             roomToAuthor = room.stats;
             game.screenManager.AddScreen(new GameplayScreen(game, roomToAuthor));
             
@@ -152,22 +153,36 @@ namespace wickedcrush.screen
         {
             game.diag = "";
 
-            if (roomToLoad.readyToLoad)
+            if (textInput == null)
             {
-                PollRoom(roomToLoad);
-                roomToLoad.readyToLoad = false;
-            }
+                if (roomToLoad.readyToLoad)
+                {
+                    PollRoom(roomToLoad);
+                    roomToLoad.readyToLoad = false;
+                }
 
-            if (roomToAuthor.readyToAuthor)
+                if (roomToAuthor.readyToAuthor && roomToAuthor.roomName.Equals(""))
+                    textInput = new TextInput(user.c);
+
+                if (roomToAuthor.readyToAuthor && !roomToAuthor.roomName.Equals(""))
+                {
+                    roomToAuthor.roomName = room.stats.roomName;
+                    SaveRoom();
+                    AuthorRoom();
+                    roomToAuthor.readyToAuthor = false;
+                }
+
+                DebugControls(gameTime);
+            }
+            else
             {
-                AuthorRoom();
-                roomToAuthor.readyToAuthor = false;
-            }
 
-            UpdateTextInput(gameTime);
+                UpdateTextInput(gameTime);
+
+            }
 
             //saveButton.Update(gameTime, cursorPosition);
-            DebugControls(gameTime);
+            
             room.Update(gameTime);
             
         }
@@ -193,6 +208,13 @@ namespace wickedcrush.screen
                 textInput = null;
                 return;
             }
+        }
+
+        public override void Draw()
+        {
+            game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, game.debugSpriteScale);
+            DebugDraw();
+            game.spriteBatch.End();
         }
 
         public override void DebugDraw()
