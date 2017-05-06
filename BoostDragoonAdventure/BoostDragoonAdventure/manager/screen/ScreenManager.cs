@@ -37,7 +37,7 @@ namespace wickedcrush.manager.screen
         //Effect spriteEffect;
 
         float focusDistance = 365;
-        float focusRange = 120;
+        float focusRange = 420;
         //float focusRange = 190;
         float nearClip = 150;
         float farClip = 1.01428f;
@@ -358,92 +358,11 @@ namespace wickedcrush.manager.screen
             // combines them to produce the final bloomed result.
             _game.GraphicsDevice.SetRenderTarget(renderTargetBlurred);
 
-            //_game.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.LinearWrap, null, RasterizerState.CullNone, null, _game.fullSpriteScale);
 
-            //_game.spriteBatch.Draw(_game.backgroundTexture, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), new Color(new Vector4(1f, 1f, 1f, 0.4f)));
-            
-            //_game.spriteBatch.End();
 
             _game.GraphicsDevice.SetRenderTarget(null);
 
-            //_game.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, gaussianBlurEffect);
-            //_game.spriteBatch.Draw(renderTarget, new Rectangle(0, 0, renderTarget.Width, renderTarget.Height), Color.White);
-            //_game.spriteBatch.End();
-
-            //_game.GraphicsDevice.SetRenderTarget(null);
-
-            /*if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F2))
-            {
-                DateTime date = DateTime.Now; //Get the date for the file name
-                Stream stream = File.Create("render" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
-
-                renderTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F3))
-            {
-                DateTime date = DateTime.Now; //Get the date for the file name
-                Stream stream = File.Create("blurred" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
-
-                renderTargetBlurred.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.F4))
-            {
-                DateTime date = DateTime.Now; //Get the date for the file name
-                Stream stream = File.Create("sprites" + date.ToString("MM-dd-yy H;mm;ss") + ".png");
-
-                spriteTarget.SaveAsPng(stream, renderTarget.Width, renderTarget.Height);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D6))
-            {
-                focusDistance += 1;
-                Console.Out.WriteLine("focusDistance: " + focusDistance);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.Y))
-            {
-                focusDistance -= 1;
-                Console.Out.WriteLine("focusDistance: " + focusDistance);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D7))
-            {
-                focusRange += 1;
-                Console.Out.WriteLine("focusRange: " + focusRange);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.U))
-            {
-                focusRange -= 1;
-                Console.Out.WriteLine("focusRange: " + focusRange);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D8))
-            {
-                nearClip += 0.1f;
-                Console.Out.WriteLine("nearClip: " + nearClip);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.I))
-            {
-                nearClip -= 0.1f;
-                Console.Out.WriteLine("nearClip: " + nearClip);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.D9))
-            {
-                farClip += 0.1f;
-                Console.Out.WriteLine("farClip: " + farClip);
-            }
-
-            if (_game.controlsManager.debugControls.KeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
-            {
-                farClip -= 0.1f;
-                Console.Out.WriteLine("farClip: " + farClip);
-            }*/
-            //_game.diag += "Camera Diff " + cameraDifference + "\n";
+            
             SetShaderParametersAlt(focusDistance * cameraDifference, focusRange, nearClip, farClip);
             //SetShaderParameters(355, 215, 150, 850);
             //SetShaderParametersAlt(
