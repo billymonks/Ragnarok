@@ -53,7 +53,7 @@ namespace wickedcrush.screen
 
         public KeyboardControls controls;
 
-        public bool gridEnabled = false;
+        public bool gridEnabled = true;
 
         public DevMapEditorScreen(GameBase game)
         {
