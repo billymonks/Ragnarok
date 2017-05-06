@@ -53,7 +53,8 @@ namespace wickedcrush.entity.physics_entity.agent.inanimate
             {
                 if (c.Contact.IsTouching
                     && c.Other.UserData != null
-                    && c.Other.UserData is PlayerAgent)
+                    && c.Other.UserData is PlayerAgent
+                    && !_gameplayManager.testMode)
                 {
                     ((PlayerAgent)c.Other.UserData).stats.set("home", _gameplayManager.map.name);
                     activeHome = true;

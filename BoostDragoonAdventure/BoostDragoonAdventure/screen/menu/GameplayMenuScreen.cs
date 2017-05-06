@@ -42,7 +42,10 @@ namespace wickedcrush.screen.menu
             itemsBox = new Rectangle(620, 440, 200, 200);
             statusBox = new Rectangle(920, 440, 200, 200);
 
-            quitBox = new Rectangle(620, 840, 200, 200);
+            if (!_gm.testMode)
+            {
+                quitBox = new Rectangle(620, 840, 200, 200);
+            }
 
 
             weaponsSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 2, _gm.factory._spriterManager.spriters["hud"].loader);
@@ -54,18 +57,24 @@ namespace wickedcrush.screen.menu
             statusSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 4, _gm.factory._spriterManager.spriters["hud"].loader);
             statusSpriter.setAnimation("unselected", 0, 0);
 
-            quitSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader);
-            quitSpriter.setAnimation("unselected", 0, 0);
+            if (!_gm.testMode)
+            {
+                quitSpriter = new SpriterPlayer(_gm.factory._spriterManager.spriters["hud"].getSpriterData(), 5, _gm.factory._spriterManager.spriters["hud"].loader);
+                quitSpriter.setAnimation("unselected", 0, 0);
 
-            quitText = new TextEntity("Quit Game", Helper.CastToVector2(quitBox.Center), _gm.factory._sm, g, -1, _gm.factory, 1f, false);
+                quitText = new TextEntity("Quit Game", Helper.CastToVector2(quitBox.Center), _gm.factory._sm, g, -1, _gm.factory, 1f, false);
+            }
 
             AddSpriter(weaponsSpriter);
             AddSpriter(itemsSpriter);
             AddSpriter(statusSpriter);
 
-            AddSpriter(quitSpriter);
+            if (!_gm.testMode)
+            {
+                AddSpriter(quitSpriter);
 
-            AddText(quitText);
+                AddText(quitText);
+            }
             
         }
 
@@ -127,19 +136,21 @@ namespace wickedcrush.screen.menu
                 statusSpriter.setAnimation("unselected", 0, 0);
             }
 
-
-            quitSpriter.setScale(2f);
-            quitSpriter.update(quitBox.Center.X, -quitBox.Center.Y);
-            quitSpriter.SetDepth(0.06f);
-
-            if (quitBox.Contains(Helper.CastToPoint(cursorPos)))
+            if (!_gm.testMode)
             {
-                quitSpriter.setAnimation("selected", 0, 0);
-                selectedOption = 3;
-            }
-            else
-            {
-                quitSpriter.setAnimation("unselected", 0, 0);
+                quitSpriter.setScale(2f);
+                quitSpriter.update(quitBox.Center.X, -quitBox.Center.Y);
+                quitSpriter.SetDepth(0.06f);
+
+                if (quitBox.Contains(Helper.CastToPoint(cursorPos)))
+                {
+                    quitSpriter.setAnimation("selected", 0, 0);
+                    selectedOption = 3;
+                }
+                else
+                {
+                    quitSpriter.setAnimation("unselected", 0, 0);
+                }
             }
 
 

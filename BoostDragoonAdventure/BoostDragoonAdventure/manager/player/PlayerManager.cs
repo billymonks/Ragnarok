@@ -124,6 +124,7 @@ namespace wickedcrush.manager.player
             stats.set("staggerLimit", 100);
             stats.set("staggerDuration", 50);
             stats.set("stagger", 0);
+            stats.set("home", "testMap");
 
             stats.inventory.receiveItem(InventoryServer.getWeapon("Knife"));
             stats.inventory.equippedWeapon = stats.inventory.getWeaponList()[0];
